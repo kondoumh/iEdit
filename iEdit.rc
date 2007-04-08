@@ -1,0 +1,1642 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 17, 1\r\n"
+    "#pragma code_page(932)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\iEdit.rc2""  // Microsoft Visual C++ 以外のツールで編集されたリソース\r\n"
+    "#include ""l.jpn\\afxres.rc""          // 標準のコンポーネント\r\n"
+    "#include ""l.jpn\\afxprint.rc""        // 印刷/印刷プレビュー リソース\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\iEdit.ico"
+IDR_IEDITTYPE           ICON                    "res\\iEditDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDB_LOGO                BITMAP                  "res\\logo.bmp"
+IDB_LINKS               BITMAP                  "res\\links.bmp"
+IDB_TREE                BITMAP                  "res\\tree.bmp"
+IDR_UML_PALLETE         BITMAP                  "res\\toolbar1.bmp"
+IDB_TB_PLDWN            BITMAP                  "res\\bitmap1.bmp"
+IDR_FORM_PALLETE        BITMAP                  "res\\bmp_tb_form.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_ADD_CHILD
+    BUTTON      ID_ADD_SIBLING
+    BUTTON      ID_LEBEL_UP
+    BUTTON      ID_LEBEL_DOWN
+    BUTTON      ID_ORDER_UP
+    BUTTON      ID_ORDER_DOWN
+    SEPARATOR
+    BUTTON      ID_NORMAL_CURSOR
+    BUTTON      ID_ADD_RECT
+    BUTTON      ID_ADD_ROUND_RECT
+    BUTTON      32800
+    BUTTON      ID_ADD_LABEL_ONLY
+    BUTTON      ID_ADD_LINK0
+    BUTTON      ID_ADD_LINK1
+    BUTTON      ID_ADD_LINK2
+    SEPARATOR
+    BUTTON      ID_BTN_LINK_LINE_STYLE
+    BUTTON      ID_BTN_LINK_ARROW
+    SEPARATOR
+    BUTTON      ID_FONT_ENLARGE
+    BUTTON      ID_FONT_ENSMALL
+    BUTTON      ID_SET_SINGLE_LINE
+    BUTTON      ID_SET_MULTI_LINE
+    SEPARATOR
+    BUTTON      ID_ZOOM_MODE
+    BUTTON      ID_DROPDOWN
+    SEPARATOR
+    BUTTON      ID_GRASP_MODE
+    BUTTON      ID_REFRESH_NET_VIEW
+END
+
+IDR_UML_PALLETE TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_BUTTON32872
+    BUTTON      ID_BUTTON32873
+    SEPARATOR
+    BUTTON      ID_BUTTON32875
+    SEPARATOR
+    BUTTON      ID_BUTTON32876
+    BUTTON      ID_BUTTON32877
+    BUTTON      ID_BUTTON32878
+    BUTTON      ID_BUTTON32879
+    BUTTON      ID_BUTTON32880
+END
+
+IDR_FORM_PALLETE TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_BUTTON32942
+    BUTTON      ID_BUTTON32943
+    SEPARATOR
+    BUTTON      ID_BUTTON32944
+    BUTTON      ID_BUTTON32945
+    BUTTON      ID_BUTTON32946
+    SEPARATOR
+    BUTTON      ID_BUTTON32947
+    BUTTON      ID_BUTTON32948
+    SEPARATOR
+    BUTTON      ID_BUTTON32949
+    BUTTON      ID_BUTTON32950
+    BUTTON      ID_BUTTON32951
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "ﾌｧｲﾙ(&F)"
+    BEGIN
+        MENUITEM "新規作成(&N)\tCtrl+N",            ID_FILE_NEW
+        MENUITEM "開く(&O)...\tCtrl+O",           ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "ﾌﾟﾘﾝﾀの設定(&R)...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "最近使ったﾌｧｲﾙ",                   ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "ｱﾌﾟﾘｹｰｼｮﾝの終了(&X)",            ID_APP_EXIT
+    END
+    POPUP "表示(&V)"
+    BEGIN
+        MENUITEM "ﾂｰﾙ ﾊﾞｰの表示(&T)",              ID_VIEW_TOOLBAR
+        MENUITEM "ｽﾃｰﾀｽ ﾊﾞｰの表示(&S)",            ID_VIEW_STATUS_BAR
+    END
+    POPUP "ﾂｰﾙ(&T)"
+    BEGIN
+        MENUITEM "透過ウィンドウを有効に(&T)",             ID_TRANSPARENT_MODE
+        MENUITEM "透明度の調整(&A)",                  ID_ADJUST_ALPHA
+        MENUITEM SEPARATOR
+        MENUITEM "ｵﾌﾟｼｮﾝ(&O)",                  ID_SET_PROPERTIES
+    END
+    POPUP "ﾍﾙﾌﾟ(&H)"
+    BEGIN
+        MENUITEM "ﾊﾞｰｼﾞｮﾝ情報(&A)",               ID_APP_ABOUT
+    END
+END
+
+IDR_IEDITTYPE MENU 
+BEGIN
+    POPUP "ﾌｧｲﾙ(&F)"
+    BEGIN
+        MENUITEM "新規作成(&N)\tCtrl+N",            ID_FILE_NEW
+        MENUITEM "開く(&O)...\tCtrl+O",           ID_FILE_OPEN
+        MENUITEM "閉じる(&C)",                     ID_FILE_CLOSE
+        MENUITEM "上書き保存(&S)\tCtrl+S",           ID_FILE_SAVE
+        MENUITEM "名前を付けて保存(&A)...",             ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "印刷(&P)...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "印刷ﾌﾟﾚﾋﾞｭｰ(&V)",               ID_FILE_PRINT_PREVIEW
+        MENUITEM "ﾌﾟﾘﾝﾀの設定(&R)...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "最近使ったﾌｧｲﾙ",                   ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "終了(&X)",                      ID_APP_EXIT
+    END
+    POPUP "編集(&E)"
+    BEGIN
+        MENUITEM "元に戻す(&U)\tCtrl+Z",            ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "切り取り(&T)\tCtrl+X",            ID_EDIT_CUT
+        MENUITEM "ｺﾋﾟｰ(&C)\tCtrl+C",            ID_EDIT_COPY
+        MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "すべて選択(&A)\tCtrl+A",           ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "検索(&F)...\tCtrl+F",           ID_EDIT_FIND
+        MENUITEM "置換(&R)\tCtrl+R",              ID_EDIT_REPLACE
+    END
+    POPUP "表示(&V)"
+    BEGIN
+        MENUITEM "ﾂｰﾙ ﾊﾞｰの表示(&T)",              ID_VIEW_TOOLBAR
+        MENUITEM "ｽﾃｰﾀｽ ﾊﾞｰの表示(&S)",            ID_VIEW_STATUS_BAR
+    END
+    POPUP "ｱｳﾄﾗｲﾝ(&O)"
+    BEGIN
+        MENUITEM "下のレベルに追加(&A)\tCtrl+Alt+Right", ID_ADD_CHILD
+        MENUITEM "同じレベルに追加(&S)\tCtrl+Alt+Down", ID_ADD_SIBLING
+        MENUITEM "ラベル編集(&E)\tF2",               ID_EDIT_LABEL
+        MENUITEM "削除(&D)\tDel",                 ID_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "子ノードをソートする(&R)",              ID_SORT_CHILDREN
+        MENUITEM "折りたたみの指定(&F)",                ID_SET_FOLDUP
+        MENUITEM "ツリーをクリップボードに転送(&C)",          ID_COPY_TREE_TO_CLIPBOARD
+        MENUITEM SEPARATOR
+        MENUITEM "レベルを上げる(&L)\tCtrl+Shift+Left", ID_LEBEL_UP
+        MENUITEM "レベルを下げる(&B)\tCtrl+Shift+Right", ID_LEBEL_DOWN
+        MENUITEM "レベル内の順位上げる(&U)\tCtrl+Shift+Up", ID_ORDER_UP
+        MENUITEM "レベル内の順位下げる)(&O)\tCtrl+Shift+Down", ID_ORDER_DOWN
+        MENUITEM SEPARATOR
+        MENUITEM "別のノードへのリンク(&N)",              ID_ADD_LINK
+        MENUITEM "他のファイル/URLへのリンク(&T)\tCtrl+L", ID_ADD_URL
+    END
+    POPUP "ﾈｯﾄﾜｰｸ(&N)"
+    BEGIN
+        MENUITEM "選択モード(&S)",                   ID_NORMAL_CURSOR
+        MENUITEM "□   長方形(&R)",                 ID_ADD_RECT
+        MENUITEM "□   角の丸い長方形(&T)",             ID_ADD_ROUND_RECT
+        MENUITEM "○   楕円(&E)",                  ID_ADD_ARC
+        MENUITEM "文字列",                         ID_ADD_LABEL_ONLY
+        MENUITEM " --- 直線(&N)",                 ID_ADD_LINK0
+        MENUITEM " ---> 一方向矢印(&A)",             ID_ADD_LINK1
+        MENUITEM "<---> 双方向矢印(&B)",             ID_ADD_LINK2
+        MENUITEM SEPARATOR
+        MENUITEM "子ノード挿入(&I)\tInsert",          ID_INSERT_CHILD
+        MENUITEM "兄弟ノード挿入(&G)\tShift+Return",   ID_INSERT_SIBLING
+        MENUITEM SEPARATOR
+        MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
+        POPUP "表示属性(&V)"
+        BEGIN
+            POPUP "色(&L)"
+            BEGIN
+                MENUITEM "塗りつぶし色(&F)",                  ID_SET_NODE_BRUSH
+                MENUITEM "透明(&T)",                      ID_NO_BRUSH
+                MENUITEM SEPARATOR
+                MENUITEM "線の色(&E)",                     ID_SET_NODE_LINE_COLOR
+            END
+            POPUP "形(&S)"
+            BEGIN
+                MENUITEM "□ 長方形(&R)",                   ID_SET_NODE_RECT
+                MENUITEM "□ 角の丸い長方形(&T)",               ID_SET_NODE_ROUND_RECT
+                MENUITEM "○ 楕円(&A)",                    ID_SET_NODE_ARC
+            END
+            POPUP "線の種類(&T)"
+            BEGIN
+                MENUITEM "細",                           ID_SET_LINE_SOLID_0
+                MENUITEM "中細",                          ID_SET_LINE_SOLID_1
+                MENUITEM "中",                           ID_SET_LINE_SOLID_2
+                MENUITEM "中太",                          ID_SET_LINE_SOLID_3
+                MENUITEM "太",                           ID_SET_LINE_SOLID_4
+                MENUITEM SEPARATOR
+                MENUITEM "点線",                          ID_SET_LINE_DOT
+                MENUITEM "線なし",                         ID_SET_LINE_NULL
+            END
+            POPUP "ラベルの書式(&O)"
+            BEGIN
+                MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
+                MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
+            END
+            MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+        END
+        POPUP "矢印(&W)"
+        BEGIN
+            MENUITEM " ---   矢印なし(&N)",             ID_SET_LINK_ARROW_NONE
+            MENUITEM " ---> 一方向矢印(&S)",             ID_SET_LINK_ARROW_SINGLE
+            MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
+        END
+        MENUITEM "ノードのプロパティ(&H)",               ID_SET_NODE_PROP
+        MENUITEM SEPARATOR
+        MENUITEM "ルーペ",                         ID_ZOOM_MODE
+        MENUITEM "つかんでスクロール",                   ID_GRASP_MODE
+        MENUITEM "再描画",                         ID_REFRESH_NET_VIEW
+        MENUITEM SEPARATOR
+        MENUITEM "ランダム配置(&D)",                  ID_RANDOMIZE
+        MENUITEM "自動レイアウトモード(&L)",              ID_AUTO_LAYOUT
+        POPUP "レイアウト調整(&J)"
+        BEGIN
+            MENUITEM "↑上にそろえる(&T)",                 ID_ADJUST_TOP
+            MENUITEM "↓下にそろえる(&B)",                 ID_ADJUST_BOTTOM
+            MENUITEM "→右にそろえる(&R)",                 ID_ADJUST_RIGHT
+            MENUITEM "←左にそろえる(&L)",                 ID_ADJUST_LEFT
+            MENUITEM SEPARATOR
+            MENUITEM "↑↓ 高さをそろえる(&H)",              ID_SAME_HEIGHT
+            MENUITEM "←→ 幅をそろえる(&W)",               ID_SAME_WIDTH
+            MENUITEM "幅と高さをそろえる(&S)",               ID_SAME_RECT
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "選択したノード配下の子ノードを表示(&X)\tF5",   ID_SHOW_SELECTED_CHILDREN
+        MENUITEM "選択したノード配下のノードを全て表示(&W)\tF6",  ID_SHOW_SELECTED_BRANCH
+        MENUITEM SEPARATOR
+        MENUITEM "図のコピー(&C)",                   ID_COPY_TO_CLIPBRD
+        MENUITEM "SVG形式に出力(&O)",                ID_EXPORT_SVG
+    END
+    POPUP "ﾂｰﾙ(&T)"
+    BEGIN
+        MENUITEM "インポート(&I)",                   ID_IMPORT_DATA
+        MENUITEM "エクスポート(&E)",                  ID_EXPORT_DATA
+        MENUITEM SEPARATOR
+        MENUITEM "クリップボードのテキストからノードを作成(&L)",    ID_ADD_NODES_FROM_CF_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "透過ウィンドウを有効に(&T)",             ID_TRANSPARENT_MODE
+        MENUITEM "透明度の調整(&A)",                  ID_ADJUST_ALPHA
+        MENUITEM SEPARATOR
+        MENUITEM "ｵﾌﾟｼｮﾝ(&O)",                  ID_SET_PROPERTIES
+    END
+    POPUP "ｳｨﾝﾄﾞｳ(&W)"
+    BEGIN
+        MENUITEM "ビューのフォーカス切り替え(&F)\tF4",       ID_CHANGE_VIEW_FOCUS
+        MENUITEM "重ねて表示(&C)",                   ID_WINDOW_CASCADE
+        MENUITEM "並べて表示(&T)",                   ID_WINDOW_TILE_HORZ
+        MENUITEM "ｱｲｺﾝの整列(&A)",                 ID_WINDOW_ARRANGE
+    END
+    POPUP "ﾍﾙﾌﾟ(&H)"
+    BEGIN
+        MENUITEM "ﾊﾞｰｼﾞｮﾝ情報(&A)",               ID_APP_ABOUT
+    END
+END
+
+IDR_CONTEXT MENU 
+BEGIN
+    POPUP "OutLine"
+    BEGIN
+        MENUITEM "下のレベルに追加(&A)",                ID_ADD_CHILD
+        MENUITEM "同じレベルに追加(&S)",                ID_ADD_SIBLING
+        MENUITEM "ラベル編集(&E)",                   ID_EDIT_LABEL
+        MENUITEM "削除(&D)",                      ID_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "レベルを上げる(&L)",                 ID_LEBEL_UP
+        MENUITEM "レベルを下げる(&B)",                 ID_LEBEL_DOWN
+        MENUITEM "レベル内の順位上げる(&U)",              ID_ORDER_UP
+        MENUITEM "レベル内の順位下げる)(&O)",             ID_ORDER_DOWN
+        MENUITEM SEPARATOR
+        MENUITEM "子ノードをソートする(&R)",              ID_SORT_CHILDREN
+        MENUITEM SEPARATOR
+        MENUITEM "選択したノード配下の子ノードを表示(&X)",       ID_SHOW_SELECTED_CHILDREN
+        MENUITEM "選択したノード配下のノードを全て表示(&W)",      ID_SHOW_SELECTED_BRANCH
+        MENUITEM SEPARATOR
+        MENUITEM "コピー(&C)",                     ID_EDIT_COPY
+        MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
+        MENUITEM "ツリーをクリップボードに転送(&G)",          ID_COPY_TREE_TO_CLIPBOARD
+        MENUITEM SEPARATOR
+        MENUITEM "別のノードへのリンク(&N)",              ID_ADD_LINK
+        MENUITEM "他のファイル/URLへのリンク(&T)",         ID_ADD_URL
+    END
+    POPUP "Net"
+    BEGIN
+        MENUITEM "□   長方形(&R)",                 ID_ADD_RECT
+        MENUITEM "□   角の丸い長方形(&T)",             ID_ADD_ROUND_RECT
+        MENUITEM "○   楕円(&E)",                  ID_ADD_ARC
+        MENUITEM " --- 直線(&N)",                 ID_ADD_LINK0
+        MENUITEM " ---> 一方向矢印(&A)",             ID_ADD_LINK1
+        MENUITEM "<---> 双方向矢印(&B)",             ID_ADD_LINK2
+        MENUITEM SEPARATOR
+        MENUITEM "シェイプの表示(&S)",                 ID_SHOW_NODE_SHAPES
+        MENUITEM SEPARATOR
+        MENUITEM "親の階層を開く(&R)",                 ID_SELECT_PARENT
+        MENUITEM SEPARATOR
+        MENUITEM "ｺﾋﾟｰ(&C)",                    ID_EDIT_COPY
+        MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "クリップボードのテキストからノードを作成(&L)",    ID_ADD_NODES_FROM_CF_TEXT
+        MENUITEM "&TiltSensor",                 32967
+        MENUITEM "描画順序を表示(&O)",                 ID_DRAW_ORDER_INFO
+    END
+    POPUP "drawableSingle"
+    BEGIN
+        MENUITEM "下の階層を開く(&N)",                 ID_SELECT_CHILD
+        MENUITEM "親の階層を開く(&U)",                 ID_SELECT_PARENT
+        MENUITEM SEPARATOR
+        MENUITEM "下の階層にノードを追加(&A)",             ID_ADD_CHILD2
+        MENUITEM SEPARATOR
+        MENUITEM "配下の子ノードを表示(&X)",              ID_SHOW_SELECTED_CHILDREN
+        MENUITEM "配下のノードを全て表示(&W)",             ID_SHOW_SELECTED_BRANCH
+        MENUITEM SEPARATOR
+        MENUITEM "削除(&D)",                      ID_DELETE
+        MENUITEM "ｺﾋﾟｰ(&C)",                    ID_EDIT_COPY
+        MENUITEM SEPARATOR
+        POPUP "色(&L)"
+        BEGIN
+            MENUITEM "塗りつぶし色(&F)",                  ID_SET_NODE_BRUSH
+            MENUITEM "透明(&T)",                      ID_NO_BRUSH
+            MENUITEM SEPARATOR
+            MENUITEM "線の色(&E)",                     ID_SET_NODE_LINE_COLOR
+        END
+        POPUP "形(&S)"
+        BEGIN
+            MENUITEM "□ 長方形(&R)",                   ID_SET_NODE_RECT
+            MENUITEM "□ 角の丸い長方形(&T)",               ID_SET_NODE_ROUND_RECT
+            MENUITEM "○ 楕円(&A)",                    ID_SET_NODE_ARC
+            MENUITEM "マインドマップ(&M)",                 ID_SET_NODE_MM
+            MENUITEM SEPARATOR
+            MENUITEM "シェイプ(&S)",                    ID_SHOW_NODE_SHAPES
+        END
+        POPUP "線の種類(&T)"
+        BEGIN
+            MENUITEM "細",                           ID_SET_LINE_SOLID_0
+            MENUITEM "中細",                          ID_SET_LINE_SOLID_1
+            MENUITEM "中",                           ID_SET_LINE_SOLID_2
+            MENUITEM "中太",                          ID_SET_LINE_SOLID_3
+            MENUITEM "太",                           ID_SET_LINE_SOLID_4
+            MENUITEM SEPARATOR
+            MENUITEM "点線",                          ID_SET_LINE_DOT
+            MENUITEM "線なし",                         ID_SET_LINE_NULL
+        END
+        POPUP "ラベルの書式(&O)"
+        BEGIN
+            MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
+            MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
+        END
+        MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+        MENUITEM SEPARATOR
+        MENUITEM "自動レイアウト時固定する(&I)",            ID_FIX_NODE
+        MENUITEM SEPARATOR
+        MENUITEM "ノードのプロパティ(&R)",               ID_SET_NODE_PROP
+    END
+    POPUP "drawablelink"
+    BEGIN
+        MENUITEM "削除(&D)",                      ID_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "色(&C)",                       ID_SET_NODE_LINE_COLOR
+        POPUP "線の種類(&W)"
+        BEGIN
+            MENUITEM "細",                           ID_SET_LINE_SOLID_0
+            MENUITEM "中細",                          ID_SET_LINE_SOLID_1
+            MENUITEM "中",                           ID_SET_LINE_SOLID_2
+            MENUITEM "中太",                          ID_SET_LINE_SOLID_3
+            MENUITEM "太",                           ID_SET_LINE_SOLID_4
+            MENUITEM "点線",                          ID_SET_LINE_DOT
+        END
+        POPUP "矢印(&A)"
+        BEGIN
+            MENUITEM "  ──       矢印なし(&N)",         ID_SET_LINK_ARROW_NONE
+            MENUITEM "   ──▼    一方向(標準)",           ID_SET_LINK_ARROW_SINGLE
+            MENUITEM "▲──▼    双方向(標準)",             ID_SET_LINK_ARROW_DOUBLE
+            MENUITEM "　 ──＞   一方向(依存)",             ID_SET_LINK_DEPEND_SINGLE
+            MENUITEM "＜──＞   双方向(依存)",              ID_SET_LINK_DEPEND_DOUBLE
+            MENUITEM "　 ──▽   継承",                  32970
+            MENUITEM "　 ──◇   集約",                  ID_SET_LINK_AGREGAT
+            MENUITEM "　 ──◆   コンポジション",             ID_SET_LINK_COMPOSIT
+        END
+        MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+        MENUITEM "リンクをまっすぐに(&S)",               ID_LINK_STRAIGHT
+        MENUITEM "リンクの向きを反転させる(&R)",            ID_REVERSE_LINK_DIRECTION
+        MENUITEM SEPARATOR
+        MENUITEM "リンクのプロパティ(&I)",               ID_SET_LINK_INFO
+    END
+    POPUP "drawableMulti"
+    BEGIN
+        POPUP "色(&L)"
+        BEGIN
+            MENUITEM "塗りつぶし色(&F)",                  ID_SET_NODE_BRUSH
+            MENUITEM "線の色(&E)",                     ID_SET_NODE_LINE_COLOR
+        END
+        POPUP "形(&S)"
+        BEGIN
+            MENUITEM "□ 長方形(&R)",                   ID_SET_NODE_RECT
+            MENUITEM "□ 角の丸い長方形(&T)",               ID_SET_NODE_ROUND_RECT
+            MENUITEM "○ 楕円(&A)",                    ID_SET_NODE_ARC
+        END
+        POPUP "線の種類(&T)"
+        BEGIN
+            MENUITEM "細",                           ID_SET_LINE_SOLID_0
+            MENUITEM "中細",                          ID_SET_LINE_SOLID_1
+            MENUITEM "中",                           ID_SET_LINE_SOLID_2
+            MENUITEM "中太",                          ID_SET_LINE_SOLID_3
+            MENUITEM "太",                           ID_SET_LINE_SOLID_4
+            MENUITEM SEPARATOR
+            MENUITEM "点線",                          ID_SET_LINE_DOT
+            MENUITEM "線なし",                         ID_SET_LINE_NULL
+        END
+        POPUP "ラベルの書式(&O)"
+        BEGIN
+            MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
+            MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
+        END
+        MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+        MENUITEM SEPARATOR
+        MENUITEM "ｺﾋﾟｰ(&C)",                    ID_EDIT_COPY
+        MENUITEM SEPARATOR
+        POPUP "レイアウト調整(&J)"
+        BEGIN
+            MENUITEM "↑上にそろえる(&T)",                 ID_ADJUST_TOP
+            MENUITEM "↓下にそろえる(&B)",                 ID_ADJUST_BOTTOM
+            MENUITEM "→右にそろえる(&R)",                 ID_ADJUST_RIGHT
+            MENUITEM "←左にそろえる(&L)",                 ID_ADJUST_LEFT
+            MENUITEM SEPARATOR
+            MENUITEM "↑↓ 高さをそろえる(&H)",              ID_SAME_HEIGHT
+            MENUITEM "←→ 幅をそろえる(&W)",               ID_SAME_WIDTH
+            MENUITEM "幅と高さをそろえる(&S)",               ID_SAME_RECT
+        END
+        MENUITEM "プロパティ一括設定(&R)",               ID_SET_NODE_PROP
+    END
+    POPUP "linkview"
+    BEGIN
+        MENUITEM "リンク先にジャンプ(&J)",               ID_JUMP_TO
+        MENUITEM "リンク先から戻る(&B)",                ID_JUMP_BACK
+        MENUITEM "他のファイル/URLへのリンク(&F)",         ID_ADD_URL
+        MENUITEM SEPARATOR
+        MENUITEM "削除(&D)",                      ID_DELETE
+        MENUITEM "切り取り(&T)",                    ID_EDIT_CUT
+        MENUITEM "ｺﾋﾟｰ(&C)",                    ID_EDIT_COPY
+        MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "リンクのプロパティ(&R)",               ID_SET_LINK_INFO
+    END
+    POPUP "EditorView"
+    BEGIN
+        MENUITEM "元に戻す（＆U)",                    ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "切り取り(&T)",                    ID_EDIT_CUT
+        MENUITEM "コピー(&C)",                     ID_EDIT_COPY
+        MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
+        MENUITEM "削除(&D)",                      ID_EDIT_CLEAR
+        MENUITEM SEPARATOR
+        MENUITEM "検索(F)",                       ID_EDIT_FIND
+        MENUITEM "置換(&R)",                      ID_EDIT_REPLACE
+        MENUITEM SEPARATOR
+        MENUITEM "すべて選択(&A)",                   ID_EDIT_SELECT_ALL
+    END
+    POPUP "OutLineDrop"
+    BEGIN
+        MENUITEM "先頭の子にする(F)",                  ID_DROP_FIRST_ORDER
+        MENUITEM "ドロップ先ノードと階層を合わせる(&L)",        ID_DROP_LEVEL_UP
+    END
+    POPUP "AddLinkedNode"
+    BEGIN
+        MENUITEM "□ 長方形",                       ID_ADDLINKEDNODE_RECT
+        MENUITEM "□ 角丸長方形",                     ID_ADDLINKEDNODE_RNDRECT
+        MENUITEM "○ 楕円",                        ID_ADDLINKEDNODE_ARC
+    END
+END
+
+IDR_SHAPE MENU 
+BEGIN
+    POPUP "ﾌｧｲﾙ(&F)"
+    BEGIN
+        MENUITEM "ｼｪｲﾌﾟﾌｧｲﾙを開く(&O)",            ID_OPEN_SHAPE_FILE
+        MENUITEM "ｼｪｲﾌﾟﾌｧｲﾙ保存(&S)",             ID_SAVE_SHAPE_FILE
+    END
+    POPUP "カテゴリ(&C)"
+    BEGIN
+        MENUITEM "カテゴリ名編集(&E)",                 ID_EDIT_CAT_NAME
+    END
+    POPUP "シェイプ(&S)"
+    BEGIN
+        MENUITEM "↑&Drop",                      ID_UPDATE_DIAGRAM
+        MENUITEM "↓&Get",                       ID_REGIST_NODESHAPE
+        MENUITEM SEPARATOR
+        MENUITEM "クリップボードから貼り付け(&P)",           ID_PASTE_FROM_CLPBRD
+        MENUITEM SEPARATOR
+        MENUITEM "シェイプの登録(&A)",                 ID_NEW_SHAPE
+        MENUITEM "シェイプの削除(&D)",                 ID_DELETE_SHAPE
+    END
+END
+
+IDR_TB_PLDWN MENU 
+BEGIN
+    POPUP "linkLineStyle"
+    BEGIN
+        MENUITEM "細 ──",                        ID_MNU_LS_R0
+        MENUITEM "点線 - - -",                    ID_MNU_LS_DOT
+        MENUITEM "中細 ──",                       ID_MNU_LS_R1
+        MENUITEM "中 ━━",                        ID_MNU_LS_R2
+        MENUITEM "中太━━",                        ID_MNU_LS_R3
+        MENUITEM "太━━",                         ID_MNU_LS_R4
+    END
+    POPUP "linkArrowAttach"
+    BEGIN
+        MENUITEM "   ──    矢印なし",               ID_LINK_ARROW_NONE
+        MENUITEM "   ──▼  一方向(標準)",             ID_LINK_ARROW_SINGLE
+        MENUITEM "▲──▼  双方向(標準)",               ID_LINK_ARROW_DOUBLE
+        MENUITEM "　 ──＞ 一方向(依存)",               ID_LINK_DEPEND_SINGLE
+        MENUITEM "＜──＞ 双方向(依存)",                ID_LINK_DEPEND_DOUBLE
+        MENUITEM "　 ──▽ 継承",                    ID_LINK_INHERIT
+        MENUITEM "　 ──◇ 集約",                    ID_LINK_AGREGAT
+        MENUITEM "　 ──◆ コンポジション",               ID_LINK_COMPOSIT
+    END
+    POPUP "dummy"
+    BEGIN
+        MENUITEM "dummy",                       ID_BTN_LINK_ARROW
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    VK_RIGHT,       ID_ADD_CHILD,           VIRTKEY, CONTROL, ALT, NOINVERT
+    VK_DOWN,        ID_ADD_SIBLING,         VIRTKEY, CONTROL, ALT, NOINVERT
+    "L",            ID_ADD_URL,             VIRTKEY, CONTROL, NOINVERT
+    VK_F4,          ID_CHANGE_VIEW_FOCUS,   VIRTKEY, NOINVERT
+    VK_DELETE,      ID_DELETE,              VIRTKEY, NOINVERT
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "F",            ID_EDIT_FIND,           VIRTKEY, CONTROL, NOINVERT
+    VK_F2,          ID_EDIT_LABEL,          VIRTKEY, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "R",            ID_EDIT_REPLACE,        VIRTKEY, CONTROL, NOINVERT
+    "A",            ID_EDIT_SELECT_ALL,     VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_INSERT_CHILD,        VIRTKEY, NOINVERT
+    VK_RETURN,      ID_INSERT_SIBLING,      VIRTKEY, SHIFT, NOINVERT
+    VK_RIGHT,       ID_LEBEL_DOWN,          VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_LEFT,        ID_LEBEL_UP,            VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_DOWN,        ID_ORDER_DOWN,          VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_UP,          ID_ORDER_UP,            VIRTKEY, SHIFT, CONTROL, NOINVERT
+    "M",            ID_SHOW_NODE_SHAPES,    VIRTKEY, CONTROL, NOINVERT
+    VK_F6,          ID_SHOW_SELECTED_BRANCH, VIRTKEY, NOINVERT
+    VK_F5,          ID_SHOW_SELECTED_CHILDREN, VIRTKEY, NOINVERT
+    VK_F12,         ID_TILT_SENSOR,         VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 178, 133
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "iEditのバージョン情報"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+BEGIN
+    LTEXT           "iEdit Version 1.60",IDC_STATIC,11,84,61,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 1999-2006 Kondoh Masahiro(MH)",IDC_STATIC,11,95,140,8
+    DEFPUSHBUTTON   "OK",IDOK,120,112,50,14,WS_GROUP
+    ICON            IDR_MAINFRAME,IDC_STATIC,148,41,20,20,SS_REALSIZEIMAGE
+    PUSHBUTTON      "MH Home Page",IDC_TOMH,30,112,81,14
+END
+
+IDD_INPCN DIALOG  0, 0, 123, 41
+STYLE DS_SETFONT | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "ノードのラベル"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    EDITTEXT        IDC_EDIT1,7,6,108,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,7,24,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,64,24,50,14
+END
+
+IDD_LINKINFO DIALOGEX 0, 0, 209, 191
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "リンクのプロパティ"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_EDIT,51,65,130,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO,51,87,130,105,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "線の色(&C)",IDC_BTN_COLOR,13,134,39,14
+    PUSHBUTTON      "フォント(&F)",IDC_BTN_FONT,60,134,39,14
+    COMBOBOX        IDC_CMB_LINE,131,134,55,80,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,78,165,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,133,165,50,14
+    LTEXT           "リンク元",IDC_STATIC,17,23,24,8
+    LTEXT           "リンク先",IDC_STATIC,17,46,24,8
+    LTEXT           "",IDC_LINKFROM,51,22,130,12,SS_SUNKEN
+    LTEXT           "",IDC_LINKTO,51,45,130,12,SS_SUNKEN
+    LTEXT           "コメント",IDC_STATIC,17,67,22,8
+    LTEXT           "矢印",IDC_STATIC,17,88,15,8
+    LTEXT           "線種",IDC_STATIC,113,137,15,8
+    GROUPBOX        "リンク情報",IDC_STATIC,7,7,186,105
+    GROUPBOX        "表示",IDC_STATIC,7,120,186,38
+END
+
+IDD_LINKINFO2 DIALOG  0, 0, 219, 113
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ファイル/URLへのリンク"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    EDITTEXT        IDC_EDIT2,51,36,127,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT1,51,61,127,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照(&B)",IDC_BROWSE,183,63,29,14
+    DEFPUSHBUTTON   "OK",IDOK,94,90,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,149,90,50,14
+    CTEXT           "リンク元",IDC_STATIC,15,15,24,8,SS_CENTERIMAGE
+    CTEXT           "",IDC_ORG,51,13,147,12,SS_CENTERIMAGE | SS_SUNKEN
+    CTEXT           "パス/URL",IDC_STATIC,15,63,32,8,SS_CENTERIMAGE
+    CTEXT           "コメント",IDC_STATIC,15,40,22,8,SS_CENTERIMAGE
+END
+
+IDD_PRPNODE DIALOG  0, 0, 207, 223
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ノードのプロパティ"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    EDITTEXT        IDC_EDIT_LABEL,49,13,151,16,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
+    DEFPUSHBUTTON   "OK",IDOK,86,198,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,145,198,50,14
+    CONTROL         "シングル(&S)",IDC_RADIO_TLINE1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,68,50,10
+    CONTROL         "マルチ(&M)",IDC_RADIO_TLINE2,"Button",BS_AUTORADIOBUTTON,13,86,45,10
+    CONTROL         "表示しない(&H)",IDC_RADIO_TLINE3,"Button",BS_AUTORADIOBUTTON,13,105,57,10
+    PUSHBUTTON      "線の色(&C)",IDC_BTN_LINE_COLOR,87,63,44,14
+    PUSHBUTTON      "フォント(&F)",IDC_BTN_FONT,140,63,43,14
+    COMBOBOX        IDC_COMBOLINE,121,83,59,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "塗つぶし色(&B)",IDC_BTN_BRS,87,103,46,14
+    CONTROL         "透明(&T)",IDC_CHK_NO_BRS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,147,105,38,10
+    COMBOBOX        IDC_COMBO_HORIZ,48,145,62,69,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_VERT,48,168,62,73,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "□ 長方形(&R)",IDC_RADIO_SHAPE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,126,145,55,10
+    CONTROL         "□ 丸角長方形(&S)",IDC_RADIO_SHAPE2,"Button",BS_AUTORADIOBUTTON,126,158,68,10
+    CONTROL         "○ 楕円(&A)",IDC_RADIO_SHAPE3,"Button",BS_AUTORADIOBUTTON,126,172,48,10
+    GROUPBOX        "ノードの形状",IDC_STATIC,120,133,80,56
+    GROUPBOX        "文字列",IDC_STATIC,7,54,66,71
+    GROUPBOX        "文字列のレイアウト",IDC_STATIC,7,133,110,56
+    LTEXT           "水平方向",IDC_STATIC,14,146,28,8
+    LTEXT           "垂直方向",IDC_STATIC,15,170,28,8
+    GROUPBOX        "表示",IDC_STATIC,81,53,119,74
+    LTEXT           "線種",IDC_STATIC,99,86,15,8
+    LTEXT           "ラベル",IDC_STATIC,17,17,20,8
+END
+
+IDD_ONPROC DIALOG  100, 100, 209, 87
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    CONTROL         "Progress2",IDC_PROGPROC,"msctls_progress32",WS_BORDER,10,60,185,15
+    CTEXT           "",IDC_PROC_NAME,32,24,150,15,SS_CENTERIMAGE | SS_SUNKEN
+END
+
+IDD_PROPERTIES DIALOG  0, 0, 223, 285
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "オプション設定"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,105,264,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,166,264,50,14
+    CONTROL         "Tab1",IDC_TAB,"SysTabControl32",0x0,7,7,209,250
+END
+
+IDD_PG_FRAME DIALOG  0, 0, 197, 235
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    PUSHBUTTON      "文字色",IDC_BTN__FCLR_OL,19,19,38,16
+    PUSHBUTTON      "背景色",IDC_BTN__BCLR_OL,19,35,38,16
+    PUSHBUTTON      "フォント",IDC_BTN_OUTLINE,62,19,38,16
+    PUSHBUTTON      "ｲﾝｻｰﾄﾏｰｸ色",IDC_BTN__INSERTMARK,62,35,48,16
+    PUSHBUTTON      "文字色",IDC_BTN_FCLR_LN,19,70,38,16
+    PUSHBUTTON      "背景色",IDC_BTN_BCLR_LN,19,86,38,16
+    PUSHBUTTON      "フォント",IDC_BTN_LINK,62,70,38,16
+    PUSHBUTTON      "文字色",IDC_BTN_FCLR_TX,19,121,38,16
+    PUSHBUTTON      "背景色",IDC_BTN_BCLR_TX,19,137,38,16
+    PUSHBUTTON      "フォント",IDC_BTN_TEXT,62,121,38,16
+    PUSHBUTTON      "背景色",IDC_BTN_BCLR_NW,19,170,38,16
+    CONTROL         "終了時のフレームサイズを保存する(&S)",IDC_CHK_SAVE_FRAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,199,129,10
+    CONTROL         "ツールバー・ステータスバーの状態保存(&B)",IDC_CHK_SAVE_BAR_STATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,213,142,10
+    GROUPBOX        "アウトラインビュー",IDC_STATIC,7,7,183,49
+    GROUPBOX        "リンクビュー",IDC_STATIC,7,59,183,47
+    GROUPBOX        "テキストビュー",IDC_STATIC,7,110,183,48
+    GROUPBOX        "ネットワークビュー",IDC_STATIC,7,159,183,33
+END
+
+IDD_PG_NODE DIALOGEX 0, 0, 197, 235
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+BEGIN
+    CONTROL         "シングル(&S)",IDC_RADIO_TLINE1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,22,50,10
+    CONTROL         "マルチ(&M)",IDC_RADIO_TLINE2,"Button",BS_AUTORADIOBUTTON,15,40,45,10
+    CONTROL         "表示しない",IDC_RADIO_TLINE3,"Button",BS_AUTORADIOBUTTON,15,59,47,10
+    PUSHBUTTON      "線の色(&C)",IDC_BTN_LINE_COLOR,81,19,46,14
+    PUSHBUTTON      "フォント(&F)",IDC_BTN_FONT,133,19,43,14
+    COMBOBOX        IDC_COMBOLINE,115,39,59,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "塗つぶし色(&B)",IDC_BTN_BRS,81,59,46,14
+    CONTROL         "透明(&T)",IDC_CHK_NO_BRS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,141,61,38,10
+    COMBOBOX        IDC_COMBO_HORIZ,49,103,62,69,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_VERT,49,126,62,73,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "□ 長方形(&R)",IDC_RADIO_SHAPE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,124,102,55,10
+    CONTROL         "□ 丸角長方形(&S)",IDC_RADIO_SHAPE2,"Button",BS_AUTORADIOBUTTON,124,118,65,10
+    CONTROL         "○ 楕円(&A)",IDC_RADIO_SHAPE3,"Button",BS_AUTORADIOBUTTON,124,135,48,10
+    GROUPBOX        "ノードの形状",IDC_STATIC,120,85,70,68
+    GROUPBOX        "行の表示方法",IDC_STATIC,7,7,62,76
+    GROUPBOX        "文字列のレイアウト",IDC_STATIC,7,88,109,65
+    LTEXT           "水平方向",IDC_STATIC,15,104,28,8
+    LTEXT           "垂直方向",IDC_STATIC,15,128,28,8
+    GROUPBOX        "表示",IDC_STATIC,75,7,115,76
+    LTEXT           "線種",IDC_STATIC,93,42,15,8
+    GROUPBOX        "ノードの描画順・グループ化(再起動時有効)",IDC_STATIC,7,155,183,60
+    CONTROL         "アウトラインビューの並び順と同期させる(&N)",IDC_CHK_SYNC_ORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,168,141,10
+    CONTROL         "昇順",IDC_RADIO_ASCENDING,"Button",BS_AUTORADIOBUTTON,23,182,30,10
+    CONTROL         "降順",IDC_RADIO_DESCENDING,"Button",BS_AUTORADIOBUTTON,56,182,30,10
+    CONTROL         "簡易グループ機能を有効にする(&G)",IDC_CHK_ENABLE_GROUPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,201,117,10
+END
+
+IDD_PG_LINK DIALOGEX 0, 0, 197, 235
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "線の色(&C)",IDC_BTN_COLOR,14,25,39,14
+    PUSHBUTTON      "フォント(&F)",IDC_BTN_FONT,58,25,39,14
+    COMBOBOX        IDC_CMB_LINE,124,26,55,80,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "リンクの太さによって結合強度を変える",IDC_CHK_STRENGTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,78,129,10
+    CONTROL         "Slider1",IDC_SLID,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOP | WS_TABSTOP,17,116,157,27
+    LTEXT           "線種",IDC_STATIC,107,29,15,8
+    GROUPBOX        "デフォルトの表示属性",IDC_STATIC,7,7,176,47
+    GROUPBOX        "自動レイアウト・芋づるモードの設定",IDC_STATIC,7,61,176,86
+    LTEXT           "デフォルトのノード間距離",IDC_STATIC,27,99,74,8
+    CTEXT           "",IDC_STRN,106,98,20,12,SS_CENTERIMAGE | SS_SUNKEN
+END
+
+IDD_PG_OTHER DIALOG  0, 0, 197, 235
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    CONTROL         "&2",IDC_RD_TAB1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,69,18,19,10
+    CONTROL         "&4",IDC_RD_TAB2,"Button",BS_AUTORADIOBUTTON,92,18,19,10
+    CONTROL         "&8",IDC_RD_TAB3,"Button",BS_AUTORADIOBUTTON,114,18,19,10
+    CONTROL         "現在行に下線を表示(&U)        (再起動時に有効)",IDC_CHK_DRW_UNDRLN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,32,155,10
+    CONTROL         "横スクロールバーを表示(&H)   (再起動時に有効)",IDC_CHK_SHOW_HS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,47,155,10
+    CONTROL         "親ノードの属性を継承する(&P)",IDC_CHK_INHERIT_PARENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,79,100,10
+    CONTROL         "同じ階層の直前のノードの属性を継承する(&S)",IDC_CHK_INHERIT_SIBLING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,96,146,10
+    PUSHBUTTON      "メタファイルサイズ(&M)",IDC_BTN_SETMFSIZE,16,131,70,14
+    CONTROL         "ノードのカーソルキー移動で加速度を付ける(&A)",IDC_CHK_ACCEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,149,152,10
+    LTEXT           "タブ文字数",IDC_STATIC,19,18,33,8
+    GROUPBOX        "テキストビューの設定",IDC_STATIC,7,7,175,55
+    GROUPBOX        "アウトラインビューで追加時のノード属性の継承",IDC_STATIC,7,65,175,52
+    LTEXT           "(再起動時有効)",IDC_STATIC,115,160,47,8
+    GROUPBOX        "ネットワークビューの調整",IDC_STATIC,7,118,175,53
+    GROUPBOX        "XML出力",IDC_STATIC,7,172,175,50
+    CONTROL         "スタイルシートを指定(&T)",IDC_CHK_SET_STYLESHEET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,183,86,16
+    EDITTEXT        IDC_EDIT_STYLESHEET,20,201,155,11,ES_AUTOHSCROLL
+END
+
+IDD_SELIMPORT DIALOG  0, 0, 190, 79
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "XMLデータのインポートオプション"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    CONTROL         "選択中のノードを置き換える",IDC_RD_REP,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,13,97,10
+    CONTROL         "選択中のノードの配下にインポートする",IDC_RD_SUB,"Button",BS_AUTORADIOBUTTON,15,35,128,10
+    DEFPUSHBUTTON   "OK",IDOK,79,58,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,133,58,50,14
+END
+
+IDD_RANDAREA DIALOG  0, 0, 181, 95
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ノードのランダム配置の範囲設定"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    EDITTEXT        IDC_WIDTH,37,41,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_HEIGHT,112,41,40,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,59,74,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,115,74,50,14
+    LTEXT           "ノードをランダム配置するスケールを指定してください\nOKを押すと開始します",IDC_STATIC,17,13,157,16
+    LTEXT           "幅",IDC_STATIC,22,43,8,8
+    LTEXT           "高さ",IDC_STATIC,93,43,13,8
+END
+
+IDD_SELEXPORT DIALOG  0, 0, 207, 125
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "エクスポートオプション"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    CONTROL         "すべてのノードを出力する",IDC_RD_TREE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,18,19,91,10
+    CONTROL         "選択されたノード以下の階層をすべて出力する",IDC_RD_TREE2,"Button",BS_AUTORADIOBUTTON,18,37,150,10
+    CONTROL         "選択されたノードと子ノードのみを出力する",IDC_RD_TREE3,"Button",BS_AUTORADIOBUTTON,18,56,138,10
+    CONTROL         "ノードのテキスト（内容も出力する）",IDC_CHK_PRINT_TEXT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,87,115,10
+    DEFPUSHBUTTON   "開始(&S)",IDOK,90,104,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,150,104,50,14
+    GROUPBOX        "階層構造の出力",IDC_STATIC,7,7,183,72
+END
+
+IDD_SHAPES DIALOG  0, 0, 159, 157
+STYLE DS_SETFONT | DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "シェイプの一覧"
+MENU IDR_SHAPE
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    LISTBOX         IDC_CATLIST,7,19,64,103,LBS_NOINTEGRALHEIGHT | LBS_WANTKEYBOARDINPUT | WS_TABSTOP
+    DEFPUSHBUTTON   "↓ &Drop",IDC_BTN_DROP,8,132,26,14
+    PUSHBUTTON      "&<",IDC_BTN_L,97,132,17,14,BS_FLAT
+    PUSHBUTTON      "&>",IDC_BTN_R,113,132,17,14,BS_FLAT
+    PUSHBUTTON      "&L <<",IDC_BTN_LL,77,132,21,14,BS_FLAT
+    PUSHBUTTON      ">> &R",IDC_BTN_RR,129,132,21,14,BS_FLAT
+    GROUPBOX        "シェイプ",IDC_STATIC,75,5,79,117,BS_CENTER | BS_FLAT
+    LTEXT           "カテゴリ",IDC_STATIC,29,7,24,8
+    GROUPBOX        "",IDC_STATIC,3,0,154,155
+    PUSHBUTTON      "↑ &Get",IDC_BTNGET,39,132,26,14
+END
+
+IDD_SHPCATDLG DIALOG  0, 0, 123, 47
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "カテゴリ名の編集"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    EDITTEXT        IDC_EDIT1,7,7,99,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,5,28,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,61,28,50,14
+END
+
+IDD_SHAPEINS DIALOG  0, 0, 149, 119
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "シェイプの指定"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,91,7,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,91,24,50,14
+    CONTROL         "",IDC_SHAPE,"Static",SS_ENHMETAFILE | WS_BORDER,7,7,73,76
+    EDITTEXT        IDC_EDPATH,7,100,129,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照(&B)",IDC_BTN_BROWSE,99,85,34,12
+    LTEXT           "拡張メタファイルへのパス",IDC_STATIC,7,88,75,8
+END
+
+IDD_NODESRCH DIALOG  0, 0, 146, 288
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "ノードの検索"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    COMBOBOX        IDC_COMBO,7,7,132,97,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "再検索(&S)",IDC_START,96,31,43,15
+    DEFPUSHBUTTON   "&Go",IDC_BTNGO,96,54,43,14
+    CONTROL         "List2",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOLABELWRAP | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,104,132,177
+    CONTROL         "ノードのラベル(&L)",IDC_CHKLABEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,38,66,10
+    CONTROL         "ノードのテキスト(&T)",IDC_CHKTEXT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,52,71,10
+    CONTROL         "リンクの文字列(&N)",IDC_CHKLINKS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,66,69,10
+    CONTROL         "大文字・小文字を同一視(&U)",IDC_CHKUPPER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,87,96,10
+    GROUPBOX        "検索対象",IDC_STATIC,7,26,85,57
+END
+
+IDD_SETFOLDUP DIALOG  0, 0, 187, 49
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "折りたたみの指定"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    EDITTEXT        IDC_EDITLEVEL,68,15,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPIN_LEVEL,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,110,12,11,20
+    DEFPUSHBUTTON   "OK",IDOK,130,7,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,130,24,50,14
+    LTEXT           "表示するレベル",IDC_STATIC,14,17,46,8
+END
+
+IDD_SELFILEDROP DIALOG  0, 0, 147, 51
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "iedファイルのドロップ処理"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    CONTROL         "リンクを追加する",IDC_RD_LINK,"Button",BS_AUTORADIOBUTTON | WS_GROUP,7,9,65,10
+    CONTROL         "ファイルを開く",IDC_RD_OPEN,"Button",BS_AUTORADIOBUTTON,7,27,56,10
+    DEFPUSHBUTTON   "OK",IDOK,90,7,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,90,24,50,14
+END
+
+IDD_MFSIZE DIALOGEX 0, 0, 235, 157
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "メタファイルサイズ調整"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "-",IDC_BTN_DOWN,119,43,16,15
+    PUSHBUTTON      "+",IDC_BTN_UP,119,64,16,15
+    PUSHBUTTON      "-",IDC_BTN_LEFT,42,120,16,15
+    PUSHBUTTON      "+",IDC_BTN_RIGHT,63,120,16,15
+    PUSHBUTTON      "既定値に戻す(&R)",IDC_BTN_RESET,149,57,67,15
+    DEFPUSHBUTTON   "OK",IDOK,121,136,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,178,136,50,14
+    CONTROL         "",IDC_MF,"Static",SS_ENHMETAFILE | WS_BORDER,7,7,109,109
+    LTEXT           "幅 28.5 高さ 28.5",IDC_ST_INFO,157,117,71,11
+    LTEXT           "円が枠の中にちょうど納まるように+ - ボタンで縦横サイズを調整してください",IDC_STATIC,145,7,83,37
+END
+
+IDD_ALPHASLIDE DIALOG  0, 0, 247, 55
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "透明度調整"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    CONTROL         "Slider1",IDC_SLIDER_ALPHA,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,35,10,201,20
+    PUSHBUTTON      "閉じる(&C)",IDCANCEL,185,35,50,14
+    CTEXT           "",IDC_LB_LEVEL,10,10,20,19,SS_CENTERIMAGE | WS_BORDER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,6,0,0
+ PRODUCTVERSION 1,6,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "Comments", "idea, Concept, Semantic Networks..."
+            VALUE "CompanyName", "KondohMH"
+            VALUE "FileDescription", "iEdit ｱﾌﾟﾘｹｰｼｮﾝ"
+            VALUE "FileVersion", "1, 6, 0, 0"
+            VALUE "InternalName", "iEdit"
+            VALUE "LegalCopyright", "Copyright (C) 1999-2006 Kondoh Masahiro(MH)"
+            VALUE "OriginalFilename", "iEdit.exe"
+            VALUE "ProductName", "iEdit"
+            VALUE "ProductVersion", "1, 6, 0, 0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 171
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 126
+    END
+
+    IDD_INPCN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 116
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 32
+    END
+
+    IDD_LINKINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 202
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 179
+    END
+
+    IDD_LINKINFO2, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 212
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 104
+    END
+
+    IDD_PRPNODE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 200
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 216
+    END
+
+    IDD_ONPROC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 201
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 80
+    END
+
+    IDD_PROPERTIES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 216
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 278
+    END
+
+    IDD_PG_FRAME, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 190
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 228
+    END
+
+    IDD_PG_NODE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 190
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 228
+    END
+
+    IDD_PG_LINK, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 190
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 228
+    END
+
+    IDD_PG_OTHER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 190
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 228
+        HORZGUIDE, 228
+    END
+
+    IDD_SELIMPORT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 183
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 72
+    END
+
+    IDD_RANDAREA, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 174
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_SELEXPORT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 200
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 118
+    END
+
+    IDD_SHPCATDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 116
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 40
+    END
+
+    IDD_SHAPEINS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 142
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 112
+    END
+
+    IDD_NODESRCH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 139
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 281
+    END
+
+    IDD_SETFOLDUP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 42
+    END
+
+    IDD_SELFILEDROP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 140
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 44
+    END
+
+    IDD_MFSIZE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 150
+    END
+
+    IDD_ALPHASLIDE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 240
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_LINK                CURSOR                  "res\\link.cur"
+IDC_RECT                CURSOR                  "res\\rect.cur"
+IDC_ARC                 CURSOR                  "res\\arc.cur"
+IDC_LINKTREE            CURSOR                  "res\\linktree.cur"
+IDC_HAND_OPEN           CURSOR                  "res\\cursor1.cur"
+IDC_HAND_CLOSE          CURSOR                  "res\\hand_clo.cur"
+IDC_LAYOUT              CURSOR                  "res\\cur00001.cur"
+IDC_RRECT               CURSOR                  "res\\cur00002.cur"
+IDC_ZOOM                CURSOR                  "res\\cur00003.cur"
+IDC_POINTER_COPY        CURSOR                  "res\\pointer_.cur"
+IDC_POINTER_MOVE        CURSOR                  "res\\cursor2.cur"
+IDC_LABELONLY           CURSOR                  "res\\cur00004.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_LINKINFO DLGINIT
+BEGIN
+    IDC_COMBO, 0x403, 14, 0
+0x8120, 0x8440, 0x849f, 0x209f, 0x8220, 0x82c8, 0x00b5, 
+    IDC_COMBO, 0x403, 22, 0
+0x4081, 0x9f84, 0x9f84, 0xa581, 0x8820, 0x95ea, 0x8cfb, 0x28fc, 0x5795, 
+0x808f, 0x0029, 
+    IDC_COMBO, 0x403, 23, 0
+0x8120, 0x84a3, 0x849f, 0x819f, 0x20a5, 0x6f91, 0xfb95, 0xfc8c, 0x9528, 
+0x8f57, 0x2980, "\000" 
+    IDC_COMBO, 0x403, 23, 0
+0x4081, 0x8420, 0x849f, 0x819f, 0x2084, 0xea88, 0xfb95, 0xfc8c, 0x8828, 
+0x91cb, 0x29b6, "\000" 
+    IDC_COMBO, 0x403, 21, 0
+0x8381, 0x9f84, 0x9f84, 0x8481, 0x6f91, 0xfb95, 0xfc8c, 0x8828, 0x91cb, 
+0x29b6, "\000" 
+    IDC_COMBO, 0x403, 15, 0
+0x4081, 0x9f84, 0x9f84, 0xa481, 0x8c28, 0x8f70, 0x29b3, "\000" 
+    IDC_COMBO, 0x403, 15, 0
+0x4081, 0x9f84, 0x9f84, 0x9e81, 0x8f28, 0x9657, 0x29f1, "\000" 
+    IDC_COMBO, 0x403, 23, 0
+0x4081, 0x9f84, 0x9f84, 0x9f81, 0x8328, 0x8352, 0x8393, 0x837c, 0x8357, 
+0x8362, 0x2967, "\000" 
+    IDC_CMB_LINE, 0x403, 8, 0
+0x9f84, 0x9f84, 0x8d20, 0x00d7, 
+    IDC_CMB_LINE, 0x403, 10, 0
+0x9f84, 0x9f84, 0x9220, 0x8d86, 0x00d7, 
+    IDC_CMB_LINE, 0x403, 8, 0
+0x9f84, 0x9f84, 0x9220, 0x0086, 
+    IDC_CMB_LINE, 0x403, 10, 0
+0x9f84, 0x9f84, 0x9220, 0x9186, 0x00be, 
+    IDC_CMB_LINE, 0x403, 8, 0
+0xaa84, 0xaa84, 0x9120, 0x00be, 
+    IDC_CMB_LINE, 0x403, 10, 0
+0x2d2d, 0x2d2d, 0x9320, 0x905f, 0x00fc, 
+    0
+END
+
+IDD_PRPNODE DLGINIT
+BEGIN
+    IDC_COMBOLINE, 0x403, 8, 0
+0x9f84, 0x9f84, 0x8d20, 0x00d7, 
+    IDC_COMBOLINE, 0x403, 10, 0
+0x9f84, 0x9f84, 0x9220, 0x8d86, 0x00d7, 
+    IDC_COMBOLINE, 0x403, 8, 0
+0x9f84, 0x9f84, 0x9220, 0x0086, 
+    IDC_COMBOLINE, 0x403, 10, 0
+0x9f84, 0x9f84, 0x9220, 0x9186, 0x00be, 
+    IDC_COMBOLINE, 0x403, 8, 0
+0xaa84, 0xaa84, 0x9120, 0x00be, 
+    IDC_COMBOLINE, 0x403, 10, 0
+0x2d2d, 0x2d2d, 0x9320, 0x905f, 0x00fc, 
+    IDC_COMBOLINE, 0x403, 14, 0
+0x2020, 0x2020, 0x2020, 0x9020, 0x82fc, 0x82c8, 0x00b5, 
+    IDC_COMBO_HORIZ, 0x403, 7, 0
+0xb68d, 0x6c8b, 0xdf82, "\000" 
+    IDC_COMBO_HORIZ, 0x403, 5, 0
+0x8692, 0x9b89, "\000" 
+    IDC_COMBO_HORIZ, 0x403, 7, 0
+0x4589, 0x6c8b, 0xdf82, "\000" 
+    IDC_COMBO_VERT, 0x403, 7, 0
+0x5693, 0x7a94, 0x7592, "\000" 
+    IDC_COMBO_VERT, 0x403, 7, 0
+0x8692, 0x7a94, 0x7592, "\000" 
+    IDC_COMBO_VERT, 0x403, 7, 0
+0x6e92, 0x7a94, 0x7592, "\000" 
+    0
+END
+
+IDD_PG_NODE DLGINIT
+BEGIN
+    IDC_COMBOLINE, 0x403, 8, 0
+0x9f84, 0x9f84, 0x8d20, 0x00d7, 
+    IDC_COMBOLINE, 0x403, 10, 0
+0x9f84, 0x9f84, 0x9220, 0x8d86, 0x00d7, 
+    IDC_COMBOLINE, 0x403, 8, 0
+0x9f84, 0x9f84, 0x9220, 0x0086, 
+    IDC_COMBOLINE, 0x403, 10, 0
+0x9f84, 0x9f84, 0x9220, 0x9186, 0x00be, 
+    IDC_COMBOLINE, 0x403, 8, 0
+0xaa84, 0xaa84, 0x9120, 0x00be, 
+    IDC_COMBOLINE, 0x403, 10, 0
+0x2d2d, 0x2d2d, 0x9320, 0x905f, 0x00fc, 
+    IDC_COMBOLINE, 0x403, 14, 0
+0x2020, 0x2020, 0x2020, 0x9020, 0x82fc, 0x82c8, 0x00b5, 
+    IDC_COMBO_HORIZ, 0x403, 7, 0
+0xb68d, 0x6c8b, 0xdf82, "\000" 
+    IDC_COMBO_HORIZ, 0x403, 5, 0
+0x8692, 0x9b89, "\000" 
+    IDC_COMBO_HORIZ, 0x403, 7, 0
+0x4589, 0x6c8b, 0xdf82, "\000" 
+    IDC_COMBO_VERT, 0x403, 7, 0
+0x5693, 0x7a94, 0x7592, "\000" 
+    IDC_COMBO_VERT, 0x403, 7, 0
+0x8692, 0x7a94, 0x7592, "\000" 
+    IDC_COMBO_VERT, 0x403, 7, 0
+0x6e92, 0x7a94, 0x7592, "\000" 
+    0
+END
+
+IDD_PG_LINK DLGINIT
+BEGIN
+    IDC_CMB_LINE, 0x403, 8, 0
+0x9f84, 0x9f84, 0x8d20, 0x00d7, 
+    IDC_CMB_LINE, 0x403, 10, 0
+0x9f84, 0x9f84, 0x9220, 0x8d86, 0x00d7, 
+    IDC_CMB_LINE, 0x403, 8, 0
+0x9f84, 0x9f84, 0x9220, 0x0086, 
+    IDC_CMB_LINE, 0x403, 10, 0
+0x9f84, 0x9f84, 0x9220, 0x9186, 0x00be, 
+    IDC_CMB_LINE, 0x403, 8, 0
+0xaa84, 0xaa84, 0x9120, 0x00be, 
+    IDC_CMB_LINE, 0x403, 10, 0
+0x2d2d, 0x2d2d, 0x9320, 0x905f, 0x00fc, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "iEdit"
+    IDR_IEDITTYPE           "\niEdit\niEdit\niEdit ﾌｧｲﾙ (*.ied)\n.ied\niEdit.Document\niEdit Document"
+    IDR_XMLTYPE             "\nXML\nxml\nxmlﾌｧｲﾙ (*.xml)\n.xml\nXML.Document\nXML Document"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "iEdit"
+    AFX_IDS_IDLEMESSAGE     "ﾚﾃﾞｨ"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "上書"
+    ID_INDICATOR_REC        "記録"
+    ID_INDICATOR_KANA       "ｶﾅ"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "新規にﾌｧｲﾙを作成\n新規ﾌｧｲﾙ"
+    ID_FILE_OPEN            "既存のﾌｧｲﾙを開く\n開く"
+    ID_FILE_CLOSE           "作業中のﾌｧｲﾙを閉じる\n閉じる"
+    ID_FILE_SAVE            "作業中のﾌｧｲﾙを上書きして保存\n保存"
+    ID_FILE_SAVE_AS         "作業中のﾌｧｲﾙを新しい名前で保存\n名前をつけて保存"
+    ID_FILE_PAGE_SETUP      "印刷ｵﾌﾟｼｮﾝの変更\nﾍﾟｰｼﾞ ﾚｲｱｳﾄの設定"
+    ID_FILE_PRINT_SETUP     "ﾌﾟﾘﾝﾀ/印刷ｵﾌﾟｼｮﾝの変更\n印刷設定"
+    ID_FILE_PRINT           "作業中のﾌｧｲﾙを印刷\n印刷"
+    ID_FILE_PRINT_PREVIEW   "印刷ｲﾒｰｼﾞを表示\n印刷ﾌﾟﾚﾋﾞｭｰ"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "iEditの情報、ﾊﾞｰｼﾞｮﾝ 著作権を表示\nﾊﾞｰｼﾞｮﾝ情報"
+    ID_APP_EXIT             "iEditを終了し、ﾌｧｲﾙの保存を指示\n終了"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE2       "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE3       "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE4       "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE5       "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE6       "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE7       "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE8       "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE9       "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE10      "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE11      "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE12      "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE13      "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE14      "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE15      "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE16      "指定のﾌｧｲﾙを開く"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_NEW           "作業中のｳｨﾝﾄﾞｳを複写して表示\n新規ｳｨﾝﾄﾞｳ"
+    ID_WINDOW_ARRANGE       "ｳｨﾝﾄﾞｳの下部にｱｲｺﾝを整列\nｱｲｺﾝの整列"
+    ID_WINDOW_CASCADE       "ｳｨﾝﾄﾞｳを重ねて表示\n重ねて表示"
+    ID_WINDOW_TILE_HORZ     "ｳｨﾝﾄﾞｳを並べて表示\n並べて表示"
+    ID_WINDOW_TILE_VERT     "ｳｨﾝﾄﾞｳを並べて表示\n並べて表示"
+    ID_WINDOW_SPLIT         "作業中のｳｨﾝﾄﾞｳを分割\n分割"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "選択範囲を消去\n消去"
+    ID_EDIT_CLEAR_ALL       "すべて消去\nすべて消去"
+    ID_EDIT_COPY            "選択範囲をｺﾋﾟｰしてｸﾘｯﾌﾟﾎﾞｰﾄﾞに保存\nｺﾋﾟｰ"
+    ID_EDIT_CUT             "選択範囲を切り取ってｸﾘｯﾌﾟﾎﾞｰﾄﾞに保存\n切り取り"
+    ID_EDIT_FIND            "指定した文字列の検索\n検索"
+    ID_EDIT_PASTE           "ｸﾘｯﾌﾟﾎﾞｰﾄﾞの内容を貼り付け\n貼り付け"
+    ID_EDIT_REPEAT          "直前に行った動作を繰り返す\n繰り返し"
+    ID_EDIT_REPLACE         "指定した文字列を他の文字列で置換\n置換"
+    ID_EDIT_SELECT_ALL      "ﾌｧｲﾙ内のすべてを選択\nすべて選択"
+    ID_EDIT_UNDO            "直前に行った動作を元に戻す\n元に戻す"
+    ID_EDIT_REDO            "直前に行った動作を繰り返す\n繰り返す"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "ﾂｰﾙ ﾊﾞｰの 表示/非表示\nﾂｰﾙ ﾊﾞｰの表示切り替え"
+    ID_VIEW_STATUS_BAR      "ｽﾃｰﾀｽ ﾊﾞｰの 表示/非表示\nｽﾃｰﾀｽ ﾊﾞｰの表示切り替え"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "ｳｨﾝﾄﾞｳのｻｲｽﾞを変更"
+    AFX_IDS_SCMOVE          "ｳｨﾝﾄﾞｳの位置を変更"
+    AFX_IDS_SCMINIMIZE      "ｳｨﾝﾄﾞｳを最小化する"
+    AFX_IDS_SCMAXIMIZE      "ｳｨﾝﾄﾞｳを最大化する"
+    AFX_IDS_SCNEXTWINDOW    "次のｳｨﾝﾄﾞｳに切り替える"
+    AFX_IDS_SCPREVWINDOW    "前のｳｨﾝﾄﾞｳに切り替える"
+    AFX_IDS_SCCLOSE         "作業中のｳｨﾝﾄﾞｳを閉じ、変更したﾌｧｲﾙの保存を指示"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "ｳｨﾝﾄﾞｳを通常のｻｲｽﾞに戻す"
+    AFX_IDS_SCTASKLIST      "ｱﾌﾟﾘｹｰｼｮﾝの切り替え"
+    AFX_IDS_MDICHILD        "指定のｳｨﾝﾄﾞｳを表示"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "印刷ﾌﾟﾚﾋﾞｭｰ ﾓｰﾄﾞの終わり\nﾌﾟﾚﾋﾞｭｰのｷｬﾝｾﾙ"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ADD_LINK0            "リンクの追加(矢印なし)\nリンクの追加(矢印なし)"
+    ID_SET_MULTI_LINE       "ラベルを複数行表示にする\n複数行表示"
+    ID_SET_NODE_FONT        "ノード・リンクのフォント属性を設定する"
+    ID_SET_NODE_LINE_COLOR  "ノード・リンクの線の色"
+    ID_SET_PROPERTIES       "デフォルトのオプションを設定する"
+    ID_SET_SINGLE_LINE      "ラベルを1行表示にする\n1行表示"
+    ID_ADD_RECT             "ノードの追加(長方形)\nノードの追加(長方形)"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ADD_ARC              "ノードの追加(楕円)\nノードの追加(楕円)"
+    ID_ADD_LINK1            "リンクの追加(一方向)\nリンクの追加(一方向)"
+    ID_ADD_LINK2            "リンクの追加(双方向)\nリンクの追加(双方向)"
+    ID_ADD_LINK             "別のノードへのリンク(tree view)\n別のノードへのリンク(tree view)"
+    ID_SET_LINK_INFO        "リンクのプロパティをダイアログで設定する"
+    ID_ADD_URL              "他のファイル/URLへのリンク\n他のファイル/URLへのリンク"
+    ID_JUMP_TO              "リンク先のノードを選択する"
+    ID_JUMP_BACK            "選択したリンク先からもとのノードに戻る"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ADD_CHILD            "ノードを下のレベルに追加\n下のレベルに追加(Ctrl+Alt+Right)"
+    ID_ADD_SIBLING          "ノードを同じレベルに追加\n同じレベルに追加(Ctrl+Alt+Down)"
+    ID_EDIT_LABEL           "ノードのラベルを編集する"
+    ID_LEBEL_UP             "レベルアップ\nレベルアップ(Ctrl+Shift+Left)"
+    ID_LEBEL_DOWN           "レベルダウン\nレベルダウン(Ctrl+Shift+Right)"
+    ID_ORDER_UP             "順位アップ\n順位アップ(Ctrl+Shift+Up)"
+    ID_ORDER_DOWN           "順位ダウン\n順位ダウン(Ctrl+Shift+Down)"
+    ID_DELETE               "ノード・リンクを削除する"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_AUTO_LAYOUT          "自動レイアウトモード\n自動レイアウトモード"
+    ID_SET_NODE_PROP        "ノードのプロパティをダイアログで設定する"
+    ID_GRASP_MODE           "図をつかんでスクロール\nつかんでスクロール"
+    ID_SELECT_CHILD         "ｱｳﾄﾗｲﾝ上で子供の階層を表示する"
+    ID_SELECT_PARENT        "ｱｳﾄﾗｲﾝ上で親の階層を表示する"
+    ID_LINK_STRAIGHT        "曲線リンクを直線にする"
+    ID_COPY_TO_CLIPBRD      "クリップボードにネットワークビューの内容をコピーする\n図のコピー"
+    ID_NO_BRUSH             "ノードを透明にする(塗りつぶさない)"
+    ID_SET_NODE_BRUSH       "ノードの塗りつぶし色"
+    ID_WHOLE_VIEW_MODE      "スクロールさせずに全体表示する\n全体を表示"
+    ID_ZOOM_IN              "選択した領域にズームイン(等倍表示)\nズームイン"
+    ID_SET_NODE_RECT        "ノードの形 長方形"
+    ID_SET_NODE_ARC         "ノードの形 楕円"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NORMAL_CURSOR        "選択モード\n選択モード"
+    ID_ADD_ROUND_RECT       "ノードの追加(角の丸い長方形)\nノードの追加(角の丸い長方形)"
+    ID_SET_NODE_ROUND_RECT  "ノードの形 角の丸い長方形"
+    ID_EXPORT_DATA          "データのエクスポート\nエクスポート"
+    ID_IMPORT_DATA          "データのインポート\nインポート"
+    ID_RANDOMIZE            "ノードをランダムに配置する(&R)\nノードのランダム配置"
+    ID_REFRESH_NET_VIEW     "ネットワークビューを再描画する\n再描画"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_SET_FOLDUP           "折りたたみのレベルを指定する\n折りたたみの指定"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ZOOM_MODE            "ルーペツール\nルーペ"
+    ID_EXPORT_SVG           "SVG形式に出力\nSVG出力"
+    ID_SHOW_SELECTED_BRANCH "アウトラインで選択されているノード配下のノードを全て表示する\n選択されたノード配下のノードを全て表示"
+    ID_SHOW_SELECTED_CHILDREN 
+                            "アウトラインで選択されているノード配下の子ノードを表示する\n選択されたノード配下の子ノードを表示"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ADD_CHILD2           "下の階層に新しいノードを追加する"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INSERT_CHILD         "マインドマップ的操作 選択ノードの子ノードを追加する\n子ノード挿入"
+    ID_INSERT_SIBLING       "マインドマップ的操作 選択ノードの兄弟ノードを追加する\n兄弟ノード挿入"
+    ID_DROP_LEVEL_UP        "ドロップ先のノードと同一レベルにする"
+    ID_DROP_FIRST_ORDER     "ドロップ先の先頭の子ノードに移動する"
+    ID_ADJUST_ALPHA         "ウィンドウの透明度を設定します\n透明度"
+    ID_TRANSPARENT_MODE     "透過フレームウィドウを有効にする\n透過ウィンドウを有効"
+    ID_ADD_NODES_FROM_CF_TEXT 
+                            "クリップボードのテキストデータから1ライン1つのノードを生成する\nクリップボードのテキストからノードを生成"
+    ID_SET_LINK_ARROW_NONE  "リンク設定(矢印なし)\nリンク設定(矢印なし)"
+    ID_SET_LINK_ARROW_SINGLE "リンク設定(一方向矢印)\nリンク設定(一方向矢印)"
+    ID_SET_LINK_ARROW_DOUBLE "リンク設定(双方向矢印)\nリンク設定(双方向矢印)"
+    ID_COPY_TREE_TO_CLIPBOARD 
+                            "選択されたノード配下のツリーをテキストデータとしてクリップボードにコピーする\nツリーをクリップボードに転送"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ADD_LABEL_ONLY       "テキストボックスの追加\nテキストボックスの追加"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FONT_ENLARGE         "選択したノードのフォントサイズを大きくする\nフォントを大きく"
+    ID_FONT_ENSMALL         "選択したノードのフォントサイズを小さくする\nフォントを小さく"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_BTN_LINK_LINE_STYLE  "線種の設定"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE 17, 1
+#pragma code_page(932)
+#endif //_WIN32
+#include "res\iEdit.rc2"  // Microsoft Visual C++ 以外のツールで編集されたリソース
+#include "l.jpn\afxres.rc"          // 標準のコンポーネント
+#include "l.jpn\afxprint.rc"        // 印刷/印刷プレビュー リソース
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
