@@ -16,7 +16,6 @@
 #include "MfSizer.h"
 #include "Token.h"
 #include "imm.h"
-#include "AccelerometerThinkpad.h"
 
 
 #ifdef _DEBUG
@@ -64,7 +63,6 @@ NetView::NetView()
 	m_ptScreen = CPoint(0, 0);
 	m_cntUp = 0; m_cntDown = 0; m_cntLeft = 0; m_cntRight = 0;
 	m_bDragRelax = false;
-	m_bTiltSensor = false;
 }
 
 NetView::~NetView()
@@ -229,9 +227,6 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_SET_LINK_DEPEND_SINGLE, &NetView::OnUpdateSetLinkDependSingle)
 	ON_COMMAND(ID_SET_LINK_DEPEND_DOUBLE, &NetView::OnSetLinkDependDouble)
 	ON_UPDATE_COMMAND_UI(ID_SET_LINK_DEPEND_DOUBLE, &NetView::OnUpdateSetLinkDependDouble)
-	ON_COMMAND(ID_TILT_SENSOR, &NetView::OnTiltSensor)
-	ON_UPDATE_COMMAND_UI(ID_TILT_SENSOR, &NetView::OnUpdateTiltSensor)
-	ON_WM_TIMER()
 	ON_COMMAND(ID_SET_LINK_INHERIT, &NetView::OnSetLinkInherit)
 	ON_UPDATE_COMMAND_UI(ID_SET_LINK_INHERIT, &NetView::OnUpdateSetLinkInherit)
 	ON_COMMAND(ID_SET_LINK_AGREGAT, &NetView::OnSetLinkAgregat)
@@ -309,9 +304,6 @@ void NetView::OnDraw(CDC* pDC)
 		drawAlterLinkTo(pDC);
 	}
 	
-	if (m_bTiltSensor) {
-		testOutShockData(pDC, m_pAccelerometer->GetShockData());
-	}
 }
 
 BOOL NetView::OnEraseBkgnd(CDC* pDC) 
@@ -2369,11 +2361,7 @@ void NetView::OnUpdateSetNodeRect(CCmdUI* pCmdUI)
 {
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int shape = GetDocument()->getSelectedNodeShape();
-	if (shape == iNode::arc || shape == iNode::roundRect) {
-		pCmdUI->Enable();
-	} else {
-		pCmdUI->Enable(FALSE);
-	}
+	pCmdUI->Enable(shape!= iNode::rectangle && shape != iNode::MetaFile);
 }
 
 void NetView::OnSetNodeRoundRect() 
@@ -2387,11 +2375,7 @@ void NetView::OnUpdateSetNodeRoundRect(CCmdUI* pCmdUI)
 {
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int shape = GetDocument()->getSelectedNodeShape();
-	if (shape == iNode::arc || shape == iNode::rectangle) {
-		pCmdUI->Enable();
-	} else {
-		pCmdUI->Enable(FALSE);
-	}
+	pCmdUI->Enable(shape!= iNode::roundRect && shape != iNode::MetaFile);
 }
 
 void NetView::OnSetNodeArc() 
@@ -2405,11 +2389,7 @@ void NetView::OnUpdateSetNodeArc(CCmdUI* pCmdUI)
 {
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int shape = GetDocument()->getSelectedNodeShape();
-	if (shape == iNode::rectangle || shape == iNode::roundRect) {
-		pCmdUI->Enable();
-	} else {
-		pCmdUI->Enable(FALSE);
-	}
+	pCmdUI->Enable(shape!= iNode::arc && shape != iNode::MetaFile);
 }
 
 void NetView::OnFixNode() 
@@ -2636,12 +2616,6 @@ void NetView::OnDestroy()
 	m_pShapesDlg->DestroyWindow();
 	delete m_pShapesDlg;
 	
-	if (m_bTiltSensor) {
-		KillTimer(TILT_TIMER);
-		if (m_pAccelerometer != NULL) {
-			delete m_pAccelerometer;
-		}
-	}
 }
 
 void NetView::OnPrint(CDC* pDC, CPrintInfo* pInfo) 
@@ -3818,68 +3792,6 @@ void NetView::OnUpdateSetLinkComposit(CCmdUI *pCmdUI)
 	pCmdUI->Enable(m_selectStatus == NetView::link && GetDocument()->getSelectedLink().getArrowStyle() != iLink::composit);
 }
 
-void NetView::OnTiltSensor()
-{
-	// TODO: ここにコマンド ハンドラ コードを追加します。
-	m_bTiltSensor = !m_bTiltSensor;
-	if (m_bTiltSensor) {
-		m_pAccelerometer = new Accelerometer();
-		if (!m_pAccelerometer->GetAccelerometerData()) {
-			MessageBox("このマシンは対応していません");
-			m_bTiltSensor = false;
-			return;
-		}
-		m_tiltPrev = CPoint(0, 0);
-		SetTimer(TILT_TIMER, 50, NULL);
-	} else {
-		KillTimer(TILT_TIMER);
-		delete m_pAccelerometer;
-		Invalidate();
-	}
-}
-
-void NetView::OnUpdateTiltSensor(CCmdUI *pCmdUI)
-{
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->SetCheck(m_bTiltSensor == true);
-}
-
-void NetView::OnTimer(UINT_PTR nIDEvent)
-{
-	// TODO: ここにメッセージ ハンドラ コードを追加するか、既定の処理を呼び出します。
-	if (nIDEvent = TILT_TIMER) {
-		m_pAccelerometer->GetAccelerometerData();
-		CPoint pt(m_pAccelerometer->Y, m_pAccelerometer->X);
-		CSize diff = m_tiltPrev - pt;
-		m_tiltPrev = pt;
-		GetDocument()->tilt(diff);
-	}
-	CScrollView::OnTimer(nIDEvent);
-}
-
-void NetView::testOutShockData(CDC* pDC, const ShockData& sd)
-{
-	CString st0; st0.Format("status %d", sd.status);
-	CString st1; st1.Format("x0=%d x0=%d x1=%d y1=%d", sd.x0, sd.y0, sd.x1, sd.y1);
-	CString st2; st2.Format("x2=%d x2=%d x3=%d y3=%d", sd.x2, sd.y2, sd.x3, sd.y3);
-	CString st3; st3.Format("x4=%d x4=%d x5=%d y5=%d", sd.x4, sd.y4, sd.x5, sd.y5);
-	CString st4; st4.Format("x6=%d x6=%d x7=%d y7=%d", sd.x6, sd.y6, sd.x7, sd.y7);
-	CString st5; st5.Format("x8=%d x8=%d x9=%d y9=%d", sd.x8, sd.y8, sd.x9, sd.y9);
-	CString st6; st6.Format("x10=%d x10=%d x11=%d y11=%d", sd.x10, sd.y10, sd.x11, sd.y11);
-	CString st7; st7.Format("x12=%d x12=%d x13=%d y13=%d", sd.x12, sd.y12, sd.x13, sd.y13);
-	CString st8; st8.Format("unknown0=%d unknown1=%d", sd.unknown0, sd.unknown1);
-	pDC->TextOut(1, 0, st0);
-	pDC->TextOut(0, 20, st1);
-	pDC->TextOut(0, 40, st2);
-	pDC->TextOut(0, 60, st3);
-	pDC->TextOut(0, 80, st4);
-	pDC->TextOut(0, 100, st5);
-	pDC->TextOut(0, 120, st6);
-	pDC->TextOut(0, 140, st7);
-	pDC->TextOut(0, 160, st8);
-	pDC->Ellipse(sd.x0/2 - 5, sd.y0/2 - 5, sd.x0/2 + 5, sd.y0/2 + 5 );	
-}
-
 void NetView::changeSelectedLinkArrow()
 {
 	if (m_selectStatus == NetView::link) {
@@ -3921,11 +3833,13 @@ void NetView::OnUpdateDrawOrderInfo(CCmdUI *pCmdUI)
 void NetView::OnSetNodeMm()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
+	GetDocument()->backUpUndoNodes();
+	GetDocument()->setSelectedNodeShape(iNode::MindMapNode);
 }
 
 void NetView::OnUpdateSetNodeMm(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->setSelectedNodeShape(iNode::MindMapNode);
+	int shape = GetDocument()->getSelectedNodeShape();
+	pCmdUI->Enable(shape!= iNode::MindMapNode && shape != iNode::MetaFile);
 }

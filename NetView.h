@@ -12,8 +12,6 @@
 class iEditDoc;
 class CRelaxThrd;
 class shapesDlg;
-class Accelerometer;
-struct ShockData;
 
 typedef stack<CRelaxThrd*> RelaxStack;
 
@@ -30,7 +28,6 @@ public:
 public:
 	void changeSelectedLinkWidth();
 	void changeSelectedLinkArrow();
-	void testOutShockData(CDC* pDC ,const ShockData& shockData);
 	void ViewDPtoLP(CRect& rect);
 	void ViewLPtoDP(CRect& rect);
 	void ViewLPtoDP(LPPOINT lpPoints, int nCount = 1);
@@ -241,9 +238,6 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
-	CPoint m_tiltPrev; // ’¼‘O‚ÌTilt’lŠi”[—p
-	bool m_bTiltSensor;
-	Accelerometer* m_pAccelerometer;
 	afx_msg void OnMButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
 	CPoint m_dragOffset;
@@ -317,8 +311,6 @@ private:
 	afx_msg void OnUpdateSetLinkDependSingle(CCmdUI *pCmdUI);
 	afx_msg void OnSetLinkDependDouble();
 	afx_msg void OnUpdateSetLinkDependDouble(CCmdUI *pCmdUI);
-	afx_msg void OnTiltSensor();
-	afx_msg void OnUpdateTiltSensor(CCmdUI *pCmdUI);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnSetLinkInherit();
 	afx_msg void OnUpdateSetLinkInherit(CCmdUI *pCmdUI);

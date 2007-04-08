@@ -395,7 +395,6 @@ BEGIN
         MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
         MENUITEM SEPARATOR
         MENUITEM "クリップボードのテキストからノードを作成(&L)",    ID_ADD_NODES_FROM_CF_TEXT
-        MENUITEM "&TiltSensor",                 32967
         MENUITEM "描画順序を表示(&O)",                 ID_DRAW_ORDER_INFO
     END
     POPUP "drawableSingle"
