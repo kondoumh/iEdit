@@ -230,22 +230,24 @@ void iNode::setName(const CString &name)
 
 void iNode::adjustFont(bool bForceResize)
 {
-	// シングルラインのみ マルチラインの場合はなにもしない
-	if (styleText != m_l && styleText != m_r && styleText != m_c) {
-		int hmargin = 20;
-		int wmargin = 20;
-		if (!bfillcolor && styleLine == PS_NULL) {
-			hmargin = 5;
-			wmargin = 5;
-		}
-		int width = name_.GetLength()*abs(lf_.lfHeight)*4/9 + wmargin;
-		int height = abs(lf_.lfHeight) + hmargin;
-		if (width > bound_.Width() || !bfillcolor && styleLine == PS_NULL || bForceResize) {
-			bound_.right = bound_.left + width;
-		}
-		if (height > bound_.Height() || !bfillcolor && styleLine == PS_NULL || bForceResize) {
-			bound_.bottom = bound_.top + height;
-		}
+	int hmargin = 20;
+	int wmargin = 20;
+	if (!bfillcolor && styleLine == PS_NULL) {
+		hmargin = 5;
+		wmargin = 5;
+	}
+
+	int width = name_.GetLength()*abs(lf_.lfHeight)*4/9 + wmargin;
+	if (width > bound_.Width() || 
+		!bfillcolor && styleLine == PS_NULL ||
+		bForceResize) {
+		bound_.right = bound_.left + width;
+	}
+	int height = abs(lf_.lfHeight) + hmargin;
+	if (height > bound_.Height() ||
+		!bfillcolor && styleLine == PS_NULL ||
+		bForceResize) {
+		bound_.bottom = bound_.top + height;
 	}
 }
 
