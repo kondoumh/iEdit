@@ -675,6 +675,9 @@ CRect iLink::getBound() const
 		rc.TopLeft() = ptFrom;
 		rc.BottomRight() = ptTo;
 		rc.NormalizeRect();
+		// ƒm[ƒh“¯m‚ª³‘Î‚µ‚Ä‚é‚ÆRect‚ª‚Å‚«‚È‚¢‚½‚ß’²®
+		rc.right += 5;
+		rc.bottom += 5;
 		if (curved_) {
 			CRect r1(ptFrom, ptPath); r1.NormalizeRect();
 			rc |= r1;
@@ -1037,6 +1040,8 @@ CRect iLinks::getSelectedLinkBound(bool bDrawAll) const
 		}
 		if ((*it).isSelected()) {
 			rc |= (*it).getBound();
+			rc |= (*it).getRectFrom();
+			rc |= (*it).getRectTo();
 		}
 	}
 	return rc;
