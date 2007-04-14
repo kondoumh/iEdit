@@ -70,7 +70,7 @@ public:
 	BOOL isDrawOrderInfo() const;
 	void setDrawOrderInfo(bool bSetDrawOrderInfo);
 	void moveNodesInBound(const CRect& bound, const CSize move);
-	int getAppLinkStyle() const;
+	int getAppLinkWidth() const;
 	int getAppLinkArrow() const;
 
 //オーバーライド

@@ -3802,16 +3802,25 @@ void NetView::changeSelectedLinkArrow()
 	}
 }
 
-void NetView::changeSelectedLinkWidth()
+void NetView::changeSelectedLineWidth()
 {
+	int style = GetDocument()->getAppLinkWidth();
 	if (m_selectStatus == NetView::link) {
-		int style = GetDocument()->getAppLinkStyle();
 		if (style == -1) {
 			GetDocument()->setSelectedLinkWidth(0);
 			GetDocument()->setSelectedLinkLineStyle(PS_DOT);
 		} else {
 			GetDocument()->setSelectedLinkWidth(style);
 			GetDocument()->setSelectedLinkLineStyle(PS_SOLID);
+		}
+	} else if (m_selectStatus == NetView::single || 
+		       m_selectStatus == NetView::multi) {
+		if (style == -1) {
+			GetDocument()->setSelectedNodeLineWidth(0);
+			GetDocument()->setSelectedNodeLineStyle(PS_DOT);
+		} else {
+			GetDocument()->setSelectedNodeLineWidth(style);
+			GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
 		}
 	}
 }

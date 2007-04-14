@@ -20,7 +20,7 @@ public:
 
 // オペレーション
 public:
-	void changeSelectedLinkWidth();
+	void changeSelectedLineWidth();
 	void changeSelectedLinkArrow();
 
 //オーバーライド

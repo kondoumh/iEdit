@@ -465,7 +465,7 @@ void CMainFrame::OnMnuLsR0()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R0;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage .ExtractIcon(0));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkWidth();
+	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR0(CCmdUI *pCmdUI)
@@ -480,7 +480,7 @@ void CMainFrame::OnMnuLsDot()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_DOT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(1));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkWidth();
+	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsDot(CCmdUI *pCmdUI)
@@ -495,7 +495,7 @@ void CMainFrame::OnMnuLsR1()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R1;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(2));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkWidth();
+	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR1(CCmdUI *pCmdUI)
@@ -510,7 +510,7 @@ void CMainFrame::OnMnuLsR2()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R2;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(3));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkWidth();
+	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR2(CCmdUI *pCmdUI)
@@ -525,7 +525,7 @@ void CMainFrame::OnMnuLsR3()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R3;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(4));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkWidth();
+	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR3(CCmdUI *pCmdUI)
@@ -540,7 +540,7 @@ void CMainFrame::OnMnuLsR4()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R4;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(5));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkWidth();
+	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR4(CCmdUI *pCmdUI)
@@ -680,7 +680,7 @@ void CMainFrame::OnUpdateLinkArrowComposit(CCmdUI *pCmdUI)
 void CMainFrame::OnBtnLinkLineStyle()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkWidth();
+	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
 }
 
 void CMainFrame::OnBtnLinkArrow()

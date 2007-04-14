@@ -246,12 +246,12 @@ void CChildFrame::changeSelectedLinkArrow()
 	pNetView->changeSelectedLinkArrow();
 }
 
-void CChildFrame::changeSelectedLinkWidth()
+void CChildFrame::changeSelectedLineWidth()
 {
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
 	POSITION pos = pDoc->GetFirstViewPosition();
 	pDoc->GetNextView(pos);
 	pDoc->GetNextView(pos);
 	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
-	pNetView->changeSelectedLinkWidth();
+	pNetView->changeSelectedLineWidth();
 }

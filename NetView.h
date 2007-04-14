@@ -26,7 +26,7 @@ public:
 
 // オペレーション
 public:
-	void changeSelectedLinkWidth();
+	void changeSelectedLineWidth();
 	void changeSelectedLinkArrow();
 	void ViewDPtoLP(CRect& rect);
 	void ViewLPtoDP(CRect& rect);

@@ -990,14 +990,16 @@ void iEditDoc::setSelectedLinkWidth(int w, bool drwAll)
 {
 	links_.setSelectedLinkWidth(w, drwAll);
 	SetModifiedFlag();
-	UpdateAllViews(NULL);
+	iHint h; h.event = iHint::linkModified;
+	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
 void iEditDoc::setSelectedLinkLineStyle(int style, bool drwAll)
 {
 	links_.setSelectedLinkLineStyle(style, drwAll);
 	SetModifiedFlag();
-	UpdateAllViews(NULL);
+	iHint h; h.event = iHint::linkModified;
+	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
 int iEditDoc::getSelectedLinkLineStyle(bool drwAll)
@@ -1014,14 +1016,16 @@ void iEditDoc::setSelectedLinkLineColor(const COLORREF &c, bool drwAll)
 {
 	links_.setSelectedLinkLineColor(c, drwAll);
 	SetModifiedFlag();
-	UpdateAllViews(NULL);
+	iHint h; h.event = iHint::linkModified;
+	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
 void iEditDoc::setSelectedLinkFont(const LOGFONT &lf, bool drwAll)
 {
 	links_.setSelectedLinkFont(lf, drwAll);
 	SetModifiedFlag();
-	UpdateAllViews(NULL);
+	iHint h; h.event = iHint::linkModified;
+	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
 void iEditDoc::getSelectedLinkFont(LOGFONT &lf, bool drwAll)
@@ -4416,7 +4420,7 @@ int iEditDoc::getAppLinkArrow() const
 	return iLink::line;
 }
 
-int iEditDoc::getAppLinkStyle() const
+int iEditDoc::getAppLinkWidth() const
 {
 	int linkStyle= ((CiEditApp*)AfxGetApp())->m_curLinkLineStyle;
 	switch (linkStyle) {
@@ -4435,6 +4439,7 @@ int iEditDoc::getAppLinkStyle() const
 	}
 	return 0;
 }
+
 
 void iEditDoc::resizeSelectedNodeFont(bool bEnLarge)
 {

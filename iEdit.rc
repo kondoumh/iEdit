@@ -276,6 +276,7 @@ BEGIN
                 MENUITEM "□ 長方形(&R)",                   ID_SET_NODE_RECT
                 MENUITEM "□ 角の丸い長方形(&T)",               ID_SET_NODE_ROUND_RECT
                 MENUITEM "○ 楕円(&A)",                    ID_SET_NODE_ARC
+                MENUITEM "＿ アンダーバー(&U)",                ID_SET_NODE_MM
             END
             POPUP "線の種類(&T)"
             BEGIN
@@ -422,7 +423,7 @@ BEGIN
             MENUITEM "□ 長方形(&R)",                   ID_SET_NODE_RECT
             MENUITEM "□ 角の丸い長方形(&T)",               ID_SET_NODE_ROUND_RECT
             MENUITEM "○ 楕円(&A)",                    ID_SET_NODE_ARC
-            MENUITEM "マインドマップ(&M)",                 ID_SET_NODE_MM
+            MENUITEM "＿ アンダーバー(&U)",                ID_SET_NODE_MM
             MENUITEM SEPARATOR
             MENUITEM "シェイプ(&S)",                    ID_SHOW_NODE_SHAPES
         END
@@ -668,8 +669,8 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iEditのバージョン情報"
 FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
-    LTEXT           "iEdit Version 1.60",IDC_STATIC,11,84,61,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1999-2006 Kondoh Masahiro(MH)",IDC_STATIC,11,95,140,8
+    LTEXT           "iEdit Early Access Release",IDC_STATIC,11,84,87,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 1999-2007 Kondoh Masahiro(MH)",IDC_STATIC,11,95,140,8
     DEFPUSHBUTTON   "OK",IDOK,120,112,50,14,WS_GROUP
     ICON            IDR_MAINFRAME,IDC_STATIC,148,41,20,20,SS_REALSIZEIMAGE
     PUSHBUTTON      "MH Home Page",IDC_TOMH,30,112,81,14
