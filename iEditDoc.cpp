@@ -1250,10 +1250,10 @@ void iEditDoc::setSpecifiedLinkInfo(const listitem &iOld, const listitem &iNew)
 		(*it).setLineWidth(iNew.linkWidth_);
 		(*it).setLineStyle(iNew.styleLine_);
 		(*it).setFontInfo(iNew.lf_);
-		
+		(*it).selectLink();
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkModified;
-		UpdateAllViews(NULL, (LPARAM)iNew._keyFrom, &h);
+		UpdateAllViews(NULL, iNew._keyFrom, &h);
 	}
 }
 
