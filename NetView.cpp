@@ -935,19 +935,20 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	case iHint::linkStraight:
 	case iHint::linkListSel:
 	case iHint::linkModified:
-		InvalidateRect(oldBound);
-		
-		// Ä•`‰æ—Ìˆæ‚ÌŒvŽZƒƒWƒbƒN‚ðì‚Á‚Ä‚Ý‚½
-		nwBound = GetDocument()->getSelectedLinkBound(false);
-		nwBound.left = (int)(nwBound.left*m_fZoomScale);
-		nwBound.top = (int)(nwBound.top*m_fZoomScale);
-		nwBound.right = (int)(nwBound.right*m_fZoomScale);
-		nwBound.bottom = (int)(nwBound.bottom*m_fZoomScale);
-		nwBound.OffsetRect(GetScrollPosition());
-		
-		m_selectRect = nwBound;
 		m_selectStatus = NetView::link;
-		InvalidateRect(nwBound);
+			InvalidateRect(oldBound);
+			
+			// Ä•`‰æ—Ìˆæ‚ÌŒvŽZƒƒWƒbƒN‚ðì‚Á‚Ä‚Ý‚½
+			nwBound = GetDocument()->getSelectedLinkBound(false);
+			nwBound.left = (int)(nwBound.left*m_fZoomScale);
+			nwBound.top = (int)(nwBound.top*m_fZoomScale);
+			nwBound.right = (int)(nwBound.right*m_fZoomScale);
+			nwBound.bottom = (int)(nwBound.bottom*m_fZoomScale);
+			nwBound.OffsetRect(GetScrollPosition());
+			
+			m_selectRect = nwBound;
+			m_selectStatus = NetView::link;
+			InvalidateRect(nwBound);
 		
 		break;
 	case iHint::lelax:
