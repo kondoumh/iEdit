@@ -26,6 +26,9 @@ public:
 
 // オペレーション
 public:
+	void changeSelectedFontColor();
+	void changeSelectedLineColor();
+	void changeSelectedNodeColor();
 	void changeSelectedLineWidth();
 	void changeSelectedLinkArrow();
 	void ViewDPtoLP(CRect& rect);
@@ -323,6 +326,24 @@ private:
 public:
 	afx_msg void OnSetNodeMm();
 	afx_msg void OnUpdateSetNodeMm(CCmdUI *pCmdUI);
+	afx_msg void OnValignTop();
+	afx_msg void OnUpdateValignTop(CCmdUI *pCmdUI);
+	afx_msg void OnAlignBottom();
+	afx_msg void OnUpdateAlignBottom(CCmdUI *pCmdUI);
+	afx_msg void OnHalignRight();
+	afx_msg void OnUpdateHalignRight(CCmdUI *pCmdUI);
+	afx_msg void OnHalignLeft();
+	afx_msg void OnUpdateHalignLeft(CCmdUI *pCmdUI);
+	afx_msg void OnValignCenter();
+	afx_msg void OnUpdateValignCenter(CCmdUI *pCmdUI);
+	afx_msg void OnHalignCenter();
+	afx_msg void OnUpdateHalignCenter(CCmdUI *pCmdUI);
+	afx_msg void OnBtnNodeFillColor();
+	afx_msg void OnUpdateBtnNodeFillColor(CCmdUI *pCmdUI);
+	afx_msg void OnBtnLineColor();
+	afx_msg void OnUpdateBtnLineColor(CCmdUI *pCmdUI);
+	afx_msg void OnBtnTextColor();
+	afx_msg void OnUpdateBtnTextColor(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

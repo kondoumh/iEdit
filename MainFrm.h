@@ -50,7 +50,7 @@ protected:
 	void MakeWindowTransparent();
 	afx_msg LRESULT OnSlideAlpha(UINT wParam, LONG lParam);
 	void JointCBLine(CFrameWnd *pFrameWnd,CControlBar *pBar,CControlBar *pCB);
-	CToolBar m_wndUMLPalette;
+	CToolBar m_wndFormPalette;
 	void addComboZoom();
 	//{{AFX_MSG(CMainFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -136,6 +136,15 @@ public:
 	afx_msg void OnBtnLinkLineStyle();
 public:
 	afx_msg void OnBtnLinkArrow();
+	afx_msg void OnViewFormBar();
+	afx_msg void OnUpdateViewFormBar(CCmdUI *pCmdUI);
+	afx_msg void OnBtnNodeFillColor();
+	afx_msg void OnBtnTextColor();
+	void createBrushedBitmap(CBitmap* pBitmap, COLORREF rgb);
+	afx_msg void OnBtnLineColor();
+	afx_msg void OnSelectNodeColor();
+	afx_msg void OnSelectLineColor();
+	afx_msg void OnSelectFontColor();
 };
 
 /////////////////////////////////////////////////////////////////////////////

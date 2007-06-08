@@ -59,6 +59,9 @@ void showLastErrorMessage();
 class CiEditApp : public CWinApp
 {
 public:
+	COLORREF m_colorNodeBtn;
+	COLORREF m_colorLineBtn;
+	COLORREF m_colorFontBtn;
 	int m_curLinkArrow;
 	int m_curLinkLineStyle;
 	void getOtherProfile();

@@ -112,11 +112,6 @@ BEGIN
     BUTTON      ID_BTN_LINK_LINE_STYLE
     BUTTON      ID_BTN_LINK_ARROW
     SEPARATOR
-    BUTTON      ID_FONT_ENLARGE
-    BUTTON      ID_FONT_ENSMALL
-    BUTTON      ID_SET_SINGLE_LINE
-    BUTTON      ID_SET_MULTI_LINE
-    SEPARATOR
     BUTTON      ID_ZOOM_MODE
     BUTTON      ID_DROPDOWN
     SEPARATOR
@@ -140,19 +135,22 @@ END
 
 IDR_FORM_PALLETE TOOLBAR  16, 15
 BEGIN
-    BUTTON      ID_BUTTON32942
-    BUTTON      ID_BUTTON32943
+    BUTTON      ID_HALIGN_LEFT
+    BUTTON      ID_HALIGN_CENTER
+    BUTTON      ID_HALIGN_RIGHT
+    BUTTON      ID_VALIGN_TOP
+    BUTTON      ID_VALIGN_CENTER
+    BUTTON      ID_ALIGN_BOTTOM
     SEPARATOR
-    BUTTON      ID_BUTTON32944
-    BUTTON      ID_BUTTON32945
-    BUTTON      ID_BUTTON32946
+    BUTTON      ID_SET_SINGLE_LINE
+    BUTTON      ID_SET_MULTI_LINE
     SEPARATOR
-    BUTTON      ID_BUTTON32947
-    BUTTON      ID_BUTTON32948
+    BUTTON      ID_FONT_ENLARGE
+    BUTTON      ID_FONT_ENSMALL
     SEPARATOR
-    BUTTON      ID_BUTTON32949
-    BUTTON      ID_BUTTON32950
-    BUTTON      ID_BUTTON32951
+    BUTTON      ID_BTN_NODE_FILL_COLOR
+    BUTTON      ID_BTN_LINE_COLOR
+    BUTTON      ID_BTN_TEXT_COLOR
 END
 
 
@@ -170,13 +168,14 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "ﾌﾟﾘﾝﾀの設定(&R)...",             ID_FILE_PRINT_SETUP
         MENUITEM SEPARATOR
-        MENUITEM "最近使ったﾌｧｲﾙ",                   ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "最近使ったﾌｧｲﾙ",                   ID_FILE_MRU_FILE1
         MENUITEM SEPARATOR
         MENUITEM "ｱﾌﾟﾘｹｰｼｮﾝの終了(&X)",            ID_APP_EXIT
     END
     POPUP "表示(&V)"
     BEGIN
         MENUITEM "ﾂｰﾙ ﾊﾞｰの表示(&T)",              ID_VIEW_TOOLBAR
+        MENUITEM "書式バーの表示(&F)",                 ID_VIEW_FORM_BAR
         MENUITEM "ｽﾃｰﾀｽ ﾊﾞｰの表示(&S)",            ID_VIEW_STATUS_BAR
     END
     POPUP "ﾂｰﾙ(&T)"
@@ -206,7 +205,7 @@ BEGIN
         MENUITEM "印刷ﾌﾟﾚﾋﾞｭｰ(&V)",               ID_FILE_PRINT_PREVIEW
         MENUITEM "ﾌﾟﾘﾝﾀの設定(&R)...",             ID_FILE_PRINT_SETUP
         MENUITEM SEPARATOR
-        MENUITEM "最近使ったﾌｧｲﾙ",                   ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "最近使ったﾌｧｲﾙ",                   ID_FILE_MRU_FILE1
         MENUITEM SEPARATOR
         MENUITEM "終了(&X)",                      ID_APP_EXIT
     END
@@ -225,8 +224,9 @@ BEGIN
     END
     POPUP "表示(&V)"
     BEGIN
-        MENUITEM "ﾂｰﾙ ﾊﾞｰの表示(&T)",              ID_VIEW_TOOLBAR
-        MENUITEM "ｽﾃｰﾀｽ ﾊﾞｰの表示(&S)",            ID_VIEW_STATUS_BAR
+        MENUITEM "ツールバーの表示(&T)",                ID_VIEW_TOOLBAR
+        MENUITEM "書式バーの表示(&F)",                 ID_VIEW_FORM_BAR
+        MENUITEM "ステータスバーの表示(&S)",              ID_VIEW_STATUS_BAR
     END
     POPUP "ｱｳﾄﾗｲﾝ(&O)"
     BEGIN
@@ -303,7 +303,18 @@ BEGIN
             MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
         END
         MENUITEM "ノードのプロパティ(&H)",               ID_SET_NODE_PROP
-        MENUITEM SEPARATOR
+        POPUP "ラベルの書式(&O)"
+        BEGIN
+            MENUITEM "天配置↑",                        ID_VALIGN_TOP
+            MENUITEM "中配置",                         ID_VALIGN_CENTER
+            MENUITEM "地配置↓",                        ID_ALIGN_BOTTOM
+            MENUITEM "右寄せ →",                       ID_HALIGN_RIGHT
+            MENUITEM "中",                           ID_HALIGN_CENTER
+            MENUITEM "左寄せ ←",                       ID_HALIGN_LEFT
+            MENUITEM SEPARATOR
+            MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
+            MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
+        END
         MENUITEM "ルーペ",                         ID_ZOOM_MODE
         MENUITEM "つかんでスクロール",                   ID_GRASP_MODE
         MENUITEM "再描画",                         ID_REFRESH_NET_VIEW
@@ -440,8 +451,15 @@ BEGIN
         END
         POPUP "ラベルの書式(&O)"
         BEGIN
-            MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
+            MENUITEM "天配置↑",                        ID_VALIGN_TOP
+            MENUITEM "中配置",                         ID_VALIGN_CENTER
+            MENUITEM "地配置↓",                        ID_ALIGN_BOTTOM
+            MENUITEM "右寄せ →",                       ID_HALIGN_RIGHT
+            MENUITEM "中",                           ID_HALIGN_CENTER
+            MENUITEM "左寄せ ←",                       ID_HALIGN_LEFT
+            MENUITEM SEPARATOR
             MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
+            MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
         END
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
         MENUITEM SEPARATOR
@@ -611,9 +629,21 @@ BEGIN
         MENUITEM "　 ──◇ 集約",                    ID_LINK_AGREGAT
         MENUITEM "　 ──◆ コンポジション",               ID_LINK_COMPOSIT
     END
+    POPUP "nodeColor"
+    BEGIN
+        MENUITEM "ノード色選択",                      ID_SELECT_NODE_COLOR
+    END
+    POPUP "lineColor"
+    BEGIN
+        MENUITEM "線色選択",                        ID_SELECT_LINE_COLOR
+    END
+    POPUP "fontColor"
+    BEGIN
+        MENUITEM "文字色選択",                       ID_SELECT_FONT_COLOR
+    END
     POPUP "dummy"
     BEGIN
-        MENUITEM "dummy",                       ID_BTN_LINK_ARROW
+        MENUITEM "dummy",                       ID_BTN_TEXT_COLOR
     END
 END
 
@@ -1471,8 +1501,8 @@ END
 
 STRINGTABLE 
 BEGIN
-    ID_VIEW_TOOLBAR         "ﾂｰﾙ ﾊﾞｰの 表示/非表示\nﾂｰﾙ ﾊﾞｰの表示切り替え"
-    ID_VIEW_STATUS_BAR      "ｽﾃｰﾀｽ ﾊﾞｰの 表示/非表示\nｽﾃｰﾀｽ ﾊﾞｰの表示切り替え"
+    ID_VIEW_TOOLBAR         "ツールバーの 表示/非表示\nﾂｰﾙ ﾊﾞｰの表示切り替え"
+    ID_VIEW_STATUS_BAR      "ステータスバーの 表示/非表示\nｽﾃｰﾀｽ ﾊﾞｰの表示切り替え"
 END
 
 STRINGTABLE 
@@ -1611,6 +1641,11 @@ END
 STRINGTABLE 
 BEGIN
     ID_BTN_LINK_LINE_STYLE  "線種の設定"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_FORM_BAR        "書式バーの表示/非表示"
 END
 
 #endif    // 日本語 resources

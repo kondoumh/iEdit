@@ -255,3 +255,33 @@ void CChildFrame::changeSelectedLineWidth()
 	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
 	pNetView->changeSelectedLineWidth();
 }
+
+void CChildFrame::changeSelectedNodeColor(void)
+{
+	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
+	POSITION pos = pDoc->GetFirstViewPosition();
+	pDoc->GetNextView(pos);
+	pDoc->GetNextView(pos);
+	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
+	pNetView->changeSelectedNodeColor();
+}
+
+void CChildFrame::changeSelectedLineColor(void)
+{
+	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
+	POSITION pos = pDoc->GetFirstViewPosition();
+	pDoc->GetNextView(pos);
+	pDoc->GetNextView(pos);
+	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
+	pNetView->changeSelectedLineColor();
+}
+
+void CChildFrame::changeSelectedFontColor(void)
+{
+	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
+	POSITION pos = pDoc->GetFirstViewPosition();
+	pDoc->GetNextView(pos);
+	pDoc->GetNextView(pos);
+	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
+	pNetView->changeSelectedFontColor();
+}

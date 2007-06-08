@@ -237,6 +237,24 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_ORDER_INFO, &NetView::OnUpdateDrawOrderInfo)
 	ON_COMMAND(ID_SET_NODE_MM, &NetView::OnSetNodeMm)
 	ON_UPDATE_COMMAND_UI(ID_SET_NODE_MM, &NetView::OnUpdateSetNodeMm)
+	ON_COMMAND(ID_VALIGN_TOP, &NetView::OnValignTop)
+	ON_UPDATE_COMMAND_UI(ID_VALIGN_TOP, &NetView::OnUpdateValignTop)
+	ON_COMMAND(ID_ALIGN_BOTTOM, &NetView::OnAlignBottom)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_BOTTOM, &NetView::OnUpdateAlignBottom)
+	ON_COMMAND(ID_HALIGN_RIGHT, &NetView::OnHalignRight)
+	ON_UPDATE_COMMAND_UI(ID_HALIGN_RIGHT, &NetView::OnUpdateHalignRight)
+	ON_COMMAND(ID_HALIGN_LEFT, &NetView::OnHalignLeft)
+	ON_UPDATE_COMMAND_UI(ID_HALIGN_LEFT, &NetView::OnUpdateHalignLeft)
+	ON_COMMAND(ID_VALIGN_CENTER, &NetView::OnValignCenter)
+	ON_UPDATE_COMMAND_UI(ID_VALIGN_CENTER, &NetView::OnUpdateValignCenter)
+	ON_COMMAND(ID_HALIGN_CENTER, &NetView::OnHalignCenter)
+	ON_UPDATE_COMMAND_UI(ID_HALIGN_CENTER, &NetView::OnUpdateHalignCenter)
+	ON_COMMAND(ID_BTN_NODE_FILL_COLOR, &NetView::OnBtnNodeFillColor)
+	ON_UPDATE_COMMAND_UI(ID_BTN_NODE_FILL_COLOR, &NetView::OnUpdateBtnNodeFillColor)
+	ON_COMMAND(ID_BTN_LINE_COLOR, &NetView::OnBtnLineColor)
+	ON_UPDATE_COMMAND_UI(ID_BTN_LINE_COLOR, &NetView::OnUpdateBtnLineColor)
+	ON_COMMAND(ID_BTN_TEXT_COLOR, &NetView::OnBtnTextColor)
+	ON_UPDATE_COMMAND_UI(ID_BTN_TEXT_COLOR, &NetView::OnUpdateBtnTextColor)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -3852,4 +3870,199 @@ void NetView::OnUpdateSetNodeMm(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int shape = GetDocument()->getSelectedNodeShape();
 	pCmdUI->Enable(shape!= iNode::MindMapNode && shape != iNode::MetaFile);
+}
+
+void NetView::OnValignTop()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	int stNew = st;
+	if (st == iNode::s_bc) stNew = iNode::s_tc;
+	if (st == iNode::s_bl) stNew = iNode::s_tl;
+	if (st == iNode::s_br) stNew = iNode::s_tr;
+	if (st == iNode::s_cc) stNew = iNode::s_tc;
+	if (st == iNode::s_cl) stNew = iNode::s_tl;
+	if (st == iNode::s_cr) stNew = iNode::s_tr;
+	GetDocument()->setSelectedNodeTextStyle(stNew);
+}
+
+void NetView::OnUpdateValignTop(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	pCmdUI->Enable(m_selectStatus == NetView::single &&
+		st != iNode::s_tc && st != iNode::s_tl && st != iNode::s_tr &&
+		st != iNode::m_c && st!= iNode::m_l && st!=iNode::m_r);
+}
+
+void NetView::OnAlignBottom()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	int stNew = st;
+	if (st == iNode::s_tc) stNew = iNode::s_bc;
+	if (st == iNode::s_tl) stNew = iNode::s_bl;
+	if (st == iNode::s_tr) stNew = iNode::s_br;
+	if (st == iNode::s_cc) stNew = iNode::s_bc;
+	if (st == iNode::s_cl) stNew = iNode::s_bl;
+	if (st == iNode::s_cr) stNew = iNode::s_br;
+	GetDocument()->setSelectedNodeTextStyle(stNew);
+}
+
+void NetView::OnUpdateAlignBottom(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	pCmdUI->Enable(m_selectStatus == NetView::single &&
+		st != iNode::s_bc && st != iNode::s_bl && st != iNode::s_br &&
+		st != iNode::m_c && st!= iNode::m_l && st!=iNode::m_r);
+}
+
+void NetView::OnHalignRight()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	int stNew = st;
+	if (st == iNode::s_tc) stNew = iNode::s_tr;
+	if (st == iNode::s_tl) stNew = iNode::s_tr;
+	if (st == iNode::s_cc) stNew = iNode::s_cr;
+	if (st == iNode::s_cl) stNew = iNode::s_cr;
+	if (st == iNode::s_bc) stNew = iNode::s_br;
+	if (st == iNode::s_bl) stNew = iNode::s_br;
+	if (st == iNode::m_c) stNew = iNode::m_r;
+	if (st == iNode::m_l) stNew = iNode::m_r;
+	GetDocument()->setSelectedNodeTextStyle(stNew);
+}
+
+void NetView::OnUpdateHalignRight(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	pCmdUI->Enable(m_selectStatus == NetView::single &&
+		st != iNode::s_tr && st != iNode::s_cr && st != iNode::s_br && st != iNode::m_r);
+}
+
+
+void NetView::OnHalignLeft()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	int stNew = st;
+	if (st == iNode::s_tc) stNew = iNode::s_tl;
+	if (st == iNode::s_tr) stNew = iNode::s_tl;
+	if (st == iNode::s_cc) stNew = iNode::s_cl;
+	if (st == iNode::s_cr) stNew = iNode::s_cl;
+	if (st == iNode::s_bc) stNew = iNode::s_bl;
+	if (st == iNode::s_br) stNew = iNode::s_bl;
+	if (st == iNode::m_c) stNew = iNode::m_l;
+	if (st == iNode::m_r) stNew = iNode::m_l;
+	GetDocument()->setSelectedNodeTextStyle(stNew);
+}
+
+void NetView::OnUpdateHalignLeft(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	pCmdUI->Enable(m_selectStatus == NetView::single &&
+		st != iNode::s_tl && st != iNode::s_cl && st != iNode::s_bl && st != iNode::m_l);
+}
+
+void NetView::OnValignCenter()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	int stNew = st;
+	if (st == iNode::s_bc) stNew = iNode::s_cc;
+	if (st == iNode::s_bl) stNew = iNode::s_cl;
+	if (st == iNode::s_br) stNew = iNode::s_cr;
+	if (st == iNode::s_tc) stNew = iNode::s_cc;
+	if (st == iNode::s_tl) stNew = iNode::s_cl;
+	if (st == iNode::s_tr) stNew = iNode::s_cr;
+	GetDocument()->setSelectedNodeTextStyle(stNew);
+}
+
+void NetView::OnUpdateValignCenter(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	pCmdUI->Enable(m_selectStatus == NetView::single &&
+		st != iNode::s_cc && st != iNode::s_cl && st != iNode::s_cr &&
+		st != iNode::m_c && st!= iNode::m_l && st!=iNode::m_r);
+}
+
+void NetView::OnHalignCenter()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	int stNew = st;
+	if (st == iNode::s_tr) stNew = iNode::s_tc;
+	if (st == iNode::s_tl) stNew = iNode::s_tc;
+	if (st == iNode::s_cr) stNew = iNode::s_cc;
+	if (st == iNode::s_cl) stNew = iNode::s_cc;
+	if (st == iNode::s_br) stNew = iNode::s_bc;
+	if (st == iNode::s_bl) stNew = iNode::s_bc;
+	if (st == iNode::m_r) stNew = iNode::m_c;
+	if (st == iNode::m_l) stNew = iNode::m_c;
+	GetDocument()->setSelectedNodeTextStyle(stNew);
+}
+
+void NetView::OnUpdateHalignCenter(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int st = GetDocument()->getSelectedNodeTextStyle();
+	pCmdUI->Enable(m_selectStatus == NetView::single &&
+		st != iNode::s_tc && st != iNode::s_cc && st != iNode::s_bc && st != iNode::m_c);
+}
+
+void NetView::OnBtnNodeFillColor()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	GetDocument()->setSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
+}
+
+void NetView::OnUpdateBtnNodeFillColor(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
+}
+
+void NetView::OnBtnLineColor()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
+	GetDocument()->setSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
+}
+
+void NetView::OnUpdateBtnLineColor(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus != NetView::none);
+}
+
+void NetView::OnBtnTextColor()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	GetDocument()->setSelectedNodeFontColor(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
+}
+
+void NetView::OnUpdateBtnTextColor(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
+}
+
+void NetView::changeSelectedNodeColor()
+{
+	GetDocument()->setSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
+}
+
+void NetView::changeSelectedFontColor()
+{
+	GetDocument()->setSelectedNodeFontColor(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
+}
+
+void NetView::changeSelectedLineColor()
+{
+	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
+	GetDocument()->setSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 }

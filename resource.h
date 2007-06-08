@@ -8,6 +8,7 @@
 #define IDD_ONPROC                      104
 #define IDR_MAINFRAME                   128
 #define IDR_IEDITTYPE                   129
+#define IDR_FORM_PALLETE                129
 #define IDR_CONTEXT                     130
 #define IDR_XMLTYPE                     130
 #define IDC_LINK                        134
@@ -58,7 +59,6 @@
 #define IDC_LABELONLY                   197
 #define IDB_TB_PLDWN                    200
 #define IDR_TB_PLDWN                    201
-#define IDR_FORM_PALLETE                202
 #define IDC_LINKFROM                    1001
 #define IDC_LINKTO                      1002
 #define IDC_COMBO                       1003
@@ -348,16 +348,6 @@
 #define ID_BTN_                         32937
 #define ID_FONT_ENLARGE                 32938
 #define ID_FONT_ENSMALL                 32940
-#define ID_BUTTON32942                  32942
-#define ID_BUTTON32943                  32943
-#define ID_BUTTON32944                  32944
-#define ID_BUTTON32945                  32945
-#define ID_BUTTON32946                  32946
-#define ID_BUTTON32947                  32947
-#define ID_BUTTON32948                  32948
-#define ID_BUTTON32949                  32949
-#define ID_BUTTON32950                  32950
-#define ID_BUTTON32951                  32951
 #define ID_LINK_ARROW_DOUBLE            32955
 #define ID_DUMMY                        32956
 #define ID_SET                          32957
@@ -386,6 +376,31 @@
 #define ID_DRAW_ORDER_INFO              32982
 #define ID_32983                        32983
 #define ID_SET_NODE_MM                  32984
+#define ID_32985                        32985
+#define ID_VALIGN_TOP                   32986
+#define ID_32987                        32987
+#define ID_ALIGN_BOTTOM                 32988
+#define ID_32989                        32989
+#define ID_HALIGN_RIGHT                 32990
+#define ID_32991                        32991
+#define ID_HALIGN_LEFT                  32992
+#define ID_32993                        32993
+#define ID_VALIGN_CENTER                32994
+#define ID_32995                        32995
+#define ID_HALIGN_CENTER                32996
+#define ID_33000                        33000
+#define ID_SHOW_FORM_BAR                33001
+#define ID_VIEW_FORM_BAR                33002
+#define ID_BTN_NODE_FILL_COLOR          33003
+#define ID_33004                        33004
+#define ID_BTN_TEXT_COLOR               33005
+#define ID_BTN_LINE_COLOR               33006
+#define ID_NODECOLOR_33007              33007
+#define ID_SELECT_NODE_COLOR            33008
+#define ID_LINECOLOR_33009              33009
+#define ID_SELECT_LINE_COLOR            33010
+#define ID_FONTCOLOR_33011              33011
+#define ID_SELECT_FONT_COLOR            33012
 
 // Next default values for new objects
 // 
@@ -393,7 +408,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        204
-#define _APS_NEXT_COMMAND_VALUE         32985
+#define _APS_NEXT_COMMAND_VALUE         33013
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

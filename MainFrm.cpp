@@ -22,7 +22,7 @@ static char THIS_FILE[] = __FILE__;
 
 #define IDX_TB_LINE_STYLE 17
 #define IDX_TB_ARROW 18
-#define IDX_TB_ZOOMCOMBO 29
+#define IDX_TB_ZOOMCOMBO 24
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
@@ -73,6 +73,14 @@ ON_COMMAND(ID_LINK_COMPOSIT, &CMainFrame::OnLinkArrowComposit)
 ON_UPDATE_COMMAND_UI(ID_LINK_COMPOSIT, &CMainFrame::OnUpdateLinkArrowComposit)
 ON_COMMAND(ID_BTN_LINK_LINE_STYLE, &CMainFrame::OnBtnLinkLineStyle)
 ON_COMMAND(ID_BTN_LINK_ARROW, &CMainFrame::OnBtnLinkArrow)
+ON_COMMAND(ID_VIEW_FORM_BAR, &CMainFrame::OnViewFormBar)
+ON_UPDATE_COMMAND_UI(ID_VIEW_FORM_BAR, &CMainFrame::OnUpdateViewFormBar)
+ON_COMMAND(ID_BTN_NODE_FILL_COLOR, &CMainFrame::OnBtnNodeFillColor)
+ON_COMMAND(ID_BTN_TEXT_COLOR, &CMainFrame::OnBtnTextColor)
+ON_COMMAND(ID_BTN_LINE_COLOR, &CMainFrame::OnBtnLineColor)
+ON_COMMAND(ID_SELECT_NODE_COLOR, &CMainFrame::OnSelectNodeColor)
+ON_COMMAND(ID_SELECT_LINE_COLOR, &CMainFrame::OnSelectLineColor)
+ON_COMMAND(ID_SELECT_FONT_COLOR, &CMainFrame::OnSelectFontColor)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -114,13 +122,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // 作成に失敗
 	}
 	
-/*	if (!m_wndUMLPalette.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(0,0,0,0), IDR_UML_PALLETE) ||
-		!m_wndUMLPalette.LoadToolBar(IDR_UML_PALLETE))
+	if (!m_wndFormPalette.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
+		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(0,0,0,0), IDR_FORM_PALLETE) ||
+		!m_wndFormPalette.LoadToolBar(IDR_FORM_PALLETE))
 	{
-		TRACE0("Failed to create uml pallete\n");
+		TRACE0("Failed to create form pallete\n");
 		return -1;      // 作成に失敗
-	}*/
+	}
 	
 	////////////// StatusBar
 	if (!m_wndStatusBar.Create(this) ||
@@ -147,15 +155,28 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	m_wndToolBar.SetWindowText("編集");
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
-	
 	// ズーム変更用コンボボックスの追加
 	addComboZoom();
+	
+	m_wndFormPalette.GetToolBarCtrl().SetExtendedStyle(TBSTYLE_EX_DRAWDDARROWS);
+	// ノード色ボタン
+	m_wndFormPalette.GetToolBarCtrl().GetButtonInfo(ID_BTN_NODE_FILL_COLOR, &tbButtonInfo);
+	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
+	m_wndFormPalette.GetToolBarCtrl().SetButtonInfo(ID_BTN_NODE_FILL_COLOR, &tbButtonInfo);
+	// ライン色ボタン
+	m_wndFormPalette.GetToolBarCtrl().GetButtonInfo(ID_BTN_LINE_COLOR, &tbButtonInfo);
+	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
+	m_wndFormPalette.GetToolBarCtrl().SetButtonInfo(ID_BTN_LINE_COLOR, &tbButtonInfo);
+	// 文字色ボタン
+	m_wndFormPalette.GetToolBarCtrl().GetButtonInfo(ID_BTN_TEXT_COLOR, &tbButtonInfo);
+	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
+	m_wndFormPalette.GetToolBarCtrl().SetButtonInfo(ID_BTN_TEXT_COLOR, &tbButtonInfo);
 
-//	m_wndUMLPalette.SetWindowText("UML パレット");
-//	m_wndUMLPalette.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndFormPalette.SetWindowText("書式");
+	m_wndFormPalette.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
-//	JointCBLine(this,&m_wndUMLPalette,&m_wndToolBar);
+	JointCBLine(this,&m_wndFormPalette,&m_wndToolBar);
 	
 	
 	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save bar status", FALSE);
@@ -174,6 +195,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// メンバー初期化
 	m_pSetAlphaDlg = NULL;
 	m_tbPlDwnImage.Create(IDB_TB_PLDWN, 16, 5, RGB(255, 0, 255));
+	
+	((CiEditApp*)AfxGetApp())->m_colorNodeBtn = RGB(255, 255, 255);
+	((CiEditApp*)AfxGetApp())->m_colorLineBtn = RGB(0, 0, 0);
+	((CiEditApp*)AfxGetApp())->m_colorFontBtn = RGB(0, 0, 0);
+	
 	return 0;
 }
 
@@ -438,6 +464,7 @@ BOOL CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		CMenu menu;
 		CMenu* pPopup = NULL;
 		menu.LoadMenu(IDR_TB_PLDWN);
+		int tbID = 0;
 		switch (lpNMTOOLBAR->iItem) {
 		case ID_BTN_LINK_LINE_STYLE:
 			pPopup = menu.GetSubMenu(0);
@@ -445,14 +472,31 @@ BOOL CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		case ID_BTN_LINK_ARROW:
 			pPopup = menu.GetSubMenu(1);
 			break;
+		case ID_BTN_NODE_FILL_COLOR:
+			pPopup = menu.GetSubMenu(2);
+			tbID = 1;
+			break;
+		case ID_BTN_LINE_COLOR:
+			pPopup = menu.GetSubMenu(3);
+			tbID = 1;
+			break;
+		case ID_BTN_TEXT_COLOR:
+			pPopup = menu.GetSubMenu(4);
+			tbID = 1;
+			break;
 		}
 		if (pPopup != NULL) {
 			RECT rc;
-			m_wndToolBar.GetItemRect(m_wndToolBar.CommandToIndex(lpNMTOOLBAR->iItem), &rc);
-			m_wndToolBar.ClientToScreen(&rc);
+			if (tbID == 0) {
+				m_wndToolBar.GetItemRect(m_wndToolBar.CommandToIndex(lpNMTOOLBAR->iItem), &rc);
+				m_wndToolBar.ClientToScreen(&rc);
+			} else if (tbID == 1) {
+				m_wndFormPalette.GetItemRect(m_wndFormPalette.CommandToIndex(lpNMTOOLBAR->iItem), &rc);
+				m_wndFormPalette.ClientToScreen(&rc);
+			}
 			pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, rc.bottom + 1, this);
 			return FALSE;
-		}
+		} 
 	}
 
 	return CMDIFrameWnd::OnNotify(wParam, lParam, pResult);
@@ -687,4 +731,86 @@ void CMainFrame::OnBtnLinkArrow()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
+}
+
+void CMainFrame::OnViewFormBar()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	ShowControlBar(&m_wndFormPalette, !m_wndFormPalette.IsWindowVisible(), FALSE);
+}
+
+void CMainFrame::OnUpdateViewFormBar(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->SetCheck(m_wndFormPalette.IsWindowVisible());
+}
+
+void CMainFrame::OnBtnNodeFillColor()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+}
+
+void CMainFrame::OnBtnLineColor()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+}
+
+void CMainFrame::OnBtnTextColor()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+}
+
+void CMainFrame::createBrushedBitmap(CBitmap* pBitmap, COLORREF rgb)
+{
+	CRect bmpRect(0, 0, 16, 15);
+	CBrush bkBrush(rgb);
+	CDC* pDC = GetDC();
+	CDC dc;
+	dc.CreateCompatibleDC(pDC);
+	
+	pBitmap->CreateCompatibleBitmap(pDC, bmpRect.Width(), bmpRect.Height());
+	CBitmap * oldBmp = dc.SelectObject(pBitmap);
+	dc.FillRect(bmpRect, &bkBrush);
+	dc.SelectObject(oldBmp);
+	ReleaseDC(pDC);
+	bkBrush.DeleteObject();
+}
+
+void CMainFrame::OnSelectNodeColor()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CColorDialog dlg(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
+	if (dlg.DoModal() != IDOK) return;
+	((CiEditApp*)AfxGetApp())->m_colorNodeBtn = dlg.GetColor();
+	CBitmap bmpImage;
+	this->createBrushedBitmap(&bmpImage, ((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
+	m_wndFormPalette.GetToolBarCtrl().GetImageList()->Replace(10, &bmpImage, NULL);
+	m_wndFormPalette.Invalidate();
+	((CChildFrame*)MDIGetActive())->changeSelectedNodeColor();
+}
+
+void CMainFrame::OnSelectLineColor()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CColorDialog dlg(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
+	if (dlg.DoModal() != IDOK) return;
+	((CiEditApp*)AfxGetApp())->m_colorLineBtn = dlg.GetColor();
+	CBitmap bmpImage;
+	this->createBrushedBitmap(&bmpImage, ((CiEditApp*)AfxGetApp())->m_colorLineBtn);
+	m_wndFormPalette.GetToolBarCtrl().GetImageList()->Replace(11, &bmpImage, NULL);
+	m_wndFormPalette.Invalidate();
+	((CChildFrame*)MDIGetActive())->changeSelectedLineColor();
+}
+
+void CMainFrame::OnSelectFontColor()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CColorDialog dlg(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
+	if (dlg.DoModal() != IDOK) return;
+	((CiEditApp*)AfxGetApp())->m_colorFontBtn = dlg.GetColor();
+	CBitmap bmpImage;
+	this->createBrushedBitmap(&bmpImage, ((CiEditApp*)AfxGetApp())->m_colorFontBtn);
+	m_wndFormPalette.GetToolBarCtrl().GetImageList()->Replace(12, &bmpImage, NULL);
+	m_wndFormPalette.Invalidate();
+	((CChildFrame*)MDIGetActive())->changeSelectedFontColor();
 }
