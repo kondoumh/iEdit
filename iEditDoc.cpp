@@ -282,7 +282,11 @@ void iEditDoc::deleteKeyItem(DWORD key)
 		nodes_.erase(it);
 	}
 	links_.erase(remove_if(links_.begin(), links_.end(), iLink_eq(key)), links_.end());
-	
+	if (m_bShowBranch) {
+		nodes_.setVisibleNodes(m_visibleKeys);
+	} else {
+		nodes_.setVisibleNodes(this->nodes_.getSelKey());
+	}
 	SetModifiedFlag();
 	iHint h; h.event = iHint::nodeDeleteByKey;
 	UpdateAllViews(NULL, key, &h);
