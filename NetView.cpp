@@ -255,6 +255,10 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_BTN_LINE_COLOR, &NetView::OnUpdateBtnLineColor)
 	ON_COMMAND(ID_BTN_TEXT_COLOR, &NetView::OnBtnTextColor)
 	ON_UPDATE_COMMAND_UI(ID_BTN_TEXT_COLOR, &NetView::OnUpdateBtnTextColor)
+	ON_COMMAND(ID_BTN_LINK_ARROW, &NetView::OnBtnLinkArrow)
+	ON_UPDATE_COMMAND_UI(ID_BTN_LINK_ARROW, &NetView::OnUpdateBtnLinkArrow)
+	ON_COMMAND(ID_BTN_LINK_LINE_STYLE, &NetView::OnBtnLinkLineStyle)
+	ON_UPDATE_COMMAND_UI(ID_BTN_LINK_LINE_STYLE, &NetView::OnUpdateBtnLinkLineStyle)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -4065,4 +4069,27 @@ void NetView::changeSelectedLineColor()
 {
 	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 	GetDocument()->setSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
+}
+void NetView::OnBtnLinkArrow()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	changeSelectedLinkArrow();
+}
+
+void NetView::OnUpdateBtnLinkArrow(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus == NetView::link);
+}
+
+void NetView::OnBtnLinkLineStyle()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	this->changeSelectedLineWidth();
+}
+
+void NetView::OnUpdateBtnLinkLineStyle(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus != NetView::none);
 }

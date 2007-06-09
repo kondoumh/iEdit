@@ -344,6 +344,10 @@ public:
 	afx_msg void OnUpdateBtnLineColor(CCmdUI *pCmdUI);
 	afx_msg void OnBtnTextColor();
 	afx_msg void OnUpdateBtnTextColor(CCmdUI *pCmdUI);
+	afx_msg void OnBtnLinkArrow();
+	afx_msg void OnUpdateBtnLinkArrow(CCmdUI *pCmdUI);
+	afx_msg void OnBtnLinkLineStyle();
+	afx_msg void OnUpdateBtnLinkLineStyle(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

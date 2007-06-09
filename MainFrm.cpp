@@ -71,13 +71,8 @@ ON_COMMAND(ID_LINK_AGREGAT, &CMainFrame::OnLinkArrowAgregat)
 ON_UPDATE_COMMAND_UI(ID_LINK_AGREGAT, &CMainFrame::OnUpdateLinkArrowAgregat)
 ON_COMMAND(ID_LINK_COMPOSIT, &CMainFrame::OnLinkArrowComposit)
 ON_UPDATE_COMMAND_UI(ID_LINK_COMPOSIT, &CMainFrame::OnUpdateLinkArrowComposit)
-ON_COMMAND(ID_BTN_LINK_LINE_STYLE, &CMainFrame::OnBtnLinkLineStyle)
-ON_COMMAND(ID_BTN_LINK_ARROW, &CMainFrame::OnBtnLinkArrow)
 ON_COMMAND(ID_VIEW_FORM_BAR, &CMainFrame::OnViewFormBar)
 ON_UPDATE_COMMAND_UI(ID_VIEW_FORM_BAR, &CMainFrame::OnUpdateViewFormBar)
-ON_COMMAND(ID_BTN_NODE_FILL_COLOR, &CMainFrame::OnBtnNodeFillColor)
-ON_COMMAND(ID_BTN_TEXT_COLOR, &CMainFrame::OnBtnTextColor)
-ON_COMMAND(ID_BTN_LINE_COLOR, &CMainFrame::OnBtnLineColor)
 ON_COMMAND(ID_SELECT_NODE_COLOR, &CMainFrame::OnSelectNodeColor)
 ON_COMMAND(ID_SELECT_LINE_COLOR, &CMainFrame::OnSelectLineColor)
 ON_COMMAND(ID_SELECT_FONT_COLOR, &CMainFrame::OnSelectFontColor)
@@ -721,18 +716,6 @@ void CMainFrame::OnUpdateLinkArrowComposit(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_COMPOSIT);
 }
 
-void CMainFrame::OnBtnLinkLineStyle()
-{
-	// TODO: ここにコマンド ハンドラ コードを追加します。
-	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
-}
-
-void CMainFrame::OnBtnLinkArrow()
-{
-	// TODO: ここにコマンド ハンドラ コードを追加します。
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
-}
-
 void CMainFrame::OnViewFormBar()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
@@ -743,21 +726,6 @@ void CMainFrame::OnUpdateViewFormBar(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(m_wndFormPalette.IsWindowVisible());
-}
-
-void CMainFrame::OnBtnNodeFillColor()
-{
-	// TODO: ここにコマンド ハンドラ コードを追加します。
-}
-
-void CMainFrame::OnBtnLineColor()
-{
-	// TODO: ここにコマンド ハンドラ コードを追加します。
-}
-
-void CMainFrame::OnBtnTextColor()
-{
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 }
 
 void CMainFrame::createBrushedBitmap(CBitmap* pBitmap, COLORREF rgb)
@@ -786,6 +754,7 @@ void CMainFrame::OnSelectNodeColor()
 	this->createBrushedBitmap(&bmpImage, ((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 	m_wndFormPalette.GetToolBarCtrl().GetImageList()->Replace(10, &bmpImage, NULL);
 	m_wndFormPalette.Invalidate();
+	bmpImage.DeleteObject();
 	((CChildFrame*)MDIGetActive())->changeSelectedNodeColor();
 }
 
@@ -799,6 +768,7 @@ void CMainFrame::OnSelectLineColor()
 	this->createBrushedBitmap(&bmpImage, ((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 	m_wndFormPalette.GetToolBarCtrl().GetImageList()->Replace(11, &bmpImage, NULL);
 	m_wndFormPalette.Invalidate();
+	bmpImage.DeleteObject();
 	((CChildFrame*)MDIGetActive())->changeSelectedLineColor();
 }
 
@@ -812,5 +782,6 @@ void CMainFrame::OnSelectFontColor()
 	this->createBrushedBitmap(&bmpImage, ((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 	m_wndFormPalette.GetToolBarCtrl().GetImageList()->Replace(12, &bmpImage, NULL);
 	m_wndFormPalette.Invalidate();
+	bmpImage.DeleteObject();
 	((CChildFrame*)MDIGetActive())->changeSelectedFontColor();
 }
