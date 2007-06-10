@@ -22,10 +22,12 @@ public:
 	enum {nodeSel, parentSel, nodeDelete, nodeDeleteByKey, nodeAdd, selectChild, selectParent, nodeLabelChanged,
 		  rectAdd, arcAdd, nodeStyleChanged,
 		  linkAdd, linkDelete, linkModified, lelax, linkCurved, linkStraight, linkSel, linkSelRet, linkListSel,
-	      nextNode, nextNodeSibling, reflesh, viewSettingChanged, showSubBranch, resetShowSubBranch, nodeFontResize};
+	      nextNode, nextNodeSibling, reflesh, viewSettingChanged, showSubBranch, resetShowSubBranch, nodeFontResize,
+	      groupMigrate};
 	int event;
 	CString str;
 	CRect preRC, curRC;
+	DWORD keyTarget;
 };
 
 struct colorref {
@@ -67,6 +69,7 @@ public:
 
 // オペレーション
 public:
+	void migrateGroup();
 	BOOL isDrawOrderInfo() const;
 	void setDrawOrderInfo(bool bSetDrawOrderInfo);
 	void moveNodesInBound(const CRect& bound, const CSize move);
@@ -85,7 +88,6 @@ public:
 
 // インプリメンテーション
 public:
-	void tilt(const CSize& diff);
 	void resizeSelectedNodeFont(bool bEnLarge);
 	bool hitTest2(const CPoint& pt);
 	int getKeyNodeLevelNumber(DWORD key);

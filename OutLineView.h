@@ -149,6 +149,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	void moveNodes(DWORD keyTarget, DWORD keyMove);
 	void catTreeLabel(HTREEITEM hItem, CString& text);
 	enum {drop_none, drop_child, drop_sibling};
 	int m_nDropStatus;

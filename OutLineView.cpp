@@ -1039,6 +1039,9 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		setViewFont();
 		break;
 	
+	case iHint::groupMigrate:
+		moveNodes(ph->keyTarget, key);
+		break;
 	case iHint::nextNodeSibling:
 		HTREEITEM hNext = tree().GetNextSiblingItem(curItem());
 		if (hNext != NULL) {
@@ -1048,6 +1051,7 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 			tree().SelectItem(tree().GetNextItem(hParent, TVGN_CHILD));
 		}
 		break;
+
 	}
 }
 
@@ -2194,3 +2198,28 @@ void OutlineView::OnUpdateCopyTreeToClipboard(CCmdUI* pCmdUI)
 	pCmdUI->Enable(tree().ItemHasChildren(tree().GetSelectedItem()));
 }
 
+void OutlineView::moveNodes(DWORD keyTarget, DWORD keyMove)
+{
+	HTREEITEM hTarget;
+	if (keyTarget != -1) {
+		hTarget = findKeyItem(keyTarget);
+	} else {
+		hTarget = this->m_hItemShowRoot;
+	}
+	HTREEITEM hMove = findKeyItem(keyMove);
+	if (hTarget == NULL || hMove == NULL) return;
+	if (IsChildNodeOf(hTarget, hMove)) return;
+	if (tree().GetParentItem(hMove) == hTarget) return;
+	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(hMove), 0, 0, hTarget);
+	tree().SetItemState(hNew, tree().GetItemState(hMove, TVIS_EXPANDED), TVIS_EXPANDED);
+	tree().SetItemData(hNew, tree().GetItemData(hMove));
+	tree().Expand(hTarget, TVE_EXPAND);
+	GetDocument()->setKeyNodeParent(keyMove, keyTarget);
+	if (tree().ItemHasChildren(hMove)) {
+		copySubNodes(tree().GetChildItem(hMove), hNew);
+	}
+	GetDocument()->disableUndo();
+	tree().SelectItem(hNew);
+	tree().DeleteItem(hMove);
+	tree().SelectItem(hNew);
+}

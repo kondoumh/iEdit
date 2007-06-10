@@ -4478,28 +4478,6 @@ void iEditDoc::setConnectPoint3()
 	}
 }
 
-void iEditDoc::tilt(const CSize& diff)
-{
-	niterator ni = nodes_.begin();
-	for ( ; ni != nodes_.end(); ni++) {
-		if (!(*ni).isVisible()) continue;
-		CRect bound = (*ni).getBound();
-		bound.OffsetRect(-diff);
-		if (bound.left <= 0) {
-			bound.MoveToX(0);
-		}
-		if (bound.top <= 0) {
-			bound.MoveToY(0);
-		}
-		(*ni).setBound(bound);
-	}
-	setConnectPoint3();
-	calcMaxPt(m_maxPt);
-	iHint hint;
-	hint.event = iHint::reflesh;
-	UpdateAllViews(NULL, (LPARAM)(nodes_.getSelKey()), &hint);
-}
-
 OutlineView* iEditDoc::getOutlineView() const
 {
 	POSITION pos = GetFirstViewPosition();
@@ -4517,4 +4495,32 @@ void iEditDoc::setDrawOrderInfo(bool bSetDrawOrderInfo)
 BOOL iEditDoc::isDrawOrderInfo() const
 {
 	return nodes_.m_bDrawOrderInfo;
+}
+
+void iEditDoc::migrateGroup()
+{
+	niterator it = nodes_.getSelectedNode();
+	CRect r = (*it).getBound();
+	niterator itr = nodes_.begin();
+	int drawOrder = 0;
+	DWORD key = -1;
+	for ( ; itr != nodes_.end(); itr++) {
+		if (!(*itr).isVisible()) continue;
+		CRect bound = (*itr).getBound();
+		BOOL bInBound = bound.PtInRect(r.TopLeft()) &&
+			            bound.PtInRect(r.BottomRight());
+		if (bInBound) {
+			if (drawOrder < (*itr).getDrawOrder()) {
+				key = (*itr).getKey();
+				drawOrder = (*itr).getDrawOrder();
+			}
+		}
+	}
+	iHint hint; hint.event = iHint::groupMigrate;
+	if (key != -1) {
+		hint.keyTarget = key;
+	} else {
+		hint.keyTarget = -1;
+	}
+	UpdateAllViews(NULL, (LPARAM)(*it).getKey(), &hint);
 }

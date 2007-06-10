@@ -861,9 +861,6 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC)
 		int moveX = m_selectRect.left - org.left;
 		int moveY = m_selectRect.top - org.top;
 		GetDocument()->moveSelectedLink(CSize(moveX, moveY));
-		if (((CiEditApp*)AfxGetApp())->m_rgsNode.bEnableGroup) {
-			GetDocument()->moveNodesInBound(org, CSize(moveX, moveY));
-		}
 		CRect rdnw = GetDocument()->getRelatedBound(false); adjustRedrawBound(rdnw);
 		// getRelatedBoundAnd�ɕύX
 		CRect rc;
@@ -877,6 +874,13 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC)
 			InvalidateRect(rdRec);
 		}
 		adjustScrollArea();
+		
+		if (((CiEditApp*)AfxGetApp())->m_rgsNode.bEnableGroup) {
+			GetDocument()->moveNodesInBound(org, CSize(moveX, moveY));
+			if (GetDocument()->isShowSubBranch()) {
+				GetDocument()->migrateGroup();
+			}
+		}
 	}
 }
 
