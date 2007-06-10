@@ -21,10 +21,6 @@ protected:
 	NetView();           // 動的生成に使用されるプロテクト コンストラクタ
 	DECLARE_DYNCREATE(NetView)
 
-// アトリビュート
-public:
-
-// オペレーション
 public:
 	void changeSelectedFontColor();
 	void changeSelectedLineColor();
@@ -241,6 +237,9 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	BOOL m_bFormCopied;
+	bool m_bAplyForm;
+	void aplyFormat(CPoint& pt);
 	afx_msg void OnMButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
 	CPoint m_dragOffset;
@@ -279,6 +278,7 @@ private:
 	CPoint m_ptAlteringAnker;
 	CPoint m_ptScreen;
 	bool m_bStartAdd;
+	HCURSOR m_hAplyForm;
 	HCURSOR m_hLabelCsr;
 	HCURSOR m_hLinkCsr;
 	HCURSOR m_hRectCsr;
@@ -301,9 +301,7 @@ private:
 	afx_msg void OnUpdateAddlinkednodeRect(CCmdUI *pCmdUI);
 	afx_msg void OnAddlinkednodeRndrect();
 	afx_msg void OnUpdateAddlinkednodeRndrect(CCmdUI *pCmdUI);
-private:
 	void procRenameDialog(const CRect& nodeBound);
-private:
 	afx_msg void OnAddLabelOnly();
 	afx_msg void OnUpdateAddLabelOnly(CCmdUI *pCmdUI);
 	afx_msg void OnFontEnlarge();
@@ -348,6 +346,10 @@ public:
 	afx_msg void OnUpdateBtnLinkArrow(CCmdUI *pCmdUI);
 	afx_msg void OnBtnLinkLineStyle();
 	afx_msg void OnUpdateBtnLinkLineStyle(CCmdUI *pCmdUI);
+	afx_msg void OnSaveFormat();
+	afx_msg void OnUpdateSaveFormat(CCmdUI *pCmdUI);
+	afx_msg void OnAplyFormat();
+	afx_msg void OnUpdateAplyFormat(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

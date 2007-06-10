@@ -88,6 +88,10 @@ public:
 
 // インプリメンテーション
 public:
+	void applyFormatToSelectedLink();
+	void applyFormatToSelectedNode();
+	void saveSelectedLinkFormat();
+	void saveSelectedNodeFormat();
 	void resizeSelectedNodeFont(bool bEnLarge);
 	bool hitTest2(const CPoint& pt);
 	int getKeyNodeLevelNumber(DWORD key);
@@ -279,6 +283,8 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	iNode m_nodeForFormat;
+	iLink m_linkForFormat;
 	CRect m_deleteBound;
 	bool m_bSerializeXML;
 	KeySet m_visibleKeys;

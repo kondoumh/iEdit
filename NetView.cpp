@@ -36,6 +36,7 @@ IMPLEMENT_DYNCREATE(NetView, CScrollView)
 
 NetView::NetView()
 {
+	m_hAplyForm = AfxGetApp()->LoadCursor(IDC_APLY_FORM);
 	m_hLinkCsr = AfxGetApp()->LoadCursor(IDC_LINK);
 	m_hRectCsr = AfxGetApp()->LoadCursor(IDC_RECT);
 	m_hRRectCsr = AfxGetApp()->LoadCursor(IDC_RRECT);
@@ -49,6 +50,7 @@ NetView::NetView()
 	m_pShapesDlg = NULL;
 	m_fZoomScale = 1.0f; // 0.0fよりよいんじゃ？
 	m_fZoomScalePrev = 1.0f;
+	m_bAplyForm = false;
 	
 	m_selectStatus = NetView::none;
 	m_addMode = NetView::normal;
@@ -63,6 +65,7 @@ NetView::NetView()
 	m_ptScreen = CPoint(0, 0);
 	m_cntUp = 0; m_cntDown = 0; m_cntLeft = 0; m_cntRight = 0;
 	m_bDragRelax = false;
+	m_bFormCopied = FALSE;
 }
 
 NetView::~NetView()
@@ -259,6 +262,10 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_BTN_LINK_ARROW, &NetView::OnUpdateBtnLinkArrow)
 	ON_COMMAND(ID_BTN_LINK_LINE_STYLE, &NetView::OnBtnLinkLineStyle)
 	ON_UPDATE_COMMAND_UI(ID_BTN_LINK_LINE_STYLE, &NetView::OnUpdateBtnLinkLineStyle)
+	ON_COMMAND(ID_SAVE_FORMAT, &NetView::OnSaveFormat)
+	ON_UPDATE_COMMAND_UI(ID_SAVE_FORMAT, &NetView::OnUpdateSaveFormat)
+	ON_COMMAND(ID_APLY_FORMAT, &NetView::OnAplyFormat)
+	ON_UPDATE_COMMAND_UI(ID_APLY_FORMAT, &NetView::OnUpdateAplyFormat)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -479,6 +486,10 @@ void NetView::OnContextMenu(CWnd* pWnd, CPoint point)
 		m_addMode = normal;
 		return;
 	}
+	if (m_bAplyForm) {
+		m_bAplyForm = false;
+		return;
+	}
 	if (m_bGrasp) {
 		m_bGrasp = false;
 		return;
@@ -525,6 +536,11 @@ BOOL NetView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		} else {
 			::SetCursor(m_hHandOpen);
 		}
+		return TRUE;
+	}
+
+	if (m_bAplyForm) {
+		::SetCursor(m_hAplyForm);
 		return TRUE;
 	}
 	
@@ -600,6 +616,11 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	
 	if (m_bZooming) {
 		ZoomIn(&logPt, 0.1f);
+		return;
+	}
+
+	if (m_bAplyForm) {
+		aplyFormat(logPt);
 		return;
 	}
 	
@@ -4083,7 +4104,7 @@ void NetView::OnBtnLinkArrow()
 void NetView::OnUpdateBtnLinkArrow(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::link);
+//	pCmdUI->Enable(m_selectStatus == NetView::link);
 }
 
 void NetView::OnBtnLinkLineStyle()
@@ -4095,5 +4116,47 @@ void NetView::OnBtnLinkLineStyle()
 void NetView::OnUpdateBtnLinkLineStyle(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus != NetView::none);
+//	pCmdUI->Enable(m_selectStatus != NetView::none);
+}
+
+void NetView::OnSaveFormat()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	if (m_selectStatus == NetView::single) {
+		GetDocument()->saveSelectedNodeFormat();
+		m_bFormCopied = TRUE;
+	} else if (m_selectStatus == NetView::link) {
+		GetDocument()->saveSelectedLinkFormat();
+		m_bFormCopied = TRUE;
+	}
+}
+
+void NetView::OnUpdateSaveFormat(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::link);
+}
+
+void NetView::OnAplyFormat()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+//	GetDocument()->applyFormatToSelectedNode();
+	m_bAplyForm = !m_bAplyForm;
+}
+
+void NetView::OnUpdateAplyFormat(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_bFormCopied);
+	pCmdUI->SetCheck(m_bAplyForm);
+}
+
+void NetView::aplyFormat(CPoint& pt)
+{
+	CRect r;
+	if (GetDocument()->hitTestLinks(pt)) {
+		GetDocument()->applyFormatToSelectedLink();
+	} else if (GetDocument()->hitTest(pt, r, false)) {
+		GetDocument()->applyFormatToSelectedNode();
+	}
 }

@@ -151,6 +151,8 @@ BEGIN
     BUTTON      ID_BTN_NODE_FILL_COLOR
     BUTTON      ID_BTN_LINE_COLOR
     BUTTON      ID_BTN_TEXT_COLOR
+    SEPARATOR
+    BUTTON      ID_APLY_FORMAT
 END
 
 
@@ -216,6 +218,9 @@ BEGIN
         MENUITEM "切り取り(&T)\tCtrl+X",            ID_EDIT_CUT
         MENUITEM "ｺﾋﾟｰ(&C)\tCtrl+C",            ID_EDIT_COPY
         MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "書式を保存",                       ID_SAVE_FORMAT
+        MENUITEM "保存書式を適用",                     ID_APLY_FORMAT
         MENUITEM SEPARATOR
         MENUITEM "すべて選択(&A)\tCtrl+A",           ID_EDIT_SELECT_ALL
         MENUITEM SEPARATOR
@@ -462,6 +467,7 @@ BEGIN
             MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
         END
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+        MENUITEM "書式を保存",                       ID_SAVE_FORMAT
         MENUITEM SEPARATOR
         MENUITEM "自動レイアウト時固定する(&I)",            ID_FIX_NODE
         MENUITEM SEPARATOR
@@ -495,6 +501,7 @@ BEGIN
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
         MENUITEM "リンクをまっすぐに(&S)",               ID_LINK_STRAIGHT
         MENUITEM "リンクの向きを反転させる(&R)",            ID_REVERSE_LINK_DIRECTION
+        MENUITEM "書式を保存",                       ID_SAVE_FORMAT
         MENUITEM SEPARATOR
         MENUITEM "リンクのプロパティ(&I)",               ID_SET_LINK_INFO
     END
@@ -1282,6 +1289,7 @@ IDC_ZOOM                CURSOR                  "res\\cur00003.cur"
 IDC_POINTER_COPY        CURSOR                  "res\\pointer_.cur"
 IDC_POINTER_MOVE        CURSOR                  "res\\cursor2.cur"
 IDC_LABELONLY           CURSOR                  "res\\cur00004.cur"
+IDC_APLY_FORM           CURSOR                  "res\\cur00005.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //

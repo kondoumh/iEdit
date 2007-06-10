@@ -59,6 +59,7 @@
 #define IDC_LABELONLY                   197
 #define IDB_TB_PLDWN                    200
 #define IDR_TB_PLDWN                    201
+#define IDC_APLY_FORM                   204
 #define IDC_LINKFROM                    1001
 #define IDC_LINKTO                      1002
 #define IDC_COMBO                       1003
@@ -401,14 +402,20 @@
 #define ID_SELECT_LINE_COLOR            33010
 #define ID_FONTCOLOR_33011              33011
 #define ID_SELECT_FONT_COLOR            33012
+#define ID_33013                        33013
+#define ID_SAVE_FORMAT                  33014
+#define ID_33015                        33015
+#define ID_APLY_FORMAT                  33016
+#define ID_Menu33018                    33018
+#define ID_Menu33019                    33019
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        204
-#define _APS_NEXT_COMMAND_VALUE         33013
+#define _APS_NEXT_RESOURCE_VALUE        205
+#define _APS_NEXT_COMMAND_VALUE         33020
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

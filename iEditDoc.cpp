@@ -4524,3 +4524,47 @@ void iEditDoc::migrateGroup()
 	}
 	UpdateAllViews(NULL, (LPARAM)(*it).getKey(), &hint);
 }
+
+void iEditDoc::saveSelectedNodeFormat()
+{
+	niterator n = nodes_.getSelectedNode();
+	m_nodeForFormat = iNode((*n));
+}
+
+void iEditDoc::applyFormatToSelectedNode()
+{
+	backUpUndoNodes();
+	niterator n = nodes_.getSelectedNode();
+	(*n).setLineColor(m_nodeForFormat.getLineColor());
+	(*n).setLineColor(m_nodeForFormat.getLineColor());
+	(*n).setLineStyle(m_nodeForFormat.getLineStyle());
+	(*n).setBrush(m_nodeForFormat.getBrsColor());
+	(*n).setNoBrush(m_nodeForFormat.isFilled());
+	(*n).setTextStyle(m_nodeForFormat.getTextStyle());
+	(*n).setFontColor(m_nodeForFormat.getFontColor());
+	(*n).setFontInfo(m_nodeForFormat.getFontInfo());
+	setConnectPoint();
+	calcMaxPt(m_maxPt);
+	SetModifiedFlag();
+	iHint hint; hint.event = iHint::nodeStyleChanged;
+	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &hint);
+}
+
+void iEditDoc::saveSelectedLinkFormat()
+{
+	const_literator l = links_.getSelectedLink(false);
+	m_linkForFormat.setArrowStyle((*l).getArrowStyle());
+	m_linkForFormat.setLineStyle((*l).getLineStyle());
+	m_linkForFormat.setLineWidth((*l).getLineWidth());
+	m_linkForFormat.setLinkColor((*l).getLinkColor());
+}
+
+void iEditDoc::applyFormatToSelectedLink()
+{
+	backUpUndoLinks();
+	literator l = links_.getSelectedLinkW(false);
+	(*l).setArrowStyle(m_linkForFormat.getArrowStyle());
+	(*l).setLineStyle(m_linkForFormat.getLineStyle());
+	(*l).setLineWidth(m_linkForFormat.getLineWidth());
+	(*l).setLinkColor(m_linkForFormat.getLinkColor());
+}
