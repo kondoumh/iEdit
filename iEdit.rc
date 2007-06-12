@@ -1653,7 +1653,25 @@ END
 
 STRINGTABLE 
 BEGIN
+    ID_HALIGN_LEFT          "ラベルを左寄せにする\n左寄せ"
+    ID_VALIGN_CENTER        "ラベルを中配置にする\n中配置"
+    ID_HALIGN_CENTER        "ラベルを中寄せにする\n中寄せ"
     ID_VIEW_FORM_BAR        "書式バーの表示/非表示"
+    ID_BTN_NODE_FILL_COLOR  "ノードの塗りつぶし色を指定する\nノード色"
+    ID_BTN_TEXT_COLOR       "フォントの色を指定する\nフォント色"
+    ID_BTN_LINE_COLOR       "ノード枠、矢印の色を設定する\n線の色"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VALIGN_TOP           "ラベルを天配置にする\n天配置"
+    ID_ALIGN_BOTTOM         "ラベルを地配置にする\n地配置"
+    ID_HALIGN_RIGHT         "ラベルを右寄せにする\n右寄せ"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APLY_FORMAT          "コピーされた書式を適用する\n書式を適用"
 END
 
 #endif    // 日本語 resources

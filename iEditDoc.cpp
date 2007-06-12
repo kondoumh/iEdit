@@ -4543,6 +4543,11 @@ void iEditDoc::applyFormatToSelectedNode()
 	(*n).setTextStyle(m_nodeForFormat.getTextStyle());
 	(*n).setFontColor(m_nodeForFormat.getFontColor());
 	(*n).setFontInfo(m_nodeForFormat.getFontInfo());
+	if (m_nodeForFormat.getNodeShape() == iNode::MetaFile) {
+		HENHMETAFILE hMetaFile = m_nodeForFormat.getMetaFile();
+		(*n).setMetaFile(hMetaFile);
+	}
+	(*n).setNodeShape(m_nodeForFormat.getNodeShape());
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
