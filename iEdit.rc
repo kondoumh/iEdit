@@ -517,6 +517,7 @@ BEGIN
             MENUITEM "□ 長方形(&R)",                   ID_SET_NODE_RECT
             MENUITEM "□ 角の丸い長方形(&T)",               ID_SET_NODE_ROUND_RECT
             MENUITEM "○ 楕円(&A)",                    ID_SET_NODE_ARC
+            MENUITEM "＿ アンダーバー(&U)",                ID_SET_NODE_MM
         END
         POPUP "線の種類(&T)"
         BEGIN
