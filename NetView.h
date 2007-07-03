@@ -237,6 +237,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	BOOL m_bGrpOlCoupled;
 	BOOL m_bFormCopied;
 	bool m_bAplyForm;
 	void aplyFormat(CPoint& pt);
@@ -350,6 +351,8 @@ public:
 	afx_msg void OnUpdateSaveFormat(CCmdUI *pCmdUI);
 	afx_msg void OnAplyFormat();
 	afx_msg void OnUpdateAplyFormat(CCmdUI *pCmdUI);
+	afx_msg void OnGrpOlCoupled();
+	afx_msg void OnUpdateGrpOlCoupled(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

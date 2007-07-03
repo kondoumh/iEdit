@@ -413,6 +413,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "クリップボードのテキストからノードを作成(&L)",    ID_ADD_NODES_FROM_CF_TEXT
         MENUITEM "描画順序を表示(&O)",                 ID_DRAW_ORDER_INFO
+        MENUITEM "簡易グループ化とアウトラインを連動する(&G)",     ID_GRP_OL_COUPLED
     END
     POPUP "drawableSingle"
     BEGIN
@@ -1673,6 +1674,7 @@ END
 STRINGTABLE 
 BEGIN
     ID_APLY_FORMAT          "コピーされた書式を適用する\n書式を適用"
+    ID_GRP_OL_COUPLED       "簡易グループ化機能とアウトラインビューの階層を連動させる\n簡易グループ化とアウトラインを連動"
 END
 
 #endif    // 日本語 resources

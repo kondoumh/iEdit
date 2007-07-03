@@ -408,6 +408,10 @@
 #define ID_APLY_FORMAT                  33016
 #define ID_Menu33018                    33018
 #define ID_Menu33019                    33019
+#define ID_NET_33020                    33020
+#define ID_                             33021
+#define ID_GROUP_OUTLINE_CUPLED         33022
+#define ID_GRP_OL_COUPLED               33023
 
 // Next default values for new objects
 // 
@@ -415,7 +419,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        205
-#define _APS_NEXT_COMMAND_VALUE         33020
+#define _APS_NEXT_COMMAND_VALUE         33024
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

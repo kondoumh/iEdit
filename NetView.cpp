@@ -66,6 +66,7 @@ NetView::NetView()
 	m_cntUp = 0; m_cntDown = 0; m_cntLeft = 0; m_cntRight = 0;
 	m_bDragRelax = false;
 	m_bFormCopied = FALSE;
+	m_bGrpOlCoupled = FALSE;
 }
 
 NetView::~NetView()
@@ -266,6 +267,8 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_SAVE_FORMAT, &NetView::OnUpdateSaveFormat)
 	ON_COMMAND(ID_APLY_FORMAT, &NetView::OnAplyFormat)
 	ON_UPDATE_COMMAND_UI(ID_APLY_FORMAT, &NetView::OnUpdateAplyFormat)
+	ON_COMMAND(ID_GRP_OL_COUPLED, &NetView::OnGrpOlCoupled)
+	ON_UPDATE_COMMAND_UI(ID_GRP_OL_COUPLED, &NetView::OnUpdateGrpOlCoupled)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -898,7 +901,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC)
 		
 		if (((CiEditApp*)AfxGetApp())->m_rgsNode.bEnableGroup) {
 			GetDocument()->moveNodesInBound(org, CSize(moveX, moveY));
-			if (GetDocument()->isShowSubBranch()) {
+			if (GetDocument()->isShowSubBranch() && m_bGrpOlCoupled) {
 				GetDocument()->migrateGroup();
 			}
 		}
@@ -4159,4 +4162,17 @@ void NetView::aplyFormat(CPoint& pt)
 	} else if (GetDocument()->hitTest(pt, r, false)) {
 		GetDocument()->applyFormatToSelectedNode();
 	}
+}
+
+void NetView::OnGrpOlCoupled()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	m_bGrpOlCoupled = !m_bGrpOlCoupled;
+}
+
+void NetView::OnUpdateGrpOlCoupled(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(GetDocument()->isShowSubBranch());
+	pCmdUI->SetCheck(m_bGrpOlCoupled);
 }
