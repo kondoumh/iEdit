@@ -1130,7 +1130,7 @@ iNodeDrawer* iNodes::getNodeDrawer(const iNode &node)
 	} else if (shape == iNode::MindMapNode) {
 		return m_pMMNodeDrawer;
 	}
-	return NULL;
+	return m_pNodeRectDrawer;
 }
 
 void iNodes::drawNodesSelected(CDC *pDC)
