@@ -464,7 +464,9 @@ void iEditDoc::moveNodesInBound(const CRect& bound,	const CSize move)
 			if ((*it).getDrawOrder() > (*itSelected).getDrawOrder()) {
 				(*it).moveBound(move);
 				setConnectPoint();
-				moved = true;
+				if (links_.getFirstVisiblePair((*it).getKey()) != -1) {
+					moved = true;
+				}
 			}
 		}
 	}
