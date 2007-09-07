@@ -23,7 +23,7 @@ public:
 		  rectAdd, arcAdd, nodeStyleChanged,
 		  linkAdd, linkDelete, linkModified, lelax, linkCurved, linkStraight, linkSel, linkSelRet, linkListSel,
 	      nextNode, nextNodeSibling, reflesh, viewSettingChanged, showSubBranch, resetShowSubBranch, nodeFontResize,
-	      groupMigrate};
+	      groupMigrate, groupMoved};
 	int event;
 	CString str;
 	CRect preRC, curRC;

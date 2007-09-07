@@ -1021,6 +1021,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		break;
 	
 	case iHint::reflesh:
+	case iHint::groupMoved:
 		Invalidate();
 		break;
 	case iHint::parentSel:

@@ -455,6 +455,7 @@ void iEditDoc::moveNodesInBound(const CRect& bound,	const CSize move)
 	niterator itSelected = nodes_.getSelectedNode();
 	if (itSelected == nodes_.end()) return;
 	niterator it = nodes_.begin();
+	bool moved = false;
 	for ( ; it != nodes_.end(); it++) {
 		if (!(*it).isVisible()) continue;
 		BOOL bInBound = bound.PtInRect((*it).getBound().TopLeft()) &&
@@ -463,8 +464,13 @@ void iEditDoc::moveNodesInBound(const CRect& bound,	const CSize move)
 			if ((*it).getDrawOrder() > (*itSelected).getDrawOrder()) {
 				(*it).moveBound(move);
 				setConnectPoint();
+				moved = true;
 			}
 		}
+	}
+	if (moved) {
+		iHint hint; hint.event = iHint::groupMoved;
+		UpdateAllViews(NULL, nodes_.getSelKey(), &hint);
 	}
 }
 
