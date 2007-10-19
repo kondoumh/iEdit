@@ -236,8 +236,11 @@ void iNode::adjustFont(bool bForceResize)
 		hmargin = 5;
 		wmargin = 5;
 	}
-
 	int width = name_.GetLength()*abs(lf_.lfHeight)*4/9 + wmargin;
+	CString fontName(lf_.lfFaceName);
+	if (fontName == "ƒƒCƒŠƒI") {
+		width = name_.GetLength()*abs(lf_.lfHeight)*5/9 + 15;
+	}
 	if (width > bound_.Width() || 
 		!bfillcolor && styleLine == PS_NULL ||
 		bForceResize) {
