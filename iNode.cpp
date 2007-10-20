@@ -237,9 +237,9 @@ void iNode::adjustFont(bool bForceResize)
 		wmargin = 5;
 	}
 	int width = name_.GetLength()*abs(lf_.lfHeight)*4/9 + wmargin;
-	CString fontName(lf_.lfFaceName);
-	if (fontName == "メイリオ") {
-		width = name_.GetLength()*abs(lf_.lfHeight)*5/9 + 15;
+	
+	if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
+		width = name_.GetLength()*abs(lf_.lfHeight)*53/100 + 7;
 	}
 	if (width > bound_.Width() || 
 		!bfillcolor && styleLine == PS_NULL ||
