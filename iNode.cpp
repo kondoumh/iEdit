@@ -1191,3 +1191,14 @@ void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 	}
 }
 
+serialVec iNodes::getSelectedNodeKeys() const
+{
+	serialVec v;
+	const_niterator it = begin();
+	for ( ; it != end(); it++) {
+		if ((*it).isSelected() && (*it).isVisible()) {
+			v.push_back((*it).getKey());
+		}
+	}
+	return v;
+}

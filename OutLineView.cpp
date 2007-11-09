@@ -417,7 +417,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 }
 
 
-HTREEITEM OutlineView::findKeyItem(DWORD key, HTREEITEM item=0)
+HTREEITEM OutlineView::findKeyItem(DWORD key, HTREEITEM item=NULL)
 {
 	HTREEITEM hItem;
 	if (item == 0) {
@@ -984,6 +984,10 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		clearUndo();
 		deleteNode();
 		break;
+	case iHint::nodeDeleteMulti:
+		clearUndo();
+		deleteKeyNode(key, ph->keyParent);
+		break;
 	case iHint::nodeSel:
 	case iHint::parentSel:
 		item = findKeyItem(key, tree().GetRootItem());
@@ -1146,6 +1150,29 @@ void OutlineView::deleteNode()
 		}
 	}
 	tree().DeleteItem(hcur);
+}
+
+void OutlineView::deleteKeyNode(DWORD key, DWORD parentKey)
+{
+	if (key == 0) return;
+	HTREEITEM hParent = findKeyItem(parentKey);
+	if (hParent == NULL) return;
+	HTREEITEM hDeleteItem = findKeyItem(key, hParent);
+	//if (tree().GetNextSiblingItem(hDeleteItem) == NULL) {
+	//	if (tree().GetPrevSiblingItem(hDeleteItem) != NULL) {
+	//		tree().SelectItem(tree().GetPrevSiblingItem(hDeleteItem));
+	//	}
+	//}
+	if (hDeleteItem == NULL) return;
+	GetDocument()->deleteKeyItem(tree().GetItemData(hDeleteItem));
+	if (tree().ItemHasChildren(hDeleteItem)) {
+		Labels ls;
+		treeview_for_each(tree(), copyLabels(ls), tree().GetChildItem(hDeleteItem));
+		for (unsigned int i = 0; i < ls.size(); i++) {
+			GetDocument()->deleteKeyItem(ls[i].key);
+		}
+	}
+	tree().DeleteItem(hDeleteItem);
 }
 
 void OutlineView::OnAddUrl() 

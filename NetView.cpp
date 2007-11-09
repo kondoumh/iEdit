@@ -1019,6 +1019,8 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 			Invalidate();
 		}
 		break;
+	case iHint::nodeDeleteMulti:
+		break;
 	
 	case iHint::reflesh:
 	case iHint::groupMoved:
@@ -1899,20 +1901,26 @@ void NetView::OnDelete()
 	if (m_selectStatus == NetView::single) {
 		bool bDrwAll = false;
 		CRect old = GetDocument()->getRelatedBound(bDrwAll); adjustRedrawBound(old);
-		GetDocument()->deleteSelecedNode();
+		GetDocument()->deleteSelectedNode();
 		InvalidateRect(old);
 	} else if (m_selectStatus == NetView::link) {
 		CString s = '<' + GetDocument()->getSelectedLinkLabel() + ">\n" + "削除しますか";
 		if (MessageBox(s, "リンクの削除", MB_YESNO) != IDYES) return;
 		GetDocument()->deleteSelectedLink();
+	} else if (m_selectStatus == NetView::multi) {
+		if (MessageBox("選択したノードおよび配下のノードがすべて削除されます","ノードの削除", MB_YESNO) != IDYES) return;
+		GetDocument()->deleteSelectedNodes();
+		Invalidate();
 	}
 }
 
 void NetView::OnUpdateDelete(CCmdUI* pCmdUI) 
 {
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	pCmdUI->Enable(m_selectStatus == NetView::single &&  GetDocument()->canDeleteNode() ||
-		           m_selectStatus == NetView::link);
+	pCmdUI->Enable(
+		m_selectStatus == NetView::single &&  GetDocument()->canDeleteNode() ||
+		m_selectStatus == NetView::multi && !GetDocument()->isShowSubBranch()||
+		m_selectStatus == NetView::link);
 }
 
 void NetView::OnAutoLayout() 

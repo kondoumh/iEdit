@@ -454,6 +454,7 @@ typedef vector<iNode> nVec;
 class iNodes : public nContena {
 public:
 	BOOL m_bDrawOrderInfo;
+	serialVec getSelectedNodeKeys() const;
 	void setDrawOrder(const serialVec svec);
 	void restoreNodesFixState(DWORD keyExcluded);
 	void fixNodesReversibly(DWORD keyExcluded);

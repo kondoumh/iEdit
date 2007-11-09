@@ -74,6 +74,7 @@ protected:
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
 	void treeAddBranch(const DWORD rootKey);
 	void deleteNode();
+	void deleteKeyNode(DWORD key, DWORD parentKey);
 	void copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent);
 	HTREEITEM findKeyItem(DWORD key, HTREEITEM item);
 	CTreeCtrl& tree() const;

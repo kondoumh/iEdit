@@ -23,11 +23,14 @@ public:
 		  rectAdd, arcAdd, nodeStyleChanged,
 		  linkAdd, linkDelete, linkModified, lelax, linkCurved, linkStraight, linkSel, linkSelRet, linkListSel,
 	      nextNode, nextNodeSibling, reflesh, viewSettingChanged, showSubBranch, resetShowSubBranch, nodeFontResize,
-	      groupMigrate, groupMoved};
+	      groupMigrate, groupMoved,
+		  nodeDeleteMulti
+	};
 	int event;
 	CString str;
 	CRect preRC, curRC;
 	DWORD keyTarget;
+	DWORD keyParent;
 };
 
 struct colorref {
@@ -190,7 +193,8 @@ public:
 	bool canDeleteNode() const;
 	CString getSelectedLinkLabel(bool drawAll=false);
 	CString getSelectedNodeLabel();
-	void deleteSelecedNode();
+	void deleteSelectedNode();
+	void deleteSelectedNodes();
 	void deleteSelectedLink(bool drwAll=false);
 	BOOL RouteCmdToAllViews(CView * pView, UINT nID, int nCode, void * pExtra, AFX_CMDHANDLERINFO * pHandlerInfo);
 	void getSelectedLinkFont(LOGFONT& lf, bool drwAll=false);

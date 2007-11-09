@@ -1069,12 +1069,26 @@ void iEditDoc::deleteSelectedLink(bool drwAll)
 	}
 }
 
-void iEditDoc::deleteSelecedNode()
+void iEditDoc::deleteSelectedNode()
 {
 	DWORD delKey = nodes_.getSelKey(); 
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeDelete;
 	UpdateAllViews(NULL, (LPARAM)delKey, &hint);
+}
+
+void iEditDoc::deleteSelectedNodes()
+{
+	SetModifiedFlag();
+	DWORD parentKey = nodes_.getCurParent();
+	serialVec v = nodes_.getSelectedNodeKeys();	
+	vector<DWORD>::iterator it = v.begin();
+	for ( ; it != v.end(); it++) {
+		DWORD delKey = (*it);
+		iHint hint; hint.event = iHint::nodeDeleteMulti;
+		hint.keyParent = parentKey;
+		UpdateAllViews(NULL, (LPARAM)delKey, &hint);
+	}
 }
 
 CString iEditDoc::getSelectedNodeLabel()
