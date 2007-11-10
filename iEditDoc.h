@@ -115,6 +115,7 @@ public:
 	bool isCurKeyInBranch() const;
 	bool isShowSubBranch() const;
 	void resetShowBranch();
+	CString getSubBranchRootLabel() const;
 	void setShowBranch(DWORD branchRootKey);
 	void setVisibleNodes(KeySet& keySet);
 	iNode getHitNode(const CPoint& pt, bool bDrwAll);

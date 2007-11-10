@@ -1909,6 +1909,12 @@ void NetView::OnDelete()
 		GetDocument()->deleteSelectedLink();
 	} else if (m_selectStatus == NetView::multi) {
 		if (MessageBox("選択したノードおよび配下のノードがすべて削除されます","ノードの削除", MB_YESNO) != IDYES) return;
+		if (GetDocument()->isShowSubBranch()) {
+			CString mes = "「" + GetDocument()->getSubBranchRootLabel() + "」";
+			mes += "配下のノードをすべて表示するモードです。";
+			mes += "選択したノード以外にも表示されているノードが削除される可能性があります。\n続行しますか?";
+			if (MessageBox(mes, "ノードの削除", MB_YESNO) != IDYES) return;
+		}
 		GetDocument()->deleteSelectedNodes();
 		Invalidate();
 	}
@@ -1919,7 +1925,7 @@ void NetView::OnUpdateDelete(CCmdUI* pCmdUI)
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(
 		m_selectStatus == NetView::single &&  GetDocument()->canDeleteNode() ||
-		m_selectStatus == NetView::multi && !GetDocument()->isShowSubBranch()||
+		m_selectStatus == NetView::multi ||
 		m_selectStatus == NetView::link);
 }
 

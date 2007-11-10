@@ -1081,6 +1081,9 @@ void iEditDoc::deleteSelectedNodes()
 {
 	SetModifiedFlag();
 	DWORD parentKey = nodes_.getCurParent();
+	if (isShowSubBranch()) {
+		parentKey = m_dwBranchRootKey;
+	}
 	serialVec v = nodes_.getSelectedNodeKeys();	
 	vector<DWORD>::iterator it = v.begin();
 	for ( ; it != v.end(); it++) {
@@ -3751,6 +3754,17 @@ void iEditDoc::resetShowBranch()
 	DWORD key = nodes_.getSelKey();
 	calcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
+}
+
+CString iEditDoc::getSubBranchRootLabel() const
+{
+	iNode nodef;
+	nodef.setKey(m_dwBranchRootKey);
+	const_niterator n = nodes_.findNode(nodef);
+	if (n != nodes_.end()) {
+		return (*n).getName();
+	}
+	return "";
 }
 
 bool iEditDoc::isShowSubBranch() const
