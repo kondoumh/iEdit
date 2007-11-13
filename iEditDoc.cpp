@@ -2228,8 +2228,9 @@ int iEditDoc::tag2Shape(const CString &tag)
 		return iNode::roundRect;
 	} else if (tag == "MetaFile") {
 		return iNode::MetaFile;
+	} else if (tag == "MMNode") {
+		return (iNode::MindMapNode);
 	}
-	
 	return iNode::rectangle;
 }
 
@@ -2377,6 +2378,16 @@ void iEditDoc::tags2linkStyle(MSXML::IXMLDOMNode *pNode, int &style, int &width,
 				arrow = iLink::arrow;
 			} else if (astyle == "a_double") {
 				arrow = iLink::arrow2;
+			} else if (astyle == "a_depend") {
+				arrow = iLink::depend;
+			} else if (astyle == "a_depend_double") {
+				arrow = iLink::depend2;
+			} else if (astyle == "a_inherit") {
+				arrow = iLink::inherit;
+			} else if (astyle == "a_aggregat") {
+				arrow = iLink::aggregat;
+			} else if (astyle == "a_composit") {
+				arrow = iLink::composit;
 			}
 		}
 	}
@@ -2660,8 +2671,12 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 			f.WriteString("Oval");
 		} else if (shape == iNode::roundRect) {
 			f.WriteString("RoundRect");
-		} else {
+		} else if (shape == iNode::MetaFile) {
 			f.WriteString("MetaFile");
+		} else if (shape == iNode::MindMapNode) {
+			f.WriteString("MMNode");
+		} else {
+			f.WriteString("Rect");
 		}
 		f.WriteString("</shape>\n");
 		
@@ -2824,6 +2839,16 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 				f.WriteString("a_single");
 			} else if (astyle == iLink::arrow2) {
 				f.WriteString("a_double");
+			} else if (astyle == iLink::depend) {
+				f.WriteString("a_depend");
+			} else if (astyle == iLink::depend2) {
+				f.WriteString("a_depend_double");
+			} else if (astyle == iLink::inherit) {
+				f.WriteString("a_inherit");
+			} else if (astyle == iLink::aggregat) {
+				f.WriteString("a_aggregat");
+			} else if (astyle == iLink::composit) {
+				f.WriteString("a_composit");
 			}
 			f.WriteString("</arrow>\n");
 			
@@ -2949,8 +2974,12 @@ void iEditDoc::saveToXML(CArchive &ar)
 			ar.WriteString("Oval");
 		} else if (shape == iNode::roundRect) {
 			ar.WriteString("RoundRect");
-		} else {
+		} else if (shape == iNode::MetaFile) {
 			ar.WriteString("MetaFile");
+		} else if (shape == iNode::MindMapNode) {
+			ar.WriteString("MMNode");
+		} else {
+			ar.WriteString("Rect");
 		}
 		ar.WriteString("</shape>\n");
 		
@@ -3113,6 +3142,16 @@ void iEditDoc::saveToXML(CArchive &ar)
 				ar.WriteString("a_single");
 			} else if (astyle == iLink::arrow2) {
 				ar.WriteString("a_double");
+			} else if (astyle == iLink::depend) {
+				ar.WriteString("a_depend");
+			} else if (astyle == iLink::depend2) {
+				ar.WriteString("a_depend_double");
+			} else if (astyle == iLink::inherit) {
+				ar.WriteString("a_inherit");
+			} else if (astyle == iLink::aggregat) {
+				ar.WriteString("a_aggregat");
+			} else if (astyle == iLink::composit) {
+				ar.WriteString("a_composit");
 			}
 			ar.WriteString("</arrow>\n");
 			
