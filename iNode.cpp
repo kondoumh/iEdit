@@ -223,35 +223,44 @@ void iNode::setName(const CString &name)
 	int preLength = name_.GetLength();
 	name_ = name;
 	adjustFont();
-	if (name_.GetLength() > preLength) {
-		procMultiLine();
-	}
+	procMultiLine();
 }
 
 void iNode::adjustFont(bool bForceResize)
 {
-	int hmargin = 20;
-	int wmargin = 20;
-	if (!bfillcolor && styleLine == PS_NULL) {
-		hmargin = 5;
-		wmargin = 5;
-	}
-	int width = name_.GetLength()*abs(lf_.lfHeight)*4/9 + wmargin;
-	
+	CSize sz = getNodeTextSize();
+	LONG hmargin = sz.cy;
+	LONG wmargin = sz.cy;
 	if (lstrcmp(lf_.lfFaceName,"ƒƒCƒŠƒI") == 0) {
-		width = name_.GetLength()*abs(lf_.lfHeight)*53/100 + wmargin;
+		hmargin = sz.cy*2/3;
 	}
+	if (!bfillcolor && styleLine == PS_NULL) {
+		hmargin /= 2;
+		wmargin /= 2;
+	}
+	LONG width = sz.cx + wmargin;
 	if (width > bound_.Width() || 
 		!bfillcolor && styleLine == PS_NULL ||
 		bForceResize) {
 		bound_.right = bound_.left + width;
 	}
-	int height = abs(lf_.lfHeight) + hmargin;
+	LONG height = sz.cy + hmargin;
 	if (height > bound_.Height() ||
 		!bfillcolor && styleLine == PS_NULL ||
 		bForceResize) {
 		bound_.bottom = bound_.top + height;
 	}
+}
+
+CSize iNode::getNodeTextSize()
+{
+	CWnd wnd;
+	CFont font; font.CreateFontIndirectA(&lf_);
+	CClientDC dc(&wnd);
+	CFont* pOldFont = dc.SelectObject(&font);
+	CSize sz = dc.GetTabbedTextExtentA(name_, -1, 0, NULL);
+	dc.SelectObject(pOldFont);
+	return sz;
 }
 
 void iNode::procMultiLine()
@@ -260,8 +269,10 @@ void iNode::procMultiLine()
 		if (styleText != m_l && styleText != m_r && styleText != m_c) {
 			styleText = iNode::m_c;
 		}
-		int width = 16*abs(lf_.lfHeight)*2/3 + 20;
-		int height = (name_.GetLength()/16)*(abs(lf_.lfHeight)-3)+10;
+		CSize sz = getNodeTextSize();
+		int width = sz.cx/name_.GetLength()*20 + 18;
+		int height = sz.cy*((name_.GetLength()+1)/18) + 20;
+		
 		bound_.right = bound_.left + width;
 		bound_.bottom = bound_.top + height;
 	}

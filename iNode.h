@@ -141,6 +141,7 @@ private:
 protected:
 	void adjustFont(bool bForceResize=false);
 	void procMultiLine();
+	CSize getNodeTextSize();
 };
 
 inline void iNode::setDrawOrder(int drawOrder)
