@@ -270,8 +270,15 @@ void iNode::procMultiLine()
 			styleText = iNode::m_c;
 		}
 		CSize sz = getNodeTextSize();
-		int width = sz.cx/name_.GetLength()*20 + 18;
-		int height = sz.cy*((name_.GetLength()+1)/18) + 20;
+		
+		LONG hmargin = sz.cy;
+		LONG wmargin = sz.cy;
+		if (lstrcmp(lf_.lfFaceName,"ÉÅÉCÉäÉI") == 0) {
+			hmargin = sz.cy*2/3;
+		}
+		
+		int width = sz.cx/name_.GetLength()*18 + wmargin;
+		int height = sz.cy*((name_.GetLength()+1)/18) + hmargin;
 		
 		bound_.right = bound_.left + width;
 		bound_.bottom = bound_.top + height;
