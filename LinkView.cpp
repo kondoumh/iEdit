@@ -162,7 +162,8 @@ void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	if ((ph != NULL && ph->event == iHint::linkAdd ||
 		ph != NULL && ph->event == iHint::linkDelete || 
 		ph != NULL && ph->event == iHint::linkSel ||
-		ph != NULL && ph->event == iHint::linkModified) ||
+		ph != NULL && ph->event == iHint::linkModified ||
+		ph != NULL && ph->event == iHint::linkDeleteMulti) ||
 		(m_preKey != GetDocument()->getSelectedNodeKey())) {
 		
 		CString s = GetDocument()->getSelectedNodeLabel();

@@ -20,7 +20,7 @@ static char THIS_FILE[] = __FILE__;
 #define CHECKHR(x) {hr = x; if (FAILED(hr)) goto CleanUp;}
 #define SAFERELEASE(p) {if (p) {(p)->Release(); p = NULL;}}
 
-//// iNode のPredicate(キーと等しいかどうか)
+/// iNode のPredicate(キーと等しいかどうか)
 class iNode_eq : public unary_function<iNode, bool>
 {
 	DWORD key_;
@@ -37,6 +37,19 @@ public:
 	explicit iLink_eq(DWORD key) : key_(key) { }
 	bool operator()(const iLink& l) const {
 		return (l.getKeyFrom() == key_ || l.getKeyTo() == key_);
+	}
+};
+
+/// iLink のPredicate リンクが矩形内にあるかどうかを判定
+class iLink_inBound : public unary_function<iLink, CRect>
+{
+	CRect bound_;
+public:
+	explicit iLink_inBound(CRect bound) : bound_(bound) {}
+	bool operator()(const iLink& l) const {
+		return l.canDraw() &&
+			bound_.PtInRect(l.getPtFrom()) && 
+			bound_.PtInRect(l.getPtTo());
 	}
 };
 
@@ -4647,4 +4660,13 @@ void iEditDoc::applyFormatToSelectedLink()
 	(*l).setLineStyle(m_linkForFormat.getLineStyle());
 	(*l).setLineWidth(m_linkForFormat.getLineWidth());
 	(*l).setLinkColor(m_linkForFormat.getLinkColor());
+}
+
+void iEditDoc::deleteLinksInBound(const CRect& bound)
+{
+	links_.erase(remove_if(links_.begin(), links_.end(), 
+		iLink_inBound(bound)), links_.end());
+	SetModifiedFlag();
+	iHint h; h.event = iHint::linkDeleteMulti;
+	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }

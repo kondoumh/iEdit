@@ -554,6 +554,8 @@ BEGIN
             MENUITEM "幅と高さをそろえる(&S)",               ID_SAME_RECT
         END
         MENUITEM "プロパティ一括設定(&R)",               ID_SET_NODE_PROP
+        MENUITEM "削除：選択範囲のノード(&D)",             33025
+        MENUITEM "削除：選択範囲のリンク(&E)",             ID_DELETE_SELECTED_LINKS
     END
     POPUP "linkview"
     BEGIN

@@ -269,6 +269,10 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_APLY_FORMAT, &NetView::OnUpdateAplyFormat)
 	ON_COMMAND(ID_GRP_OL_COUPLED, &NetView::OnGrpOlCoupled)
 	ON_UPDATE_COMMAND_UI(ID_GRP_OL_COUPLED, &NetView::OnUpdateGrpOlCoupled)
+	ON_COMMAND(ID_DELETE_SELECTED_NODES, &NetView::OnDeleteSelectedNodes)
+	ON_UPDATE_COMMAND_UI(ID_DELETE_SELECTED_NODES, &NetView::OnUpdateDeleteSelectedNodes)
+	ON_COMMAND(ID_DELETE_SELECTED_LINKS, &NetView::OnDeleteSelectedLinks)
+	ON_UPDATE_COMMAND_UI(ID_DELETE_SELECTED_LINKS, &NetView::OnUpdateDeleteSelectedLinks)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1021,7 +1025,9 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		break;
 	case iHint::nodeDeleteMulti:
 		break;
-	
+	case iHint::linkDeleteMulti:
+		Invalidate();
+		break;
 	case iHint::reflesh:
 	case iHint::groupMoved:
 		Invalidate();
@@ -1908,16 +1914,20 @@ void NetView::OnDelete()
 		if (MessageBox(s, "リンクの削除", MB_YESNO) != IDYES) return;
 		GetDocument()->deleteSelectedLink();
 	} else if (m_selectStatus == NetView::multi) {
-		if (MessageBox("選択したノードおよび配下のノードがすべて削除されます","ノードの削除", MB_YESNO) != IDYES) return;
-		if (GetDocument()->isShowSubBranch()) {
-			CString mes = "「" + GetDocument()->getSubBranchRootLabel() + "」";
-			mes += "配下のノードをすべて表示するモードです。";
-			mes += "選択したノード以外にも表示されているノードが削除される可能性があります。\n続行しますか?";
-			if (MessageBox(mes, "ノードの削除", MB_YESNO) != IDYES) return;
-		}
-		GetDocument()->deleteSelectedNodes();
-		Invalidate();
+		deleteSelectedNodes();
 	}
+}
+
+void NetView::deleteSelectedNodes() {
+	if (MessageBox("選択したノードおよび配下のノードがすべて削除されます","ノードの削除", MB_YESNO) != IDYES) return;
+	if (GetDocument()->isShowSubBranch()) {
+		CString mes = "「" + GetDocument()->getSubBranchRootLabel() + "」";
+		mes += "配下のノードをすべて表示するモードです。";
+		mes += "選択したノード以外にも表示されているノードが削除される可能性があります。\n続行しますか?";
+		if (MessageBox(mes, "選択範囲のノードを削除", MB_YESNO) != IDYES) return;
+	}
+	GetDocument()->deleteSelectedNodes();
+	Invalidate();
 }
 
 void NetView::OnUpdateDelete(CCmdUI* pCmdUI) 
@@ -4190,4 +4200,31 @@ void NetView::OnUpdateGrpOlCoupled(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(GetDocument()->isShowSubBranch());
 	pCmdUI->SetCheck(m_bGrpOlCoupled);
+}
+
+void NetView::OnDeleteSelectedNodes()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	deleteSelectedNodes();
+}
+
+void NetView::OnUpdateDeleteSelectedNodes(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus == NetView::multi);
+}
+
+void NetView::OnDeleteSelectedLinks()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	if (MessageBox("選択範囲にあるリンクを削除しますか?",
+		"選択範囲のリンクを削除", MB_YESNO) != IDYES) return;
+	GetDocument()->deleteLinksInBound(m_selectRect);
+}
+
+void NetView::OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	CRect rc = GetDocument()->getSelectedLinkBound();
+	pCmdUI->Enable(m_selectStatus == NetView::multi && !rc.IsRectEmpty());
 }

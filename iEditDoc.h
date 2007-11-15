@@ -24,7 +24,8 @@ public:
 		  linkAdd, linkDelete, linkModified, lelax, linkCurved, linkStraight, linkSel, linkSelRet, linkListSel,
 	      nextNode, nextNodeSibling, reflesh, viewSettingChanged, showSubBranch, resetShowSubBranch, nodeFontResize,
 	      groupMigrate, groupMoved,
-		  nodeDeleteMulti
+		  nodeDeleteMulti,
+		  linkDeleteMulti
 	};
 	int event;
 	CString str;
@@ -72,6 +73,7 @@ public:
 
 // オペレーション
 public:
+	void deleteLinksInBound(const CRect& bound);
 	void migrateGroup();
 	BOOL isDrawOrderInfo() const;
 	void setDrawOrderInfo(bool bSetDrawOrderInfo);

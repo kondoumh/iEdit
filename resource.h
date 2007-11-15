@@ -413,6 +413,9 @@
 #define ID_GROUP_OUTLINE_CUPLED         33022
 #define ID_GRP_OL_COUPLED               33023
 #define ID_BUTTON33024                  33024
+#define ID_DELETE_SELECTED_NODES        33025
+#define ID_DRAWABLEMULTI_33026          33026
+#define ID_DELETE_SELECTED_LINKS        33027
 
 // Next default values for new objects
 // 
@@ -420,7 +423,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        205
-#define _APS_NEXT_COMMAND_VALUE         33025
+#define _APS_NEXT_COMMAND_VALUE         33028
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

@@ -237,6 +237,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	void deleteSelectedNodes();
 	BOOL m_bGrpOlCoupled;
 	BOOL m_bFormCopied;
 	bool m_bAplyForm;
@@ -353,6 +354,10 @@ public:
 	afx_msg void OnUpdateAplyFormat(CCmdUI *pCmdUI);
 	afx_msg void OnGrpOlCoupled();
 	afx_msg void OnUpdateGrpOlCoupled(CCmdUI *pCmdUI);
+	afx_msg void OnDeleteSelectedNodes();
+	afx_msg void OnUpdateDeleteSelectedNodes(CCmdUI *pCmdUI);
+	afx_msg void OnDeleteSelectedLinks();
+	afx_msg void OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////
