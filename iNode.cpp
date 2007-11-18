@@ -229,6 +229,9 @@ void iNode::setName(const CString &name)
 
 void iNode::adjustFont(bool bForceResize)
 {
+	if (styleText == m_l || styleText == m_r || styleText == m_c) {
+		if (name_.GetLength() > 50) return;
+	}
 	CSize sz = getNodeTextSize();
 	LONG hmargin = sz.cy;
 	LONG wmargin = sz.cy;
@@ -295,9 +298,11 @@ void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 	if (name_.GetLength() > 50) {
 		int width = sz.cx/name_.GetLength()*18 + wmargin;
 		int height = sz.cy*((name_.GetLength()+1)/18) + hmargin;
-		styleText = iNode::m_c;
-		bound_.right = bound_.left + width;
-		bound_.bottom = bound_.top + height;
+		if (bound_.Height() <= sz.cy + hmargin) {
+			styleText = iNode::m_c;
+			bound_.right = bound_.left + width;
+			bound_.bottom = bound_.top + height;
+		}
 	}
 }
 
