@@ -112,6 +112,8 @@ public:
 	};
 
 private:
+	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
+	void procMultiLineInner(const CSize& sz, int wmargin, int hmargin);
 	unsigned int drawOrder_; // •`‰æ‡˜‚ğ•Û
 	bool bChain_;  // ˆğ‚Ã‚é
 	CRect boundPre_; // AutoLayout—p‚ÉEE

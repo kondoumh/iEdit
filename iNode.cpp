@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "iEdit.h"
 #include "iNode.h"
+#include "Token.h"
 #include <algorithm>
 
 #ifdef _DEBUG
@@ -265,23 +266,52 @@ CSize iNode::getNodeTextSize()
 
 void iNode::procMultiLine()
 {
+	CSize sz = getNodeTextSize();
+	LONG hmargin = sz.cy;
+	LONG wmargin = sz.cy;
+	if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
+		hmargin = sz.cy*4/5;
+	}
+	int lineCount, maxLength;
+	getInnerLineInfo(name_, lineCount, maxLength);
+	if (styleText != m_l && styleText != m_r && styleText != m_c) {
+		if (lineCount <= 1) {
+			procMultiLineInner(sz, wmargin, hmargin);
+		}
+	} else {
+		if (lineCount <= 1) {
+			procMultiLineInner(sz, wmargin, hmargin);
+		} else {
+			int width = sz.cx*maxLength/name_.GetLength() + wmargin;
+			int height = sz.cy*(lineCount - 1) + hmargin;
+			bound_.right = bound_.left + width;
+			bound_.bottom = bound_.top + height;
+		}
+	}
+}
+
+void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
+{
 	if (name_.GetLength() > 50) {
-		if (styleText != m_l && styleText != m_r && styleText != m_c) {
-			styleText = iNode::m_c;
-		}
-		CSize sz = getNodeTextSize();
-		
-		LONG hmargin = sz.cy;
-		LONG wmargin = sz.cy;
-		if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
-			hmargin = sz.cy*2/3;
-		}
-		
 		int width = sz.cx/name_.GetLength()*18 + wmargin;
 		int height = sz.cy*((name_.GetLength()+1)/18) + hmargin;
-		
+		styleText = iNode::m_c;
 		bound_.right = bound_.left + width;
 		bound_.bottom = bound_.top + height;
+	}
+}
+
+void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
+{
+	CToken tok(str);
+	tok.SetToken("\n");
+	lineCount = 1;
+	maxLength = 0;
+	for ( ; tok.MoreTokens(); lineCount++) {
+		CString line = tok.GetNextToken();
+		if (maxLength < line.GetLength()) {
+			maxLength = line.GetLength();
+		}
 	}
 }
 
