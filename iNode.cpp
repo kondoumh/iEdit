@@ -230,10 +230,10 @@ void iNode::setName(const CString &name)
 void iNode::adjustFont(bool bForceResize)
 {
 	if (styleText == m_l || styleText == m_r || styleText == m_c) {
-		if (name_.GetLength() > 50) return;
+		if (name_.GetLength() > 80) return;
 	}
 	CSize sz = getNodeTextSize();
-	LONG hmargin = sz.cy;
+	LONG hmargin = sz.cy*4/7;
 	LONG wmargin = sz.cy;
 	if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
 		hmargin = sz.cy*2/3;
@@ -270,7 +270,7 @@ CSize iNode::getNodeTextSize()
 void iNode::procMultiLine()
 {
 	CSize sz = getNodeTextSize();
-	LONG hmargin = sz.cy;
+	LONG hmargin = sz.cy*4/7;
 	LONG wmargin = sz.cy;
 	if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
 		hmargin = sz.cy*4/5;
@@ -295,10 +295,11 @@ void iNode::procMultiLine()
 
 void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 {
-	if (name_.GetLength() > 50) {
-		int width = sz.cx/name_.GetLength()*18 + wmargin;
-		int height = sz.cy*((name_.GetLength()+1)/18) + hmargin;
-		if (bound_.Height() <= sz.cy + hmargin) {
+	if (name_.GetLength() > 80) {
+		int width = sz.cx/name_.GetLength()*24 + wmargin;
+		int height = sz.cy*((name_.GetLength()+1)/24) + hmargin;
+		if (bound_.Height()*bound_.Width() < height*width || 
+			bound_.Width()/bound_.Height() > 8.0) {
 			styleText = iNode::m_c;
 			bound_.right = bound_.left + width;
 			bound_.bottom = bound_.top + height;
