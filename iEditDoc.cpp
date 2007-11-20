@@ -4084,7 +4084,7 @@ void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 }
 
 /// 芋づる式に関連ノード・リンクにフラグを立てる
-void iEditDoc::listupChainNodes()
+void iEditDoc::listupChainNodes(bool bResetLinkCurve)
 {
 	// 直前までのフラグをクリア
 	niterator nit = nodes_.begin();
@@ -4121,7 +4121,9 @@ void iEditDoc::listupChainNodes()
 					}
 					nodeChain.insert(pairKey);
 					(*li).setInChain();
-					(*li).curve(false);
+					if (bResetLinkCurve) {
+						(*li).curve(false);
+					}
 					iNode nodeFind;
 					nodeFind.setKey(pairKey);
 					niterator nf = nodes_.find(nodeFind);
@@ -4229,7 +4231,7 @@ const CRect iEditDoc::addNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 	
 	
 	if (bMindmap) {
-		listupChainNodes();
+		listupChainNodes(false);
 		calcEdges();
 		nodes_.fixNodesReversibly(newKey); // 新しいノード以外を固定
 		for (int i = 0; i < 100; i++) {
@@ -4296,7 +4298,7 @@ const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 
 	links_.push_back(l);
 	
-	listupChainNodes();
+	listupChainNodes(false);
 	calcEdges();
 	
 	nodes_.fixNodesReversibly(newKey);

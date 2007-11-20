@@ -107,7 +107,7 @@ public:
 	const CRect addNodeWithLink(int nodeType, DWORD keyRoot, DWORD keyPrevSibling = -1, const CPoint& pt = CPoint(0, 0), bool bMindMap = true);
 	void recalcArea();
 	CRect getChaindNodesBound() const;
-	void listupChainNodes();
+	void listupChainNodes(bool bResetLinkCurve=true);
 	void relaxSingleStep(const CPoint& point, const CPoint& dragOffset);
 	void calcEdges();
 	void setNodeLevel(const DWORD key, const int nLevel);
