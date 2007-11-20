@@ -174,7 +174,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	JointCBLine(this,&m_wndFormPalette,&m_wndToolBar);
 	
 	
-	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save bar status", FALSE);
+	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save bar status", TRUE);
 	if (saveBar) {
 		LoadBarState("BarSettings");
 	}
@@ -182,7 +182,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// CG: 以下のブロックはスプラッシュ スクリーン コンポーネントによって追加されました
 	CSplashWnd::ShowSplashScreen(this);
 	
-	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", FALSE);
+	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", TRUE);
 	if (saveFrame) {
 		loadFramePosition();
 	}	
@@ -237,12 +237,12 @@ void CMainFrame::OnUpdateSetProperties(CCmdUI* pCmdUI)
 void CMainFrame::OnClose() 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
-	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save bar status", FALSE);
+	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save bar status", TRUE);
 	if (saveBar) {
 		SaveBarState("BarSettings");
 	}	
 	
-	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", FALSE);
+	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", TRUE);
 	if (saveFrame) {
 		saveFramePosition();
 	}

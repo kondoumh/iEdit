@@ -356,10 +356,10 @@ void CPropertyDlg::initPageFrame()
 	pFrame->m_colorNWBG = AfxGetApp()->GetProfileInt(REGS_FRAME, "Net bgColor", RGB(255, 255, 255));
 	
 	// Frame Option
-	pFrame->m_bSaveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", FALSE);
+	pFrame->m_bSaveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", TRUE);
 	
 	// Bar State Option
-	pFrame->m_bSaveBarState = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save bar status", FALSE);
+	pFrame->m_bSaveBarState = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save bar status", TRUE);
 }
 
 void CPropertyDlg::writePageFrame()

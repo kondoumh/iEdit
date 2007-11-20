@@ -163,7 +163,7 @@ void CChildFrame::OnDestroy()
 	WINDOWPLACEMENT wndplm;
 	pFrame->GetWindowPlacement(&wndplm);
 	
-	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", FALSE);
+	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", TRUE);
 	if (saveFrame && 
 		  (wndplm.showCmd == SW_SHOWNORMAL || wndplm.showCmd == SW_SHOWMAXIMIZED)) {
 		WINDOWPLACEMENT wndpl;
