@@ -188,6 +188,7 @@
 #define IDC_CHECK3                      1073
 #define IDC_CHKLINKS                    1073
 #define IDC_CHK_SET_STYLESHEET          1073
+#define IDC_DISABLE_NODE_RESIZE         1073
 #define IDC_LIST                        1074
 #define IDC_CHK_CR                      1076
 #define IDC_CHK_ACCEL                   1077
