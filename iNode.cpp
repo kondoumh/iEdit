@@ -6,6 +6,7 @@
 #include "iEdit.h"
 #include "iNode.h"
 #include "Token.h"
+#include "iEdit.h"
 #include <algorithm>
 
 #ifdef _DEBUG
@@ -269,6 +270,7 @@ CSize iNode::getNodeTextSize()
 
 void iNode::procMultiLine()
 {
+	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize) return;
 	CSize sz = getNodeTextSize();
 	LONG hmargin = sz.cy*4/7;
 	LONG wmargin = sz.cy;

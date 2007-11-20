@@ -256,6 +256,7 @@ void CiEditApp::getNodeProfile()
 	m_rgsNode.bSyncOrder = AfxGetApp()->GetProfileInt(REGS_NODE, "Sync Order", FALSE);
 	m_rgsNode.orderDirection = AfxGetApp()->GetProfileInt(REGS_NODE, "Order Direction", 0);
 	m_rgsNode.bEnableGroup = AfxGetApp()->GetProfileInt(REGS_NODE, "Enable Grouping", FALSE);
+	m_rgsNode.bDisableNodeResize = AfxGetApp()->GetProfileInt(REGS_NODE, "Disable NodeResize", FALSE);
 }
 
 void CiEditApp::getLinkProfile()

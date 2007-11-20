@@ -30,6 +30,7 @@ struct rgsNode {
 	BOOL bSyncOrder;
 	int  orderDirection;
 	BOOL bEnableGroup;
+	BOOL bDisableNodeResize;
 };
 
 struct rgsLink {

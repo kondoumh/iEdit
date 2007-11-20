@@ -91,6 +91,9 @@ public:
 public:
 	CButton m_btnAscending;
 	CButton m_btnDescending;
+	CButton m_ChkDisableNodeResize;
+	BOOL m_bDisableNodeResize;
+	afx_msg void OnBnClickedDisableNodeResize();
 };
 
 //{{AFX_INSERT_LOCATION}}

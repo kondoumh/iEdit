@@ -47,6 +47,7 @@ void PageNode::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RADIO_ASCENDING, m_btnAscending);
 	DDX_Control(pDX, IDC_RADIO_DESCENDING, m_btnDescending);
 	//}}AFX_DATA_MAP
+	DDX_Control(pDX, IDC_DISABLE_NODE_RESIZE, m_ChkDisableNodeResize);
 }
 
 
@@ -70,6 +71,7 @@ BEGIN_MESSAGE_MAP(PageNode, CDialog)
 	ON_BN_CLICKED(IDC_RADIO_ASCENDING, &PageNode::OnBnClickedRadioAscending)
 	ON_BN_CLICKED(IDC_RADIO_DESCENDING, &PageNode::OnBnClickedRadioDescending)
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_DISABLE_NODE_RESIZE, &PageNode::OnBnClickedDisableNodeResize)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -119,6 +121,7 @@ BOOL PageNode::OnInitDialog()
 	m_btnAscending.EnableWindow(m_bSyncOrder);
 	m_btnDescending.EnableWindow(m_bSyncOrder);
 	m_chkEnableGroup.SetCheck(m_bEnableGroup);
+	m_ChkDisableNodeResize.SetCheck(m_bDisableNodeResize);
 	
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
@@ -252,4 +255,10 @@ void PageNode::OnBnClickedRadioDescending()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_orderDirection = 1;
+}
+
+void PageNode::OnBnClickedDisableNodeResize()
+{
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	m_bDisableNodeResize = m_ChkDisableNodeResize.GetCheck();
 }
