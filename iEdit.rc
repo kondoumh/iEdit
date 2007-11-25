@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 日本語 resources
+// Japanese resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
 #ifdef _WIN32
@@ -165,39 +165,39 @@ END
 
 IDR_MAINFRAME MENU 
 BEGIN
-    POPUP "ﾌｧｲﾙ(&F)"
+    POPUP "ファイル(&F)"
     BEGIN
         MENUITEM "新規作成(&N)\tCtrl+N",            ID_FILE_NEW
         MENUITEM "開く(&O)...\tCtrl+O",           ID_FILE_OPEN
         MENUITEM SEPARATOR
-        MENUITEM "ﾌﾟﾘﾝﾀの設定(&R)...",             ID_FILE_PRINT_SETUP
+        MENUITEM "プリンタの設定(&R)...",              ID_FILE_PRINT_SETUP
         MENUITEM SEPARATOR
-        MENUITEM "最近使ったﾌｧｲﾙ",                   ID_FILE_MRU_FILE1
+        MENUITEM "最近使ったファイル",                   ID_FILE_MRU_FILE1
         MENUITEM SEPARATOR
-        MENUITEM "ｱﾌﾟﾘｹｰｼｮﾝの終了(&X)",            ID_APP_EXIT
+        MENUITEM "iEditの終了(&X)",                ID_APP_EXIT
     END
     POPUP "表示(&V)"
     BEGIN
-        MENUITEM "ﾂｰﾙ ﾊﾞｰの表示(&T)",              ID_VIEW_TOOLBAR
+        MENUITEM "ツールバーの表示(&T)",                ID_VIEW_TOOLBAR
         MENUITEM "書式バーの表示(&F)",                 ID_VIEW_FORM_BAR
-        MENUITEM "ｽﾃｰﾀｽ ﾊﾞｰの表示(&S)",            ID_VIEW_STATUS_BAR
+        MENUITEM "ステータスバーの表示(&S)",              ID_VIEW_STATUS_BAR
     END
-    POPUP "ﾂｰﾙ(&T)"
+    POPUP "ツール(&T)"
     BEGIN
         MENUITEM "透過ウィンドウを有効に(&T)",             ID_TRANSPARENT_MODE
         MENUITEM "透明度の調整(&A)",                  ID_ADJUST_ALPHA
         MENUITEM SEPARATOR
-        MENUITEM "ｵﾌﾟｼｮﾝ(&O)",                  ID_SET_PROPERTIES
+        MENUITEM "オプション(&O)",                   ID_SET_PROPERTIES
     END
-    POPUP "ﾍﾙﾌﾟ(&H)"
+    POPUP "ヘルプ(&H)"
     BEGIN
-        MENUITEM "ﾊﾞｰｼﾞｮﾝ情報(&A)",               ID_APP_ABOUT
+        MENUITEM "バージョン情報(&A)",                 ID_APP_ABOUT
     END
 END
 
 IDR_IEDITTYPE MENU 
 BEGIN
-    POPUP "ﾌｧｲﾙ(&F)"
+    POPUP "ファイル(&F)"
     BEGIN
         MENUITEM "新規作成(&N)\tCtrl+N",            ID_FILE_NEW
         MENUITEM "開く(&O)...\tCtrl+O",           ID_FILE_OPEN
@@ -206,19 +206,19 @@ BEGIN
         MENUITEM "名前を付けて保存(&A)...",             ID_FILE_SAVE_AS
         MENUITEM SEPARATOR
         MENUITEM "印刷(&P)...\tCtrl+P",           ID_FILE_PRINT
-        MENUITEM "印刷ﾌﾟﾚﾋﾞｭｰ(&V)",               ID_FILE_PRINT_PREVIEW
-        MENUITEM "ﾌﾟﾘﾝﾀの設定(&R)...",             ID_FILE_PRINT_SETUP
+        MENUITEM "印刷プレビュー(&V)",                 ID_FILE_PRINT_PREVIEW
+        MENUITEM "プリンタの設定(&R)...",              ID_FILE_PRINT_SETUP
         MENUITEM SEPARATOR
-        MENUITEM "最近使ったﾌｧｲﾙ",                   ID_FILE_MRU_FILE1
+        MENUITEM "最近使ったファイル",                   ID_FILE_MRU_FILE1
         MENUITEM SEPARATOR
-        MENUITEM "終了(&X)",                      ID_APP_EXIT
+        MENUITEM "iEditの終了(&X)",                ID_APP_EXIT
     END
     POPUP "編集(&E)"
     BEGIN
         MENUITEM "元に戻す(&U)\tCtrl+Z",            ID_EDIT_UNDO
         MENUITEM SEPARATOR
         MENUITEM "切り取り(&T)\tCtrl+X",            ID_EDIT_CUT
-        MENUITEM "ｺﾋﾟｰ(&C)\tCtrl+C",            ID_EDIT_COPY
+        MENUITEM "コピー(&C)\tCtrl+C",             ID_EDIT_COPY
         MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
         MENUITEM SEPARATOR
         MENUITEM "書式を保存",                       ID_SAVE_FORMAT
@@ -235,7 +235,7 @@ BEGIN
         MENUITEM "書式バーの表示(&F)",                 ID_VIEW_FORM_BAR
         MENUITEM "ステータスバーの表示(&S)",              ID_VIEW_STATUS_BAR
     END
-    POPUP "ｱｳﾄﾗｲﾝ(&O)"
+    POPUP "アウトライン(&O)"
     BEGIN
         MENUITEM "下のレベルに追加(&A)\tCtrl+Alt+Right", ID_ADD_CHILD
         MENUITEM "同じレベルに追加(&S)\tCtrl+Alt+Down", ID_ADD_SIBLING
@@ -254,7 +254,7 @@ BEGIN
         MENUITEM "別のノードへのリンク(&N)",              ID_ADD_LINK
         MENUITEM "他のファイル/URLへのリンク(&T)\tCtrl+L", ID_ADD_URL
     END
-    POPUP "ﾈｯﾄﾜｰｸ(&N)"
+    POPUP "ネットワーク(&N)"
     BEGIN
         MENUITEM "選択モード(&S)",                   ID_NORMAL_CURSOR
         MENUITEM "□   長方形(&R)",                 ID_ADD_RECT
@@ -346,7 +346,7 @@ BEGIN
         MENUITEM "図のコピー(&C)",                   ID_COPY_TO_CLIPBRD
         MENUITEM "SVG形式に出力(&O)",                ID_EXPORT_SVG
     END
-    POPUP "ﾂｰﾙ(&T)"
+    POPUP "ツール(&T)"
     BEGIN
         MENUITEM "インポート(&I)",                   ID_IMPORT_DATA
         MENUITEM "エクスポート(&E)",                  ID_EXPORT_DATA
@@ -356,18 +356,18 @@ BEGIN
         MENUITEM "透過ウィンドウを有効に(&T)",             ID_TRANSPARENT_MODE
         MENUITEM "透明度の調整(&A)",                  ID_ADJUST_ALPHA
         MENUITEM SEPARATOR
-        MENUITEM "ｵﾌﾟｼｮﾝ(&O)",                  ID_SET_PROPERTIES
+        MENUITEM "オプション(&O)",                   ID_SET_PROPERTIES
     END
-    POPUP "ｳｨﾝﾄﾞｳ(&W)"
+    POPUP "ウィンドウ(&W)"
     BEGIN
         MENUITEM "ビューのフォーカス切り替え(&F)\tF4",       ID_CHANGE_VIEW_FOCUS
         MENUITEM "重ねて表示(&C)",                   ID_WINDOW_CASCADE
         MENUITEM "並べて表示(&T)",                   ID_WINDOW_TILE_HORZ
-        MENUITEM "ｱｲｺﾝの整列(&A)",                 ID_WINDOW_ARRANGE
+        MENUITEM "アイコンの整列(&A)",                 ID_WINDOW_ARRANGE
     END
-    POPUP "ﾍﾙﾌﾟ(&H)"
+    POPUP "ヘルプ(&H)"
     BEGIN
-        MENUITEM "ﾊﾞｰｼﾞｮﾝ情報(&A)",               ID_APP_ABOUT
+        MENUITEM "バージョン情報(&A)",                 ID_APP_ABOUT
     END
 END
 
@@ -410,7 +410,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "親の階層を開く(&R)",                 ID_SELECT_PARENT
         MENUITEM SEPARATOR
-        MENUITEM "ｺﾋﾟｰ(&C)",                    ID_EDIT_COPY
+        MENUITEM "コピー(&C)",                     ID_EDIT_COPY
         MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
         MENUITEM SEPARATOR
         MENUITEM "クリップボードのテキストからノードを作成(&L)",    ID_ADD_NODES_FROM_CF_TEXT
@@ -428,7 +428,7 @@ BEGIN
         MENUITEM "配下のノードを全て表示(&W)",             ID_SHOW_SELECTED_BRANCH
         MENUITEM SEPARATOR
         MENUITEM "削除(&D)",                      ID_DELETE
-        MENUITEM "ｺﾋﾟｰ(&C)",                    ID_EDIT_COPY
+        MENUITEM "コピー(&C)",                     ID_EDIT_COPY
         MENUITEM SEPARATOR
         POPUP "色(&L)"
         BEGIN
@@ -540,7 +540,7 @@ BEGIN
         END
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
         MENUITEM SEPARATOR
-        MENUITEM "ｺﾋﾟｰ(&C)",                    ID_EDIT_COPY
+        MENUITEM "コピー(&C)",                     ID_EDIT_COPY
         MENUITEM SEPARATOR
         POPUP "レイアウト調整(&J)"
         BEGIN
@@ -565,7 +565,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "削除(&D)",                      ID_DELETE
         MENUITEM "切り取り(&T)",                    ID_EDIT_CUT
-        MENUITEM "ｺﾋﾟｰ(&C)",                    ID_EDIT_COPY
+        MENUITEM "コピー(&C)",                     ID_EDIT_COPY
         MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
         MENUITEM SEPARATOR
         MENUITEM "リンクのプロパティ(&R)",               ID_SET_LINK_INFO
@@ -599,10 +599,10 @@ END
 
 IDR_SHAPE MENU 
 BEGIN
-    POPUP "ﾌｧｲﾙ(&F)"
+    POPUP "ファイル(&F)"
     BEGIN
-        MENUITEM "ｼｪｲﾌﾟﾌｧｲﾙを開く(&O)",            ID_OPEN_SHAPE_FILE
-        MENUITEM "ｼｪｲﾌﾟﾌｧｲﾙ保存(&S)",             ID_SAVE_SHAPE_FILE
+        MENUITEM "シェイプファイルを開く(&O)",             ID_OPEN_SHAPE_FILE
+        MENUITEM "シェイプファイル保存(&S)",              ID_SAVE_SHAPE_FILE
     END
     POPUP "カテゴリ(&C)"
     BEGIN
@@ -712,8 +712,8 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iEditのバージョン情報"
 FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
-    LTEXT           "iEdit Early Access Release",IDC_STATIC,11,84,87,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1999-2007 Kondoh Masahiro(MH)",IDC_STATIC,11,95,140,8
+    LTEXT           "iEdit 1.70",IDC_STATIC,11,84,87,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 1999-2007 kondoumh(MH)",IDC_STATIC,11,95,119,8
     DEFPUSHBUTTON   "OK",IDOK,120,112,50,14,WS_GROUP
     ICON            IDR_MAINFRAME,IDC_STATIC,148,41,20,20,SS_REALSIZEIMAGE
     PUSHBUTTON      "MH Home Page",IDC_TOMH,30,112,81,14
@@ -1065,8 +1065,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,6,0,0
- PRODUCTVERSION 1,6,0,0
+ FILEVERSION 1,7,0,0
+ PRODUCTVERSION 1,7,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1081,15 +1081,15 @@ BEGIN
     BEGIN
         BLOCK "041104b0"
         BEGIN
-            VALUE "Comments", "idea, Concept, Semantic Networks..."
-            VALUE "CompanyName", "KondohMH"
-            VALUE "FileDescription", "iEdit ｱﾌﾟﾘｹｰｼｮﾝ"
-            VALUE "FileVersion", "1, 6, 0, 0"
+            VALUE "Comments", "A tool for idea processing and visualization"
+            VALUE "CompanyName", "kondoumh"
+            VALUE "FileDescription", "アイデアプロセッサ iEdit"
+            VALUE "FileVersion", "1, 7, 0, 0"
             VALUE "InternalName", "iEdit"
-            VALUE "LegalCopyright", "Copyright (C) 1999-2006 Kondoh Masahiro(MH)"
+            VALUE "LegalCopyright", "Copyright (C) 1999-2007 kondoumh"
             VALUE "OriginalFilename", "iEdit.exe"
             VALUE "ProductName", "iEdit"
-            VALUE "ProductVersion", "1, 6, 0, 0"
+            VALUE "ProductVersion", "1, 7, 0, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1429,8 +1429,8 @@ END
 STRINGTABLE 
 BEGIN
     IDR_MAINFRAME           "iEdit"
-    IDR_IEDITTYPE           "\niEdit\niEdit\niEdit ﾌｧｲﾙ (*.ied)\n.ied\niEdit.Document\niEdit Document"
-    IDR_XMLTYPE             "\nXML\nxml\nxmlﾌｧｲﾙ (*.xml)\n.xml\nXML.Document\nXML Document"
+    IDR_IEDITTYPE           "\niEdit\niEdit\niEdit ファイル (*.ied)\n.ied\niEdit.Document\niEdit Document"
+    IDR_XMLTYPE             "\nXML\nxml\nxmlファイル (*.xml)\n.xml\nXML.Document\nXML Document"
 END
 
 STRINGTABLE 
@@ -1452,41 +1452,41 @@ END
 
 STRINGTABLE 
 BEGIN
-    ID_FILE_NEW             "新規にﾌｧｲﾙを作成\n新規ﾌｧｲﾙ"
-    ID_FILE_OPEN            "既存のﾌｧｲﾙを開く\n開く"
-    ID_FILE_CLOSE           "作業中のﾌｧｲﾙを閉じる\n閉じる"
-    ID_FILE_SAVE            "作業中のﾌｧｲﾙを上書きして保存\n保存"
-    ID_FILE_SAVE_AS         "作業中のﾌｧｲﾙを新しい名前で保存\n名前をつけて保存"
+    ID_FILE_NEW             "新規にファイルを作成\n新規ファイル"
+    ID_FILE_OPEN            "既存のファイルを開く\n開く"
+    ID_FILE_CLOSE           "作業中のファイルを閉じる\n閉じる"
+    ID_FILE_SAVE            "作業中のファイルを上書きして保存\n保存"
+    ID_FILE_SAVE_AS         "作業中のファイルを新しい名前で保存\n名前をつけて保存"
     ID_FILE_PAGE_SETUP      "印刷ｵﾌﾟｼｮﾝの変更\nﾍﾟｰｼﾞ ﾚｲｱｳﾄの設定"
-    ID_FILE_PRINT_SETUP     "ﾌﾟﾘﾝﾀ/印刷ｵﾌﾟｼｮﾝの変更\n印刷設定"
-    ID_FILE_PRINT           "作業中のﾌｧｲﾙを印刷\n印刷"
-    ID_FILE_PRINT_PREVIEW   "印刷ｲﾒｰｼﾞを表示\n印刷ﾌﾟﾚﾋﾞｭｰ"
+    ID_FILE_PRINT_SETUP     "プリンタ/印刷オプションの変更\n印刷設定"
+    ID_FILE_PRINT           "作業中のファイルを印刷\n印刷"
+    ID_FILE_PRINT_PREVIEW   "印刷イメージを表示\n印刷プレビュー"
 END
 
 STRINGTABLE 
 BEGIN
-    ID_APP_ABOUT            "iEditの情報、ﾊﾞｰｼﾞｮﾝ 著作権を表示\nﾊﾞｰｼﾞｮﾝ情報"
-    ID_APP_EXIT             "iEditを終了し、ﾌｧｲﾙの保存を指示\n終了"
+    ID_APP_ABOUT            "iEditの情報、バージョン、著作権を表示\nバージョン情報"
+    ID_APP_EXIT             "iEditを終了し、ファイルの保存を指示\n終了"
 END
 
 STRINGTABLE 
 BEGIN
-    ID_FILE_MRU_FILE1       "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE2       "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE3       "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE4       "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE5       "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE6       "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE7       "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE8       "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE9       "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE10      "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE11      "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE12      "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE13      "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE14      "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE15      "指定のﾌｧｲﾙを開く"
-    ID_FILE_MRU_FILE16      "指定のﾌｧｲﾙを開く"
+    ID_FILE_MRU_FILE1       "指定のファイルを開く"
+    ID_FILE_MRU_FILE2       "指定のファイルを開く"
+    ID_FILE_MRU_FILE3       "指定のファイルを開く"
+    ID_FILE_MRU_FILE4       "指定のファイルを開く"
+    ID_FILE_MRU_FILE5       "指定のファイルを開く"
+    ID_FILE_MRU_FILE6       "指定のファイルを開く"
+    ID_FILE_MRU_FILE7       "指定のファイルを開く"
+    ID_FILE_MRU_FILE8       "指定のファイルを開く"
+    ID_FILE_MRU_FILE9       "指定のファイルを開く"
+    ID_FILE_MRU_FILE10      "指定のファイルを開く"
+    ID_FILE_MRU_FILE11      "指定のファイルを開く"
+    ID_FILE_MRU_FILE12      "指定のファイルを開く"
+    ID_FILE_MRU_FILE13      "指定のファイルを開く"
+    ID_FILE_MRU_FILE14      "指定のファイルを開く"
+    ID_FILE_MRU_FILE15      "指定のファイルを開く"
+    ID_FILE_MRU_FILE16      "指定のファイルを開く"
 END
 
 STRINGTABLE 
@@ -1503,20 +1503,20 @@ STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "選択範囲を消去\n消去"
     ID_EDIT_CLEAR_ALL       "すべて消去\nすべて消去"
-    ID_EDIT_COPY            "選択範囲をｺﾋﾟｰしてｸﾘｯﾌﾟﾎﾞｰﾄﾞに保存\nｺﾋﾟｰ"
-    ID_EDIT_CUT             "選択範囲を切り取ってｸﾘｯﾌﾟﾎﾞｰﾄﾞに保存\n切り取り"
+    ID_EDIT_COPY            "選択範囲をコピーしてクリップボードに保存\nコピー"
+    ID_EDIT_CUT             "選択範囲を切り取ってクリップボードに保存\n切り取り"
     ID_EDIT_FIND            "指定した文字列の検索\n検索"
-    ID_EDIT_PASTE           "ｸﾘｯﾌﾟﾎﾞｰﾄﾞの内容を貼り付け\n貼り付け"
+    ID_EDIT_PASTE           "クリップボードの内容を貼り付け\n貼り付け"
     ID_EDIT_REPEAT          "直前に行った動作を繰り返す\n繰り返し"
     ID_EDIT_REPLACE         "指定した文字列を他の文字列で置換\n置換"
-    ID_EDIT_SELECT_ALL      "ﾌｧｲﾙ内のすべてを選択\nすべて選択"
+    ID_EDIT_SELECT_ALL      "すべての要素を選択\nすべて選択"
     ID_EDIT_UNDO            "直前に行った動作を元に戻す\n元に戻す"
     ID_EDIT_REDO            "直前に行った動作を繰り返す\n繰り返す"
 END
 
 STRINGTABLE 
 BEGIN
-    ID_VIEW_TOOLBAR         "ツールバーの 表示/非表示\nﾂｰﾙ ﾊﾞｰの表示切り替え"
+    ID_VIEW_TOOLBAR         "ツールバーの 表示/非表示\nツールバーの表示切り替え"
     ID_VIEW_STATUS_BAR      "ステータスバーの 表示/非表示\nｽﾃｰﾀｽ ﾊﾞｰの表示切り替え"
 END
 
@@ -1528,7 +1528,7 @@ BEGIN
     AFX_IDS_SCMAXIMIZE      "ｳｨﾝﾄﾞｳを最大化する"
     AFX_IDS_SCNEXTWINDOW    "次のｳｨﾝﾄﾞｳに切り替える"
     AFX_IDS_SCPREVWINDOW    "前のｳｨﾝﾄﾞｳに切り替える"
-    AFX_IDS_SCCLOSE         "作業中のｳｨﾝﾄﾞｳを閉じ、変更したﾌｧｲﾙの保存を指示"
+    AFX_IDS_SCCLOSE         "作業中のｳｨﾝﾄﾞｳを閉じ、変更したファイルの保存を指示"
 END
 
 STRINGTABLE 
@@ -1678,11 +1678,11 @@ END
 
 STRINGTABLE 
 BEGIN
-    ID_APLY_FORMAT          "コピーされた書式を適用する\n書式を適用"
+    ID_APLY_FORMAT          "保存された書式を適用する\n保存書式を適用"
     ID_GRP_OL_COUPLED       "簡易グループ化機能とアウトラインビューの階層を連動させる\n簡易グループ化とアウトラインを連動"
 END
 
-#endif    // 日本語 resources
+#endif    // Japanese resources
 /////////////////////////////////////////////////////////////////////////////
 
 
