@@ -72,6 +72,7 @@ void PageFrame::OnBtnLink()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lfLink);
+	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
 	fntLink.CreateFontIndirect(&lfLink);
 	Invalidate();
@@ -81,6 +82,7 @@ void PageFrame::OnBtnOutline()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lfOutline);
+	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
 	fntOutline.CreateFontIndirect(&lfOutline);
 	Invalidate();
@@ -90,6 +92,7 @@ void PageFrame::OnBtnText()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lfText);
+	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
 	fntText.CreateFontIndirect(&lfText);
 	Invalidate();

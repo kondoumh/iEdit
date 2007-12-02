@@ -1420,6 +1420,7 @@ void NetView::OnSetNodeFont()
 	if (m_selectStatus == NetView::single) {
 		GetDocument()->getSelectedNodeFont(lf);
 		CFontDialog dlg(&lf);
+		dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 		dlg.m_cf.rgbColors = GetDocument()->getSelectedNodeFontColor();
 		if (dlg.DoModal() != IDOK) return;
 		GetDocument()->setSelectedNodeFont(lf);
@@ -1427,10 +1428,12 @@ void NetView::OnSetNodeFont()
 	} else if (m_selectStatus == NetView::link) {
 		GetDocument()->getSelectedLinkFont(lf, false);
 		CFontDialog dlg(&lf);
+		dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 		if (dlg.DoModal() != IDOK) return;
 		GetDocument()->setSelectedLinkFont(lf, false);
 	} else if (m_selectStatus == NetView::multi) {
 		CFontDialog dlg(&lf);
+		dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 		if (dlg.DoModal() != IDOK) return;
 		GetDocument()->setSelectedNodeFont(lf);
 		GetDocument()->setSelectedNodeFontColor(dlg.GetColor());

@@ -147,6 +147,7 @@ void PageNode::OnBtnFont()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
+	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	dlg.m_cf.rgbColors = colorFont;
 	if (dlg.DoModal() != IDOK) return;
 	colorFont = dlg.m_cf.rgbColors;
