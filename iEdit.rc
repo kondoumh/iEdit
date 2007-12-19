@@ -392,6 +392,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "コピー(&C)",                     ID_EDIT_COPY
         MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "クローンを作成(&H)",                 33028
+        MENUITEM SEPARATOR
         MENUITEM "ツリーをクリップボードに転送(&G)",          ID_COPY_TREE_TO_CLIPBOARD
         MENUITEM SEPARATOR
         MENUITEM "別のノードへのリンク(&N)",              ID_ADD_LINK

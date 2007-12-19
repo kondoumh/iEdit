@@ -4672,3 +4672,33 @@ void iEditDoc::deleteLinksInBound(const CRect& bound)
 	iHint h; h.event = iHint::linkDeleteMulti;
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
+
+DWORD iEditDoc::duplicateKeyNode(DWORD key)
+{
+	nodeFind.setKey(key);
+	const_niterator it = nodes_.findNode(nodeFind);
+	iNode n = *it;
+	n.setKey(getUniqKey());
+	nodes_.insert(n);
+	return n.getKey();
+}
+
+void iEditDoc::duplicateLinks(const IdMap& idm)
+{
+	IdMap::const_iterator it = idm.begin();
+	for ( ; it != idm.end(); it++) {
+		literator li = links_.begin();
+		for ( ; li != links_.end(); li++) {
+			if ((*it).first == (*li).getKeyFrom()) {
+				IdMap::const_iterator pr = idm.find((*li).getKeyTo());
+				if(pr != idm.end()) {
+					iLink l = (*li);
+					l.setKeyFrom((*it).second);
+					l.setKeyTo((*pr).second);
+					l.setKey(lastLinkKey++);
+					links_.push_back(l);
+				}
+			}
+		}
+	}
+}

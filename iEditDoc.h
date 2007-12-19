@@ -73,6 +73,8 @@ public:
 
 // オペレーション
 public:
+	void duplicateLinks(const IdMap& idm);
+	DWORD duplicateKeyNode(DWORD key);
 	void deleteLinksInBound(const CRect& bound);
 	void migrateGroup();
 	BOOL isDrawOrderInfo() const;

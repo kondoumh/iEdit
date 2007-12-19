@@ -58,6 +58,7 @@ protected:
 
 // 生成されたメッセージ マップ関数
 protected:
+	void cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, IdMap& idm);
 	int getBranchMode() const;
 	void resetShowBranch();
 	void doColorSetting();
@@ -185,6 +186,8 @@ public:
 	afx_msg void OnUpdateAddChild2(CCmdUI *pCmdUI);
 public:
 //	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnCreateClone();
+	afx_msg void OnUpdateCreateClone(CCmdUI *pCmdUI);
 };
 
 inline CTreeCtrl& OutlineView::tree() const

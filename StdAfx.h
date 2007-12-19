@@ -87,6 +87,7 @@ typedef vector<listitem> lsItems;
 typedef vector<DWORD> serialVec;
 typedef pair<DWORD, DWORD> idConv;
 typedef vector<idConv> idCVec;
+typedef map<DWORD, DWORD> IdMap;
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。

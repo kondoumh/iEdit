@@ -234,6 +234,8 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_MESSAGE(WM_CLOSESRCHWINDOW, OnHideSrchDlg)
 	ON_COMMAND(ID_ADD_CHILD2, OnAddChild2)
 	ON_UPDATE_COMMAND_UI(ID_ADD_CHILD2, OnUpdateAddChild2)
+	ON_COMMAND(ID_CREATE_CLONE, &OutlineView::OnCreateClone)
+	ON_UPDATE_COMMAND_UI(ID_CREATE_CLONE, &OutlineView::OnUpdateCreateClone)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2249,4 +2251,59 @@ void OutlineView::moveNodes(DWORD keyTarget, DWORD keyMove)
 	tree().SelectItem(hNew);
 	tree().DeleteItem(hMove);
 	tree().SelectItem(hNew);
+}
+
+void OutlineView::OnCreateClone()
+{
+	// TODO: Add your command handler code here
+	DWORD key = tree().GetItemData(tree().GetSelectedItem());
+	CString label = GetDocument()->getKeyNodeLabel(key);
+	DWORD newKey = GetDocument()->duplicateKeyNode(key);
+	HTREEITEM hSelected = tree().GetSelectedItem();
+	HTREEITEM hNew = tree().InsertItem(label, tree().GetParentItem(hSelected), hSelected);
+	tree().SetItemData(hNew, newKey);
+	tree().SetItemState(hNew, tree().GetItemState(hSelected, TVIS_EXPANDED), TVIS_EXPANDED);
+	IdMap idm;
+	idm[key] = newKey;
+	if (tree().ItemHasChildren(hSelected)) {
+		cloneTree(tree().GetChildItem(hSelected), hNew, idm);
+	}
+	GetDocument()->duplicateLinks(idm);
+	// 指定配下のノードを全部見せるモードの場合、クローンした一連のノードとリンクをvisibleに
+	if (GetDocument()->isShowSubBranch()) {
+		KeySet ks;
+		treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
+		iEditDoc* pDoc = GetDocument();
+		pDoc->setVisibleNodes(ks);
+		pDoc->setShowBranch(tree().GetItemData(m_hItemShowRoot));
+	}
+	// 既存のノードと重ならないようにずらす
+	tree().SelectItem(hNew);
+}
+
+void OutlineView::OnUpdateCreateClone(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->Enable(tree().GetSelectedItem() != tree().GetRootItem());
+}
+
+void OutlineView::cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, IdMap& idm)
+{
+	HTREEITEM hItem, item;
+	item = curItem;
+	while (item != NULL) {
+		hItem = item;
+		DWORD key = tree().GetItemData(hItem);
+		CString label = GetDocument()->getKeyNodeLabel(key);
+		DWORD newKey = GetDocument()->duplicateKeyNode(key);
+		GetDocument()->setKeyNodeParent(newKey, tree().GetItemData(targetParent));
+		HTREEITEM hNew = tree().InsertItem(label, 0, 0, targetParent);
+		tree().SetItemData(hNew, newKey);
+		tree().SetItemState(hNew, tree().GetItemState(hItem, TVIS_EXPANDED), TVIS_EXPANDED);
+		idm[key] = newKey;
+		if (tree().ItemHasChildren(hItem)) {
+			cloneTree(tree().GetChildItem(hItem), hNew, idm);
+		}
+		item = tree().GetNextSiblingItem(item);
+	}
 }
