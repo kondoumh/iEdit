@@ -90,7 +90,7 @@ iNode::iNode(const CString &name)
 	dx = 0.0;
 	dy = 0.0;
 	fixed_ = FALSE;
-	adjustFont();
+	adjustFont(true);
 	procMultiLine();
 	hMF_ = NULL;
 	drawOrder_ = 0;
@@ -230,6 +230,7 @@ void iNode::setName(const CString &name)
 
 void iNode::adjustFont(bool bForceResize)
 {
+	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize && !bForceResize) return;
 	if (styleText == m_l || styleText == m_r || styleText == m_c) {
 		if (name_.GetLength() > 80) return;
 	}
