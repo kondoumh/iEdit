@@ -743,6 +743,13 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
 		InvalidateRect(nw);
 		InvalidateRect(old);
+	} else if (GetDocument()->hitTest(logPt, r, false)) {
+		// ノードの選択が更新された
+		m_selectStatus = NetView::single;
+		m_selectRect = r;
+		CRect nw = m_selectRect; adjustRedrawBound(nw);
+		InvalidateRect(nw);
+		InvalidateRect(old);
 	} else if (GetDocument()->hitTestLinksFrom(logPt, false)) {
 		// リンクのリンク元を選択した
 		m_selectStatus = NetView::linkTermFrom;
@@ -759,13 +766,6 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		InvalidateRect(nw);
 		InvalidateRect(old);
 		startAlterTo(logPt);
-	} else if (GetDocument()->hitTest(logPt, r, false)) {
-		// ノードの選択が更新された
-		m_selectStatus = NetView::single;
-		m_selectRect = r;
-		CRect nw = m_selectRect; adjustRedrawBound(nw);
-		InvalidateRect(nw);
-		InvalidateRect(old);
 	} else {
 		// 選択が解除された
 		CRect old = m_selectRect; adjustRedrawBound(old);
@@ -867,7 +867,6 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC)
 	tracker.m_rect = selectRect;
 	tracker.m_nStyle = CRectTracker::resizeInside;
 	CRect old = GetDocument()->getRelatedBound(false); adjustRedrawBound(old);
-	// getRelatedBoundAndに変更
 	if(tracker.Track(this, point, TRUE) ) {
 		
 		GetDocument()->backUpUndoNodes();

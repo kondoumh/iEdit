@@ -461,6 +461,10 @@ CPoint iLink::getClossPoint(const CRect &target, const CPoint &start)
 
 bool iLink::hitTest(const CPoint &pt)
 {
+	if (hitTestFrom(pt) || hitTestTo(pt)) {
+		return false;
+	}
+	
 	if (!curved_) {
 		CPoint pts[4];
 		const int mrgn = 4;
@@ -530,7 +534,7 @@ bool iLink::hitTest(const CPoint &pt)
 bool iLink::hitTestFrom(const CPoint &pt)
 {
 	CPoint pts[4];
-	const int mrgn = 10;
+	const int mrgn = 20;
 	pts[0].x = ptFrom.x - mrgn;
 	pts[0].y = ptFrom.y - mrgn;
 	pts[1].x = ptFrom.x + mrgn;
@@ -554,7 +558,7 @@ bool iLink::hitTestFrom(const CPoint &pt)
 bool iLink::hitTestTo(const CPoint &pt)
 {
 	CPoint pts[4];
-	const int mrgn = 10;
+	const int mrgn = 20;
 	pts[0].x = ptTo.x - mrgn;
 	pts[0].y = ptTo.y - mrgn;
 	pts[1].x = ptTo.x + mrgn;
