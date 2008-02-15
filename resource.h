@@ -418,6 +418,8 @@
 #define ID_DRAWABLEMULTI_33026          33026
 #define ID_DELETE_SELECTED_LINKS        33027
 #define ID_CREATE_CLONE                 33028
+#define ID_OUTLINE_33029                33029
+#define ID_RESET_SHOW_SUBBRANCH         33030
 
 // Next default values for new objects
 // 
@@ -425,7 +427,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        205
-#define _APS_NEXT_COMMAND_VALUE         33029
+#define _APS_NEXT_COMMAND_VALUE         33031
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

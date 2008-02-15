@@ -188,6 +188,8 @@ public:
 //	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnCreateClone();
 	afx_msg void OnUpdateCreateClone(CCmdUI *pCmdUI);
+	afx_msg void OnResetShowSubbranch();
+	afx_msg void OnUpdateResetShowSubbranch(CCmdUI *pCmdUI);
 };
 
 inline CTreeCtrl& OutlineView::tree() const

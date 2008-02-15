@@ -236,6 +236,8 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_UPDATE_COMMAND_UI(ID_ADD_CHILD2, OnUpdateAddChild2)
 	ON_COMMAND(ID_CREATE_CLONE, &OutlineView::OnCreateClone)
 	ON_UPDATE_COMMAND_UI(ID_CREATE_CLONE, &OutlineView::OnUpdateCreateClone)
+	ON_COMMAND(ID_RESET_SHOW_SUBBRANCH, &OutlineView::OnResetShowSubbranch)
+	ON_UPDATE_COMMAND_UI(ID_RESET_SHOW_SUBBRANCH, &OutlineView::OnUpdateResetShowSubbranch)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -861,14 +863,14 @@ void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 	int branchMode = getBranchMode();
 	
 	if (branchMode == 1) {
-		if (tree().GetParentItem(curItem()) != 	m_hItemShowRoot) {
+		if (tree().GetParentItem(curItem()) != 	m_hItemShowRoot && m_hItemShowRoot != curItem()) {
 			resetShowBranch();
 			GetDocument()->resetShowBranch();
 		} else {
 			bShowBranch = true;
 		}
 	} else if (branchMode == 2) {
-		if (!isPosterityOF(m_hItemShowRoot, curItem())) {
+		if (!isPosterityOF(m_hItemShowRoot, curItem()) && m_hItemShowRoot != curItem()) {
 			resetShowBranch();
 			GetDocument()->resetShowBranch();
 		} else {
@@ -1996,10 +1998,10 @@ void OutlineView::OnShowSelectedBranch()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	KeySet ks;
+	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
-	iEditDoc* pDoc = GetDocument();
-	pDoc->setVisibleNodes(ks);
-	pDoc->setShowBranch(tree().GetItemData(curItem()));
+	GetDocument()->setVisibleNodes(ks);
+	GetDocument()->setShowBranch(tree().GetItemData(curItem()));
 	int branchMode = getBranchMode();
 	if (branchMode != 0) {
 		resetShowBranch();
@@ -2047,10 +2049,10 @@ void OutlineView::OnShowSelectedChildren()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	KeySet ks;
+	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each2(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
-	iEditDoc* pDoc = GetDocument();
-	pDoc->setVisibleNodes(ks);
-	pDoc->setShowBranch(tree().GetItemData(curItem()));
+	GetDocument()->setVisibleNodes(ks);
+	GetDocument()->setShowBranch(tree().GetItemData(curItem()));
 	int branchMode = getBranchMode();
 	if (branchMode != 0) {
 		resetShowBranch();
@@ -2306,4 +2308,19 @@ void OutlineView::cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, Id
 		}
 		item = tree().GetNextSiblingItem(item);
 	}
+}
+
+void OutlineView::OnResetShowSubbranch()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SelectItem(m_hItemShowRoot);
+	resetShowBranch();
+	GetDocument()->resetShowBranch();
+}
+
+void OutlineView::OnUpdateResetShowSubbranch(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int mode = getBranchMode();
+	pCmdUI->Enable(mode == 1 || mode == 2);
 }

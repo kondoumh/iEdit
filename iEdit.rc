@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Japanese resources
+// 日本語 resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
 #ifdef _WIN32
@@ -342,6 +342,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "選択したノード配下の子ノードを表示(&X)\tF5",   ID_SHOW_SELECTED_CHILDREN
         MENUITEM "選択したノード配下のノードを全て表示(&W)\tF6",  ID_SHOW_SELECTED_BRANCH
+        MENUITEM "すべて表示モードを解除",                 ID_RESET_SHOW_SUBBRANCH
         MENUITEM SEPARATOR
         MENUITEM "図のコピー(&C)",                   ID_COPY_TO_CLIPBRD
         MENUITEM "SVG形式に出力(&O)",                ID_EXPORT_SVG
@@ -389,6 +390,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "選択したノード配下の子ノードを表示(&X)",       ID_SHOW_SELECTED_CHILDREN
         MENUITEM "選択したノード配下のノードを全て表示(&W)",      ID_SHOW_SELECTED_BRANCH
+        MENUITEM "すべて表示モードを解除(J)",              ID_RESET_SHOW_SUBBRANCH
         MENUITEM SEPARATOR
         MENUITEM "コピー(&C)",                     ID_EDIT_COPY
         MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
@@ -1685,7 +1687,7 @@ BEGIN
     ID_GRP_OL_COUPLED       "簡易グループ化機能とアウトラインビューの階層を連動させる\n簡易グループ化とアウトラインを連動"
 END
 
-#endif    // Japanese resources
+#endif    // 日本語 resources
 /////////////////////////////////////////////////////////////////////////////
 
 
