@@ -730,23 +730,18 @@ void iNodes::drawNodes(CDC *pDC, bool bDrwAll)
 	}
 }
 
-niterator iNodes::hitTest(const CPoint &pt, bool bTestAll)
+iNode* iNodes::hitTest(const CPoint &pt, bool bTestAll)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
 		(*it).selectNode(false);
 	}
 	
-	it = begin();
+	vector<iNode*>::reverse_iterator vit = nodesDraw_.rbegin();
 	CRect preRc(0, 0, 0, 0);
-	niterator it_inner = end();
-	for ( ; it != end(); it++) {
-//		if (!bTestAll) {
-			if (!(*it).isVisible()) {
-				continue;
-			}
-//		}
-		CRect rc = (*it).getBound();
+	vector<iNode*>::reverse_iterator vit_inner = nodesDraw_.rend();
+	for ( ; vit != nodesDraw_.rend(); vit++) {
+		CRect rc = (*vit)->getBound();
 		rc.left -= 1;
 		rc.right += 1;
 		rc.top -= 1;
@@ -755,35 +750,31 @@ niterator iNodes::hitTest(const CPoint &pt, bool bTestAll)
 			if (!preRc.IsRectNull()) {
 				CRect andRc = preRc & rc;
 				if (andRc.Width() < preRc.Width() && andRc.Height() < preRc.Height()) {
-					it_inner = it;
+					vit_inner = vit;
 					preRc = rc;
 				}
 			} else {
-				it_inner = it;
+				vit_inner = vit;
 				preRc = rc;
 			}
 		}
 	}
-	if (it_inner != end()) {
-		(*it_inner).selectNode();
-		selKey_ = (*it_inner).getKey();
-		curParent_ = (*it_inner).getParent();
+	if (vit_inner != nodesDraw_.rend()) {
+		(*vit_inner)->selectNode();
+		selKey_ = (*vit_inner)->getKey();
+		curParent_ = (*vit_inner)->getParent();
 	}
-	return it_inner;
+	if (vit_inner == nodesDraw_.rend()) return NULL;
+	return *vit_inner;
 }
 
-const_niterator iNodes::hitTest2(const CPoint &pt, bool bTestAll) const
+iNode* iNodes::hitTest2(const CPoint &pt, bool bTestAll) const
 {
-	const_niterator it = begin();
+	vector<iNode*>::const_reverse_iterator vit = nodesDraw_.rbegin();
 	CRect preRc(0, 0, 0, 0);
-	const_niterator it_inner = end();
-	for ( ; it != end(); it++) {
-//		if (!bTestAll) {
-			if (!(*it).isVisible()) {
-				continue;
-			}
-//		}
-		CRect rc = (*it).getBound();
+	vector<iNode*>::const_reverse_iterator vit_inner = nodesDraw_.rend();
+	for ( ; vit != nodesDraw_.rend(); vit++) {
+		CRect rc = (*vit)->getBound();
 		rc.left -= 1;
 		rc.right += 1;
 		rc.top -= 1;
@@ -792,17 +783,17 @@ const_niterator iNodes::hitTest2(const CPoint &pt, bool bTestAll) const
 			if (!preRc.IsRectNull()) {
 				CRect andRc = preRc & rc;
 				if (andRc.Width() < preRc.Width() && andRc.Height() < preRc.Height()) {
-					it_inner = it;
+					vit_inner = vit;
 					preRc = rc;
 				}
 			} else {
-				it_inner = it;
+				vit_inner = vit;
 				preRc = rc;
 			}
 		}
 	}
-	
-	return it_inner;
+	if (vit_inner == nodesDraw_.rend()) return NULL;
+	return *vit_inner;
 }
 
 void iNodes::moveSelectedNode(const CSize &sz)

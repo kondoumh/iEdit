@@ -439,12 +439,12 @@ void iEditDoc::drawNodes(CDC *pDC, bool bDrwAll)
 
 bool iEditDoc::hitTest(const CPoint& pt, CRect &r, bool bDrwAll)
 {
-	niterator it = nodes_.hitTest(pt, bDrwAll);
-	if (it != nodes_.end()) {
-		r = (*it).getBound();
+	iNode* pNode = nodes_.hitTest(pt, bDrwAll);
+	if (pNode != NULL) {
+		r = pNode->getBound();
 		iHint hint;
 		hint.event = iHint::nodeSel;
-		UpdateAllViews(NULL, (LPARAM)(*it).getKey(), &hint);
+		UpdateAllViews(NULL, (LPARAM)pNode->getKey(), &hint);
 		
 		return true;
 	}
@@ -591,11 +591,11 @@ void iEditDoc::drawLinks(CDC *pDC, bool bDrwAll, bool clipbrd)
 
 bool iEditDoc::setStartLink(const CPoint& pt)
 {
-	niterator it = nodes_.hitTest(pt);
-	if (it != nodes_.end()) {
-		rcLinkFrom = (*it).getBound();
-		keyLinkFrom = (*it).getKey();
-		keyParentLinkFrom = (*it).getParent();
+	iNode* pNode = nodes_.hitTest(pt);
+	if (pNode != NULL) {
+		rcLinkFrom = pNode->getBound();
+		keyLinkFrom = pNode->getKey();
+		keyParentLinkFrom = pNode->getParent();
 		return true;
 	}
 	return false;
@@ -603,10 +603,10 @@ bool iEditDoc::setStartLink(const CPoint& pt)
 
 bool iEditDoc::setEndLink(const CPoint &pt, int ArrowType, bool bDrwAll, bool bArrowSpecification)
 {
-	const_niterator it = nodes_.hitTest2(pt, bDrwAll);
-	if (it != nodes_.end()) {
-		rcLinkTo = (*it).getBound();
-		keyLinkTo = (*it).getKey();
+	iNode* pNode = nodes_.hitTest2(pt, bDrwAll);
+	if (pNode != NULL) {
+		rcLinkTo = pNode->getBound();
+		keyLinkTo = pNode->getKey();
 		iLink l;
 		l.setNodes(rcLinkFrom, rcLinkTo, keyLinkFrom, keyLinkTo);
 		l.setDrawFlag();
@@ -628,10 +628,10 @@ bool iEditDoc::setEndLink(const CPoint &pt, int ArrowType, bool bDrwAll, bool bA
 
 bool iEditDoc::setAlterLinkFrom(const CPoint &pt, bool bDrwAll)
 {
-	const_niterator it = nodes_.hitTest(pt, bDrwAll); // リンク元を再選択
-	if (it != nodes_.end()) {
+	iNode* pNode = nodes_.hitTest(pt, bDrwAll); // リンク元を再選択
+	if (pNode != NULL) {
 		backUpUndoLinks();
-		links_.setSelectedNodeLinkFrom((*it).getKey(), (*it).getBound(), bDrwAll);
+		links_.setSelectedNodeLinkFrom(pNode->getKey(), pNode->getBound(), bDrwAll);
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkModified;
 		UpdateAllViews(NULL, (LPARAM)getSelectedNodeKey(), &h);
@@ -642,10 +642,10 @@ bool iEditDoc::setAlterLinkFrom(const CPoint &pt, bool bDrwAll)
 
 bool iEditDoc::setAlterLinkTo(const CPoint &pt, bool bDrwAll)
 {
-	const_niterator it = nodes_.hitTest2(pt, bDrwAll); // 再選択なし
-	if (it != nodes_.end()) {
+	iNode* pNode = nodes_.hitTest2(pt, bDrwAll); // 再選択なし
+	if (pNode != NULL) {
 		backUpUndoLinks();
-		links_.setSelectedNodeLinkTo((*it).getKey(), (*it).getBound(), bDrwAll);
+		links_.setSelectedNodeLinkTo(pNode->getKey(), pNode->getBound(), bDrwAll);
 		SetModifiedFlag();
 		UpdateAllViews(NULL);
 		iHint h; h.event = iHint::linkModified;
@@ -3772,9 +3772,9 @@ void iEditDoc::exportSVG(bool bDrwAll, const CString &path)
 
 iNode iEditDoc::getHitNode(const CPoint &pt, bool bDrwAll)
 {
-	const_niterator it = nodes_.hitTest2(pt, bDrwAll);
-	if (it != nodes_.end()) {
-		iNode node(*it);
+	iNode* pNode = nodes_.hitTest2(pt, bDrwAll);
+	if (pNode != NULL) {
+		iNode node = *pNode;
 		return node;
 	} else {
 		iNode nil;
@@ -4452,8 +4452,8 @@ int iEditDoc::getKeyNodeLevelNumber(DWORD key)
 // サイレントなHitTest
 bool iEditDoc::hitTest2(const CPoint& pt)
 {
-	const_niterator it = nodes_.hitTest2(pt, false);
-	if (it != nodes_.end()) {
+	iNode* pNode = nodes_.hitTest2(pt, false);
+	if (pNode != NULL) {
 		return true;
 	}
 	return false;

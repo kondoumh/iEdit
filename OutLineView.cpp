@@ -2274,6 +2274,7 @@ void OutlineView::OnCreateClone()
 	// 指定配下のノードを全部見せるモードの場合、クローンした一連のノードとリンクをvisibleに
 	if (GetDocument()->isShowSubBranch()) {
 		KeySet ks;
+		ks.insert(tree().GetItemData(m_hItemShowRoot));
 		treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
 		iEditDoc* pDoc = GetDocument();
 		pDoc->setVisibleNodes(ks);

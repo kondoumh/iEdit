@@ -492,10 +492,10 @@ public:
 	void getSelectedNodeFont(LOGFONT& lf);
 	void setSelectedNodeFont(const LOGFONT& lf);
 	DWORD getCurParent() const;
-	const_niterator hitTest2(const CPoint& pt, bool bTestAll = false) const;
+	iNode* hitTest2(const CPoint& pt, bool bTestAll = false) const;
 	void setSelectedNodeBound(const CRect& r);
 	void moveSelectedNode(const CSize& sz);
-	niterator hitTest(const CPoint& pt, bool bTestAll = false);
+	iNode* hitTest(const CPoint& pt, bool bTestAll = false);
 	void drawNodes(CDC* pDC, bool bDrwAll = false);
 	void initSelection();
 	niterator getSelectedNode();
