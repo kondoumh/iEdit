@@ -130,7 +130,7 @@ public:
 	void setSelectedLinkReverse(bool bDrwAll = false);
 	bool setAlterLinkTo(const CPoint& pt, bool bDrwAll);
 	bool setAlterLinkFrom(const CPoint& pt, bool bDrwAll);
-	const iLink& getSelectedLink(bool bDrawAll=false) const;
+	const iLink* getSelectedLink(bool bDrawAll=false) const;
 	bool hitTestLinksTo(const CPoint &pt, bool drwAll);
 	bool hitTestLinksFrom(const CPoint& pt, bool drwAll);
 	void sameNodesSize(const CString& strSize, bool bDrwAll = false);

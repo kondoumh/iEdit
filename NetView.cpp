@@ -1112,18 +1112,22 @@ void NetView::startLink(const CPoint pt)
 
 void NetView::startAlterFrom(const CPoint& pt)
 {
-	m_bAlteringLinkFrom = true;
-	iLink l = GetDocument()->getSelectedLink(false);
-	m_ptAlterLinkFrom = l.getPtFrom();
-	m_ptAlterLinkTo = l.getPtTo();
+	const iLink* pl = GetDocument()->getSelectedLink(false);
+	if (pl != NULL) {
+		m_bAlteringLinkFrom = true;
+		m_ptAlterLinkFrom = pl->getPtFrom();
+		m_ptAlterLinkTo = pl->getPtTo();
+	}
 }
 
 void NetView::startAlterTo(const CPoint &pt)
 {
-	m_bAlteringLinkTo = true;
-	iLink l = GetDocument()->getSelectedLink(false);
-	m_ptAlterLinkFrom = l.getPtFrom();
-	m_ptAlterLinkTo = l.getPtTo();
+	const iLink* pl = GetDocument()->getSelectedLink(false);
+	if (pl != NULL) {
+		m_bAlteringLinkTo = true;
+		m_ptAlterLinkFrom = pl->getPtFrom();
+		m_ptAlterLinkTo = pl->getPtTo();
+	}
 }
 
 void NetView::OnMouseMove(UINT nFlags, CPoint point) 
@@ -1281,7 +1285,6 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	// リンク元の張替え
 	if (m_bAlteringLinkFrom) {
 		m_bAlteringLinkFrom = false;
-		iLink l = GetDocument()->getSelectedLink(false);
 		if (GetDocument()->setAlterLinkFrom(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkTo, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
@@ -1299,7 +1302,6 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	// リンク先の張替え
 	if (m_bAlteringLinkTo) {
 		m_bAlteringLinkTo = false;
-		iLink l = GetDocument()->getSelectedLink(false);
 		if (GetDocument()->setAlterLinkTo(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkFrom, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
@@ -3627,7 +3629,9 @@ void NetView::OnSetLinkArrowNone()
 void NetView::OnUpdateSetLinkArrowNone(CCmdUI* pCmdUI) 
 {
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	pCmdUI->Enable(m_selectStatus == NetView::link && GetDocument()->getSelectedLink().getArrowStyle() != iLink::line);
+	pCmdUI->Enable(m_selectStatus == NetView::link &&
+		GetDocument()->getSelectedLink() != NULL &&
+		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::line);
 }
 
 void NetView::OnSetLinkArrowSingle() 
@@ -3642,7 +3646,9 @@ void NetView::OnSetLinkArrowSingle()
 void NetView::OnUpdateSetLinkArrowSingle(CCmdUI* pCmdUI) 
 {
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	pCmdUI->Enable(m_selectStatus == NetView::link && GetDocument()->getSelectedLink().getArrowStyle() != iLink::arrow);
+	pCmdUI->Enable(m_selectStatus == NetView::link &&
+		GetDocument()->getSelectedLink() != NULL &&
+		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::arrow);
 }
 
 void NetView::OnSetLinkArrowDouble() 
@@ -3657,7 +3663,9 @@ void NetView::OnSetLinkArrowDouble()
 void NetView::OnUpdateSetLinkArrowDouble(CCmdUI* pCmdUI) 
 {
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	pCmdUI->Enable(m_selectStatus == NetView::link && GetDocument()->getSelectedLink().getArrowStyle() != iLink::arrow2);
+	pCmdUI->Enable(m_selectStatus == NetView::link && 
+		GetDocument()->getSelectedLink() != NULL &&
+		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::arrow2);
 }
 
 
@@ -3806,7 +3814,9 @@ void NetView::OnSetLinkDependSingle()
 void NetView::OnUpdateSetLinkDependSingle(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::link && GetDocument()->getSelectedLink().getArrowStyle() != iLink::depend);
+	pCmdUI->Enable(m_selectStatus == NetView::link && 
+		GetDocument()->getSelectedLink() != NULL &&
+		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::depend);
 }
 
 void NetView::OnSetLinkDependDouble()
@@ -3821,7 +3831,9 @@ void NetView::OnSetLinkDependDouble()
 void NetView::OnUpdateSetLinkDependDouble(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::link && GetDocument()->getSelectedLink().getArrowStyle() != iLink::depend2);
+	pCmdUI->Enable(m_selectStatus == NetView::link && 
+		GetDocument()->getSelectedLink() != NULL &&
+		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::depend2);
 }
 
 void NetView::OnSetLinkInherit()
@@ -3837,7 +3849,9 @@ void NetView::OnSetLinkInherit()
 void NetView::OnUpdateSetLinkInherit(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::link && GetDocument()->getSelectedLink().getArrowStyle() != iLink::inherit);
+	pCmdUI->Enable(m_selectStatus == NetView::link && 
+		GetDocument()->getSelectedLink() != NULL &&
+		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::inherit);
 }
 
 void NetView::OnSetLinkAgregat()
@@ -3852,7 +3866,9 @@ void NetView::OnSetLinkAgregat()
 void NetView::OnUpdateSetLinkAgregat(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::link && GetDocument()->getSelectedLink().getArrowStyle() != iLink::aggregat);
+	pCmdUI->Enable(m_selectStatus == NetView::link &&
+		GetDocument()->getSelectedLink() != NULL &&
+		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::aggregat);
 }
 
 void NetView::OnSetLinkComposit()
@@ -3867,7 +3883,9 @@ void NetView::OnSetLinkComposit()
 void NetView::OnUpdateSetLinkComposit(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::link && GetDocument()->getSelectedLink().getArrowStyle() != iLink::composit);
+	pCmdUI->Enable(m_selectStatus == NetView::link &&
+		GetDocument()->getSelectedLink() != NULL &&
+		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::composit);
 }
 
 void NetView::changeSelectedLinkArrow()

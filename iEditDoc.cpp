@@ -3733,17 +3733,20 @@ void iEditDoc::sameNodesSize(const CString &strSize, bool bDrwAll)
 	SetModifiedFlag();
 }
 
-const iLink& iEditDoc::getSelectedLink(bool bDrawAll) const
+const iLink* iEditDoc::getSelectedLink(bool bDrawAll) const
 {
 	const_literator li = links_.getSelectedLink(bDrawAll);
-	
-	return (*li);
+	if (li == links_.end()) {
+		return NULL;
+	}
+	return &(*li);
 }
 
 void iEditDoc::setSelectedLinkReverse(bool bDrwAll)
 {
-	iLink l = getSelectedLink(bDrwAll);
-	DWORD keyTo = l.getKeyTo();
+	const iLink* pl = getSelectedLink(bDrwAll);
+	if (pl == NULL) return;
+	DWORD keyTo = pl->getKeyTo();
 	links_.setSelectedLinkReverse(bDrwAll);
 	SetModifiedFlag();
 	selChanged(keyTo, true, isShowSubBranch());

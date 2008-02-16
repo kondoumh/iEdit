@@ -461,7 +461,7 @@ CPoint iLink::getClossPoint(const CRect &target, const CPoint &start)
 
 bool iLink::hitTest(const CPoint &pt)
 {
-	if (hitTestFrom(pt) || hitTestTo(pt)) {
+	if (hitTestFrom_c(pt) || hitTestTo_c(pt)) {
 		return false;
 	}
 	
@@ -534,7 +534,7 @@ bool iLink::hitTest(const CPoint &pt)
 bool iLink::hitTestFrom(const CPoint &pt)
 {
 	CPoint pts[4];
-	const int mrgn = 20;
+	const int mrgn = 10;
 	pts[0].x = ptFrom.x - mrgn;
 	pts[0].y = ptFrom.y - mrgn;
 	pts[1].x = ptFrom.x + mrgn;
@@ -555,10 +555,30 @@ bool iLink::hitTestFrom(const CPoint &pt)
 	return selected_;
 }
 
+bool iLink::hitTestFrom_c(const CPoint &pt) const
+{
+	CPoint pts[4];
+	const int mrgn = 10;
+	pts[0].x = ptFrom.x - mrgn;
+	pts[0].y = ptFrom.y - mrgn;
+	pts[1].x = ptFrom.x + mrgn;
+	pts[1].y = ptFrom.y - mrgn;
+	pts[2].x = ptFrom.x + mrgn;
+	pts[2].y = ptFrom.y + mrgn;
+	pts[3].x = ptFrom.x - mrgn;
+	pts[3].y = ptFrom.y + mrgn;
+	CRgn* r = new CRgn;
+	r->CreatePolygonRgn(pts, 4, WINDING);
+	BOOL bIn = r->PtInRegion(pt);
+	delete r;
+	return bIn == TRUE;
+}
+
+
 bool iLink::hitTestTo(const CPoint &pt)
 {
 	CPoint pts[4];
-	const int mrgn = 20;
+	const int mrgn = 10;
 	pts[0].x = ptTo.x - mrgn;
 	pts[0].y = ptTo.y - mrgn;
 	pts[1].x = ptTo.x + mrgn;
@@ -579,8 +599,31 @@ bool iLink::hitTestTo(const CPoint &pt)
 	return selected_;
 }
 
+bool iLink::hitTestTo_c(const CPoint &pt) const
+{
+	CPoint pts[4];
+	const int mrgn = 10;
+	pts[0].x = ptTo.x - mrgn;
+	pts[0].y = ptTo.y - mrgn;
+	pts[1].x = ptTo.x + mrgn;
+	pts[1].y = ptTo.y - mrgn;
+	pts[2].x = ptTo.x + mrgn;
+	pts[2].y = ptTo.y + mrgn;
+	pts[3].x = ptTo.x - mrgn;
+	pts[3].y = ptTo.y + mrgn;
+	CRgn* r = new CRgn;
+	r->CreatePolygonRgn(pts, 4, WINDING);
+	BOOL bIn = r->PtInRegion(pt);
+	delete r;
+	return bIn == TRUE;
+}
+
+
 bool iLink::hitTest2(const CPoint &pt)
 {
+	if (hitTestFrom_c(pt) || hitTestTo_c(pt)) {
+		return false;
+	}
 	CPoint pts[4];
 	const int mrgn = 10;
 	if (abs(ptFrom.x - ptTo.x) > abs (ptFrom.y - ptTo.y)) {
@@ -754,17 +797,19 @@ void iLinks::drawArrows(CDC *pDC, bool bDrwAll)
 
 bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path, bool bDrwAll)
 {
-	bool hit = false;
 	literator it = begin();
+	bool hit = false;
 	for (; it != end(); it++) {
 		if (!(*it).canDraw() /*&& !bDrwAll*/) {
 			continue;
 		}
 		if ((*it).hitTest(pt)) {
 			(*it).selectLink();
-			hit = true;
 			key = (*it).getKeyFrom();
 			path = (*it).getPath();
+			hit = true;
+		} else {
+			(*it).selectLink(false);
 		}
 	}
 	return hit;
@@ -772,17 +817,19 @@ bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path, bool bDrwAll)
 
 bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path, bool bDrwAll)
 {
-	bool hit = false;
 	literator it = begin();
+	bool hit = false;
 	for (; it != end(); it++) {
 		if (!(*it).canDraw()/* && !bDrwAll*/) {
 			continue;
 		}
-		if ((*it).hitTestFrom(pt)) {
+		if ((*it).hitTestFrom_c(pt)) {
 			(*it).selectLink();
-			hit = true;
 			key = (*it).getKeyFrom();
 			path = (*it).getPath();
+			hit = true;
+		} else {
+			(*it).selectLink(false);
 		}
 	}
 	return hit;
@@ -790,17 +837,19 @@ bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path, bool bDrwA
 
 bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path, bool bDrwAll)
 {
-	bool hit = false;
 	literator it = begin();
+	bool hit = false;
 	for (; it != end(); it++) {
 		if (!(*it).canDraw() /* && !bDrwAll*/) {
 			continue;
 		}
-		if ((*it).hitTestTo(pt)) {
+		if ((*it).hitTestTo_c(pt)) {
 			(*it).selectLink();
-			hit = true;
 			key = (*it).getKeyFrom();
 			path = (*it).getPath();
+			hit = true;
+		} else {
+			(*it).selectLink(false);
 		}
 	}
 	return hit;
@@ -854,9 +903,9 @@ const_literator iLinks::getSelectedLink(bool bDrwAll) const
 			if (!(*it).canDraw() /*&& !bDrwAll*/) {
 				continue;
 			}
-		}
-		if ((*it).isSelected()) {
-			return it;
+			if ((*it).isSelected()) {
+				return it;
+			}
 		}
 	}
 	return end();
@@ -871,9 +920,9 @@ literator iLinks::getSelectedLinkW(bool bDrwAll)
 			if (!(*it).canDraw() /* && !bDrwAll*/) {
 				continue;
 			}
-		}
-		if ((*it).isSelected()) {
-			return it;
+			if ((*it).isSelected()) {
+				return it;
+			}
 		}
 	}
 	return end();
