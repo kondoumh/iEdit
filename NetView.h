@@ -237,6 +237,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	CPoint m_curveStartPt;
 	void deleteSelectedNodes();
 	BOOL m_bGrpOlCoupled;
 	BOOL m_bFormCopied;

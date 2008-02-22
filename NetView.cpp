@@ -1199,7 +1199,10 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	/////////////////////
 	if (!m_bStartAdd && m_selectStatus == NetView::link && nFlags & MK_LBUTTON) {
 		m_linkPath = logPt;
-		m_bLinkCurving = true;
+		if (m_bLinkCurving == false) {
+			m_bLinkCurving = true;
+			m_curveStartPt = logPt;
+		}	
 		CRect rc = getCurveBound(logPt);
 		CRect nw = rc; adjustRedrawBound(nw);
 		adjustRedrawBound(m_preRedrawBound);
@@ -1321,6 +1324,11 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	if (!m_bStartAdd) {
 		if (m_bLinkCurving && m_selectStatus == NetView::link) {
 			m_bLinkCurving = false;
+			CSize sz = m_curveStartPt - logPt;
+			if (abs(sz.cx) < 3 && abs(sz.cy) < 3) {
+				Invalidate();
+				return;
+			}
 			GetDocument()->disableUndo();
 			GetDocument()->backUpUndoLinks();
 			GetDocument()->setSelectedLinkCurve(logPt, true, false);
