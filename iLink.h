@@ -24,8 +24,6 @@ public:
 	void drawSelectionTo(CDC* pDC);
 	void drawSelectionFrom(CDC* pDC);
 	void reverseDirection();
-	bool hitTestTo(const CPoint& pt);
-	bool hitTestFrom(const CPoint &pt);
 	bool hitTestTo_c(const CPoint& pt) const;
 	bool hitTestFrom_c(const CPoint &pt) const;
 	void setKey(const DWORD key);

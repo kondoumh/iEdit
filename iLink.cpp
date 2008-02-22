@@ -461,10 +461,8 @@ CPoint iLink::getClossPoint(const CRect &target, const CPoint &start)
 
 bool iLink::hitTest(const CPoint &pt)
 {
-	if (hitTestFrom_c(pt) || hitTestTo_c(pt)) {
-		return false;
-	}
-	
+	if (rcFrom.PtInRect(pt) || rcTo.PtInRect(pt)) return false;
+	if (hitTestFrom_c(pt) || hitTestTo_c(pt)) return false;
 	if (!curved_) {
 		CPoint pts[4];
 		const int mrgn = 4;
@@ -531,32 +529,9 @@ bool iLink::hitTest(const CPoint &pt)
 	return selected_;
 }
 
-bool iLink::hitTestFrom(const CPoint &pt)
-{
-	CPoint pts[4];
-	const int mrgn = 10;
-	pts[0].x = ptFrom.x - mrgn;
-	pts[0].y = ptFrom.y - mrgn;
-	pts[1].x = ptFrom.x + mrgn;
-	pts[1].y = ptFrom.y - mrgn;
-	pts[2].x = ptFrom.x + mrgn;
-	pts[2].y = ptFrom.y + mrgn;
-	pts[3].x = ptFrom.x - mrgn;
-	pts[3].y = ptFrom.y + mrgn;
-	CRgn* r = new CRgn;
-	r->CreatePolygonRgn(pts, 4, WINDING);
-	if (r->PtInRegion(pt)) {
-		selected_ = true;
-	} else {
-		selected_ = false;
-	}
-	delete r;
-	
-	return selected_;
-}
-
 bool iLink::hitTestFrom_c(const CPoint &pt) const
 {
+	if (rcFrom.PtInRect(pt)) return false;
 	CPoint pts[4];
 	const int mrgn = 10;
 	pts[0].x = ptFrom.x - mrgn;
@@ -574,33 +549,9 @@ bool iLink::hitTestFrom_c(const CPoint &pt) const
 	return bIn == TRUE;
 }
 
-
-bool iLink::hitTestTo(const CPoint &pt)
-{
-	CPoint pts[4];
-	const int mrgn = 10;
-	pts[0].x = ptTo.x - mrgn;
-	pts[0].y = ptTo.y - mrgn;
-	pts[1].x = ptTo.x + mrgn;
-	pts[1].y = ptTo.y - mrgn;
-	pts[2].x = ptTo.x + mrgn;
-	pts[2].y = ptTo.y + mrgn;
-	pts[3].x = ptTo.x - mrgn;
-	pts[3].y = ptTo.y + mrgn;
-	CRgn* r = new CRgn;
-	r->CreatePolygonRgn(pts, 4, WINDING);
-	if (r->PtInRegion(pt)) {
-		selected_ = true;
-	} else {
-		selected_ = false;
-	}
-	delete r;
-	
-	return selected_;
-}
-
 bool iLink::hitTestTo_c(const CPoint &pt) const
 {
+	if (rcTo.PtInRect(pt)) return false;
 	CPoint pts[4];
 	const int mrgn = 10;
 	pts[0].x = ptTo.x - mrgn;
