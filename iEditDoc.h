@@ -260,6 +260,7 @@ protected:
 
 // 生成されたメッセージ マップ関数
 protected:
+	CString getSafeFileName(const CString& str) const;
 	OutlineView* getOutlineView() const;
 	template <class T>
 	void outStyleSheetLine(T &f);
@@ -323,6 +324,9 @@ private:
 	DWORD lastKey, lastLinkKey;
 	void desideLinkLineStyle(iLink& l);
 	void desideLinkArrow(iLink& l);
+public:
+	afx_msg void OnFileSave();
+	afx_msg void OnUpdateFileSave(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

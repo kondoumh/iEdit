@@ -10,6 +10,7 @@
 #include <complex>
 
 #include "SvgWriter.h"
+#include <shlwapi.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -62,6 +63,8 @@ BEGIN_MESSAGE_MAP(iEditDoc, CDocument)
 	//{{AFX_MSG_MAP(iEditDoc)
 	ON_COMMAND(ID_FILE_SAVE_AS, OnFileSaveAs)
 	//}}AFX_MSG_MAP
+	ON_COMMAND(ID_FILE_SAVE, &iEditDoc::OnFileSave)
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, &iEditDoc::OnUpdateFileSave)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -3841,15 +3844,31 @@ void iEditDoc::OnFileSaveAs()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString fullPath = GetPathName();
-	CString fileName = GetTitle();
+	CString fileName;
 	
-	if (fullPath != "") {
-		char drive[_MAX_DRIVE];
-		char dir[_MAX_DIR];
-		char fname[_MAX_FNAME];
-		char ext[_MAX_EXT];
-		_splitpath_s(fullPath, drive, dir, fname, ext );
-		fileName = fname;
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+	_splitpath_s(fullPath, drive, dir, fname, ext );
+	
+	fileName = fname;
+	CString driveName = drive;
+	if (driveName == "") {
+		iNode nf; nf.setKey(0);
+		const_niterator it = nodes_.find(nf);
+		CString rootLabel = (*it).getName();
+		if (rootLabel != "主題") {
+			// TODO:ファイル名として不正な文字の除去
+			CString safeFileName = getSafeFileName(rootLabel);
+			if (safeFileName == "") {
+				fileName = GetTitle();
+			} else {
+				fileName = safeFileName;
+			}
+		} else {
+			fileName = GetTitle();
+		}
 	}
 	
 	CString szFilter = "iEdit ﾌｧｲﾙ (*.ied)|*.ied| XML ﾌｧｲﾙ (*.xml)|*.xml||";
@@ -3883,6 +3902,51 @@ void iEditDoc::OnFileSaveAs()
 			break;
 		}
 	}
+}
+
+CString iEditDoc::getSafeFileName(const CString& str) const
+{
+	CString rs;
+	
+	for (int i = 0; i < str.GetLength(); i++) {
+		char a = str.GetAt(i);
+		if (a == '\n' || a == '\r') continue;
+		UINT type = ::PathGetCharType(a);
+		if (type == GCT_INVALID || type & GCT_WILD || type & GCT_SEPARATOR) continue;
+		rs += a;
+	}
+	return rs;
+}
+
+void iEditDoc::OnFileSave()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CString fullPath = GetPathName();
+	CString driveName;
+	CString dirName;
+	CString fileName = GetTitle();
+	CString extName;
+	
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+	_splitpath_s(fullPath, drive, dir, fname, ext );
+	driveName = drive;
+	dirName = dir;
+	fileName = fname;
+	extName = ext;
+	
+	if (driveName == "") {
+		OnFileSaveAs();
+	} else {
+		OnSaveDocument(fullPath);
+	}
+}
+
+void iEditDoc::OnUpdateFileSave(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }
 
 CRect iEditDoc::restoreDeleteBound() const
@@ -4705,3 +4769,4 @@ void iEditDoc::duplicateLinks(const IdMap& idm)
 		}
 	}
 }
+
