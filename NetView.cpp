@@ -1115,6 +1115,7 @@ void NetView::startAlterFrom(const CPoint& pt)
 	const iLink* pl = GetDocument()->getSelectedLink(false);
 	if (pl != NULL) {
 		m_bAlteringLinkFrom = true;
+		m_alterLinkStartPt = pt;
 		m_ptAlterLinkFrom = pl->getPtFrom();
 		m_ptAlterLinkTo = pl->getPtTo();
 	}
@@ -1125,6 +1126,7 @@ void NetView::startAlterTo(const CPoint &pt)
 	const iLink* pl = GetDocument()->getSelectedLink(false);
 	if (pl != NULL) {
 		m_bAlteringLinkTo = true;
+		m_alterLinkStartPt = pt;
 		m_ptAlterLinkFrom = pl->getPtFrom();
 		m_ptAlterLinkTo = pl->getPtTo();
 	}
@@ -1288,6 +1290,11 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	// リンク元の張替え
 	if (m_bAlteringLinkFrom) {
 		m_bAlteringLinkFrom = false;
+		CSize sz = m_alterLinkStartPt - logPt;
+		if (abs(sz.cx) < 3 && abs(sz.cy) < 3) {
+			Invalidate();
+			return;
+		}
 		if (GetDocument()->setAlterLinkFrom(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkTo, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
@@ -1305,6 +1312,11 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	// リンク先の張替え
 	if (m_bAlteringLinkTo) {
 		m_bAlteringLinkTo = false;
+		CSize sz = m_alterLinkStartPt - logPt;
+		if (abs(sz.cx) < 3 && abs(sz.cy) < 3) {
+			Invalidate();
+			return;
+		}
 		if (GetDocument()->setAlterLinkTo(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkFrom, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
@@ -1320,7 +1332,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	
 	
-	// リンクの追加(ノード上でマウスをリリース)
+	// リンクを曲げた
 	if (!m_bStartAdd) {
 		if (m_bLinkCurving && m_selectStatus == NetView::link) {
 			m_bLinkCurving = false;
@@ -1337,6 +1349,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		return;
 	}
 	
+	// リンクを追加し終わった(ノード上でマウスをリリースしたか)
 	bool linked = false;
 	switch (m_addMode) {
 	case NetView::link0:

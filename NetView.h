@@ -238,6 +238,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	CPoint m_curveStartPt;
+	CPoint m_alterLinkStartPt;
 	void deleteSelectedNodes();
 	BOOL m_bGrpOlCoupled;
 	BOOL m_bFormCopied;
