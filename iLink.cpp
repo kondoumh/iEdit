@@ -444,6 +444,41 @@ void iLink::Serialize(CArchive &ar)
 	}
 }
 
+void iLink::SerializeEx(CArchive& ar, int version)
+{
+	if (ar.IsStoring()) {
+		CString fname(lf_.lfFaceName);
+		
+		int curve;
+		if (curved_ == true) {
+			curve = 1;
+		} else {
+			curve = 0;
+		}
+		
+		ar << keyFrom << keyTo << rcFrom << rcTo << ptFrom << ptTo << ptPath << curve
+			<< lineWidth << styleArrow << styleLine << colorLine << name_ << path_
+			<< lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
+			<< fname;
+	} else {
+		CString fname;
+		int curve;
+		ar >> keyFrom >> keyTo >> rcFrom >> rcTo >> ptFrom >> ptTo >> ptPath >> curve
+			>> lineWidth >> styleArrow >> styleLine >> colorLine >> name_ >> path_
+			>> lf_.lfHeight >> lf_.lfWidth >> lf_.lfItalic >> lf_.lfUnderline >> lf_.lfStrikeOut >> lf_.lfWeight
+			>> fname;
+		::lstrcpy(lf_.lfFaceName, fname);
+		if (curve > 0) {
+			curved_ = true;
+		} else {
+			curved_ = false;
+		}
+		if (keyFrom == keyTo) {
+			setConnectPoint();
+		}
+	}
+}
+
 CPoint iLink::getClossPoint(const CRect &target, const CPoint &start)
 {
 	CPoint g((target.left + target.right)/2, (target.top + target.bottom)/2);

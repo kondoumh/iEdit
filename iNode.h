@@ -61,6 +61,7 @@ public:
 	iNode& operator=(const iNode& n);
 	iNode(const iNode& n);
 	virtual void Serialize(CArchive& ar);
+	void SerializeEx(CArchive& ar, int version);
 	const CRect& getBound() const;
 	void setParent(const DWORD& parent);
 	const DWORD& getParent() const;

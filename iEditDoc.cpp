@@ -73,6 +73,7 @@ END_MESSAGE_MAP()
 iEditDoc::iEditDoc()
 {
 	// TODO: この位置に１度だけ呼ばれる構築用のコードを追加してください。
+	m_bShowBranch = false;
 }
 
 iEditDoc::~iEditDoc()
@@ -103,13 +104,25 @@ void iEditDoc::Serialize(CArchive& ar)
 		if (m_bSerializeXML) {
 			SerializeXML(ar);
 		} else {
-			saveOrderByTree(ar); // ノードの保存
-			
-			// リンクの保存
-			ar << links_.size(); 
-			literator li = links_.begin();
-			for ( ; li != links_.end(); li++) {
-				(*li).Serialize(ar);
+			if (m_bOldBinary) {
+				saveOrderByTree(ar); // ノードの保存
+				// リンクの保存
+				ar << links_.size(); 
+				literator li = links_.begin();
+				for ( ; li != links_.end(); li++) {
+					(*li).Serialize(ar);
+				}
+			} else {
+				ar << 1; // シリアル化バージョン番号
+				saveOrderByTreeEx(ar, 1); // ノードの保存
+				// リンクの保存
+				ar << links_.size(); 
+				literator li = links_.begin();
+				for ( ; li != links_.end(); li++) {
+					(*li).SerializeEx(ar, 1);
+				}
+				// OutlineView状態の書き込み
+				saveTreeState(ar, 1);
 			}
 		}
  	}
@@ -121,24 +134,50 @@ void iEditDoc::Serialize(CArchive& ar)
 		if (m_bSerializeXML) {
 			SerializeXML(ar);
 		} else {
-			// ノードの読み込み
-			ar >> lastKey;
- 			unsigned int count;
- 			ar >> count;
-	 		for (unsigned int i = 0; i < count; i++) {
- 				iNode n;
- 				n.Serialize(ar);
- 				nodes_.insert(n);
-				sv.push_back(n.getKey());
- 			}
-			// リンクの読み込み
-			ar >> count;
-			lastLinkKey = 0;
-			for (unsigned int i = 0; i < count; i++) {
-				iLink l;
-				l.Serialize(ar);
-				l.setKey(lastLinkKey++);
-				links_.push_back(l);
+			if (m_bOldBinary) {
+				// ノードの読み込み
+				ar >> lastKey;
+ 				unsigned int count;
+ 				ar >> count;
+	 			for (unsigned int i = 0; i < count; i++) {
+ 					iNode n;
+ 					n.Serialize(ar);
+ 					nodes_.insert(n);
+					sv.push_back(n.getKey());
+ 				}
+				// リンクの読み込み
+				ar >> count;
+				lastLinkKey = 0;
+				for (unsigned int i = 0; i < count; i++) {
+					iLink l;
+					l.Serialize(ar);
+					l.setKey(lastLinkKey++);
+					links_.push_back(l);
+				}
+			} else {
+				// ノードの読み込み
+				int version;
+				ar >> version;
+				ar >> lastKey;
+ 				unsigned int count;
+ 				ar >> count;
+	 			for (unsigned int i = 0; i < count; i++) {
+ 					iNode n;
+ 					n.SerializeEx(ar, version);
+ 					nodes_.insert(n);
+					sv.push_back(n.getKey());
+ 				}
+				// リンクの読み込み
+				ar >> count;
+				lastLinkKey = 0;
+				for (unsigned int i = 0; i < count; i++) {
+					iLink l;
+					l.SerializeEx(ar, version);
+					l.setKey(lastLinkKey++);
+					links_.push_back(l);
+				}
+				// OutlineView状態の読み込み
+				loadTreeState(ar, version);
 			}
 		}
  	}
@@ -174,6 +213,45 @@ void iEditDoc::saveOrderByTree(CArchive& ar)
 	}
 }
 
+void iEditDoc::saveOrderByTreeEx(CArchive &ar, int version)
+{
+	OutlineView* pView = getOutlineView();
+	Labels ls;
+	pView->treeToSequence0(ls);  // シリアライズ専用シーケンス取得
+	ar << lastKey;
+	ar << ls.size();
+	for (unsigned int i = 0; i < ls.size(); i++) {
+		nodeFind.setKey(ls[i].key);
+		niterator it = nodes_.findNodeW(nodeFind);
+		if (it != nodes_.end()) {
+			(*it).setTreeState(ls[i].state);
+			(*it).SerializeEx(ar, version);
+		}
+	}
+}
+
+void iEditDoc::saveTreeState(CArchive &ar, int version)
+{
+	OutlineView* pView = getOutlineView();
+	ar << pView->getBranchMode();
+	ar << m_dwBranchRootKey;
+}
+
+void iEditDoc::loadTreeState(CArchive &ar, int version)
+{
+	int branchMode = 0;
+	ar >> branchMode;
+	if (branchMode == 1 || branchMode == 2) {
+		m_bShowBranch = true;
+	}
+	DWORD branchRootKey;
+	ar >> branchRootKey;
+
+	m_dwBranchRootKey = branchRootKey;
+	calcMaxPt(m_maxPt);
+}
+
+
 /////////////////////////////////////////////////////////////////////////////
 // iEditDoc クラスの診断
 
@@ -191,6 +269,11 @@ void iEditDoc::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 // iEditDoc コマンド
+
+DWORD iEditDoc::getBranchRootKey() const
+{
+	return m_dwBranchRootKey;
+}
 
 void iEditDoc::copyNodeLabels(Labels &v)
 {
@@ -317,15 +400,20 @@ BOOL iEditDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	_splitpath_s(lpszPathName, drive, dir, fname, ext );
 	CString extent = ext;
 	extent.MakeLower();
-	if (extent != ".ied" && extent != ".xml") {
+	if (extent != ".iedx" && extent != ".ied" && extent != ".xml") {
 		AfxMessageBox("iEditファイルではありません");
 		return FALSE;
 	}
 	m_bSerializeXML = false;
-	if (extent == ".ied") {
+	if (extent == ".iedx") {
 		m_bSerializeXML = false;
+		m_bOldBinary = false;
+	} else if (extent == ".ied") {
+		m_bSerializeXML = false;
+		m_bOldBinary = true;
 	} else if (extent == ".xml") {
 		m_bSerializeXML = true;
+		m_bOldBinary = false;
 	}
 	
 	if (!CDocument::OnOpenDocument(lpszPathName))
@@ -345,15 +433,20 @@ BOOL iEditDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	char ext[_MAX_EXT];
 	_splitpath_s(lpszPathName, drive, dir, fname, ext );
 	CString extent = ext;
-	if (extent != ".ied" && extent != ".xml") {
-		extent = ".ied";
+	if (extent != ".iedx" && extent != ".ied" &&extent != ".xml") {
+		extent = ".iedx";
 	}
 	m_bSerializeXML = false;
 	
-	if (extent == ".ied") {
+	if (extent == ".iedx") {
 		m_bSerializeXML = false;
+		m_bOldBinary = false;
+	} else if (extent == ".ied") {
+		m_bSerializeXML = false;
+		m_bOldBinary = true;
 	} else if (extent == ".xml") {
 		m_bSerializeXML = true;
+		m_bOldBinary = false;
 	}
 	return CDocument::OnSaveDocument(lpszPathName);
 }
@@ -374,7 +467,6 @@ void iEditDoc::InitDocument()
 	nodes_.setVisibleNodes(nodes_.getSelKey());
 	calcMaxPt(m_maxPt);
 	canCpyLink = FALSE;
-	m_bShowBranch = false;
 }
 
 CString iEditDoc::getSelectedNodeText()
@@ -3871,7 +3963,7 @@ void iEditDoc::OnFileSaveAs()
 		}
 	}
 	
-	CString szFilter = "iEdit ﾌｧｲﾙ (*.ied)|*.ied| XML ﾌｧｲﾙ (*.xml)|*.xml||";
+	CString szFilter = "iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied|XMLファイル(*.xml)|*.xml||";
 	CFileDialog cfDlg(FALSE, NULL, fileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
 		OFN_FILEMUSTEXIST | OFN_EXPLORER, szFilter, AfxGetMainWnd());
 	if (cfDlg.DoModal() == IDOK) {
@@ -3882,20 +3974,29 @@ void iEditDoc::OnFileSaveAs()
 		ext.MakeLower();
 		
 		switch (index) {
-		case 1: // ied
-			if (ext == "" || ext != "ied" && ext != "xml") {
-				OnSaveDocument(pathName + ".ied");
-				SetPathName(cfDlg.GetPathName() + ".ied");
-			} else if (ext == "ied" || ext == "xml") {
+		case 1: // iedx
+			if (ext != "iedx" && ext != "ied" && ext != "xml") {
+				OnSaveDocument(pathName + ".iedx");
+				SetPathName(cfDlg.GetPathName() + ".iedx");
+			} else if (ext == "iedx" || ext == "ied"|| ext == "xml") {
 				OnSaveDocument(pathName);
 				SetPathName(cfDlg.GetPathName());
 			}
 			break;
-		case 2:
-			if (ext =="" || ext != "xml" && ext != "ied") {
+		case 2: // ied
+			if (ext != "iedx" && ext != "ied" && ext != "xml") {
+				OnSaveDocument(pathName + ".ied");
+				SetPathName(cfDlg.GetPathName() + ".ied");
+			} else if (ext == "iedx" || ext == "ied"|| ext == "xml") {
+				OnSaveDocument(pathName);
+				SetPathName(cfDlg.GetPathName());
+			}
+			break;
+		case 3: // xml
+			if (ext != "iedx" && ext != "xml" && ext != "ied") {
 				OnSaveDocument(cfDlg.GetPathName() + ".xml");
 				SetPathName(cfDlg.GetPathName() + ".xml");
-			} else if (ext == "xml" || ext == "ied") {
+			} else if (ext == "iedx" || ext == "ied"|| ext == "xml") {
 				OnSaveDocument(pathName);
 				SetPathName(cfDlg.GetPathName());
 			}

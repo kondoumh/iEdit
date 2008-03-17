@@ -1434,14 +1434,14 @@ END
 STRINGTABLE 
 BEGIN
     IDR_MAINFRAME           "iEdit"
-    IDR_IEDITTYPE           "\niEdit\niEdit\niEdit ファイル (*.ied)\n.ied\niEdit.Document\niEdit Document"
+    IDR_IEDITTYPE           "\niEdit\niEdit\niEdit ファイル (*.iedx)\n.iedx\niEdit.Document\niEdit Document"
     IDR_XMLTYPE             "\nXML\nxml\nxmlファイル (*.xml)\n.xml\nXML.Document\nXML Document"
 END
 
 STRINGTABLE 
 BEGIN
     AFX_IDS_APP_TITLE       "iEdit"
-    AFX_IDS_IDLEMESSAGE     "ﾚﾃﾞｨ"
+    AFX_IDS_IDLEMESSAGE     "レディ"
 END
 
 STRINGTABLE 
@@ -1452,7 +1452,7 @@ BEGIN
     ID_INDICATOR_SCRL       "SCRL"
     ID_INDICATOR_OVR        "上書"
     ID_INDICATOR_REC        "記録"
-    ID_INDICATOR_KANA       "ｶﾅ"
+    ID_INDICATOR_KANA       "カナ"
 END
 
 STRINGTABLE 
@@ -1462,7 +1462,7 @@ BEGIN
     ID_FILE_CLOSE           "作業中のファイルを閉じる\n閉じる"
     ID_FILE_SAVE            "作業中のファイルを上書きして保存\n保存"
     ID_FILE_SAVE_AS         "作業中のファイルを新しい名前で保存\n名前をつけて保存"
-    ID_FILE_PAGE_SETUP      "印刷ｵﾌﾟｼｮﾝの変更\nﾍﾟｰｼﾞ ﾚｲｱｳﾄの設定"
+    ID_FILE_PAGE_SETUP      "印刷オプションの変更\nページレイアウトの設定"
     ID_FILE_PRINT_SETUP     "プリンタ/印刷オプションの変更\n印刷設定"
     ID_FILE_PRINT           "作業中のファイルを印刷\n印刷"
     ID_FILE_PRINT_PREVIEW   "印刷イメージを表示\n印刷プレビュー"
@@ -1496,12 +1496,12 @@ END
 
 STRINGTABLE 
 BEGIN
-    ID_WINDOW_NEW           "作業中のｳｨﾝﾄﾞｳを複写して表示\n新規ｳｨﾝﾄﾞｳ"
-    ID_WINDOW_ARRANGE       "ｳｨﾝﾄﾞｳの下部にｱｲｺﾝを整列\nｱｲｺﾝの整列"
-    ID_WINDOW_CASCADE       "ｳｨﾝﾄﾞｳを重ねて表示\n重ねて表示"
-    ID_WINDOW_TILE_HORZ     "ｳｨﾝﾄﾞｳを並べて表示\n並べて表示"
-    ID_WINDOW_TILE_VERT     "ｳｨﾝﾄﾞｳを並べて表示\n並べて表示"
-    ID_WINDOW_SPLIT         "作業中のｳｨﾝﾄﾞｳを分割\n分割"
+    ID_WINDOW_NEW           "作業中のウィンドウを複写して表示\n新規ｳｨﾝﾄﾞｳ"
+    ID_WINDOW_ARRANGE       "ウィンドウの下部にｱｲｺﾝを整列\nアイコンの整列"
+    ID_WINDOW_CASCADE       "ウィンドウを重ねて表示\n重ねて表示"
+    ID_WINDOW_TILE_HORZ     "ウィンドウを並べて表示\n並べて表示"
+    ID_WINDOW_TILE_VERT     "ウィンドウを並べて表示\n並べて表示"
+    ID_WINDOW_SPLIT         "作業中のウィンドウを分割\n分割"
 END
 
 STRINGTABLE 
@@ -1522,30 +1522,30 @@ END
 STRINGTABLE 
 BEGIN
     ID_VIEW_TOOLBAR         "ツールバーの 表示/非表示\nツールバーの表示切り替え"
-    ID_VIEW_STATUS_BAR      "ステータスバーの 表示/非表示\nｽﾃｰﾀｽ ﾊﾞｰの表示切り替え"
+    ID_VIEW_STATUS_BAR      "ステータスバーの 表示/非表示\nステータスバーの表示切り替え"
 END
 
 STRINGTABLE 
 BEGIN
-    AFX_IDS_SCSIZE          "ｳｨﾝﾄﾞｳのｻｲｽﾞを変更"
-    AFX_IDS_SCMOVE          "ｳｨﾝﾄﾞｳの位置を変更"
-    AFX_IDS_SCMINIMIZE      "ｳｨﾝﾄﾞｳを最小化する"
-    AFX_IDS_SCMAXIMIZE      "ｳｨﾝﾄﾞｳを最大化する"
-    AFX_IDS_SCNEXTWINDOW    "次のｳｨﾝﾄﾞｳに切り替える"
-    AFX_IDS_SCPREVWINDOW    "前のｳｨﾝﾄﾞｳに切り替える"
-    AFX_IDS_SCCLOSE         "作業中のｳｨﾝﾄﾞｳを閉じ、変更したファイルの保存を指示"
+    AFX_IDS_SCSIZE          "ウィンドウのサイズを変更"
+    AFX_IDS_SCMOVE          "ウィンドウの位置を変更"
+    AFX_IDS_SCMINIMIZE      "ウィンドウを最小化する"
+    AFX_IDS_SCMAXIMIZE      "ウィンドウを最大化する"
+    AFX_IDS_SCNEXTWINDOW    "次のウィンドウに切り替える"
+    AFX_IDS_SCPREVWINDOW    "前のウィンドウに切り替える"
+    AFX_IDS_SCCLOSE         "作業中のウィンドウを閉じ、変更したファイルの保存を指示"
 END
 
 STRINGTABLE 
 BEGIN
-    AFX_IDS_SCRESTORE       "ｳｨﾝﾄﾞｳを通常のｻｲｽﾞに戻す"
-    AFX_IDS_SCTASKLIST      "ｱﾌﾟﾘｹｰｼｮﾝの切り替え"
-    AFX_IDS_MDICHILD        "指定のｳｨﾝﾄﾞｳを表示"
+    AFX_IDS_SCRESTORE       "ウィンドウを通常のサイズに戻す"
+    AFX_IDS_SCTASKLIST      "アプリケーションの切り替え"
+    AFX_IDS_MDICHILD        "指定のウィンドウを表示"
 END
 
 STRINGTABLE 
 BEGIN
-    AFX_IDS_PREVIEW_CLOSE   "印刷ﾌﾟﾚﾋﾞｭｰ ﾓｰﾄﾞの終わり\nﾌﾟﾚﾋﾞｭｰのｷｬﾝｾﾙ"
+    AFX_IDS_PREVIEW_CLOSE   "印刷プレビューモードの終わり\nプレビューのキャンセル"
 END
 
 STRINGTABLE 
@@ -1588,8 +1588,8 @@ BEGIN
     ID_AUTO_LAYOUT          "自動レイアウトモード\n自動レイアウトモード"
     ID_SET_NODE_PROP        "ノードのプロパティをダイアログで設定する"
     ID_GRASP_MODE           "図をつかんでスクロール\nつかんでスクロール"
-    ID_SELECT_CHILD         "ｱｳﾄﾗｲﾝ上で子供の階層を表示する"
-    ID_SELECT_PARENT        "ｱｳﾄﾗｲﾝ上で親の階層を表示する"
+    ID_SELECT_CHILD         "アウトライン上で子供の階層を表示する"
+    ID_SELECT_PARENT        "アウトライン上で親の階層を表示する"
     ID_LINK_STRAIGHT        "曲線リンクを直線にする"
     ID_COPY_TO_CLIPBRD      "クリップボードにネットワークビューの内容をコピーする\n図のコピー"
     ID_NO_BRUSH             "ノードを透明にする(塗りつぶさない)"

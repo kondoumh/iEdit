@@ -58,6 +58,7 @@ public:
 	int getArrowStyle() const;
 	void setArrowStyle(int Style);
 	virtual void Serialize(CArchive& ar);
+	void SerializeEx(CArchive& ar, int version);
 	const CString& getName() const;
 	void setName(const CString& name);
 	void setRTo(const CRect &rt);

@@ -73,6 +73,7 @@ public:
 
 // オペレーション
 public:
+	DWORD getBranchRootKey() const;
 	void duplicateLinks(const IdMap& idm);
 	DWORD duplicateKeyNode(DWORD key);
 	void deleteLinksInBound(const CRect& bound);
@@ -288,6 +289,9 @@ protected:
 	void calcMaxPt(CPoint& pt);
 	void InitDocument();
 	void saveOrderByTree(CArchive& ar);
+	void saveOrderByTreeEx(CArchive& ar, int version);
+	void saveTreeState(CArchive& ar, int version);
+	void loadTreeState(CArchive& ar, int version);
 	//{{AFX_MSG(iEditDoc)
 	afx_msg void OnFileSaveAs();
 	//}}AFX_MSG
@@ -297,6 +301,7 @@ private:
 	iLink m_linkForFormat;
 	CRect m_deleteBound;
 	bool m_bSerializeXML;
+	bool m_bOldBinary;
 	KeySet m_visibleKeys;
 	DWORD m_dwBranchRootKey;
 	CPoint m_pathPtImport;

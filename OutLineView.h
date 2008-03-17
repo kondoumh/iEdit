@@ -41,6 +41,7 @@ public:
 
 // インプリメンテーション
 public:
+	int getBranchMode() const;
 	serialVec getDrawOrder(const bool bShowSubBranch) const;
 	void hideModeless();
 	void treeToSequence0(Labels& ls);
@@ -59,7 +60,6 @@ protected:
 // 生成されたメッセージ マップ関数
 protected:
 	void cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, IdMap& idm);
-	int getBranchMode() const;
 	void resetShowBranch();
 	void doColorSetting();
 	void foldUpTree(HTREEITEM hItem, int curLevel, int levelSet);

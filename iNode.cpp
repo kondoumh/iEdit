@@ -137,7 +137,6 @@ IMPLEMENT_SERIAL(iNode, CObject, 0)
 
 void iNode::Serialize(CArchive &ar)
 {
-//	CObject::Serialize(ar);
 	if (ar.IsStoring()) {
 		CString fname(lf_.lfFaceName);
 		ar << key_ << parent_ << treeState_ << bound_ << styleLine << styleText << shape_ << fixed_
@@ -155,10 +154,6 @@ void iNode::Serialize(CArchive &ar)
 			delete pData;
 		}
 	} else {
-	//	UINT schema_number = ar.GetObjectSchema();
-	//	CString s; s.Format("%d", schema_number);
-	//	AfxMessageBox(s);
-		
 		CString fname;
 		ar >> key_ >> parent_ >> treeState_ >> bound_ >> styleLine >> styleText >> shape_ >> fixed_
 		   >> bfillcolor >> colorFill >> colorFont >> colorLine >> lineWidth >> styleLine >> name_ >> text_
@@ -177,6 +172,45 @@ void iNode::Serialize(CArchive &ar)
 		}
 	}
 }
+
+void iNode::SerializeEx(CArchive& ar, int version)
+{
+	if (ar.IsStoring()) {
+		CString fname(lf_.lfFaceName);
+		ar << key_ << parent_ << treeState_ << bound_ << styleLine << styleText << shape_ << fixed_
+		   << bfillcolor << colorFill << colorFont << colorLine << lineWidth << styleLine << name_ << text_
+		   << lf_.lfCharSet << lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
+		   << fname;
+		if (shape_ == iNode::MetaFile) {
+			UINT hBits = GetEnhMetaFileBits(hMF_, NULL, NULL);
+			BYTE *pData = new BYTE[hBits];
+			UINT ret = GetEnhMetaFileBits(hMF_, hBits, pData);
+			ar << hBits;
+			for (unsigned int i = 0; i < hBits; i++) {
+				ar << pData[i];
+			}
+			delete pData;
+		}
+	} else {
+		CString fname;
+		ar >> key_ >> parent_ >> treeState_ >> bound_ >> styleLine >> styleText >> shape_ >> fixed_
+		   >> bfillcolor >> colorFill >> colorFont >> colorLine >> lineWidth >> styleLine >> name_ >> text_
+		   >> lf_.lfCharSet >> lf_.lfHeight >> lf_.lfWidth >> lf_.lfItalic >> lf_.lfUnderline >> lf_.lfStrikeOut >> lf_.lfWeight
+		   >> fname;
+		::lstrcpy(lf_.lfFaceName, fname);
+		if (shape_ == iNode::MetaFile) {
+			UINT hBits;
+			ar >> hBits;
+			BYTE *pData = new BYTE[hBits];
+			for (unsigned int i = 0; i < hBits; i++) {
+				ar >> pData[i];
+			}
+			hMF_ = SetEnhMetaFileBits(hBits, pData);
+			delete pData;
+		}
+	}
+}
+
 
 iNode& iNode::operator =(const iNode &n)
 {

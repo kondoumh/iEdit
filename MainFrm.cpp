@@ -263,7 +263,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 	_splitpath_s(fileName, drive, dir, fname, ext );
 	CString extent = ext;
 	extent.MakeLower();
-	if (extent != ".ied" && extent != ".xml") {
+	if (extent != ".iedx" && extent != ".ied" && extent != ".xml") {
 		AfxMessageBox("iEditƒtƒ@ƒCƒ‹‚Å‚Í‚ ‚è‚Ü‚¹‚ñ");
 		return;
 	}
