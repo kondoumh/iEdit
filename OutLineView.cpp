@@ -297,15 +297,22 @@ void OutlineView::OnInitialUpdate()
 	
 	// SubBranch表示状態のリストア
 	if (GetDocument()->isShowSubBranch()) {
+		int branchMode = GetDocument()->getInitialBranchMode();
 		m_hItemShowRoot = findKeyItem(GetDocument()->getBranchRootKey(), tree().GetRootItem());
 		if (m_hItemShowRoot == NULL) return;
 		KeySet ks;
 		ks.insert(tree().GetItemData(m_hItemShowRoot));
-		treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
-		GetDocument()->setVisibleNodes(ks);
-		GetDocument()->setShowBranch(tree().GetItemData(m_hItemShowRoot));
-		tree().SetItemImage(m_hItemShowRoot, 2, 2);
-		tree().Expand(m_hItemShowRoot, TVE_EXPAND);
+		if (branchMode == 1) {
+			treeview_for_each2(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
+			GetDocument()->setVisibleNodes(ks);
+			GetDocument()->setShowBranch(tree().GetItemData(m_hItemShowRoot));
+			tree().SetItemImage(m_hItemShowRoot, 1, 1);
+		} else if (branchMode == 2) {
+			treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
+			GetDocument()->setVisibleNodes(ks);
+			GetDocument()->setShowBranch(tree().GetItemData(m_hItemShowRoot));
+			tree().SetItemImage(m_hItemShowRoot, 2, 2);
+		}
 	}
 }
 

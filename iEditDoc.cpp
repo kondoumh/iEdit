@@ -74,6 +74,7 @@ iEditDoc::iEditDoc()
 {
 	// TODO: この位置に１度だけ呼ばれる構築用のコードを追加してください。
 	m_bShowBranch = false;
+	m_initialBranchMode = 0;
 }
 
 iEditDoc::~iEditDoc()
@@ -239,9 +240,8 @@ void iEditDoc::saveTreeState(CArchive &ar, int version)
 
 void iEditDoc::loadTreeState(CArchive &ar, int version)
 {
-	int branchMode = 0;
-	ar >> branchMode;
-	if (branchMode == 1 || branchMode == 2) {
+	ar >> m_initialBranchMode;
+	if (m_initialBranchMode == 1 || m_initialBranchMode == 2) {
 		m_bShowBranch = true;
 	}
 	DWORD branchRootKey;
@@ -273,6 +273,11 @@ void iEditDoc::Dump(CDumpContext& dc) const
 DWORD iEditDoc::getBranchRootKey() const
 {
 	return m_dwBranchRootKey;
+}
+
+int iEditDoc::getInitialBranchMode() const
+{
+	return m_initialBranchMode;
 }
 
 void iEditDoc::copyNodeLabels(Labels &v)

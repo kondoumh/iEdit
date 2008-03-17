@@ -73,6 +73,7 @@ public:
 
 // オペレーション
 public:
+	int getInitialBranchMode() const;
 	DWORD getBranchRootKey() const;
 	void duplicateLinks(const IdMap& idm);
 	DWORD duplicateKeyNode(DWORD key);
@@ -297,6 +298,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	int m_initialBranchMode;
 	iNode m_nodeForFormat;
 	iLink m_linkForFormat;
 	CRect m_deleteBound;
