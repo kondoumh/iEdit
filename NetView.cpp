@@ -2918,8 +2918,8 @@ void NetView::OnCopyToClipbrd()
 	pMfDC->CreateEnhanced(&dc, NULL /*"C:\\test.emf"*/, &rc, _T("iEdit"));
 	pMfDC->SetAttribDC(dc);
 
-	GetDocument()->drawLinks(pMfDC, bDrwAll, true);
 	GetDocument()->drawNodes(pMfDC, bDrwAll);
+	GetDocument()->drawLinks(pMfDC, bDrwAll, true);
 	HENHMETAFILE hmetafile = pMfDC->CloseEnhanced();
 	delete pMfDC;
 	
