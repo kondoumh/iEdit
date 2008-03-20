@@ -291,7 +291,11 @@ void OutlineView::OnInitialUpdate()
 	
 	// TODO:  GetTreeCtrl() メンバ関数の呼び出しを通して直接そのリスト コントロールに
 	//  アクセスすることによって TreeView をアイテムで固定できます。
-	treeConstruct();
+	if (GetDocument()->isOldBinary()) {
+		treeConstruct();
+	} else {
+		treeConstruct2();
+	}
 	
 	doColorSetting(); // 背景色や文字色の設定
 	
@@ -404,6 +408,62 @@ void OutlineView::treeConstruct()
 	tree().SelectItem(hsel);
 	m_hItemShowRoot = tree().GetRootItem();
 }
+
+void OutlineView::treeConstruct2()
+{
+	iEditDoc* pDoc = GetDocument();
+	Labels ls;
+	pDoc->copyNodeLabels(ls);
+
+	HTREEITEM hRoot = tree().InsertItem(ls[0].name, 0, 0);
+	tree().SetItemData(hRoot, ls[0].key);
+	tree().SetItemState(hRoot, ls[0].state, TVIS_EXPANDED);
+	
+	DWORD preKey = 0;
+	HTREEITEM hParent = tree().GetRootItem();
+	HTREEITEM hSel = hParent;
+	HTREEITEM hPrevNew;
+	
+	int prevLevel = 0;
+	HTREEITEM hNew = hRoot;
+	for (unsigned int i = 1; i < ls.size(); i++) {
+		if (prevLevel > ls[i].level) {
+			unsigned int diff = prevLevel - ls[i].level;
+			HTREEITEM hIt = hParent;
+			HTREEITEM hItParent = hIt;
+			for (unsigned int u = 0; u < diff; u++) {
+				hItParent = tree().GetParentItem(hIt);
+				hIt = hItParent;
+			}
+			if (ls[i].parent = tree().GetItemData(hItParent)) {
+				hNew = tree().InsertItem(ls[i].name, 0, 0, hItParent);
+				hParent = hItParent;
+			} else {
+				AfxMessageBox("キーが一致しませんa");
+			}
+			preKey = ls[i].parent;
+		} else if (prevLevel < ls[i].level) {
+			if (ls[i].parent == preKey) {
+				hNew = tree().InsertItem(ls[i].name, 0, 0, hPrevNew);
+				hParent = hPrevNew;
+			} else {
+				AfxMessageBox("キーが一致しませんb");
+			}
+		} else {
+			hNew = tree().InsertItem(ls[i].name, 0, 0, hParent, hPrevNew);
+		}
+		tree().SetItemData(hNew, ls[i].key);
+		tree().SetItemState(hNew, ls[i].state, TVIS_EXPANDED);
+		if (ls[i].state & TVIS_SELECTED) hSel = hNew;
+		
+		preKey = ls[i].parent;
+		hPrevNew = hNew;
+		prevLevel = ls[i].level;
+	}
+	tree().SelectItem(hSel);
+	m_hItemShowRoot = tree().GetRootItem();
+}
+
 
 void OutlineView::treeAddBranch(const DWORD rootKey)
 {

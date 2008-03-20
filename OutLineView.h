@@ -81,6 +81,7 @@ protected:
 	CTreeCtrl& tree() const;
 	HTREEITEM curItem() const;
 	void treeConstruct();
+	void treeConstruct2();
 	//{{AFX_MSG(OutlineView)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);

@@ -75,6 +75,7 @@ iEditDoc::iEditDoc()
 	// TODO: この位置に１度だけ呼ばれる構築用のコードを追加してください。
 	m_bShowBranch = false;
 	m_initialBranchMode = 0;
+	this->m_bOldBinary = false;
 }
 
 iEditDoc::~iEditDoc()
@@ -99,7 +100,7 @@ BOOL iEditDoc::OnNewDocument()
 
 void iEditDoc::Serialize(CArchive& ar)
 {
- 	if (ar.IsStoring())
+	if (ar.IsStoring())
  	{
  		// TODO: この位置に保存用のコードを追加してください。
 		if (m_bSerializeXML) {
@@ -108,22 +109,23 @@ void iEditDoc::Serialize(CArchive& ar)
 			if (m_bOldBinary) {
 				saveOrderByTree(ar); // ノードの保存
 				// リンクの保存
-				ar << links_.size(); 
+				ar << links_.size();
 				literator li = links_.begin();
 				for ( ; li != links_.end(); li++) {
 					(*li).Serialize(ar);
 				}
 			} else {
-				ar << 1; // シリアル化バージョン番号
-				saveOrderByTreeEx(ar, 1); // ノードの保存
+			 	const int SERIAL_VERSION = 2; // シリアル化バージョン番号
+				ar << SERIAL_VERSION;
+				saveOrderByTreeEx(ar, SERIAL_VERSION); // ノードの保存
 				// リンクの保存
 				ar << links_.size(); 
 				literator li = links_.begin();
 				for ( ; li != links_.end(); li++) {
-					(*li).SerializeEx(ar, 1);
+					(*li).SerializeEx(ar, SERIAL_VERSION);
 				}
 				// OutlineView状態の書き込み
-				saveTreeState(ar, 1);
+				saveTreeState(ar, SERIAL_VERSION);
 			}
 		}
  	}
@@ -290,6 +292,7 @@ void iEditDoc::copyNodeLabels(Labels &v)
 		l.key = (*it).getKey();
 		l.parent = (*it).getParent();
 		l.state = (*it).getTreeState();
+		l.level = (*it).getLevel();
 		v.push_back(l);
 	}
 	sv.clear();
@@ -3925,6 +3928,11 @@ CString iEditDoc::getSubBranchRootLabel() const
 bool iEditDoc::isShowSubBranch() const
 {
 	return m_bShowBranch;
+}
+
+bool iEditDoc::isOldBinary() const
+{
+	return m_bOldBinary;
 }
 
 bool iEditDoc::isCurKeyInBranch() const

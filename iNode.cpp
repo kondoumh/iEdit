@@ -181,6 +181,9 @@ void iNode::SerializeEx(CArchive& ar, int version)
 		   << bfillcolor << colorFill << colorFont << colorLine << lineWidth << styleLine << name_ << text_
 		   << lf_.lfCharSet << lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
 		   << fname;
+		if (version > 1) {
+			ar << nLevel_;
+		}
 		if (shape_ == iNode::MetaFile) {
 			UINT hBits = GetEnhMetaFileBits(hMF_, NULL, NULL);
 			BYTE *pData = new BYTE[hBits];
@@ -198,6 +201,9 @@ void iNode::SerializeEx(CArchive& ar, int version)
 		   >> lf_.lfCharSet >> lf_.lfHeight >> lf_.lfWidth >> lf_.lfItalic >> lf_.lfUnderline >> lf_.lfStrikeOut >> lf_.lfWeight
 		   >> fname;
 		::lstrcpy(lf_.lfFaceName, fname);
+		if (version > 1) {
+			ar >> nLevel_;
+		}
 		if (shape_ == iNode::MetaFile) {
 			UINT hBits;
 			ar >> hBits;

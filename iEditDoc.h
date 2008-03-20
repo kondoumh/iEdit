@@ -97,6 +97,7 @@ public:
 
 // インプリメンテーション
 public:
+	bool isOldBinary() const;
 	void applyFormatToSelectedLink();
 	void applyFormatToSelectedNode();
 	void saveSelectedLinkFormat();
