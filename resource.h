@@ -50,7 +50,6 @@
 #define IDD_TEMP                        179
 #define IDD_MFSIZE                      179
 #define ID_ADD_CHILD2                   180
-#define IDR_UML_PALLETE                 182
 #define IDB_NORMAL                      184
 #define IDC_POINTER_COPY                185
 #define IDC_POINTER_MOVE                186
@@ -60,6 +59,8 @@
 #define IDB_TB_PLDWN                    200
 #define IDR_TB_PLDWN                    201
 #define IDC_APLY_FORM                   204
+#define IDI_ICON1                       207
+#define IDR_IEDITTYPE_OLD               207
 #define IDC_LINKFROM                    1001
 #define IDC_LINKTO                      1002
 #define IDC_COMBO                       1003
@@ -302,14 +303,6 @@
 #define ID_EXPORT_SVG                   32869
 #define ID_SHOW_SELECTED_BRANCH         32870
 #define ID_SHOW_SELECTED_CHILDREN       32871
-#define ID_BUTTON32872                  32872
-#define ID_BUTTON32873                  32873
-#define ID_BUTTON32875                  32875
-#define ID_BUTTON32876                  32876
-#define ID_BUTTON32877                  32877
-#define ID_BUTTON32878                  32878
-#define ID_BUTTON32879                  32879
-#define ID_BUTTON32880                  32880
 #define ID_INSERT_CHILD                 32881
 #define ID_INSERT_SIBLING               32882
 #define ID_DROP_LEVEL_UP                32883
@@ -426,7 +419,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        205
+#define _APS_NEXT_RESOURCE_VALUE        208
 #define _APS_NEXT_COMMAND_VALUE         33031
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           105

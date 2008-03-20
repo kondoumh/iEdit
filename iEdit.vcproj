@@ -1155,10 +1155,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\res\bmp00001.bmp"
-				>
-			</File>
-			<File
 				RelativePath=".\res\bmp_tb_form.bmp"
 				>
 			</File>
@@ -1195,10 +1191,6 @@
 				>
 			</File>
 			<File
-				RelativePath="res\icon1.ico"
-				>
-			</File>
-			<File
 				RelativePath="res\iEdit.ico"
 				>
 			</File>
@@ -1211,7 +1203,7 @@
 				>
 			</File>
 			<File
-				RelativePath="res\line1.bmp"
+				RelativePath=".\res\iEditDoc_old.ico"
 				>
 			</File>
 			<File
@@ -1219,19 +1211,7 @@
 				>
 			</File>
 			<File
-				RelativePath="res\linkdl.bmp"
-				>
-			</File>
-			<File
-				RelativePath="res\linkfile.bmp"
-				>
-			</File>
-			<File
 				RelativePath="res\links.bmp"
-				>
-			</File>
-			<File
-				RelativePath="res\linksl.bmp"
 				>
 			</File>
 			<File
@@ -1239,15 +1219,7 @@
 				>
 			</File>
 			<File
-				RelativePath="res\linkurl.bmp"
-				>
-			</File>
-			<File
 				RelativePath="res\logo.bmp"
-				>
-			</File>
-			<File
-				RelativePath="res\palette.bmp"
 				>
 			</File>
 			<File
@@ -1263,15 +1235,7 @@
 				>
 			</File>
 			<File
-				RelativePath="Splsh16.bmp"
-				>
-			</File>
-			<File
 				RelativePath="res\Toolbar.bmp"
-				>
-			</File>
-			<File
-				RelativePath="res\toolbar1.bmp"
 				>
 			</File>
 			<File

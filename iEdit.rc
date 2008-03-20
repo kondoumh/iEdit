@@ -68,6 +68,7 @@ END
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\iEdit.ico"
 IDR_IEDITTYPE           ICON                    "res\\iEditDoc.ico"
+IDR_IEDITTYPE_OLD       ICON                    "res\\iEditDoc_old.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -78,7 +79,6 @@ IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
 IDB_LOGO                BITMAP                  "res\\logo.bmp"
 IDB_LINKS               BITMAP                  "res\\links.bmp"
 IDB_TREE                BITMAP                  "res\\tree.bmp"
-IDR_UML_PALLETE         BITMAP                  "res\\toolbar1.bmp"
 IDB_TB_PLDWN            BITMAP                  "res\\bitmap1.bmp"
 IDR_FORM_PALLETE        BITMAP                  "res\\bmp_tb_form.bmp"
 
@@ -119,20 +119,6 @@ BEGIN
     BUTTON      ID_REFRESH_NET_VIEW
     SEPARATOR
     BUTTON      ID_GRP_OL_COUPLED
-END
-
-IDR_UML_PALLETE TOOLBAR  16, 15
-BEGIN
-    BUTTON      ID_BUTTON32872
-    BUTTON      ID_BUTTON32873
-    SEPARATOR
-    BUTTON      ID_BUTTON32875
-    SEPARATOR
-    BUTTON      ID_BUTTON32876
-    BUTTON      ID_BUTTON32877
-    BUTTON      ID_BUTTON32878
-    BUTTON      ID_BUTTON32879
-    BUTTON      ID_BUTTON32880
 END
 
 IDR_FORM_PALLETE TOOLBAR  16, 15
