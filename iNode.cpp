@@ -55,6 +55,7 @@ iNode::iNode()
 	fixed_ = FALSE;
 	hMF_ = NULL;
 	drawOrder_ = 0;
+	nLevel_ = 0;
 }
 
 iNode::iNode(const CString &name)
@@ -94,6 +95,7 @@ iNode::iNode(const CString &name)
 	procMultiLine();
 	hMF_ = NULL;
 	drawOrder_ = 0;
+	nLevel_ = 0;
 }
 
 iNode::~iNode()
@@ -131,6 +133,7 @@ iNode::iNode(const iNode & n)
 		hMF_ = CopyEnhMetaFile(n.hMF_, NULL);
 	}
 	drawOrder_ = n.drawOrder_;
+	nLevel_ = n.nLevel_;
 }
 
 IMPLEMENT_SERIAL(iNode, CObject, 0)
@@ -245,6 +248,7 @@ iNode& iNode::operator =(const iNode &n)
 	if (shape_ == iNode::MetaFile) {
 		hMF_ = CopyEnhMetaFile(n.hMF_, NULL);
 	}
+	nLevel_ = n.nLevel_;
 	return *this;
 }
 

@@ -422,20 +422,21 @@ void OutlineView::treeConstruct2()
 	DWORD preKey = 0;
 	HTREEITEM hParent = tree().GetRootItem();
 	HTREEITEM hSel = hParent;
-	HTREEITEM hPrevNew;
-	
+	HTREEITEM hPrevNew = tree().GetRootItem();
 	int prevLevel = 0;
+	
 	HTREEITEM hNew = hRoot;
 	for (unsigned int i = 1; i < ls.size(); i++) {
 		if (prevLevel > ls[i].level) {
 			unsigned int diff = prevLevel - ls[i].level;
-			HTREEITEM hIt = hParent;
-			HTREEITEM hItParent = hIt;
-			for (unsigned int u = 0; u < diff; u++) {
+			
+			HTREEITEM hIt = hPrevNew;
+			HTREEITEM hItParent = tree().GetParentItem(hIt);
+			for (unsigned int u = 0; u <= diff; u++) {
 				hItParent = tree().GetParentItem(hIt);
 				hIt = hItParent;
 			}
-			if (ls[i].parent = tree().GetItemData(hItParent)) {
+			if (ls[i].parent == tree().GetItemData(hItParent)) {
 				hNew = tree().InsertItem(ls[i].name, 0, 0, hItParent);
 				hParent = hItParent;
 			} else {
@@ -456,7 +457,7 @@ void OutlineView::treeConstruct2()
 		tree().SetItemState(hNew, ls[i].state, TVIS_EXPANDED);
 		if (ls[i].state & TVIS_SELECTED) hSel = hNew;
 		
-		preKey = ls[i].parent;
+		preKey = ls[i].key;
 		hPrevNew = hNew;
 		prevLevel = ls[i].level;
 	}
