@@ -59,7 +59,6 @@
 #define IDB_TB_PLDWN                    200
 #define IDR_TB_PLDWN                    201
 #define IDC_APLY_FORM                   204
-#define IDI_ICON1                       207
 #define IDR_IEDITTYPE_OLD               207
 #define IDC_LINKFROM                    1001
 #define IDC_LINKTO                      1002
@@ -413,6 +412,7 @@
 #define ID_CREATE_CLONE                 33028
 #define ID_OUTLINE_33029                33029
 #define ID_RESET_SHOW_SUBBRANCH         33030
+#define ID_FILE_NEW2                    33031
 
 // Next default values for new objects
 // 
@@ -420,7 +420,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        208
-#define _APS_NEXT_COMMAND_VALUE         33031
+#define _APS_NEXT_COMMAND_VALUE         33034
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

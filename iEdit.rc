@@ -651,6 +651,183 @@ BEGIN
     END
 END
 
+IDR_IEDITTYPE_OLD MENU 
+BEGIN
+    POPUP "ファイル(&F)"
+    BEGIN
+        MENUITEM "新規作成(&N)\tCtrl+N",            ID_FILE_NEW
+        MENUITEM "開く(&O)...\tCtrl+O",           ID_FILE_OPEN
+        MENUITEM "閉じる(&C)",                     ID_FILE_CLOSE
+        MENUITEM "上書き保存(&S)\tCtrl+S",           ID_FILE_SAVE
+        MENUITEM "名前を付けて保存(&A)...",             ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "印刷(&P)...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "印刷プレビュー(&V)",                 ID_FILE_PRINT_PREVIEW
+        MENUITEM "プリンタの設定(&R)...",              ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "最近使ったファイル",                   ID_FILE_MRU_FILE1
+        MENUITEM SEPARATOR
+        MENUITEM "iEditの終了(&X)",                ID_APP_EXIT
+    END
+    POPUP "編集(&E)"
+    BEGIN
+        MENUITEM "元に戻す(&U)\tCtrl+Z",            ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "切り取り(&T)\tCtrl+X",            ID_EDIT_CUT
+        MENUITEM "コピー(&C)\tCtrl+C",             ID_EDIT_COPY
+        MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "書式を保存",                       ID_SAVE_FORMAT
+        MENUITEM "保存書式を適用",                     ID_APLY_FORMAT
+        MENUITEM SEPARATOR
+        MENUITEM "すべて選択(&A)\tCtrl+A",           ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "検索(&F)...\tCtrl+F",           ID_EDIT_FIND
+        MENUITEM "置換(&R)\tCtrl+R",              ID_EDIT_REPLACE
+    END
+    POPUP "表示(&V)"
+    BEGIN
+        MENUITEM "ツールバーの表示(&T)",                ID_VIEW_TOOLBAR
+        MENUITEM "書式バーの表示(&F)",                 ID_VIEW_FORM_BAR
+        MENUITEM "ステータスバーの表示(&S)",              ID_VIEW_STATUS_BAR
+    END
+    POPUP "アウトライン(&O)"
+    BEGIN
+        MENUITEM "下のレベルに追加(&A)\tCtrl+Alt+Right", ID_ADD_CHILD
+        MENUITEM "同じレベルに追加(&S)\tCtrl+Alt+Down", ID_ADD_SIBLING
+        MENUITEM "ラベル編集(&E)\tF2",               ID_EDIT_LABEL
+        MENUITEM "削除(&D)\tDel",                 ID_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "子ノードをソートする(&R)",              ID_SORT_CHILDREN
+        MENUITEM "折りたたみの指定(&F)",                ID_SET_FOLDUP
+        MENUITEM "ツリーをクリップボードに転送(&C)",          ID_COPY_TREE_TO_CLIPBOARD
+        MENUITEM SEPARATOR
+        MENUITEM "レベルを上げる(&L)\tCtrl+Shift+Left", ID_LEBEL_UP
+        MENUITEM "レベルを下げる(&B)\tCtrl+Shift+Right", ID_LEBEL_DOWN
+        MENUITEM "レベル内の順位上げる(&U)\tCtrl+Shift+Up", ID_ORDER_UP
+        MENUITEM "レベル内の順位下げる)(&O)\tCtrl+Shift+Down", ID_ORDER_DOWN
+        MENUITEM SEPARATOR
+        MENUITEM "別のノードへのリンク(&N)",              ID_ADD_LINK
+        MENUITEM "他のファイル/URLへのリンク(&T)\tCtrl+L", ID_ADD_URL
+    END
+    POPUP "ネットワーク(&N)"
+    BEGIN
+        MENUITEM "選択モード(&S)",                   ID_NORMAL_CURSOR
+        MENUITEM "□   長方形(&R)",                 ID_ADD_RECT
+        MENUITEM "□   角の丸い長方形(&T)",             ID_ADD_ROUND_RECT
+        MENUITEM "○   楕円(&E)",                  ID_ADD_ARC
+        MENUITEM "文字列",                         ID_ADD_LABEL_ONLY
+        MENUITEM " --- 直線(&N)",                 ID_ADD_LINK0
+        MENUITEM " ---> 一方向矢印(&A)",             ID_ADD_LINK1
+        MENUITEM "<---> 双方向矢印(&B)",             ID_ADD_LINK2
+        MENUITEM SEPARATOR
+        MENUITEM "子ノード挿入(&I)\tInsert",          ID_INSERT_CHILD
+        MENUITEM "兄弟ノード挿入(&G)\tShift+Return",   ID_INSERT_SIBLING
+        MENUITEM SEPARATOR
+        MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
+        POPUP "表示属性(&V)"
+        BEGIN
+            POPUP "色(&L)"
+            BEGIN
+                MENUITEM "塗りつぶし色(&F)",                  ID_SET_NODE_BRUSH
+                MENUITEM "透明(&T)",                      ID_NO_BRUSH
+                MENUITEM SEPARATOR
+                MENUITEM "線の色(&E)",                     ID_SET_NODE_LINE_COLOR
+            END
+            POPUP "形(&S)"
+            BEGIN
+                MENUITEM "□ 長方形(&R)",                   ID_SET_NODE_RECT
+                MENUITEM "□ 角の丸い長方形(&T)",               ID_SET_NODE_ROUND_RECT
+                MENUITEM "○ 楕円(&A)",                    ID_SET_NODE_ARC
+                MENUITEM "＿ アンダーバー(&U)",                ID_SET_NODE_MM
+            END
+            POPUP "線の種類(&T)"
+            BEGIN
+                MENUITEM "細",                           ID_SET_LINE_SOLID_0
+                MENUITEM "中細",                          ID_SET_LINE_SOLID_1
+                MENUITEM "中",                           ID_SET_LINE_SOLID_2
+                MENUITEM "中太",                          ID_SET_LINE_SOLID_3
+                MENUITEM "太",                           ID_SET_LINE_SOLID_4
+                MENUITEM SEPARATOR
+                MENUITEM "点線",                          ID_SET_LINE_DOT
+                MENUITEM "線なし",                         ID_SET_LINE_NULL
+            END
+            POPUP "ラベルの書式(&O)"
+            BEGIN
+                MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
+                MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
+            END
+            MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+        END
+        POPUP "矢印(&W)"
+        BEGIN
+            MENUITEM " ---   矢印なし(&N)",             ID_SET_LINK_ARROW_NONE
+            MENUITEM " ---> 一方向矢印(&S)",             ID_SET_LINK_ARROW_SINGLE
+            MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
+        END
+        MENUITEM "ノードのプロパティ(&H)",               ID_SET_NODE_PROP
+        POPUP "ラベルの書式(&O)"
+        BEGIN
+            MENUITEM "天配置↑",                        ID_VALIGN_TOP
+            MENUITEM "中配置",                         ID_VALIGN_CENTER
+            MENUITEM "地配置↓",                        ID_ALIGN_BOTTOM
+            MENUITEM "右寄せ →",                       ID_HALIGN_RIGHT
+            MENUITEM "中",                           ID_HALIGN_CENTER
+            MENUITEM "左寄せ ←",                       ID_HALIGN_LEFT
+            MENUITEM SEPARATOR
+            MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
+            MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
+        END
+        MENUITEM "ルーペ",                         ID_ZOOM_MODE
+        MENUITEM "つかんでスクロール",                   ID_GRASP_MODE
+        MENUITEM "再描画",                         ID_REFRESH_NET_VIEW
+        MENUITEM SEPARATOR
+        MENUITEM "ランダム配置(&D)",                  ID_RANDOMIZE
+        MENUITEM "自動レイアウトモード(&L)",              ID_AUTO_LAYOUT
+        POPUP "レイアウト調整(&J)"
+        BEGIN
+            MENUITEM "↑上にそろえる(&T)",                 ID_ADJUST_TOP
+            MENUITEM "↓下にそろえる(&B)",                 ID_ADJUST_BOTTOM
+            MENUITEM "→右にそろえる(&R)",                 ID_ADJUST_RIGHT
+            MENUITEM "←左にそろえる(&L)",                 ID_ADJUST_LEFT
+            MENUITEM SEPARATOR
+            MENUITEM "↑↓ 高さをそろえる(&H)",              ID_SAME_HEIGHT
+            MENUITEM "←→ 幅をそろえる(&W)",               ID_SAME_WIDTH
+            MENUITEM "幅と高さをそろえる(&S)",               ID_SAME_RECT
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "選択したノード配下の子ノードを表示(&X)\tF5",   ID_SHOW_SELECTED_CHILDREN
+        MENUITEM "選択したノード配下のノードを全て表示(&W)\tF6",  ID_SHOW_SELECTED_BRANCH
+        MENUITEM "すべて表示モードを解除",                 ID_RESET_SHOW_SUBBRANCH
+        MENUITEM SEPARATOR
+        MENUITEM "図のコピー(&C)",                   ID_COPY_TO_CLIPBRD
+        MENUITEM "SVG形式に出力(&O)",                ID_EXPORT_SVG
+    END
+    POPUP "ツール(&T)"
+    BEGIN
+        MENUITEM "インポート(&I)",                   ID_IMPORT_DATA
+        MENUITEM "エクスポート(&E)",                  ID_EXPORT_DATA
+        MENUITEM SEPARATOR
+        MENUITEM "クリップボードのテキストからノードを作成(&L)",    ID_ADD_NODES_FROM_CF_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "透過ウィンドウを有効に(&T)",             ID_TRANSPARENT_MODE
+        MENUITEM "透明度の調整(&A)",                  ID_ADJUST_ALPHA
+        MENUITEM SEPARATOR
+        MENUITEM "オプション(&O)",                   ID_SET_PROPERTIES
+    END
+    POPUP "ウィンドウ(&W)"
+    BEGIN
+        MENUITEM "ビューのフォーカス切り替え(&F)\tF4",       ID_CHANGE_VIEW_FOCUS
+        MENUITEM "重ねて表示(&C)",                   ID_WINDOW_CASCADE
+        MENUITEM "並べて表示(&T)",                   ID_WINDOW_TILE_HORZ
+        MENUITEM "アイコンの整列(&A)",                 ID_WINDOW_ARRANGE
+    END
+    POPUP "ヘルプ(&H)"
+    BEGIN
+        MENUITEM "バージョン情報(&A)",                 ID_APP_ABOUT
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1671,6 +1848,11 @@ STRINGTABLE
 BEGIN
     ID_APLY_FORMAT          "保存された書式を適用する\n保存書式を適用"
     ID_GRP_OL_COUPLED       "簡易グループ化機能とアウトラインビューの階層を連動させる\n簡易グループ化とアウトラインを連動"
+END
+
+STRINGTABLE 
+BEGIN
+    IDR_IEDITTYPE_OLD       "\niEdit old\niEdit old\niEdit ファイル(旧) (*.ied)\n.ied\niEdit.Document_old\niEdit Document (old)"
 END
 
 #endif    // 日本語 resources

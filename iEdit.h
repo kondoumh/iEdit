@@ -119,6 +119,9 @@ protected:
 	void loadmfs(CArchive& ar);
 private:
 	CMultiDocTemplate* m_pDocTemplate;
+	CMultiDocTemplate* m_pDocTemplate2;
+public:
+	afx_msg void OnFileNew();
 };
 
 

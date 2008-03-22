@@ -47,10 +47,10 @@ BEGIN_MESSAGE_MAP(CiEditApp, CWinApp)
 	ON_COMMAND(ID_FILE_OPEN, OnFileOpen)
 	//}}AFX_MSG_MAP
 	// 標準のファイル基本ドキュメント コマンド
-	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
 	// 標準の印刷セットアップ コマンド
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
+	ON_COMMAND(ID_FILE_NEW, &CiEditApp::OnFileNew)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -122,9 +122,17 @@ BOOL CiEditApp::InitInstance()
 	m_pDocTemplate = new CMultiDocTemplate(
 		IDR_IEDITTYPE,
 		RUNTIME_CLASS(iEditDoc),
-		RUNTIME_CLASS(CChildFrame), // カスタム MDI 子フレーム
+		RUNTIME_CLASS(CChildFrame),
 		RUNTIME_CLASS(OutlineView));
 	AddDocTemplate(m_pDocTemplate);
+	
+	// CMultiDocTemplate* pDocTemplate;
+	m_pDocTemplate2 = new CMultiDocTemplate(
+		IDR_IEDITTYPE_OLD,
+		RUNTIME_CLASS(iEditDoc),
+		RUNTIME_CLASS(CChildFrame),
+		RUNTIME_CLASS(OutlineView));
+	AddDocTemplate(m_pDocTemplate2);
 	
 	// メイン MDI フレーム ウィンドウを作成
 	CMainFrame* pMainFrame = new CMainFrame;
@@ -379,7 +387,7 @@ void CiEditApp::notifyViewSetting()
 void CiEditApp::OnFileOpen() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	CString szFilter = "iEdit ﾌｧｲﾙ (*.ied)|*.ied| XML ﾌｧｲﾙ (*.xml)|*.xml||";
+	CString szFilter = "iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied|XMLファイル(*.xml)|*.xml||";
 	CFileDialog cfDlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
 		OFN_FILEMUSTEXIST | OFN_EXPLORER, szFilter, AfxGetMainWnd());
 	if (cfDlg.DoModal() == IDOK) {
@@ -387,6 +395,13 @@ void CiEditApp::OnFileOpen()
 		m_pDocTemplate->OpenDocumentFile(cfDlg.GetPathName());
 	}
 }
+
+void CiEditApp::OnFileNew()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	m_pDocTemplate->OpenDocumentFile(NULL);
+}
+
 
 void CAboutDlg::OnPaint() 
 {
@@ -422,3 +437,4 @@ void CiEditApp::getOtherProfile()
 	m_rgsOther.bSetStylesheet = AfxGetApp()->GetProfileInt(REGS_OTHER, "XML StyleSheet", TRUE);
 	m_rgsOther.strStyleSheetFile = AfxGetApp()->GetProfileString(REGS_OTHER, "XML StyleSheet Name", "iedit.xsl");
 }
+
