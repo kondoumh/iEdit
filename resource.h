@@ -413,6 +413,7 @@
 #define ID_OUTLINE_33029                33029
 #define ID_RESET_SHOW_SUBBRANCH         33030
 #define ID_FILE_NEW2                    33031
+#define ID_SET_LINK_ANGLED              33034
 
 // Next default values for new objects
 // 
@@ -420,7 +421,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        208
-#define _APS_NEXT_COMMAND_VALUE         33034
+#define _APS_NEXT_COMMAND_VALUE         33035
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

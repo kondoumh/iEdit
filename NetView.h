@@ -360,6 +360,8 @@ public:
 	afx_msg void OnUpdateDeleteSelectedNodes(CCmdUI *pCmdUI);
 	afx_msg void OnDeleteSelectedLinks();
 	afx_msg void OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI);
+	afx_msg void OnSetLinkAngled();
+	afx_msg void OnUpdateSetLinkAngled(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

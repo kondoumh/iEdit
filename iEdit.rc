@@ -493,6 +493,7 @@ BEGIN
             MENUITEM "　 ──◆   コンポジション",             ID_SET_LINK_COMPOSIT
         END
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+        MENUITEM "角張らせる(&A)",                   33034
         MENUITEM "リンクをまっすぐに(&S)",               ID_LINK_STRAIGHT
         MENUITEM "リンクの向きを反転させる(&R)",            ID_REVERSE_LINK_DIRECTION
         MENUITEM "書式を保存",                       ID_SAVE_FORMAT
@@ -1853,6 +1854,11 @@ END
 STRINGTABLE 
 BEGIN
     IDR_IEDITTYPE_OLD       "\niEdit old\niEdit old\niEdit ファイル(旧) (*.ied)\n.ied\niEdit.Document_old\niEdit Document (old)"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_SET_LINK_ANGLED      "リンクの曲げ方をベジエじゃなく角張らせる\n角張らせる"
 END
 
 #endif    // 日本語 resources

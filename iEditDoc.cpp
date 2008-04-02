@@ -115,7 +115,7 @@ void iEditDoc::Serialize(CArchive& ar)
 					(*li).Serialize(ar);
 				}
 			} else {
-			 	const int SERIAL_VERSION = 2; // シリアル化バージョン番号
+			 	const int SERIAL_VERSION = 3; // シリアル化バージョン番号
 				ar << SERIAL_VERSION;
 				saveOrderByTreeEx(ar, SERIAL_VERSION); // ノードの保存
 				// リンクの保存
@@ -1612,6 +1612,18 @@ void iEditDoc::setSelectedLinkCurve(CPoint pt, bool curve, bool bDrwAll)
 		calcMaxPt(m_maxPt);
 		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 	}
+}
+
+void iEditDoc::setSelectedLinkAngled(bool angled)
+{
+	literator li = links_.getSelectedLinkW(false);
+	if (li == links_.end()) return;
+	if (!(*li).isCurved()) return;
+	(*li).angle(angled);
+	SetModifiedFlag();
+	iHint h; h.event = iHint::linkModified;
+	calcMaxPt(m_maxPt);
+	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
 void iEditDoc::getSelectedLinkPts(CPoint &start, CPoint &end, bool bDrwAll)

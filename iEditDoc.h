@@ -191,6 +191,7 @@ public:
 	void selectChild();
 	void getSelectedLinkPts(CPoint& start, CPoint& end, bool bDrwAll=false);
 	void setSelectedLinkCurve(CPoint pt, bool curve=true, bool bDrwAll=false);
+	void setSelectedLinkAngled(bool angled = true);
 	CRect getRelatedBound(bool drwAll = false) const;
 	CRect getSelectedLinkBound(bool drwAll=false) const;
 	void setSpecifiedLinkInfo(const listitem& iOld, const listitem& iNew);

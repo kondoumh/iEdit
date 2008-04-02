@@ -37,6 +37,7 @@ iLink::iLink()
 	lineWidth = pApp->m_rgsLink.lineWidth;
 	selected_ = false;
 	curved_ = false;
+	angled_ = false;
 	len_ = -1.0;
 }
 
@@ -67,6 +68,7 @@ iLink::iLink(const iLink &l)
 	lineWidth = l.lineWidth;
 	path_ = l.path_;
 	curved_ = l.curved_;
+	angled_ = l.angled_;
 	len_ = l.len_;
 }
 
@@ -92,6 +94,7 @@ iLink& iLink::operator =(const iLink &l)
 	lineWidth = l.lineWidth;
 	path_ = l.path_;
 	curved_ = l.curved_;
+	angled_ = l.angled_;
 	len_ = l.len_;
 	return *this;
 }
@@ -142,12 +145,18 @@ void iLink::drawLine(CDC *pDC)
 			pDC->MoveTo(ptFrom);
 			pDC->LineTo(ptTo);
 		} else {
-			CPoint pt[4];
-			pt[0] = ptFrom;
-			pt[1] = ptPath;
-			pt[2] = ptPath;
-			pt[3] = ptTo;
-			pDC->PolyBezier(pt, 4);
+			if (!angled_) {
+				CPoint pt[4];
+				pt[0] = ptFrom;
+				pt[1] = ptPath;
+				pt[2] = ptPath;
+				pt[3] = ptTo;
+				pDC->PolyBezier(pt, 4);
+			} else {
+				pDC->MoveTo(ptFrom);
+				pDC->LineTo(ptPath);
+				pDC->LineTo(ptTo);
+			}
 		}
 	} else {
 		pDC->Arc(selfRect, ptFrom, ptTo);
@@ -449,17 +458,16 @@ void iLink::SerializeEx(CArchive& ar, int version)
 	if (ar.IsStoring()) {
 		CString fname(lf_.lfFaceName);
 		
-		int curve;
-		if (curved_ == true) {
-			curve = 1;
-		} else {
-			curve = 0;
-		}
+		int curve = curved_ ? 1 : 0;
 		
 		ar << keyFrom << keyTo << rcFrom << rcTo << ptFrom << ptTo << ptPath << curve
 			<< lineWidth << styleArrow << styleLine << colorLine << name_ << path_
 			<< lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
 			<< fname;
+		if (version > 2) {
+			int angled = angled_ ? 1 : 0;
+			ar << angled;
+		}
 	} else {
 		CString fname;
 		int curve;
@@ -468,11 +476,12 @@ void iLink::SerializeEx(CArchive& ar, int version)
 			>> lf_.lfHeight >> lf_.lfWidth >> lf_.lfItalic >> lf_.lfUnderline >> lf_.lfStrikeOut >> lf_.lfWeight
 			>> fname;
 		::lstrcpy(lf_.lfFaceName, fname);
-		if (curve > 0) {
-			curved_ = true;
-		} else {
-			curved_ = false;
+		if (version > 2) {
+			int angled;
+			ar >> angled;
+			angled_ = (angled > 0);
 		}
+		curved_ = (curve > 0);
 		if (keyFrom == keyTo) {
 			setConnectPoint();
 		}

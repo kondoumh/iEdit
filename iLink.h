@@ -36,7 +36,9 @@ public:
 	CRect getCommentRect() const;
 	void setPathPt(const CPoint& pt);
 	bool isCurved() const;
+	bool isAngled() const;
 	void curve(bool c=true);
+	void angle(bool a=true);
 	const COLORREF& getLinkColor() const;
 	void setLinkColor(const COLORREF& c);
 	const CString& getPath() const;
@@ -101,7 +103,8 @@ private:
 	int selfPos;
 	CRect selfRect;
 	CRgn m_rgn;
-	bool curved_;
+	bool curved_;  // ‹È‚ª‚Á‚Ä‚é
+	bool angled_;  // ‹È‚°•û‚ªŠp’£‚Á‚Ä‚é(Default‚Ífalse)
 	bool selected_;
 	CFont font_;
 	LOGFONT lf_;
@@ -179,6 +182,17 @@ inline void iLink::curve(bool c)
 inline bool iLink::isCurved() const
 {
 	return curved_;
+}
+
+inline bool iLink::isAngled() const
+{
+	return angled_;
+}
+
+inline void iLink::angle(bool a)
+{
+	this->angled_ = a;
+	setConnectPoint();
 }
 
 inline void iLink::setNodes(const CRect &rcf, const CRect &rct, DWORD keyf, DWORD keyt)

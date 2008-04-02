@@ -273,6 +273,8 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_DELETE_SELECTED_NODES, &NetView::OnUpdateDeleteSelectedNodes)
 	ON_COMMAND(ID_DELETE_SELECTED_LINKS, &NetView::OnDeleteSelectedLinks)
 	ON_UPDATE_COMMAND_UI(ID_DELETE_SELECTED_LINKS, &NetView::OnUpdateDeleteSelectedLinks)
+	ON_COMMAND(ID_SET_LINK_ANGLED, &NetView::OnSetLinkAngled)
+	ON_UPDATE_COMMAND_UI(ID_SET_LINK_ANGLED, &NetView::OnUpdateSetLinkAngled)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -4268,4 +4270,20 @@ void NetView::OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	CRect rc = GetDocument()->getSelectedLinkBound();
 	pCmdUI->Enable(m_selectStatus == NetView::multi && !rc.IsRectEmpty());
+}
+
+void NetView::OnSetLinkAngled()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	const iLink* pLink = GetDocument()->getSelectedLink();
+	if (pLink == NULL) return;
+	GetDocument()->setSelectedLinkAngled(!pLink->isAngled());
+}
+
+void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	const iLink* pLink = GetDocument()->getSelectedLink();
+	pCmdUI->Enable(pLink != NULL && pLink->isCurved());
+	pCmdUI->SetCheck(pLink != NULL && pLink->isAngled());
 }
