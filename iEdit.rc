@@ -372,6 +372,19 @@ BEGIN
         MENUITEM "レベル内の順位上げる(&U)",              ID_ORDER_UP
         MENUITEM "レベル内の順位下げる)(&O)",             ID_ORDER_DOWN
         MENUITEM SEPARATOR
+        POPUP "イメージ変更(&Z)"
+        BEGIN
+            MENUITEM "青",                           ID_TREE_IMAGE_BLUE
+            MENUITEM "赤",                           ID_TREE_IMAGE_RED
+            MENUITEM "黄",                           ID_TREE_IMAGE_YEALOW
+            MENUITEM "チェック",                        ID_TREE_IMAGE_CHCEK
+            MENUITEM "×",                           ID_TREE_IMAGE_CANCEL
+            MENUITEM "？",                           ID_TREE_IMAGE_QUESTION
+            MENUITEM "注意",                          ID_TREE_IMAGE_WARNING
+            MENUITEM "ニコニコ",                        ID_TREE_IMAGE_FACE
+            MENUITEM "アイデア",                        ID_TREE_IMAGE_IDEA
+        END
+        MENUITEM SEPARATOR
         MENUITEM "子ノードをソートする(&R)",              ID_SORT_CHILDREN
         MENUITEM SEPARATOR
         MENUITEM "選択したノード配下の子ノードを表示(&X)",       ID_SHOW_SELECTED_CHILDREN

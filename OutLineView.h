@@ -155,6 +155,7 @@ private:
 	void moveNodes(DWORD keyTarget, DWORD keyMove);
 	void catTreeLabel(HTREEITEM hItem, CString& text);
 	enum {drop_none, drop_child, drop_sibling};
+	enum {blue, blueRoot1, blueRoot2, red, yellow, check, cancel, question, warning, face, idea};
 	int m_nDropStatus;
 	HCURSOR m_hCsrCopy;
 	HCURSOR m_hCsrMove;
@@ -191,6 +192,24 @@ public:
 	afx_msg void OnUpdateCreateClone(CCmdUI *pCmdUI);
 	afx_msg void OnResetShowSubbranch();
 	afx_msg void OnUpdateResetShowSubbranch(CCmdUI *pCmdUI);
+	afx_msg void OnTreeImageChcek();
+	afx_msg void OnUpdateTreeImageChcek(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateTreeImageBlue(CCmdUI *pCmdUI);
+	afx_msg void OnTreeImageBlue();
+	afx_msg void OnTreeImageRed();
+	afx_msg void OnUpdateTreeImageRed(CCmdUI *pCmdUI);
+	afx_msg void OnTreeImageYealow();
+	afx_msg void OnUpdateTreeImageYealow(CCmdUI *pCmdUI);
+	afx_msg void OnTreeImageCancel();
+	afx_msg void OnUpdateTreeImageCancel(CCmdUI *pCmdUI);
+	afx_msg void OnTreeImageQuestion();
+	afx_msg void OnUpdateTreeImageQuestion(CCmdUI *pCmdUI);
+	afx_msg void OnTreeImageWarning();
+	afx_msg void OnUpdateTreeImageWarning(CCmdUI *pCmdUI);
+	afx_msg void OnTreeImageFace();
+	afx_msg void OnUpdateTreeImageFace(CCmdUI *pCmdUI);
+	afx_msg void OnTreeImageIdea();
+	afx_msg void OnUpdateTreeImageIdea(CCmdUI *pCmdUI);
 };
 
 inline CTreeCtrl& OutlineView::tree() const

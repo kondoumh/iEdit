@@ -238,6 +238,24 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_UPDATE_COMMAND_UI(ID_CREATE_CLONE, &OutlineView::OnUpdateCreateClone)
 	ON_COMMAND(ID_RESET_SHOW_SUBBRANCH, &OutlineView::OnResetShowSubbranch)
 	ON_UPDATE_COMMAND_UI(ID_RESET_SHOW_SUBBRANCH, &OutlineView::OnUpdateResetShowSubbranch)
+	ON_COMMAND(ID_TREE_IMAGE_CHCEK, &OutlineView::OnTreeImageChcek)
+	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_CHCEK, &OutlineView::OnUpdateTreeImageChcek)
+	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_BLUE, &OutlineView::OnUpdateTreeImageBlue)
+	ON_COMMAND(ID_TREE_IMAGE_BLUE, &OutlineView::OnTreeImageBlue)
+	ON_COMMAND(ID_TREE_IMAGE_RED, &OutlineView::OnTreeImageRed)
+	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_RED, &OutlineView::OnUpdateTreeImageRed)
+	ON_COMMAND(ID_TREE_IMAGE_YEALOW, &OutlineView::OnTreeImageYealow)
+	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_YEALOW, &OutlineView::OnUpdateTreeImageYealow)
+	ON_COMMAND(ID_TREE_IMAGE_CANCEL, &OutlineView::OnTreeImageCancel)
+	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_CANCEL, &OutlineView::OnUpdateTreeImageCancel)
+	ON_COMMAND(ID_TREE_IMAGE_QUESTION, &OutlineView::OnTreeImageQuestion)
+	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_QUESTION, &OutlineView::OnUpdateTreeImageQuestion)
+	ON_COMMAND(ID_TREE_IMAGE_WARNING, &OutlineView::OnTreeImageWarning)
+	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_WARNING, &OutlineView::OnUpdateTreeImageWarning)
+	ON_COMMAND(ID_TREE_IMAGE_FACE, &OutlineView::OnTreeImageFace)
+	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_FACE, &OutlineView::OnUpdateTreeImageFace)
+	ON_COMMAND(ID_TREE_IMAGE_IDEA, &OutlineView::OnTreeImageIdea)
+	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_IDEA, &OutlineView::OnUpdateTreeImageIdea)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -369,7 +387,7 @@ int OutlineView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	
 	// TODO: この位置に固有の作成用コードを追加してください
-	m_imgList.Create(IDB_TREE, 16, 3, RGB(255, 0, 255));
+	m_imgList.Create(IDB_TREE, 16, 11, RGB(255, 0, 255));
 	tree().SetImageList(&m_imgList, TVSIL_NORMAL);
 	setViewFont();
 	m_pSrchDlg = new nodeSrchDlg;
@@ -2405,4 +2423,131 @@ void OutlineView::OnUpdateResetShowSubbranch(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int mode = getBranchMode();
 	pCmdUI->Enable(mode == 1 || mode == 2);
+}
+
+void OutlineView::OnTreeImageChcek()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SetItemImage(curItem(), OutlineView::check, OutlineView::check);
+}
+
+void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int nImage;
+	tree().GetItemImage(curItem(), nImage, nImage);
+	pCmdUI->Enable(nImage != OutlineView::check);
+}
+
+void OutlineView::OnTreeImageBlue()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SetItemImage(curItem(), OutlineView::blue, OutlineView::blue);
+}
+
+void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int nImage;
+	tree().GetItemImage(curItem(), nImage, nImage);
+	pCmdUI->Enable(nImage != OutlineView::blue);
+}
+
+
+void OutlineView::OnTreeImageRed()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SetItemImage(curItem(), OutlineView::red, OutlineView::red);
+}
+
+void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int nImage;
+	tree().GetItemImage(curItem(), nImage, nImage);
+	pCmdUI->Enable(nImage != OutlineView::red);
+}
+
+void OutlineView::OnTreeImageYealow()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SetItemImage(curItem(), OutlineView::yellow, OutlineView::yellow);
+}
+
+void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int nImage;
+	tree().GetItemImage(curItem(), nImage, nImage);
+	pCmdUI->Enable(nImage != OutlineView::yellow);
+}
+
+void OutlineView::OnTreeImageCancel()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SetItemImage(curItem(), OutlineView::cancel, OutlineView::cancel);
+}
+
+void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int nImage;
+	tree().GetItemImage(curItem(), nImage, nImage);
+	pCmdUI->Enable(nImage != OutlineView::cancel);
+}
+
+void OutlineView::OnTreeImageQuestion()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SetItemImage(curItem(), OutlineView::question, OutlineView::question);
+}
+
+void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int nImage;
+	tree().GetItemImage(curItem(), nImage, nImage);
+	pCmdUI->Enable(nImage != OutlineView::question);
+}
+
+void OutlineView::OnTreeImageWarning()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SetItemImage(curItem(), OutlineView::warning, OutlineView::warning);
+}
+
+void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int nImage;
+	tree().GetItemImage(curItem(), nImage, nImage);
+	pCmdUI->Enable(nImage != OutlineView::warning);
+}
+
+void OutlineView::OnTreeImageFace()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SetItemImage(curItem(), OutlineView::face, OutlineView::face);
+}
+
+void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int nImage;
+	tree().GetItemImage(curItem(), nImage, nImage);
+	pCmdUI->Enable(nImage != OutlineView::face);
+}
+
+void OutlineView::OnTreeImageIdea()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	tree().SetItemImage(curItem(), OutlineView::idea, OutlineView::idea);
+}
+
+void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int nImage;
+	tree().GetItemImage(curItem(), nImage, nImage);
+	pCmdUI->Enable(nImage != OutlineView::idea);
 }

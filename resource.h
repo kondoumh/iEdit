@@ -414,6 +414,25 @@
 #define ID_RESET_SHOW_SUBBRANCH         33030
 #define ID_FILE_NEW2                    33031
 #define ID_SET_LINK_ANGLED              33034
+#define ID_OUTLINE_33035                33035
+#define ID_33036                        33036
+#define ID_33037                        33037
+#define ID_33038                        33038
+#define ID_33039                        33039
+#define ID_33040                        33040
+#define ID_33041                        33041
+#define ID_33042                        33042
+#define ID_Menu33043                    33043
+#define ID_33044                        33044
+#define ID_TREE_IMAGE_BLUE              33045
+#define ID_TREE_IMAGE_RED               33046
+#define ID_TREE_IMAGE_YEALOW            33047
+#define ID_TREE_IMAGE_CHCEK             33048
+#define ID_TREE_IMAGE_CANCEL            33049
+#define ID_TREE_IMAGE_FACE              33050
+#define ID_TREE_IMAGE_QUESTION          33051
+#define ID_TREE_IMAGE_WARNING           33052
+#define ID_TREE_IMAGE_IDEA              33053
 
 // Next default values for new objects
 // 
@@ -421,7 +440,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        208
-#define _APS_NEXT_COMMAND_VALUE         33035
+#define _APS_NEXT_COMMAND_VALUE         33054
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
