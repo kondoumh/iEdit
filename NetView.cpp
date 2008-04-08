@@ -4284,6 +4284,6 @@ void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	const iLink* pLink = GetDocument()->getSelectedLink();
-	pCmdUI->Enable(pLink != NULL && pLink->isCurved());
+	pCmdUI->Enable(!GetDocument()->isOldBinary() && pLink != NULL && pLink->isCurved());
 	pCmdUI->SetCheck(pLink != NULL && pLink->isAngled());
 }
