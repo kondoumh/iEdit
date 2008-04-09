@@ -1781,6 +1781,7 @@ void iEditDoc::makeCopyNode(const CPoint& pt, bool useDefault)
 		SetModifiedFlag();
 		iHint hint; hint.event = iHint::rectAdd;
 		hint.str = n.getName();
+		hint.treeIconId = n.getTreeIconId();
 		UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
 	}
 	copyOrg.clear();

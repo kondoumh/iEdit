@@ -1134,6 +1134,7 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 			newItem = tree().InsertItem(ph->str, 0, 0, tree().GetParentItem(curItem()), curItem());
 		}
 		tree().SetItemData(newItem, key);
+		tree().SetItemImage(newItem, ph->treeIconId, ph->treeIconId);
 	//	tree().Expand(curItem(), TVE_EXPAND);
 		tree().SelectItem(newItem);
 		break;

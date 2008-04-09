@@ -32,6 +32,7 @@ public:
 	CRect preRC, curRC;
 	DWORD keyTarget;
 	DWORD keyParent;
+	int treeIconId;
 };
 
 struct colorref {
