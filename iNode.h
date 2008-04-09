@@ -13,6 +13,8 @@ class iNode : public CObject
 {
 DECLARE_SERIAL(iNode)
 public:
+	void setTreeIconId(int id);
+	int getTreeIconId() const;
 	void setDrawOrder(int drawOrder);
 	int getDrawOrder() const;
 	void restoreState();
@@ -115,6 +117,7 @@ public:
 private:
 	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
 	void procMultiLineInner(const CSize& sz, int wmargin, int hmargin);
+	int treeIconId_;
 	unsigned int drawOrder_; // •`‰æ‡˜‚ð•ÛŽ
 	bool bChain_;  // ˆð‚Ã‚é
 	CRect boundPre_; // AutoLayout—p‚ÉEE
@@ -147,9 +150,20 @@ protected:
 	CSize getNodeTextSize();
 };
 
+inline void iNode::setTreeIconId(int id)
+{
+	treeIconId_ = id;
+}
+
+inline int iNode::getTreeIconId() const
+{
+	return treeIconId_;
+}
+	
+
 inline void iNode::setDrawOrder(int drawOrder)
 {
-	this->drawOrder_ = drawOrder;
+	drawOrder_ = drawOrder;
 }
 
 inline int iNode::getDrawOrder() const
@@ -482,6 +496,7 @@ public:
 	int selectNodesInBound(const CRect& bound, CRect& selRect, bool bDrwAll=false);
 	int getSelectedNodeTextStyle() const;
 	void setSelectedNodeTextStyle(int style);
+	void setSelectedNodeTreeIconId(int id);
 	int getSelectedNodeLineWidth() const;
 	int getSelectedNodeLineStyle() const;
 	void setSelectedNodeLineWidth(int w);

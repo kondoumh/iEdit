@@ -79,6 +79,7 @@ struct label {
 	DWORD parent;
 	UINT state;
 	int level;
+	int treeIconId;
 };
 
 typedef vector<label> Labels;

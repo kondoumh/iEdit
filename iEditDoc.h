@@ -97,6 +97,7 @@ public:
 
 // インプリメンテーション
 public:
+	void setSelectedNodeTreeIconId(int id);
 	bool isOldBinary() const;
 	void applyFormatToSelectedLink();
 	void applyFormatToSelectedNode();

@@ -56,6 +56,7 @@ iNode::iNode()
 	hMF_ = NULL;
 	drawOrder_ = 0;
 	nLevel_ = 0;
+	treeIconId_ = 0;
 }
 
 iNode::iNode(const CString &name)
@@ -96,6 +97,7 @@ iNode::iNode(const CString &name)
 	hMF_ = NULL;
 	drawOrder_ = 0;
 	nLevel_ = 0;
+	treeIconId_ = 0;
 }
 
 iNode::~iNode()
@@ -134,6 +136,7 @@ iNode::iNode(const iNode & n)
 	}
 	drawOrder_ = n.drawOrder_;
 	nLevel_ = n.nLevel_;
+	treeIconId_ = n.treeIconId_;
 }
 
 IMPLEMENT_SERIAL(iNode, CObject, 0)
@@ -187,6 +190,9 @@ void iNode::SerializeEx(CArchive& ar, int version)
 		if (version > 1) {
 			ar << nLevel_;
 		}
+		if (version > 3) {
+			ar << treeIconId_;
+		}
 		if (shape_ == iNode::MetaFile) {
 			UINT hBits = GetEnhMetaFileBits(hMF_, NULL, NULL);
 			BYTE *pData = new BYTE[hBits];
@@ -206,6 +212,9 @@ void iNode::SerializeEx(CArchive& ar, int version)
 		::lstrcpy(lf_.lfFaceName, fname);
 		if (version > 1) {
 			ar >> nLevel_;
+		}
+		if (version > 3) {
+			ar >> treeIconId_;
 		}
 		if (shape_ == iNode::MetaFile) {
 			UINT hBits;
@@ -249,6 +258,7 @@ iNode& iNode::operator =(const iNode &n)
 		hMF_ = CopyEnhMetaFile(n.hMF_, NULL);
 	}
 	nLevel_ = n.nLevel_;
+	treeIconId_ = n.treeIconId_;
 	return *this;
 }
 
@@ -996,6 +1006,14 @@ void iNodes::setSelectedNodeTextStyle(int style)
 		if ((*it).isSelected()) {
 			(*it).setTextStyle(style);
 		}
+	}
+}
+
+void iNodes::setSelectedNodeTreeIconId(int id)
+{
+	niterator it = findNodeW(nodeFind);
+	if (it != end()) {
+		(*it).setTreeIconId(id);
 	}
 }
 

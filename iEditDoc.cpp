@@ -115,7 +115,7 @@ void iEditDoc::Serialize(CArchive& ar)
 					(*li).Serialize(ar);
 				}
 			} else {
-			 	const int SERIAL_VERSION = 3; // シリアル化バージョン番号
+			 	const int SERIAL_VERSION = 4; // シリアル化バージョン番号
 				ar << SERIAL_VERSION;
 				saveOrderByTreeEx(ar, SERIAL_VERSION); // ノードの保存
 				// リンクの保存
@@ -293,6 +293,7 @@ void iEditDoc::copyNodeLabels(Labels &v)
 		l.parent = (*it).getParent();
 		l.state = (*it).getTreeState();
 		l.level = (*it).getLevel();
+		l.treeIconId = (*it).getTreeIconId();
 		v.push_back(l);
 	}
 	sv.clear();
@@ -1838,6 +1839,12 @@ void iEditDoc::setSelectedNodeTextStyle(int style)
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
+}
+
+void iEditDoc::setSelectedNodeTreeIconId(int id)
+{
+	nodes_.setSelectedNodeTreeIconId(id);
+	SetModifiedFlag();
 }
 
 void iEditDoc::setSelectedNodeFixed(BOOL f)

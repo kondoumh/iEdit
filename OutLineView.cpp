@@ -436,6 +436,11 @@ void OutlineView::treeConstruct2()
 	HTREEITEM hRoot = tree().InsertItem(ls[0].name, 0, 0);
 	tree().SetItemData(hRoot, ls[0].key);
 	tree().SetItemState(hRoot, ls[0].state, TVIS_EXPANDED);
+//	tree().SetItemImage(hRoot, ls[0].treeIconId, ls[0].treeIconId);
+	/* Rootのイメージをシリアル化で再現するとネットワークビューに
+	   何も表示されないので、今はコメントアウト
+	   TODO:原因追及
+	 */
 	
 	DWORD preKey = 0;
 	HTREEITEM hParent = tree().GetRootItem();
@@ -473,6 +478,7 @@ void OutlineView::treeConstruct2()
 		}
 		tree().SetItemData(hNew, ls[i].key);
 		tree().SetItemState(hNew, ls[i].state, TVIS_EXPANDED);
+		tree().SetItemImage(hNew, ls[i].treeIconId, ls[i].treeIconId);
 		if (ls[i].state & TVIS_SELECTED) hSel = hNew;
 		
 		preKey = ls[i].key;
@@ -808,6 +814,8 @@ void OutlineView::OnLebelUp()
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(hcur), 0, 0, hGrdParent, hParent);
 	tree().SetItemState(hNew, tree().GetItemState(hcur, TVIS_EXPANDED), TVIS_EXPANDED);
 	tree().SetItemData(hNew, tree().GetItemData(hcur));
+	int nImage; tree().GetItemImage(hcur, nImage, nImage);
+	tree().SetItemImage(hNew, nImage, nImage);
 	tree().Expand(hGrdParent, TVE_EXPAND);
 	GetDocument()->setKeyNodeParent(tree().GetItemData(hcur), tree().GetItemData(hGrdParent));
 	
@@ -838,6 +846,8 @@ void OutlineView::OnLebelDown()
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(hcur), 0, 0, tree().GetPrevSiblingItem(hcur));
 	tree().SetItemState(hNew, tree().GetItemState(hcur, TVIS_EXPANDED), TVIS_EXPANDED);
 	tree().SetItemData(hNew, tree().GetItemData(hcur));
+	int nImage; tree().GetItemImage(hcur, nImage, nImage);
+	tree().SetItemImage(hNew, nImage, nImage);
 	tree().Expand(tree().GetPrevSiblingItem(hcur), TVE_EXPAND);
 	GetDocument()->setKeyNodeParent(tree().GetItemData(hcur), tree().GetItemData(tree().GetPrevSiblingItem(hcur)));
 	
@@ -876,6 +886,8 @@ void OutlineView::OnOrderUp()
 		hNew = tree().InsertItem(tree().GetItemText(hcur), 0, 0, tree().GetParentItem(hcur), TVI_FIRST);
 	}
 	tree().SetItemData(hNew, tree().GetItemData(hcur));
+	int nImage; tree().GetItemImage(hcur, nImage, nImage);
+	tree().SetItemImage(hNew, nImage, nImage);
 	tree().SetItemState(hNew, tree().GetItemState(hcur, TVIS_EXPANDED), TVIS_EXPANDED);
 	if (tree().ItemHasChildren(hcur)) {
 		copySubNodes(tree().GetChildItem(hcur), hNew);
@@ -906,6 +918,8 @@ void OutlineView::OnOrderDown()
 	
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(hcur), 0, 0, tree().GetParentItem(hcur), tree().GetNextSiblingItem(hcur));
 	tree().SetItemData(hNew, tree().GetItemData(hcur));
+	int nImage; tree().GetItemImage(hcur, nImage, nImage);
+	tree().SetItemImage(hNew, nImage, nImage);
 	tree().SetItemState(hNew, tree().GetItemState(hcur, TVIS_EXPANDED), TVIS_EXPANDED);
 	if (tree().ItemHasChildren(hcur)) {
 		copySubNodes(tree().GetChildItem(hcur), hNew);
@@ -931,6 +945,8 @@ void OutlineView::copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent)
 		hItem = item;
 		HTREEITEM hNew = tree().InsertItem(tree().GetItemText(hItem), 0, 0, hNewParent);
 		tree().SetItemData(hNew, tree().GetItemData(hItem));
+		int nImage; tree().GetItemImage(hItem, nImage, nImage);
+		tree().SetItemImage(hNew, nImage, nImage);
 		tree().SetItemState(hNew, tree().GetItemState(hItem, TVIS_EXPANDED), TVIS_EXPANDED);
 		if (tree().ItemHasChildren(hItem)) {
 			copySubNodes(tree().GetChildItem(hItem), hNew);
@@ -1005,6 +1021,8 @@ void OutlineView::OnEditUndo()
 		hNew = tree().InsertItem(tree().GetItemText(m_hItemMoved), 0, 0, m_hParentPreMove, TVI_FIRST);
 	}
 	tree().SetItemData(hNew, tree().GetItemData(m_hItemMoved));
+	int nImage; tree().GetItemImage(m_hItemMoved, nImage, nImage);
+	tree().SetItemImage(hNew, nImage, nImage);
 	tree().SetItemState(hNew, tree().GetItemState(m_hItemMoved, TVIS_EXPANDED), TVIS_EXPANDED);
 	GetDocument()->setKeyNodeParent(tree().GetItemData(m_hItemMoved), tree().GetItemData(m_hParentPreMove));
 	if (tree().ItemHasChildren(m_hItemMoved)) {
@@ -1395,6 +1413,8 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 				HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, m_hitemDrop);
 				tree().SetItemState(hNew, tree().GetItemState(m_hitemDrag, TVIS_EXPANDED), TVIS_EXPANDED);
 				tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
+				int nImage; tree().GetItemImage(m_hitemDrag, nImage, nImage);
+				tree().SetItemImage(hNew, nImage, nImage);
 				tree().Expand(m_hitemDrop, TVE_EXPAND);
 				GetDocument()->setKeyNodeParent(tree().GetItemData(m_hitemDrag), tree().GetItemData(m_hitemDrop));
 				if (tree().ItemHasChildren(m_hitemDrag)) {
@@ -1433,6 +1453,8 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 				HTREEITEM hParent = tree().GetParentItem(m_hitemDrop);
 				HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, hParent, m_hitemDrop);
 				tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
+				int nImage; tree().GetItemImage(m_hitemDrag, nImage, nImage);
+				tree().SetItemImage(hNew, nImage, nImage);
 				GetDocument()->setKeyNodeParent(tree().GetItemData(m_hitemDrag), tree().GetItemData(hParent));
 				if (tree().ItemHasChildren(m_hitemDrag)) {
 					copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
@@ -2212,6 +2234,9 @@ void OutlineView::OnDropFirstOrder()
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, m_hitemDrop, TVI_FIRST);
 	tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
+	int nImage; tree().GetItemImage(m_hitemDrag, nImage, nImage);
+	tree().SetItemImage(hNew, nImage, nImage);
+	
 	GetDocument()->setKeyNodeParent(tree().GetItemData(m_hitemDrag), tree().GetItemData(m_hitemDrop));
 	if (tree().ItemHasChildren(m_hitemDrag)) {
 		copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
@@ -2239,6 +2264,10 @@ void OutlineView::OnDropLevelUp()
 	HTREEITEM hParent = tree().GetParentItem(m_hitemDrop);
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, hParent, m_hitemDrop);
 	tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
+	
+	int nImage; tree().GetItemImage(m_hitemDrag, nImage, nImage);
+	tree().SetItemImage(hNew, nImage, nImage);
+	
 	GetDocument()->setKeyNodeParent(tree().GetItemData(m_hitemDrag), tree().GetItemData(hParent));
 	if (tree().ItemHasChildren(m_hitemDrag)) {
 		copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
@@ -2343,6 +2372,9 @@ void OutlineView::moveNodes(DWORD keyTarget, DWORD keyMove)
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(hMove), 0, 0, hTarget);
 	tree().SetItemState(hNew, tree().GetItemState(hMove, TVIS_EXPANDED), TVIS_EXPANDED);
 	tree().SetItemData(hNew, tree().GetItemData(hMove));
+	int nImage; tree().GetItemImage(hMove, nImage, nImage);
+	tree().SetItemImage(hNew, nImage, nImage);
+	
 	tree().Expand(hTarget, TVE_EXPAND);
 	GetDocument()->setKeyNodeParent(keyMove, keyTarget);
 	if (tree().ItemHasChildren(hMove)) {
@@ -2363,6 +2395,9 @@ void OutlineView::OnCreateClone()
 	HTREEITEM hSelected = tree().GetSelectedItem();
 	HTREEITEM hNew = tree().InsertItem(label, tree().GetParentItem(hSelected), hSelected);
 	tree().SetItemData(hNew, newKey);
+	int nImage; tree().GetItemImage(hSelected, nImage, nImage);
+	tree().SetItemImage(hNew, nImage, nImage);
+	
 	tree().SetItemState(hNew, tree().GetItemState(hSelected, TVIS_EXPANDED), TVIS_EXPANDED);
 	IdMap idm;
 	idm[key] = newKey;
@@ -2401,6 +2436,9 @@ void OutlineView::cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, Id
 		GetDocument()->setKeyNodeParent(newKey, tree().GetItemData(targetParent));
 		HTREEITEM hNew = tree().InsertItem(label, 0, 0, targetParent);
 		tree().SetItemData(hNew, newKey);
+		int nImage; tree().GetItemImage(hItem, nImage, nImage);
+		tree().SetItemImage(hNew, nImage, nImage);
+
 		tree().SetItemState(hNew, tree().GetItemState(hItem, TVIS_EXPANDED), TVIS_EXPANDED);
 		idm[key] = newKey;
 		if (tree().ItemHasChildren(hItem)) {
@@ -2429,6 +2467,7 @@ void OutlineView::OnTreeImageChcek()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::check, OutlineView::check);
+	GetDocument()->setSelectedNodeTreeIconId(OutlineView::check);
 }
 
 void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
@@ -2436,13 +2475,16 @@ void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(nImage != OutlineView::check);
+	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		nImage != OutlineView::check &&
+		curItem() != tree().GetRootItem());
 }
 
 void OutlineView::OnTreeImageBlue()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::blue, OutlineView::blue);
+	GetDocument()->setSelectedNodeTreeIconId(OutlineView::blue);
 }
 
 void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
@@ -2450,14 +2492,16 @@ void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(nImage != OutlineView::blue);
+	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		nImage != OutlineView::blue &&
+		curItem() != tree().GetRootItem());
 }
-
 
 void OutlineView::OnTreeImageRed()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::red, OutlineView::red);
+	GetDocument()->setSelectedNodeTreeIconId(OutlineView::red);
 }
 
 void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
@@ -2465,13 +2509,16 @@ void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(nImage != OutlineView::red);
+	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		nImage != OutlineView::red &&
+		curItem() != tree().GetRootItem());
 }
 
 void OutlineView::OnTreeImageYealow()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::yellow, OutlineView::yellow);
+	GetDocument()->setSelectedNodeTreeIconId(OutlineView::yellow);
 }
 
 void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
@@ -2479,13 +2526,16 @@ void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(nImage != OutlineView::yellow);
+	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		nImage != OutlineView::yellow &&
+		curItem() != tree().GetRootItem());
 }
 
 void OutlineView::OnTreeImageCancel()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::cancel, OutlineView::cancel);
+	GetDocument()->setSelectedNodeTreeIconId(OutlineView::cancel);
 }
 
 void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
@@ -2493,13 +2543,16 @@ void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(nImage != OutlineView::cancel);
+	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		nImage != OutlineView::cancel &&
+		curItem() != tree().GetRootItem());
 }
 
 void OutlineView::OnTreeImageQuestion()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::question, OutlineView::question);
+	GetDocument()->setSelectedNodeTreeIconId(OutlineView::question);
 }
 
 void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
@@ -2507,13 +2560,16 @@ void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(nImage != OutlineView::question);
+	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		nImage != OutlineView::question &&
+		curItem() != tree().GetRootItem());
 }
 
 void OutlineView::OnTreeImageWarning()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::warning, OutlineView::warning);
+	GetDocument()->setSelectedNodeTreeIconId(OutlineView::warning);
 }
 
 void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
@@ -2521,13 +2577,16 @@ void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(nImage != OutlineView::warning);
+	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		nImage != OutlineView::warning &&
+		curItem() != tree().GetRootItem());
 }
 
 void OutlineView::OnTreeImageFace()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::face, OutlineView::face);
+	GetDocument()->setSelectedNodeTreeIconId(OutlineView::face);
 }
 
 void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
@@ -2535,13 +2594,16 @@ void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(nImage != OutlineView::face);
+	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		nImage != OutlineView::face &&
+		curItem() != tree().GetRootItem());
 }
 
 void OutlineView::OnTreeImageIdea()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::idea, OutlineView::idea);
+	GetDocument()->setSelectedNodeTreeIconId(OutlineView::idea);
 }
 
 void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
@@ -2549,5 +2611,7 @@ void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(nImage != OutlineView::idea);
+	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		nImage != OutlineView::idea &&
+		curItem() != tree().GetRootItem());
 }
