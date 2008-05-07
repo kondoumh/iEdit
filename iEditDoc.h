@@ -44,19 +44,32 @@ struct colorref {
 typedef vector<iLink> lVec;
 class OutlineView;
 
-class Memento {
+class Command {
 private:
-	int mementoType_;
-	iNode node_;
-	iLink link_;
+	int commandType_;
+	vector<iNode> nodesBefoe_;
+	vector<iLink> linksBefore_;
+	vector<iNode> nodesAfter_;
+	vector<iLink> linksAfter_;
+	iNodes& docNodes;
+	iLinks& docLinks;
 public:
-	enum {NodeType, LinkType};
-	Memento(const iNode& node) : node_(node) {mementoType_ = Memento::NodeType;}
-	Memento(const iLink& link) : link_(link) {mementoType_ = Memento::LinkType;}
-	int getMementoType() { return mementoType_; }
+	enum {Add, Delete, ChangeProperty, ChangeOutline};
+	void Undo();
+	void Redo();
+	Command(iNodes& nodes, iLinks& links) : docNodes(nodes), docLinks(links) {}
 };
 
-typedef stack<Memento> Mementos;
+class UndoManager {
+private:
+	vector<Command*> commandHistory_;
+public:
+	bool canUndo() const;
+	bool canRedo() const;
+	void Undo();
+	void Redo();
+	void AddCommandToHistory(const Command* command);
+};
 
 class iEditDoc : public CDocument
 {
@@ -64,7 +77,6 @@ class iEditDoc : public CDocument
 	iLinks links_;
 	nVec nodes_undo;
 	lVec links_undo;
-	Mementos mements_;
 protected: // シリアライズ機能のみから作成します。
 	iEditDoc();
 	DECLARE_DYNCREATE(iEditDoc)
