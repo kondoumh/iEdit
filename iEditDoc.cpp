@@ -977,6 +977,7 @@ void iEditDoc::addNodeInternal(const CString &name, const CPoint &pt, int nodeTy
 	}
 	
 	hint.str = name;
+	hint.treeIconId = OutlineView::blue;
 	UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
 }
 

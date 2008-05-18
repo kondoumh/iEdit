@@ -20,6 +20,7 @@ protected: // シリアライズ機能のみから作成します。
 // アトリビュート
 public:
 	iEditDoc* GetDocument();
+	enum {blue, blueRoot1, blueRoot2, red, yellow, check, cancel, question, warning, face, idea};
 
 // オペレーション
 public:
@@ -155,7 +156,6 @@ private:
 	void moveNodes(DWORD keyTarget, DWORD keyMove);
 	void catTreeLabel(HTREEITEM hItem, CString& text);
 	enum {drop_none, drop_child, drop_sibling};
-	enum {blue, blueRoot1, blueRoot2, red, yellow, check, cancel, question, warning, face, idea};
 	int m_nDropStatus;
 	HCURSOR m_hCsrCopy;
 	HCURSOR m_hCsrMove;
