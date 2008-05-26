@@ -1001,6 +1001,7 @@ void iEditDoc::addNodeMF(const CString &name, const CPoint &pt, int mfIndex, HEN
 	iHint hint;
 	hint.event = iHint::rectAdd;
 	hint.str = name;
+	hint.treeIconId = OutlineView::blue;
 	UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
 }
 
