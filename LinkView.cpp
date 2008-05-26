@@ -401,15 +401,32 @@ void LinkView::jumpTo()
 		return;
 	}
 	int type = items_[index].linkType;
-	if (type == listitem::FileName || type == listitem::WebURL || type == listitem::linkFolder) {
-		CString path;
+	if (type == listitem::FileName || type == listitem::linkFolder) {
+		CString path = items_[index].path;
 		char drive[_MAX_DRIVE];
 		char dir[_MAX_DIR];
 		char fname[_MAX_FNAME];
 		char ext[_MAX_EXT];
 		_splitpath_s(path, drive, dir, fname, ext );
 		CString workdir; workdir.Format("%s%s", drive, dir);
-		ShellExecute(m_hWnd, "open", items_[index].path, NULL, workdir, SW_SHOW);
+		
+		CString sdrive(drive);
+		if (sdrive == "") {
+			// ドライブレターが無い場合、編集中のieditファイルとの
+			// 相対位置と見なして、ファイルオープンを試みる
+			CString ieditFilePath = GetDocument()->GetPathName();
+			char drive2[_MAX_DRIVE];
+			char dir2[_MAX_DIR];
+			char fname2[_MAX_FNAME];
+			char ext2[_MAX_EXT];
+			_splitpath_s(ieditFilePath, drive2, dir2, fname2, ext2);
+			CString combPath; combPath.Format("%s%s%s%s%s",drive2, dir2, dir, fname, ext);
+			workdir.Format("%s%s", drive, dir, dir2);
+			path = combPath;
+		}
+		ShellExecute(m_hWnd, "open", path, NULL, workdir, SW_SHOW);
+	} else if (type == listitem::WebURL) {
+		ShellExecute(m_hWnd, "open", items_[index].path, NULL, NULL, SW_SHOW);
 	} else {
 		kstack.push(GetDocument()->getSelectedNodeKey());
 		GetDocument()->selChanged(items_[index].keyTo, true, GetDocument()->isShowSubBranch());
