@@ -906,6 +906,16 @@ const_literator iLinks::getSelectedLink(bool bDrwAll) const
 	return end();
 }
 
+const_literator iLinks::getSelectedLink2() const
+{
+	const_literator it = begin();
+	for ( ; it != end(); it++) {
+		if ((*it).isSelected()) {
+			return it;
+		}
+	}
+}
+
 literator iLinks::getSelectedLinkW(bool bDrwAll)
 {
 	literator it = begin();

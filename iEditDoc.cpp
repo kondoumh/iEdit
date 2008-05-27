@@ -1665,7 +1665,7 @@ BOOL iEditDoc::isSelectedLinkCurved(bool bDrwAll) const
 
 void iEditDoc::setCpLinkOrg()
 {
-	const_literator li = links_.getSelectedLink(true);
+	const_literator li = links_.getSelectedLink2();
 	if (li != links_.end()) {
 		m_cpLinkOrg = (*li);
 		canCpyLink = TRUE;

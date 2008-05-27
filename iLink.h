@@ -404,6 +404,7 @@ public:
 	void selectLinksInBound(const CRect& r, bool bDrwAll);
 	literator getSelectedLinkW(bool bDrwAll);
 	const_literator getSelectedLink(bool bDrwAll) const;
+	const_literator getSelectedLink2() const;
 	void drawSelection(CDC* pDC, bool bDrwAll);
 	bool hitTest(const CPoint& pt, DWORD& key, CString& path, bool bDrwAll);
 	void drawArrows(CDC* pDC, bool bDrwAll);
