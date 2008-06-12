@@ -55,7 +55,7 @@ public:
 	BOOL isFilled() const;
 	const COLORREF& getFontColor() const;
 	const LOGFONT& getFontInfo() const;
-	void setFontInfo(const LOGFONT& lf);
+	void setFontInfo(const LOGFONT& lf, bool resize=true);
 	bool operator ==(iNode &n);
 	bool operator <(iNode &n);
 	void setBound(const CRect& r);

@@ -64,7 +64,7 @@ protected:
 	void setMFSize();
 	void doColorSetting();
 	void CenterOnLogicalPoint(CPoint ptCenter);
-	void doPostSelection(const CPoint& logPt);
+	void doPostSelection(const CPoint& logPt, BOOL shiftPressed);
 	void doUpdateSelection(const CPoint& logPt);
 	bool isAddingLink() const;
 	bool isAddingNode() const;
@@ -95,7 +95,7 @@ protected:
 	void adjustRedrawBound(CRect& rc);
 	void addNode(const CPoint& logPt, const CPoint& screenPt, const CString& s="");
 	void trackMulti(CPoint& logPt, CPoint& point, CDC* pDC);
-	void trackSingle(CPoint& logPt, CPoint& point, CDC* pDC);
+	void trackSingle(CPoint& logPt, CPoint& point, CDC* pDC, BOOL keepRatio = FALSE);
 	void drawAddLink(CDC* pDC);
 	void startLink(const CPoint pt);
 	void drawSelection(CDC* pDC);

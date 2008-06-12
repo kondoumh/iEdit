@@ -262,7 +262,7 @@ iNode& iNode::operator =(const iNode &n)
 	return *this;
 }
 
-void iNode::setFontInfo(const LOGFONT &lf)
+void iNode::setFontInfo(const LOGFONT &lf, bool resize)
 {
 	LONG pre = lf_.lfHeight;
 	lf_ = lf;
@@ -270,8 +270,10 @@ void iNode::setFontInfo(const LOGFONT &lf)
 	double rate = (double)lf_.lfHeight/(double)pre;
 	double cx = ((double)(bound_.Width()))*rate;
 	double cy = ((double)(bound_.Height()))*rate;
-	bound_.right = bound_.left + (LONG)cx;
-	bound_.bottom = bound_.top + (LONG)cy;
+	if (resize) {
+		bound_.right = bound_.left + (LONG)cx;
+		bound_.bottom = bound_.top + (LONG)cy;
+	}
 }
 
 void iNode::setName(const CString &name)
@@ -1296,7 +1298,7 @@ void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 					lf.lfHeight += 2;
 				}
 			}
-			(*it).setFontInfo(lf);
+			(*it).setFontInfo(lf, false);
 		}
 	}
 }

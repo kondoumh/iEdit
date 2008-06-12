@@ -16,6 +16,7 @@
 #include "MfSizer.h"
 #include "Token.h"
 #include "imm.h"
+#include "RectTrackerPlus.h"
 
 
 #ifdef _DEBUG
@@ -689,7 +690,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		CClientDC dc(this);
 		OnPrepareDC(&dc);
 		if (trackState != CRectTracker::hitNothing && trackState != CRectTracker::hitMiddle) {
-			trackSingle(logPt, point, &dc);
+			trackSingle(logPt, point, &dc, nFlags & MK_SHIFT);
 			return;
 		}
 	}
@@ -698,7 +699,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	doUpdateSelection(logPt);
 	
 	// 選択更新後のトラック処理及び選択用ラバーバンドの処理
-	doPostSelection(logPt);
+	doPostSelection(logPt, nFlags & MK_SHIFT);
 	
 	CScrollView::OnLButtonDown(nFlags, point);
 }
@@ -778,7 +779,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 }
 
 // 選択が更新された後の処理 --トラック処理とラバーバンド処理
-void NetView::doPostSelection(const CPoint &logPt)
+void NetView::doPostSelection(const CPoint &logPt, BOOL shiftPressed)
 {
 	CPoint logicalPt = logPt;
 	CPoint point = logPt;
@@ -787,7 +788,7 @@ void NetView::doPostSelection(const CPoint &logPt)
 		// 単独選択の場合 → トラック処理にすぐ入る
 		CWindowDC dc(this);
 		OnPrepareDC(&dc);
-		trackSingle(logicalPt, point, &dc);
+		trackSingle(logicalPt, point, &dc, shiftPressed);
 	} else if (m_selectStatus == NetView::none) {
 		// 何も選択されていない場合は 選択用ラバーバンドの処理
 		CRectTracker tracker;
@@ -860,13 +861,19 @@ void NetView::trackMulti(CPoint &logPt, CPoint &point, CDC *pDC)
 	}
 }
 
-void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC)
+void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio)
 {
-	CRectTracker tracker;
+	CRectTrackerPlus tracker;
 	CRect org = m_selectRect;
 	CRect selectRect = m_selectRect;
 	ViewLPtoDP(selectRect);
+	
 	tracker.m_rect = selectRect;
+	if (keepRatio) {
+		tracker.setKeepRatio();
+		tracker.setInitialRect(selectRect);
+	}
+	
 	tracker.m_nStyle = CRectTracker::resizeInside;
 	CRect old = GetDocument()->getRelatedBound(false); adjustRedrawBound(old);
 	if(tracker.Track(this, point, TRUE) ) {
