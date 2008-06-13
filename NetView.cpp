@@ -2389,7 +2389,10 @@ void NetView::OnEditPaste()
 		}
 		
 		HENHMETAFILE hm = NULL;
-		if (::IsClipboardFormatAvailable(CF_DIB) || ::IsClipboardFormatAvailable(CF_BITMAP)) {
+		
+		if (::IsClipboardFormatAvailable(CF_ENHMETAFILE)) {
+			hm = (HENHMETAFILE)::GetClipboardData(CF_ENHMETAFILE);
+		} else if (::IsClipboardFormatAvailable(CF_DIB) || ::IsClipboardFormatAvailable(CF_BITMAP)) {
 			HBITMAP hb = (HBITMAP)::GetClipboardData(CF_BITMAP);
 			CBitmap * pBitmap = CBitmap::FromHandle(hb);
 			CClientDC dc(this);
@@ -2413,8 +2416,6 @@ void NetView::OnEditPaste()
 			pMfDC->SelectObject(tmpBitmap);
 			hm = pMfDC->CloseEnhanced();
 			delete pMfDC;
-		} else {
-			hm = (HENHMETAFILE)::GetClipboardData(CF_ENHMETAFILE);
 		}
 		GetDocument()->disableUndo();
 		GetDocument()->addNodeMF("ê}å`", ptDrop, iNode::MetaFile, hm);
