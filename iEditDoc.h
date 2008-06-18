@@ -27,6 +27,7 @@ public:
 		  nodeDeleteMulti,
 		  linkDeleteMulti
 	};
+	iHint() : treeIconId(0) {}
 	int event;
 	CString str;
 	CRect preRC, curRC;
@@ -55,20 +56,28 @@ private:
 	iLinks& docLinks;
 public:
 	enum {Add, Delete, ChangeProperty, ChangeOutline};
-	void Undo();
-	void Redo();
+	void Undo(iNodes* pNodes, iLinks* pLinks);
+	void Redo(iNodes* pNodes, iLinks* pLinks);
+	inline void setCommandType(int commandType) { commandType_ = commandType; }
 	Command(iNodes& nodes, iLinks& links) : docNodes(nodes), docLinks(links) {}
 };
 
 class UndoManager {
 private:
+	iNodes* pNodes_;
+	iLinks* pLinks_;
 	vector<Command*> commandHistory_;
+	vector<Command*> redoHistory_;
 public:
+	UndoManager() {}
+	~UndoManager() {}
+	inline void setNodes(iNodes* pNodes) { pNodes_ = pNodes; }
+	inline void setLinks(iLinks* pLinks) { pLinks_ = pLinks; }
 	bool canUndo() const;
 	bool canRedo() const;
 	void Undo();
 	void Redo();
-	void AddCommandToHistory(const Command* command);
+	void AddCommandToHistory(Command* command);
 };
 
 class iEditDoc : public CDocument
@@ -77,6 +86,7 @@ class iEditDoc : public CDocument
 	iLinks links_;
 	nVec nodes_undo;
 	lVec links_undo;
+	UndoManager m_undoManager;
 protected: // シリアライズ機能のみから作成します。
 	iEditDoc();
 	DECLARE_DYNCREATE(iEditDoc)
