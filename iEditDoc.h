@@ -127,6 +127,7 @@ public:
 	void saveSelectedLinkFormat();
 	void saveSelectedNodeFormat();
 	void resizeSelectedNodeFont(bool bEnLarge);
+	void resizeSelectedLinkFont(bool bEnLarge);
 	bool hitTest2(const CPoint& pt);
 	int getKeyNodeLevelNumber(DWORD key);
 	void addNodeInternal(const CString& name, const CPoint& pt, int nodeType, bool bEnableMultiLineProcess, bool bNoBound = false);

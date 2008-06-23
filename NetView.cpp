@@ -3812,25 +3812,27 @@ void NetView::OnFontEnlarge()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->resizeSelectedNodeFont(true);
+	GetDocument()->resizeSelectedLinkFont(true);
 }
 
 void NetView::OnUpdateFontEnlarge(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
+	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnFontEnsmall()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->resizeSelectedNodeFont(false);
+	GetDocument()->resizeSelectedLinkFont(false);
 }
 
 
 void NetView::OnUpdateFontEnsmall(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
+	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnSetLinkDependSingle()

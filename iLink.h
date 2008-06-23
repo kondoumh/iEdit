@@ -383,6 +383,7 @@ typedef list<iLink>::iterator literator;
 
 class iLinks : public lContena {
 public:
+	void resizeSelectedLinkFont(bool bEnlarge);
 	DWORD getFirstVisiblePair(DWORD key) const;
 	void drawSelectionTo(CDC* pDC, bool bDrwAll);
 	void drawSelectionFrom(CDC* pDC, bool bDrwAll);

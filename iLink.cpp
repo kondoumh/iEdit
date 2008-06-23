@@ -1152,3 +1152,22 @@ DWORD iLinks::getFirstVisiblePair(DWORD key) const
 	}
 	return -1;
 }
+
+void iLinks::resizeSelectedLinkFont(bool bEnlarge)
+{
+	literator it = begin();
+	for ( ; it != end(); it++) {
+		if ((*it).isSelected()) {
+			LOGFONT lf = (*it).getFontInfo();
+			LONG pre = lf.lfHeight;
+			if (bEnlarge) {
+				lf.lfHeight -= 2;
+			} else {
+				if (lf.lfHeight < -4) {
+					lf.lfHeight += 2;
+				}
+			}
+			(*it).setFontInfo(lf);
+		}
+	}
+}

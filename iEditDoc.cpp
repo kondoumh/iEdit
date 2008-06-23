@@ -4756,6 +4756,20 @@ void iEditDoc::resizeSelectedNodeFont(bool bEnLarge)
 	UpdateAllViews(NULL, (LPARAM)(nodes_.getSelKey()), &hint);
 }
 
+void iEditDoc::resizeSelectedLinkFont(bool bEnLarge)
+{
+	backUpUndoNodes();
+	backUpUndoLinks();
+	links_.resizeSelectedLinkFont(bEnLarge);
+	setConnectPoint3();
+	calcMaxPt(m_maxPt);
+	SetModifiedFlag();
+	iHint hint;
+	hint.event = iHint::linkModified;
+	UpdateAllViews(NULL, (LPARAM)(nodes_.getSelKey()), &hint);
+}
+
+
 void iEditDoc::setConnectPoint3()
 {
 	literator li = links_.begin();
