@@ -159,7 +159,18 @@ void iLink::drawLine(CDC *pDC)
 			}
 		}
 	} else {
-		pDC->Arc(selfRect, ptFrom, ptTo);
+		if (!angled_) {
+			CPoint pt[4];
+			pt[0] = ptFrom;
+			pt[1] = ptPath;
+			pt[2] = ptPath;
+			pt[3] = ptTo;
+			pDC->PolyBezier(pt, 4);
+		} else {
+			pDC->MoveTo(ptFrom);
+			pDC->LineTo(ptPath);
+			pDC->LineTo(ptTo);
+		}
 	}
 	pDC->SelectObject(pOldPen);
 	penLine.DeleteObject();
@@ -280,18 +291,7 @@ void iLink::drawTriangles(CDC* pDC)
 				rotateArrow(pt, 3, ptPath, ptTo, ptTo);		
 			}
 		} else {
-			CPoint gFrom = rcFrom.CenterPoint();
-			CPoint from;
-			if (ptPath.x >= gFrom.x && ptPath.y <= gFrom.y) {
-				from.x = gFrom.x + selfRect.Width()/8; from.y = rcFrom.top - selfRect.Height();
-			} else if (ptPath.x >= gFrom.x && ptPath.y > gFrom.y) {
-				from.x = rcFrom.right+selfRect.Height(); from.y = gFrom.y + selfRect.Height()/8;
-			} else if (ptPath.x < gFrom.x && ptPath.y > gFrom.y) {
-				from.x = gFrom.x - selfRect.Width()/8, from.y = rcFrom.bottom + selfRect.Height();
-			} else if (ptPath.x < gFrom.x && ptPath.y <= gFrom.y) {
-				from.x = rcFrom.left - selfRect.Width(); from.y = gFrom.y - selfRect.Height()/8;
-			}
-			rotateArrow(pt, 3, from, ptTo, ptTo);
+			rotateArrow(pt, 3, ptPath, ptTo, ptTo);		
 		}
 		if (styleArrow == iLink::arrow || styleArrow == iLink::arrow2 ||
 			styleArrow == iLink::inherit) {
@@ -319,18 +319,7 @@ void iLink::drawTriangles(CDC* pDC)
 				rotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
 			}
 		} else {
-			CPoint gFrom = rcFrom.CenterPoint();
-			CPoint from;
-			if (ptPath.x >= gFrom.x && ptPath.y <= gFrom.y) {
-				from.x = rcFrom.right+selfRect.Height(); from.y = gFrom.y - selfRect.Height()/8;
-			} else if (ptPath.x >= gFrom.x && ptPath.y > gFrom.y) {
-				from.x = gFrom.x + selfRect.Width()/8, from.y = rcFrom.bottom + selfRect.Height();
-			} else if (ptPath.x < gFrom.x && ptPath.y > gFrom.y) {
-				from.x = rcFrom.left - selfRect.Width(); from.y = gFrom.y + selfRect.Height()/8;
-			} else if (ptPath.x < gFrom.x && ptPath.y <= gFrom.y) {
-				from.x = gFrom.x - selfRect.Width()/8; from.y = rcFrom.top - selfRect.Height();
-			}
-			rotateArrow(pt, 3, from, ptFrom, ptFrom);
+			rotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
 		}
 		if (styleArrow == iLink::arrow2) {
 			pDC->Polygon(pt, 3);
