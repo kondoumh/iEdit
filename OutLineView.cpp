@@ -309,7 +309,7 @@ void OutlineView::OnInitialUpdate()
 	
 	// TODO:  GetTreeCtrl() メンバ関数の呼び出しを通して直接そのリスト コントロールに
 	//  アクセスすることによって TreeView をアイテムで固定できます。
-	if (GetDocument()->isOldBinary()) {
+	if (GetDocument()->isOldBinary() || GetDocument()->getSerialVersion() <= 1) {
 		treeConstruct();
 	} else {
 		treeConstruct2();

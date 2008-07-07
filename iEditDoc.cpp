@@ -75,7 +75,8 @@ iEditDoc::iEditDoc()
 	// TODO: この位置に１度だけ呼ばれる構築用のコードを追加してください。
 	m_bShowBranch = false;
 	m_initialBranchMode = 0;
-	this->m_bOldBinary = false;
+	m_bOldBinary = false;
+	m_serialVersion = 0;
 }
 
 iEditDoc::~iEditDoc()
@@ -161,6 +162,7 @@ void iEditDoc::Serialize(CArchive& ar)
 				// ノードの読み込み
 				int version;
 				ar >> version;
+				m_serialVersion = version;
 				ar >> lastKey;
  				unsigned int count;
  				ar >> count;
@@ -4925,6 +4927,10 @@ void iEditDoc::duplicateLinks(const IdMap& idm)
 	}
 }
 
+int iEditDoc::getSerialVersion() const
+{
+	return m_serialVersion;
+}
 
 // UndoManagerのメソッド定義
 bool UndoManager::canUndo() const

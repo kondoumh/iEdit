@@ -86,6 +86,7 @@ class iEditDoc : public CDocument
 	iLinks links_;
 	nVec nodes_undo;
 	lVec links_undo;
+	int m_serialVersion;
 	UndoManager m_undoManager;
 protected: // シリアライズ機能のみから作成します。
 	iEditDoc();
@@ -96,6 +97,7 @@ public:
 
 // オペレーション
 public:
+	int getSerialVersion() const;
 	int getInitialBranchMode() const;
 	DWORD getBranchRootKey() const;
 	void duplicateLinks(const IdMap& idm);
