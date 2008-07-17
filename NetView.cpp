@@ -2237,7 +2237,7 @@ void NetView::OnUpdateLinkStraight(CCmdUI* pCmdUI)
 {
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
-	pCmdUI->Enable(GetDocument()->isSelectedLinkCurved(bDrwAll));
+	pCmdUI->Enable(GetDocument()->isSelectedLinkCurved(bDrwAll) && !GetDocument()->isSelectedLinkSelf());
 }
 
 CRect NetView::getCurveBound(const CPoint &pt)

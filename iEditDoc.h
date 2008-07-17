@@ -214,6 +214,7 @@ public:
 	void addSetLinkOrg();
 	void setCpLinkOrg();
 	BOOL isSelectedLinkCurved(bool bDrwAll=false) const;
+	BOOL isSelectedLinkSelf() const;
 	void notifySelectLink(const lsItems& ls, int index, bool drwAll=false);
 	void selectChild();
 	void getSelectedLinkPts(CPoint& start, CPoint& end, bool bDrwAll=false);

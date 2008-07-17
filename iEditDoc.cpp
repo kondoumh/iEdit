@@ -577,6 +577,7 @@ void iEditDoc::moveNodesInBound(const CRect& bound,	const CSize move)
 	if (itSelected == nodes_.end()) return;
 	niterator it = nodes_.begin();
 	bool moved = false;
+	KeySet keySet;
 	for ( ; it != nodes_.end(); it++) {
 		if (!(*it).isVisible()) continue;
 		BOOL bInBound = bound.PtInRect((*it).getBound().TopLeft()) &&
@@ -584,14 +585,22 @@ void iEditDoc::moveNodesInBound(const CRect& bound,	const CSize move)
 		if (bInBound) {
 			if ((*it).getDrawOrder() > (*itSelected).getDrawOrder()) {
 				(*it).moveBound(move);
-				setConnectPoint();
-				if (links_.getFirstVisiblePair((*it).getKey()) != -1) {
-					moved = true;
-				}
+				keySet.insert((*it).getKey());
+				moved = true;
 			}
 		}
 	}
+	
 	if (moved) {
+		literator li = links_.begin();
+		for ( ; li != links_.end(); li++) {
+			if (keySet.find((*li).getKeyFrom()) != keySet.end() &&
+				keySet.find((*li).getKeyTo()) != keySet.end()) {
+				(*li).movePts(move);
+			}
+		}
+		setConnectPoint();
+		
 		iHint hint; hint.event = iHint::groupMoved;
 		UpdateAllViews(NULL, nodes_.getSelKey(), &hint);
 	}
@@ -1662,6 +1671,16 @@ BOOL iEditDoc::isSelectedLinkCurved(bool bDrwAll) const
 	if (li != links_.end() && (*li).isCurved()) {
 		return TRUE;
 	}
+	return FALSE;
+}
+
+BOOL iEditDoc::isSelectedLinkSelf() const
+{
+	const_literator li = links_.getSelectedLink(false);
+
+	if (li == links_.end()) return FALSE;
+	if ((*li).getArrowStyle() == iLink::other) return FALSE;
+	if ((*li).getKeyFrom() == (*li).getKeyTo()) return TRUE;
 	return FALSE;
 }
 
