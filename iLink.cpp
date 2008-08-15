@@ -903,6 +903,7 @@ const_literator iLinks::getSelectedLink2() const
 			return it;
 		}
 	}
+	return end();
 }
 
 literator iLinks::getSelectedLinkW(bool bDrwAll)
