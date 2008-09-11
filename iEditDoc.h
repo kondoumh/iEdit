@@ -203,7 +203,7 @@ public:
 	void makeCopyNode(const CPoint& pt, bool useDefault = true);
 	void setSelectedNodeCopyOrg();
 	BOOL linkExist(bool drwAll = false) const;
-	void addNode2(const label& l, const CSize& mvSz);
+	void addNode2(const iNode& n);
 	int getDataSize() const;
 	void setSelectedNodeNoBrush(BOOL noBrush=TRUE);
 	COLORREF getSelectedNodeBrsColor() const;

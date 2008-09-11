@@ -70,11 +70,13 @@ protected:
 	afx_msg LRESULT OnSearchNode(UINT wParam, LONG lParam);
 	void htmlOutTree(HTREEITEM hItem, CStdioFile* f);
 	bool ImportXML(const CString& inPath);
-	bool ImportText(const CString& inPath);
+	bool ImportText(const CString& inPath, nVec& addNodes);
+	int countLineIndentLevel(const CString& line) const;
 	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab, BOOL bOutText=TRUE);
 	void OutputText(const CString& outPath);
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
 	void treeAddBranch(const DWORD rootKey);
+	void treeAddBranch2(const DWORD rootKey, nVec& addNodes);
 	void deleteNode();
 	void deleteKeyNode(DWORD key, DWORD parentKey);
 	void copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent);

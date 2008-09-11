@@ -340,12 +340,8 @@ void iEditDoc::addNode(const label &l, DWORD inheritKey, bool bInherit)
 }
 
 // OutlineViewのインポートテキストファイル専用に作ってる
-void iEditDoc::addNode2(const label &l, const CSize& mvSz)
+void iEditDoc::addNode2(const iNode &n)
 {
-	iNode n(l.name);
-	n.setKey(l.key);
-	n.setParent(l.parent);
-	n.moveBound(mvSz);
 	nodes_.insert(n);
 	sv.push_back(n.getKey());
 	SetModifiedFlag();

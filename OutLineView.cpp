@@ -523,6 +523,68 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 		prcdlg.m_ProgProc.StepIt();  // プログレスバーを更新
 	}
 	tree().SelectItem(hsel);
+	tree().Expand(hsel, TVIS_EXPANDED);
+}
+
+void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
+{
+	iEditDoc* pDoc = GetDocument();
+	
+	HTREEITEM hRoot = findKeyItem(rootKey, tree().GetRootItem());
+	HTREEITEM hNew;
+	if (addNodes.size() > 0) {
+		hNew = tree().InsertItem(addNodes[0].getName(), 0, 0, hRoot);
+		tree().SetItemData(hNew, addNodes[0].getKey());
+		tree().SetItemState(hNew, TVIS_EXPANDED, TVIS_EXPANDED);
+		tree().SetItemImage(hNew, 0, 0);
+		addNodes[0].setParent(tree().GetItemData(hRoot));
+		GetDocument()->addNode2(addNodes[0]);
+	}
+	
+	int loop = addNodes.size() - 1;
+	if (loop <= 0) return;
+	
+	COnProcDlg prcdlg;
+	prcdlg.Create(IDD_ONPROC);
+	prcdlg.m_ProcName.SetWindowText("登録中");
+	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
+	prcdlg.m_ProgProc.SetRange(0, loop);
+	
+	DWORD preKey = rootKey;
+	HTREEITEM hParent = hRoot;
+	HTREEITEM hSel = hParent;
+	int prevLevel = addNodes[0].getLevel();
+	HTREEITEM hPrevNew = hNew;
+	for (unsigned int i = 1; i < addNodes.size(); i++) {
+		preKey = addNodes[i-1].getKey();
+		hPrevNew = hNew;
+		prevLevel = addNodes[i-1].getLevel();
+		if (prevLevel > addNodes[i].getLevel()) {
+			unsigned int diff = prevLevel - addNodes[i].getLevel();
+			
+			HTREEITEM hIt = hPrevNew;
+			HTREEITEM hItParent = tree().GetParentItem(hIt);
+			for (unsigned int u = 0; u <= diff; u++) {
+				hItParent = tree().GetParentItem(hIt);
+				hIt = hItParent;
+			}
+			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hItParent);
+			hParent = hItParent;
+		} else if (prevLevel < addNodes[i].getLevel()) {
+			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hPrevNew);
+			hParent = hPrevNew;
+		} else {
+			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hParent, hPrevNew);
+		}
+		addNodes[i].setParent(tree().GetItemData(hParent));
+		GetDocument()->addNode2(addNodes[i]);
+		tree().SetItemData(hNew, addNodes[i].getKey());
+		tree().SetItemImage(hNew, 0, 0);
+		
+		prcdlg.m_ProgProc.StepIt();  // プログレスバーを更新
+	}
+	
+	tree().SelectItem(hSel);
 }
 
 
@@ -1625,8 +1687,8 @@ void OutlineView::OnImportData()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString txtpath;
-	char szFilters[] = "xmlﾌｧｲﾙ (*.xml)|*.xml|ﾃｷｽﾄﾌｧｲﾙ (*.txt)|*.txt||";
-	CFileDialog dlg(TRUE, "xml", txtpath, OFN_HIDEREADONLY, szFilters, this);
+	char szFilters[] = "テキストファイル (*.txt)|*.txt|xmlファイル (*.xml)|*.xml||";
+	CFileDialog dlg(TRUE, "txt", txtpath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
 	
@@ -1658,13 +1720,19 @@ void OutlineView::OnImportData()
 	}
 	bool ret;
 	if (extent == ".txt") {
-		ret = ImportText(infileName);
+		nVec addNodes;
+		ret = ImportText(infileName, addNodes);
+		if (ret) {
+			treeAddBranch2(tree().GetItemData(curItem()), addNodes);
+		}
 	} else if (extent == ".xml") {
 		ret = ImportXML(infileName);
+		if (ret) {
+			treeAddBranch(tree().GetItemData(curItem()));
+		}
 	}
 	
 	if (ret) {
-		treeAddBranch(tree().GetItemData(curItem()));
 		MessageBox("終了しました", caption, MB_OK);
 	} else {
 		MessageBox("失敗しました", caption, MB_OK);
@@ -1901,7 +1969,7 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, CStdioFile *f)
 	}
 }
 
-bool OutlineView::ImportText(const CString &inPath)
+bool OutlineView::ImportText(const CString &inPath, nVec &addNodes)
 {
 	CStdioFile f;
 	CFileStatus status;
@@ -1927,20 +1995,74 @@ bool OutlineView::ImportText(const CString &inPath)
 	}
 	
 	CSize mvSz(10, 10);
-	int lineCount;
-	for (lineCount = 0; f.ReadString(line) != NULL && lineCount < 3000; lineCount++) {
-		if (line.GetLength() == 0) continue;
-		label l;
-		l.name = line;
-		l.key = GetDocument()->getUniqKey();
-		l.parent = tree().GetItemData(curItem());
-		
-		GetDocument()->addNode2(l, mvSz);
-		mvSz.cx += 20; mvSz.cy += 30;
-		prcdlg.m_ProgProc.StepIt();  // プログレスバーを更新
+	CString label;
+	CString text;
+	int curLevel = 0;
+	bool nodeCreated = false;
+	for (int i = 0; f.ReadString(line) != FALSE; i++) {
+		int level = countLineIndentLevel(line);
+		if (level > curLevel && level - curLevel > 1 && nodeCreated) {
+			CString mes; mes.Format("%d行目 : %s", i + 1, line);
+			MessageBox(mes, "インポートエラー:階層が正しくありません", MB_ICONSTOP);
+			return false;
+		}
+		if (level == 0) {
+			if (text == "" && line == "") {
+				continue;
+			}
+			if (nodeCreated) {
+				text.Append(line + _T("\r\n"));
+				continue;
+			}
+		} else {
+			if (label == "") {
+				label = line.TrimLeft(_T("."));
+				continue;
+			}
+			nodeCreated = true;
+			iNode node;
+			node.setName(label);
+			node.setText(text);
+			node.setKey(GetDocument()->getUniqKey());
+			node.setParent(tree().GetItemData(curItem()));
+			node.moveBound(mvSz);
+			node.setLevel(curLevel);
+			addNodes.push_back(node);
+			
+			text = "";
+			label = line.TrimLeft(_T("\t."));
+			curLevel = level;
+			if (label == "") {
+				label = "<名称未設定>";
+			}
+			mvSz.cx += 20; mvSz.cy += 30;
+			prcdlg.m_ProgProc.StepIt();  // プログレスバーを更新
+		}
 	}
 	f.Close();
+	
+	if (label != "") {
+		iNode node;
+		node.setName(label);
+		node.setText(text);
+		node.setKey(GetDocument()->getUniqKey());
+		node.setParent(tree().GetItemData(curItem()));
+		node.moveBound(mvSz);
+		node.setLevel(curLevel);
+		addNodes.push_back(node);
+	}
 	return true;
+}
+
+int OutlineView::countLineIndentLevel(const CString& line) const
+{
+	int i = 0;
+	for (; i < line.GetLength(); i++) {
+		if (line.GetAt(i) != '.') {
+			break;
+		}
+	}
+	return i;
 }
 
 bool OutlineView::ImportXML(const CString &inPath)
