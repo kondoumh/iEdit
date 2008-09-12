@@ -70,8 +70,9 @@ protected:
 	afx_msg LRESULT OnSearchNode(UINT wParam, LONG lParam);
 	void htmlOutTree(HTREEITEM hItem, CStdioFile* f);
 	bool ImportXML(const CString& inPath);
-	bool ImportText(const CString& inPath, nVec& addNodes);
-	int countLineIndentLevel(const CString& line) const;
+	bool ImportText(const CString& inPath, nVec& addNodes, const char LevelChar);
+	bool levelToNode(const vector<CString>& lines, nVec& addNodes, const char levelChar='.');
+	int countLineIndentLevel(const CString& line, const char levelChar) const;
 	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab, BOOL bOutText=TRUE);
 	void OutputText(const CString& outPath);
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
@@ -212,6 +213,8 @@ public:
 	afx_msg void OnUpdateTreeImageFace(CCmdUI *pCmdUI);
 	afx_msg void OnTreeImageIdea();
 	afx_msg void OnUpdateTreeImageIdea(CCmdUI *pCmdUI);
+	afx_msg void OnPasteTreeFromClipboard();
+	afx_msg void OnUpdatePasteTreeFromClipboard(CCmdUI *pCmdUI);
 };
 
 inline CTreeCtrl& OutlineView::tree() const

@@ -397,6 +397,7 @@ BEGIN
         MENUITEM "クローンを作成(&H)",                 33028
         MENUITEM SEPARATOR
         MENUITEM "ツリーをクリップボードに転送(&G)",          ID_COPY_TREE_TO_CLIPBOARD
+        MENUITEM "クリップボードからツリーを生成(&Y)",         ID_PASTE_TREE_FROM_CLIPBOARD
         MENUITEM SEPARATOR
         MENUITEM "別のノードへのリンク(&N)",              ID_ADD_LINK
         MENUITEM "他のファイル/URLへのリンク(&T)",         ID_ADD_URL
@@ -1240,6 +1241,18 @@ BEGIN
     CTEXT           "",IDC_LB_LEVEL,10,10,20,19,SS_CENTERIMAGE | WS_BORDER
 END
 
+IDD_IMPORT_TEXT DIALOGEX 0, 0, 213, 77
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "階層付きテキストインポート"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         ". ピリオド(階層付きテキストの標準)",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,31,20,125,10
+    CONTROL         "タブ",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,31,36,27,10
+    DEFPUSHBUTTON   "開始(&S)",IDOK,85,56,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,150,56,50,14
+    GROUPBOX        "階層用の文字",IDC_STATIC,17,8,184,44
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1456,6 +1469,14 @@ BEGIN
         RIGHTMARGIN, 240
         TOPMARGIN, 7
         BOTTOMMARGIN, 48
+    END
+
+    IDD_IMPORT_TEXT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 206
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 70
     END
 END
 #endif    // APSTUDIO_INVOKED

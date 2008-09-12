@@ -335,6 +335,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\ImportTextDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath="iNode.cpp"
 				>
 				<FileConfiguration
@@ -1007,6 +1011,10 @@
 			</File>
 			<File
 				RelativePath="iLink.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ImportTextDlg.h"
 				>
 			</File>
 			<File

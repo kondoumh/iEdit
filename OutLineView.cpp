@@ -11,10 +11,12 @@
 #include "OnProcDlg.h"
 #include "SelImportDlg.h"
 #include "SelExportDlg.h"
+#include "ImportTextDlg.h"
 
 #include "nodeSrchDlg.h"
 #include "setFoldUpDlg.h"
 #include "InpcnDlg.h"
+#include "Token.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -256,7 +258,9 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_FACE, &OutlineView::OnUpdateTreeImageFace)
 	ON_COMMAND(ID_TREE_IMAGE_IDEA, &OutlineView::OnTreeImageIdea)
 	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_IDEA, &OutlineView::OnUpdateTreeImageIdea)
-END_MESSAGE_MAP()
+	ON_COMMAND(ID_PASTE_TREE_FROM_CLIPBOARD, &OutlineView::OnPasteTreeFromClipboard)
+	ON_UPDATE_COMMAND_UI(ID_PASTE_TREE_FROM_CLIPBOARD, &OutlineView::OnUpdatePasteTreeFromClipboard)
+	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // OutlineView クラスの構築/消滅
@@ -585,6 +589,8 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 	}
 	
 	tree().SelectItem(hSel);
+	iHint h; h.event = iHint::reflesh;
+	GetDocument()->UpdateAllViews(NULL, (LPARAM)tree().GetItemData(curItem()), &h);
 }
 
 
@@ -1701,16 +1707,22 @@ void OutlineView::OnImportData()
 	CString extent = ext;
 	extent.MakeLower();
 	
-	CString mes = infileName + "をインポートしますか";
 	CString caption;
+	int TextLevelCharNum = 0;
 	if (extent == ".txt") {
-		caption = "テキストファイルのインポート";
+		ImportTextDlg dlg;
+		dlg.m_charSelection = TextLevelCharNum;
+		if (dlg.DoModal() != IDOK) {
+			return;
+		}
+		TextLevelCharNum = dlg.m_charSelection;
 	} else if (extent == ".xml") {
 		caption = "XMLファイルのインポート";
+		CString mes = infileName + "をインポートしますか";
+		if (MessageBox(mes, caption, MB_YESNO) != IDYES) {
+			return;
+		}
 	} else {
-		return;
-	}
-	if (MessageBox(mes, caption, MB_YESNO) != IDYES) {
 		return;
 	}
 	
@@ -1721,7 +1733,11 @@ void OutlineView::OnImportData()
 	bool ret;
 	if (extent == ".txt") {
 		nVec addNodes;
-		ret = ImportText(infileName, addNodes);
+		char levelChar = '.';
+		if (TextLevelCharNum == 1) {
+			levelChar = '\t';
+		}
+		ret = ImportText(infileName, addNodes, levelChar);
 		if (ret) {
 			treeAddBranch2(tree().GetItemData(curItem()), addNodes);
 		}
@@ -1969,53 +1985,56 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, CStdioFile *f)
 	}
 }
 
-bool OutlineView::ImportText(const CString &inPath, nVec &addNodes)
+bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char levelChar)
 {
 	CStdioFile f;
 	CFileStatus status;
 	CFileException e;
 	
-	CWaitCursor wc;
+	
 	if (!f.Open(inPath, CFile::typeText | CFile::modeRead, &e)) {
 		return false;
 	}
-	
+
 	CString line;
-	int lines = 0;
-	for ( ; f.ReadString(line) != NULL; lines++);
-	f.Close();
+	vector<CString> lines;
+	while (f.ReadString(line) != NULL) {
+		lines.push_back(line);
+	}
+	return levelToNode(lines, addNodes, levelChar);
+}
+
+bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, const char levelChar)
+{
 	COnProcDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
 	prcdlg.m_ProcName.SetWindowText("インポート中");
 	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
-	prcdlg.m_ProgProc.SetRange(0, lines-1);
+	prcdlg.m_ProgProc.SetRange(0, lines.size() - 1);
 	
-	if (!f.Open(inPath, CFile::typeText | CFile::modeRead, &e)) {
-		return false;
-	}
-	
-	CSize mvSz(10, 10);
+	CSize mvSz(30, 30);
 	CString label;
 	CString text;
 	int curLevel = 0;
 	bool nodeCreated = false;
-	for (int i = 0; f.ReadString(line) != FALSE; i++) {
-		int level = countLineIndentLevel(line);
+	for (unsigned int i = 0; i < lines.size(); i++) {
+		int level = countLineIndentLevel(lines[i], levelChar);
 		if (level > curLevel && level - curLevel > 1 && nodeCreated) {
-			CString mes; mes.Format("%d行目 : %s", i + 1, line);
+			CString mes; mes.Format("%d行目 : %s", i + 1, lines[i]);
 			MessageBox(mes, "インポートエラー:階層が正しくありません", MB_ICONSTOP);
 			return false;
 		}
 		if (level == 0) {
-			if (text == "" && line == "") {
+			if (text == "" && lines[i] == "") {
 				continue;
 			}
 			if (nodeCreated) {
-				text.Append(line + _T("\r\n"));
+				text.Append(lines[i] + _T("\r\n"));
 				continue;
 			}
 		} else {
 			if (label == "") {
+				CString line = lines[i];
 				label = line.TrimLeft(_T("."));
 				continue;
 			}
@@ -2030,6 +2049,7 @@ bool OutlineView::ImportText(const CString &inPath, nVec &addNodes)
 			addNodes.push_back(node);
 			
 			text = "";
+			CString line = lines[i];
 			label = line.TrimLeft(_T("\t."));
 			curLevel = level;
 			if (label == "") {
@@ -2039,7 +2059,6 @@ bool OutlineView::ImportText(const CString &inPath, nVec &addNodes)
 			prcdlg.m_ProgProc.StepIt();  // プログレスバーを更新
 		}
 	}
-	f.Close();
 	
 	if (label != "") {
 		iNode node;
@@ -2051,14 +2070,15 @@ bool OutlineView::ImportText(const CString &inPath, nVec &addNodes)
 		node.setLevel(curLevel);
 		addNodes.push_back(node);
 	}
+	
 	return true;
 }
 
-int OutlineView::countLineIndentLevel(const CString& line) const
+int OutlineView::countLineIndentLevel(const CString& line, const char levelChar) const
 {
 	int i = 0;
 	for (; i < line.GetLength(); i++) {
-		if (line.GetAt(i) != '.') {
+		if (line.GetAt(i) != levelChar) {
 			break;
 		}
 	}
@@ -2737,4 +2757,47 @@ void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
 		nImage != OutlineView::idea &&
 		curItem() != tree().GetRootItem());
+}
+
+void OutlineView::OnPasteTreeFromClipboard()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CString ClipText;
+	if (::IsClipboardFormatAvailable(CF_TEXT)) {
+		if (!OpenClipboard()) {
+			::showLastErrorMessage();
+			return;
+		}
+		
+		HGLOBAL hData;
+		hData = ::GetClipboardData(CF_TEXT);
+		if (hData == NULL) {
+			::CloseClipboard();
+			return;
+		}
+		char* pszData = (char*)GlobalLock(hData);
+		ClipText = CString(pszData);
+		
+		GlobalUnlock(hData);
+		::CloseClipboard();
+	}
+	
+	ClipText += "\n";
+	CToken tok(ClipText);
+	tok.SetToken("\n");
+	vector<CString> lines;
+	while(tok.MoreTokens()) {
+		CString s = tok.GetNextToken();
+		lines.push_back(s);
+	}
+	nVec addNodes;
+	if (levelToNode(lines, addNodes, '\t')) {
+		treeAddBranch2(tree().GetItemData(curItem()), addNodes);
+	}
+}
+
+void OutlineView::OnUpdatePasteTreeFromClipboard(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(::IsClipboardFormatAvailable(CF_TEXT));
 }
