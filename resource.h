@@ -60,7 +60,6 @@
 #define IDR_TB_PLDWN                    201
 #define IDC_APLY_FORM                   204
 #define IDR_IEDITTYPE_OLD               207
-#define IDD_DIALOG1                     208
 #define IDD_IMPORT_TEXT                 208
 #define IDC_LINKFROM                    1001
 #define IDC_LINKTO                      1002
@@ -217,6 +216,7 @@
 #define IDC_LB_LEVEL                    1092
 #define IDC_RADIO_ASCENDING             1093
 #define IDC_RADIO_DESCENDING            1094
+#define IDC_LBL_FNAME                   1095
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773
@@ -445,7 +445,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        209
 #define _APS_NEXT_COMMAND_VALUE         33056
-#define _APS_NEXT_CONTROL_VALUE         1095
+#define _APS_NEXT_CONTROL_VALUE         1096
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

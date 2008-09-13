@@ -1711,6 +1711,7 @@ void OutlineView::OnImportData()
 	int TextLevelCharNum = 0;
 	if (extent == ".txt") {
 		ImportTextDlg dlg;
+		dlg.m_fileName = CString(fname) + CString(ext);
 		dlg.m_charSelection = TextLevelCharNum;
 		if (dlg.DoModal() != IDOK) {
 			return;

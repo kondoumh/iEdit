@@ -13,6 +13,7 @@ IMPLEMENT_DYNAMIC(ImportTextDlg, CDialog)
 ImportTextDlg::ImportTextDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(ImportTextDlg::IDD, pParent)
 	, m_charSelection(0)
+	, m_fileName(_T(""))
 {
 
 }
@@ -25,6 +26,7 @@ void ImportTextDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Radio(pDX, IDC_RADIO1, m_charSelection);
+	DDX_Text(pDX, IDC_LBL_FNAME, m_fileName);
 }
 
 
