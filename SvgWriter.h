@@ -24,12 +24,12 @@ private:
 	iLinks& m_links;
 	bool m_bDrwAll;
 protected:
-	MSXML::IXMLDOMElementPtr createLinkArrow2Element(const iLink& link, MSXML::IXMLDOMDocumentPtr pDoc);
-	MSXML::IXMLDOMElementPtr createLinkArrowElement(const iLink& link, MSXML::IXMLDOMDocumentPtr pDoc);
-	MSXML::IXMLDOMElementPtr createLinkTextElement(const iLink& link, MSXML::IXMLDOMDocumentPtr pDoc);
-	MSXML::IXMLDOMElementPtr createNodeTextElement(const iNode& node, MSXML::IXMLDOMDocumentPtr pDoc);
-	MSXML::IXMLDOMElementPtr createLinkElement(const iLink& link, MSXML::IXMLDOMDocumentPtr pDoc);
-	MSXML::IXMLDOMElementPtr createNodeElement(const iNode& node, MSXML::IXMLDOMDocumentPtr pDoc);
+	MSXML2::IXMLDOMElementPtr createLinkArrow2Element(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
+	MSXML2::IXMLDOMElementPtr createLinkArrowElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
+	MSXML2::IXMLDOMElementPtr createLinkTextElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
+	MSXML2::IXMLDOMElementPtr createNodeTextElement(const iNode& node, MSXML2::IXMLDOMDocumentPtr pDoc);
+	MSXML2::IXMLDOMElementPtr createLinkElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
+	MSXML2::IXMLDOMElementPtr createNodeElement(const iNode& node, MSXML2::IXMLDOMDocumentPtr pDoc);
 	void rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg);
 	CString createNodeStyleAtrb(const iNode& node);
 	// ラベルの配置計算用

@@ -1894,11 +1894,11 @@ void iEditDoc::setResultRelax(Bounds &bounds)
 // このloadメソッドはインポート用
 bool iEditDoc::loadXML(const CString &filename, bool replace)
 {
-	MSXML::IXMLDOMDocument		*pDoc        = NULL;
-	MSXML::IXMLDOMParseError	*pParsingErr = NULL;
-	MSXML::IXMLDOMElement		*element     = NULL;
-	MSXML::IXMLDOMNodeList		*childs      = NULL; 
-	MSXML::IXMLDOMNode			*node        = NULL;
+	MSXML2::IXMLDOMDocument		*pDoc        = NULL;
+	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
+	MSXML2::IXMLDOMElement		*element     = NULL;
+	MSXML2::IXMLDOMNodeList		*childs      = NULL; 
+	MSXML2::IXMLDOMNode			*node        = NULL;
 	
 	BSTR	bstr = NULL;
 	HRESULT hr;
@@ -1908,8 +1908,8 @@ bool iEditDoc::loadXML(const CString &filename, bool replace)
 	if(!SUCCEEDED(hr))
 		return false;
 
-	hr = CoCreateInstance (MSXML::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
-							MSXML::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
+	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
+							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if(!pDoc) {
 		AfxMessageBox("この機能を利用するには Microsoft Internet Explorer 5が必要になります");
 		return false;
@@ -1984,11 +1984,11 @@ bool iEditDoc::loadXML(const CString &filename, bool replace)
 // このLoadメソッドはシリアライズ用
 bool iEditDoc::loadFromXML(const CString &filename)
 {
-	MSXML::IXMLDOMDocument		*pDoc        = NULL;
-	MSXML::IXMLDOMParseError	*pParsingErr = NULL;
-	MSXML::IXMLDOMElement		*element     = NULL;
-	MSXML::IXMLDOMNodeList		*childs      = NULL; 
-	MSXML::IXMLDOMNode			*node        = NULL;
+	MSXML2::IXMLDOMDocument		*pDoc        = NULL;
+	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
+	MSXML2::IXMLDOMElement		*element     = NULL;
+	MSXML2::IXMLDOMNodeList		*childs      = NULL; 
+	MSXML2::IXMLDOMNode			*node        = NULL;
 	
 	BSTR	bstr = NULL;
 	HRESULT hr;
@@ -1998,8 +1998,8 @@ bool iEditDoc::loadFromXML(const CString &filename)
 	if(!SUCCEEDED(hr))
 		return false;
 
-	hr = CoCreateInstance (MSXML::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
-							MSXML::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
+	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
+							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if(!pDoc) {
 		AfxMessageBox("この機能を利用するには Microsoft Internet Explorer 5が必要になります");
 		return false;
@@ -2086,13 +2086,13 @@ bool iEditDoc::loadFromXML(const CString &filename)
 
 
 // インポート時
-bool iEditDoc::DomTree2Nodes2(MSXML::IXMLDOMElement *node, CStdioFile* f)
+bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 {
-	MSXML::IXMLDOMNodeList	*childs    = NULL;
-	MSXML::IXMLDOMNodeList	*childs2    = NULL;
-	MSXML::IXMLDOMNodeList	*childs3    = NULL;
-	MSXML::IXMLDOMNode		*childnode = NULL;
-	MSXML::IXMLDOMNode		*childnode2 = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL;
+	MSXML2::IXMLDOMNodeList	*childs2    = NULL;
+	MSXML2::IXMLDOMNodeList	*childs3    = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNode		*childnode2 = NULL;
 	node->get_childNodes(&childs);
 	BSTR s = NULL;
 	LONG i, j;
@@ -2210,13 +2210,13 @@ bool iEditDoc::DomTree2Nodes2(MSXML::IXMLDOMElement *node, CStdioFile* f)
 }
 
 // シリアライズ用
-bool iEditDoc::DomTree2Nodes3(MSXML::IXMLDOMElement *node)
+bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 {
-	MSXML::IXMLDOMNodeList	*childs    = NULL;
-	MSXML::IXMLDOMNodeList	*childs2    = NULL;
-	MSXML::IXMLDOMNodeList	*childs3    = NULL;
-	MSXML::IXMLDOMNode		*childnode = NULL;
-	MSXML::IXMLDOMNode		*childnode2 = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL;
+	MSXML2::IXMLDOMNodeList	*childs2    = NULL;
+	MSXML2::IXMLDOMNodeList	*childs3    = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNode		*childnode2 = NULL;
 	node->get_childNodes(&childs);
 	BSTR s = NULL;
 	LONG i, j;
@@ -2389,10 +2389,10 @@ int iEditDoc::tag2Shape(const CString &tag)
 	return iNode::rectangle;
 }
 
-void iEditDoc::tags2bound(MSXML::IXMLDOMNode *pNode, CRect &rc)
+void iEditDoc::tags2bound(MSXML2::IXMLDOMNode *pNode, CRect &rc)
 {
-	MSXML::IXMLDOMNodeList	*childs    = NULL;
-	MSXML::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
 	pNode->get_childNodes(&childs);
 	BSTR s = NULL;
 	LONG i;
@@ -2418,10 +2418,10 @@ void iEditDoc::tags2bound(MSXML::IXMLDOMNode *pNode, CRect &rc)
 	}
 }
 
-COLORREF iEditDoc::tags2foreColor(MSXML::IXMLDOMNode *pNode)
+COLORREF iEditDoc::tags2foreColor(MSXML2::IXMLDOMNode *pNode)
 {
-	MSXML::IXMLDOMNodeList	*childs    = NULL;
-	MSXML::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
 	pNode->get_childNodes(&childs);
 	BSTR s = NULL;
 	LONG i;
@@ -2445,10 +2445,10 @@ COLORREF iEditDoc::tags2foreColor(MSXML::IXMLDOMNode *pNode)
 	return RGB(r, g, b);
 }
 
-void iEditDoc::tags2nodeLine(MSXML::IXMLDOMNode *pNode, int &style, int &width)
+void iEditDoc::tags2nodeLine(MSXML2::IXMLDOMNode *pNode, int &style, int &width)
 {
-	MSXML::IXMLDOMNodeList	*childs    = NULL;
-	MSXML::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
 	pNode->get_childNodes(&childs);
 	BSTR s = NULL;
 	LONG i;
@@ -2475,10 +2475,10 @@ void iEditDoc::tags2nodeLine(MSXML::IXMLDOMNode *pNode, int &style, int &width)
 }
 
 
-COLORREF iEditDoc::tags2nodeLineColor(MSXML::IXMLDOMNode *pNode)
+COLORREF iEditDoc::tags2nodeLineColor(MSXML2::IXMLDOMNode *pNode)
 {
-	MSXML::IXMLDOMNodeList	*childs    = NULL;
-	MSXML::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
 	pNode->get_childNodes(&childs);
 	BSTR s = NULL;
 	LONG i;
@@ -2502,10 +2502,10 @@ COLORREF iEditDoc::tags2nodeLineColor(MSXML::IXMLDOMNode *pNode)
 	return RGB(r, g, b);
 }
 
-void iEditDoc::tags2linkStyle(MSXML::IXMLDOMNode *pNode, int &style, int &width, int &arrow)
+void iEditDoc::tags2linkStyle(MSXML2::IXMLDOMNode *pNode, int &style, int &width, int &arrow)
 {
-	MSXML::IXMLDOMNodeList	*childs    = NULL;
-	MSXML::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
 	pNode->get_childNodes(&childs);
 	BSTR s = NULL;
 	LONG i;
@@ -2548,10 +2548,10 @@ void iEditDoc::tags2linkStyle(MSXML::IXMLDOMNode *pNode, int &style, int &width,
 	}
 }
 
-COLORREF iEditDoc::tags2linkColor(MSXML::IXMLDOMNode *pNode)
+COLORREF iEditDoc::tags2linkColor(MSXML2::IXMLDOMNode *pNode)
 {
-	MSXML::IXMLDOMNodeList	*childs    = NULL;
-	MSXML::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
 	pNode->get_childNodes(&childs);
 	BSTR s = NULL;
 	LONG i;
@@ -2576,11 +2576,11 @@ COLORREF iEditDoc::tags2linkColor(MSXML::IXMLDOMNode *pNode)
 }
 
 
-CPoint iEditDoc::tags2pathPt(MSXML::IXMLDOMNode *pNode)
+CPoint iEditDoc::tags2pathPt(MSXML2::IXMLDOMNode *pNode)
 {
 	CPoint pt(0, 0);
-	MSXML::IXMLDOMNodeList	*childs    = NULL;
-	MSXML::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
 	pNode->get_childNodes(&childs);
 	BSTR s = NULL;
 	LONG i;
@@ -2601,10 +2601,10 @@ CPoint iEditDoc::tags2pathPt(MSXML::IXMLDOMNode *pNode)
 	return pt;
 }
 
-bool iEditDoc::DomTree2Nodes(MSXML::IXMLDOMElement *node, CStdioFile* f)
+bool iEditDoc::DomTree2Nodes(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 {
-	MSXML::IXMLDOMNodeList	*childs    = NULL; 
-	MSXML::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNodeList	*childs    = NULL; 
+	MSXML2::IXMLDOMNode		*childnode = NULL;
 	
 	BSTR        s = NULL;
 	long        i;
@@ -2693,7 +2693,7 @@ bool iEditDoc::DomTree2Nodes(MSXML::IXMLDOMElement *node, CStdioFile* f)
 		node->get_childNodes(&childs);
 		for(i=0;i < childs->Getlength(); i++) {
 			childs->get_item(i,&childnode);
-			DomTree2Nodes((MSXML::IXMLDOMElement *)childnode, f);
+			DomTree2Nodes((MSXML2::IXMLDOMElement *)childnode, f);
 		}
 	}
 	return true;
@@ -2705,7 +2705,7 @@ bool iEditDoc::saveXML2(const CString &outPath)
 	Labels ls;
 	pView->treeToSequence(ls);
 	
-	MSXML::IXMLDOMDocument		*pDoc        = NULL;
+	MSXML2::IXMLDOMDocument		*pDoc        = NULL;
 	BSTR	bstr = NULL;
 	HRESULT hr = S_OK;
     BSTR pBURL = NULL;
@@ -2715,8 +2715,8 @@ bool iEditDoc::saveXML2(const CString &outPath)
 	if(!SUCCEEDED(hr))
 		return false;
 	
-	hr = CoCreateInstance (MSXML::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
-							MSXML::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
+	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
+							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	
 	if(!pDoc) {
 		AfxMessageBox("この機能を利用するには Microsoft Internet Explorer 5が必要になります");
@@ -2724,9 +2724,9 @@ bool iEditDoc::saveXML2(const CString &outPath)
 	}
 	
 	
-	MSXML::IXMLDOMNode *root = NULL;
-	MSXML::IXMLDOMElement *rootElem = NULL;
-	MSXML::IXMLDOMNode *node = NULL, *p = NULL, *p1 = NULL;
+	MSXML2::IXMLDOMNode *root = NULL;
+	MSXML2::IXMLDOMElement *rootElem = NULL;
+	MSXML2::IXMLDOMNode *node = NULL, *p = NULL, *p1 = NULL;
 	
 	
 	// save

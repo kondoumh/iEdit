@@ -43,7 +43,8 @@
 
 #include <afxole.h>         // OLEサポート LinkViewのDｎD機能で仕様
 
-#import "MSXML.DLL" named_guids
+#import "MSXML4.DLL" named_guids
+using namespace MSXML2;
 
 #include <vector>
 #include <list>

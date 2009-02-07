@@ -33,7 +33,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 	CWaitCursor wc;
 	
 	// DOM生成
-	MSXML::IXMLDOMDocumentPtr doc("MSXML.DOMDocument");
+	MSXML2::IXMLDOMDocumentPtr doc("MSXML.DOMDocument");
 /*	CString dummy = CString("<?xml version='1.0'?>") + 
 		            CString("<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 20010904//EN'") + 
 					CString("'http://www.w3.oft/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>") +
@@ -44,7 +44,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 		doc->createProcessingInstruction(
 		"xml", "version='1.0' encoding='utf-16'"));
 	
-	MSXML::IXMLDOMElementPtr eSvg  = doc->createElement("svg");
+	MSXML2::IXMLDOMElementPtr eSvg  = doc->createElement("svg");
 	CString sWidth; sWidth.Format("%d", maxPt.x + 10);
 	CString sHeight; sHeight.Format("%d", maxPt.y + 10);
 	eSvg->setAttribute("width", sWidth.GetBuffer(sWidth.GetLength()));
@@ -56,16 +56,16 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 	const_niterator it = m_nodes.begin();
 	for ( ; it != m_nodes.end(); it++) {
 		if (!m_bDrwAll && !(*it).isVisible()) continue;
-		MSXML::IXMLDOMElementPtr eGrp  = doc->createElement("g");
+		MSXML2::IXMLDOMElementPtr eGrp  = doc->createElement("g");
 		
 		iNode node = (*it);
-		MSXML::IXMLDOMElementPtr eNode = createNodeElement(node, doc);
+		MSXML2::IXMLDOMElementPtr eNode = createNodeElement(node, doc);
 		if (eNode != NULL) {
 			eGrp->appendChild(eNode);
 		}
 		
 		if (node.getTextStyle() == iNode::notext) continue;
-		MSXML::IXMLDOMElementPtr eNText = createNodeTextElement(node, doc);
+		MSXML2::IXMLDOMElementPtr eNText = createNodeTextElement(node, doc);
 		if (eNText != NULL) {
 			eGrp->appendChild(eNText);
 		}
@@ -78,22 +78,22 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 		iLink link = (*li);
 		if (link.getArrowStyle() == iLink::other) continue;
 		
-		MSXML::IXMLDOMElementPtr eGrp  = doc->createElement("g");
+		MSXML2::IXMLDOMElementPtr eGrp  = doc->createElement("g");
 		
-		MSXML::IXMLDOMElementPtr eLink = createLinkElement(link, doc);
+		MSXML2::IXMLDOMElementPtr eLink = createLinkElement(link, doc);
 		if (eLink != NULL) {
 			eGrp->appendChild(eLink);
 		}
-		MSXML::IXMLDOMElementPtr eLText = createLinkTextElement(link, doc);
+		MSXML2::IXMLDOMElementPtr eLText = createLinkTextElement(link, doc);
 		if (eLText != NULL) {
 			eGrp->appendChild(eLText);
 		}
 		if (link.getArrowStyle() == iLink::arrow || link.getArrowStyle() == iLink::arrow2) {
-			MSXML::IXMLDOMElementPtr eArrow = createLinkArrowElement(link, doc);
+			MSXML2::IXMLDOMElementPtr eArrow = createLinkArrowElement(link, doc);
 			eGrp->appendChild(eArrow);
 		}
 		if (link.getArrowStyle() == iLink::arrow2) {
-			MSXML::IXMLDOMElementPtr eArrow2 = createLinkArrow2Element(link, doc);
+			MSXML2::IXMLDOMElementPtr eArrow2 = createLinkArrow2Element(link, doc);
 			eGrp->appendChild(eArrow2);
 		}
 		eSvg->appendChild(eGrp);
@@ -104,9 +104,9 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 	ShellExecute(NULL, "open", spath, NULL, NULL, SW_SHOW);
 }
 
-MSXML::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
-	MSXML::IXMLDOMElementPtr pNode = NULL;
+	MSXML2::IXMLDOMElementPtr pNode = NULL;
 	
 	int shape = node.getNodeShape();
 	CRect bound = node.getBound();
@@ -147,9 +147,9 @@ MSXML::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML::
 	return pNode;
 }
 
-MSXML::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MSXML::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
-	MSXML::IXMLDOMElementPtr pNText = NULL;
+	MSXML2::IXMLDOMElementPtr pNText = NULL;
 	
 	pNText = pDoc->createElement("text");
 	
@@ -170,7 +170,7 @@ MSXML::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MSX
 	
 	
 	/* URL貼り込みテスト
-	MSXML::IXMLDOMElementPtr pNodeRef = NULL;
+	MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
 	pNodeRef = pDoc->createElement("a");
 	pNodeRef->setAttribute("xlink:href", "http://member.nifty.ne.jp/kondoumh/");
 	pNodeRef->setAttribute("target", "_blank");
@@ -233,9 +233,9 @@ CString SvgWriter::createNodeStyleAtrb(const iNode &node)
 	return style;
 }
 
-MSXML::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
-	MSXML::IXMLDOMElementPtr pLink = NULL;
+	MSXML2::IXMLDOMElementPtr pLink = NULL;
 	
 	CPoint ptFrom = link.getPtFrom();
 	CPoint ptTo = link.getPtTo();
@@ -292,9 +292,9 @@ MSXML::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML::
 	return pLink;
 }
 
-MSXML::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MSXML::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
-	MSXML::IXMLDOMElementPtr pLText = NULL;
+	MSXML2::IXMLDOMElementPtr pLText = NULL;
 	if (link.getName() == "") return NULL;
 	
 	// ラベル表示位置
@@ -340,7 +340,7 @@ CPoint SvgWriter::calcLinkLabelOrg(const iLink& link)
 	return pt;
 }
 
-MSXML::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, MSXML::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
 	DWORD keyFrom = link.getKeyFrom();
 	DWORD keyTo = link.getKeyTo();
@@ -379,7 +379,7 @@ MSXML::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, MS
 		rotateArrow(pt, 3, from, ptTo, ptTo);
 	}
 	
-	MSXML::IXMLDOMElementPtr pArrow = NULL;
+	MSXML2::IXMLDOMElementPtr pArrow = NULL;
 	
 	pArrow = pDoc->createElement("path");
 	CString sPath;
@@ -398,7 +398,7 @@ MSXML::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, MS
 	return pArrow;
 }
 
-MSXML::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, MSXML::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
 	DWORD keyFrom = link.getKeyFrom();
 	DWORD keyTo = link.getKeyTo();
@@ -437,7 +437,7 @@ MSXML::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, M
 		rotateArrow(pt, 3, from, ptFrom, ptFrom);
 	}
 	
-	MSXML::IXMLDOMElementPtr pArrow = NULL;
+	MSXML2::IXMLDOMElementPtr pArrow = NULL;
 	
 	pArrow = pDoc->createElement("path");
 	CString sPath;
