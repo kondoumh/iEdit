@@ -277,9 +277,6 @@ void CMainFrame::saveFramePosition()
 	GetWindowPlacement(&wndpl);
 	if (wndpl.showCmd == SW_SHOWNORMAL || wndpl.showCmd == SW_SHOWMAXIMIZED) {
 		CRect rc(&wndpl.rcNormalPosition);
-		if (wndpl.showCmd == SW_SHOWMAXIMIZED) {
-			GetWindowRect(&rc);
-		}
 		if (rc.left >= -10 && rc.top >= -10 && rc.Width() < 10000 && rc.Height() < 10000) {
 			AfxGetApp()->WriteProfileInt(REGS_FRAME, "Window Left", rc.left);
 			AfxGetApp()->WriteProfileInt(REGS_FRAME, "Window Top", rc.top);
