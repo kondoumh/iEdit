@@ -4503,7 +4503,7 @@ const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 		ptTarget += CPoint(50, 50);
 	}
 	
-	iNode nwNode = insertNode(iNode::rectangle, "ノード", ptTarget);
+	iNode nwNode = insertNode(nodeType, "ノード", ptTarget);
 	DWORD newKey = nwNode.getKey();
 	
 	selChanged(nwNode.getKey(), true, isShowSubBranch());
