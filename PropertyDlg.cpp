@@ -187,7 +187,7 @@ void CPropertyDlg::writePageNode()
 	pApp->WriteProfileInt(REGS_NODE, "Fill Color", pNode->colorFill);
 	pApp->WriteProfileInt(REGS_NODE, "Line Color", pNode->colorLine);
 	pApp->WriteProfileInt(REGS_NODE, "Font Color", pNode->colorFont);
-	pApp->WriteProfileInt(REGS_NODE, "Paint", pNode->m_bNoBrs);
+	pApp->WriteProfileInt(REGS_NODE, "Paint", !pNode->m_bNoBrs);
 	pApp->WriteProfileInt(REGS_NODE, "Line Width", pNode->lineWidth);
 	pApp->WriteProfileInt(REGS_NODE, "Line Style", pNode->styleLine);
 	if (pNode->m_rdShape == 0) {

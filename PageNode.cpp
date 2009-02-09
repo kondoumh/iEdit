@@ -104,6 +104,7 @@ BOOL PageNode::OnInitDialog()
 	m_cmbHoriz.SetCurSel(horiz);
 	m_cmbVert.SetCurSel(vert);
 	
+	m_chkNoBrs.SetCheck(m_bNoBrs);
 	m_BtnBrsColor.EnableWindow(!m_chkNoBrs.GetCheck());
 	
 	if (m_rdTLine == 0) {
@@ -198,6 +199,7 @@ void PageNode::OnRadioShape3()
 void PageNode::OnChkNoBrs() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
+	m_bNoBrs = m_chkNoBrs.GetCheck();
 	m_BtnBrsColor.EnableWindow(!m_chkNoBrs.GetCheck());
 }
 

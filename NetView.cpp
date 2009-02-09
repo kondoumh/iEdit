@@ -2219,7 +2219,18 @@ void NetView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		CPoint logPt = point; ViewDPtoLP(&logPt);
 		CPoint spt(point);
 		ClientToScreen(&spt);
-		m_addMode = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
+		int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
+		switch (shape) {
+			case iNode::rectangle:
+				m_addMode = NetView::rect;
+				break;
+			case iNode::arc:
+				m_addMode = NetView::arc;
+				break;
+			case iNode::roundRect:
+				m_addMode = NetView::rRect;
+				break;
+		}
 		addNode(logPt, spt);
 	}
 	CScrollView::OnLButtonDblClk(nFlags, point);
@@ -2553,7 +2564,18 @@ void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 	} else if (nChar >= 0x30 && nChar <= 0x5A || nChar == VK_SPACE) {
 		if (!(nFlags & MK_CONTROL) && !(nFlags & MK_ALT)) {
-			m_addMode = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
+			int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
+			switch (shape) {
+				case iNode::rectangle:
+					m_addMode = NetView::rect;
+					break;
+				case iNode::arc:
+					m_addMode = NetView::arc;
+					break;
+				case iNode::roundRect:
+					m_addMode = NetView::rRect;
+					break;
+			}
 			CPoint logPt = m_ptScreen;
 			logPt -= GetScrollPosition();
 			ViewDPtoLP(&logPt);
@@ -3720,7 +3742,19 @@ void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 			CPoint spt(m_ptScreen);
 			ClientToScreen(&spt);
 			spt -= GetScrollPosition();
-			m_addMode = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
+			// TODO:リファクタリング
+			int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
+			switch (shape) {
+				case iNode::rectangle:
+					m_addMode = NetView::rect;
+					break;
+				case iNode::arc:
+					m_addMode = NetView::arc;
+					break;
+				case iNode::roundRect:
+					m_addMode = NetView::rRect;
+					break;
+			}
 			addNode(logPt, spt, s);
 			m_ptScreen += CPoint((int)(30*m_fZoomScale), (int)(30*m_fZoomScale));
 		}
