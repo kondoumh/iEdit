@@ -147,8 +147,13 @@ BOOL CiEditApp::InitInstance()
 	m_pMainWnd->DragAcceptFiles();
 	
 	// DDE Execute open を使用可能にします。
-	EnableShellOpen();
-	RegisterShellFileTypes(TRUE);
+	HKEY hkResult;
+	if (::RegOpenKey(HKEY_CURRENT_USER, "Software\\Classes", &hkResult) == ERROR_SUCCESS) {
+		RegOverridePredefKey(HKEY_CLASSES_ROOT, hkResult);	
+		EnableShellOpen();
+		RegisterShellFileTypes(TRUE);
+		::RegOverridePredefKey(HKEY_CLASSES_ROOT, NULL);
+	}
 	
 	// DDE、file open など標準のシェル コマンドのコマンドラインを解析します。
 	CCommandLineInfo cmdInfo;
