@@ -64,7 +64,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 			eGrp->appendChild(eNode);
 		}
 		
-		if (node.getTextStyle() == iNode::notext) continue;
+		if (node.getTextStyle() == iNode::notext && node.getNodeShape() != iNode::MetaFile) continue;
 		MSXML2::IXMLDOMElementPtr eNText = createNodeTextElement(node, doc);
 		if (eNText != NULL) {
 			eGrp->appendChild(eNText);
@@ -88,11 +88,11 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 		if (eLText != NULL) {
 			eGrp->appendChild(eLText);
 		}
-		if (link.getArrowStyle() == iLink::arrow || link.getArrowStyle() == iLink::arrow2) {
+		if (link.getArrowStyle() != iLink::line && link.getArrowStyle() != iLink::other) {
 			MSXML2::IXMLDOMElementPtr eArrow = createLinkArrowElement(link, doc);
 			eGrp->appendChild(eArrow);
 		}
-		if (link.getArrowStyle() == iLink::arrow2) {
+		if (link.getArrowStyle() == iLink::arrow2 || link.getArrowStyle() == iLink::depend2) {
 			MSXML2::IXMLDOMElementPtr eArrow2 = createLinkArrow2Element(link, doc);
 			eGrp->appendChild(eArrow2);
 		}
@@ -115,7 +115,8 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2
 	CString sWidth; sWidth.Format("%d", bound.Width());
 	CString sHeight; sHeight.Format("%d", bound.Height());
 	
-	if (shape == iNode::rectangle || shape == iNode::MetaFile || shape == iNode::roundRect) {
+	if (shape == iNode::rectangle || shape == iNode::MetaFile ||
+		shape == iNode::roundRect || shape == iNode::MindMapNode) {
 		pNode = pDoc->createElement("rect");
 		
 		pNode->setAttribute("x", sCx.GetBuffer(sCx.GetLength()));
@@ -199,7 +200,6 @@ CPoint SvgWriter::calcNodeLabelOrg(const iNode& node)
 
 CString SvgWriter::createNodeStyleAtrb(const iNode &node)
 {
-	
 	///// Stroke Style /////
 	COLORREF lineColor = node.getLineColor();
 	BYTE lRed GetRValue(lineColor);
@@ -216,6 +216,10 @@ CString SvgWriter::createNodeStyleAtrb(const iNode &node)
 		int width = node.getLineWidth();
 		if (width == 0) { width = 1; }
 		strokeStyle.Format("stroke:rgb(%d,%d,%d); stroke-width:%d;", lRed, lGreen, lBlue, width);
+	}
+
+	if (node.getNodeShape() == iNode::MetaFile) {
+		strokeStyle.Format("stroke:rgb(0,0,0); stroke-width:%d;", 1);
 	}
 	
 	// fillColor
