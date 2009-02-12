@@ -65,6 +65,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 		}
 		
 		if (node.getTextStyle() == iNode::notext && node.getNodeShape() != iNode::MetaFile) continue;
+		// メタファイルの場合は、notextでもテキストを描画するようにする
 		MSXML2::IXMLDOMElementPtr eNText = createNodeTextElement(node, doc);
 		if (eNText != NULL) {
 			eGrp->appendChild(eNText);
