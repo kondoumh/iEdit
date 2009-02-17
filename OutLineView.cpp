@@ -2040,8 +2040,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 				continue;
 			}
 			nodeCreated = true;
-			iNode node;
-			node.setName(label);
+			iNode node(label);
 			node.setText(text);
 			node.setKey(GetDocument()->getUniqKey());
 			node.setParent(tree().GetItemData(curItem()));
