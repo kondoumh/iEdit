@@ -2792,6 +2792,14 @@ void OutlineView::OnPasteTreeFromClipboard()
 		::CloseClipboard();
 	}
 	
+	int mode = getBranchMode();
+	HTREEITEM hShowRoot;
+	if (mode != 0) {
+		hShowRoot = m_hItemShowRoot;
+		resetShowBranch();
+		GetDocument()->resetShowBranch();
+	}
+	
 	ClipText += "\n";
 	CToken tok(ClipText);
 	tok.SetToken("\n");
@@ -2803,6 +2811,13 @@ void OutlineView::OnPasteTreeFromClipboard()
 	nVec addNodes;
 	if (levelToNode(lines, addNodes, '\t')) {
 		treeAddBranch2(tree().GetItemData(curItem()), addNodes);
+	}
+	if (mode == 1) {
+		tree().SelectItem(hShowRoot);
+		OnShowSelectedChildren();
+	} else if (mode == 2) {
+		tree().SelectItem(hShowRoot);
+		OnShowSelectedBranch();
 	}
 }
 
