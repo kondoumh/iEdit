@@ -1727,7 +1727,10 @@ void OutlineView::OnImportData()
 		return;
 	}
 	
-	if (getBranchMode() != 0) {
+	int mode = getBranchMode();
+	HTREEITEM hShowRoot;
+	if (mode != 0) {
+		hShowRoot = m_hItemShowRoot;
 		resetShowBranch();
 		GetDocument()->resetShowBranch();
 	}
@@ -1749,6 +1752,13 @@ void OutlineView::OnImportData()
 		}
 	}
 	
+	if (mode == 1) {
+		tree().SelectItem(hShowRoot);
+		OnShowSelectedChildren();
+	} else if (mode == 2) {
+		tree().SelectItem(hShowRoot);
+		OnShowSelectedBranch();
+	}
 	if (ret) {
 		MessageBox("èIóπÇµÇ‹ÇµÇΩ", caption, MB_OK);
 	} else {
