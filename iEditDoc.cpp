@@ -3468,7 +3468,7 @@ void iEditDoc::generateHTM(CStdioFile *f)
 	
 	Labels ls;
 	pView->treeToSequence(ls);
-	
+
 	CWaitCursor wc;
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		nodeFind.setKey(ls[i].key);

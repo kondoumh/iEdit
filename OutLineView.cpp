@@ -804,7 +804,9 @@ void OutlineView::treeToSequence(Labels &ls)
 		setSubNodeLevels(); // level 設定
 		label l;
 		l.key = tree().GetItemData(tree().GetSelectedItem());
-		l.parent = tree().GetItemData(tree().GetParentItem(tree().GetSelectedItem()));
+		if (tree().GetSelectedItem() != tree().GetRootItem()) {
+			l.parent = tree().GetItemData(tree().GetParentItem(tree().GetSelectedItem()));
+		}
 		l.name = tree().GetItemText(tree().GetSelectedItem());
 		l.state = tree().GetItemState(tree().GetSelectedItem(), TVIS_EXPANDED | TVIS_SELECTED);
 		ls.push_back(l);
@@ -815,7 +817,9 @@ void OutlineView::treeToSequence(Labels &ls)
 		setSubNodeLevels(); // level 設定
 		label l;
 		l.key = tree().GetItemData(tree().GetSelectedItem());
-		l.parent = tree().GetItemData(tree().GetParentItem(tree().GetSelectedItem()));
+		if (tree().GetSelectedItem() != tree().GetRootItem()) {
+			l.parent = tree().GetItemData(tree().GetParentItem(tree().GetSelectedItem()));
+		}
 		l.name = tree().GetItemText(tree().GetSelectedItem());
 		l.state = tree().GetItemState(tree().GetSelectedItem(), TVIS_EXPANDED | TVIS_SELECTED);
 		ls.push_back(l);
@@ -1671,10 +1675,6 @@ void OutlineView::OnExportData()
 	extent.MakeLower();
 	CString outdir = drive; outdir += dir;
 	
-	CString mes = outfileName + "にエクスポートしますか";
-	if (MessageBox(mes, "エクスポート", MB_YESNO) != IDYES) {
-		return;
-	}
 	if (extent == ".txt") {
 		OutputText(outfileName);
 	} else if (extent == ".htm") {
@@ -1850,7 +1850,7 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	olf.WriteString("<a href=");
 	olf.WriteString("\"article.htm#");
 	CString keystr;
-	
+
 	HTREEITEM root;
 	if (m_opTreeOut ==0) {
 		root = tree().GetRootItem();
@@ -1868,11 +1868,12 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	olf.WriteString("<ul>\n");
 	
 	if (tree().ItemHasChildren(root)) {
-		htmlOutTree(tree().GetNextItem(root, TVGN_CHILD), &olf);
+		HTREEITEM child = tree().GetNextItem(root, TVGN_CHILD);
+		htmlOutTree(child, &olf);
 	}
 	olf.WriteString("</body>\n</html>\n");
 	olf.Close();
-	
+
 	///////////////////////////
 	// create article view
 	///////////////////////////
@@ -1882,6 +1883,7 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	} else {
 		arName += "\\article.htm";
 	}
+
 	if (!af.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		MessageBox(arName + " : 作成に失敗しました");
 		return;
@@ -1968,7 +1970,6 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, CStdioFile *f)
 	// 見出し書き込み
 	f->WriteString(itemStr);
 	f->WriteString("</a>\n");
-	
 	
 	if (tree().ItemHasChildren(hItem) && m_opTreeOut != 2) {           // 子どもに移動
 		f->WriteString("<ul>\n");
