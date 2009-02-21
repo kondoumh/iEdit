@@ -34,17 +34,13 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 	
 	// DOMê∂ê¨
 	MSXML2::IXMLDOMDocumentPtr doc("MSXML.DOMDocument");
-/*	CString dummy = CString("<?xml version='1.0'?>") + 
-		            CString("<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 20010904//EN'") + 
-					CString("'http://www.w3.oft/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>") +
-					CString ("<svg />");
-	doc->loadXML(dummy.GetBuffer(dummy.GetLength()));*/
 	
 	doc->appendChild(
 		doc->createProcessingInstruction(
-		"xml", "version='1.0' encoding='utf-16'"));
+		"xml", "version='1.0' encoding='utf-8'"));
 	
 	MSXML2::IXMLDOMElementPtr eSvg  = doc->createElement("svg");
+	eSvg->setAttribute("xmlns", "http://www.w3.org/2000/svg");
 	CString sWidth; sWidth.Format("%d", maxPt.x + 10);
 	CString sHeight; sHeight.Format("%d", maxPt.y + 10);
 	eSvg->setAttribute("width", sWidth.GetBuffer(sWidth.GetLength()));
