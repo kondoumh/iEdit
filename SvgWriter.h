@@ -33,8 +33,6 @@ protected:
 	MSXML2::IXMLDOMElementPtr createNodeElement(const iNode& node, MSXML2::IXMLDOMDocumentPtr pDoc);
 	void rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg);
 	CString createNodeStyleAtrb(const iNode& node);
-	// ラベルの配置計算用
-	CPoint calcNodeLabelOrg(const iNode& node);
 	// リンクラベルの座標計算
 	CPoint calcLinkLabelOrg(const iLink& link);
 	CString createTextStyle(const LOGFONT& lf, COLORREF fontColor);

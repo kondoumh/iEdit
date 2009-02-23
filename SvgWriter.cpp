@@ -150,13 +150,80 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	MSXML2::IXMLDOMElementPtr pNText = NULL;
 	
 	pNText = pDoc->createElement("text");
+	CSize textSize = getNodeTextSize(node);
 	
 	// text alignment
-	CPoint labelOrg = calcNodeLabelOrg(node);
-	CString sCx; sCx.Format("%d", labelOrg.x);
-	CString sCy; sCy.Format("%d", labelOrg.y);
-	pNText->setAttribute("x", sCx.GetBuffer(sCx.GetLength()));
-	pNText->setAttribute("y", sCy.GetBuffer(sCy.GetLength()));
+	CString sTop; sTop.Format("%d", node.getBound().top + textSize.cy/2 + 1);
+	CString sBottom; sBottom.Format("%d", node.getBound().bottom - 1);
+	CString sLeft; sLeft.Format("%d", node.getBound().left + 1);
+	CString sRight; sRight.Format("%d", node.getBound().right - 1);
+	CString sHCenter; sHCenter.Format("%d", node.getBound().left + node.getBound().Width()/2);
+	CString sVCenter; sVCenter.Format("%d", 
+		node.getBound().top + node.getBound().Height()/2 + textSize.cy/3);
+	
+	switch (node.getTextStyle())
+	{
+	case iNode::s_bc:
+		pNText->setAttribute("x", sHCenter.GetBuffer(sHCenter.GetLength()));
+		pNText->setAttribute("y", sBottom.GetBuffer(sBottom.GetLength()));
+		pNText->setAttribute("text-anchor", "middle");
+		break;
+	case iNode::s_bl:
+		pNText->setAttribute("x", sLeft.GetBuffer(sLeft.GetLength()));
+		pNText->setAttribute("y", sBottom.GetBuffer(sBottom.GetLength()));
+		pNText->setAttribute("text-anchor", "start");
+		break;
+	case iNode::s_br:
+		pNText->setAttribute("x", sRight.GetBuffer(sRight.GetLength()));
+		pNText->setAttribute("y", sBottom.GetBuffer(sBottom.GetLength()));
+		pNText->setAttribute("text-anchor", "end");
+		break;
+	case iNode::s_cc:
+		pNText->setAttribute("x", sHCenter.GetBuffer(sHCenter.GetLength()));
+		pNText->setAttribute("y", sVCenter.GetBuffer(sVCenter.GetLength()));
+		pNText->setAttribute("text-anchor", "middle");
+		break;
+	case iNode::s_cl:
+		pNText->setAttribute("x", sLeft.GetBuffer(sLeft.GetLength()));
+		pNText->setAttribute("y", sVCenter.GetBuffer(sVCenter.GetLength()));
+		pNText->setAttribute("text-anchor", "start");
+		break;
+	case iNode::s_cr:
+		pNText->setAttribute("x", sRight.GetBuffer(sRight.GetLength()));
+		pNText->setAttribute("y", sVCenter.GetBuffer(sVCenter.GetLength()));
+		pNText->setAttribute("text-anchor", "end");
+		break;
+	case iNode::s_tc:
+		pNText->setAttribute("x", sHCenter.GetBuffer(sHCenter.GetLength()));
+		pNText->setAttribute("y", sTop.GetBuffer(sTop.GetLength()));
+		pNText->setAttribute("text-anchor", "middle");
+		break;
+	case iNode::s_tl:
+		pNText->setAttribute("x", sLeft.GetBuffer(sLeft.GetLength()));
+		pNText->setAttribute("y", sTop.GetBuffer(sTop.GetLength()));
+		pNText->setAttribute("text-anchor", "start");
+		break;
+	case iNode::s_tr:
+		pNText->setAttribute("x", sRight.GetBuffer(sRight.GetLength()));
+		pNText->setAttribute("y", sTop.GetBuffer(sTop.GetLength()));
+		pNText->setAttribute("text-anchor", "end");
+		break;
+	case iNode::m_c:
+		pNText->setAttribute("x", sHCenter.GetBuffer(sHCenter.GetLength()));
+		pNText->setAttribute("y", sTop.GetBuffer(sTop.GetLength()));
+		pNText->setAttribute("text-anchor", "middle");
+		break;
+	case iNode::m_l:
+		pNText->setAttribute("x", sLeft.GetBuffer(sLeft.GetLength()));
+		pNText->setAttribute("y", sTop.GetBuffer(sTop.GetLength()));
+		pNText->setAttribute("text-anchor", "start");
+		break;
+	case iNode::m_r:
+		pNText->setAttribute("x", sRight.GetBuffer(sRight.GetLength()));
+		pNText->setAttribute("y", sTop.GetBuffer(sTop.GetLength()));
+		pNText->setAttribute("text-anchor", "end");
+		break;
+	}
 	
 	// フォントスタイル設定
 	CString sStyle = createTextStyle(node.getFontInfo(), node.getFontColor());
@@ -164,8 +231,22 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	
 	// ラベル
 	CString name = node.getName();
-	pNText->Puttext(name.GetBuffer(name.GetLength()));
-	
+	int style = node.getTextStyle();
+	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
+		int lcount = this->getNodeTextSize(node).cx / node.getBound().Width();
+		CString sDx; sDx.Format("%d", textSize.cy);
+		for (int i = 0; i <= lcount; i++) {
+			MSXML2::IXMLDOMElementPtr pNtspan = pDoc->createElement("tspan");
+			if (i > 0) {
+				pNtspan->setAttribute("x", pNText->getAttribute("x"));
+				pNtspan->setAttribute("dy", sDx.GetBuffer(sDx.GetLength()));
+			}
+			pNtspan->Puttext("aaaああ");
+			pNText->appendChild(pNtspan);
+		}
+	} else {
+		pNText->Puttext(name.GetBuffer(name.GetLength()));
+	}
 	
 	/* URL貼り込みテスト
 	MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
@@ -179,20 +260,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	return pNText;
 }
 
-// ラベルの配置計算用
-CPoint SvgWriter::calcNodeLabelOrg(const iNode& node)
-{
-	LOGFONT lf = node.getFontInfo();
-	int size = abs(lf.lfHeight);
-	
-	int width = node.getName().GetLength()*size/2;
-	int height = size;
-	
-	CPoint pt = node.getBound().CenterPoint();
-	pt.x -= width/2;
-	pt.y += height*3/7;
-	return pt;
-}
+
 
 CSize SvgWriter::getNodeTextSize(const iNode& node)
 {
