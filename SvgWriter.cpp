@@ -158,7 +158,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	pNText->setAttribute("x", sCx.GetBuffer(sCx.GetLength()));
 	pNText->setAttribute("y", sCy.GetBuffer(sCy.GetLength()));
 	
-	// スタイル設定
+	// フォントスタイル設定
 	CString sStyle = createTextStyle(node.getFontInfo(), node.getFontColor());
 	pNText->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
 	
@@ -194,6 +194,16 @@ CPoint SvgWriter::calcNodeLabelOrg(const iNode& node)
 	return pt;
 }
 
+CSize SvgWriter::getNodeTextSize(const iNode& node)
+{
+	CWnd wnd;
+	CFont font; font.CreateFontIndirectA(&node.getFontInfo());
+	CClientDC dc(&wnd);
+	CFont* pOldFont = dc.SelectObject(&font);
+	CSize sz = dc.GetTabbedTextExtentA(node.getName(), -1, 0, NULL);
+	dc.SelectObject(pOldFont);
+	return sz;
+}
 
 CString SvgWriter::createNodeStyleAtrb(const iNode &node)
 {
@@ -502,6 +512,8 @@ CString SvgWriter::createTextStyle(const LOGFONT& lf, COLORREF fontColor)
 		sFName = "MS-Gothic";
 	} else if (sFName == "ＭＳ Ｐゴシック") {
 		sFName = "MS-PGothic";
+	} else if (sFName == "メイリオ") {
+		sFName = "Meiryo";
 	} else {
 		sFName = "MS-Gothic";
 	}

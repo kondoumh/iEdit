@@ -24,6 +24,7 @@ private:
 	iLinks& m_links;
 	bool m_bDrwAll;
 protected:
+	CSize getNodeTextSize(const iNode& node);
 	MSXML2::IXMLDOMElementPtr createLinkArrow2Element(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
 	MSXML2::IXMLDOMElementPtr createLinkArrowElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
 	MSXML2::IXMLDOMElementPtr createLinkTextElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
