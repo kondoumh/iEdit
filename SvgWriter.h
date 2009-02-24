@@ -24,6 +24,8 @@ private:
 	iLinks& m_links;
 	bool m_bDrwAll;
 protected:
+	vector<CString> splitTSpan(const CString& label, const int labelWidth, const int boundWidth);
+	vector<CString> splitByWidth(const CString& line, const int byte);
 	CSize getNodeTextSize(const iNode& node);
 	MSXML2::IXMLDOMElementPtr createLinkArrow2Element(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
 	MSXML2::IXMLDOMElementPtr createLinkArrowElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);

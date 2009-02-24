@@ -6,6 +6,7 @@
 #include "iEdit.h"
 #include "SvgWriter.h"
 #include "math.h"
+#include "Token.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -233,15 +234,15 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	CString name = node.getName();
 	int style = node.getTextStyle();
 	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
-		int lcount = this->getNodeTextSize(node).cx / node.getBound().Width();
 		CString sDx; sDx.Format("%d", textSize.cy);
-		for (int i = 0; i <= lcount; i++) {
+		vector<CString> lines = splitTSpan(node.getName(), textSize.cx, node.getBound().Width());
+		for (unsigned int i = 0; i < lines.size(); i++) {
 			MSXML2::IXMLDOMElementPtr pNtspan = pDoc->createElement("tspan");
 			if (i > 0) {
 				pNtspan->setAttribute("x", pNText->getAttribute("x"));
 				pNtspan->setAttribute("dy", sDx.GetBuffer(sDx.GetLength()));
 			}
-			pNtspan->Puttext("aaa‚ ‚ ");
+			pNtspan->Puttext(lines[i].GetBuffer(lines[i].GetLength()));
 			pNText->appendChild(pNtspan);
 		}
 	} else {
@@ -260,7 +261,50 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	return pNText;
 }
 
+vector<CString> SvgWriter::splitTSpan(const CString& label, const int labelWidth, const int boundWidth)
+{
+	vector<CString> v;
+	int bytePerLine = (boundWidth/(labelWidth/label.GetLength())) - 1;
+	if (label.Find("\n") != -1) {
+		CToken tok(label);
+		tok.SetToken("\n");
+		while (tok.MoreTokens()) {
+			CString token = tok.GetNextToken();
+			vector<CString> lines = splitByWidth(token, bytePerLine);
+			for (unsigned int i = 0; i < lines.size(); i++) {
+				v.push_back(lines[i]);
+			}
+		}
+	} else {
+		vector<CString> lines = splitByWidth(label, bytePerLine);
+		for (unsigned int i = 0; i < lines.size(); i++) {
+			v.push_back(lines[i]);
+		}
+	}
+	return v;
+}
 
+vector<CString> SvgWriter::splitByWidth(const CString& line, const int byte)
+{
+	vector<CString> v;
+	int j = 0;
+	CString split;
+	for (int i = 0; i < line.GetLength(); i++) {
+		split += line.GetAt(i);
+		j++;
+		if (_ismbblead(line.GetAt(i)) != 0) {
+			split += line.GetAt(i+1);
+			i++;
+			j++;
+		}
+		if (j >= byte || i >= line.GetLength() - 1) {
+			v.push_back(split);
+			j = 0;
+			split = "";
+		}
+	}
+	return v;
+}
 
 CSize SvgWriter::getNodeTextSize(const iNode& node)
 {
