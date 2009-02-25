@@ -486,8 +486,6 @@ CPoint SvgWriter::calcLinkLabelOrg(const iLink& link)
 
 MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
-	DWORD keyFrom = link.getKeyFrom();
-	DWORD keyTo = link.getKeyTo();
 	CPoint ptTo = link.getPtTo();
 	CPoint ptFrom = link.getPtFrom();
 	CPoint ptPath = link.getPtPath();
@@ -501,26 +499,10 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	pt[2].x = pt[0].x + 10;
 	pt[2].y = pt[0].y - 4;
 	
-	if (keyFrom != keyTo) {
-		if (!link.isCurved()) {
-			rotateArrow(pt, 3, ptFrom, ptTo, ptTo);
-		} else {
-			rotateArrow(pt, 3, ptPath, ptTo, ptTo);		
-		}
+	if (!link.isCurved()) {
+		rotateArrow(pt, 3, ptFrom, ptTo, ptTo);
 	} else {
-		CRect rcFrom = link.getRectFrom();
-		CPoint gFrom = rcFrom.CenterPoint();
-		CPoint from;
-		if (ptPath.x >= gFrom.x && ptPath.y <= gFrom.y) {
-			from.x = gFrom.x + selfRect.Width()/8; from.y = rcFrom.top - selfRect.Height();
-		} else if (ptPath.x >= gFrom.x && ptPath.y > gFrom.y) {
-			from.x = rcFrom.right+selfRect.Height(); from.y = gFrom.y + selfRect.Height()/8;
-		} else if (ptPath.x < gFrom.x && ptPath.y > gFrom.y) {
-			from.x = gFrom.x - selfRect.Width()/8, from.y = rcFrom.bottom + selfRect.Height();
-		} else if (ptPath.x < gFrom.x && ptPath.y <= gFrom.y) {
-			from.x = rcFrom.left - selfRect.Width(); from.y = gFrom.y - selfRect.Height()/8;
-		}
-		rotateArrow(pt, 3, from, ptTo, ptTo);
+		rotateArrow(pt, 3, ptPath, ptTo, ptTo);		
 	}
 	
 	MSXML2::IXMLDOMElementPtr pArrow = NULL;
