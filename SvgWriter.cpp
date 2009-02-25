@@ -115,7 +115,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2
 	CString sHeight; sHeight.Format("%d", bound.Height());
 	
 	if (shape == iNode::rectangle || shape == iNode::MetaFile ||
-		shape == iNode::roundRect || shape == iNode::MindMapNode) {
+		shape == iNode::roundRect) {
 		pNode = pDoc->createElement("rect");
 		
 		pNode->setAttribute("x", sCx.GetBuffer(sCx.GetLength()));
@@ -139,6 +139,17 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2
 		pNode->setAttribute("rx", sRx.GetBuffer(sRx.GetLength()));
 		CString sRy; sRy.Format("%d", bound.Height()/2);
 		pNode->setAttribute("ry", sRy.GetBuffer(sRy.GetLength()));
+	} else if (shape == iNode::MindMapNode) {
+		pNode = pDoc->createElement("line");
+		CString sX1; sX1.Format("%d", bound.left);
+		CString sY1; sY1.Format("%d", bound.bottom);
+		CString sX2; sX2.Format("%d", bound.right);
+		CString sY2; sY2.Format("%d", bound.bottom);
+		
+		pNode->setAttribute("x1", sX1.GetBuffer(sX1.GetLength()));
+		pNode->setAttribute("y1", sY1.GetBuffer(sY1.GetLength()));
+		pNode->setAttribute("x2", sX2.GetBuffer(sX2.GetLength()));
+		pNode->setAttribute("y2", sY2.GetBuffer(sY2.GetLength()));
 	}
 	
 	CString sNodeStyle = createNodeStyleAtrb(node);
