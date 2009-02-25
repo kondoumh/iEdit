@@ -529,14 +529,22 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	CString sPath;
 	sPath.Format("M %d %d L %d %d L %d %d z", pt[0].x, pt[0].y, pt[1].x, pt[1].y, pt[2].x, pt[2].y);
 	pArrow->setAttribute("d", sPath.GetBuffer(sPath.GetLength()));
+
 	
 	COLORREF color = link.getLinkColor();
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);
+	int width = link.getLineWidth();
 	CString sStyle;
-	sStyle.Format("fill:rgb(%d,%d,%d); ", bRed, bGreen, bBlue);
-	
+	if (link.getArrowStyle() != iLink::inherit) {
+		sStyle.Format("fill:rgb(%d,%d,%d); ", bRed, bGreen, bBlue);
+	} else {
+		sStyle = "fill:rgb(255,255,255)";
+	}
+	CString sStroke;
+	sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
+	sStyle += sStroke;
 	pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
 	
 	return pArrow;
