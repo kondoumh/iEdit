@@ -42,6 +42,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 	
 	MSXML2::IXMLDOMElementPtr eSvg  = doc->createElement("svg");
 	eSvg->setAttribute("xmlns", "http://www.w3.org/2000/svg");
+	eSvg->setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
 	CString sWidth; sWidth.Format("%d", maxPt.x + 10);
 	CString sHeight; sHeight.Format("%d", maxPt.y + 10);
 	eSvg->setAttribute("width", sWidth.GetBuffer(sWidth.GetLength()));
@@ -249,34 +250,43 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		pNText->Puttext(name.GetBuffer(name.GetLength()));
 	}
 	
-	/* URL貼り込みテスト
-	MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
-	pNodeRef = pDoc->createElement("a");
-	pNodeRef->setAttribute("xlink:href", "http://member.nifty.ne.jp/kondoumh/");
-	pNodeRef->setAttribute("target", "_blank");
-	pNodeRef->appendChild(pNText);
-	return pNodeRef;
-	*/
-	
+	// nodeのテキストの1行目がURLだったらリンクを作る
+	CString url = extractfirstURLfromText(node.getText());
+	if (url != "") {
+		MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
+		pNodeRef = pDoc->createElement("a");
+		pNodeRef->setAttribute("xlink:href", url.GetBuffer(url.GetLength()));
+		pNodeRef->setAttribute("target", "_blank");
+		CString addStyle = "fill:rgb(0,0,255); text-decoration:underline;";
+		CString sStyle = pNText->getAttribute("style");
+		sStyle += addStyle;
+		pNText->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
+		pNodeRef->appendChild(pNText);
+		return pNodeRef;
+	}
 	return pNText;
+}
+
+CString SvgWriter::extractfirstURLfromText(const CString& text)
+{
+	int pos = 0;
+	CString firstline = text.Tokenize("\n", pos);
+	if (firstline != "" && firstline.Find("http://", 0) != -1) {
+		return firstline;
+	}
+	return "";
 }
 
 vector<CString> SvgWriter::splitTSpan(const CString& label, const int labelWidth, const int boundWidth)
 {
 	vector<CString> v;
 	int bytePerLine = (boundWidth/(labelWidth/label.GetLength())) - 1;
-	if (label.Find("\n") != -1) {
-		CToken tok(label);
-		tok.SetToken("\n");
-		while (tok.MoreTokens()) {
-			CString token = tok.GetNextToken();
-			vector<CString> lines = splitByWidth(token, bytePerLine);
-			for (unsigned int i = 0; i < lines.size(); i++) {
-				v.push_back(lines[i]);
-			}
-		}
-	} else {
-		vector<CString> lines = splitByWidth(label, bytePerLine);
+	
+	int pos = 0;
+	CString token = " ";
+	while (token != "") {
+		token = label.Tokenize("\n", pos);
+		vector<CString> lines = splitByWidth(token, bytePerLine);
 		for (unsigned int i = 0; i < lines.size(); i++) {
 			v.push_back(lines[i]);
 		}
@@ -634,18 +644,25 @@ CString SvgWriter::createTextStyle(const LOGFONT& lf, COLORREF fontColor)
 	
 	// font style
 	if (lf.lfItalic) {
-		sStyle += "; font-style:italic; ";
-	}	
-	if (lf.lfStrikeOut) {
-		sStyle += "; text-decoration:underline";
+		sStyle += "; font-style:italic";
 	}
-	if (lf.lfUnderline) {
-		sStyle += "; text-decoration:line-through";
+	if (lf.lfStrikeOut || lf.lfUnderline) {
+		sStyle += "; text-decoration:";
+		if (lf.lfStrikeOut) {
+			sStyle += "line-through ";
+		}
+		if (lf.lfUnderline) {
+			sStyle += "underline";
+		}
 	}
+	
 	
 	// font width
 	if (lf.lfWeight == FW_BOLD) {
 		sStyle += "; font-weight:bold";
 	}
+	
+	sStyle += "; ";
+	
 	return sStyle;
 }

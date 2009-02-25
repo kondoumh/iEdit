@@ -24,6 +24,7 @@ private:
 	iLinks& m_links;
 	bool m_bDrwAll;
 protected:
+	CString extractfirstURLfromText(const CString& text);
 	vector<CString> splitTSpan(const CString& label, const int labelWidth, const int boundWidth);
 	vector<CString> splitByWidth(const CString& line, const int byte);
 	CSize getNodeTextSize(const iNode& node);
