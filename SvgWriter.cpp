@@ -513,6 +513,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	CPoint ptPath = link.getPtPath();
 	CRect selfRect = link.getSelfRect();
 	int width = link.getLineWidth();
+	if (width == 0) width = 1;
 	
 	int ArrowWidth = 5;
 	int ArrowHeight = 12;
@@ -580,7 +581,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 		sStyle = "fill:none; ";
 	}
 	CString sStroke;
-	sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
+	sStroke.Format("stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
 	sStyle += sStroke;
 	pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
 	return pArrow;
@@ -593,6 +594,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, 
 	CPoint ptPath = link.getPtPath();
 	CRect selfRect = link.getSelfRect();
 	int width = link.getLineWidth();
+	if (width == 0) width = 1;
 	
 	int ArrowWidth = 5;
 	int ArrowHeight = 12;
@@ -656,7 +658,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, 
 		sStyle = "fill:rgb(255,255,255); ";
 	}
 	CString sStroke;
-	sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
+	sStroke.Format("stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
 	sStyle += sStroke;
 	pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
 	return pArrow;
@@ -671,6 +673,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 	CPoint ptPath = link.getPtPath();
 	CRect selfRect = link.getSelfRect();
 	int width = link.getLineWidth();
+	if (width == 0) width = 1;
 	
 	int ArrowWidth = 5;
 	int ArrowHeight = 12;
@@ -733,7 +736,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 		sStyle = "fill:none; ";
 	}
 	CString sStroke;
-	sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
+	sStroke.Format("stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
 	sStyle += sStroke;
 	pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
 	
