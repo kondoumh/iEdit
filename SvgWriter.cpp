@@ -129,7 +129,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2
 		pNode->setAttribute("height", sHeight.GetBuffer(sHeight.GetLength()));
 		if (shape == iNode::roundRect) {
 			int r = (bound.Width() < bound.Height()) ? bound.Width() : bound.Height();
-			CString sR; sR.Format("%d", r/4);
+			CString sR; sR.Format("%d", r/8);
 			pNode->setAttribute("rx", sR.GetBuffer(sR.GetLength()));
 			pNode->setAttribute("ry", sR.GetBuffer(sR.GetLength()));
 		}
@@ -173,8 +173,21 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	// text alignment
 	CString sTop; sTop.Format("%d", node.getBound().top + textSize.cy/2 + 1);
 	CString sBottom; sBottom.Format("%d", node.getBound().bottom - 1);
-	CString sLeft; sLeft.Format("%d", node.getBound().left + 1);
-	CString sRight; sRight.Format("%d", node.getBound().right - 1);
+	
+	CRect bound = node.getBound();
+	int r = (bound.Width() < bound.Height()) ? bound.Width() : bound.Height();
+	int left = node.getBound().left + 1;
+	if (node.getNodeShape() == iNode::roundRect) {
+		left += r/8;
+	}
+	CString sLeft; sLeft.Format("%d", left);
+	
+	int right = node.getBound().right - 1;
+	if (node.getNodeShape() == iNode::roundRect) {
+		right -= r/8;
+	}
+	CString sRight; sRight.Format("%d", right);
+	
 	CString sHCenter; sHCenter.Format("%d", node.getBound().left + node.getBound().Width()/2);
 	CString sVCenter; sVCenter.Format("%d", 
 		node.getBound().top + node.getBound().Height()/2 + textSize.cy/3);
