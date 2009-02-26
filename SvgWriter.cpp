@@ -93,6 +93,8 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 			MSXML2::IXMLDOMElementPtr eArrow = createLinkArrowElement(link, doc);
 			eGrp->appendChild(eArrow);
 		} else if (link.getArrowStyle() == iLink::aggregat || link.getArrowStyle() == iLink::composit) {
+			MSXML2::IXMLDOMElementPtr eSquare = createLinkSquareElement(link, doc);
+			eGrp->appendChild(eSquare);
 		}
 		if (link.getArrowStyle() == iLink::arrow2 || link.getArrowStyle() == iLink::depend2) {
 			MSXML2::IXMLDOMElementPtr eArrow2 = createLinkArrow2Element(link, doc);
@@ -552,22 +554,98 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	pArrow->setAttribute("d", sPath.GetBuffer(sPath.GetLength()));
 
 	
-	COLORREF color = link.getLinkColor();
+	CString sStyle;
+		COLORREF color = link.getLinkColor();
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);
-	CString sStyle;
 	if (link.getArrowStyle() == iLink::arrow || link.getArrowStyle() == iLink::arrow2) {
 		sStyle.Format("fill:rgb(%d,%d,%d); ", bRed, bGreen, bBlue);
 	} else if (link.getArrowStyle() == iLink::inherit) {
-		sStyle = "fill:rgb(255,255,255)";
+		sStyle = "fill:rgb(255,255,255); ";
+	} else if (link.getArrowStyle() == iLink::depend || link.getArrowStyle() == iLink::depend2) {
+		sStyle = "fill:none; ";
 	}
-	if (link.getArrowStyle() != iLink::depend && link.getArrowStyle() == iLink::depend2) {
-		CString sStroke;
-		sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
-		sStyle += sStroke;
-		pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
+	CString sStroke;
+	sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
+	sStyle += sStroke;
+	pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
+	return pArrow;
+}
+
+MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
+{
+	CPoint ptTo = link.getPtTo();
+	CPoint ptFrom = link.getPtFrom();
+	CPoint ptPath = link.getPtPath();
+	CRect selfRect = link.getSelfRect();
+	int width = link.getLineWidth();
+	
+	int ArrowWidth = 5;
+	int ArrowHeight = 12;
+	switch (width) {
+	case 0:
+		ArrowWidth = 5;
+		ArrowHeight = 12;
+		break;
+	case 2:
+		ArrowWidth = 6;
+		ArrowHeight = 13;
+		break;
+	case 3:
+		ArrowWidth = 7;
+		ArrowHeight = 16;
+		break;
+	case 4:
+		ArrowWidth = 7;
+		ArrowHeight = 18;
+		break;
+	case 5:
+		ArrowWidth = 8;
+		ArrowHeight = 19;
+		break;
 	}
+	
+	CPoint pt[4];
+	pt[0].x = ptTo.x;
+	pt[0].y = ptTo.y;
+	pt[1].x = pt[0].x + ArrowHeight;
+	pt[1].y = pt[0].y + ArrowWidth;
+	pt[2].x = pt[1].x + ArrowHeight;
+	pt[2].y = pt[0].y;
+	pt[3].x = pt[1].x;
+	pt[3].y = pt[0].y - ArrowWidth;
+	
+	
+	if (!link.isCurved()) {
+		rotateArrow(pt, 4, ptFrom, ptTo, ptTo);
+	} else {
+		rotateArrow(pt, 4, ptPath, ptTo, ptTo);		
+	}
+	
+	MSXML2::IXMLDOMElementPtr pArrow = NULL;
+	
+	pArrow = pDoc->createElement("path");
+	CString sPath;
+	
+	sPath.Format("M %d %d L %d %d L %d %d L %d %d z", pt[0].x, pt[0].y, pt[1].x, pt[1].y, pt[2].x, pt[2].y, pt[3].x, pt[3].y);
+	pArrow->setAttribute("d", sPath.GetBuffer(sPath.GetLength()));
+
+	
+	CString sStyle;
+		COLORREF color = link.getLinkColor();
+	BYTE bRed GetRValue(color);
+	BYTE bGreen GetGValue(color);
+	BYTE bBlue GetBValue(color);
+	if (link.getArrowStyle() == iLink::composit) {
+		sStyle.Format("fill:rgb(%d,%d,%d); ", bRed, bGreen, bBlue);
+	} else if (link.getArrowStyle() == iLink::aggregat) {
+		sStyle = "fill:rgb(255,255,255); ";
+	}
+	CString sStroke;
+	sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
+	sStyle += sStroke;
+	pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
 	return pArrow;
 }
 
@@ -624,16 +702,26 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 	
 	pArrow = pDoc->createElement("path");
 	CString sPath;
-	sPath.Format("M %d %d L %d %d L %d %d z", pt[0].x, pt[0].y, pt[1].x, pt[1].y, pt[2].x, pt[2].y);
+	if (link.getArrowStyle() == iLink::depend || link.getArrowStyle() == iLink::depend2) {
+		sPath.Format("M %d %d L %d %d L %d %d", pt[1].x, pt[1].y, pt[0].x, pt[0].y, pt[2].x, pt[2].y);
+	} else {
+		sPath.Format("M %d %d L %d %d L %d %d z", pt[0].x, pt[0].y, pt[1].x, pt[1].y, pt[2].x, pt[2].y);
+	}
 	pArrow->setAttribute("d", sPath.GetBuffer(sPath.GetLength()));
 	
+	CString sStyle;
 	COLORREF color = link.getLinkColor();
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);
-	CString sStyle;
-	sStyle.Format("fill:rgb(%d,%d,%d); ", bRed, bGreen, bBlue);
-	
+	if (link.getArrowStyle() == iLink::arrow2) {
+		sStyle.Format("fill:rgb(%d,%d,%d); ", bRed, bGreen, bBlue);
+	} else if (link.getArrowStyle() == iLink::depend2) {
+		sStyle = "fill:none; ";
+	}
+	CString sStroke;
+	sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
+	sStyle += sStroke;
 	pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
 	
 	return pArrow;
