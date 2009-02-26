@@ -425,7 +425,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2
 		if (link.isAngled()) {
 			sPath.Format("M %d %d L %d %d %d %d", ptFrom.x, ptFrom.y, ptPath.x, ptPath.y, ptTo.x, ptTo.y);
 		} else {
-			sPath.Format("M %d %d S %d %d %d %d", ptFrom.x, ptFrom.y, ptPath.x, ptPath.y, ptTo.x, ptTo.y);
+			sPath.Format("M %d %d C %d %d %d %d %d %d", ptFrom.x, ptFrom.y, ptPath.x, ptPath.y, ptPath.x, ptPath.y,ptTo.x, ptTo.y);
 		}	
 		pLink->setAttribute("d", sPath.GetBuffer(sPath.GetLength()));
 		
