@@ -87,9 +87,12 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 		if (eLText != NULL) {
 			eGrp->appendChild(eLText);
 		}
-		if (link.getArrowStyle() != iLink::line && link.getArrowStyle() != iLink::other) {
+		if (link.getArrowStyle() == iLink::arrow || link.getArrowStyle() == iLink::arrow2 ||
+			link.getArrowStyle() == iLink::depend || link.getArrowStyle() == iLink::depend2 ||
+			link.getArrowStyle() == iLink::inherit) {
 			MSXML2::IXMLDOMElementPtr eArrow = createLinkArrowElement(link, doc);
 			eGrp->appendChild(eArrow);
+		} else if (link.getArrowStyle() == iLink::aggregat || link.getArrowStyle() == iLink::composit) {
 		}
 		if (link.getArrowStyle() == iLink::arrow2 || link.getArrowStyle() == iLink::depend2) {
 			MSXML2::IXMLDOMElementPtr eArrow2 = createLinkArrow2Element(link, doc);
@@ -417,7 +420,11 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2
 	} else {
 		pLink = pDoc->createElement("path");
 		CString sPath;
-		sPath.Format("M %d %d S %d %d %d %d", ptFrom.x, ptFrom.y, ptPath.x, ptPath.y, ptTo.x, ptTo.y);
+		if (link.isAngled()) {
+			sPath.Format("M %d %d L %d %d %d %d", ptFrom.x, ptFrom.y, ptPath.x, ptPath.y, ptTo.x, ptTo.y);
+		} else {
+			sPath.Format("M %d %d S %d %d %d %d", ptFrom.x, ptFrom.y, ptPath.x, ptPath.y, ptTo.x, ptTo.y);
+		}	
 		pLink->setAttribute("d", sPath.GetBuffer(sPath.GetLength()));
 		
 		CString sColor;
@@ -490,14 +497,41 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	CPoint ptFrom = link.getPtFrom();
 	CPoint ptPath = link.getPtPath();
 	CRect selfRect = link.getSelfRect();
+	int width = link.getLineWidth();
+	
+	int ArrowWidth = 5;
+	int ArrowHeight = 12;
+	switch (width) {
+	case 0:
+		ArrowWidth = 5;
+		ArrowHeight = 12;
+		break;
+	case 2:
+		ArrowWidth = 6;
+		ArrowHeight = 13;
+		break;
+	case 3:
+		ArrowWidth = 7;
+		ArrowHeight = 16;
+		break;
+	case 4:
+		ArrowWidth = 7;
+		ArrowHeight = 18;
+		break;
+	case 5:
+		ArrowWidth = 8;
+		ArrowHeight = 19;
+		break;
+	}
 	
 	CPoint pt[3];
 	pt[0].x = ptTo.x;
 	pt[0].y = ptTo.y;
-	pt[1].x = pt[0].x + 10;
-	pt[1].y = pt[0].y + 4;
-	pt[2].x = pt[0].x + 10;
-	pt[2].y = pt[0].y - 4;
+	pt[1].x = pt[0].x + ArrowHeight;
+	pt[1].y = pt[0].y + ArrowWidth;
+	pt[2].x = pt[0].x + ArrowHeight;
+	pt[2].y = pt[0].y - ArrowWidth;
+	
 	
 	if (!link.isCurved()) {
 		rotateArrow(pt, 3, ptFrom, ptTo, ptTo);
@@ -509,7 +543,12 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	
 	pArrow = pDoc->createElement("path");
 	CString sPath;
-	sPath.Format("M %d %d L %d %d L %d %d z", pt[0].x, pt[0].y, pt[1].x, pt[1].y, pt[2].x, pt[2].y);
+	
+	if (link.getArrowStyle() == iLink::depend || link.getArrowStyle() == iLink::depend2) {
+		sPath.Format("M %d %d L %d %d L %d %d", pt[1].x, pt[1].y, pt[0].x, pt[0].y, pt[2].x, pt[2].y);
+	} else {
+		sPath.Format("M %d %d L %d %d L %d %d z", pt[0].x, pt[0].y, pt[1].x, pt[1].y, pt[2].x, pt[2].y);
+	}
 	pArrow->setAttribute("d", sPath.GetBuffer(sPath.GetLength()));
 
 	
@@ -517,18 +556,18 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);
-	int width = link.getLineWidth();
 	CString sStyle;
-	if (link.getArrowStyle() != iLink::inherit) {
+	if (link.getArrowStyle() == iLink::arrow || link.getArrowStyle() == iLink::arrow2) {
 		sStyle.Format("fill:rgb(%d,%d,%d); ", bRed, bGreen, bBlue);
-	} else {
+	} else if (link.getArrowStyle() == iLink::inherit) {
 		sStyle = "fill:rgb(255,255,255)";
 	}
-	CString sStroke;
-	sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
-	sStyle += sStroke;
-	pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
-	
+	if (link.getArrowStyle() != iLink::depend && link.getArrowStyle() == iLink::depend2) {
+		CString sStroke;
+		sStroke.Format("; stroke:rgb(%d,%d,%d); stroke-width:%d;", bRed, bGreen, bBlue, width);
+		sStyle += sStroke;
+		pArrow->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
+	}
 	return pArrow;
 }
 
@@ -540,35 +579,45 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 	CPoint ptFrom = link.getPtFrom();
 	CPoint ptPath = link.getPtPath();
 	CRect selfRect = link.getSelfRect();
-
+	int width = link.getLineWidth();
+	
+	int ArrowWidth = 5;
+	int ArrowHeight = 12;
+	switch (width) {
+	case 0:
+		ArrowWidth = 5;
+		ArrowHeight = 12;
+		break;
+	case 2:
+		ArrowWidth = 6;
+		ArrowHeight = 13;
+		break;
+	case 3:
+		ArrowWidth = 7;
+		ArrowHeight = 16;
+		break;
+	case 4:
+		ArrowWidth = 7;
+		ArrowHeight = 18;
+		break;
+	case 5:
+		ArrowWidth = 8;
+		ArrowHeight = 19;
+		break;
+	}
+	
 	CPoint pt[3];
 	pt[0].x = ptFrom.x;
 	pt[0].y = ptFrom.y;
-	pt[1].x = pt[0].x + 10;
-	pt[1].y = pt[0].y + 4;
-	pt[2].x = pt[0].x + 10;
-	pt[2].y = pt[0].y - 4;
+	pt[1].x = pt[0].x + ArrowHeight;
+	pt[1].y = pt[0].y + ArrowWidth;
+	pt[2].x = pt[0].x + ArrowHeight;
+	pt[2].y = pt[0].y - ArrowWidth;
 	
-	if (keyFrom != keyTo) {
-		if (!link.isCurved()) {
-			rotateArrow(pt, 3, ptTo, ptFrom, ptFrom);
-		} else {
-			rotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
-		}
+	if (!link.isCurved()) {
+		rotateArrow(pt, 3, ptTo, ptFrom, ptFrom);
 	} else {
-		CRect rcFrom = link.getRectFrom();
-		CPoint gFrom = rcFrom.CenterPoint();
-		CPoint from;
-		if (ptPath.x >= gFrom.x && ptPath.y <= gFrom.y) {
-			from.x = rcFrom.right+selfRect.Height(); from.y = gFrom.y - selfRect.Height()/8;
-		} else if (ptPath.x >= gFrom.x && ptPath.y > gFrom.y) {
-			from.x = gFrom.x + selfRect.Width()/8, from.y = rcFrom.bottom + selfRect.Height();
-		} else if (ptPath.x < gFrom.x && ptPath.y > gFrom.y) {
-			from.x = rcFrom.left - selfRect.Width(); from.y = gFrom.y + selfRect.Height()/8;
-		} else if (ptPath.x < gFrom.x && ptPath.y <= gFrom.y) {
-			from.x = gFrom.x - selfRect.Width()/8; from.y = rcFrom.top - selfRect.Height();
-		}
-		rotateArrow(pt, 3, from, ptFrom, ptFrom);
+		rotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
 	}
 	
 	MSXML2::IXMLDOMElementPtr pArrow = NULL;
