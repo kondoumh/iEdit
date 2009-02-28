@@ -4411,7 +4411,7 @@ void NetView::OnExportPng()
 	p2 += CSize(10, 10);
 	CRect rc(p1, p2);	
 	CImage image;
-	image.Create(rc.Width(), rc.Height(), 24);
+	image.Create(rc.Width(), rc.Height(), 32);
 	
 	CDC* pDC = CDC::FromHandle(image.GetDC());
 	CBrush brush(RGB(255, 255, 255)); 
