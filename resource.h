@@ -437,6 +437,14 @@
 #define ID_TREE_IMAGE_IDEA              33053
 #define ID_OUTLINE_33054                33054
 #define ID_PASTE_TREE_FROM_CLIPBOARD    33055
+#define ID_33056                        33056
+#define ID_33057                        33057
+#define ID_EXPORT_EMF                   33058
+#define ID_33059                        33059
+#define ID_33060                        33060
+#define ID_33061                        33061
+#define ID_33062                        33062
+#define ID_EXPORT_PNG                   33063
 
 // Next default values for new objects
 // 
@@ -444,7 +452,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        210
-#define _APS_NEXT_COMMAND_VALUE         33056
+#define _APS_NEXT_COMMAND_VALUE         33064
 #define _APS_NEXT_CONTROL_VALUE         1096
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

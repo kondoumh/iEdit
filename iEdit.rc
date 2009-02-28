@@ -243,18 +243,22 @@ BEGIN
     POPUP "ネットワーク(&N)"
     BEGIN
         MENUITEM "選択モード(&S)",                   ID_NORMAL_CURSOR
-        MENUITEM "□   長方形(&R)",                 ID_ADD_RECT
-        MENUITEM "□   角の丸い長方形(&T)",             ID_ADD_ROUND_RECT
-        MENUITEM "○   楕円(&E)",                  ID_ADD_ARC
-        MENUITEM "文字列",                         ID_ADD_LABEL_ONLY
-        MENUITEM " --- 直線(&N)",                 ID_ADD_LINK0
-        MENUITEM " ---> 一方向矢印(&A)",             ID_ADD_LINK1
-        MENUITEM "<---> 双方向矢印(&B)",             ID_ADD_LINK2
+        POPUP "追加(&A)"
+        BEGIN
+            MENUITEM "□   長方形(&R)",                 ID_ADD_RECT
+            MENUITEM "□   角の丸い長方形(&T)",             ID_ADD_ROUND_RECT
+            MENUITEM "○   楕円(&E)",                  ID_ADD_ARC
+            MENUITEM "文字列(&W)",                     ID_ADD_LABEL_ONLY
+            MENUITEM " --- 直線(&N)",                 ID_ADD_LINK0
+            MENUITEM " ---> 一方向矢印(&A)",             ID_ADD_LINK1
+            MENUITEM "<---> 双方向矢印(&B)",             ID_ADD_LINK2
+        END
+        POPUP "MindMap的入力(&M)"
+        BEGIN
+            MENUITEM "子ノード挿入(&C)\tInsert",          ID_INSERT_CHILD
+            MENUITEM "兄弟ノード挿入(&S)\tShift+Return",   ID_INSERT_SIBLING
+        END
         MENUITEM SEPARATOR
-        MENUITEM "子ノード挿入(&I)\tInsert",          ID_INSERT_CHILD
-        MENUITEM "兄弟ノード挿入(&G)\tShift+Return",   ID_INSERT_SIBLING
-        MENUITEM SEPARATOR
-        MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
         POPUP "表示属性(&V)"
         BEGIN
             POPUP "色(&L)"
@@ -288,6 +292,18 @@ BEGIN
                 MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
             END
             MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+            POPUP "ラベルの書式(&O)"
+            BEGIN
+                MENUITEM "天配置↑",                        ID_VALIGN_TOP
+                MENUITEM "中配置",                         ID_VALIGN_CENTER
+                MENUITEM "地配置↓",                        ID_ALIGN_BOTTOM
+                MENUITEM "右寄せ →",                       ID_HALIGN_RIGHT
+                MENUITEM "中",                           ID_HALIGN_CENTER
+                MENUITEM "左寄せ ←",                       ID_HALIGN_LEFT
+                MENUITEM SEPARATOR
+                MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
+                MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
+            END
         END
         POPUP "矢印(&W)"
         BEGIN
@@ -296,24 +312,17 @@ BEGIN
             MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
         END
         MENUITEM "ノードのプロパティ(&H)",               ID_SET_NODE_PROP
-        POPUP "ラベルの書式(&O)"
-        BEGIN
-            MENUITEM "天配置↑",                        ID_VALIGN_TOP
-            MENUITEM "中配置",                         ID_VALIGN_CENTER
-            MENUITEM "地配置↓",                        ID_ALIGN_BOTTOM
-            MENUITEM "右寄せ →",                       ID_HALIGN_RIGHT
-            MENUITEM "中",                           ID_HALIGN_CENTER
-            MENUITEM "左寄せ ←",                       ID_HALIGN_LEFT
-            MENUITEM SEPARATOR
-            MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
-            MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
-        END
-        MENUITEM "ルーペ",                         ID_ZOOM_MODE
-        MENUITEM "つかんでスクロール",                   ID_GRASP_MODE
-        MENUITEM "再描画",                         ID_REFRESH_NET_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "ランダム配置(&D)",                  ID_RANDOMIZE
-        MENUITEM "自動レイアウトモード(&L)",              ID_AUTO_LAYOUT
+        MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
+        MENUITEM SEPARATOR
+        POPUP "ビュー操作(&O)"
+        BEGIN
+            MENUITEM "ルーペ(&L)",                     ID_ZOOM_MODE
+            MENUITEM "つかんでスクロール(&G)",               ID_GRASP_MODE
+            MENUITEM "再描画(&I)",                     ID_REFRESH_NET_VIEW
+            MENUITEM "ランダム配置(&R)",                  ID_RANDOMIZE
+            MENUITEM "自動レイアウトモード(&A)",              ID_AUTO_LAYOUT
+        END
         POPUP "レイアウト調整(&J)"
         BEGIN
             MENUITEM "↑上にそろえる(&T)",                 ID_ADJUST_TOP
@@ -328,10 +337,15 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "選択したノード配下の子ノードを表示(&X)\tF5",   ID_SHOW_SELECTED_CHILDREN
         MENUITEM "選択したノード配下のノードを全て表示(&W)\tF6",  ID_SHOW_SELECTED_BRANCH
-        MENUITEM "すべて表示モードを解除",                 ID_RESET_SHOW_SUBBRANCH
+        MENUITEM "すべて表示モードを解除(&H)",             ID_RESET_SHOW_SUBBRANCH
         MENUITEM SEPARATOR
-        MENUITEM "図のコピー(&C)",                   ID_COPY_TO_CLIPBRD
-        MENUITEM "SVG形式に出力(&O)",                ID_EXPORT_SVG
+        MENUITEM "図をクリップボードにコピー(&C)",           ID_COPY_TO_CLIPBRD
+        POPUP "図をファイルに出力(&K)"
+        BEGIN
+            MENUITEM "SVG形式に出力(&S)",                ID_EXPORT_SVG
+            MENUITEM "EMF形式に出力(&E)",                ID_EXPORT_EMF
+            MENUITEM "PNG形式に出力(&P)",                ID_EXPORT_PNG
+        END
     END
     POPUP "ツール(&T)"
     BEGIN
@@ -728,18 +742,22 @@ BEGIN
     POPUP "ネットワーク(&N)"
     BEGIN
         MENUITEM "選択モード(&S)",                   ID_NORMAL_CURSOR
-        MENUITEM "□   長方形(&R)",                 ID_ADD_RECT
-        MENUITEM "□   角の丸い長方形(&T)",             ID_ADD_ROUND_RECT
-        MENUITEM "○   楕円(&E)",                  ID_ADD_ARC
-        MENUITEM "文字列",                         ID_ADD_LABEL_ONLY
-        MENUITEM " --- 直線(&N)",                 ID_ADD_LINK0
-        MENUITEM " ---> 一方向矢印(&A)",             ID_ADD_LINK1
-        MENUITEM "<---> 双方向矢印(&B)",             ID_ADD_LINK2
+        POPUP "追加(&A)"
+        BEGIN
+            MENUITEM "□   長方形(&R)",                 ID_ADD_RECT
+            MENUITEM "□   角の丸い長方形(&T)",             ID_ADD_ROUND_RECT
+            MENUITEM "○   楕円(&E)",                  ID_ADD_ARC
+            MENUITEM "文字列(&W)",                     ID_ADD_LABEL_ONLY
+            MENUITEM " --- 直線(&N)",                 ID_ADD_LINK0
+            MENUITEM " ---> 一方向矢印(&A)",             ID_ADD_LINK1
+            MENUITEM "<---> 双方向矢印(&B)",             ID_ADD_LINK2
+        END
+        POPUP "MindMap的入力(&M)"
+        BEGIN
+            MENUITEM "子ノード挿入(&C)\tInsert",          ID_INSERT_CHILD
+            MENUITEM "兄弟ノード挿入(&S)\tShift+Return",   ID_INSERT_SIBLING
+        END
         MENUITEM SEPARATOR
-        MENUITEM "子ノード挿入(&I)\tInsert",          ID_INSERT_CHILD
-        MENUITEM "兄弟ノード挿入(&G)\tShift+Return",   ID_INSERT_SIBLING
-        MENUITEM SEPARATOR
-        MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
         POPUP "表示属性(&V)"
         BEGIN
             POPUP "色(&L)"
@@ -773,6 +791,18 @@ BEGIN
                 MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
             END
             MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+            POPUP "ラベルの書式(&O)"
+            BEGIN
+                MENUITEM "天配置↑",                        ID_VALIGN_TOP
+                MENUITEM "中配置",                         ID_VALIGN_CENTER
+                MENUITEM "地配置↓",                        ID_ALIGN_BOTTOM
+                MENUITEM "右寄せ →",                       ID_HALIGN_RIGHT
+                MENUITEM "中",                           ID_HALIGN_CENTER
+                MENUITEM "左寄せ ←",                       ID_HALIGN_LEFT
+                MENUITEM SEPARATOR
+                MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
+                MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
+            END
         END
         POPUP "矢印(&W)"
         BEGIN
@@ -781,24 +811,17 @@ BEGIN
             MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
         END
         MENUITEM "ノードのプロパティ(&H)",               ID_SET_NODE_PROP
-        POPUP "ラベルの書式(&O)"
-        BEGIN
-            MENUITEM "天配置↑",                        ID_VALIGN_TOP
-            MENUITEM "中配置",                         ID_VALIGN_CENTER
-            MENUITEM "地配置↓",                        ID_ALIGN_BOTTOM
-            MENUITEM "右寄せ →",                       ID_HALIGN_RIGHT
-            MENUITEM "中",                           ID_HALIGN_CENTER
-            MENUITEM "左寄せ ←",                       ID_HALIGN_LEFT
-            MENUITEM SEPARATOR
-            MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
-            MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
-        END
-        MENUITEM "ルーペ",                         ID_ZOOM_MODE
-        MENUITEM "つかんでスクロール",                   ID_GRASP_MODE
-        MENUITEM "再描画",                         ID_REFRESH_NET_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "ランダム配置(&D)",                  ID_RANDOMIZE
-        MENUITEM "自動レイアウトモード(&L)",              ID_AUTO_LAYOUT
+        MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
+        MENUITEM SEPARATOR
+        POPUP "ビュー操作(&O)"
+        BEGIN
+            MENUITEM "ルーペ(&L)",                     ID_ZOOM_MODE
+            MENUITEM "つかんでスクロール(&G)",               ID_GRASP_MODE
+            MENUITEM "再描画(&I)",                     ID_REFRESH_NET_VIEW
+            MENUITEM "ランダム配置(&R)",                  ID_RANDOMIZE
+            MENUITEM "自動レイアウトモード(&A)",              ID_AUTO_LAYOUT
+        END
         POPUP "レイアウト調整(&J)"
         BEGIN
             MENUITEM "↑上にそろえる(&T)",                 ID_ADJUST_TOP
@@ -813,10 +836,15 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "選択したノード配下の子ノードを表示(&X)\tF5",   ID_SHOW_SELECTED_CHILDREN
         MENUITEM "選択したノード配下のノードを全て表示(&W)\tF6",  ID_SHOW_SELECTED_BRANCH
-        MENUITEM "すべて表示モードを解除",                 ID_RESET_SHOW_SUBBRANCH
+        MENUITEM "すべて表示モードを解除(&H)",             ID_RESET_SHOW_SUBBRANCH
         MENUITEM SEPARATOR
-        MENUITEM "図のコピー(&C)",                   ID_COPY_TO_CLIPBRD
-        MENUITEM "SVG形式に出力(&O)",                ID_EXPORT_SVG
+        MENUITEM "図をクリップボードにコピー(&C)",           ID_COPY_TO_CLIPBRD
+        POPUP "図をファイルに出力(&K)"
+        BEGIN
+            MENUITEM "SVG形式に出力(&S)",                ID_EXPORT_SVG
+            MENUITEM "EMF形式に出力(&E)",                ID_EXPORT_EMF
+            MENUITEM "PNG形式に出力(&P)",                ID_EXPORT_PNG
+        END
     END
     POPUP "ツール(&T)"
     BEGIN
@@ -1819,7 +1847,7 @@ END
 STRINGTABLE 
 BEGIN
     ID_ZOOM_MODE            "ルーペツール\nルーペ"
-    ID_EXPORT_SVG           "SVG形式に出力\nSVG出力"
+    ID_EXPORT_SVG           "図をSVG形式に出力する\nSVG出力"
     ID_SHOW_SELECTED_BRANCH "アウトラインで選択されているノード配下のノードを全て表示する\n選択されたノード配下のノードを全て表示"
     ID_SHOW_SELECTED_CHILDREN 
                             "アウトラインで選択されているノード配下の子ノードを表示する\n選択されたノード配下の子ノードを表示"
@@ -1895,6 +1923,12 @@ END
 STRINGTABLE 
 BEGIN
     ID_SET_LINK_ANGLED      "リンクの曲げ方をベジエじゃなく角張らせる\n角張らせる"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EXPORT_EMF           "図をEMF形式に出力する\nEMF出力"
+    ID_EXPORT_PNG           "図をPNG形式に出力する\nPNG出力"
 END
 
 #endif    // 日本語 resources

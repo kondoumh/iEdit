@@ -362,6 +362,10 @@ public:
 	afx_msg void OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI);
 	afx_msg void OnSetLinkAngled();
 	afx_msg void OnUpdateSetLinkAngled(CCmdUI *pCmdUI);
+	afx_msg void OnExportEmf();
+	afx_msg void OnUpdateExportEmf(CCmdUI *pCmdUI);
+	afx_msg void OnExportPng();
+	afx_msg void OnUpdateExportPng(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

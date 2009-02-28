@@ -276,6 +276,10 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_DELETE_SELECTED_LINKS, &NetView::OnUpdateDeleteSelectedLinks)
 	ON_COMMAND(ID_SET_LINK_ANGLED, &NetView::OnSetLinkAngled)
 	ON_UPDATE_COMMAND_UI(ID_SET_LINK_ANGLED, &NetView::OnUpdateSetLinkAngled)
+	ON_COMMAND(ID_EXPORT_EMF, &NetView::OnExportEmf)
+	ON_UPDATE_COMMAND_UI(ID_EXPORT_EMF, &NetView::OnUpdateExportEmf)
+	ON_COMMAND(ID_EXPORT_PNG, &NetView::OnExportPng)
+	ON_UPDATE_COMMAND_UI(ID_EXPORT_PNG, &NetView::OnUpdateExportPng)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2947,7 +2951,7 @@ void NetView::OnCopyToClipbrd()
 	CMetaFileDC* pMfDC = new CMetaFileDC();
 	CRect rc(0, 0, (int)(abs(p2.x - p1.x)*m_mfWidth) , (int)(abs(p2.y - p1.y)*m_mfHeight));
 	CClientDC dc(this);
-	pMfDC->CreateEnhanced(&dc, NULL /*"C:\\test.emf"*/, &rc, _T("iEdit"));
+	pMfDC->CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 	pMfDC->SetAttribDC(dc);
 
 	GetDocument()->drawNodes(pMfDC, bDrwAll);
@@ -3451,8 +3455,8 @@ void NetView::OnExportSvg()
 		outfile = title;
 	}
 	
-	char szFilters[] = "SVGﾌｧｲﾙ (*.svg)|*.svg";
-	CFileDialog dlg(FALSE, "xml", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	char szFilters[] = "SVGファイル (*.svg)|*.svg";
+	CFileDialog dlg(FALSE, "svg", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
 	
@@ -4333,4 +4337,59 @@ void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
 	const iLink* pLink = GetDocument()->getSelectedLink();
 	pCmdUI->Enable(!GetDocument()->isOldBinary() && pLink != NULL && pLink->isCurved());
 	pCmdUI->SetCheck(pLink != NULL && pLink->isAngled());
+}
+
+void NetView::OnExportEmf()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CString path = GetDocument()->GetPathName();
+	CString outfile;
+	if (path == "") {
+		outfile = GetDocument()->GetTitle();
+	} else {
+		char drive[_MAX_DRIVE];
+		char dir[_MAX_DIR];
+		char fname[_MAX_FNAME];
+		char ext[_MAX_EXT];
+		_splitpath_s(path, drive, dir, fname, ext );
+		CString title(fname);
+		outfile = title;
+	}
+	
+	char szFilters[] = "EMFファイル (*.emf)|*.emf";
+	CFileDialog dlg(FALSE, "emf", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	if (dlg.DoModal() != IDOK) return;
+	CString outfileName = dlg.GetPathName();
+	
+	CPoint p1(0, 0);
+	CPoint p2 = GetDocument()->getMaxPt();
+	
+	bool bDrwAll = false;
+	
+	CMetaFileDC* pMfDC = new CMetaFileDC();
+	CRect rc(0, 0, (int)(abs(p2.x - p1.x)*m_mfWidth) , (int)(abs(p2.y - p1.y)*m_mfHeight));
+	CClientDC dc(this);
+	pMfDC->CreateEnhanced(&dc, outfileName, &rc, _T("iEdit"));
+	pMfDC->SetAttribDC(dc);
+
+	GetDocument()->drawNodes(pMfDC, bDrwAll);
+	GetDocument()->drawLinks(pMfDC, bDrwAll, true);
+	HENHMETAFILE hmetafile = pMfDC->CloseEnhanced();
+	delete pMfDC;
+}
+
+void NetView::OnUpdateExportEmf(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+}
+
+void NetView::OnExportPng()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+}
+
+void NetView::OnUpdateExportPng(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }
