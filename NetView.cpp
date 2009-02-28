@@ -17,6 +17,7 @@
 #include "Token.h"
 #include "imm.h"
 #include "RectTrackerPlus.h"
+#include <atlimage.h>
 
 
 #ifdef _DEBUG
@@ -4387,9 +4388,43 @@ void NetView::OnUpdateExportEmf(CCmdUI *pCmdUI)
 void NetView::OnExportPng()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CString path = GetDocument()->GetPathName();
+	CString outfile;
+	if (path == "") {
+		outfile = GetDocument()->GetTitle();
+	} else {
+		char drive[_MAX_DRIVE];
+		char dir[_MAX_DIR];
+		char fname[_MAX_FNAME];
+		char ext[_MAX_EXT];
+		_splitpath_s(path, drive, dir, fname, ext );
+		CString title(fname);
+		outfile = title;
+	}
+	
+	char szFilters[] = "PNGファイル (*.png)|*.png";
+	CFileDialog dlg(FALSE, "png", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	if (dlg.DoModal() != IDOK) return;
+	CString outfileName = dlg.GetPathName();
+	CPoint p1(0, 0);
+	CPoint p2 = GetDocument()->getMaxPt();
+	p2 += CSize(10, 10);
+	CRect rc(p1, p2);	
+	CImage image;
+	image.Create(rc.Width(), rc.Height(), 24);
+	
+	CDC* pDC = CDC::FromHandle(image.GetDC());
+	CBrush brush(RGB(255, 255, 255)); 
+	pDC->FillRect(rc, &brush);
+	
+	GetDocument()->drawNodes(pDC, false);
+	GetDocument()->drawLinks(pDC, false, true);
+	image.ReleaseDC();
+	image.Save(TEXT(outfileName), Gdiplus::ImageFormatPNG);
 }
 
 void NetView::OnUpdateExportPng(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 }
