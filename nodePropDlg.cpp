@@ -5,6 +5,7 @@
 #include "iEdit.h"
 #include "nodePropDlg.h"
 #include "iNode.h"
+#include "SetMarginDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -60,6 +61,7 @@ BEGIN_MESSAGE_MAP(nodePropDlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO_VERT, OnSelchangeComboVert)
 	ON_BN_CLICKED(IDC_RADIO_SHAPE3, OnRadioShape3)
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_BTN_SET_MARGIN, &nodePropDlg::OnBnClickedBtnSetMargin)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -222,4 +224,11 @@ void nodePropDlg::OnSelchangeComboVert()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	vert = m_cmbVert.GetCurSel();
+}
+
+void nodePropDlg::OnBnClickedBtnSetMargin()
+{
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	SetMarginDlg dlg;
+	dlg.DoModal();
 }

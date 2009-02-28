@@ -366,6 +366,8 @@ public:
 	afx_msg void OnUpdateExportEmf(CCmdUI *pCmdUI);
 	afx_msg void OnExportPng();
 	afx_msg void OnUpdateExportPng(CCmdUI *pCmdUI);
+	afx_msg void OnSetMargin();
+	afx_msg void OnUpdateSetMargin(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

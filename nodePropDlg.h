@@ -71,6 +71,8 @@ protected:
 	afx_msg void OnRadioShape3();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedBtnSetMargin();
 };
 
 //{{AFX_INSERT_LOCATION}}

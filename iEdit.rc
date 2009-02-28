@@ -311,7 +311,7 @@ BEGIN
             MENUITEM " ---> 一方向矢印(&S)",             ID_SET_LINK_ARROW_SINGLE
             MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
         END
-        MENUITEM "ノードのプロパティ(&H)",               ID_SET_NODE_PROP
+        MENUITEM "ノードのプロパティ(&R)",               ID_SET_NODE_PROP
         MENUITEM SEPARATOR
         MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
         MENUITEM SEPARATOR
@@ -322,6 +322,7 @@ BEGIN
             MENUITEM "再描画(&I)",                     ID_REFRESH_NET_VIEW
             MENUITEM "ランダム配置(&R)",                  ID_RANDOMIZE
             MENUITEM "自動レイアウトモード(&A)",              ID_AUTO_LAYOUT
+            MENUITEM "描画順序を表示(&O)",                 ID_DRAW_ORDER_INFO
         END
         POPUP "レイアウト調整(&J)"
         BEGIN
@@ -489,6 +490,8 @@ BEGIN
             MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
         END
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+        MENUITEM "余白の設定(&Y)",                   ID_SET_MARGIN
+        MENUITEM SEPARATOR
         MENUITEM "書式を保存",                       ID_SAVE_FORMAT
         MENUITEM SEPARATOR
         MENUITEM "自動レイアウト時固定する(&I)",            ID_FIX_NODE
@@ -559,6 +562,7 @@ BEGIN
             MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
         END
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+        MENUITEM "余白の設定(&Y)",                   ID_SET_MARGIN
         MENUITEM SEPARATOR
         MENUITEM "コピー(&C)",                     ID_EDIT_COPY
         MENUITEM SEPARATOR
@@ -810,7 +814,7 @@ BEGIN
             MENUITEM " ---> 一方向矢印(&S)",             ID_SET_LINK_ARROW_SINGLE
             MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
         END
-        MENUITEM "ノードのプロパティ(&H)",               ID_SET_NODE_PROP
+        MENUITEM "ノードのプロパティ(&R)",               ID_SET_NODE_PROP
         MENUITEM SEPARATOR
         MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
         MENUITEM SEPARATOR
@@ -821,6 +825,7 @@ BEGIN
             MENUITEM "再描画(&I)",                     ID_REFRESH_NET_VIEW
             MENUITEM "ランダム配置(&R)",                  ID_RANDOMIZE
             MENUITEM "自動レイアウトモード(&A)",              ID_AUTO_LAYOUT
+            MENUITEM "描画順序を表示(&O)",                 ID_DRAW_ORDER_INFO
         END
         POPUP "レイアウト調整(&J)"
         BEGIN
@@ -979,14 +984,12 @@ BEGIN
     CTEXT           "コメント",IDC_STATIC,15,40,22,8,SS_CENTERIMAGE
 END
 
-IDD_PRPNODE DIALOG  0, 0, 207, 223
+IDD_PRPNODE DIALOGEX 0, 0, 207, 247
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ノードのプロパティ"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT_LABEL,49,13,151,16,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
-    DEFPUSHBUTTON   "OK",IDOK,86,198,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,145,198,50,14
     CONTROL         "シングル(&S)",IDC_RADIO_TLINE1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,68,50,10
     CONTROL         "マルチ(&M)",IDC_RADIO_TLINE2,"Button",BS_AUTORADIOBUTTON,13,86,45,10
     CONTROL         "表示しない(&H)",IDC_RADIO_TLINE3,"Button",BS_AUTORADIOBUTTON,13,105,57,10
@@ -997,12 +1000,15 @@ BEGIN
     CONTROL         "透明(&T)",IDC_CHK_NO_BRS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,147,105,38,10
     COMBOBOX        IDC_COMBO_HORIZ,48,145,62,69,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_COMBO_VERT,48,168,62,73,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "余白の設定(&Y)",IDC_BTN_SET_MARGIN,31,190,65,14
     CONTROL         "□ 長方形(&R)",IDC_RADIO_SHAPE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,126,145,55,10
-    CONTROL         "□ 丸角長方形(&S)",IDC_RADIO_SHAPE2,"Button",BS_AUTORADIOBUTTON,126,158,68,10
+    CONTROL         "□ 丸角長方形(&Q)",IDC_RADIO_SHAPE2,"Button",BS_AUTORADIOBUTTON,126,158,69,10
     CONTROL         "○ 楕円(&A)",IDC_RADIO_SHAPE3,"Button",BS_AUTORADIOBUTTON,126,172,48,10
-    GROUPBOX        "ノードの形状",IDC_STATIC,120,133,80,56
-    GROUPBOX        "文字列",IDC_STATIC,7,54,66,71
-    GROUPBOX        "文字列のレイアウト",IDC_STATIC,7,133,110,56
+    DEFPUSHBUTTON   "OK",IDOK,86,219,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,145,219,50,14
+    GROUPBOX        "ノードの形状",IDC_STATIC,120,133,80,77
+    GROUPBOX        "文字列",IDC_STATIC,7,54,66,73
+    GROUPBOX        "文字列のレイアウト",IDC_STATIC,7,133,110,77
     LTEXT           "水平方向",IDC_STATIC,14,146,28,8
     LTEXT           "垂直方向",IDC_STATIC,15,170,28,8
     GROUPBOX        "表示",IDC_STATIC,81,53,119,74
@@ -1051,36 +1057,37 @@ BEGIN
     GROUPBOX        "ネットワークビュー",IDC_STATIC,7,159,183,33
 END
 
-IDD_PG_NODE DIALOGEX 0, 0, 197, 255
+IDD_PG_NODE DIALOGEX 0, 0, 197, 273
 STYLE DS_SETFONT | WS_CHILD
 FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     CONTROL         "シングル(&S)",IDC_RADIO_TLINE1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,22,50,10
     CONTROL         "マルチ(&M)",IDC_RADIO_TLINE2,"Button",BS_AUTORADIOBUTTON,15,40,45,10
-    CONTROL         "表示しない",IDC_RADIO_TLINE3,"Button",BS_AUTORADIOBUTTON,15,59,47,10
+    CONTROL         "表示しない(&H)",IDC_RADIO_TLINE3,"Button",BS_AUTORADIOBUTTON,15,59,57,10
     PUSHBUTTON      "線の色(&C)",IDC_BTN_LINE_COLOR,81,19,46,14
     PUSHBUTTON      "フォント(&F)",IDC_BTN_FONT,133,19,43,14
     COMBOBOX        IDC_COMBOLINE,115,39,59,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "塗つぶし色(&B)",IDC_BTN_BRS,81,59,46,14
     CONTROL         "透明(&T)",IDC_CHK_NO_BRS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,141,61,38,10
     COMBOBOX        IDC_COMBO_HORIZ,49,103,62,69,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO_VERT,49,126,62,73,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_VERT,49,121,62,73,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "余白の設定(&Y)",IDC_BTN_SET_MARGIN,24,141,69,14
     CONTROL         "□ 長方形(&R)",IDC_RADIO_SHAPE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,124,102,55,10
-    CONTROL         "□ 丸角長方形(&S)",IDC_RADIO_SHAPE2,"Button",BS_AUTORADIOBUTTON,124,118,65,10
+    CONTROL         "□ 丸角長方形(&Q)",IDC_RADIO_SHAPE2,"Button",BS_AUTORADIOBUTTON,124,118,65,10
     CONTROL         "○ 楕円(&A)",IDC_RADIO_SHAPE3,"Button",BS_AUTORADIOBUTTON,124,135,48,10
-    CONTROL         "アウトラインビューの並び順と同期させる(&N)",IDC_CHK_SYNC_ORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,168,141,10
-    CONTROL         "昇順",IDC_RADIO_ASCENDING,"Button",BS_AUTORADIOBUTTON,23,182,30,10
-    CONTROL         "降順",IDC_RADIO_DESCENDING,"Button",BS_AUTORADIOBUTTON,56,182,30,10
-    CONTROL         "簡易グループ機能を有効にする(&G)",IDC_CHK_ENABLE_GROUPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,201,117,10
-    CONTROL         "ノードの自動リサイズをしない",IDC_DISABLE_NODE_RESIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,226,167,10
-    GROUPBOX        "ノードの形状",IDC_STATIC,120,85,70,68
+    CONTROL         "アウトラインビューの並び順と同期させる(&N)",IDC_CHK_SYNC_ORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,181,141,10
+    CONTROL         "昇順",IDC_RADIO_ASCENDING,"Button",BS_AUTORADIOBUTTON,23,195,30,10
+    CONTROL         "降順",IDC_RADIO_DESCENDING,"Button",BS_AUTORADIOBUTTON,56,195,30,10
+    CONTROL         "簡易グループ機能を有効にする(&G)",IDC_CHK_ENABLE_GROUPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,214,117,10
+    CONTROL         "ノードの自動リサイズをしない",IDC_DISABLE_NODE_RESIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,233,167,10
+    GROUPBOX        "ノードの形状",IDC_STATIC,120,85,70,77
     GROUPBOX        "行の表示方法",IDC_STATIC,7,7,62,76
-    GROUPBOX        "文字列のレイアウト",IDC_STATIC,7,88,109,65
+    GROUPBOX        "文字列のレイアウト",IDC_STATIC,7,88,109,75
     LTEXT           "水平方向",IDC_STATIC,15,104,28,8
-    LTEXT           "垂直方向",IDC_STATIC,15,128,28,8
+    LTEXT           "垂直方向",IDC_STATIC,15,123,28,8
     GROUPBOX        "表示",IDC_STATIC,75,7,115,76
     LTEXT           "線種",IDC_STATIC,93,42,15,8
-    GROUPBOX        "ノードの描画順・グループ化(再起動時有効)",IDC_STATIC,7,155,183,60
+    GROUPBOX        "ノードの描画順・グループ化(再起動時有効)",IDC_STATIC,7,168,183,60
 END
 
 IDD_PG_LINK DIALOGEX 0, 0, 197, 256
@@ -1283,6 +1290,27 @@ BEGIN
     LTEXT           "ファイル名:",IDC_STATIC,20,7,34,8
 END
 
+IDD_SETMARGIN DIALOGEX 0, 0, 192, 79
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ノードの余白設定(ピクセル単位)"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_ED_LEFT,50,16,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_LEFT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,82,16,10,14
+    EDITTEXT        IDC_ED_RIGHT,50,34,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_RIGHT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,82,33,10,14
+    EDITTEXT        IDC_ED_TOP,119,16,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_TOP,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,153,16,10,14
+    EDITTEXT        IDC_ED_BOTTOM,119,34,35,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_BOTTOM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,153,33,10,14
+    DEFPUSHBUTTON   "OK",IDOK,71,58,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,135,58,50,14
+    LTEXT           "左(&L):",IDC_STATIC,25,18,20,8
+    LTEXT           "右(&R):",IDC_STATIC,25,36,22,8
+    LTEXT           "上(&T)",IDC_STATIC,99,18,18,8
+    LTEXT           "下(&B)",IDC_STATIC,99,39,18,8
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1369,7 +1397,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 200
         TOPMARGIN, 7
-        BOTTOMMARGIN, 216
+        BOTTOMMARGIN, 240
     END
 
     IDD_ONPROC, DIALOG
@@ -1401,7 +1429,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 190
         TOPMARGIN, 7
-        BOTTOMMARGIN, 248
+        BOTTOMMARGIN, 266
     END
 
     IDD_PG_LINK, DIALOG
@@ -1507,6 +1535,14 @@ BEGIN
         RIGHTMARGIN, 210
         TOPMARGIN, 1
         BOTTOMMARGIN, 84
+    END
+
+    IDD_SETMARGIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 185
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 72
     END
 END
 #endif    // APSTUDIO_INVOKED

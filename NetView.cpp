@@ -17,6 +17,7 @@
 #include "Token.h"
 #include "imm.h"
 #include "RectTrackerPlus.h"
+#include "SetMarginDlg.h"
 #include <atlimage.h>
 
 
@@ -281,6 +282,8 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_EXPORT_EMF, &NetView::OnUpdateExportEmf)
 	ON_COMMAND(ID_EXPORT_PNG, &NetView::OnExportPng)
 	ON_UPDATE_COMMAND_UI(ID_EXPORT_PNG, &NetView::OnUpdateExportPng)
+	ON_COMMAND(ID_SET_MARGIN, &NetView::OnSetMargin)
+	ON_UPDATE_COMMAND_UI(ID_SET_MARGIN, &NetView::OnUpdateSetMargin)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -4427,4 +4430,16 @@ void NetView::OnUpdateExportPng(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+}
+
+void NetView::OnSetMargin()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	SetMarginDlg dlg;
+	dlg.DoModal();
+}
+
+void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }

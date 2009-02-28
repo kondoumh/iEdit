@@ -571,6 +571,10 @@ void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
 	}
 	
 	if (styleText != iNode::notext) {
+		//m_textRect.top += 10;
+		//m_textRect.left += 10;
+		//m_textRect.right -= 10;
+		//m_textRect.bottom -= 10;
 		pDC->DrawText(node.getName(), &m_textRect, nFormat);
 	}
 }
