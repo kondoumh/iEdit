@@ -13,6 +13,14 @@ class iNode : public CObject
 {
 DECLARE_SERIAL(iNode)
 public:
+	int getMarginL() const;
+	int getMarginR() const;
+	int getMarginT() const;
+	int getMarginB() const;
+	void setMarginL(int margin);
+	void setMarginR(int margin);
+	void setMarginT(int margin);
+	void setMarginB(int margin);
 	void setTreeIconId(int id);
 	int getTreeIconId() const;
 	void setDrawOrder(int drawOrder);
@@ -117,6 +125,10 @@ public:
 private:
 	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
 	void procMultiLineInner(const CSize& sz, int wmargin, int hmargin);
+	int margin_l_;
+	int margin_r_;
+	int margin_t_;
+	int margin_b_;
 	int treeIconId_;
 	unsigned int drawOrder_; // ï`âÊèáèòÇï€éù
 	bool bChain_;  // àÇ√ÇÈ
@@ -149,6 +161,46 @@ protected:
 	void procMultiLine();
 	CSize getNodeTextSize();
 };
+
+inline void iNode::setMarginB(int margin)
+{
+	margin_b_ = margin;
+}
+
+inline int iNode::getMarginB() const
+{
+	return margin_b_;
+}
+
+inline void iNode::setMarginT(int margin)
+{
+	margin_t_ = margin;
+}
+
+inline int iNode::getMarginT() const
+{
+	return margin_t_;
+}
+
+inline void iNode::setMarginR(int margin)
+{
+	margin_r_ = margin;
+}
+
+inline int iNode::getMarginR() const
+{
+	return margin_r_;
+}
+
+inline void iNode::setMarginL(int margin)
+{
+	margin_l_ = margin;
+}
+
+inline int iNode::getMarginL() const
+{
+	return margin_l_;
+}
 
 inline void iNode::setTreeIconId(int id)
 {
@@ -471,6 +523,7 @@ typedef vector<iNode> nVec;
 
 class iNodes : public nContena {
 public:
+	void setSelectedNodeMargin(int l, int r, int t, int b);
 	BOOL m_bDrawOrderInfo;
 	serialVec getSelectedNodeKeys() const;
 	void setDrawOrder(const serialVec svec);

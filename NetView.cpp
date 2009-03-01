@@ -4436,10 +4436,24 @@ void NetView::OnSetMargin()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	SetMarginDlg dlg;
-	dlg.DoModal();
+	int l, r, t, b;
+	if (m_selectStatus == NetView::single) {
+		GetDocument()->getSelectedNodeMargin(l, r, t, b);
+		dlg.m_nLeft = l;
+		dlg.m_nRight = r;
+		dlg.m_nTop = t;
+		dlg.m_nBottom = b;
+	}
+	if (dlg.DoModal() != IDOK) return;
+	l = dlg.m_nLeft;
+	r = dlg.m_nRight;
+	t = dlg.m_nTop;
+	b = dlg.m_nBottom;
+	GetDocument()->setSelectedNodeMargin(l, r, t, b);
 }
 
 void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }

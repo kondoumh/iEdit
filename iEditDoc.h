@@ -122,6 +122,8 @@ public:
 
 // インプリメンテーション
 public:
+	void setSelectedNodeMargin(int l, int r, int t, int b);
+	void getSelectedNodeMargin(int &l, int& r, int& t, int& b) const;
 	void setSelectedNodeTreeIconId(int id);
 	bool isOldBinary() const;
 	void applyFormatToSelectedLink();

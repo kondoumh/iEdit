@@ -30,4 +30,9 @@ public:
 	afx_msg void OnEnChangeEdRight();
 	afx_msg void OnEnChangeEdTop();
 	afx_msg void OnEnChangeEdBottom();
+	int m_nLeft;
+	int m_nRight;
+	afx_msg void OnBnClickedOk();
+	int m_nTop;
+	int m_nBottom;
 };

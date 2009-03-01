@@ -116,7 +116,7 @@ void iEditDoc::Serialize(CArchive& ar)
 					(*li).Serialize(ar);
 				}
 			} else {
-			 	const int SERIAL_VERSION = 4; // シリアル化バージョン番号
+			 	const int SERIAL_VERSION = 5; // シリアル化バージョン番号
 				ar << SERIAL_VERSION;
 				saveOrderByTreeEx(ar, SERIAL_VERSION); // ノードの保存
 				// リンクの保存
@@ -4877,6 +4877,10 @@ void iEditDoc::applyFormatToSelectedNode()
 		(*n).setMetaFile(hMetaFile);
 	}
 	(*n).setNodeShape(m_nodeForFormat.getNodeShape());
+	(*n).setMarginL(m_nodeForFormat.getMarginL());
+	(*n).setMarginR(m_nodeForFormat.getMarginR());
+	(*n).setMarginT(m_nodeForFormat.getMarginT());
+	(*n).setMarginB(m_nodeForFormat.getMarginB());
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
@@ -4945,6 +4949,26 @@ void iEditDoc::duplicateLinks(const IdMap& idm)
 int iEditDoc::getSerialVersion() const
 {
 	return m_serialVersion;
+}
+
+void iEditDoc::getSelectedNodeMargin(int& l, int & r, int& t, int& b) const
+{
+	const_niterator nit = nodes_.getSelectedNodeR();
+	if (nit != nodes_.end()) {
+		l = (*nit).getMarginL();
+		r = (*nit).getMarginR();
+		t = (*nit).getMarginT();
+		b = (*nit).getMarginB();
+	}
+}
+
+void iEditDoc::setSelectedNodeMargin(int l, int r, int t, int b)
+{
+	nodes_.setSelectedNodeMargin(l, r, t, b);
+	SetModifiedFlag();
+	iHint hint; hint.event = iHint::nodeStyleChanged;
+	DWORD key = nodes_.getSelKey();
+	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
 // UndoManagerのメソッド定義

@@ -57,6 +57,10 @@ iNode::iNode()
 	drawOrder_ = 0;
 	nLevel_ = 0;
 	treeIconId_ = 0;
+	margin_l_ = 0;
+	margin_r_ = 0;
+	margin_t_ = 0;
+	margin_b_ = 0;
 }
 
 iNode::iNode(const CString &name)
@@ -98,6 +102,10 @@ iNode::iNode(const CString &name)
 	drawOrder_ = 0;
 	nLevel_ = 0;
 	treeIconId_ = 0;
+	margin_l_ = 0;
+	margin_r_ = 0;
+	margin_t_ = 0;
+	margin_b_ = 0;
 }
 
 iNode::~iNode()
@@ -137,6 +145,10 @@ iNode::iNode(const iNode & n)
 	drawOrder_ = n.drawOrder_;
 	nLevel_ = n.nLevel_;
 	treeIconId_ = n.treeIconId_;
+	margin_l_ = n.margin_l_;
+	margin_r_ = n.margin_r_;
+	margin_t_ = n.margin_t_;
+	margin_b_ = n.margin_b_;
 }
 
 IMPLEMENT_SERIAL(iNode, CObject, 0)
@@ -193,6 +205,9 @@ void iNode::SerializeEx(CArchive& ar, int version)
 		if (version > 3) {
 			ar << treeIconId_;
 		}
+		if (version > 4) {
+			ar << margin_l_ << margin_r_ << margin_t_ << margin_b_;
+		}
 		if (shape_ == iNode::MetaFile) {
 			UINT hBits = GetEnhMetaFileBits(hMF_, NULL, NULL);
 			BYTE *pData = new BYTE[hBits];
@@ -215,6 +230,9 @@ void iNode::SerializeEx(CArchive& ar, int version)
 		}
 		if (version > 3) {
 			ar >> treeIconId_;
+		}
+		if (version > 4) {
+			ar >> margin_l_ >> margin_r_ >> margin_t_ >> margin_b_;
 		}
 		if (shape_ == iNode::MetaFile) {
 			UINT hBits;
@@ -259,6 +277,10 @@ iNode& iNode::operator =(const iNode &n)
 	}
 	nLevel_ = n.nLevel_;
 	treeIconId_ = n.treeIconId_;
+	margin_l_ = n.margin_l_;
+	margin_r_ = n.margin_r_;
+	margin_t_ = n.margin_t_;
+	margin_b_ = n.margin_b_;
 	return *this;
 }
 
@@ -521,60 +543,89 @@ void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
 	switch (styleText) {
 	case iNode::s_cc:
 		nFormat = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_cl:
 		nFormat = DT_LEFT | DT_VCENTER | DT_SINGLELINE;
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_cr:
 		nFormat = DT_RIGHT | DT_VCENTER | DT_SINGLELINE;
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_tc:
 		nFormat =DT_CENTER | DT_TOP | DT_SINGLELINE;
+		m_textRect.top += node.getMarginT();
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_tl:
 		nFormat = DT_LEFT | DT_TOP | DT_SINGLELINE;
+		m_textRect.top += node.getMarginT();
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_tr:
 		nFormat =DT_RIGHT | DT_TOP | DT_SINGLELINE;
+		m_textRect.top += node.getMarginT();
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_bc:
 		nFormat =DT_CENTER | DT_BOTTOM | DT_SINGLELINE;
+		m_textRect.bottom -= node.getMarginB();
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_bl:
 		nFormat = DT_LEFT | DT_BOTTOM | DT_SINGLELINE;
+		m_textRect.bottom -= node.getMarginB();
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_br:
 		nFormat = DT_RIGHT | DT_BOTTOM | DT_SINGLELINE;
+		m_textRect.bottom -= node.getMarginB();
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::m_c:
 		nFormat = DT_CENTER | DT_WORDBREAK;
+		m_textRect.top += node.getMarginT();
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::m_l:
 		nFormat = DT_LEFT | DT_WORDBREAK;
+		m_textRect.top += node.getMarginT();
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::m_r:
 		nFormat = DT_RIGHT | DT_WORDBREAK;
+		m_textRect.top += node.getMarginT();
+		m_textRect.left += node.getMarginL();
+		m_textRect.right -= node.getMarginR();
 		break;
 	case iNode::notext:
 		break;
 	}
 	
 	if (styleText != iNode::notext) {
-		//m_textRect.top += 10;
-		//m_textRect.left += 10;
-		//m_textRect.right -= 10;
-		//m_textRect.bottom -= 10;
 		pDC->DrawText(node.getName(), &m_textRect, nFormat);
 	}
 }
@@ -1316,4 +1367,17 @@ serialVec iNodes::getSelectedNodeKeys() const
 		}
 	}
 	return v;
+}
+
+void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
+{
+	niterator it = begin();
+	for ( ; it != end(); it++) {
+		if ((*it).isSelected()) {
+			(*it).setMarginL(l);
+			(*it).setMarginR(r);
+			(*it).setMarginT(t);
+			(*it).setMarginB(b);
+		}
+	}
 }
