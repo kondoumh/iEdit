@@ -14,6 +14,13 @@ class nodePropDlg : public CDialog
 {
 // コンストラクション
 public:
+	struct Margins
+	{
+		int l;
+		int r;
+		int t;
+		int b;
+	} margins;
 	int vert;
 	int horiz;
 	BOOL bMultiLine;

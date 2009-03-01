@@ -2118,6 +2118,8 @@ void NetView::setNodeProp()
 	}
 	dlg.m_strLabel = GetDocument()->getSelectedNodeLabel();
 	GetDocument()->getSelectedNodeFont(dlg.lf);
+	GetDocument()->getSelectedNodeMargin(
+		dlg.margins.l, dlg.margins.r, dlg.margins.t, dlg.margins.b);
 	
 	if (dlg.DoModal() != IDOK) return;
 	GetDocument()->backUpUndoNodes();
@@ -2179,6 +2181,8 @@ void NetView::setNodeProp()
 	}
 	GetDocument()->setSelectedNodeLabel(dlg.m_strLabel);
 	GetDocument()->setSelectedNodeFont(dlg.lf);
+	GetDocument()->setSelectedNodeMargin(
+		dlg.margins.l, dlg.margins.r, dlg.margins.t, dlg.margins.b);
 }
 
 void NetView::OnGraspMode() 

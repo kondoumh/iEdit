@@ -230,5 +230,15 @@ void nodePropDlg::OnBnClickedBtnSetMargin()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	SetMarginDlg dlg;
-	dlg.DoModal();
+	dlg.m_nLeft = margins.l;
+	dlg.m_nRight = margins.r;
+	dlg.m_nTop = margins.t;
+	dlg.m_nBottom = margins.b;
+	
+	if (dlg.DoModal() != IDOK) return;
+
+	margins.l = dlg.m_nLeft;
+	margins.r = dlg.m_nRight;
+	margins.t = dlg.m_nTop;
+	margins.b = dlg.m_nBottom;
 }
