@@ -5,6 +5,7 @@
 #include "iEdit.h"
 #include "PageNode.h"
 #include "iNode.h"
+#include "SetMarginDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -72,6 +73,7 @@ BEGIN_MESSAGE_MAP(PageNode, CDialog)
 	ON_BN_CLICKED(IDC_RADIO_DESCENDING, &PageNode::OnBnClickedRadioDescending)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_DISABLE_NODE_RESIZE, &PageNode::OnBnClickedDisableNodeResize)
+	ON_BN_CLICKED(IDC_BTN_SET_MARGIN, &PageNode::OnBnClickedBtnSetMargin)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -264,4 +266,19 @@ void PageNode::OnBnClickedDisableNodeResize()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bDisableNodeResize = m_ChkDisableNodeResize.GetCheck();
+}
+
+void PageNode::OnBnClickedBtnSetMargin()
+{
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	SetMarginDlg dlg;
+	dlg.m_nLeft = margins.l;
+	dlg.m_nRight = margins.r;
+	dlg.m_nTop = margins.t;
+	dlg.m_nBottom = margins.b;
+	if (dlg.DoModal() != IDOK) return;
+	margins.l = dlg.m_nLeft;
+	margins.r = dlg.m_nRight;
+	margins.t = dlg.m_nTop;
+	margins.b = dlg.m_nBottom;
 }

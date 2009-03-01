@@ -31,6 +31,10 @@ struct rgsNode {
 	int  orderDirection;
 	BOOL bEnableGroup;
 	BOOL bDisableNodeResize;
+	int margin_l;
+	int margin_r;
+	int margin_t;
+	int margin_b;
 };
 
 struct rgsLink {

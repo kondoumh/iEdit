@@ -15,6 +15,7 @@ class PageNode : public CDialog
 {
 // コンストラクション
 public:
+	struct Margins { int l; int r; int t; int b; } margins;
 	BOOL m_bSyncOrder;
 	BOOL m_bEnableGroup;
 	int m_orderDirection;
@@ -94,6 +95,7 @@ public:
 	CButton m_ChkDisableNodeResize;
 	BOOL m_bDisableNodeResize;
 	afx_msg void OnBnClickedDisableNodeResize();
+	afx_msg void OnBnClickedBtnSetMargin();
 };
 
 //{{AFX_INSERT_LOCATION}}

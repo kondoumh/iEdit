@@ -270,6 +270,10 @@ void CiEditApp::getNodeProfile()
 	m_rgsNode.orderDirection = AfxGetApp()->GetProfileInt(REGS_NODE, "Order Direction", 0);
 	m_rgsNode.bEnableGroup = AfxGetApp()->GetProfileInt(REGS_NODE, "Enable Grouping", FALSE);
 	m_rgsNode.bDisableNodeResize = AfxGetApp()->GetProfileInt(REGS_NODE, "Disable NodeResize", FALSE);
+	m_rgsNode.margin_l = AfxGetApp()->GetProfileIntA(REGS_NODE, "Margin Left", 0);
+	m_rgsNode.margin_r = AfxGetApp()->GetProfileIntA(REGS_NODE, "Margin Right", 0);
+	m_rgsNode.margin_t = AfxGetApp()->GetProfileIntA(REGS_NODE, "Margin Top", 0);
+	m_rgsNode.margin_b = AfxGetApp()->GetProfileIntA(REGS_NODE, "Margin Bottom", 0);
 }
 
 void CiEditApp::getLinkProfile()

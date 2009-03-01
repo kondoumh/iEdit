@@ -166,6 +166,11 @@ void CPropertyDlg::initPageNode()
 	pNode->m_orderDirection = pApp->m_rgsNode.orderDirection;
 	pNode->m_bEnableGroup = pApp->m_rgsNode.bEnableGroup;
 	pNode->m_bDisableNodeResize = pApp->m_rgsNode.bDisableNodeResize;
+	
+	pNode->margins.l = pApp->m_rgsNode.margin_l;
+	pNode->margins.r = pApp->m_rgsNode.margin_r;
+	pNode->margins.t = pApp->m_rgsNode.margin_t;
+	pNode->margins.b = pApp->m_rgsNode.margin_b;
 }
 
 void CPropertyDlg::initPageLink()
@@ -243,6 +248,11 @@ void CPropertyDlg::writePageNode()
 	pApp->WriteProfileInt(REGS_NODE, "Order Direction", pNode->m_orderDirection);
 	pApp->WriteProfileInt(REGS_NODE, "Enable Grouping", pNode->m_bEnableGroup);
 	pApp->WriteProfileInt(REGS_NODE, "Disable NodeResize", pNode->m_bDisableNodeResize);
+
+	pApp->WriteProfileInt(REGS_NODE, "Margin Left", pNode->margins.l);
+	pApp->WriteProfileInt(REGS_NODE, "Margin Right", pNode->margins.r);
+	pApp->WriteProfileInt(REGS_NODE, "Margin Top", pNode->margins.t);
+	pApp->WriteProfileInt(REGS_NODE, "Margin Bottom", pNode->margins.b);
 		
 	pApp->getNodeProfile(); // アプリケーションオブジェクトの再設定
 }

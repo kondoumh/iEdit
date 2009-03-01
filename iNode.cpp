@@ -57,10 +57,10 @@ iNode::iNode()
 	drawOrder_ = 0;
 	nLevel_ = 0;
 	treeIconId_ = 0;
-	margin_l_ = 0;
-	margin_r_ = 0;
-	margin_t_ = 0;
-	margin_b_ = 0;
+	margin_l_ = pApp->m_rgsNode.margin_l;
+	margin_r_ = pApp->m_rgsNode.margin_r;
+	margin_t_ = pApp->m_rgsNode.margin_t;
+	margin_b_ = pApp->m_rgsNode.margin_b;
 }
 
 iNode::iNode(const CString &name)
@@ -102,10 +102,10 @@ iNode::iNode(const CString &name)
 	drawOrder_ = 0;
 	nLevel_ = 0;
 	treeIconId_ = 0;
-	margin_l_ = 0;
-	margin_r_ = 0;
-	margin_t_ = 0;
-	margin_b_ = 0;
+	margin_l_ = pApp->m_rgsNode.margin_l;
+	margin_r_ = pApp->m_rgsNode.margin_r;
+	margin_t_ = pApp->m_rgsNode.margin_t;
+	margin_b_ = pApp->m_rgsNode.margin_b;
 }
 
 iNode::~iNode()
