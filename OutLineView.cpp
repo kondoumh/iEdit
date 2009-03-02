@@ -2630,6 +2630,7 @@ void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::check &&
 		curItem() != tree().GetRootItem());
 }
@@ -2647,6 +2648,7 @@ void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::blue &&
 		curItem() != tree().GetRootItem());
 }
@@ -2664,6 +2666,7 @@ void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::red &&
 		curItem() != tree().GetRootItem());
 }
@@ -2681,6 +2684,7 @@ void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::yellow &&
 		curItem() != tree().GetRootItem());
 }
@@ -2698,6 +2702,7 @@ void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::cancel &&
 		curItem() != tree().GetRootItem());
 }
@@ -2715,6 +2720,7 @@ void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::question &&
 		curItem() != tree().GetRootItem());
 }
@@ -2732,6 +2738,7 @@ void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::warning &&
 		curItem() != tree().GetRootItem());
 }
@@ -2749,6 +2756,7 @@ void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::face &&
 		curItem() != tree().GetRootItem());
 }
@@ -2766,6 +2774,7 @@ void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::idea &&
 		curItem() != tree().GetRootItem());
 }

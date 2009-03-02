@@ -228,6 +228,19 @@ BEGIN
         MENUITEM "ラベル編集(&E)\tF2",               ID_EDIT_LABEL
         MENUITEM "削除(&D)\tDel",                 ID_DELETE
         MENUITEM SEPARATOR
+        POPUP "イメージ変更(&Z)"
+        BEGIN
+            MENUITEM "青(&B)",                       ID_TREE_IMAGE_BLUE
+            MENUITEM "赤(&R)",                       ID_TREE_IMAGE_RED
+            MENUITEM "黄(&Y)",                       ID_TREE_IMAGE_YEALOW
+            MENUITEM "チェック(&C)",                    ID_TREE_IMAGE_CHCEK
+            MENUITEM "×(&A)",                       ID_TREE_IMAGE_CANCEL
+            MENUITEM "？(&Q)",                       ID_TREE_IMAGE_QUESTION
+            MENUITEM "注意(&W)",                      ID_TREE_IMAGE_WARNING
+            MENUITEM "ニコニコ(&S)",                    ID_TREE_IMAGE_FACE
+            MENUITEM "アイデア(&I)",                    ID_TREE_IMAGE_IDEA
+        END
+        MENUITEM SEPARATOR
         MENUITEM "子ノードをソートする(&R)",              ID_SORT_CHILDREN
         MENUITEM "折りたたみの指定(&F)",                ID_SET_FOLDUP
         MENUITEM SEPARATOR
@@ -389,15 +402,15 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "イメージ変更(&Z)"
         BEGIN
-            MENUITEM "青",                           ID_TREE_IMAGE_BLUE
-            MENUITEM "赤",                           ID_TREE_IMAGE_RED
-            MENUITEM "黄",                           ID_TREE_IMAGE_YEALOW
-            MENUITEM "チェック",                        ID_TREE_IMAGE_CHCEK
-            MENUITEM "×",                           ID_TREE_IMAGE_CANCEL
-            MENUITEM "？",                           ID_TREE_IMAGE_QUESTION
-            MENUITEM "注意",                          ID_TREE_IMAGE_WARNING
-            MENUITEM "ニコニコ",                        ID_TREE_IMAGE_FACE
-            MENUITEM "アイデア",                        ID_TREE_IMAGE_IDEA
+            MENUITEM "青(&B)",                       ID_TREE_IMAGE_BLUE
+            MENUITEM "赤(&R)",                       ID_TREE_IMAGE_RED
+            MENUITEM "黄(&Y)",                       ID_TREE_IMAGE_YEALOW
+            MENUITEM "チェック(&C)",                    ID_TREE_IMAGE_CHCEK
+            MENUITEM "×(&A)",                       ID_TREE_IMAGE_CANCEL
+            MENUITEM "？(&Q)",                       ID_TREE_IMAGE_QUESTION
+            MENUITEM "注意(&W)",                      ID_TREE_IMAGE_WARNING
+            MENUITEM "ニコニコ(&S)",                    ID_TREE_IMAGE_FACE
+            MENUITEM "アイデア(&I)",                    ID_TREE_IMAGE_IDEA
         END
         MENUITEM SEPARATOR
         MENUITEM "子ノードをソートする(&R)",              ID_SORT_CHILDREN
@@ -1965,6 +1978,19 @@ STRINGTABLE
 BEGIN
     ID_EXPORT_EMF           "図をEMF形式に出力する\nEMF出力"
     ID_EXPORT_PNG           "図をPNG形式に出力する\nPNG出力"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_TREE_IMAGE_BLUE      "青い丸のアイコン(標準)\n青い丸"
+    ID_TREE_IMAGE_RED       "赤い丸のアイコン\n赤い丸"
+    ID_TREE_IMAGE_YEALOW    "黄色い丸のアイコン\n黄色い丸"
+    ID_TREE_IMAGE_CHCEK     "チェックマークアイコン\nチェックマーク"
+    ID_TREE_IMAGE_CANCEL    "×印のアイコン\n×印"
+    ID_TREE_IMAGE_FACE      "ニコニコマークアイコン\nニコニコマーク"
+    ID_TREE_IMAGE_QUESTION  "はてなマークアイコン\nはてなマーク"
+    ID_TREE_IMAGE_WARNING   "注意マークアイコン\n注意マーク"
+    ID_TREE_IMAGE_IDEA      "アイデア(電球)アイコン\nアイデア"
 END
 
 #endif    // 日本語 resources
