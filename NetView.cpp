@@ -4459,5 +4459,7 @@ void NetView::OnSetMargin()
 void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
+	pCmdUI->Enable(
+		!GetDocument()->isOldBinary() &&
+		(m_selectStatus == NetView::single || m_selectStatus == NetView::multi));
 }

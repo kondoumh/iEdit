@@ -826,7 +826,6 @@ BEGIN
             MENUITEM " ---> 一方向矢印(&S)",             ID_SET_LINK_ARROW_SINGLE
             MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
         END
-        MENUITEM "余白の設定(&Y)",                   ID_SET_MARGIN
         MENUITEM "ノードのプロパティ(&R)",               ID_SET_NODE_PROP
         MENUITEM SEPARATOR
         MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
