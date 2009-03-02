@@ -230,7 +230,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "子ノードをソートする(&R)",              ID_SORT_CHILDREN
         MENUITEM "折りたたみの指定(&F)",                ID_SET_FOLDUP
+        MENUITEM SEPARATOR
         MENUITEM "ツリーをクリップボードに転送(&C)",          ID_COPY_TREE_TO_CLIPBOARD
+        MENUITEM "クリップボードからツリーを生成(&Y)",         ID_PASTE_TREE_FROM_CLIPBOARD
         MENUITEM SEPARATOR
         MENUITEM "レベルを上げる(&L)\tCtrl+Shift+Left", ID_LEBEL_UP
         MENUITEM "レベルを下げる(&B)\tCtrl+Shift+Right", ID_LEBEL_DOWN
@@ -286,13 +288,13 @@ BEGIN
                 MENUITEM "点線",                          ID_SET_LINE_DOT
                 MENUITEM "線なし",                         ID_SET_LINE_NULL
             END
-            POPUP "ラベルの書式(&O)"
+            MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+            POPUP "ラベルの折り返し(&O)"
             BEGIN
                 MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
                 MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
             END
-            MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
-            POPUP "ラベルの書式(&O)"
+            POPUP "ラベルの配置(&A)"
             BEGIN
                 MENUITEM "天配置↑",                        ID_VALIGN_TOP
                 MENUITEM "中配置",                         ID_VALIGN_CENTER
@@ -300,9 +302,6 @@ BEGIN
                 MENUITEM "右寄せ →",                       ID_HALIGN_RIGHT
                 MENUITEM "中",                           ID_HALIGN_CENTER
                 MENUITEM "左寄せ ←",                       ID_HALIGN_LEFT
-                MENUITEM SEPARATOR
-                MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
-                MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
             END
         END
         POPUP "矢印(&W)"
@@ -734,7 +733,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "子ノードをソートする(&R)",              ID_SORT_CHILDREN
         MENUITEM "折りたたみの指定(&F)",                ID_SET_FOLDUP
+        MENUITEM SEPARATOR
         MENUITEM "ツリーをクリップボードに転送(&C)",          ID_COPY_TREE_TO_CLIPBOARD
+        MENUITEM "クリップボードからツリーを生成(&Y)",         ID_PASTE_TREE_FROM_CLIPBOARD
         MENUITEM SEPARATOR
         MENUITEM "レベルを上げる(&L)\tCtrl+Shift+Left", ID_LEBEL_UP
         MENUITEM "レベルを下げる(&B)\tCtrl+Shift+Right", ID_LEBEL_DOWN
@@ -790,13 +791,13 @@ BEGIN
                 MENUITEM "点線",                          ID_SET_LINE_DOT
                 MENUITEM "線なし",                         ID_SET_LINE_NULL
             END
-            POPUP "ラベルの書式(&O)"
+            MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
+            POPUP "ラベルの折り返し(&O)"
             BEGIN
                 MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
                 MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
             END
-            MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
-            POPUP "ラベルの書式(&O)"
+            POPUP "ラベルの配置(&A)"
             BEGIN
                 MENUITEM "天配置↑",                        ID_VALIGN_TOP
                 MENUITEM "中配置",                         ID_VALIGN_CENTER
@@ -804,9 +805,6 @@ BEGIN
                 MENUITEM "右寄せ →",                       ID_HALIGN_RIGHT
                 MENUITEM "中",                           ID_HALIGN_CENTER
                 MENUITEM "左寄せ ←",                       ID_HALIGN_LEFT
-                MENUITEM SEPARATOR
-                MENUITEM "シングル(S)",                     ID_SET_SINGLE_LINE
-                MENUITEM "マルチ(&M)",                     ID_SET_MULTI_LINE
             END
         END
         POPUP "矢印(&W)"
@@ -937,14 +935,14 @@ BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,136,68,20,20,SS_REALSIZEIMAGE
 END
 
-IDD_INPCN DIALOG  0, 0, 123, 41
+IDD_INPCN DIALOGEX 0, 0, 123, 41
 STYLE DS_SETFONT | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
 CAPTION "ノードのラベル"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT1,7,6,108,14,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,7,24,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,64,24,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,64,24,50,14
 END
 
 IDD_LINKINFO DIALOGEX 0, 0, 209, 191
@@ -958,7 +956,7 @@ BEGIN
     PUSHBUTTON      "フォント(&F)",IDC_BTN_FONT,60,134,39,14
     COMBOBOX        IDC_CMB_LINE,131,134,55,80,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK",IDOK,78,165,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,133,165,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,133,165,50,14
     LTEXT           "リンク元",IDC_STATIC,17,23,24,8
     LTEXT           "リンク先",IDC_STATIC,17,46,24,8
     LTEXT           "",IDC_LINKFROM,51,22,130,12,SS_SUNKEN
@@ -970,16 +968,16 @@ BEGIN
     GROUPBOX        "表示",IDC_STATIC,7,120,186,38
 END
 
-IDD_LINKINFO2 DIALOG  0, 0, 219, 113
+IDD_LINKINFO2 DIALOGEX 0, 0, 219, 113
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ファイル/URLへのリンク"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT2,51,36,127,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT1,51,61,127,14,ES_AUTOHSCROLL
     PUSHBUTTON      "参照(&B)",IDC_BROWSE,183,63,29,14
     DEFPUSHBUTTON   "OK",IDOK,94,90,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,149,90,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,149,90,50,14
     CTEXT           "リンク元",IDC_STATIC,15,15,24,8,SS_CENTERIMAGE
     CTEXT           "",IDC_ORG,51,13,147,12,SS_CENTERIMAGE | SS_SUNKEN
     CTEXT           "パス/URL",IDC_STATIC,15,63,32,8,SS_CENTERIMAGE
@@ -1007,7 +1005,7 @@ BEGIN
     CONTROL         "□ 丸角長方形(&Q)",IDC_RADIO_SHAPE2,"Button",BS_AUTORADIOBUTTON,126,158,69,10
     CONTROL         "○ 楕円(&A)",IDC_RADIO_SHAPE3,"Button",BS_AUTORADIOBUTTON,126,172,48,10
     DEFPUSHBUTTON   "OK",IDOK,86,219,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,145,219,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,145,219,50,14
     GROUPBOX        "ノードの形状",IDC_STATIC,120,133,80,77
     GROUPBOX        "文字列",IDC_STATIC,7,54,66,73
     GROUPBOX        "文字列のレイアウト",IDC_STATIC,7,133,110,77
@@ -1032,7 +1030,7 @@ CAPTION "オプション設定"
 FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,105,284,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,166,284,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,166,284,50,14
     CONTROL         "Tab1",IDC_TAB,"SysTabControl32",0x0,7,7,209,270
 END
 
@@ -1040,17 +1038,17 @@ IDD_PG_FRAME DIALOGEX 0, 0, 197, 256
 STYLE DS_SETFONT | WS_CHILD
 FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
-    PUSHBUTTON      "文字色",IDC_BTN__FCLR_OL,19,19,38,16
-    PUSHBUTTON      "フォント",IDC_BTN_OUTLINE,62,19,38,16
-    PUSHBUTTON      "背景色",IDC_BTN__BCLR_OL,19,35,38,16
-    PUSHBUTTON      "ｲﾝｻｰﾄﾏｰｸ色",IDC_BTN__INSERTMARK,62,35,48,16
-    PUSHBUTTON      "文字色",IDC_BTN_FCLR_LN,19,70,38,16
-    PUSHBUTTON      "フォント",IDC_BTN_LINK,62,70,38,16
-    PUSHBUTTON      "背景色",IDC_BTN_BCLR_LN,19,86,38,16
-    PUSHBUTTON      "文字色",IDC_BTN_FCLR_TX,19,121,38,16
-    PUSHBUTTON      "フォント",IDC_BTN_TEXT,62,121,38,16
-    PUSHBUTTON      "背景色",IDC_BTN_BCLR_TX,19,137,38,16
-    PUSHBUTTON      "背景色",IDC_BTN_BCLR_NW,19,170,38,16
+    PUSHBUTTON      "文字色",IDC_BTN__FCLR_OL,12,19,38,16
+    PUSHBUTTON      "フォント",IDC_BTN_OUTLINE,52,19,38,16
+    PUSHBUTTON      "背景色",IDC_BTN__BCLR_OL,12,35,38,16
+    PUSHBUTTON      "インサートマーク色",IDC_BTN__INSERTMARK,52,35,59,16
+    PUSHBUTTON      "文字色",IDC_BTN_FCLR_LN,12,70,38,16
+    PUSHBUTTON      "フォント",IDC_BTN_LINK,52,70,38,16
+    PUSHBUTTON      "背景色",IDC_BTN_BCLR_LN,12,86,38,16
+    PUSHBUTTON      "文字色",IDC_BTN_FCLR_TX,12,121,38,16
+    PUSHBUTTON      "フォント",IDC_BTN_TEXT,52,121,38,16
+    PUSHBUTTON      "背景色",IDC_BTN_BCLR_TX,12,137,38,16
+    PUSHBUTTON      "背景色",IDC_BTN_BCLR_NW,12,170,38,16
     CONTROL         "終了時のフレームサイズを保存する(&S)",IDC_CHK_SAVE_FRAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,199,129,10
     CONTROL         "ツールバー・ステータスバーの状態保存(&B)",IDC_CHK_SAVE_BAR_STATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,213,142,10
     GROUPBOX        "アウトラインビュー",IDC_STATIC,7,7,183,49
@@ -1132,42 +1130,42 @@ BEGIN
     GROUPBOX        "XML出力",IDC_STATIC,7,172,175,50
 END
 
-IDD_SELIMPORT DIALOG  0, 0, 190, 79
+IDD_SELIMPORT DIALOGEX 0, 0, 190, 79
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "XMLデータのインポートオプション"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     CONTROL         "選択中のノードを置き換える",IDC_RD_REP,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,13,97,10
     CONTROL         "選択中のノードの配下にインポートする",IDC_RD_SUB,"Button",BS_AUTORADIOBUTTON,15,35,128,10
     DEFPUSHBUTTON   "OK",IDOK,79,58,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,133,58,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,133,58,50,14
 END
 
-IDD_RANDAREA DIALOG  0, 0, 181, 95
+IDD_RANDAREA DIALOGEX 0, 0, 181, 95
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ノードのランダム配置の範囲設定"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_WIDTH,37,41,40,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_HEIGHT,112,41,40,14,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,59,74,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,115,74,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,115,74,50,14
     LTEXT           "ノードをランダム配置するスケールを指定してください\nOKを押すと開始します",IDC_STATIC,17,13,157,16
     LTEXT           "幅",IDC_STATIC,22,43,8,8
     LTEXT           "高さ",IDC_STATIC,93,43,13,8
 END
 
-IDD_SELEXPORT DIALOG  0, 0, 207, 125
+IDD_SELEXPORT DIALOGEX 0, 0, 207, 125
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "エクスポートオプション"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     CONTROL         "すべてのノードを出力する",IDC_RD_TREE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,18,19,91,10
     CONTROL         "選択されたノード以下の階層をすべて出力する",IDC_RD_TREE2,"Button",BS_AUTORADIOBUTTON,18,37,150,10
     CONTROL         "選択されたノードと子ノードのみを出力する",IDC_RD_TREE3,"Button",BS_AUTORADIOBUTTON,18,56,138,10
     CONTROL         "ノードのテキスト（内容も出力する）",IDC_CHK_PRINT_TEXT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,87,115,10
     DEFPUSHBUTTON   "開始(&S)",IDOK,90,104,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,150,104,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,150,104,50,14
     GROUPBOX        "階層構造の出力",IDC_STATIC,7,7,183,72
 END
 
@@ -1189,14 +1187,14 @@ BEGIN
     PUSHBUTTON      "↑ &Get",IDC_BTNGET,39,132,26,14
 END
 
-IDD_SHPCATDLG DIALOG  0, 0, 123, 47
+IDD_SHPCATDLG DIALOGEX 0, 0, 123, 47
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "カテゴリ名の編集"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT1,7,7,99,14,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,5,28,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,61,28,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,61,28,50,14
 END
 
 IDD_SHAPEINS DIALOG  0, 0, 149, 119
@@ -1228,27 +1226,27 @@ BEGIN
     GROUPBOX        "検索対象",IDC_STATIC,7,26,85,57
 END
 
-IDD_SETFOLDUP DIALOG  0, 0, 187, 49
+IDD_SETFOLDUP DIALOGEX 0, 0, 187, 49
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "折りたたみの指定"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDITLEVEL,68,15,40,14,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin1",IDC_SPIN_LEVEL,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,110,12,11,20
     DEFPUSHBUTTON   "OK",IDOK,130,7,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,130,24,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,130,24,50,14
     LTEXT           "表示するレベル",IDC_STATIC,14,17,46,8
 END
 
-IDD_SELFILEDROP DIALOG  0, 0, 147, 51
+IDD_SELFILEDROP DIALOGEX 0, 0, 147, 51
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iedファイルのドロップ処理"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     CONTROL         "リンクを追加する",IDC_RD_LINK,"Button",BS_AUTORADIOBUTTON | WS_GROUP,7,9,65,10
     CONTROL         "ファイルを開く",IDC_RD_OPEN,"Button",BS_AUTORADIOBUTTON,7,27,56,10
     DEFPUSHBUTTON   "OK",IDOK,90,7,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,90,24,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,90,24,50,14
 END
 
 IDD_MFSIZE DIALOGEX 0, 0, 235, 157
@@ -1262,7 +1260,7 @@ BEGIN
     PUSHBUTTON      "+",IDC_BTN_RIGHT,63,120,16,15
     PUSHBUTTON      "既定値に戻す(&R)",IDC_BTN_RESET,149,57,67,15
     DEFPUSHBUTTON   "OK",IDOK,121,136,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,178,136,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,178,136,50,14
     CONTROL         "",IDC_MF,"Static",SS_ENHMETAFILE | WS_BORDER,7,7,109,109
     LTEXT           "幅 28.5 高さ 28.5",IDC_ST_INFO,157,117,71,11
     LTEXT           "円が枠の中にちょうど納まるように+ - ボタンで縦横サイズを調整してください",IDC_STATIC,145,7,83,37
