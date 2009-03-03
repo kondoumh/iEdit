@@ -4971,6 +4971,7 @@ void iEditDoc::swapLinkOrder(DWORD key1, DWORD key2)
 		iLink link(*li2);
 		links_.insert(li1, link);
 		links_.erase(li2);
+		SetModifiedFlag();
 	}
 }
 

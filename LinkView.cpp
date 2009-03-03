@@ -154,6 +154,7 @@ void LinkView::OnInitialUpdate()
 	GetDocument()->getLinkInfoList(items_);
 	
 	listConstruct();
+	curSel = 0;
 }
 
 void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
@@ -213,8 +214,6 @@ void LinkView::listConstruct()
 		GetListCtrl().InsertItem(&lvi);
 	}
 	m_preKey = GetDocument()->getSelectedNodeKey();
-	GetListCtrl().SetItemState(selindex, LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
-	curSel = selindex;
 }
 
 int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
@@ -602,7 +601,7 @@ void LinkView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 	sort(items_.begin(), items_.end());
 	GetListCtrl().DeleteAllItems();
 	listConstruct();
-	
+	setSelection(0);
 	*pResult = 0;
 }
 
@@ -821,6 +820,12 @@ void LinkView::doColorSetting()
 	ListView_SetTextColor(m_hWnd, colorFor);
 }
 
+void LinkView::setSelection(int index)
+{
+	GetListCtrl().SetItemState(index, LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
+	curSel = index;
+}
+
 void LinkView::OnLinkMoveUp()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
@@ -831,7 +836,7 @@ void LinkView::OnLinkMoveUp()
 	items_.resize(0);
 	GetDocument()->getLinkInfoList(items_);
 	listConstruct();
-	GetListCtrl().SetItemState(index-1, LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
+	setSelection(index - 1);
 }
 
 void LinkView::OnUpdateLinkMoveUp(CCmdUI *pCmdUI)
@@ -851,7 +856,7 @@ void LinkView::OnLinkMoveDown()
 	items_.resize(0);
 	GetDocument()->getLinkInfoList(items_);
 	listConstruct();
-	GetListCtrl().SetItemState(index+1, LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
+	setSelection(index + 1);
 }
 
 void LinkView::OnUpdateLinkMoveDown(CCmdUI *pCmdUI)
