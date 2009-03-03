@@ -62,6 +62,7 @@
 #define IDR_IEDITTYPE_OLD               207
 #define IDD_IMPORT_TEXT                 208
 #define IDD_SETMARGIN                   210
+#define IDD_SET_HTML_EXPORT             211
 #define IDC_LINKFROM                    1001
 #define IDC_LINKTO                      1002
 #define IDC_COMBO                       1003
@@ -228,6 +229,10 @@
 #define IDC_SPIN_LEFT                   1101
 #define IDC_SPIN_RIGHT                  1102
 #define IDC_ED_LEFT                     1103
+#define IDC_RADIO5                      1104
+#define IDC_RADIO6                      1105
+#define IDC_RADIO7                      1106
+#define IDC_EDIT3                       1107
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773
@@ -468,9 +473,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        211
+#define _APS_NEXT_RESOURCE_VALUE        212
 #define _APS_NEXT_COMMAND_VALUE         33070
-#define _APS_NEXT_CONTROL_VALUE         1104
+#define _APS_NEXT_CONTROL_VALUE         1108
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif
