@@ -55,6 +55,7 @@ protected:
 
 	// 生成されたメッセージ マップ関数
 protected:
+	void reflesh();
 	void setSelection(int index);
 	void doColorSetting();
 	bool isURLStr(const CString& str) const;

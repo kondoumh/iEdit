@@ -148,13 +148,8 @@ void LinkView::OnInitialUpdate()
 	GetListCtrl().SetColumnWidth(1, rc.Width()/2);
 	m_preWidth = rc.Width();
 	
-	GetListCtrl().DeleteAllItems();
-	items_.clear();
-	items_.resize(0);
-	GetDocument()->getLinkInfoList(items_);
-	
-	listConstruct();
-	curSel = 0;
+	reflesh();
+	setSelection(0);
 }
 
 void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
@@ -178,12 +173,8 @@ void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		GetListCtrl().SetColumnWidth(0, rc.Width()/2);
 		GetListCtrl().SetColumnWidth(1, rc.Width()/2);
 		
-		GetListCtrl().DeleteAllItems();
-		items_.clear();
-		items_.resize(0);
-		GetDocument()->getLinkInfoList(items_);
-		
-		listConstruct();
+		reflesh();
+		setSelection(0);
 		
 		if (GetListCtrl().GetItemCount() == 0) return;
 		int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED) - 1;
@@ -820,9 +811,19 @@ void LinkView::doColorSetting()
 	ListView_SetTextColor(m_hWnd, colorFor);
 }
 
+void LinkView::reflesh()
+{
+	GetListCtrl().DeleteAllItems();
+	items_.clear();
+	items_.resize(0);
+	GetDocument()->getLinkInfoList(items_);
+	listConstruct();
+}
+
 void LinkView::setSelection(int index)
 {
-	GetListCtrl().SetItemState(index, LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
+	GetListCtrl().SetItemState(index, 
+		LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
 	curSel = index;
 }
 
@@ -831,11 +832,7 @@ void LinkView::OnLinkMoveUp()
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetDocument()->swapLinkOrder(items_[index-1].key, items_[index].key);
-	GetListCtrl().DeleteAllItems();
-	items_.clear();
-	items_.resize(0);
-	GetDocument()->getLinkInfoList(items_);
-	listConstruct();
+	reflesh();
 	setSelection(index - 1);
 }
 
@@ -851,11 +848,7 @@ void LinkView::OnLinkMoveDown()
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetDocument()->swapLinkOrder(items_[index].key, items_[index+1].key);
-	GetListCtrl().DeleteAllItems();
-	items_.clear();
-	items_.resize(0);
-	GetDocument()->getLinkInfoList(items_);
-	listConstruct();
+	reflesh();
 	setSelection(index + 1);
 }
 
