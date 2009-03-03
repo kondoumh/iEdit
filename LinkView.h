@@ -102,6 +102,11 @@ private:
 	keyStack kstack;
 	lsItems items_;
 	CImageList m_imageList;
+public:
+	afx_msg void OnLinkMoveUp();
+	afx_msg void OnUpdateLinkMoveUp(CCmdUI *pCmdUI);
+	afx_msg void OnLinkMoveDown();
+	afx_msg void OnUpdateLinkMoveDown(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

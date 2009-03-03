@@ -1300,6 +1300,7 @@ void iEditDoc::getLinkInfoList(lsItems &ls, bool drwAll)
 				}
 			}
 		}
+		i.key = (*it).getKey();
 		i._arrowStyle = (*it).getArrowStyle();
 		i._keyFrom = (*it).getKeyFrom();
 		i.selected = (*it).isSelected();
@@ -4959,6 +4960,17 @@ void iEditDoc::getSelectedNodeMargin(int& l, int & r, int& t, int& b) const
 		r = (*nit).getMarginR();
 		t = (*nit).getMarginT();
 		b = (*nit).getMarginB();
+	}
+}
+
+void iEditDoc::swapLinkOrder(DWORD key1, DWORD key2)
+{
+	const_literator li1 = links_.findByKey(key1);
+	const_literator li2 = links_.findByKey(key2);
+	if (li1 != links_.end() && li2 != links_.end()) {
+		iLink link(*li2);
+		links_.insert(li1, link);
+		links_.erase(li2);
 	}
 }
 

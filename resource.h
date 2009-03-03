@@ -458,6 +458,10 @@
 #define ID_EXPORT_PNG                   33063
 #define ID_DRAWABLESINGLE_33064         33064
 #define ID_SET_MARGIN                   33065
+#define ID_LINKVIEW_33066               33066
+#define ID_LINK_MOVE_UP                 33067
+#define ID_LINKVIEW_33068               33068
+#define ID_LINK_MOVE_DOWN               33069
 
 // Next default values for new objects
 // 
@@ -465,7 +469,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        211
-#define _APS_NEXT_COMMAND_VALUE         33066
+#define _APS_NEXT_COMMAND_VALUE         33070
 #define _APS_NEXT_CONTROL_VALUE         1104
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

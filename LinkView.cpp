@@ -90,6 +90,10 @@ BEGIN_MESSAGE_MAP(LinkView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_LABEL, OnUpdateEditLabel)
 	ON_NOTIFY_REFLECT(LVN_ENDLABELEDIT, OnEndlabeledit)
 	//}}AFX_MSG_MAP
+	ON_COMMAND(ID_LINK_MOVE_UP, &LinkView::OnLinkMoveUp)
+	ON_UPDATE_COMMAND_UI(ID_LINK_MOVE_UP, &LinkView::OnUpdateLinkMoveUp)
+	ON_COMMAND(ID_LINK_MOVE_DOWN, &LinkView::OnLinkMoveDown)
+	ON_UPDATE_COMMAND_UI(ID_LINK_MOVE_DOWN, &LinkView::OnUpdateLinkMoveDown)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -815,4 +819,44 @@ void LinkView::doColorSetting()
 	ListView_SetBkColor(m_hWnd, colorBG);
 	ListView_SetTextBkColor(m_hWnd, colorBG);
 	ListView_SetTextColor(m_hWnd, colorFor);
+}
+
+void LinkView::OnLinkMoveUp()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
+	GetDocument()->swapLinkOrder(items_[index-1].key, items_[index].key);
+	GetListCtrl().DeleteAllItems();
+	items_.clear();
+	items_.resize(0);
+	GetDocument()->getLinkInfoList(items_);
+	listConstruct();
+	GetListCtrl().SetItemState(index-1, LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
+}
+
+void LinkView::OnUpdateLinkMoveUp(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
+	pCmdUI->Enable(index > 0);
+}
+
+void LinkView::OnLinkMoveDown()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
+	GetDocument()->swapLinkOrder(items_[index].key, items_[index+1].key);
+	GetListCtrl().DeleteAllItems();
+	items_.clear();
+	items_.resize(0);
+	GetDocument()->getLinkInfoList(items_);
+	listConstruct();
+	GetListCtrl().SetItemState(index+1, LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
+}
+
+void LinkView::OnUpdateLinkMoveDown(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	unsigned int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
+	pCmdUI->Enable(index != -1 && index < items_.size() - 1);
 }

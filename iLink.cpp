@@ -1161,3 +1161,13 @@ void iLinks::resizeSelectedLinkFont(bool bEnlarge)
 		}
 	}
 }
+
+const_literator iLinks::findByKey(DWORD key) const
+{
+	const_literator li = begin();
+	for ( ; li != end(); li++) {
+		if ((*li).getKey() == key) return li;
+	}
+
+	return end();
+}

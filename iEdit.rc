@@ -600,6 +600,9 @@ BEGIN
         MENUITEM "リンク先から戻る(&B)",                ID_JUMP_BACK
         MENUITEM "他のファイル/URLへのリンク(&F)",         ID_ADD_URL
         MENUITEM SEPARATOR
+        MENUITEM "上に移動↑(&U)",                   ID_LINK_MOVE_UP
+        MENUITEM "下に移動↓(&W)",                   ID_LINK_MOVE_DOWN
+        MENUITEM SEPARATOR
         MENUITEM "削除(&D)",                      ID_DELETE
         MENUITEM "切り取り(&T)",                    ID_EDIT_CUT
         MENUITEM "コピー(&C)",                     ID_EDIT_COPY

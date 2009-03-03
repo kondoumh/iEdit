@@ -97,6 +97,7 @@ public:
 
 // オペレーション
 public:
+	void swapLinkOrder(DWORD key1, DWORD key2);
 	int getSerialVersion() const;
 	int getInitialBranchMode() const;
 	DWORD getBranchRootKey() const;

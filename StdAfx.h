@@ -55,6 +55,7 @@ using namespace MSXML2;
 using namespace std;
 
 struct listitem {
+	DWORD key;
 	DWORD keyTo;
 	CString sTo;
 	CString comment;
