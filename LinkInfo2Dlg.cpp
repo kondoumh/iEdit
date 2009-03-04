@@ -46,7 +46,7 @@ END_MESSAGE_MAP()
 void LinkInfo2Dlg::OnBrowse() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	char szFilters[] = "全てのﾌｧｲﾙ (*.*)|*.*|";
+	char szFilters[] = "全てのファイル (*.*)|*.*|";
 	CFileDialog dlg(TRUE, "*.*", NULL, OFN_HIDEREADONLY, szFilters, NULL);
 	if (dlg.DoModal() != IDOK) return;
 	m_edit.SetSel(0, -1);

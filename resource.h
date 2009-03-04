@@ -96,9 +96,11 @@
 #define IDC_RADIO_TLINE1                1012
 #define IDC_RD_TAB3                     1012
 #define IDC_RD_TREE3                    1012
+#define IDC_RD_NAV_OUTLINE              1012
 #define IDC_RADIO4                      1013
 #define IDC_RADIO_LINE2                 1013
 #define IDC_RADIO_TLINE2                1013
+#define IDC_RD_NAV_NETWORK              1013
 #define IDC_BUTTON1                     1014
 #define IDC_BTN_LINE_COLOR              1014
 #define IDC_BTN_OUTLINE                 1014
@@ -108,6 +110,7 @@
 #define IDC_BTN_L                       1014
 #define IDC_BTN_SETMFSIZE               1014
 #define IDC_BTN_UP                      1014
+#define IDC_BTN_SET_PRF_BY_FNAME        1014
 #define IDC_BUTTON2                     1015
 #define IDC_BTN_COLOR                   1015
 #define IDC_BTN_LINK                    1015
@@ -230,10 +233,20 @@
 #define IDC_SPIN_RIGHT                  1102
 #define IDC_ED_LEFT                     1103
 #define IDC_RADIO5                      1104
+#define IDC_RD_NAV_BOTH                 1104
 #define IDC_RADIO6                      1105
+#define IDC_RD_IMG_SVG                  1105
 #define IDC_RADIO7                      1106
+#define IDC_RD_IMG_PNG                  1106
 #define IDC_EDIT3                       1107
-#define IDC_EDIT4                       1108
+#define IDC_ED_PRF_INDEX                1107
+#define IDC_ED_PRF_TOC                  1108
+#define IDC_ED_PRF_TEXT_SINGLE          1109
+#define IDC_ED_PRF_TEXT_EVERYNODE       1110
+#define IDC_ED_CSS_TOC                  1111
+#define IDC_ED_CSS_TEXT                 1112
+#define IDC_RD_TEXT_SINGLE              1113
+#define IDC_RD_TEXT_EVERYNODE           1114
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773
@@ -476,7 +489,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        212
 #define _APS_NEXT_COMMAND_VALUE         33070
-#define _APS_NEXT_CONTROL_VALUE         1109
+#define _APS_NEXT_CONTROL_VALUE         1115
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

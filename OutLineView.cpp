@@ -17,6 +17,7 @@
 #include "setFoldUpDlg.h"
 #include "InpcnDlg.h"
 #include "Token.h"
+#include "SetHtmlExportDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1661,7 +1662,7 @@ void OutlineView::OnExportData()
 		outfile = title;
 	}
 	
-	char szFilters[] = "ﾃｷｽﾄﾌｧｲﾙ (*.txt)|*.txt|htmﾌｧｲﾙ (*.htm)|*.htm|xmlﾌｧｲﾙ (*.xml)|*.xml||";
+	char szFilters[] = "テキストファイル (*.txt)|*.txt|HTMLファイル (*.html)|*.html|XMLファイル (*.xml)|*.xml||";
 	CFileDialog dlg(FALSE, "xml", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
@@ -1677,7 +1678,7 @@ void OutlineView::OnExportData()
 	
 	if (extent == ".txt") {
 		OutputText(outfileName);
-	} else if (extent == ".htm") {
+	} else if (extent == ".html") {
 		OutputHTML(outfileName, outdir);
 	} else if (extent == ".xml") {
 		OutputXML(outfileName);
@@ -1815,6 +1816,15 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	if (dlg.DoModal() != IDOK) return;
 	m_opTreeOut = dlg.m_nTreeOp;
 	
+	SetHtmlExportDlg eDlg;
+	if (eDlg.DoModal() != IDOK) return;
+
+	CString test; test.Format("%d %d %d %s %s %s %s %s %s",
+		eDlg.m_xvRdNav, eDlg.m_xvRdImg, eDlg.m_xvRdText,
+		eDlg.m_xvEdCssToc, eDlg.m_xvEdCssText,
+		eDlg.m_xvEdPrfIndex, eDlg.m_xvEdPrfToc, eDlg.m_xvEdPrfTextSingle, eDlg.m_xvEdPrfTextEverynode);
+	MessageBox(test);
+
 	CWaitCursor wc;
 	CStdioFile f, olf, af;
 	CFileStatus status;
@@ -1893,7 +1903,7 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	af.WriteString("</body>\n</html>\n");
 	af.Close();
 	
-	if (MessageBox("生成したHTMLﾌｧｲﾙを開きますか?", "HTMLの閲覧", MB_YESNO) != IDYES) return;
+	if (MessageBox("生成したHTMLファイルを開きますか?", "HTMLの閲覧", MB_YESNO) != IDYES) return;
 	ShellExecute(m_hWnd, "open", outPath, NULL, NULL, SW_SHOW);
 }
 

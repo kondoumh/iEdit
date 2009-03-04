@@ -49,7 +49,7 @@ void shapeInsDlg::OnBtnBrowse()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CString empath;
-	char szFilters[] = "拡張ﾒﾀﾌｧｲﾙ (*.emf)|*.emf|全てのﾌｧｲﾙ (*.*)|*.*||";
+	char szFilters[] = "拡張メタファイル (*.emf)|*.emf|全てのファイル (*.*)|*.*||";
 	CFileDialog dlg(TRUE, "emf", empath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();

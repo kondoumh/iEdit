@@ -827,6 +827,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\SetHtmlExportDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SetMarginDlg.cpp"
 				>
 			</File>
@@ -1127,6 +1131,10 @@
 			</File>
 			<File
 				RelativePath="setFoldUpDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SetHtmlExportDlg.h"
 				>
 			</File>
 			<File

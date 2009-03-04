@@ -371,7 +371,7 @@ void shapesDlg::OnBtnRr()
 void shapesDlg::OnSaveShapeFile() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	char szFilters[] = "ｼｪｲﾌﾟﾌｧｲﾙ (*.ies)|*.ies||";
+	char szFilters[] = "シェイプファイル (*.ies)|*.ies||";
 	CFileDialog dlg(FALSE, "ies", "shapes.ies", OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
@@ -385,13 +385,13 @@ void shapesDlg::OnOpenShapeFile()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString infile;
-	char szFilters[] = "ｼｪｲﾌﾟﾌｧｲﾙ (*.ies)|*.ies||";
+	char szFilters[] = "シェイプファイル (*.ies)|*.ies||";
 	CFileDialog dlg(TRUE, "ies", infile, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
 	CFile f;
 	if (!f.Open(infileName, CFile::modeRead)) {
-		AfxMessageBox("指定されたｼｪｲﾌﾟﾌｧｲﾙは存在しません");
+		AfxMessageBox("指定されたシェイプファイル存在しません");
 		return;
 	}
 	f.Close();
@@ -486,7 +486,7 @@ void shapesDlg::decideShapef()
 	if (mfname != "") return;
 	
 	AfxMessageBox("シェイプを保存するファイル名を指定してください");
-	char szFilters[] = "ｼｪｲﾌﾟﾌｧｲﾙ (*.ies)|*.ies||";
+	char szFilters[] = "シェイプファイル (*.ies)|*.ies||";
 	CFileDialog dlg(FALSE, "ies", "shapes1", OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
