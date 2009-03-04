@@ -233,6 +233,7 @@
 #define IDC_RADIO6                      1105
 #define IDC_RADIO7                      1106
 #define IDC_EDIT3                       1107
+#define IDC_EDIT4                       1108
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773
@@ -475,7 +476,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        212
 #define _APS_NEXT_COMMAND_VALUE         33070
-#define _APS_NEXT_CONTROL_VALUE         1108
+#define _APS_NEXT_CONTROL_VALUE         1109
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif
