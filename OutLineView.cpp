@@ -1677,10 +1677,13 @@ void OutlineView::OnExportData()
 	CString outdir = drive; outdir += dir;
 	
 	if (extent == ".txt") {
+		m_exportOption.fileOption = 0;
 		OutputText(outfileName);
 	} else if (extent == ".html") {
+		m_exportOption.fileOption = 1;
 		OutputHTML(outfileName, outdir);
 	} else if (extent == ".xml") {
+		m_exportOption.fileOption = 2;
 		OutputXML(outfileName);
 	}
 }
@@ -1777,10 +1780,11 @@ void OutlineView::OutputText(const CString &outPath)
 {
 	SelExportDlg dlg;
 	dlg.m_bPrintText = TRUE;
-	dlg.m_nTreeOp = 0;
+	dlg.m_nTreeOp = m_exportOption.treeOption;
 	dlg.m_bShowChekPrintText = true;
 	if (dlg.DoModal() != IDOK) return;
 	m_opTreeOut = dlg.m_nTreeOp;
+	m_exportOption.treeOption = dlg.m_nTreeOp;
 	
 	CWaitCursor wc;
 	CStdioFile f;
@@ -1812,24 +1816,38 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 {
 	SelExportDlg dlg;
 	dlg.m_bPrintText = TRUE;
-	dlg.m_nTreeOp = 0;
+	dlg.m_nTreeOp = m_exportOption.treeOption;
 	if (dlg.DoModal() != IDOK) return;
 	m_opTreeOut = dlg.m_nTreeOp;
+	m_exportOption.treeOption = dlg.m_nTreeOp;
 	
 	SetHtmlExportDlg eDlg;
+	
+	
+	eDlg.m_xvRdNav = m_exportOption.navOption;
+	eDlg.m_xvRdImg = m_exportOption.imgOption;
+	eDlg.m_xvRdText = m_exportOption.textOption;
+	eDlg.m_xvEdCssToc = m_exportOption.cssToc;
+	eDlg.m_xvEdCssText = m_exportOption.cssText;
+	eDlg.m_xvEdPrfIndex = m_exportOption.prfIndex;
+	eDlg.m_xvEdPrfToc = m_exportOption.prfToc;
+	eDlg.m_xvEdPrfTextSingle = m_exportOption.prfTextSingle;
+	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
 	if (eDlg.DoModal() != IDOK) return;
-
-	CString test; test.Format("%d %d %d %s %s %s %s %s %s",
-		eDlg.m_xvRdNav, eDlg.m_xvRdImg, eDlg.m_xvRdText,
-		eDlg.m_xvEdCssToc, eDlg.m_xvEdCssText,
-		eDlg.m_xvEdPrfIndex, eDlg.m_xvEdPrfToc, eDlg.m_xvEdPrfTextSingle, eDlg.m_xvEdPrfTextEverynode);
-	MessageBox(test);
+	m_exportOption.navOption = eDlg.m_xvRdNav;
+	m_exportOption.imgOption = eDlg.m_xvRdImg;
+	m_exportOption.textOption = eDlg.m_xvRdText;
+	m_exportOption.cssToc = eDlg.m_xvEdCssToc;
+	m_exportOption.cssText = eDlg.m_xvEdCssText;
+	m_exportOption.prfIndex = eDlg.m_xvEdPrfIndex;
+	m_exportOption.prfToc = eDlg.m_xvEdPrfToc;
+	m_exportOption.prfTextSingle = eDlg.m_xvEdPrfTextSingle;
+	m_exportOption.prfTextEverynode = eDlg.m_xvEdPrfTextEverynode;
 
 	CWaitCursor wc;
 	CStdioFile f, olf, af;
 	CFileStatus status;
 	CFileException e;
-	
 	
 	////////////////////////
 	////// create frame
@@ -1911,9 +1929,10 @@ void OutlineView::OutputXML(const CString &outPath)
 {
 	SelExportDlg dlg;
 	dlg.m_bPrintText = TRUE;
-	dlg.m_nTreeOp = 0;
+	dlg.m_nTreeOp = m_exportOption.treeOption;
 	if (dlg.DoModal() != IDOK) return;
 	m_opTreeOut = dlg.m_nTreeOp;
+	m_exportOption.treeOption = dlg.m_nTreeOp;
 	
 	if (GetDocument()->saveXML(outPath)) {
 		MessageBox("終了しました", "XMLへのエクスポート", MB_OK);

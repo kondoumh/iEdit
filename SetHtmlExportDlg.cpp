@@ -58,8 +58,18 @@ BOOL SetHtmlExportDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 	// TODO:  ここに初期化を追加してください
 	SetRdImageEnable(FALSE);
-	SetEdPrfTextEverynodeEnable(TRUE);
-	SetEdPrfTextSingleEnable(FALSE);
+	if (m_xvRdNav == 0) {
+		SetRdImageEnable(FALSE);
+	} else {
+		SetRdImageEnable(TRUE);
+	}
+	if (m_xvRdText == 0) {
+		SetEdPrfTextEverynodeEnable(TRUE);
+		SetEdPrfTextSingleEnable(FALSE);
+	} else {
+		SetEdPrfTextEverynodeEnable(FALSE);
+		SetEdPrfTextSingleEnable(TRUE);
+	}
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }

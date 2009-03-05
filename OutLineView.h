@@ -156,6 +156,19 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	struct ExportOption {
+		int fileOption;
+		int treeOption;
+		int navOption;
+		int imgOption;
+		int textOption;
+		CString cssToc;
+		CString cssText;
+		CString prfIndex;
+		CString prfToc;
+		CString prfTextSingle;
+		CString prfTextEverynode;
+	} m_exportOption;
 	void moveNodes(DWORD keyTarget, DWORD keyMove);
 	void catTreeLabel(HTREEITEM hItem, CString& text);
 	enum {drop_none, drop_child, drop_sibling};
