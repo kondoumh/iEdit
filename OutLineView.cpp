@@ -1822,8 +1822,6 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	m_exportOption.treeOption = dlg.m_nTreeOp;
 	
 	SetHtmlExportDlg eDlg;
-	
-	
 	eDlg.m_xvRdNav = m_exportOption.navOption;
 	eDlg.m_xvRdImg = m_exportOption.imgOption;
 	eDlg.m_xvRdText = m_exportOption.textOption;
@@ -1855,10 +1853,18 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	if (!f.Open(outPath, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		return;
 	}
-	f.WriteString("<html>\n<frameset cols=35%,*>\n");
-	f.WriteString("<frame src=\"outline.htm\" name=\"outline\">\n");
-	f.WriteString("<frame src=\"article.htm\" name=\"article\">\n");
-	f.WriteString("</frameset>\n");
+	f.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\">\n");
+	f.WriteString("<html>\n<head>\n");
+	f.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+	f.WriteString("<title>" + GetDocument()->GetTitle() + "</title>\n");
+	f.WriteString("</head>\n");
+	f.WriteString("<body>\n");
+	f.WriteString("  <frameset cols=\"35%,*\" >\n");
+	f.WriteString("  <frame src=\"outline.html\" name=\"outline\">\n");
+	f.WriteString("  <frame src=\"text.html\" name=\"text\">\n");
+	f.WriteString("  </frameset>\n");
+	f.WriteString("</body>\n");
+	f.WriteString("</html>\n");
 	f.Close();
 	
 	///////////////////////////
@@ -1866,9 +1872,9 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	///////////////////////////
 	CString olName = outDir;
 	if (outDir[outDir.GetLength()-1] == '\\') {
-		olName += "outline.htm";
+		olName += "outline.html";
 	} else {
-		olName += "\\outline.htm";
+		olName += "\\outline.html";
 	}
 	if (!olf.Open(olName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		MessageBox(olName + " : 作成に失敗しました");
@@ -1876,7 +1882,7 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	}
 	olf.WriteString("<html>\n<body>\n<h3 align=center>");
 	olf.WriteString("<a href=");
-	olf.WriteString("\"article.htm#");
+	olf.WriteString("\"text.html#");
 	CString keystr;
 
 	HTREEITEM root;
@@ -1889,7 +1895,7 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	keystr.Format("%d", tree().GetItemData(root));
 	CString rootStr = GetDocument()->remvCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
 	olf.WriteString(keystr + rootStr);
-	olf.WriteString("\" target=article>");
+	olf.WriteString("\" target=text>");
 	olf.WriteString(rootStr);
 	
 	olf.WriteString("</h3>\n");
@@ -1907,9 +1913,9 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	///////////////////////////
 	CString arName = outDir;
 	if (outDir[outDir.GetLength()-1] == '\\') {
-		arName += "article.htm";
+		arName += "text.html";
 	} else {
-		arName += "\\article.htm";
+		arName += "\\text.html";
 	}
 
 	if (!af.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
@@ -1991,11 +1997,11 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, CStdioFile *f)
 	// リンクタグの生成
 	CString itemStr = GetDocument()->remvCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
 	f->WriteString("<a href=");
-	f->WriteString("\"article.htm#");
+	f->WriteString("\"text.html#");
 	CString keystr;
 	keystr.Format("%d", tree().GetItemData(hItem));
 	f->WriteString(keystr + itemStr);
-	f->WriteString("\" target=article>");
+	f->WriteString("\" target=text>");
 	// 見出し書き込み
 	f->WriteString(itemStr);
 	f->WriteString("</a>\n");
