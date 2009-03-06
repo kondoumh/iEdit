@@ -283,6 +283,11 @@ OutlineView::OutlineView()
 	m_hParentPreMove = NULL;
 	m_hSiblingPreMove = NULL;
 	m_bNodeSel = false;
+	m_exportOption.treeOption = 0;
+	m_exportOption.fileOption = 0;
+	m_exportOption.textOption = 0;
+	m_exportOption.imgOption = 0;
+	m_exportOption.navOption = 0;
 }
 
 OutlineView::~OutlineView()
@@ -1858,12 +1863,10 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	f.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
 	f.WriteString("<title>" + GetDocument()->GetTitle() + "</title>\n");
 	f.WriteString("</head>\n");
-	f.WriteString("<body>\n");
 	f.WriteString("  <frameset cols=\"35%,*\" >\n");
-	f.WriteString("  <frame src=\"outline.html\" name=\"outline\">\n");
-	f.WriteString("  <frame src=\"text.html\" name=\"text\">\n");
+	f.WriteString("    <frame src=\"outline.html\" name=\"outline\">\n");
+	f.WriteString("    <frame src=\"text.html\" name=\"text\">\n");
 	f.WriteString("  </frameset>\n");
-	f.WriteString("</body>\n");
 	f.WriteString("</html>\n");
 	f.Close();
 	
@@ -1880,7 +1883,11 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 		MessageBox(olName + " : 作成に失敗しました");
 		return;
 	}
-	olf.WriteString("<html>\n<body>\n<h3 align=center>");
+	olf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
+	olf.WriteString("<html>\n<head>\n");
+	olf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+	olf.WriteString("</head>\n");
+	olf.WriteString("<body>\n<h3 align=center>");
 	olf.WriteString("<a href=");
 	olf.WriteString("\"text.html#");
 	CString keystr;
