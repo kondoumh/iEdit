@@ -1861,7 +1861,7 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	f.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\">\n");
 	f.WriteString("<html>\n<head>\n");
 	f.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
-	f.WriteString("<title>" + GetDocument()->GetTitle() + "</title>\n");
+	f.WriteString("<title>" + GetDocument()->getTitleFromPath() + "</title>\n");
 	f.WriteString("</head>\n");
 	f.WriteString("  <frameset cols=\"35%,*\" >\n");
 	f.WriteString("    <frame src=\"outline.html\" name=\"outline\">\n");

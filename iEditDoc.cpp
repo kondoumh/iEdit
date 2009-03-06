@@ -4984,6 +4984,18 @@ void iEditDoc::setSelectedNodeMargin(int l, int r, int t, int b)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
+CString iEditDoc::getTitleFromPath() const
+{
+	CString fullPath = GetPathName();
+	CString fileName;
+	
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+	_splitpath_s(fullPath, drive, dir, fname, ext );
+	return CString(fname);
+}
 // UndoManagerのメソッド定義
 bool UndoManager::canUndo() const
 {
