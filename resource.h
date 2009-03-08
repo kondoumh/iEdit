@@ -247,6 +247,12 @@
 #define IDC_ED_CSS_TEXT                 1112
 #define IDC_RD_TEXT_SINGLE              1113
 #define IDC_RD_TEXT_EVERYNODE           1114
+#define IDC_ED_PRF_NET                  1115
+#define IDC_LB_INDEX                    1116
+#define IDC_LB_TOC                      1117
+#define IDC_LB_NET                      1118
+#define IDC_LB_TEXT_EVERYNODE           1119
+#define IDC_LB_TEXT_SINGLE              1120
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773
@@ -489,7 +495,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        212
 #define _APS_NEXT_COMMAND_VALUE         33070
-#define _APS_NEXT_CONTROL_VALUE         1115
+#define _APS_NEXT_CONTROL_VALUE         1121
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

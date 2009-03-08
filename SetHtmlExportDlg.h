@@ -19,6 +19,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	CString m_sDocTitle;
 	int m_xvRdNav;
 	int m_xvRdImg;
 	int m_xvRdText;
@@ -39,4 +40,6 @@ public:
 	afx_msg void OnBnClickedRdNavBoth();
 	afx_msg void OnBnClickedRdTextEverynode();
 	afx_msg void OnBnClickedRdTextSingle();
+	CString m_xvEdPrfNet;
+	afx_msg void OnBnClickedBtnSetPrfByFname();
 };

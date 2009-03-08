@@ -1834,8 +1834,10 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	eDlg.m_xvEdCssText = m_exportOption.cssText;
 	eDlg.m_xvEdPrfIndex = m_exportOption.prfIndex;
 	eDlg.m_xvEdPrfToc = m_exportOption.prfToc;
+	eDlg.m_xvEdPrfNet = m_exportOption.prfNet;
 	eDlg.m_xvEdPrfTextSingle = m_exportOption.prfTextSingle;
 	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
+	eDlg.m_sDocTitle = GetDocument()->getTitleFromPath();
 	if (eDlg.DoModal() != IDOK) return;
 	m_exportOption.navOption = eDlg.m_xvRdNav;
 	m_exportOption.imgOption = eDlg.m_xvRdImg;
@@ -1844,6 +1846,7 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	m_exportOption.cssText = eDlg.m_xvEdCssText;
 	m_exportOption.prfIndex = eDlg.m_xvEdPrfIndex;
 	m_exportOption.prfToc = eDlg.m_xvEdPrfToc;
+	m_exportOption.prfNet = eDlg.m_xvEdPrfNet;
 	m_exportOption.prfTextSingle = eDlg.m_xvEdPrfTextSingle;
 	m_exportOption.prfTextEverynode = eDlg.m_xvEdPrfTextEverynode;
 

@@ -21,6 +21,7 @@ SetHtmlExportDlg::SetHtmlExportDlg(CWnd* pParent /*=NULL*/)
 	, m_xvEdPrfToc(_T(""))
 	, m_xvEdPrfTextSingle(_T(""))
 	, m_xvEdPrfTextEverynode(_T(""))
+	, m_xvEdPrfNet(_T(""))
 {
 
 }
@@ -41,6 +42,7 @@ void SetHtmlExportDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_ED_PRF_TOC, m_xvEdPrfToc);
 	DDX_Text(pDX, IDC_ED_PRF_TEXT_SINGLE, m_xvEdPrfTextSingle);
 	DDX_Text(pDX, IDC_ED_PRF_TEXT_EVERYNODE, m_xvEdPrfTextEverynode);
+	DDX_Text(pDX, IDC_ED_PRF_NET, m_xvEdPrfNet);
 }
 
 
@@ -50,6 +52,7 @@ BEGIN_MESSAGE_MAP(SetHtmlExportDlg, CDialog)
 	ON_BN_CLICKED(IDC_RD_NAV_BOTH, &SetHtmlExportDlg::OnBnClickedRdNavBoth)
 	ON_BN_CLICKED(IDC_RD_TEXT_EVERYNODE, &SetHtmlExportDlg::OnBnClickedRdTextEverynode)
 	ON_BN_CLICKED(IDC_RD_TEXT_SINGLE, &SetHtmlExportDlg::OnBnClickedRdTextSingle)
+	ON_BN_CLICKED(IDC_BTN_SET_PRF_BY_FNAME, &SetHtmlExportDlg::OnBnClickedBtnSetPrfByFname)
 END_MESSAGE_MAP()
 
 
@@ -86,6 +89,7 @@ void SetHtmlExportDlg::SetRdImageEnable(BOOL bEnable)
 {
 	GetDlgItem(IDC_RD_IMG_SVG)->EnableWindow(bEnable);
 	GetDlgItem(IDC_RD_IMG_PNG)->EnableWindow(bEnable);
+	GetDlgItem(IDC_ED_PRF_NET)->EnableWindow(bEnable);
 }
 
 void SetHtmlExportDlg::SetEdPrfTextSingleEnable(BOOL bEnable)
@@ -122,4 +126,9 @@ void SetHtmlExportDlg::OnBnClickedRdTextSingle()
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	SetEdPrfTextEverynodeEnable(FALSE);
 	SetEdPrfTextSingleEnable(TRUE);
+}
+
+void SetHtmlExportDlg::OnBnClickedBtnSetPrfByFname()
+{
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 }

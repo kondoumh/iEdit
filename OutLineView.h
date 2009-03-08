@@ -165,6 +165,7 @@ private:
 		CString cssToc;
 		CString cssText;
 		CString prfIndex;
+		CString prfNet;
 		CString prfToc;
 		CString prfTextSingle;
 		CString prfTextEverynode;
