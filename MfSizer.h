@@ -12,7 +12,7 @@
 class MfSizer  
 {
 public:
-	CSize getMFSize();
+	static CSize getMFSize();
 	MfSizer();
 	virtual ~MfSizer();
 

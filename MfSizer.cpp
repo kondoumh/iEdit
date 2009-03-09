@@ -45,6 +45,9 @@ CSize MfSizer::getMFSize()
 				mfWidth = 260;
 				mfHeight = 255;
 			}
+		} else if (info.dwMajorVersion >= 6) {
+			mfWidth = 353;
+			mfHeight = 353;
 		}
 	}
 	return CSize(mfWidth, mfHeight);

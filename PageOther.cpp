@@ -149,8 +149,7 @@ void PageOther::OnBtnSetmfsize()
 		dlg.m_rx = mfWidth;
 		dlg.m_ry = mfHeight;
 	} else {
-		MfSizer sizer;
-		CSize szMF = sizer.getMFSize();
+		CSize szMF = MfSizer::getMFSize();
 		dlg.m_rx = ((double)szMF.cx)/10.0;
 		dlg.m_ry = ((double)szMF.cy)/10.0;;
 	}

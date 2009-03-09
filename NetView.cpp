@@ -3485,8 +3485,7 @@ void NetView::setMFSize()
 	
 	if (m_mfWidth != 0 && m_mfHeight != 0) return; // レジストリの値を採用
 	
-	MfSizer sizer;
-	CSize szMF = sizer.getMFSize();
+	CSize szMF = MfSizer::getMFSize();
 	m_mfWidth = ((double)szMF.cx)/10.0;
 	m_mfHeight = ((double)szMF.cy)/10.0;
 }

@@ -117,8 +117,7 @@ void SetMFSizeDlg::OnBtnUp()
 void SetMFSizeDlg::OnBnClickedBtnReset()
 {
 	// TODO : ここにコントロール通知ハンドラ コードを追加します。
-	MfSizer sizer;
-	CSize szMF = sizer.getMFSize();
+	CSize szMF = MfSizer::getMFSize();
 	m_rx = ((double)szMF.cx)/10.0;
 	m_ry = ((double)szMF.cy)/10.0;;
 	m_stMF.SetEnhMetaFile(createMF());
