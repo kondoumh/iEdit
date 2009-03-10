@@ -42,4 +42,8 @@ public:
 	afx_msg void OnBnClickedRdTextSingle();
 	CString m_xvEdPrfNet;
 	afx_msg void OnBnClickedBtnSetPrfByFname();
+	afx_msg void OnEnChangeEdPrfToc();
+	afx_msg void OnEnChangeEdPrfIndex();
+	afx_msg void OnEnChangeEdPrfNet();
+	afx_msg void OnEnChangeEdPrfTextSingle();
 };

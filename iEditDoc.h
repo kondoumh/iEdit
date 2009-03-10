@@ -296,7 +296,6 @@ protected:
 
 // 生成されたメッセージ マップ関数
 protected:
-	CString getSafeFileName(const CString& str) const;
 	OutlineView* getOutlineView() const;
 	template <class T>
 	void outStyleSheetLine(T &f);
