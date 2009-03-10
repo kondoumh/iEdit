@@ -1363,7 +1363,7 @@ BEGIN
     LTEXT           "index.html",IDC_LB_INDEX,184,148,101,8
     LTEXT           "outline.html",IDC_LB_TOC,184,165,101,8
     LTEXT           "network.html",IDC_LB_NET,184,184,101,8
-    LTEXT           "1.html",IDC_LB_TEXT_EVERYNODE,184,202,101,8
+    LTEXT           "1.html, 2.html, ...",IDC_LB_TEXT_EVERYNODE,184,202,101,8
     LTEXT           "text.html",IDC_LB_TEXT_SINGLE,184,219,101,8
 END
 

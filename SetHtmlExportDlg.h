@@ -46,4 +46,5 @@ public:
 	afx_msg void OnEnChangeEdPrfIndex();
 	afx_msg void OnEnChangeEdPrfNet();
 	afx_msg void OnEnChangeEdPrfTextSingle();
+	afx_msg void OnEnChangeEdPrfTextEverynode();
 };

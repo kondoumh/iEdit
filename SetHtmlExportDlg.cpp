@@ -58,6 +58,7 @@ BEGIN_MESSAGE_MAP(SetHtmlExportDlg, CDialog)
 	ON_EN_CHANGE(IDC_ED_PRF_INDEX, &SetHtmlExportDlg::OnEnChangeEdPrfIndex)
 	ON_EN_CHANGE(IDC_ED_PRF_NET, &SetHtmlExportDlg::OnEnChangeEdPrfNet)
 	ON_EN_CHANGE(IDC_ED_PRF_TEXT_SINGLE, &SetHtmlExportDlg::OnEnChangeEdPrfTextSingle)
+	ON_EN_CHANGE(IDC_ED_PRF_TEXT_EVERYNODE, &SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode)
 END_MESSAGE_MAP()
 
 
@@ -136,6 +137,7 @@ void SetHtmlExportDlg::OnBnClickedRdTextSingle()
 void SetHtmlExportDlg::OnBnClickedBtnSetPrfByFname()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowTextA(m_sDocTitle);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfIndex()
@@ -204,4 +206,20 @@ void SetHtmlExportDlg::OnEnChangeEdPrfTextSingle()
 		m_xvEdPrfTextSingle = prf + "_text.html";
 	}
 	GetDlgItem(IDC_LB_TEXT_SINGLE)->SetWindowTextA(m_xvEdPrfTextSingle);
+}
+
+void SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode()
+{
+	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
+	CString s;
+	GetDlgItem(IDC_ED_PRF_TEXT_EVERYNODE)->GetWindowText(s);
+	CString prf = s.Trim();
+	prf = Utilities::getSafeFileName(prf);
+	if (prf == "") {
+		m_xvEdPrfTextEverynode = "";
+	} else {
+		m_xvEdPrfTextEverynode = prf;
+	}
+	GetDlgItem(IDC_LB_TEXT_EVERYNODE)->SetWindowTextA(
+		m_xvEdPrfTextEverynode + "1.html, " + m_xvEdPrfTextEverynode + "2.html, ...");
 }
