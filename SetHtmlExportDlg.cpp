@@ -66,11 +66,13 @@ BOOL SetHtmlExportDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	// TODO:  ここに初期化を追加してください
-	SetRdImageEnable(FALSE);
+	setPathIndex();
+	setPathOutline();
 	if (m_xvRdNav == 0) {
 		SetRdImageEnable(FALSE);
 	} else {
 		SetRdImageEnable(TRUE);
+		setPathNetwork();
 	}
 	if (m_xvRdText == 0) {
 		SetEdPrfTextEverynodeEnable(TRUE);
@@ -78,6 +80,7 @@ BOOL SetHtmlExportDlg::OnInitDialog()
 	} else {
 		SetEdPrfTextEverynodeEnable(FALSE);
 		SetEdPrfTextSingleEnable(TRUE);
+		setPathTextSingle();
 	}
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
@@ -143,6 +146,11 @@ void SetHtmlExportDlg::OnBnClickedBtnSetPrfByFname()
 void SetHtmlExportDlg::OnEnChangeEdPrfIndex()
 {
 	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
+	setPathIndex();
+}
+
+void SetHtmlExportDlg::setPathIndex()
+{
 	CString s;
 	GetDlgItem(IDC_ED_PRF_INDEX)->GetWindowText(s);
 	GetDlgItem(IDC_ED_PRF_TOC)->SetWindowTextA(s);
@@ -155,57 +163,71 @@ void SetHtmlExportDlg::OnEnChangeEdPrfIndex()
 	CString prf = s.Trim();
 	prf = Utilities::getSafeFileName(prf);
 	if (prf == "") {
-		m_xvEdPrfIndex = "index.html";
+		m_pathIndex = "index.html";
 	} else {
-		m_xvEdPrfIndex = prf + ".html";
+		m_pathIndex = prf + ".html";
 	}
-	GetDlgItem(IDC_LB_INDEX)->SetWindowTextA(m_xvEdPrfIndex);
+	GetDlgItem(IDC_LB_INDEX)->SetWindowTextA(m_pathIndex);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfToc()
 {
 	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
+	setPathOutline();
+}
+
+void SetHtmlExportDlg::setPathOutline()
+{
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TOC)->GetWindowText(s);
 	CString prf = s.Trim();
 	prf = Utilities::getSafeFileName(prf);
 	if (prf == "") {
-		m_xvEdPrfToc = "outline.html";
+		m_pathOutline = "outline.html";
 	} else {
-		m_xvEdPrfToc = prf + "_outline.html";
+		m_pathOutline = prf + "_outline.html";
 	}
-	GetDlgItem(IDC_LB_TOC)->SetWindowTextA(m_xvEdPrfToc);
+	GetDlgItem(IDC_LB_TOC)->SetWindowTextA(m_pathOutline);
 }
-
 
 void SetHtmlExportDlg::OnEnChangeEdPrfNet()
 {
 	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
+	setPathNetwork();
+}
+
+void SetHtmlExportDlg::setPathNetwork()
+{
 	CString s;
 	GetDlgItem(IDC_ED_PRF_NET)->GetWindowText(s);
 	CString prf = s.Trim();
 	prf = Utilities::getSafeFileName(prf);
 	if (prf == "") {
-		m_xvEdPrfNet = "network.html";
+		m_pathNetwork = "network.html";
 	} else {
-		m_xvEdPrfNet = prf + "_network.html";
+		m_pathNetwork = prf + "_network.html";
 	}
-	GetDlgItem(IDC_LB_NET)->SetWindowTextA(m_xvEdPrfNet);
+	GetDlgItem(IDC_LB_NET)->SetWindowTextA(m_pathNetwork);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfTextSingle()
 {
 	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
+	setPathTextSingle();
+}
+
+void SetHtmlExportDlg::setPathTextSingle()
+{
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->GetWindowText(s);
 	CString prf = s.Trim();
 	prf = Utilities::getSafeFileName(prf);
 	if (prf == "") {
-		m_xvEdPrfTextSingle = "text.html";
+		m_pathTextSingle = "text.html";
 	} else {
-		m_xvEdPrfTextSingle = prf + "_text.html";
+		m_pathTextSingle = prf + "_text.html";
 	}
-	GetDlgItem(IDC_LB_TEXT_SINGLE)->SetWindowTextA(m_xvEdPrfTextSingle);
+	GetDlgItem(IDC_LB_TEXT_SINGLE)->SetWindowTextA(m_pathTextSingle);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode()

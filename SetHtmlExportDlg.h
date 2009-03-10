@@ -19,6 +19,10 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	CString m_pathIndex;
+	CString m_pathTextSingle;
+	CString m_pathOutline;
+	CString m_pathNetwork;
 	CString m_sDocTitle;
 	int m_xvRdNav;
 	int m_xvRdImg;
@@ -31,6 +35,10 @@ public:
 	CString m_xvEdPrfTextEverynode;
 	afx_msg void OnBnClickedRdNavOutline();
 private:
+	void setPathIndex();
+	void setPathTextSingle();
+	void setPathOutline();
+	void setPathNetwork();
 	void SetRdImageEnable(BOOL bEnable);
 	void SetEdPrfTextSingleEnable(BOOL bEnable);
 	void SetEdPrfTextEverynodeEnable(BOOL bEnable);

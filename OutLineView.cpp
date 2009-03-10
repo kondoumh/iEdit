@@ -18,6 +18,7 @@
 #include "InpcnDlg.h"
 #include "Token.h"
 #include "SetHtmlExportDlg.h"
+#include <shlobj.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -152,6 +153,21 @@ HTREEITEM treeview_find(CTreeCtrl& tree, Predicate pred, HTREEITEM item=0)
 		item = tree.GetNextSiblingItem(item);
 	}
 	return NULL;
+}
+
+// フォルダ選択ダイアログ用コールバックプロシージャ
+static int _stdcall FolderDlgCallBackProc( 
+	HWND hWnd, UINT uiMsg, LPARAM lParam, LPARAM lpData)
+{
+	if(uiMsg == BFFM_INITIALIZED){
+		if( lpData != NULL){
+			SendMessage( hWnd, 
+					BFFM_SETSELECTION, 
+					TRUE, 
+					lpData );
+		}
+	}
+	return(0);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1805,35 +1821,40 @@ void OutlineView::OutputHTML()
 	m_exportOption.prfTextSingle = eDlg.m_xvEdPrfTextSingle;
 	m_exportOption.prfTextEverynode = eDlg.m_xvEdPrfTextEverynode;
 
-	CString outfile;
-	if (eDlg.m_xvEdPrfIndex == "") {
-		outfile = "index.html";
+	TCHAR szBuff[1024];
+	BROWSEINFO bi;
+	bi.hwndOwner = m_hWnd;
+	
+	bi.pidlRoot = NULL;
+	bi.pszDisplayName = szBuff;
+	bi.lpszTitle = _T("HTML出力先");
+	
+	bi.ulFlags = BIF_RETURNONLYFSDIRS;
+	bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
+	//bi.lParam = (LPARAM)szRootDir;
+	//bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
+	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
+	bi.iImage = 0;
+	
+	CString outdir;	
+	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
+	if (pList == NULL) return;
+    if (::SHGetPathFromIDList(pList, szBuff)) {
+		//szBuffに選択したフォルダ名が入る
+		outdir = CString(szBuff);
 	} else {
-		outfile = eDlg.m_xvEdPrfIndex + "_index.html";
+		return;
 	}
-	char szFilters[] = "HTMLファイル (*.html)|*.html";	
-	CFileDialog fdlg(FALSE, "html", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
-	if (fdlg.DoModal() != IDOK) return;
-	CString outPath = fdlg.GetPathName();
-	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(outPath, drive, dir, fname, ext );
-	CString extent = ext;
-	extent.MakeLower();
-	CString outdir = drive; outdir += dir;
-	
 	CWaitCursor wc;
 	CStdioFile f, olf, af;
 	CFileStatus status;
 	CFileException e;
 	
+	CString indexFilePath = outdir + "\\" + eDlg.m_pathIndex;
 	////////////////////////
 	////// create frame
 	////////////////////////
-	if (!f.Open(outPath, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+	if (!f.Open(indexFilePath, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		return;
 	}
 	f.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\">\n");
@@ -1842,8 +1863,8 @@ void OutlineView::OutputHTML()
 	f.WriteString("<title>" + GetDocument()->getTitleFromPath() + "</title>\n");
 	f.WriteString("</head>\n");
 	f.WriteString("  <frameset cols=\"35%,*\" >\n");
-	f.WriteString("    <frame src=\"outline.html\" name=\"outline\">\n");
-	f.WriteString("    <frame src=\"text.html\" name=\"text\">\n");
+	f.WriteString("    <frame src=\"" + eDlg.m_pathOutline + "\" name=\"outline\">\n");
+	f.WriteString("    <frame src=\"" + eDlg.m_pathTextSingle + "\" name=\"text\">\n");
 	f.WriteString("  </frameset>\n");
 	f.WriteString("</html>\n");
 	f.Close();
@@ -1851,18 +1872,7 @@ void OutlineView::OutputHTML()
 	///////////////////////////
 	// create outline view
 	///////////////////////////
-	CString olName = outdir;
-	CString olfName;
-	if (eDlg.m_xvEdPrfToc == "") {
-		olfName = "outline.html";
-	} else {
-		olfName = eDlg.m_xvEdPrfToc + "_outline.html";
-	}
-	if (outdir[outdir.GetLength()-1] == '\\') {
-		olName += olfName;
-	} else {
-		olName += "\\" + olfName;
-	}
+	CString olName = outdir + "\\" + eDlg.m_pathOutline;
 	if (!olf.Open(olName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		MessageBox(olName + " : 作成に失敗しました");
 		return;
@@ -1894,7 +1904,7 @@ void OutlineView::OutputHTML()
 	
 	if (tree().ItemHasChildren(root)) {
 		HTREEITEM child = tree().GetNextItem(root, TVGN_CHILD);
-		htmlOutTree(child, &olf);
+		htmlOutTree(child, eDlg.m_pathOutline, &olf);
 	}
 	olf.WriteString("</body>\n</html>\n");
 	olf.Close();
@@ -1902,13 +1912,7 @@ void OutlineView::OutputHTML()
 	///////////////////////////
 	// create article view
 	///////////////////////////
-	CString arName = outdir;
-	if (outdir[outdir.GetLength()-1] == '\\') {
-		arName += "text.html";
-	} else {
-		arName += "\\text.html";
-	}
-
+	CString arName = outdir + "\\" + eDlg.m_pathTextSingle;
 	if (!af.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		MessageBox(arName + " : 作成に失敗しました");
 		return;
@@ -1919,7 +1923,7 @@ void OutlineView::OutputHTML()
 	af.Close();
 	
 	if (MessageBox("生成したHTMLファイルを開きますか?", "HTMLの閲覧", MB_YESNO) != IDYES) return;
-	ShellExecute(m_hWnd, "open", outPath, NULL, NULL, SW_SHOW);
+	ShellExecute(m_hWnd, "open", indexFilePath, NULL, NULL, SW_SHOW);
 }
 
 void OutlineView::OutputXML(const CString &outPath)
@@ -1977,7 +1981,7 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOut
 	}
 }
 
-void OutlineView::htmlOutTree(HTREEITEM hItem, CStdioFile *f)
+void OutlineView::htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CStdioFile *f)
 {
 	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_opTreeOut != 0) {
 		return;
@@ -1988,7 +1992,7 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, CStdioFile *f)
 	// リンクタグの生成
 	CString itemStr = GetDocument()->remvCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
 	f->WriteString("<a href=");
-	f->WriteString("\"text.html#");
+	f->WriteString("\"" + fileTextSingle + "#");
 	CString keystr;
 	keystr.Format("%d", tree().GetItemData(hItem));
 	f->WriteString(keystr + itemStr);
@@ -2000,7 +2004,7 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, CStdioFile *f)
 	if (tree().ItemHasChildren(hItem) && m_opTreeOut != 2) {           // 子どもに移動
 		f->WriteString("<ul>\n");
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
-		htmlOutTree(hchildItem, f);
+		htmlOutTree(hchildItem, fileTextSingle, f);
 	} else {
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {    // 次に兄弟がいない
@@ -2012,13 +2016,13 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, CStdioFile *f)
 				HTREEITEM hnextParent;
 				f->WriteString("\n</ul>\n");
 				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
-					htmlOutTree(hnextParent, f);
+					htmlOutTree(hnextParent, fileTextSingle, f);
 					return;
 				}
 				hi = hParent;
 			}                                   // 兄弟のいる親まで戻る
 		} else {
-			htmlOutTree(hnextItem, f);
+			htmlOutTree(hnextItem, fileTextSingle, f);
 		}                                       // 兄弟に移動
 	}
 }
