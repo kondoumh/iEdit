@@ -364,7 +364,12 @@ BEGIN
     POPUP "ツール(&T)"
     BEGIN
         MENUITEM "インポート(&I)",                   ID_IMPORT_DATA
-        MENUITEM "エクスポート(&E)",                  ID_EXPORT_DATA
+        POPUP "エクスポート(&E)"
+        BEGIN
+            MENUITEM "HTMLにエクスポート(&H)",             ID_EXPORT_TO_HTML
+            MENUITEM "テキストにエクスポート(&T)",             ID_EXPORT_TO_TEXT
+            MENUITEM "XMLにエクスポート(&X)",              ID_EXPORT_TO_XML
+        END
         MENUITEM SEPARATOR
         MENUITEM "クリップボードのテキストからノードを作成(&L)",    ID_ADD_NODES_FROM_CF_TEXT
         MENUITEM SEPARATOR
@@ -869,7 +874,12 @@ BEGIN
     POPUP "ツール(&T)"
     BEGIN
         MENUITEM "インポート(&I)",                   ID_IMPORT_DATA
-        MENUITEM "エクスポート(&E)",                  ID_EXPORT_DATA
+        POPUP "エクスポート(&E)"
+        BEGIN
+            MENUITEM "HTMLにエクスポート(&H)",             ID_EXPORT_TO_HTML
+            MENUITEM "テキストにエクスポート(&T)",             ID_EXPORT_TO_TEXT
+            MENUITEM "XMLにエクスポート(&X)",              ID_EXPORT_TO_XML
+        END
         MENUITEM SEPARATOR
         MENUITEM "クリップボードのテキストからノードを作成(&L)",    ID_ADD_NODES_FROM_CF_TEXT
         MENUITEM SEPARATOR

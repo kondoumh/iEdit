@@ -47,7 +47,7 @@ public:
 	void hideModeless();
 	void treeToSequence0(Labels& ls);
 	void OutputXML(const CString& outPath);
-	void OutputHTML(const CString& outPath, const CString& outDir);
+	void OutputHTML();
 	void setViewFont();
 	void treeToSequence(Labels& ls);
 	virtual ~OutlineView();
@@ -133,8 +133,6 @@ protected:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg void OnExportData();
-	afx_msg void OnUpdateExportData(CCmdUI* pCmdUI);
 	afx_msg void OnImportData();
 	afx_msg void OnUpdateImportData(CCmdUI* pCmdUI);
 	afx_msg void OnEditFind();
@@ -157,7 +155,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	struct ExportOption {
-		int fileOption;
 		int treeOption;
 		int navOption;
 		int imgOption;
@@ -229,6 +226,12 @@ public:
 	afx_msg void OnUpdateTreeImageIdea(CCmdUI *pCmdUI);
 	afx_msg void OnPasteTreeFromClipboard();
 	afx_msg void OnUpdatePasteTreeFromClipboard(CCmdUI *pCmdUI);
+	afx_msg void OnExportToHtml();
+	afx_msg void OnUpdateExportToHtml(CCmdUI *pCmdUI);
+	afx_msg void OnExportToText();
+	afx_msg void OnUpdateExportToText(CCmdUI *pCmdUI);
+	afx_msg void OnExportToXml();
+	afx_msg void OnUpdateExportToXml(CCmdUI *pCmdUI);
 };
 
 inline CTreeCtrl& OutlineView::tree() const

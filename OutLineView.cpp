@@ -207,8 +207,6 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_WM_KEYUP()
-	ON_COMMAND(ID_EXPORT_DATA, OnExportData)
-	ON_UPDATE_COMMAND_UI(ID_EXPORT_DATA, OnUpdateExportData)
 	ON_COMMAND(ID_IMPORT_DATA, OnImportData)
 	ON_UPDATE_COMMAND_UI(ID_IMPORT_DATA, OnUpdateImportData)
 	ON_COMMAND(ID_EDIT_FIND, OnEditFind)
@@ -261,6 +259,12 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_UPDATE_COMMAND_UI(ID_TREE_IMAGE_IDEA, &OutlineView::OnUpdateTreeImageIdea)
 	ON_COMMAND(ID_PASTE_TREE_FROM_CLIPBOARD, &OutlineView::OnPasteTreeFromClipboard)
 	ON_UPDATE_COMMAND_UI(ID_PASTE_TREE_FROM_CLIPBOARD, &OutlineView::OnUpdatePasteTreeFromClipboard)
+	ON_COMMAND(ID_EXPORT_TO_HTML, &OutlineView::OnExportToHtml)
+	ON_UPDATE_COMMAND_UI(ID_EXPORT_TO_HTML, &OutlineView::OnUpdateExportToHtml)
+	ON_COMMAND(ID_EXPORT_TO_TEXT, &OutlineView::OnExportToText)
+	ON_UPDATE_COMMAND_UI(ID_EXPORT_TO_TEXT, &OutlineView::OnUpdateExportToText)
+	ON_COMMAND(ID_EXPORT_TO_XML, &OutlineView::OnExportToXml)
+	ON_UPDATE_COMMAND_UI(ID_EXPORT_TO_XML, &OutlineView::OnUpdateExportToXml)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -284,7 +288,6 @@ OutlineView::OutlineView()
 	m_hSiblingPreMove = NULL;
 	m_bNodeSel = false;
 	m_exportOption.treeOption = 0;
-	m_exportOption.fileOption = 0;
 	m_exportOption.textOption = 0;
 	m_exportOption.imgOption = 0;
 	m_exportOption.navOption = 0;
@@ -1650,54 +1653,6 @@ BOOL OutlineView::IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedPa
 	return (hitemChild != NULL);
 }
 
-void OutlineView::OnExportData() 
-{
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	CString path = GetDocument()->GetPathName();
-	CString outfile;
-	if (path == "") {
-		outfile = GetDocument()->GetTitle();
-	} else {
-		char drive[_MAX_DRIVE];
-		char dir[_MAX_DIR];
-		char fname[_MAX_FNAME];
-		char ext[_MAX_EXT];
-		_splitpath_s(path, drive, dir, fname, ext );
-		CString title(fname);
-		outfile = title;
-	}
-	
-	char szFilters[] = "テキストファイル (*.txt)|*.txt|HTMLファイル (*.html)|*.html|XMLファイル (*.xml)|*.xml||";
-	CFileDialog dlg(FALSE, "xml", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
-	if (dlg.DoModal() != IDOK) return;
-	CString outfileName = dlg.GetPathName();
-	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(outfileName, drive, dir, fname, ext );
-	CString extent = ext;
-	extent.MakeLower();
-	CString outdir = drive; outdir += dir;
-	
-	if (extent == ".txt") {
-		m_exportOption.fileOption = 0;
-		OutputText(outfileName);
-	} else if (extent == ".html") {
-		m_exportOption.fileOption = 1;
-		OutputHTML(outfileName, outdir);
-	} else if (extent == ".xml") {
-		m_exportOption.fileOption = 2;
-		OutputXML(outfileName);
-	}
-}
-
-void OutlineView::OnUpdateExportData(CCmdUI* pCmdUI) 
-{
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-}
-
 void OutlineView::OnImportData() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
@@ -1817,7 +1772,7 @@ void OutlineView::OutputText(const CString &outPath)
 	ShellExecute(m_hWnd, "open", outPath, NULL, NULL, SW_SHOW);
 }
 
-void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
+void OutlineView::OutputHTML()
 {
 	SelExportDlg dlg;
 	dlg.m_bPrintText = TRUE;
@@ -1850,6 +1805,26 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	m_exportOption.prfTextSingle = eDlg.m_xvEdPrfTextSingle;
 	m_exportOption.prfTextEverynode = eDlg.m_xvEdPrfTextEverynode;
 
+	CString outfile;
+	if (eDlg.m_xvEdPrfIndex == "") {
+		outfile = "index.html";
+	} else {
+		outfile = eDlg.m_xvEdPrfIndex + "_index.html";
+	}
+	char szFilters[] = "HTMLファイル (*.html)|*.html";	
+	CFileDialog fdlg(FALSE, "html", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	if (fdlg.DoModal() != IDOK) return;
+	CString outPath = fdlg.GetPathName();
+	
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+	_splitpath_s(outPath, drive, dir, fname, ext );
+	CString extent = ext;
+	extent.MakeLower();
+	CString outdir = drive; outdir += dir;
+	
 	CWaitCursor wc;
 	CStdioFile f, olf, af;
 	CFileStatus status;
@@ -1876,11 +1851,17 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	///////////////////////////
 	// create outline view
 	///////////////////////////
-	CString olName = outDir;
-	if (outDir[outDir.GetLength()-1] == '\\') {
-		olName += "outline.html";
+	CString olName = outdir;
+	CString olfName;
+	if (eDlg.m_xvEdPrfToc == "") {
+		olfName = "outline.html";
 	} else {
-		olName += "\\outline.html";
+		olfName = eDlg.m_xvEdPrfToc + "_outline.html";
+	}
+	if (outdir[outdir.GetLength()-1] == '\\') {
+		olName += olfName;
+	} else {
+		olName += "\\" + olfName;
 	}
 	if (!olf.Open(olName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		MessageBox(olName + " : 作成に失敗しました");
@@ -1921,8 +1902,8 @@ void OutlineView::OutputHTML(const CString &outPath, const CString& outDir)
 	///////////////////////////
 	// create article view
 	///////////////////////////
-	CString arName = outDir;
-	if (outDir[outDir.GetLength()-1] == '\\') {
+	CString arName = outdir;
+	if (outdir[outdir.GetLength()-1] == '\\') {
 		arName += "text.html";
 	} else {
 		arName += "\\text.html";
@@ -2880,4 +2861,65 @@ void OutlineView::OnUpdatePasteTreeFromClipboard(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(::IsClipboardFormatAvailable(CF_TEXT));
+}
+
+void OutlineView::OnExportToHtml()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	OutputHTML();
+}
+
+void OutlineView::OnUpdateExportToHtml(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+}
+
+void OutlineView::OnExportToText()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CString outfile = GetDocument()->getTitleFromPath();	
+	char szFilters[] = "テキストファイル (*.txt)|*.txt";	
+	CFileDialog dlg(FALSE, "txt", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	if (dlg.DoModal() != IDOK) return;
+	CString outfileName = dlg.GetPathName();
+	
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+	_splitpath_s(outfileName, drive, dir, fname, ext );
+	CString extent = ext;
+	extent.MakeLower();
+	CString outdir = drive; outdir += dir;
+	OutputText(outfileName);
+}
+
+void OutlineView::OnUpdateExportToText(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+}
+
+void OutlineView::OnExportToXml()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CString outfile = GetDocument()->getTitleFromPath();	
+	char szFilters[] = "XMLファイル (*.xml)|*.xml";	
+	CFileDialog dlg(FALSE, "xml", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	if (dlg.DoModal() != IDOK) return;
+	CString outfileName = dlg.GetPathName();
+	
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+	_splitpath_s(outfileName, drive, dir, fname, ext );
+	CString extent = ext;
+	extent.MakeLower();
+	CString outdir = drive; outdir += dir;
+	OutputXML(outfileName);
+}
+
+void OutlineView::OnUpdateExportToXml(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }

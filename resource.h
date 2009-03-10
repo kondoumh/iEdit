@@ -487,6 +487,12 @@
 #define ID_LINK_MOVE_UP                 33067
 #define ID_LINKVIEW_33068               33068
 #define ID_LINK_MOVE_DOWN               33069
+#define ID_33070                        33070
+#define ID_33071                        33071
+#define ID_33072                        33072
+#define ID_EXPORT_TO_HTML               33073
+#define ID_EXPORT_TO_TEXT               33074
+#define ID_EXPORT_TO_XML                33075
 
 // Next default values for new objects
 // 
@@ -494,7 +500,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        212
-#define _APS_NEXT_COMMAND_VALUE         33070
+#define _APS_NEXT_COMMAND_VALUE         33076
 #define _APS_NEXT_CONTROL_VALUE         1121
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
