@@ -18,6 +18,7 @@
 #include "InpcnDlg.h"
 #include "Token.h"
 #include "SetHtmlExportDlg.h"
+#include "Utilities.h"
 #include <shlobj.h>
 
 #ifdef _DEBUG
@@ -1752,40 +1753,8 @@ void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI)
 	
 }
 
-void OutlineView::OutputText(const CString &outPath)
+void OutlineView::OutputText()
 {
-	SelExportDlg dlg;
-	dlg.m_bPrintText = TRUE;
-	dlg.m_nTreeOp = m_exportOption.treeOption;
-	dlg.m_bShowChekPrintText = true;
-	if (dlg.DoModal() != IDOK) return;
-	m_opTreeOut = dlg.m_nTreeOp;
-	m_exportOption.treeOption = dlg.m_nTreeOp;
-	
-	CWaitCursor wc;
-	CStdioFile f;
-	CFileStatus status;
-	CFileException e;
-	
-	if (!f.Open(outPath, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-		return;
-	}
-	
-	if (m_opTreeOut == 0) {
-		textOutTree(tree().GetRootItem(), &f, 0, dlg.m_bPrintText);
-	} else {
-		f.WriteString(".");
-		f.WriteString(GetDocument()->remvCR(tree().GetItemText(tree().GetSelectedItem())) + "\n");
-		if (dlg.m_bPrintText) {
-			f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
-			f.WriteString("\n");
-		}
-		if (tree().ItemHasChildren(tree().GetSelectedItem())) {
-			textOutTree(tree().GetChildItem(tree().GetSelectedItem()), &f, 1, dlg.m_bPrintText);
-		}
-	}
-	f.Close();
-	ShellExecute(m_hWnd, "open", outPath, NULL, NULL, SW_SHOW);
 }
 
 void OutlineView::OutputHTML()
@@ -1904,7 +1873,7 @@ void OutlineView::OutputHTML()
 	
 	if (tree().ItemHasChildren(root)) {
 		HTREEITEM child = tree().GetNextItem(root, TVGN_CHILD);
-		htmlOutTree(child, eDlg.m_pathOutline, &olf);
+		htmlOutTree(child, eDlg.m_pathTextSingle, &olf);
 	}
 	olf.WriteString("</body>\n</html>\n");
 	olf.Close();
@@ -1924,20 +1893,6 @@ void OutlineView::OutputHTML()
 	
 	if (MessageBox("生成したHTMLファイルを開きますか?", "HTMLの閲覧", MB_YESNO) != IDYES) return;
 	ShellExecute(m_hWnd, "open", indexFilePath, NULL, NULL, SW_SHOW);
-}
-
-void OutlineView::OutputXML(const CString &outPath)
-{
-	SelExportDlg dlg;
-	dlg.m_bPrintText = TRUE;
-	dlg.m_nTreeOp = m_exportOption.treeOption;
-	if (dlg.DoModal() != IDOK) return;
-	m_opTreeOut = dlg.m_nTreeOp;
-	m_exportOption.treeOption = dlg.m_nTreeOp;
-	
-	if (GetDocument()->saveXML(outPath)) {
-		MessageBox("終了しました", "XMLへのエクスポート", MB_OK);
-	}
 }
 
 void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOutText)
@@ -2881,21 +2836,53 @@ void OutlineView::OnUpdateExportToHtml(CCmdUI *pCmdUI)
 void OutlineView::OnExportToText()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
-	CString outfile = GetDocument()->getTitleFromPath();	
-	char szFilters[] = "テキストファイル (*.txt)|*.txt";	
-	CFileDialog dlg(FALSE, "txt", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	SelExportDlg dlg;
+	dlg.m_bPrintText = TRUE;
+	dlg.m_nTreeOp = m_exportOption.treeOption;
+	dlg.m_bShowChekPrintText = true;
 	if (dlg.DoModal() != IDOK) return;
-	CString outfileName = dlg.GetPathName();
+	m_opTreeOut = dlg.m_nTreeOp;
+	m_exportOption.treeOption = dlg.m_nTreeOp;
 	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(outfileName, drive, dir, fname, ext );
-	CString extent = ext;
-	extent.MakeLower();
-	CString outdir = drive; outdir += dir;
-	OutputText(outfileName);
+	CString outfile = GetDocument()->getTitleFromPath();	
+	if (dlg.m_nTreeOp != 0) {
+		CString label = Utilities::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
+		if (label != "") {
+			outfile = label;
+		}
+	}
+	
+	char szFilters[] = "テキストファイル (*.txt)|*.txt";	
+	CFileDialog fdlg(FALSE, "txt", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	if (fdlg.DoModal() != IDOK) return;
+	CString outfileName = fdlg.GetPathName();
+	
+	
+	CWaitCursor wc;
+	CStdioFile f;
+	CFileStatus status;
+	CFileException e;
+	
+	if (!f.Open(outfileName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+		return;
+	}
+	
+	if (m_opTreeOut == 0) {
+		textOutTree(tree().GetRootItem(), &f, 0, dlg.m_bPrintText);
+	} else {
+		f.WriteString(".");
+		f.WriteString(GetDocument()->remvCR(tree().GetItemText(tree().GetSelectedItem())) + "\n");
+		if (dlg.m_bPrintText) {
+			f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
+			f.WriteString("\n");
+		}
+		if (tree().ItemHasChildren(tree().GetSelectedItem())) {
+			textOutTree(tree().GetChildItem(tree().GetSelectedItem()), &f, 1, dlg.m_bPrintText);
+		}
+	}
+	f.Close();
+	ShellExecute(m_hWnd, "open", outfileName, NULL, NULL, SW_SHOW);
+
 }
 
 void OutlineView::OnUpdateExportToText(CCmdUI *pCmdUI)
@@ -2906,21 +2893,28 @@ void OutlineView::OnUpdateExportToText(CCmdUI *pCmdUI)
 void OutlineView::OnExportToXml()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
-	CString outfile = GetDocument()->getTitleFromPath();	
-	char szFilters[] = "XMLファイル (*.xml)|*.xml";	
-	CFileDialog dlg(FALSE, "xml", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	SelExportDlg dlg;
+	dlg.m_bPrintText = TRUE;
+	dlg.m_nTreeOp = m_exportOption.treeOption;
 	if (dlg.DoModal() != IDOK) return;
-	CString outfileName = dlg.GetPathName();
+	m_opTreeOut = dlg.m_nTreeOp;
+	m_exportOption.treeOption = dlg.m_nTreeOp;
 	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(outfileName, drive, dir, fname, ext );
-	CString extent = ext;
-	extent.MakeLower();
-	CString outdir = drive; outdir += dir;
-	OutputXML(outfileName);
+	CString outfile = GetDocument()->getTitleFromPath();
+	if (dlg.m_nTreeOp != 0) {
+		CString label = Utilities::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
+		if (label != "") {
+			outfile = label;
+		}
+	}
+	char szFilters[] = "XMLファイル (*.xml)|*.xml";	
+	CFileDialog fdlg(FALSE, "xml", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	if (fdlg.DoModal() != IDOK) return;
+	CString outfileName = fdlg.GetPathName();
+	
+	if (GetDocument()->saveXML(outfileName)) {
+		MessageBox("終了しました", "XMLへのエクスポート", MB_OK);
+	}
 }
 
 void OutlineView::OnUpdateExportToXml(CCmdUI *pCmdUI)

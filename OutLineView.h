@@ -46,7 +46,6 @@ public:
 	serialVec getDrawOrder(const bool bShowSubBranch) const;
 	void hideModeless();
 	void treeToSequence0(Labels& ls);
-	void OutputXML(const CString& outPath);
 	void OutputHTML();
 	void setViewFont();
 	void treeToSequence(Labels& ls);
@@ -74,7 +73,7 @@ protected:
 	bool levelToNode(const vector<CString>& lines, nVec& addNodes, const char levelChar='.');
 	int countLineIndentLevel(const CString& line, const char levelChar) const;
 	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab, BOOL bOutText=TRUE);
-	void OutputText(const CString& outPath);
+	void OutputText();
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
 	void treeAddBranch(const DWORD rootKey);
 	void treeAddBranch2(const DWORD rootKey, nVec& addNodes);
