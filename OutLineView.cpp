@@ -1982,6 +1982,10 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CS
 	}
 }
 
+void OutlineView::htmlOutTreeEveryNode(HTREEITEM hItem, const CString & prefix)
+{
+}
+
 bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char levelChar)
 {
 	CStdioFile f;
