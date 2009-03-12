@@ -97,6 +97,7 @@ public:
 
 // オペレーション
 public:
+	bool saveCurrentImage(const CString& pngPath);
 	CString getTitleFromPath() const;
 	void swapLinkOrder(DWORD key1, DWORD key2);
 	int getSerialVersion() const;

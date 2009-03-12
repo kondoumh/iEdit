@@ -1920,8 +1920,8 @@ void OutlineView::OutputHTML()
 				"type=\"image/svg+xml\" "
 				+ sWidthMgn + " " + sHeightMgn + " />\n");
 		} else {
-			CString svgPath = outdir + "\\" + eDlg.m_pathPng;
-			// TODO:png出力
+			GetDocument()->saveCurrentImage(outdir + "\\" + eDlg.m_pathPng);
+			nf.WriteString("<img src=\"" + eDlg.m_pathPng + "\" />\n");
 			// TODO:クリッカブルマップのタグ生成
 		}
 		nf.WriteString("</body>\n</html>\n");

@@ -18,8 +18,6 @@
 #include "imm.h"
 #include "RectTrackerPlus.h"
 #include "SetMarginDlg.h"
-#include <atlimage.h>
-
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -4412,21 +4410,7 @@ void NetView::OnExportPng()
 	CFileDialog dlg(FALSE, "png", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
-	CPoint p1(0, 0);
-	CPoint p2 = GetDocument()->getMaxPt();
-	p2 += CSize(10, 10);
-	CRect rc(p1, p2);	
-	CImage image;
-	image.Create(rc.Width(), rc.Height(), 32);
-	
-	CDC* pDC = CDC::FromHandle(image.GetDC());
-	CBrush brush(RGB(255, 255, 255)); 
-	pDC->FillRect(rc, &brush);
-	
-	GetDocument()->drawNodes(pDC, false);
-	GetDocument()->drawLinks(pDC, false, true);
-	image.ReleaseDC();
-	image.Save(TEXT(outfileName), Gdiplus::ImageFormatPNG);
+	GetDocument()->saveCurrentImage(outfileName);
 }
 
 void NetView::OnUpdateExportPng(CCmdUI *pCmdUI)

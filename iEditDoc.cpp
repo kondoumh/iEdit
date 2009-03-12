@@ -12,6 +12,7 @@
 #include "SvgWriter.h"
 #include <shlwapi.h>
 #include "Utilities.h"
+#include <atlimage.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -4978,7 +4979,28 @@ CString iEditDoc::getTitleFromPath() const
 	_splitpath_s(fullPath, drive, dir, fname, ext );
 	return CString(fname);
 }
-// UndoManagerのメソッド定義
+
+bool iEditDoc::saveCurrentImage(const CString& pngPath)
+{
+	CPoint p1(0, 0);
+	CPoint p2 = getMaxPt();
+	p2 += CSize(10, 10);
+	CRect rc(p1, p2);	
+	CImage image;
+	image.Create(rc.Width(), rc.Height(), 32);
+	
+	CDC* pDC = CDC::FromHandle(image.GetDC());
+	CBrush brush(RGB(255, 255, 255)); 
+	pDC->FillRect(rc, &brush);
+	
+	drawNodes(pDC, false);
+	drawLinks(pDC, false, true);
+	image.ReleaseDC();
+	image.Save(TEXT(pngPath), Gdiplus::ImageFormatPNG);
+	return true;
+}
+
+///////////// UndoManagerのメソッド定義
 bool UndoManager::canUndo() const
 {
 	return commandHistory_.size() > 0;
