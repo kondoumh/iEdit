@@ -157,7 +157,7 @@ public:
 	void setShowBranch(DWORD branchRootKey);
 	void setVisibleNodes(KeySet& keySet);
 	iNode getHitNode(const CPoint& pt, bool bDrwAll);
-	void exportSVG(bool bDrwAll, const CString& path);
+	void exportSVG(bool bDrwAll, const CString& path, bool bEmbed = false);
 	void viewSettingChanged();
 	void drawLinkSelectionTo(CDC* pDC, bool bDrwAll);
 	void drawLinkSelectionFrom(CDC* pDC, bool bDrwAll=false);

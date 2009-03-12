@@ -15,7 +15,7 @@
 class SvgWriter  
 {
 public:
-	void exportSVG(const CString& path, const CPoint& maxPt);
+	void exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed=false);
 	SvgWriter(iNodes& nodes, iLinks& links, bool bDrwAll=false);
 	virtual ~SvgWriter();
 
@@ -32,7 +32,7 @@ protected:
 	MSXML2::IXMLDOMElementPtr createLinkArrow2Element(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
 	MSXML2::IXMLDOMElementPtr createLinkArrowElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
 	MSXML2::IXMLDOMElementPtr createLinkTextElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
-	MSXML2::IXMLDOMElementPtr createNodeTextElement(const iNode& node, MSXML2::IXMLDOMDocumentPtr pDoc);
+	MSXML2::IXMLDOMElementPtr createNodeTextElement(const iNode& node, MSXML2::IXMLDOMDocumentPtr pDoc, bool bEmbed);
 	MSXML2::IXMLDOMElementPtr createLinkElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
 	MSXML2::IXMLDOMElementPtr createNodeElement(const iNode& node, MSXML2::IXMLDOMDocumentPtr pDoc);
 	void rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg);

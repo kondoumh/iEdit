@@ -23,6 +23,8 @@ public:
 	CString m_pathTextSingle;
 	CString m_pathOutline;
 	CString m_pathNetwork;
+	CString m_pathSvg;
+	CString m_pathPng;
 	CString m_sDocTitle;
 	int m_xvRdNav;
 	int m_xvRdImg;

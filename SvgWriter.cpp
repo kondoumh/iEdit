@@ -29,7 +29,7 @@ SvgWriter::~SvgWriter()
 
 }
 
-void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
+void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 {
 	CWaitCursor wc;
 	
@@ -64,7 +64,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 		
 		if (node.getTextStyle() == iNode::notext && node.getNodeShape() != iNode::MetaFile) continue;
 		// メタファイルの場合は、notextでもテキストを描画するようにする
-		MSXML2::IXMLDOMElementPtr eNText = createNodeTextElement(node, doc);
+		MSXML2::IXMLDOMElementPtr eNText = createNodeTextElement(node, doc, bEmbed);
 		if (eNText != NULL) {
 			eGrp->appendChild(eNText);
 		}
@@ -105,7 +105,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt)
 	
 	CString spath = path;
 	doc->save(spath.GetBuffer(spath.GetLength()));
-	ShellExecute(NULL, "open", spath, NULL, NULL, SW_SHOW);
+//	ShellExecute(NULL, "open", spath, NULL, NULL, SW_SHOW);
 }
 
 MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2::IXMLDOMDocumentPtr pDoc)
@@ -163,7 +163,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2
 	return pNode;
 }
 
-MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MSXML2::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MSXML2::IXMLDOMDocumentPtr pDoc, bool bEmbed)
 {
 	MSXML2::IXMLDOMElementPtr pNText = NULL;
 	
@@ -279,19 +279,31 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		pNText->Puttext(name.GetBuffer(name.GetLength()));
 	}
 	
-	// nodeのテキストの1行目がURLだったらリンクを作る
-	CString url = extractfirstURLfromText(node.getText());
-	if (url != "") {
+	if (bEmbed) {
+		CString sKey; sKey.Format("%d", node.getKey());
+		CString url = "text.html#" + sKey + node.getName();
 		MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
 		pNodeRef = pDoc->createElement("a");
 		pNodeRef->setAttribute("xlink:href", url.GetBuffer(url.GetLength()));
-		pNodeRef->setAttribute("target", "_blank");
-		CString addStyle = "fill:rgb(0,0,255); text-decoration:underline;";
-		CString sStyle = pNText->getAttribute("style");
-		sStyle += addStyle;
-		pNText->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
+		pNodeRef->setAttribute("target", "text");
 		pNodeRef->appendChild(pNText);
 		return pNodeRef;
+	} else {
+		// nodeのテキストの1行目がURLだったらリンクを作る
+		// TODO:リンクにURLが含まれている場合はそれの1個目を取ってくる
+		CString url = extractfirstURLfromText(node.getText());
+		if (url != "") {
+			MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
+			pNodeRef = pDoc->createElement("a");
+			pNodeRef->setAttribute("xlink:href", url.GetBuffer(url.GetLength()));
+			pNodeRef->setAttribute("target", "_blank");
+			CString addStyle = "fill:rgb(0,0,255); text-decoration:underline;";
+			CString sStyle = pNText->getAttribute("style");
+			sStyle += addStyle;
+			pNText->setAttribute("style", sStyle.GetBuffer(sStyle.GetLength()));
+			pNodeRef->appendChild(pNText);
+			return pNodeRef;
+		}
 	}
 	return pNText;
 }

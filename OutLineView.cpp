@@ -1903,10 +1903,26 @@ void OutlineView::OutputHTML()
 		nf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
 		nf.WriteString("</head>\n");
 		nf.WriteString("<body>\n");
+		
+		CString sWidth; sWidth.Format("width=\"%d\"", GetDocument()->getMaxPt().x);
+		CString sHeight; sHeight.Format("height=\"%d\"", GetDocument()->getMaxPt().y);
+		CString sWidthMgn; sWidthMgn.Format("width=\"%d\"", GetDocument()->getMaxPt().x + 50);
+		CString sHeightMgn; sHeightMgn.Format("height=\"%d\"", GetDocument()->getMaxPt().y + 50);
 		if (eDlg.m_xvRdImg == 0) {
-			// svg
+			CString svgPath = outdir + "\\" + eDlg.m_pathSvg;
+			GetDocument()->exportSVG(false, svgPath, true);
+			nf.WriteString("<object type=\"image/svg+xml\" data=\""
+				+ eDlg.m_pathSvg +
+				"\" classid=\"clsid:377B5106-3B4E-4A2D-8520-8767590CAC86 "
+				+ sWidth + " " + sHeight + " />\n");
+			nf.WriteString("<embed src=\""
+				+ eDlg.m_pathSvg + "\"" +
+				"type=\"image/svg+xml\" "
+				+ sWidthMgn + " " + sHeightMgn + " />\n");
 		} else {
-			// png
+			CString svgPath = outdir + "\\" + eDlg.m_pathPng;
+			// TODO:png出力
+			// TODO:クリッカブルマップのタグ生成
 		}
 		nf.WriteString("</body>\n</html>\n");
 		nf.Close();

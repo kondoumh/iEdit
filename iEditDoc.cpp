@@ -3479,7 +3479,7 @@ void iEditDoc::generateHTM(CStdioFile *f)
 		
 		CString nameStr = remvCR((*it).getName());
 		// ƒŠƒ“ƒNƒ^ƒO‚Ì¶¬
-		f->WriteString("<a name=");
+		f->WriteString("<a id=");
 		f->WriteString("\"");
 		CString keystr;
 		keystr.Format("%d", (*it).getKey());
@@ -3905,7 +3905,7 @@ void iEditDoc::viewSettingChanged()
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::exportSVG(bool bDrwAll, const CString &path)
+void iEditDoc::exportSVG(bool bDrwAll, const CString &path, bool bEmbed)
 {
 	CPoint maxPt(0, 0);
 //	if (bDrwAll) {
@@ -3914,7 +3914,7 @@ void iEditDoc::exportSVG(bool bDrwAll, const CString &path)
 		maxPt = getMaxPt();
 //	}
 	SvgWriter writer(nodes_, links_, bDrwAll);
-	writer.exportSVG(path, maxPt);
+	writer.exportSVG(path, maxPt, bEmbed);
 }
 
 iNode iEditDoc::getHitNode(const CPoint &pt, bool bDrwAll)

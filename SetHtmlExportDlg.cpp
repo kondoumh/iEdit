@@ -204,8 +204,12 @@ void SetHtmlExportDlg::setPathNetwork()
 	prf = Utilities::getSafeFileName(prf);
 	if (prf == "") {
 		m_pathNetwork = "network.html";
+		m_pathSvg = "network.svg";
+		m_pathPng = "network.png";
 	} else {
 		m_pathNetwork = prf + "_network.html";
+		m_pathSvg = prf + "_network.svg";
+		m_pathPng = prf + "_network.png";
 	}
 	GetDlgItem(IDC_LB_NET)->SetWindowTextA(m_pathNetwork);
 }
