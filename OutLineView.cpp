@@ -1815,7 +1815,7 @@ void OutlineView::OutputHTML()
 		return;
 	}
 	CWaitCursor wc;
-	CStdioFile f, olf, af;
+	CStdioFile f;
 	CFileStatus status;
 	CFileException e;
 	
@@ -1831,56 +1831,89 @@ void OutlineView::OutputHTML()
 	f.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
 	f.WriteString("<title>" + GetDocument()->getTitleFromPath() + "</title>\n");
 	f.WriteString("</head>\n");
-	f.WriteString("  <frameset cols=\"35%,*\" >\n");
-	f.WriteString("    <frame src=\"" + eDlg.m_pathOutline + "\" name=\"outline\">\n");
+	if (eDlg.m_xvRdNav != 1) {
+		f.WriteString("  <frameset cols=\"35%,*\" >\n");
+		f.WriteString("    <frame src=\"" + eDlg.m_pathOutline + "\" name=\"outline\">\n");
+	}
+	if (eDlg.m_xvRdNav == 1 || eDlg.m_xvRdNav == 2) {
+		f.WriteString("    <frameset rows=\"65%,*\">\n");
+		f.WriteString("      <frame src=\"" + eDlg.m_pathNetwork + "\" name=\"network\">\n  ");
+	}
 	f.WriteString("    <frame src=\"" + eDlg.m_pathTextSingle + "\" name=\"text\">\n");
-	f.WriteString("  </frameset>\n");
+	if (eDlg.m_xvRdNav == 1 || eDlg.m_xvRdNav == 2) {
+		f.WriteString("    </frameset>\n");
+	}
+	if (eDlg.m_xvRdNav != 1) {
+		f.WriteString("  </frameset>\n");
+	}
 	f.WriteString("</html>\n");
 	f.Close();
 	
-	///////////////////////////
-	// create outline view
-	///////////////////////////
-	CString olName = outdir + "\\" + eDlg.m_pathOutline;
-	if (!olf.Open(olName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-		MessageBox(olName + " : 作成に失敗しました");
-		return;
-	}
-	olf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
-	olf.WriteString("<html>\n<head>\n");
-	olf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
-	olf.WriteString("</head>\n");
-	olf.WriteString("<body>\n<h3 align=center>");
-	olf.WriteString("<a href=");
-	olf.WriteString("\"text.html#");
-	CString keystr;
+	///////////////////// create outline.html
+	if (eDlg.m_xvRdNav != 1) {
+		CStdioFile olf;
+		CString olName = outdir + "\\" + eDlg.m_pathOutline;
+		if (!olf.Open(olName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+			MessageBox(olName + " : 作成に失敗しました");
+			return;
+		}
+		olf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
+		olf.WriteString("<html>\n<head>\n");
+		olf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+		olf.WriteString("</head>\n");
+		olf.WriteString("<body>\n<h3 align=center>");
+		olf.WriteString("<a href=");
+		olf.WriteString("\"text.html#");
+		CString keystr;
 
-	HTREEITEM root;
-	if (m_opTreeOut ==0) {
-		root = tree().GetRootItem();
-	} else {
-		root = tree().GetSelectedItem();
+		HTREEITEM root;
+		if (m_opTreeOut ==0) {
+			root = tree().GetRootItem();
+		} else {
+			root = tree().GetSelectedItem();
+		}
+		
+		keystr.Format("%d", tree().GetItemData(root));
+		CString rootStr = GetDocument()->remvCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
+		olf.WriteString(keystr + rootStr);
+		olf.WriteString("\" target=text>");
+		olf.WriteString(rootStr);
+		
+		olf.WriteString("</h3>\n");
+		olf.WriteString("<ul>\n");
+		
+		if (tree().ItemHasChildren(root)) {
+			HTREEITEM child = tree().GetNextItem(root, TVGN_CHILD);
+			htmlOutTree(child, eDlg.m_pathTextSingle, &olf);
+		}
+		olf.WriteString("</body>\n</html>\n");
+		olf.Close();
 	}
 	
-	keystr.Format("%d", tree().GetItemData(root));
-	CString rootStr = GetDocument()->remvCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
-	olf.WriteString(keystr + rootStr);
-	olf.WriteString("\" target=text>");
-	olf.WriteString(rootStr);
-	
-	olf.WriteString("</h3>\n");
-	olf.WriteString("<ul>\n");
-	
-	if (tree().ItemHasChildren(root)) {
-		HTREEITEM child = tree().GetNextItem(root, TVGN_CHILD);
-		htmlOutTree(child, eDlg.m_pathTextSingle, &olf);
+	///////////////////// create network.html
+	if (eDlg.m_xvRdNav > 0) {
+		CStdioFile nf;
+		CString nName = outdir + "\\" + eDlg.m_pathNetwork;
+		if (!nf.Open(nName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+			MessageBox(nName + " : 作成に失敗しました");
+			return;
+		}
+		nf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
+		nf.WriteString("<html>\n<head>\n");
+		nf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+		nf.WriteString("</head>\n");
+		nf.WriteString("<body>\n");
+		if (eDlg.m_xvRdImg == 0) {
+			// svg
+		} else {
+			// png
+		}
+		nf.WriteString("</body>\n</html>\n");
+		nf.Close();
 	}
-	olf.WriteString("</body>\n</html>\n");
-	olf.Close();
-
-	///////////////////////////
-	// create article view
-	///////////////////////////
+	
+	///////////////////// create text.html
+	CStdioFile af;
 	CString arName = outdir + "\\" + eDlg.m_pathTextSingle;
 	if (!af.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		MessageBox(arName + " : 作成に失敗しました");
