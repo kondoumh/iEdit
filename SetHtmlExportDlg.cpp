@@ -36,7 +36,7 @@ void SetHtmlExportDlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Radio(pDX, IDC_RD_NAV_OUTLINE, m_xvRdNav);
 	DDX_Radio(pDX, IDC_RD_IMG_SVG, m_xvRdImg);
-	DDX_Radio(pDX, IDC_RD_TEXT_EVERYNODE, m_xvRdText);
+	DDX_Radio(pDX, IDC_RD_TEXT_SINGLE, m_xvRdText);
 	DDX_Text(pDX, IDC_ED_CSS_TOC, m_xvEdCssToc);
 	DDX_Text(pDX, IDC_ED_CSS_TEXT, m_xvEdCssText);
 	DDX_Text(pDX, IDC_ED_PRF_INDEX, m_xvEdPrfIndex);
@@ -75,8 +75,8 @@ BOOL SetHtmlExportDlg::OnInitDialog()
 		setPathNetwork();
 	}
 	if (m_xvRdText == 0) {
-		SetEdPrfTextEverynodeEnable(TRUE);
-		SetEdPrfTextSingleEnable(FALSE);
+		SetEdPrfTextEverynodeEnable(FALSE);
+		SetEdPrfTextSingleEnable(TRUE);
 	} else {
 		SetEdPrfTextEverynodeEnable(FALSE);
 		SetEdPrfTextSingleEnable(TRUE);

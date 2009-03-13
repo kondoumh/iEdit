@@ -5000,6 +5000,22 @@ bool iEditDoc::saveCurrentImage(const CString& pngPath)
 	return true;
 }
 
+bool iEditDoc::writeClickableMap(CStdioFile& f)
+{
+	const_niterator it = nodes_.begin();
+	for ( ; it != nodes_.end(); it++) {
+		if (!(*it).isVisible()) continue;
+		CString coordsValue;
+		CPoint ptl = (*it).getBound().TopLeft();
+		CPoint pbr = (*it).getBound().BottomRight();
+		coordsValue.Format("%d,%d,%d,%d", ptl.x, ptl.y, pbr.x, pbr.y);
+		CString href; href.Format("text.html#%d%s", (*it).getKey(), (*it).getName());
+		f.WriteString("<area shape=\"rect\" coords=\"" + coordsValue 
+			+ "\" href=\"" + href + "\" target=\"text\" alt=\"" + (*it).getName() + "\" />\n");
+	}
+	return true;
+}
+
 ///////////// UndoManagerのメソッド定義
 bool UndoManager::canUndo() const
 {

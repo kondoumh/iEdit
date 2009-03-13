@@ -67,8 +67,8 @@ protected:
 	afx_msg LRESULT OnListUpNodes(UINT wParam, LONG lParam);
 	afx_msg LRESULT OnHideSrchDlg(UINT wParam, LONG lParam);
 	afx_msg LRESULT OnSearchNode(UINT wParam, LONG lParam);
-	void htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CStdioFile* f);
-	void htmlOutTreeEveryNode(HTREEITEM hItem, const CString& prefix);
+	void htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CStdioFile* f,
+		bool bVisibleOnly = false);
 	bool ImportXML(const CString& inPath);
 	bool ImportText(const CString& inPath, nVec& addNodes, const char LevelChar);
 	bool levelToNode(const vector<CString>& lines, nVec& addNodes, const char levelChar='.');
@@ -166,6 +166,7 @@ private:
 		CString prfToc;
 		CString prfTextSingle;
 		CString prfTextEverynode;
+		CString htmlOutDir;
 	} m_exportOption;
 	void moveNodes(DWORD keyTarget, DWORD keyMove);
 	void catTreeLabel(HTREEITEM hItem, CString& text);

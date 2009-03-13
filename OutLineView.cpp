@@ -1796,16 +1796,18 @@ void OutlineView::OutputHTML()
 	
 	bi.pidlRoot = NULL;
 	bi.pszDisplayName = szBuff;
-	bi.lpszTitle = _T("HTML出力先");
+	bi.lpszTitle = _T("HTML出力先フォルダー選択");
 	
 	bi.ulFlags = BIF_RETURNONLYFSDIRS;
 	bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
-	//bi.lParam = (LPARAM)szRootDir;
+	if (m_exportOption.htmlOutDir != "") {
+		bi.lParam = (LPARAM)m_exportOption.htmlOutDir.GetBuffer();
+	}
 	//bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
 	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
 	bi.iImage = 0;
 	
-	CString outdir;	
+	CString outdir;
 	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
 	if (pList == NULL) return;
     if (::SHGetPathFromIDList(pList, szBuff)) {
@@ -1921,8 +1923,10 @@ void OutlineView::OutputHTML()
 				+ sWidthMgn + " " + sHeightMgn + " />\n");
 		} else {
 			GetDocument()->saveCurrentImage(outdir + "\\" + eDlg.m_pathPng);
-			nf.WriteString("<img src=\"" + eDlg.m_pathPng + "\" />\n");
-			// TODO:クリッカブルマップのタグ生成
+			nf.WriteString("<img src=\"" + eDlg.m_pathPng + "\" border=\"0\" usemap=\"#nodes\" />\n");
+			nf.WriteString("<map name=\"nodes\">\n");
+			GetDocument()->writeClickableMap(nf);
+			nf.WriteString("</map>\n");
 		}
 		nf.WriteString("</body>\n</html>\n");
 		nf.Close();
@@ -1939,53 +1943,13 @@ void OutlineView::OutputHTML()
 	GetDocument()->generateHTM(&af);
 	af.WriteString("</body>\n</html>\n");
 	af.Close();
-	
+	m_exportOption.htmlOutDir = outdir;
 	if (MessageBox("生成したHTMLファイルを開きますか?", "HTMLの閲覧", MB_YESNO) != IDYES) return;
 	ShellExecute(m_hWnd, "open", indexFilePath, NULL, NULL, SW_SHOW);
 }
 
-void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOutText)
-{
-	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_opTreeOut != 0) {
-		return;
-	}
-	
-	f->WriteString(".");
-	for (int i = 0; i < tab; i++) {
-		f->WriteString(".");
-	}
-	f->WriteString(GetDocument()->remvCR(tree().GetItemText(hItem)) + "\n");
-	
-	if (bOutText) {
-		f->WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(hItem))));
-		f->WriteString("\n");
-	}
-	
-	if (tree().ItemHasChildren(hItem) && m_opTreeOut != 2) {           // 子どもに移動
-		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
-		textOutTree(hchildItem, f, ++tab, bOutText);
-	} else {
-		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);	
-		if (hnextItem == NULL) {    // 次に兄弟がいない
-			HTREEITEM hi = hItem;
-			HTREEITEM hParent = hItem;
-			while (hParent != tree().GetRootItem()) {
-				hParent = tree().GetParentItem(hi);
-				HTREEITEM hnextParent;
-				--tab;
-				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
-					textOutTree(hnextParent, f, tab, bOutText);
-					return;
-				}
-				hi = hParent;
-			}                                   // 兄弟のいる親まで戻る
-		} else {
-			textOutTree(hnextItem, f, tab, bOutText);
-		}                                       // 兄弟に移動
-	}
-}
-
-void OutlineView::htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CStdioFile *f)
+void OutlineView::htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CStdioFile *f,
+							  bool bVisibleOnly)
 {
 	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_opTreeOut != 0) {
 		return;
@@ -2031,8 +1995,45 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CS
 	}
 }
 
-void OutlineView::htmlOutTreeEveryNode(HTREEITEM hItem, const CString & prefix)
+void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOutText)
 {
+	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_opTreeOut != 0) {
+		return;
+	}
+	
+	f->WriteString(".");
+	for (int i = 0; i < tab; i++) {
+		f->WriteString(".");
+	}
+	f->WriteString(GetDocument()->remvCR(tree().GetItemText(hItem)) + "\n");
+	
+	if (bOutText) {
+		f->WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(hItem))));
+		f->WriteString("\n");
+	}
+	
+	if (tree().ItemHasChildren(hItem) && m_opTreeOut != 2) {           // 子どもに移動
+		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
+		textOutTree(hchildItem, f, ++tab, bOutText);
+	} else {
+		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);	
+		if (hnextItem == NULL) {    // 次に兄弟がいない
+			HTREEITEM hi = hItem;
+			HTREEITEM hParent = hItem;
+			while (hParent != tree().GetRootItem()) {
+				hParent = tree().GetParentItem(hi);
+				HTREEITEM hnextParent;
+				--tab;
+				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
+					textOutTree(hnextParent, f, tab, bOutText);
+					return;
+				}
+				hi = hParent;
+			}                                   // 兄弟のいる親まで戻る
+		} else {
+			textOutTree(hnextItem, f, tab, bOutText);
+		}                                       // 兄弟に移動
+	}
 }
 
 bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char levelChar)
