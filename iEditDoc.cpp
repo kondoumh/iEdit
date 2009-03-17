@@ -3893,7 +3893,8 @@ void iEditDoc::viewSettingChanged()
 
 void iEditDoc::exportSVG(bool bDrwAll, const CString &path, bool bEmbed)
 {
-	SvgWriter writer(nodes_, links_, bDrwAll);
+	serialVec vec = getOutlineView()->getDrawOrder(isShowSubBranch());
+	SvgWriter writer(nodes_, links_, vec, bDrwAll);
 	writer.exportSVG(path, getMaxPt(), bEmbed);
 }
 

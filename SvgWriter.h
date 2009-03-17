@@ -16,13 +16,14 @@ class SvgWriter
 {
 public:
 	void exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed=false);
-	SvgWriter(iNodes& nodes, iLinks& links, bool bDrwAll=false);
+	SvgWriter(iNodes& nodes, iLinks& links, serialVec& drawOrder, bool bDrwAll=false);
 	virtual ~SvgWriter();
 
 private:
 	iNodes& m_nodes;
 	iLinks& m_links;
 	bool m_bDrwAll;
+	serialVec m_drawOrder;
 protected:
 	CString extractfirstURLfromText(const CString& text);
 	vector<CString> splitTSpan(const CString& label, const int labelWidth, const int boundWidth);

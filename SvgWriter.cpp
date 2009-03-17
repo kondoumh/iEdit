@@ -18,8 +18,8 @@ static char THIS_FILE[]=__FILE__;
 // ç\íz/è¡ñ≈
 //////////////////////////////////////////////////////////////////////
 
-SvgWriter::SvgWriter(iNodes& nodes, iLinks& links, bool bDrwAll) :
-   m_nodes(nodes), m_links(links), m_bDrwAll(bDrwAll)
+SvgWriter::SvgWriter(iNodes& nodes, iLinks& links, serialVec& drawOrder, bool bDrwAll) :
+   m_nodes(nodes), m_links(links), m_drawOrder(drawOrder), m_bDrwAll(bDrwAll)
 {
 
 }
@@ -51,8 +51,10 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 	
 	
 	// ÉmÅ[ÉhÇÃóÒãì
-	const_niterator it = m_nodes.begin();
-	for ( ; it != m_nodes.end(); it++) {
+	vector<DWORD>::iterator svIt = m_drawOrder.begin();
+	for ( ; svIt != m_drawOrder.end(); svIt++) {
+		iNode nf; nf.setKey((*svIt));
+		const_niterator it = m_nodes.findNode(nf);
 		if (!m_bDrwAll && !(*it).isVisible()) continue;
 		MSXML2::IXMLDOMElementPtr eGrp  = doc->createElement("g");
 		
@@ -171,18 +173,18 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	CSize textSize = getNodeTextSize(node);
 	
 	// text alignment
-	CString sTop; sTop.Format("%d", node.getBound().top + textSize.cy/2 + 1);
-	CString sBottom; sBottom.Format("%d", node.getBound().bottom - 1);
+	CString sTop; sTop.Format("%d", node.getBound().top + textSize.cy/2 + 1 + node.getMarginT());
+	CString sBottom; sBottom.Format("%d", node.getBound().bottom - 1 - node.getMarginB());
 	
 	CRect bound = node.getBound();
 	int r = (bound.Width() < bound.Height()) ? bound.Width() : bound.Height();
-	int left = node.getBound().left + 1;
+	int left = node.getBound().left + 1 + node.getMarginL();
 	if (node.getNodeShape() == iNode::roundRect) {
 		left += r/8;
 	}
 	CString sLeft; sLeft.Format("%d", left);
 	
-	int right = node.getBound().right - 1;
+	int right = node.getBound().right - 1 - node.getMarginR();
 	if (node.getNodeShape() == iNode::roundRect) {
 		right -= r/8;
 	}
@@ -265,7 +267,9 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	int style = node.getTextStyle();
 	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
 		CString sDx; sDx.Format("%d", textSize.cy);
-		vector<CString> lines = splitTSpan(node.getName(), textSize.cx, node.getBound().Width());
+		vector<CString> lines = splitTSpan(node.getName(),
+			textSize.cx,
+			node.getBound().Width() - node.getMarginL() - node.getMarginR());
 		for (unsigned int i = 0; i < lines.size(); i++) {
 			MSXML2::IXMLDOMElementPtr pNtspan = pDoc->createElement("tspan");
 			if (i > 0) {
@@ -357,6 +361,7 @@ vector<CString> SvgWriter::splitByWidth(const CString& line, const int byte)
 	return v;
 }
 
+// TODO:UtilitiesÇ÷à⁄ìÆ
 CSize SvgWriter::getNodeTextSize(const iNode& node)
 {
 	CWnd wnd;

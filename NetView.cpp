@@ -3468,6 +3468,7 @@ void NetView::OnExportSvg()
 	
 	bool bDrwAll = false;
 	GetDocument()->exportSVG(bDrwAll, outfileName);
+	MessageBox("èIóπÇµÇ‹ÇµÇΩ", "SVGèoóÕ");
 }
 
 void NetView::OnUpdateExportSvg(CCmdUI* pCmdUI) 
