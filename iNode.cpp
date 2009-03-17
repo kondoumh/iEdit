@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "iEdit.h"
 #include "iNode.h"
-#include "Token.h"
 #include "iEdit.h"
 #include "Utilities.h"
 #include <algorithm>
@@ -324,16 +323,14 @@ void iNode::adjustFont(bool bForceResize)
 		wmargin /= 2;
 	}
 	LONG width = sz.cx + wmargin;
-	if (width > bound_.Width() || 
-		!bfillcolor && styleLine == PS_NULL ||
-		bForceResize) {
-		bound_.right = bound_.left + width;
+	if (width > bound_.Width() - margin_l_ - margin_r_ || 
+		!bfillcolor && styleLine == PS_NULL || bForceResize)	{
+		bound_.right = bound_.left + width + margin_l_ + margin_r_;
 	}
 	LONG height = sz.cy + hmargin;
-	if (height > bound_.Height() ||
-		!bfillcolor && styleLine == PS_NULL ||
-		bForceResize) {
-		bound_.bottom = bound_.top + height;
+	if (height > bound_.Height() - margin_b_ - margin_t_ ||
+		!bfillcolor && styleLine == PS_NULL || bForceResize) {
+		bound_.bottom = bound_.top + height + margin_b_ + margin_t_;
 	}
 }
 
@@ -380,25 +377,27 @@ void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 	if (name_.GetLength() > 80) {
 		int width = sz.cx/name_.GetLength()*24 + wmargin;
 		int height = sz.cy*((name_.GetLength()+1)/24) + hmargin;
-		if (bound_.Height()*bound_.Width() < height*width || 
+		if ((bound_.Height() - margin_b_ - margin_t_)*(bound_.Width() - margin_l_ - margin_r_) < height*width || 
 			bound_.Width()/bound_.Height() > 8.0) {
 			styleText = iNode::m_c;
-			bound_.right = bound_.left + width;
-			bound_.bottom = bound_.top + height;
+			bound_.right = bound_.left + width + margin_l_ + margin_r_;
+			bound_.bottom = bound_.top + height + margin_b_ + margin_t_;
 		}
 	}
 }
 
 void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
 {
-	CToken tok(str);
-	tok.SetToken("\n");
+	
 	lineCount = 1;
 	maxLength = 0;
-	for ( ; tok.MoreTokens(); lineCount++) {
-		CString line = tok.GetNextToken();
-		if (maxLength < line.GetLength()) {
-			maxLength = line.GetLength();
+	
+	int pos = 0;
+	CString token = " ";
+	for ( ; token != ""; lineCount++) {
+		token = str.Tokenize("\n", pos);
+		if (maxLength < token.GetLength()) {
+			maxLength = token.GetLength();
 		}
 	}
 }
