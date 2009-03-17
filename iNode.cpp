@@ -323,14 +323,14 @@ void iNode::adjustFont(bool bForceResize)
 		wmargin /= 2;
 	}
 	LONG width = sz.cx + wmargin;
-	if (width > bound_.Width() - margin_l_ - margin_r_ || 
+	if (width > bound_.Width() || 
 		!bfillcolor && styleLine == PS_NULL || bForceResize)	{
-		bound_.right = bound_.left + width + margin_l_ + margin_r_;
+		bound_.right = bound_.left + width;
 	}
 	LONG height = sz.cy + hmargin;
-	if (height > bound_.Height() - margin_b_ - margin_t_ ||
+	if (height > bound_.Height() ||
 		!bfillcolor && styleLine == PS_NULL || bForceResize) {
-		bound_.bottom = bound_.top + height + margin_b_ + margin_t_;
+		bound_.bottom = bound_.top + height;
 	}
 }
 
