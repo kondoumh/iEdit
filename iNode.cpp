@@ -325,14 +325,12 @@ void iNode::adjustFont(bool bForceResize)
 	}
 	LONG width = sz.cx + wmargin;
 	if (width > bound_.Width() || 
-		!bfillcolor && styleLine == PS_NULL ||
-		bForceResize) {
+		!bfillcolor && styleLine == PS_NULL || bForceResize) {
 		bound_.right = bound_.left + width;
 	}
 	LONG height = sz.cy + hmargin;
 	if (height > bound_.Height() ||
-		!bfillcolor && styleLine == PS_NULL ||
-		bForceResize) {
+		!bfillcolor && styleLine == PS_NULL || bForceResize) {
 		bound_.bottom = bound_.top + height;
 	}
 }
@@ -361,21 +359,18 @@ void iNode::procMultiLine()
 	getInnerLineInfo(name_, lineCount, maxLength);
 	if (styleText != m_l && styleText != m_r && styleText != m_c) {
 		if (lineCount <= 1) {
-			procMultiLineInner(sz, wmargin, hmargin);
+			procSingleLineInner(sz, wmargin, hmargin);
 		}
 	} else {
 		if (lineCount <= 1) {
-			procMultiLineInner(sz, wmargin, hmargin);
+			procSingleLineInner(sz, wmargin, hmargin);
 		} else {
-			int width = sz.cx*maxLength/name_.GetLength() + wmargin;
-			int height = sz.cy*(lineCount - 1) + hmargin;
-			bound_.right = bound_.left + width;
-			bound_.bottom = bound_.top + height;
+			procMultiLineInner(sz, wmargin, hmargin);
 		}
 	}
 }
 
-void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
+void iNode::procSingleLineInner(const CSize& sz, int wmargin, int hmargin)
 {
 	if (name_.GetLength() > 80) {
 		int width = sz.cx/name_.GetLength()*24 + wmargin;
@@ -389,8 +384,23 @@ void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 	}
 }
 
-void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
+void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 {
+	int width = sz.cx/name_.GetLength()*24 + wmargin + margin_l_ + margin_r_;
+	int height = sz.cy*((name_.GetLength()+1)/24) + hmargin + margin_t_ + margin_b_;
+	int square = bound_.Height()*bound_.Width();
+	if (square < height*width) {
+		for(int i = 0; square <= height*width ; i++) {
+			bound_.right += 1;
+			bound_.bottom += 1;
+			square = bound_.Height()*bound_.Width();
+		}
+	}
+}
+
+void iNode::getInnerLineInfo(CString& str, int& lineCount, int& maxLength)
+{
+	str += "\n";
 	CToken tok(str);
 	tok.SetToken("\n");
 	lineCount = 1;

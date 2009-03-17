@@ -3476,7 +3476,7 @@ void iEditDoc::generateHTM(CStdioFile *f)
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		nodeFind.setKey(ls[i].key);
 		const_niterator it = nodes_.findNode(nodeFind);
-		f->WriteString("<hr>\n");
+		f->WriteString("<hr />\n");
 		
 		CString nameStr = Utilities::removeCR((*it).getName());
 		// リンクタグの生成
@@ -3485,14 +3485,14 @@ void iEditDoc::generateHTM(CStdioFile *f)
 		CString keystr;
 		keystr.Format("%d", (*it).getKey());
 		f->WriteString(keystr);
-		f->WriteString("\"><br>\n");
+		f->WriteString("\"><br />\n");
 		
 		// 内容書き込み
 		f->WriteString("<h4 align=center>");
 		f->WriteString(nameStr);
 		f->WriteString("</h4>");
 		f->WriteString(rn2br((*it).getText()));
-		f->WriteString("<BR>\n");
+		f->WriteString("<br />\n");
 		
 		// リンクの書き込み
 		const_literator li = links_.begin();
@@ -3511,13 +3511,13 @@ void iEditDoc::generateHTM(CStdioFile *f)
 						f->WriteString("\"#");
 						CString keystr;
 						keystr.Format("%d", (*li).getKeyTo());
-						f->WriteString(keystr + Utilities::removeCR((*itTo).getName()));
+						f->WriteString(keystr);
 						f->WriteString("\">");
 						f->WriteString("▲" + Utilities::removeCR((*itTo).getName()));
 						if ((*li).getName() != "") {
 							f->WriteString("(" + (*li).getName() + ")");
 						}
-						f->WriteString("</a><br>\n");
+						f->WriteString("</a><br />\n");
 					}
 				} else if ((*it).getKey() == (*li).getKeyTo()) {
 					nodeFind.setKey((*li).getKeyFrom());
@@ -3527,13 +3527,13 @@ void iEditDoc::generateHTM(CStdioFile *f)
 						f->WriteString("\"#");
 						CString keystr;
 						keystr.Format("%d", (*li).getKeyFrom());
-						f->WriteString(keystr + Utilities::removeCR((*itFrom).getName()));
+						f->WriteString(keystr);
 						f->WriteString("\">");
 						f->WriteString("▽" + Utilities::removeCR((*itFrom).getName()));
 						if ((*li).getName() != "") {
 							f->WriteString("(" + (*li).getName() + ")");
 						}
-						f->WriteString("</a><br>\n");
+						f->WriteString("</a><br />\n");
 					}
 				}
 			} else {
@@ -3548,7 +3548,7 @@ void iEditDoc::generateHTM(CStdioFile *f)
 						f->WriteString(url);
 					}
 					
-					f->WriteString("</a><br>\n");;
+					f->WriteString("</a><br />\n");;
 				}
 			}
 		}
@@ -3560,7 +3560,7 @@ CString iEditDoc::rn2br(const CString &text)
 	CString toStr;
 	for (int i = 0; i < text.GetLength(); i++) {
 		if (text[i] == '\n') {
-			toStr += "<br>\n";
+			toStr += "<br />\n";
 		} else if (text[i] == '\r') {
 			;
 		} else {

@@ -123,7 +123,8 @@ public:
 	};
 
 private:
-	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
+	void getInnerLineInfo(CString& str, int& lineCount, int& maxLength);
+	void procSingleLineInner(const CSize& sz, int wmargin, int hmargin);
 	void procMultiLineInner(const CSize& sz, int wmargin, int hmargin);
 	int margin_l_;
 	int margin_r_;
