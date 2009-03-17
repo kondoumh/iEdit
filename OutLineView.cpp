@@ -308,6 +308,7 @@ OutlineView::OutlineView()
 	m_exportOption.textOption = 0;
 	m_exportOption.imgOption = 0;
 	m_exportOption.navOption = 0;
+	m_exportOption.htmlOutDir = "";
 }
 
 OutlineView::~OutlineView()
@@ -1790,7 +1791,7 @@ void OutlineView::OutputHTML()
 	m_exportOption.prfTextSingle = eDlg.m_xvEdPrfTextSingle;
 	m_exportOption.prfTextEverynode = eDlg.m_xvEdPrfTextEverynode;
 
-	TCHAR szBuff[1024];
+	TCHAR szBuff[MAX_PATH];
 	BROWSEINFO bi;
 	bi.hwndOwner = m_hWnd;
 	
@@ -1800,10 +1801,8 @@ void OutlineView::OutputHTML()
 	
 	bi.ulFlags = BIF_RETURNONLYFSDIRS;
 	bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
-	if (m_exportOption.htmlOutDir != "") {
-		bi.lParam = (LPARAM)m_exportOption.htmlOutDir.GetBuffer();
-	}
-	//bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
+	bi.lParam = (LPARAM)m_exportOption.htmlOutDir.GetBuffer();
+	bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
 	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
 	bi.iImage = 0;
 	
@@ -1876,7 +1875,7 @@ void OutlineView::OutputHTML()
 		}
 		
 		keystr.Format("%d", tree().GetItemData(root));
-		CString rootStr = GetDocument()->remvCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
+		CString rootStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
 		olf.WriteString(keystr + rootStr);
 		olf.WriteString("\" target=text>");
 		olf.WriteString(rootStr);
@@ -1958,12 +1957,12 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CS
 	f->WriteString("<li>");
 	
 	// リンクタグの生成
-	CString itemStr = GetDocument()->remvCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
+	CString itemStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
 	f->WriteString("<a href=");
 	f->WriteString("\"" + fileTextSingle + "#");
 	CString keystr;
 	keystr.Format("%d", tree().GetItemData(hItem));
-	f->WriteString(keystr + itemStr);
+	f->WriteString(keystr);
 	f->WriteString("\" target=text>");
 	// 見出し書き込み
 	f->WriteString(itemStr);
@@ -2005,7 +2004,7 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOut
 	for (int i = 0; i < tab; i++) {
 		f->WriteString(".");
 	}
-	f->WriteString(GetDocument()->remvCR(tree().GetItemText(hItem)) + "\n");
+	f->WriteString(Utilities::removeCR(tree().GetItemText(hItem)) + "\n");
 	
 	if (bOutText) {
 		f->WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(hItem))));
@@ -2518,7 +2517,7 @@ void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
 			text += "\t";
 		}
 		CString label = GetDocument()->getKeyNodeLabel(key);
-		text += GetDocument()->remvCR(label);
+		text += Utilities::removeCR(label);
 		text += "\r\n";
 	}
 	if (tree().ItemHasChildren(hItem)) {
@@ -2925,7 +2924,7 @@ void OutlineView::OnExportToText()
 		textOutTree(tree().GetRootItem(), &f, 0, dlg.m_bPrintText);
 	} else {
 		f.WriteString(".");
-		f.WriteString(GetDocument()->remvCR(tree().GetItemText(tree().GetSelectedItem())) + "\n");
+		f.WriteString(Utilities::removeCR(tree().GetItemText(tree().GetSelectedItem())) + "\n");
 		if (dlg.m_bPrintText) {
 			f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
 			f.WriteString("\n");

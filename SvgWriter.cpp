@@ -281,7 +281,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	
 	if (bEmbed) {
 		CString sKey; sKey.Format("%d", node.getKey());
-		CString url = "text.html#" + sKey + node.getName();
+		CString url = "text.html#" + sKey;
 		MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
 		pNodeRef = pDoc->createElement("a");
 		pNodeRef->setAttribute("xlink:href", url.GetBuffer(url.GetLength()));

@@ -3478,13 +3478,13 @@ void iEditDoc::generateHTM(CStdioFile *f)
 		const_niterator it = nodes_.findNode(nodeFind);
 		f->WriteString("<hr>\n");
 		
-		CString nameStr = remvCR((*it).getName());
+		CString nameStr = Utilities::removeCR((*it).getName());
 		// リンクタグの生成
 		f->WriteString("<a id=");
 		f->WriteString("\"");
 		CString keystr;
 		keystr.Format("%d", (*it).getKey());
-		f->WriteString(keystr + nameStr);
+		f->WriteString(keystr);
 		f->WriteString("\"><br>\n");
 		
 		// 内容書き込み
@@ -3511,9 +3511,9 @@ void iEditDoc::generateHTM(CStdioFile *f)
 						f->WriteString("\"#");
 						CString keystr;
 						keystr.Format("%d", (*li).getKeyTo());
-						f->WriteString(keystr + remvCR((*itTo).getName()));
+						f->WriteString(keystr + Utilities::removeCR((*itTo).getName()));
 						f->WriteString("\">");
-						f->WriteString("▲" + remvCR((*itTo).getName()));
+						f->WriteString("▲" + Utilities::removeCR((*itTo).getName()));
 						if ((*li).getName() != "") {
 							f->WriteString("(" + (*li).getName() + ")");
 						}
@@ -3527,9 +3527,9 @@ void iEditDoc::generateHTM(CStdioFile *f)
 						f->WriteString("\"#");
 						CString keystr;
 						keystr.Format("%d", (*li).getKeyFrom());
-						f->WriteString(keystr + remvCR((*itFrom).getName()));
+						f->WriteString(keystr + Utilities::removeCR((*itFrom).getName()));
 						f->WriteString("\">");
-						f->WriteString("▽" + remvCR((*itFrom).getName()));
+						f->WriteString("▽" + Utilities::removeCR((*itFrom).getName()));
 						if ((*li).getName() != "") {
 							f->WriteString("(" + (*li).getName() + ")");
 						}
@@ -3613,21 +3613,6 @@ CString iEditDoc::procLF(const CString &str)
 			;
 		} else if (str[i] == '\n') {
 			toStr += "\r\n";
-		} else {
-			toStr += str[i];
-		}
-	}
-	return toStr;
-}
-
-CString iEditDoc::remvCR(const CString &str)
-{
-	CString toStr;
-	for (int i = 0; i < str.GetLength(); i++) {
-		if (str[i] == '\n') {
-			;
-		} else if (str[i] == '\r') {
-			toStr += " ";
 		} else {
 			toStr += str[i];
 		}
@@ -3908,14 +3893,8 @@ void iEditDoc::viewSettingChanged()
 
 void iEditDoc::exportSVG(bool bDrwAll, const CString &path, bool bEmbed)
 {
-	CPoint maxPt(0, 0);
-//	if (bDrwAll) {
-//		maxPt = getMaxPtTotal();
-//	} else {
-		maxPt = getMaxPt();
-//	}
 	SvgWriter writer(nodes_, links_, bDrwAll);
-	writer.exportSVG(path, maxPt, bEmbed);
+	writer.exportSVG(path, getMaxPt(), bEmbed);
 }
 
 iNode iEditDoc::getHitNode(const CPoint &pt, bool bDrwAll)
@@ -5002,17 +4981,7 @@ bool iEditDoc::saveCurrentImage(const CString& pngPath)
 
 bool iEditDoc::writeClickableMap(CStdioFile& f)
 {
-	const_niterator it = nodes_.begin();
-	for ( ; it != nodes_.end(); it++) {
-		if (!(*it).isVisible()) continue;
-		CString coordsValue;
-		CPoint ptl = (*it).getBound().TopLeft();
-		CPoint pbr = (*it).getBound().BottomRight();
-		coordsValue.Format("%d,%d,%d,%d", ptl.x, ptl.y, pbr.x, pbr.y);
-		CString href; href.Format("text.html#%d%s", (*it).getKey(), (*it).getName());
-		f.WriteString("<area shape=\"rect\" coords=\"" + coordsValue 
-			+ "\" href=\"" + href + "\" target=\"text\" alt=\"" + (*it).getName() + "\" />\n");
-	}
+	f.WriteString(nodes_.createClickableMapString());
 	return true;
 }
 

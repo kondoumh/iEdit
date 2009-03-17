@@ -28,3 +28,18 @@ CString Utilities::getSafeFileName(const CString& str)
 	}
 	return rs;
 }
+
+CString Utilities::removeCR(const CString &str)
+{
+	CString toStr;
+	for (int i = 0; i < str.GetLength(); i++) {
+		if (str[i] == '\n') {
+			;
+		} else if (str[i] == '\r') {
+			toStr += " ";
+		} else {
+			toStr += str[i];
+		}
+	}
+	return toStr;
+}

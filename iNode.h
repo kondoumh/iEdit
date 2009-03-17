@@ -523,6 +523,7 @@ typedef vector<iNode> nVec;
 
 class iNodes : public nContena {
 public:
+	CString createClickableMapString();
 	void setSelectedNodeMargin(int l, int r, int t, int b);
 	BOOL m_bDrawOrderInfo;
 	serialVec getSelectedNodeKeys() const;
@@ -545,6 +546,7 @@ public:
 	BOOL isSelectedNodeFilled() const;
 	void setSelectedNodeBrush(const COLORREF& c);
 	void setVisibleNodes(DWORD key);
+	vector<iNode*> getVisibleNodes() const;
 	void setVisibleNodes(KeySet& keySet);
 	int selectNodesInBound(const CRect& bound, CRect& selRect, bool bDrwAll=false);
 	int getSelectedNodeTextStyle() const;
