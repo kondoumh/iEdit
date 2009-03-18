@@ -362,11 +362,11 @@ void iNode::procMultiLine()
 			procSingleLineInner(sz, wmargin, hmargin);
 		}
 	} else {
-		if (lineCount <= 1) {
-			procSingleLineInner(sz, wmargin, hmargin);
-		} else {
+		//if (lineCount <= 1) {
+		//	procSingleLineInner(sz, wmargin, hmargin);
+		//} else {
 			procMultiLineInner(sz, wmargin, hmargin);
-		}
+		//}
 	}
 }
 
@@ -389,7 +389,11 @@ void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 	int width = sz.cx/name_.GetLength()*24 + wmargin + margin_l_ + margin_r_;
 	int height = sz.cy*((name_.GetLength()+1)/24) + hmargin + margin_t_ + margin_b_;
 	int square = bound_.Height()*bound_.Width();
+	CString s; s.Format("%d %d : %d %d", bound_.Width(), bound_.Height(), width, height);
+	AfxMessageBox(s);
+	s.Format("%d %d", square , width*height);
 	if (square < height*width) {
+		AfxMessageBox(s);
 		for(int i = 0; square <= height*width ; i++) {
 			bound_.right += 1;
 			bound_.bottom += 1;
