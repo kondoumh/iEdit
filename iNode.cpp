@@ -300,7 +300,6 @@ void iNode::setFontInfo(const LOGFONT &lf, bool resize)
 
 void iNode::setName(const CString &name)
 {
-	int preLength = name_.GetLength();
 	name_ = name;
 	//adjustFont();
 	procMultiLine();
@@ -366,9 +365,9 @@ void iNode::procSingleLineInner(const CSize& sz, int wmargin, int hmargin)
 		int width = WORD_WRAP_LENGTH + wmargin + margin_l_ + margin_r_;
 		int height = sz.cy + hmargin + margin_t_ + margin_b_;
 		if (bound_.Height()*bound_.Width() < height*width || bound_.Width()/bound_.Height() > 8.0) {
-			styleText = iNode::m_c;
 			bound_.right = bound_.left + width;
 			bound_.bottom = bound_.top + height;
+			styleText = iNode::m_c;
 		}
 	}
 }
@@ -400,16 +399,7 @@ void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 
 void iNode::setTextStyle(int s)
 {
-	int pre = styleText;
 	styleText = s;
-
-	//if (s != iNode::m_c && s != iNode::m_l && s != iNode::m_r && 
-	//	(pre == iNode::m_c || pre == iNode::m_l || pre == iNode::m_r) ) {
-	//	adjustFont(true);
-	//} else if ((s == iNode::m_c || s == iNode::m_l || s == iNode::m_r) &&
-	//	pre != iNode::m_c && pre != iNode::m_l && pre != iNode::m_r) {
-	//	procMultiLine();
-	//}
 	procMultiLine();
 }
 
