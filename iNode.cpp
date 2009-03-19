@@ -17,6 +17,8 @@ static char THIS_FILE[]=__FILE__;
 #endif
 
 #define REGS_NODE _T("Node Properties")
+#define WORD_WRAP_LENGTH 40
+
 
 //////////////////////////////////////////////////////////////////////
 // \’z/Á–Å
@@ -311,7 +313,7 @@ void iNode::adjustFont(bool bForceResize)
 {
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize && !bForceResize) return;
 	if (styleText == m_l || styleText == m_r || styleText == m_c) {
-		if (name_.GetLength() > 80) return;
+		if (name_.GetLength() > WORD_WRAP_LENGTH) return;
 	}
 	CSize sz = getNodeTextSize();
 	LONG hmargin = sz.cy*4/7;
@@ -359,20 +361,20 @@ void iNode::procMultiLine()
 	getInnerLineInfo(name_, lineCount, maxLength);
 	if (styleText != m_l && styleText != m_r && styleText != m_c) {
 		if (lineCount <= 1) {
-			procSingleLineInner(sz, wmargin, hmargin);
+			procMultiLineInner(sz, wmargin, hmargin);
 		}
 	} else {
-		//if (lineCount <= 1) {
-		//	procSingleLineInner(sz, wmargin, hmargin);
-		//} else {
+		if (lineCount <= 1) {
 			procMultiLineInner(sz, wmargin, hmargin);
-		//}
+		} else {
+			procMultiLineInner(sz, wmargin, hmargin);
+		}
 	}
 }
 
 void iNode::procSingleLineInner(const CSize& sz, int wmargin, int hmargin)
 {
-	if (name_.GetLength() > 80) {
+	if (name_.GetLength() > WORD_WRAP_LENGTH) {
 		int width = sz.cx/name_.GetLength()*24 + wmargin;
 		int height = sz.cy*((name_.GetLength()+1)/24) + hmargin;
 		if (bound_.Height()*bound_.Width() < height*width || 
@@ -391,15 +393,22 @@ void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 	int square = bound_.Height()*bound_.Width();
 	CString s; s.Format("%d %d : %d %d", bound_.Width(), bound_.Height(), width, height);
 	AfxMessageBox(s);
-	s.Format("%d %d", square , width*height);
 	if (square < height*width) {
-		AfxMessageBox(s);
+		double dw = bound_.Width();
+		double dh = bound_.Height();
 		for(int i = 0; square <= height*width ; i++) {
-			bound_.right += 1;
-			bound_.bottom += 1;
+			dw *= 1.1;
+			dh *= 1.1;
+			bound_.right = bound_.left + (int)dw;
+			bound_.bottom = bound_.top + (int)dh;
 			square = bound_.Height()*bound_.Width();
 		}
 	}
+	width = sz.cx/name_.GetLength()*24 + wmargin + margin_l_ + margin_r_;
+	height = sz.cy*((name_.GetLength()+1)/24) + hmargin + margin_t_ + margin_b_;
+	square = bound_.Height()*bound_.Width();
+	s.Format("%d %d : %d %d", bound_.Width(), bound_.Height(), width, height);
+	AfxMessageBox(s);
 }
 
 void iNode::getInnerLineInfo(CString& str, int& lineCount, int& maxLength)
