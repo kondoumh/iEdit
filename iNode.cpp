@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "iEdit.h"
 #include "iNode.h"
-#include "Token.h"
 #include "iEdit.h"
 #include "Utilities.h"
 #include <algorithm>
@@ -100,7 +99,6 @@ iNode::iNode(const CString &name)
 	dy = 0.0;
 	fixed_ = FALSE;
 	adjustFont(true);
-	procMultiLine();
 	hMF_ = NULL;
 	drawOrder_ = 0;
 	nLevel_ = 0;
@@ -296,8 +294,7 @@ void iNode::setFontInfo(const LOGFONT &lf, bool resize)
 	double cx = ((double)(bound_.Width()))*rate;
 	double cy = ((double)(bound_.Height()))*rate;
 	if (resize) {
-		bound_.right = bound_.left + (LONG)cx;
-		bound_.bottom = bound_.top + (LONG)cy;
+		procMultiLine();
 	}
 }
 
@@ -305,7 +302,7 @@ void iNode::setName(const CString &name)
 {
 	int preLength = name_.GetLength();
 	name_ = name;
-	adjustFont();
+	//adjustFont();
 	procMultiLine();
 }
 
@@ -319,7 +316,7 @@ void iNode::adjustFont(bool bForceResize)
 	LONG hmargin = sz.cy*4/7;
 	LONG wmargin = sz.cy;
 	if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
-		hmargin = sz.cy*2/3;
+		hmargin = sz.cy*4/5;
 	}
 	if (!bfillcolor && styleLine == PS_NULL) {
 		hmargin /= 2;
@@ -357,28 +354,18 @@ void iNode::procMultiLine()
 	if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
 		hmargin = sz.cy*4/5;
 	}
-	int lineCount, maxLength;
-	getInnerLineInfo(name_, lineCount, maxLength);
 	if (styleText != m_l && styleText != m_r && styleText != m_c) {
-		if (lineCount <= 1) {
-			procMultiLineInner(sz, wmargin, hmargin);
-		}
-	} else {
-		if (lineCount <= 1) {
-			procMultiLineInner(sz, wmargin, hmargin);
-		} else {
-			procMultiLineInner(sz, wmargin, hmargin);
-		}
+		procSingleLineInner(sz, wmargin, hmargin);
 	}
+	procMultiLineInner(sz, wmargin, hmargin);
 }
 
 void iNode::procSingleLineInner(const CSize& sz, int wmargin, int hmargin)
 {
 	if (name_.GetLength() > WORD_WRAP_LENGTH) {
-		int width = sz.cx/name_.GetLength()*24 + wmargin;
-		int height = sz.cy*((name_.GetLength()+1)/24) + hmargin;
-		if (bound_.Height()*bound_.Width() < height*width || 
-			bound_.Width()/bound_.Height() > 8.0) {
+		int width = WORD_WRAP_LENGTH + wmargin + margin_l_ + margin_r_;
+		int height = sz.cy + hmargin + margin_t_ + margin_b_;
+		if (bound_.Height()*bound_.Width() < height*width || bound_.Width()/bound_.Height() > 8.0) {
 			styleText = iNode::m_c;
 			bound_.right = bound_.left + width;
 			bound_.bottom = bound_.top + height;
@@ -388,11 +375,11 @@ void iNode::procSingleLineInner(const CSize& sz, int wmargin, int hmargin)
 
 void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 {
-	int width = sz.cx/name_.GetLength()*24 + wmargin + margin_l_ + margin_r_;
-	int height = sz.cy*((name_.GetLength()+1)/24) + hmargin + margin_t_ + margin_b_;
+	int width = sz.cx + wmargin + margin_l_ + margin_r_;
+	int height = sz.cy + hmargin + margin_t_ + margin_b_;
 	int square = bound_.Height()*bound_.Width();
-	CString s; s.Format("%d %d : %d %d", bound_.Width(), bound_.Height(), width, height);
-	AfxMessageBox(s);
+	//CString s; s.Format("%d %d : %d %d", bound_.Width(), bound_.Height(), width, height);
+	//AfxMessageBox(s);
 	if (square < height*width) {
 		double dw = bound_.Width();
 		double dh = bound_.Height();
@@ -407,23 +394,8 @@ void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
 	width = sz.cx/name_.GetLength()*24 + wmargin + margin_l_ + margin_r_;
 	height = sz.cy*((name_.GetLength()+1)/24) + hmargin + margin_t_ + margin_b_;
 	square = bound_.Height()*bound_.Width();
-	s.Format("%d %d : %d %d", bound_.Width(), bound_.Height(), width, height);
-	AfxMessageBox(s);
-}
-
-void iNode::getInnerLineInfo(CString& str, int& lineCount, int& maxLength)
-{
-	str += "\n";
-	CToken tok(str);
-	tok.SetToken("\n");
-	lineCount = 1;
-	maxLength = 0;
-	for ( ; tok.MoreTokens(); lineCount++) {
-		CString line = tok.GetNextToken();
-		if (maxLength < line.GetLength()) {
-			maxLength = line.GetLength();
-		}
-	}
+	//s.Format("%d %d : %d %d", bound_.Width(), bound_.Height(), width, height);
+	//AfxMessageBox(s);
 }
 
 void iNode::setTextStyle(int s)
@@ -431,13 +403,14 @@ void iNode::setTextStyle(int s)
 	int pre = styleText;
 	styleText = s;
 
-	if (s != iNode::m_c && s != iNode::m_l && s != iNode::m_r && 
-		(pre == iNode::m_c || pre == iNode::m_l || pre == iNode::m_r) ) {
-		adjustFont(true);
-	} else if ((s == iNode::m_c || s == iNode::m_l || s == iNode::m_r) &&
-		pre != iNode::m_c && pre != iNode::m_l && pre != iNode::m_r) {
-		procMultiLine();
-	}
+	//if (s != iNode::m_c && s != iNode::m_l && s != iNode::m_r && 
+	//	(pre == iNode::m_c || pre == iNode::m_l || pre == iNode::m_r) ) {
+	//	adjustFont(true);
+	//} else if ((s == iNode::m_c || s == iNode::m_l || s == iNode::m_r) &&
+	//	pre != iNode::m_c && pre != iNode::m_l && pre != iNode::m_r) {
+	//	procMultiLine();
+	//}
+	procMultiLine();
 }
 
 bool iNode::operator ==(iNode &n)
