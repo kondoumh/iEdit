@@ -2075,6 +2075,7 @@ void NetView::setNodeProp()
 	dlg.styleLine = GetDocument()->getSelectedNodeLineStyle();
 	dlg.bMultiLine = GetDocument()->isSelectedNodeMultiLine();
 	dlg.m_bNoBrush = !GetDocument()->isSelectedNodeFilled();
+	dlg.bOldBynary = GetDocument()->isOldBinary();
 	int shape = GetDocument()->getSelectedNodeShape();
 	if (shape == iNode::rectangle) {
 		dlg.m_shape = 0;
@@ -2121,6 +2122,9 @@ void NetView::setNodeProp()
 	
 	if (dlg.DoModal() != IDOK) return;
 	GetDocument()->backUpUndoNodes();
+	
+	BOOL oldSetting = ((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize;
+	((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize = TRUE;
 	
 	GetDocument()->setSelectedNodeLineColor(dlg.colorLine);
 	GetDocument()->setSelectedNodeBrush(dlg.colorFill);
@@ -2177,10 +2181,13 @@ void NetView::setNodeProp()
 			GetDocument()->setSelectedNodeTextStyle(iNode::m_r);
 		}
 	}
-	GetDocument()->setSelectedNodeLabel(dlg.m_strLabel);
+	if (!GetDocument()->isOldBinary()) {
+		GetDocument()->setSelectedNodeMargin(
+			dlg.margins.l, dlg.margins.r, dlg.margins.t, dlg.margins.b);
+	}
 	GetDocument()->setSelectedNodeFont(dlg.lf);
-	GetDocument()->setSelectedNodeMargin(
-		dlg.margins.l, dlg.margins.r, dlg.margins.t, dlg.margins.b);
+	((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize = oldSetting;
+	GetDocument()->setSelectedNodeLabel(dlg.m_strLabel);
 }
 
 void NetView::OnGraspMode() 

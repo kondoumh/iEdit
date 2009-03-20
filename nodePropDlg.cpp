@@ -25,6 +25,7 @@ nodePropDlg::nodePropDlg(CWnd* pParent /*=NULL*/)
 	m_TLine = -1;
 	m_bNoBrush = FALSE;
 	//}}AFX_DATA_INIT
+	bOldBynary = FALSE;
 }
 
 
@@ -148,6 +149,9 @@ BOOL nodePropDlg::OnInitDialog()
 		m_cmbVert.EnableWindow(FALSE);
 	}
 	
+	if (bOldBynary) {
+		GetDlgItem(IDC_BTN_SET_MARGIN)->EnableWindow(FALSE);
+	}
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }

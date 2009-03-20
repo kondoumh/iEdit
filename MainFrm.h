@@ -10,6 +10,7 @@
 #endif // _MSC_VER > 1000
 
 class SetAlphaDlg;
+class DebugPrintDlg;
 typedef DWORD (WINAPI *FWINLAYER)(HWND hwnd,DWORD crKey,BYTE bAlpha,DWORD dwFlags);
 
 class CMainFrame : public CMDIFrameWnd
@@ -23,6 +24,7 @@ public:
 
 // オペレーション
 public:
+	void ShowDebugMessage(const CString& message);
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
@@ -66,6 +68,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	DebugPrintDlg* m_pDebugPrintDlg;
 	CImageList m_tbPlDwnImage;
 	BOOL m_bCanBeTransparent;
 	BOOL m_bTransparent;

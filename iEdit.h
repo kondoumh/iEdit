@@ -64,6 +64,7 @@ void showLastErrorMessage();
 class CiEditApp : public CWinApp
 {
 public:
+	void DebugWriteLine(const CString& message);
 	COLORREF m_colorNodeBtn;
 	COLORREF m_colorLineBtn;
 	COLORREF m_colorFontBtn;

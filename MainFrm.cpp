@@ -10,6 +10,7 @@
 #include "PropertyDlg.h"
 #include "nodeSrchDlg.h"
 #include "SetAlphaDlg.h"
+#include "DebugPrintDlg.h"
 #include "ChildFrm.h"
 
 #ifdef _DEBUG
@@ -93,6 +94,7 @@ static UINT indicators[] =
 CMainFrame::CMainFrame()
 {
 	// TODO: この位置にメンバの初期化処理コードを追加してください。
+	m_pDebugPrintDlg = NULL;
 }
 
 CMainFrame::~CMainFrame()
@@ -194,7 +196,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	((CiEditApp*)AfxGetApp())->m_colorNodeBtn = RGB(255, 255, 255);
 	((CiEditApp*)AfxGetApp())->m_colorLineBtn = RGB(0, 0, 0);
 	((CiEditApp*)AfxGetApp())->m_colorFontBtn = RGB(0, 0, 0);
-	
+
 	return 0;
 }
 
@@ -781,4 +783,18 @@ void CMainFrame::OnSelectFontColor()
 	m_wndFormPalette.Invalidate();
 	bmpImage.DeleteObject();
 	((CChildFrame*)MDIGetActive())->changeSelectedFontColor();
+}
+
+void CMainFrame::ShowDebugMessage(const CString &message)
+{
+	if (m_pDebugPrintDlg == NULL) {
+		m_pDebugPrintDlg = new DebugPrintDlg();
+		m_pDebugPrintDlg->Create("", "", SW_HIDE, CRect(0, 0, 0, 0), this, IDD_DEBUG_WINDOW);
+		m_pDebugPrintDlg->ShowWindow(SW_SHOWNORMAL);
+		CRect rc;
+		m_pDebugPrintDlg->GetWindowRect(rc);
+		rc.MoveToXY(900, 800);
+		m_pDebugPrintDlg->MoveWindow(rc);
+	}
+	m_pDebugPrintDlg->m_edConsole.ReplaceSel(message + "\r\n");
 }

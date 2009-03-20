@@ -123,6 +123,7 @@ public:
 	};
 
 private:
+	void enhanceBoundGradualy(int area, int wmargin, int hmargin);
 	void procSingleLineInner(const CSize& sz, int wmargin, int hmargin);
 	void procMultiLineInner(const CSize& sz, int wmargin, int hmargin);
 	int margin_l_;

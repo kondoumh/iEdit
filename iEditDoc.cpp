@@ -465,7 +465,7 @@ void iEditDoc::InitDocument()
 {
 	if (nodes_.size() == 0) {
 		lastKey = 0;
-		iNode i; i.setName("Žå‘è"); i.setKey(0); i.setParent(0);
+		iNode i("Žå‘è"); i.setKey(0); i.setParent(0);
 		i.moveBound(CSize(10, 10));
 		nodes_.insert(i);
 		sv.push_back(i.getKey());

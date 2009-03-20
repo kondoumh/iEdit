@@ -63,6 +63,7 @@
 #define IDD_IMPORT_TEXT                 208
 #define IDD_SETMARGIN                   210
 #define IDD_SET_HTML_EXPORT             211
+#define IDD_DEBUG_WINDOW                212
 #define IDC_LINKFROM                    1001
 #define IDC_LINKTO                      1002
 #define IDC_COMBO                       1003
@@ -111,6 +112,7 @@
 #define IDC_BTN_SETMFSIZE               1014
 #define IDC_BTN_UP                      1014
 #define IDC_BTN_SET_PRF_BY_FNAME        1014
+#define IDC_BTN_CLEAR                   1014
 #define IDC_BUTTON2                     1015
 #define IDC_BTN_COLOR                   1015
 #define IDC_BTN_LINK                    1015
@@ -119,6 +121,7 @@
 #define IDC_BTN_R                       1015
 #define IDC_BTN_DOWN                    1015
 #define IDC_BTN_SET_MARGIN              1015
+#define IDC_BTN_COPY                    1015
 #define IDC_COMBO3                      1016
 #define IDC_COMBOLINE                   1016
 #define IDC_BUTTON3                     1017
@@ -253,6 +256,7 @@
 #define IDC_LB_NET                      1118
 #define IDC_LB_TEXT_EVERYNODE           1119
 #define IDC_LB_TEXT_SINGLE              1120
+#define IDC_EDIT_PRINT                  1121
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773
@@ -499,9 +503,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        212
+#define _APS_NEXT_RESOURCE_VALUE        213
 #define _APS_NEXT_COMMAND_VALUE         33076
-#define _APS_NEXT_CONTROL_VALUE         1121
+#define _APS_NEXT_CONTROL_VALUE         1122
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

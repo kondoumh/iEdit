@@ -23,6 +23,7 @@ public:
 	} margins;
 	int vert;
 	int horiz;
+	BOOL bOldBynary;
 	BOOL bMultiLine;
 	int styleText;
 	int styleLine;

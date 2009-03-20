@@ -447,3 +447,7 @@ void CiEditApp::getOtherProfile()
 	m_rgsOther.strStyleSheetFile = AfxGetApp()->GetProfileString(REGS_OTHER, "XML StyleSheet Name", "iedit.xsl");
 }
 
+void CiEditApp::DebugWriteLine(const CString &message)
+{
+	((CMainFrame*)m_pMainWnd)->ShowDebugMessage(message);
+}

@@ -235,6 +235,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\DebugPrintDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath="EditorView.cpp"
 				>
 				<FileConfiguration
@@ -1007,6 +1011,10 @@
 			>
 			<File
 				RelativePath="ChildFrm.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DebugPrintDlg.h"
 				>
 			</File>
 			<File
