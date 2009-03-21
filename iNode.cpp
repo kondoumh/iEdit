@@ -307,9 +307,9 @@ void iNode::adjustFont(bool bForceResize)
 	CSize sz = getNodeTextSize();
 	LONG hmargin = sz.cy*4/7;
 	LONG wmargin = sz.cy;
-	if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
-		hmargin = sz.cy*4/5;
-	}
+	//if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
+	//	hmargin = sz.cy*4/5;
+	//}
 	if (!bfillcolor && styleLine == PS_NULL) {
 		hmargin /= 2;
 		wmargin /= 2;
@@ -317,12 +317,15 @@ void iNode::adjustFont(bool bForceResize)
 	if (styleText != m_l && styleText != m_r && styleText != m_c) {
 		int width = sz.cx + wmargin + margin_l_ + margin_r_;
 		int height = sz.cy + hmargin + margin_t_ + margin_b_;
-		if (bound_.Width()*bound_.Height() >= width*height) return;
-		bound_.right = bound_.left + width;
-		bound_.bottom = bound_.top + height;
+		if (bound_.Width() < width) {
+			bound_.right = bound_.left + width;
+		}
+		if (bound_.Height() < height) {
+			bound_.bottom = bound_.top + height;
+		}
 	} else {
-		int width = sz.cx + wmargin/3 + margin_l_/3 + margin_r_/3;
-		int height = sz.cy + hmargin/3 + margin_t_/3;
+		int width = sz.cx + margin_l_ + margin_r_;
+		int height = sz.cy + margin_t_;
 		if (bound_.Width()*bound_.Height() >= width*height) return;
 		//CString s;
 		//s.Format("before %dx%d=%d / %dx%d=%d",
@@ -330,6 +333,8 @@ void iNode::adjustFont(bool bForceResize)
 		//	width, height, width*height);
 		//DEBUG_WRITE(s);
 		enhanceBoundGradualy(width*height);
+		bound_.right += wmargin;
+		bound_.bottom += hmargin;
 		//s.Format("after %dx%d=%d / %dx%d=%d",
 		//	bound_.Width(), bound_.Height(), bound_.Width()*bound_.Height(),
 		//	width, height, width*height);
