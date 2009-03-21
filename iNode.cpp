@@ -291,7 +291,7 @@ void iNode::setFontInfo(const LOGFONT &lf, bool resize)
 	double rate = (double)lf_.lfHeight/(double)pre;
 	double cx = ((double)(bound_.Width()))*rate;
 	double cy = ((double)(bound_.Height()))*rate;
-	adjustFont(resize);
+	adjustFont();
 }
 
 void iNode::setName(const CString &name)
@@ -314,21 +314,22 @@ void iNode::adjustFont(bool bForceResize)
 		hmargin /= 2;
 		wmargin /= 2;
 	}
-	int width = sz.cx + wmargin + margin_l_ + margin_r_;
-	int height = sz.cy + hmargin + margin_t_ + margin_b_;
 	if (styleText != m_l && styleText != m_r && styleText != m_c) {
+		int width = sz.cx + wmargin + margin_l_ + margin_r_;
+		int height = sz.cy + hmargin + margin_t_ + margin_b_;
+		if (bound_.Width()*bound_.Height() >= width*height) return;
 		bound_.right = bound_.left + width;
 		bound_.bottom = bound_.top + height;
 	} else {
-		if (bound_.Width()*bound_.Height() > sz.cx*sz.cy) return;
+		int width = sz.cx + wmargin/3 + margin_l_/3 + margin_r_/3;
+		int height = sz.cy + hmargin/3 + margin_t_/3;
+		if (bound_.Width()*bound_.Height() >= width*height) return;
 		//CString s;
 		//s.Format("before %dx%d=%d / %dx%d=%d",
 		//	bound_.Width(), bound_.Height(), bound_.Width()*bound_.Height(),
 		//	width, height, width*height);
 		//DEBUG_WRITE(s);
-		enhanceBoundGradualy(sz.cx*sz.cy);
-		bound_.right += wmargin/2 + margin_l_ + margin_r_;
-		bound_.bottom += hmargin/2 + margin_t_ + margin_b_;
+		enhanceBoundGradualy(width*height);
 		//s.Format("after %dx%d=%d / %dx%d=%d",
 		//	bound_.Width(), bound_.Height(), bound_.Width()*bound_.Height(),
 		//	width, height, width*height);
@@ -342,8 +343,8 @@ void iNode::enhanceBoundGradualy(int area)
 	double dh = bound_.Height();
 	int square = (int)(dw*dh);
 	for(int i = 0; square <= area ; i++) {
-		dw *= 1.1;
-		dh *= 1.1;
+		dw *= 1.01;
+		dh *= 1.01;
 		bound_.right = bound_.left + (int)dw;
 		bound_.bottom = bound_.top + (int)dh;
 		square = bound_.Height()*bound_.Width();
