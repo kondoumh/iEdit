@@ -16,8 +16,6 @@ static char THIS_FILE[]=__FILE__;
 #endif
 
 #define REGS_NODE _T("Node Properties")
-#define WORD_WRAP_LENGTH 40
-
 
 //////////////////////////////////////////////////////////////////////
 // \’z/Á–Å
@@ -28,7 +26,7 @@ iNode::iNode()
 	bound_.left = 0;
 	bound_.top = 0; 
 	bound_.right = 10;
-	bound_.bottom = 10;
+	bound_.bottom = 5;
 	
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	memset(&lf_, 0, sizeof(LOGFONT));
@@ -70,7 +68,7 @@ iNode::iNode(const CString &name)
 	bound_.left = 0;
 	bound_.top = 0; 
 	bound_.right = 10;
-	bound_.bottom = 10;
+	bound_.bottom = 5;
 	
 	name_ = name;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
@@ -287,32 +285,25 @@ iNode& iNode::operator =(const iNode &n)
 
 void iNode::setFontInfo(const LOGFONT &lf, bool resize)
 {
-	DEBUG_WRITE("setFontInfo");
 	LONG pre = lf_.lfHeight;
 	lf_ = lf;
 	::lstrcpy(lf_.lfFaceName, lf.lfFaceName);
 	double rate = (double)lf_.lfHeight/(double)pre;
 	double cx = ((double)(bound_.Width()))*rate;
 	double cy = ((double)(bound_.Height()))*rate;
-	if (resize) {
-		procMultiLine();
-	}
+	adjustFont(resize);
 }
 
 void iNode::setName(const CString &name)
 {
-	DEBUG_WRITE("setName");
 	name_ = name;
-	procMultiLine();
+	adjustFont();
 }
 
 void iNode::adjustFont(bool bForceResize)
 {
-	DEBUG_WRITE("adjustFont");
+	//DEBUG_WRITE("adjustFont");
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize && !bForceResize) return;
-	if (styleText == m_l || styleText == m_r || styleText == m_c) {
-		if (name_.GetLength() > WORD_WRAP_LENGTH) return;
-	}
 	CSize sz = getNodeTextSize();
 	LONG hmargin = sz.cy*4/7;
 	LONG wmargin = sz.cy;
@@ -323,8 +314,42 @@ void iNode::adjustFont(bool bForceResize)
 		hmargin /= 2;
 		wmargin /= 2;
 	}
-	procSingleLineInner(sz, wmargin, hmargin);
+	int width = sz.cx + wmargin + margin_l_ + margin_r_;
+	int height = sz.cy + hmargin + margin_t_ + margin_b_;
+	if (styleText != m_l && styleText != m_r && styleText != m_c) {
+		bound_.right = bound_.left + width;
+		bound_.bottom = bound_.top + height;
+	} else {
+		if (bound_.Width()*bound_.Height() > sz.cx*sz.cy) return;
+		//CString s;
+		//s.Format("before %dx%d=%d / %dx%d=%d",
+		//	bound_.Width(), bound_.Height(), bound_.Width()*bound_.Height(),
+		//	width, height, width*height);
+		//DEBUG_WRITE(s);
+		enhanceBoundGradualy(sz.cx*sz.cy);
+		bound_.right += wmargin/2 + margin_l_ + margin_r_;
+		bound_.bottom += hmargin/2 + margin_t_ + margin_b_;
+		//s.Format("after %dx%d=%d / %dx%d=%d",
+		//	bound_.Width(), bound_.Height(), bound_.Width()*bound_.Height(),
+		//	width, height, width*height);
+		//DEBUG_WRITE(s);
+	}
 }
+
+void iNode::enhanceBoundGradualy(int area)
+{
+	double dw = bound_.Width();
+	double dh = bound_.Height();
+	int square = (int)(dw*dh);
+	for(int i = 0; square <= area ; i++) {
+		dw *= 1.1;
+		dh *= 1.1;
+		bound_.right = bound_.left + (int)dw;
+		bound_.bottom = bound_.top + (int)dh;
+		square = bound_.Height()*bound_.Width();
+	}
+}
+
 
 CSize iNode::getNodeTextSize()
 {
@@ -337,75 +362,18 @@ CSize iNode::getNodeTextSize()
 	return sz;
 }
 
-void iNode::procMultiLine()
-{
-	DEBUG_WRITE("procMultiLine");
-	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize) return;
-	CSize sz = getNodeTextSize();
-	LONG hmargin = sz.cy*4/7;
-	LONG wmargin = sz.cy;
-	if (!bfillcolor && styleLine == PS_NULL) {
-		hmargin /= 2;
-		wmargin /= 2;
-	}
-	if (lstrcmp(lf_.lfFaceName,"ƒƒCƒŠƒI") == 0) {
-		hmargin = sz.cy*4/5;
-	}
-	if (styleText != m_l && styleText != m_r && styleText != m_c) {
-		procSingleLineInner(sz, wmargin, hmargin);
-	}
-	int area = (sz.cx + margin_l_ + margin_r_)*(sz.cy + margin_t_ + margin_b_);
-	enhanceBoundGradualy(area, wmargin, hmargin);
-}
-
-void iNode::procSingleLineInner(const CSize& sz, int wmargin, int hmargin)
-{
-	DEBUG_WRITE("procSingleLineInner");
-	int width = sz.cx + wmargin + margin_l_ + margin_r_;
-	int height = sz.cy + hmargin + margin_t_ + margin_b_;
-	if (name_.GetLength() > WORD_WRAP_LENGTH) {
-		if (bound_.Height()*bound_.Width() < height*width || bound_.Width()/bound_.Height() > 8.0) {
-			styleText = iNode::m_c;
-			bound_.right = bound_.left + 10;
-			bound_.bottom = bound_.top + 5;
-			enhanceBoundGradualy(sz.cx*sz.cy, wmargin, hmargin);
-		}
-	} else {
-		bound_.right = bound_.left + width;
-		bound_.bottom = bound_.top + height;
-	}
-}
-
-void iNode::procMultiLineInner(const CSize& sz, int wmargin, int hmargin)
-{
-	DEBUG_WRITE("procMultiLineInner");
-	int area = (sz.cx + margin_l_ + margin_r_)*(sz.cy + margin_t_ + margin_b_);
-	enhanceBoundGradualy(area, wmargin, hmargin);
-}
-
-void iNode::enhanceBoundGradualy(int area, int wmargin, int hmargin)
-{
-	double dw = bound_.Width();
-	double dh = bound_.Height();
-	int square = (int)(dw*dh);
-	if (square > area) return;
-	for(int i = 0; square <= area ; i++) {
-		DEBUG_WRITE("a");
-		dw *= 1.1;
-		dh *= 1.1;
-		bound_.right = bound_.left + (int)dw;
-		bound_.bottom = bound_.top + (int)dh;
-		square = bound_.Height()*bound_.Width();
-	}
-	bound_.right += wmargin + margin_l_ + margin_r_;
-	bound_.bottom += hmargin + margin_b_ + margin_t_;
-}
-
 void iNode::setTextStyle(int s)
 {
-	DEBUG_WRITE("setTextStyle");
+	int pre = styleText;
 	styleText = s;
-	procMultiLine();
+	if ((s == iNode::m_c || s == iNode::m_l || s == iNode::m_r) &&
+		(pre != iNode::m_c && pre != iNode::m_l && pre != iNode::m_r)) {
+		if (bound_.Width() > 600) {
+			bound_.right = bound_.left + 10;
+			bound_.bottom = bound_.top + 5;
+		}
+	}
+	adjustFont();
 }
 
 bool iNode::operator ==(iNode &n)

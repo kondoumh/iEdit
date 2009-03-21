@@ -123,9 +123,7 @@ public:
 	};
 
 private:
-	void enhanceBoundGradualy(int area, int wmargin, int hmargin);
-	void procSingleLineInner(const CSize& sz, int wmargin, int hmargin);
-	void procMultiLineInner(const CSize& sz, int wmargin, int hmargin);
+	void enhanceBoundGradualy(int area);
 	int margin_l_;
 	int margin_r_;
 	int margin_t_;
@@ -159,7 +157,6 @@ private:
 	DWORD key_;
 protected:
 	void adjustFont(bool bForceResize=false);
-	void procMultiLine();
 	CSize getNodeTextSize();
 };
 
