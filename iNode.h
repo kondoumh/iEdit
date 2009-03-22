@@ -123,6 +123,8 @@ public:
 	};
 
 private:
+	void init();
+	void initCopy(const iNode& n);
 	void enhanceBoundGradualy(int area);
 	int margin_l_;
 	int margin_r_;

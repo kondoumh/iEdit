@@ -23,54 +23,23 @@ static char THIS_FILE[]=__FILE__;
 
 iNode::iNode()
 {
-	bound_.left = 0;
-	bound_.top = 0; 
-	bound_.right = 10;
-	bound_.bottom = 5;
-	
-	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-	memset(&lf_, 0, sizeof(LOGFONT));
-	::lstrcpy(lf_.lfFaceName, pApp->m_rgsNode.lf.lfFaceName);
-	lf_.lfHeight = pApp->m_rgsNode.lf.lfHeight;
-	lf_.lfWidth = pApp->m_rgsNode.lf.lfWidth;
-	lf_.lfItalic = pApp->m_rgsNode.lf.lfItalic;
-	lf_.lfUnderline = pApp->m_rgsNode.lf.lfUnderline;
-	lf_.lfStrikeOut = pApp->m_rgsNode.lf.lfStrikeOut;
-	lf_.lfCharSet= pApp->m_rgsNode.lf.lfCharSet;
-	lf_.lfWeight = pApp->m_rgsNode.lf.lfWeight;
-	colorFont = pApp->m_rgsNode.colorFont;
-	styleText = pApp->m_rgsNode.styleText;
-	
-	colorLine = pApp->m_rgsNode.colorLine;
-	colorFill = pApp->m_rgsNode.colorFill;
-	
-	lineWidth = pApp->m_rgsNode.lineWidth;
-	styleLine = pApp->m_rgsNode.styleLine;
-	selected_ = false;
-	visible = false;
-	bfillcolor = pApp->m_rgsNode.bFillColor;
-	shape_ = pApp->m_rgsNode.shape;
-	dx = 0.0;
-	dy = 0.0;
-	fixed_ = FALSE;
-	hMF_ = NULL;
-	drawOrder_ = 0;
-	nLevel_ = 0;
-	treeIconId_ = 0;
-	margin_l_ = pApp->m_rgsNode.margin_l;
-	margin_r_ = pApp->m_rgsNode.margin_r;
-	margin_t_ = pApp->m_rgsNode.margin_t;
-	margin_b_ = pApp->m_rgsNode.margin_b;
+	init();
 }
 
 iNode::iNode(const CString &name)
+{
+	init();
+	name_ = name;
+	adjustFont(true);
+}
+
+void iNode::init()
 {
 	bound_.left = 0;
 	bound_.top = 0; 
 	bound_.right = 10;
 	bound_.bottom = 5;
 	
-	name_ = name;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	memset(&lf_, 0, sizeof(LOGFONT));
 	::lstrcpy(lf_.lfFaceName, pApp->m_rgsNode.lf.lfFaceName);
@@ -104,7 +73,6 @@ iNode::iNode(const CString &name)
 	margin_r_ = pApp->m_rgsNode.margin_r;
 	margin_t_ = pApp->m_rgsNode.margin_t;
 	margin_b_ = pApp->m_rgsNode.margin_b;
-	adjustFont(true);
 }
 
 iNode::~iNode()
@@ -115,6 +83,17 @@ iNode::~iNode()
 }
 
 iNode::iNode(const iNode & n)
+{
+	initCopy(n);
+}
+
+iNode& iNode::operator =(const iNode &n)
+{
+	initCopy(n);
+	return *this;
+}
+
+void iNode::initCopy(const iNode &n)
 {
 	bound_ = n.bound_;
 	key_ = n.key_;
@@ -244,43 +223,6 @@ void iNode::SerializeEx(CArchive& ar, int version)
 			delete pData;
 		}
 	}
-}
-
-
-iNode& iNode::operator =(const iNode &n)
-{
-	bound_ = n.bound_;
-	key_ = n.key_;
-	name_ = n.name_;
-	parent_ = n.parent_;
-	text_ = n.text_;
-	treeState_ = n.treeState_;
-	lf_ = n.lf_;
-	::lstrcpy(lf_.lfFaceName, n.lf_.lfFaceName);
-	colorFont = n.colorFont;
-	styleText = n.styleText;
-	colorLine = n.colorLine;
-	lineWidth = n.lineWidth;
-	styleLine = n.styleLine;
-	bfillcolor = n.bfillcolor;
-	colorFill = n.colorFill;
-
-	selected_ = n.selected_;
-	visible = n.visible;
-	shape_ = n.shape_;
-	dx = n.dx;
-	dy = n.dy;
-	fixed_ = n.fixed_;
-	if (shape_ == iNode::MetaFile) {
-		hMF_ = CopyEnhMetaFile(n.hMF_, NULL);
-	}
-	nLevel_ = n.nLevel_;
-	treeIconId_ = n.treeIconId_;
-	margin_l_ = n.margin_l_;
-	margin_r_ = n.margin_r_;
-	margin_t_ = n.margin_t_;
-	margin_b_ = n.margin_b_;
-	return *this;
 }
 
 void iNode::setFontInfo(const LOGFONT &lf, bool resize)
