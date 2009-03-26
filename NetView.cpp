@@ -4466,5 +4466,5 @@ void NetView::OnResizeTofit()
 void NetView::OnUpdateResizeTofit(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::single);
+	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }

@@ -624,6 +624,7 @@ void iEditDoc::moveSelectedLink(const CSize &sz)
 
 void iEditDoc::setSelectedNodeBound(const CRect &r)
 {
+	backUpUndoNodes();
 	nodes_.setSelectedNodeBound(r);
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
@@ -4940,6 +4941,7 @@ void iEditDoc::swapLinkOrder(DWORD key1, DWORD key2)
 
 void iEditDoc::setSelectedNodeMargin(int l, int r, int t, int b)
 {
+	backUpUndoNodes();
 	nodes_.setSelectedNodeMargin(l, r, t, b);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
@@ -4994,12 +4996,14 @@ void iEditDoc::fitSetlectedNodeSize()
 	for ( ; it != nodes_.end(); it++) {
 		if ((*it).isSelected()) {
 			(*it).fitSize();
-			setConnectPoint();
 		}
 	}
-	iHint h; h.event = iHint::nodeStyleChanged;
+	SetModifiedFlag();
+	setConnectPoint();
+	calcMaxPt(m_maxPt);
+	iHint hint; hint.event = iHint::reflesh;
 	DWORD key = nodes_.getSelKey();
-	UpdateAllViews(NULL, (LPARAM)key, &h);
+	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
 ///////////// UndoManagerのメソッド定義

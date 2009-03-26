@@ -324,6 +324,8 @@ BEGIN
             MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
         END
         MENUITEM "余白の設定(&Y)",                   ID_SET_MARGIN
+        MENUITEM "リサイズする(&B)\tShift+F",         ID_RESIZE_TOFIT
+        MENUITEM SEPARATOR
         MENUITEM "ノードのプロパティ(&R)",               ID_SET_NODE_PROP
         MENUITEM SEPARATOR
         MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
@@ -584,6 +586,8 @@ BEGIN
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
         MENUITEM "余白の設定(&Y)",                   ID_SET_MARGIN
         MENUITEM SEPARATOR
+        MENUITEM "リサイズする(&B)",                  ID_RESIZE_TOFIT
+        MENUITEM SEPARATOR
         MENUITEM "コピー(&C)",                     ID_EDIT_COPY
         MENUITEM SEPARATOR
         POPUP "レイアウト調整(&J)"
@@ -836,6 +840,8 @@ BEGIN
             MENUITEM " ---> 一方向矢印(&S)",             ID_SET_LINK_ARROW_SINGLE
             MENUITEM "<---> 双方向矢印(&D)",             ID_SET_LINK_ARROW_DOUBLE
         END
+        MENUITEM "リサイズする(&B)\tShift+F",         ID_RESIZE_TOFIT
+        MENUITEM SEPARATOR
         MENUITEM "ノードのプロパティ(&R)",               ID_SET_NODE_PROP
         MENUITEM SEPARATOR
         MENUITEM "シェイプの表示(&P)\tCtrL+M",         ID_SHOW_NODE_SHAPES
@@ -872,6 +878,7 @@ BEGIN
             MENUITEM "EMF形式に出力(&E)",                ID_EXPORT_EMF
             MENUITEM "PNG形式に出力(&P)",                ID_EXPORT_PNG
         END
+        MENUITEM SEPARATOR
     END
     POPUP "ツール(&T)"
     BEGIN
@@ -938,6 +945,7 @@ BEGIN
     VK_LEFT,        ID_LEBEL_UP,            VIRTKEY, SHIFT, CONTROL, NOINVERT
     VK_DOWN,        ID_ORDER_DOWN,          VIRTKEY, SHIFT, CONTROL, NOINVERT
     VK_UP,          ID_ORDER_UP,            VIRTKEY, SHIFT, CONTROL, NOINVERT
+    "F",            ID_RESIZE_TOFIT,        VIRTKEY, SHIFT, NOINVERT
     "M",            ID_SHOW_NODE_SHAPES,    VIRTKEY, CONTROL, NOINVERT
     VK_F6,          ID_SHOW_SELECTED_BRANCH, VIRTKEY, NOINVERT
     VK_F5,          ID_SHOW_SELECTED_CHILDREN, VIRTKEY, NOINVERT
