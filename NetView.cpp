@@ -282,6 +282,8 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_EXPORT_PNG, &NetView::OnUpdateExportPng)
 	ON_COMMAND(ID_SET_MARGIN, &NetView::OnSetMargin)
 	ON_UPDATE_COMMAND_UI(ID_SET_MARGIN, &NetView::OnUpdateSetMargin)
+	ON_COMMAND(ID_RESIZE_TOFIT, &NetView::OnResizeTofit)
+	ON_UPDATE_COMMAND_UI(ID_RESIZE_TOFIT, &NetView::OnUpdateResizeTofit)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -4453,4 +4455,16 @@ void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
 	pCmdUI->Enable(
 		!GetDocument()->isOldBinary() &&
 		(m_selectStatus == NetView::single || m_selectStatus == NetView::multi));
+}
+
+void NetView::OnResizeTofit()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	GetDocument()->fitSetlectedNodeSize();
+}
+
+void NetView::OnUpdateResizeTofit(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus == NetView::single);
 }

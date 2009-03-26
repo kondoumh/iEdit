@@ -4986,6 +4986,22 @@ bool iEditDoc::writeClickableMap(CStdioFile& f)
 	return true;
 }
 
+void iEditDoc::fitSetlectedNodeSize()
+{
+	backUpUndoNodes();
+	backUpUndoLinks();
+	niterator it = nodes_.begin();
+	for ( ; it != nodes_.end(); it++) {
+		if ((*it).isSelected()) {
+			(*it).fitSize();
+			setConnectPoint();
+		}
+	}
+	iHint h; h.event = iHint::nodeStyleChanged;
+	DWORD key = nodes_.getSelKey();
+	UpdateAllViews(NULL, (LPARAM)key, &h);
+}
+
 ///////////// UndoManagerのメソッド定義
 bool UndoManager::canUndo() const
 {

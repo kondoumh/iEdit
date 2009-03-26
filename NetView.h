@@ -368,6 +368,8 @@ public:
 	afx_msg void OnUpdateExportPng(CCmdUI *pCmdUI);
 	afx_msg void OnSetMargin();
 	afx_msg void OnUpdateSetMargin(CCmdUI *pCmdUI);
+	afx_msg void OnResizeTofit();
+	afx_msg void OnUpdateResizeTofit(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

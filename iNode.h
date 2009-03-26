@@ -13,6 +13,7 @@ class iNode : public CObject
 {
 DECLARE_SERIAL(iNode)
 public:
+	void fitSize();
 	int getMarginL() const;
 	int getMarginR() const;
 	int getMarginT() const;

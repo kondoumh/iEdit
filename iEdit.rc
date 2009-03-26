@@ -510,6 +510,8 @@ BEGIN
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
         MENUITEM "余白の設定(&Y)",                   ID_SET_MARGIN
         MENUITEM SEPARATOR
+        MENUITEM "リサイズする(&B)",                  ID_RESIZE_TOFIT
+        MENUITEM SEPARATOR
         MENUITEM "書式を保存",                       ID_SAVE_FORMAT
         MENUITEM SEPARATOR
         MENUITEM "自動レイアウト時固定する(&I)",            ID_FIX_NODE
@@ -2070,6 +2072,11 @@ BEGIN
     ID_TREE_IMAGE_QUESTION  "はてなマークアイコン\nはてなマーク"
     ID_TREE_IMAGE_WARNING   "注意マークアイコン\n注意マーク"
     ID_TREE_IMAGE_IDEA      "アイデア(電球)アイコン\nアイデア"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_RESIZE_TOFIT         "フィットするようにリサイズする\nリサイズする"
 END
 
 #endif    // 日本語 resources

@@ -362,6 +362,13 @@ void iNode::restoreState()
 	fixed_ = fixed_back_;
 }
 
+void iNode::fitSize()
+{
+	bound_.right = bound_.left + 10;
+	bound_.bottom = bound_.top + 5;
+	adjustFont();
+}
+
 // iNodeDrawer クラスのインプリメンテーション
 //
 //////////////////////////////////////////////////////////////////////

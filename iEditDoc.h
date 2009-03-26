@@ -97,6 +97,7 @@ public:
 
 // オペレーション
 public:
+	void fitSetlectedNodeSize();
 	bool writeClickableMap(CStdioFile& f);
 	bool saveCurrentImage(const CString& pngPath);
 	CString getTitleFromPath() const;
