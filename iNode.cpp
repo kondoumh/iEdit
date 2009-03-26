@@ -276,7 +276,7 @@ void iNode::adjustFont(bool bForceResize)
 		//DEBUG_WRITE(s);
 		enhanceBoundGradualy(width*height);
 		bound_.right += wmargin;
-		bound_.bottom += hmargin;
+		bound_.bottom += (int)((double)hmargin*1.5);
 		//s.Format("after %dx%d=%d / %dx%d=%d",
 		//	bound_.Width(), bound_.Height(), bound_.Width()*bound_.Height(),
 		//	width, height, width*height);
@@ -364,8 +364,9 @@ void iNode::restoreState()
 
 void iNode::fitSize()
 {
-	bound_.right = bound_.left + 10;
-	bound_.bottom = bound_.top + 5;
+	double height = 20.0*((double)bound_.Height())/((double)bound_.Width());
+	bound_.right = bound_.left + 20;
+	bound_.bottom = bound_.top + (int)height;
 	adjustFont();
 }
 
