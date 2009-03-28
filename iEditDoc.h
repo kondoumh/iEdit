@@ -173,7 +173,6 @@ public:
 	void sameNodesSize(const CString& strSize, bool bDrwAll = false);
 	void adjustNodesEnd(const CString& side, const CRect& rect, bool bDrwAll = false);
 	CString getKeyNodeLabel(DWORD key);
-	void backUpUndoNodes2(bool bDrwAll=false);
 	void backUpUndoLinks();
 	void backUpUndoNodes();
 	void resumeUndoLinks();

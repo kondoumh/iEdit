@@ -1103,6 +1103,7 @@ void iEditDoc::setSelectedLinkInfo(const CString &sComment, int arrowType, bool 
 {
 	literator li = links_.getSelectedLinkW(bDrwAll);
 	if (li != links_.end()) {
+		backUpUndoLinks();
 		(*li).setName(sComment);
 		(*li).setArrowStyle(arrowType);
 		SetModifiedFlag();
@@ -1630,6 +1631,7 @@ void iEditDoc::setSelectedLinkCurve(CPoint pt, bool curve, bool bDrwAll)
 
 void iEditDoc::setSelectedLinkAngled(bool angled)
 {
+	backUpUndoLinks();
 	literator li = links_.getSelectedLinkW(false);
 	if (li == links_.end()) return;
 	if (!(*li).isCurved()) return;
@@ -3794,20 +3796,6 @@ void iEditDoc::resumeUndoLinks()
 	SetModifiedFlag();
 }
 
-void iEditDoc::backUpUndoNodes2(bool bDrwAll)
-{
-	nodes_undo.clear();
-	nodes_undo.resize(0);
-	niterator it = nodes_.begin();
-	for ( ; it != nodes_.end(); it++) {
-//		if (!bDrwAll) {
-			if (!(*it).isVisible()) continue;
-//		}
-		iNode n = (*it);
-		nodes_undo.push_back(n);
-	}
-}
-
 void iEditDoc::adjustNodesEnd(const CString& side, const CRect& rect, bool bDrwAll)
 {
 	niterator it = nodes_.begin();
@@ -4345,6 +4333,7 @@ CRect iEditDoc::getChaindNodesBound() const
 	return rc;
 }
 
+// 芋づるモード用
 void iEditDoc::setConnectPoint2()
 {
 	literator li = links_.begin();
@@ -4751,7 +4740,7 @@ void iEditDoc::resizeSelectedLinkFont(bool bEnLarge)
 	UpdateAllViews(NULL, (LPARAM)(nodes_.getSelKey()), &hint);
 }
 
-
+// スタイル変更の時に呼び出しているが・・？
 void iEditDoc::setConnectPoint3()
 {
 	literator li = links_.begin();

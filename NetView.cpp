@@ -1519,6 +1519,7 @@ void NetView::OnUpdateSetNodeLineColor(CCmdUI* pCmdUI)
 void NetView::OnSetLineNull() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeLineWidth(0);
 	GetDocument()->setSelectedNodeLineStyle(PS_NULL);
 }
@@ -1727,6 +1728,8 @@ void NetView::OnSetLineDot()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
+	GetDocument()->backUpUndoNodes();
+	GetDocument()->backUpUndoLinks();
 	switch (m_selectStatus) {
 	case NetView::single:
 		GetDocument()->setSelectedNodeLineWidth(0);
@@ -1996,7 +1999,7 @@ void NetView::OnAutoLayout()
 		m_bLayouting = true;
 		CSize sz(GetDocument()->getMaxPt().x, GetDocument()->getMaxPt().y);
 		bool bDrwAll = false;
-		GetDocument()->backUpUndoNodes2(bDrwAll);
+		GetDocument()->backUpUndoNodes();
 		GetDocument()->backUpUndoLinks();
 		
 		CRelaxThrd* pRelaxThrd = new CRelaxThrd(this, m_pDC->GetSafeHdc(), sz, false, GetScrollPosition());
@@ -2349,6 +2352,8 @@ void NetView::copyMFtoClpbrd()
 void NetView::OnNoBrush() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
+	GetDocument()->backUpUndoNodes();
+
 	if (GetDocument()->isSelectedNodeFilled()) {
 		GetDocument()->setSelectedNodeNoBrush(FALSE);
 	} else {
@@ -2823,7 +2828,7 @@ void NetView::OnRandomize()
 	dlg.m_width = 1024;
 	if (dlg.DoModal() != IDOK) return;
 	GetDocument()->disableUndo();
-	GetDocument()->backUpUndoNodes2(bDrwAll);
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
 	GetDocument()->randomNodesPos(CSize(dlg.m_width, dlg.m_height), bDrwAll);
 	m_selectRect = CRect(0, 0, 0, 0);
@@ -3525,7 +3530,7 @@ void NetView::OnTipDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 void NetView::prepareDragRelax()
 {
-	GetDocument()->backUpUndoNodes2(false);
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
 	// 連鎖ノードだけを動かすためのフィルタ処理
 	GetDocument()->listupChainNodes();
@@ -3990,6 +3995,8 @@ void NetView::changeSelectedLinkArrow()
 void NetView::changeSelectedLineWidth()
 {
 	int style = GetDocument()->getAppLinkWidth();
+	GetDocument()->backUpUndoNodes();
+	GetDocument()->backUpUndoLinks();
 	if (m_selectStatus == NetView::link) {
 		if (style == -1) {
 			GetDocument()->setSelectedLinkWidth(0);
@@ -4049,6 +4056,7 @@ void NetView::OnValignTop()
 	if (st == iNode::s_cc) stNew = iNode::s_tc;
 	if (st == iNode::s_cl) stNew = iNode::s_tl;
 	if (st == iNode::s_cr) stNew = iNode::s_tr;
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4072,6 +4080,7 @@ void NetView::OnAlignBottom()
 	if (st == iNode::s_cc) stNew = iNode::s_bc;
 	if (st == iNode::s_cl) stNew = iNode::s_bl;
 	if (st == iNode::s_cr) stNew = iNode::s_br;
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4097,6 +4106,7 @@ void NetView::OnHalignRight()
 	if (st == iNode::s_bl) stNew = iNode::s_br;
 	if (st == iNode::m_c) stNew = iNode::m_r;
 	if (st == iNode::m_l) stNew = iNode::m_r;
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4122,6 +4132,7 @@ void NetView::OnHalignLeft()
 	if (st == iNode::s_br) stNew = iNode::s_bl;
 	if (st == iNode::m_c) stNew = iNode::m_l;
 	if (st == iNode::m_r) stNew = iNode::m_l;
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4144,6 +4155,7 @@ void NetView::OnValignCenter()
 	if (st == iNode::s_tc) stNew = iNode::s_cc;
 	if (st == iNode::s_tl) stNew = iNode::s_cl;
 	if (st == iNode::s_tr) stNew = iNode::s_cr;
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4169,6 +4181,7 @@ void NetView::OnHalignCenter()
 	if (st == iNode::s_bl) stNew = iNode::s_bc;
 	if (st == iNode::m_r) stNew = iNode::m_c;
 	if (st == iNode::m_l) stNew = iNode::m_c;
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4183,6 +4196,7 @@ void NetView::OnUpdateHalignCenter(CCmdUI *pCmdUI)
 void NetView::OnBtnNodeFillColor()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 }
 
@@ -4195,6 +4209,8 @@ void NetView::OnUpdateBtnNodeFillColor(CCmdUI *pCmdUI)
 void NetView::OnBtnLineColor()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
+	GetDocument()->backUpUndoNodes();
+	GetDocument()->backUpUndoLinks();
 	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 	GetDocument()->setSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 }
@@ -4208,6 +4224,7 @@ void NetView::OnUpdateBtnLineColor(CCmdUI *pCmdUI)
 void NetView::OnBtnTextColor()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeFontColor(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 }
 
@@ -4224,11 +4241,14 @@ void NetView::changeSelectedNodeColor()
 
 void NetView::changeSelectedFontColor()
 {
+	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeFontColor(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 }
 
 void NetView::changeSelectedLineColor()
 {
+	GetDocument()->backUpUndoNodes();
+	GetDocument()->backUpUndoLinks();
 	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 	GetDocument()->setSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 }
