@@ -127,6 +127,8 @@ private:
 	void init();
 	void initCopy(const iNode& n);
 	void enhanceBoundGradualy(int area);
+	void enhanceLineOriented(const CSize& sz);
+	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
 	int margin_l_;
 	int margin_r_;
 	int margin_t_;

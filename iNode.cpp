@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "iEdit.h"
 #include "iNode.h"
+#include "Token.h"
 #include "iEdit.h"
 #include "Utilities.h"
 #include <algorithm>
@@ -269,18 +270,13 @@ void iNode::adjustFont(bool bForceResize)
 		int width = sz.cx + margin_l_ + margin_r_;
 		int height = sz.cy + margin_t_;
 		if (bound_.Width()*bound_.Height() >= width*height) return;
-		//CString s;
-		//s.Format("before %dx%d=%d / %dx%d=%d",
-		//	bound_.Width(), bound_.Height(), bound_.Width()*bound_.Height(),
-		//	width, height, width*height);
-		//DEBUG_WRITE(s);
-		enhanceBoundGradualy(width*height);
+		if (name_.Find("\n") == -1) {
+			enhanceBoundGradualy(width*height);
+			bound_.bottom += (int)((double)hmargin);
+		} else {
+			enhanceLineOriented(sz);
+		}
 		bound_.right += wmargin;
-		bound_.bottom += (int)((double)hmargin*1.5);
-		//s.Format("after %dx%d=%d / %dx%d=%d",
-		//	bound_.Width(), bound_.Height(), bound_.Width()*bound_.Height(),
-		//	width, height, width*height);
-		//DEBUG_WRITE(s);
 	}
 }
 
@@ -298,6 +294,30 @@ void iNode::enhanceBoundGradualy(int area)
 	}
 }
 
+void iNode::enhanceLineOriented(const CSize& sz)
+{
+	int lineCount, maxLength;
+	getInnerLineInfo(name_, lineCount, maxLength);
+	int width = (int)((double)sz.cx*(((double)maxLength))/((double)(name_.GetLength())))
+		+ sz.cy + margin_l_ + margin_r_; // 1文字文余分にマージンをつけた
+	int height = sz.cy*(lineCount - 1) + margin_t_;
+	bound_.right = bound_.left + width;
+	bound_.bottom = bound_.top + height;
+}
+
+void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
+{
+	CToken tok(str + "\n");
+	tok.SetToken("\n");
+	lineCount = 1;
+	maxLength = 0;
+	for ( ; tok.MoreTokens(); lineCount++) {
+		CString line = tok.GetNextToken();
+		if (maxLength < line.GetLength()) {
+			maxLength = line.GetLength();
+		}
+	}
+}
 
 CSize iNode::getNodeTextSize()
 {
