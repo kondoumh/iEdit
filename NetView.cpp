@@ -2557,7 +2557,7 @@ void NetView::OnUpdateFixNode(CCmdUI* pCmdUI)
 
 void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	if (::GetKeyState(VK_CONTROL) & 0x8000) {
+	if (::GetKeyState(VK_CONTROL) & 0x8000 || ::GetKeyState(VK_MENU) & 0x8000 ) {
 		CScrollView::OnKeyUp(nChar, nRepCnt, nFlags);
 		return;
 	}
