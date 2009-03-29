@@ -2557,7 +2557,10 @@ void NetView::OnUpdateFixNode(CCmdUI* pCmdUI)
 
 void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
+	if (::GetKeyState(VK_CONTROL) & 0x8000) {
+		CScrollView::OnKeyUp(nChar, nRepCnt, nFlags);
+		return;
+	}
 	if (nChar == VK_ESCAPE) {
 		if (m_bLinkCurving) {
 			m_bLinkCurving = false;
@@ -2587,28 +2590,26 @@ void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 			cancelDragRelax();
 		}
 	} else if (nChar >= 0x30 && nChar <= 0x5A || nChar == VK_SPACE) {
-		if (!(nFlags & MK_CONTROL) && !(nFlags & MK_ALT)) {
-			int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
-			switch (shape) {
-				case iNode::rectangle:
-					m_addMode = NetView::rect;
-					break;
-				case iNode::arc:
-					m_addMode = NetView::arc;
-					break;
-				case iNode::roundRect:
-					m_addMode = NetView::rRect;
-					break;
-			}
-			CPoint logPt = m_ptScreen;
-			logPt -= GetScrollPosition();
-			ViewDPtoLP(&logPt);
-			CPoint spt(m_ptScreen);
-			ClientToScreen(&spt);
-			spt -= GetScrollPosition();
-			addNode(logPt, spt);
-			m_ptScreen += CPoint((int)(30*m_fZoomScale), (int)(30*m_fZoomScale));
+		int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
+		switch (shape) {
+			case iNode::rectangle:
+				m_addMode = NetView::rect;
+				break;
+			case iNode::arc:
+				m_addMode = NetView::arc;
+				break;
+			case iNode::roundRect:
+				m_addMode = NetView::rRect;
+				break;
 		}
+		CPoint logPt = m_ptScreen;
+		logPt -= GetScrollPosition();
+		ViewDPtoLP(&logPt);
+		CPoint spt(m_ptScreen);
+		ClientToScreen(&spt);
+		spt -= GetScrollPosition();
+		addNode(logPt, spt);
+		m_ptScreen += CPoint((int)(30*m_fZoomScale), (int)(30*m_fZoomScale));
 	}
 	CScrollView::OnKeyUp(nChar, nRepCnt, nFlags);
 }
