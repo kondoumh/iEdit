@@ -57,4 +57,5 @@ public:
 	afx_msg void OnEnChangeEdPrfNet();
 	afx_msg void OnEnChangeEdPrfTextSingle();
 	afx_msg void OnEnChangeEdPrfTextEverynode();
+	BOOL m_xvRdTree;
 };

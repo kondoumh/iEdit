@@ -23,6 +23,7 @@ SetHtmlExportDlg::SetHtmlExportDlg(CWnd* pParent /*=NULL*/)
 	, m_xvEdPrfTextSingle(_T(""))
 	, m_xvEdPrfTextEverynode(_T(""))
 	, m_xvEdPrfNet(_T(""))
+	, m_xvRdTree(FALSE)
 {
 
 }
@@ -44,6 +45,7 @@ void SetHtmlExportDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_ED_PRF_TEXT_SINGLE, m_xvEdPrfTextSingle);
 	DDX_Text(pDX, IDC_ED_PRF_TEXT_EVERYNODE, m_xvEdPrfTextEverynode);
 	DDX_Text(pDX, IDC_ED_PRF_NET, m_xvEdPrfNet);
+	DDX_Radio(pDX, IDC_RD_TREE, m_xvRdTree);
 }
 
 

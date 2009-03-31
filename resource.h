@@ -122,6 +122,7 @@
 #define IDC_BTN_DOWN                    1015
 #define IDC_BTN_SET_MARGIN              1015
 #define IDC_BTN_COPY                    1015
+#define IDC_RD_TREE4                    1015
 #define IDC_COMBO3                      1016
 #define IDC_COMBOLINE                   1016
 #define IDC_BUTTON3                     1017

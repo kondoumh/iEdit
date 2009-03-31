@@ -1760,14 +1760,8 @@ void OutlineView::OutputText()
 
 void OutlineView::OutputHTML()
 {
-	SelExportDlg dlg;
-	dlg.m_bPrintText = TRUE;
-	dlg.m_nTreeOp = m_exportOption.treeOption;
-	if (dlg.DoModal() != IDOK) return;
-	m_opTreeOut = dlg.m_nTreeOp;
-	m_exportOption.treeOption = dlg.m_nTreeOp;
-	
 	SetHtmlExportDlg eDlg;
+	eDlg.m_xvRdTree = m_exportOption.treeOption;
 	eDlg.m_xvRdNav = m_exportOption.navOption;
 	eDlg.m_xvRdImg = m_exportOption.imgOption;
 	eDlg.m_xvRdText = m_exportOption.textOption;
@@ -1780,6 +1774,8 @@ void OutlineView::OutputHTML()
 	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
 	eDlg.m_sDocTitle = GetDocument()->getTitleFromPath();
 	if (eDlg.DoModal() != IDOK) return;
+	m_opTreeOut = eDlg.m_xvRdTree;
+	m_exportOption.treeOption = eDlg.m_xvRdTree;
 	m_exportOption.navOption = eDlg.m_xvRdNav;
 	m_exportOption.imgOption = eDlg.m_xvRdImg;
 	m_exportOption.textOption = eDlg.m_xvRdText;
