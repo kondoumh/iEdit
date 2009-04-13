@@ -98,7 +98,7 @@ public:
 // オペレーション
 public:
 	void fitSetlectedNodeSize();
-	bool writeClickableMap(CStdioFile& f);
+	bool writeClickableMap(CStdioFile& f, const CString& textFileName);
 	bool saveCurrentImage(const CString& pngPath);
 	CString getTitleFromPath() const;
 	void swapLinkOrder(DWORD key1, DWORD key2);

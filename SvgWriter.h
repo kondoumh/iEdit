@@ -24,6 +24,8 @@ private:
 	iLinks& m_links;
 	bool m_bDrwAll;
 	serialVec m_drawOrder;
+	CString m_TextHtmlFileName;
+	CString m_TextHtmlFilePrefix;
 protected:
 	CString extractfirstURLfromText(const CString& text);
 	vector<CString> splitTSpan(const CString& label, const int labelWidth, const int boundWidth);

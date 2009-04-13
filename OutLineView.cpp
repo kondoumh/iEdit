@@ -1860,7 +1860,7 @@ void OutlineView::OutputHTML()
 		olf.WriteString("</head>\n");
 		olf.WriteString("<body>\n<h3 align=center>");
 		olf.WriteString("<a href=");
-		olf.WriteString("\"text.html#");
+		olf.WriteString("\"" + eDlg.m_pathTextSingle + "#");
 		CString keystr;
 
 		HTREEITEM root;
@@ -1920,7 +1920,7 @@ void OutlineView::OutputHTML()
 			GetDocument()->saveCurrentImage(outdir + "\\" + eDlg.m_pathPng);
 			nf.WriteString("<img src=\"" + eDlg.m_pathPng + "\" border=\"0\" usemap=\"#nodes\" />\n");
 			nf.WriteString("<map name=\"nodes\">\n");
-			GetDocument()->writeClickableMap(nf);
+			GetDocument()->writeClickableMap(nf, eDlg.m_pathTextSingle);
 			nf.WriteString("</map>\n");
 		}
 		nf.WriteString("</body>\n</html>\n");

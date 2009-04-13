@@ -4971,9 +4971,9 @@ bool iEditDoc::saveCurrentImage(const CString& pngPath)
 	return true;
 }
 
-bool iEditDoc::writeClickableMap(CStdioFile& f)
+bool iEditDoc::writeClickableMap(CStdioFile& f, const CString& textFileName)
 {
-	f.WriteString(nodes_.createClickableMapString());
+	f.WriteString(nodes_.createClickableMapString(textFileName));
 	return true;
 }
 

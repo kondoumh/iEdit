@@ -526,7 +526,7 @@ typedef vector<iNode> nVec;
 
 class iNodes : public nContena {
 public:
-	CString createClickableMapString();
+	CString createClickableMapString(const CString& fileName);
 	void setSelectedNodeMargin(int l, int r, int t, int b);
 	BOOL m_bDrawOrderInfo;
 	serialVec getSelectedNodeKeys() const;

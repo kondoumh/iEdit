@@ -1054,7 +1054,7 @@ bool orderComp(const iNode* n1, const iNode* n2)
 	return n1->getDrawOrder() < n2->getDrawOrder();
 }
 
-CString iNodes::createClickableMapString()
+CString iNodes::createClickableMapString(const CString& fileName)
 {
 	CString mapString;
 	vector<iNode*>::reverse_iterator it = nodesDraw_.rbegin();
@@ -1064,7 +1064,7 @@ CString iNodes::createClickableMapString()
 		CPoint ptl = (*it)->getBound().TopLeft();
 		CPoint pbr = (*it)->getBound().BottomRight();
 		coordsValue.Format("%d,%d,%d,%d", ptl.x, ptl.y, pbr.x, pbr.y);
-		CString href; href.Format("text.html#%d", (*it)->getKey());
+		CString href; href.Format( fileName + "#%d", (*it)->getKey());
 		mapString += "<area shape=\"rect\" coords=\"" + coordsValue 
 			+ "\" href=\"" + href + "\" target=\"text\" alt=\"" + Utilities::removeCR((*it)->getName()) + "\" />\n";
 	}
