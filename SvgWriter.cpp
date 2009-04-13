@@ -29,6 +29,16 @@ SvgWriter::~SvgWriter()
 
 }
 
+void SvgWriter::setTextHtmlFileName(const CString& fileName)
+{
+	m_TextHtmlFileName = fileName;
+}
+
+void SvgWriter::setTextHtmlFilePrefix(const CString& prefix)
+{
+	m_TextHtmlFilePrefix = prefix;
+}
+
 void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 {
 	CWaitCursor wc;
@@ -286,6 +296,9 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	if (bEmbed) {
 		CString sKey; sKey.Format("%d", node.getKey());
 		CString url = "text.html#" + sKey;
+		if (m_TextHtmlFileName != "") {
+			url = m_TextHtmlFileName + "#" + sKey;
+		}
 		MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
 		pNodeRef = pDoc->createElement("a");
 		pNodeRef->setAttribute("xlink:href", url.GetBuffer(url.GetLength()));

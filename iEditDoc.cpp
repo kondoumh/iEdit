@@ -3880,10 +3880,13 @@ void iEditDoc::viewSettingChanged()
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::exportSVG(bool bDrwAll, const CString &path, bool bEmbed)
+void iEditDoc::exportSVG(bool bDrwAll, const CString &path, bool bEmbed,
+						 const CString& textFileName, const CString& textFilePrefix)
 {
 	serialVec vec = getOutlineView()->getDrawOrder(isShowSubBranch());
 	SvgWriter writer(nodes_, links_, vec, bDrwAll);
+	writer.setTextHtmlFileName(textFileName);
+	writer.setTextHtmlFilePrefix(textFilePrefix);
 	writer.exportSVG(path, getMaxPt(), bEmbed);
 }
 

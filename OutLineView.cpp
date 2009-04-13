@@ -1763,6 +1763,10 @@ void OutlineView::OutputHTML()
 	SetHtmlExportDlg eDlg;
 	eDlg.m_xvRdTree = m_exportOption.treeOption;
 	eDlg.m_xvRdNav = m_exportOption.navOption;
+	if (GetDocument()->isShowSubBranch()) {
+		tree().SelectItem(m_hItemShowRoot);
+		eDlg.m_xvRdTree = 1;
+	}
 	eDlg.m_xvRdImg = m_exportOption.imgOption;
 	eDlg.m_xvRdText = m_exportOption.textOption;
 	eDlg.m_xvEdCssToc = m_exportOption.cssToc;
@@ -1907,7 +1911,7 @@ void OutlineView::OutputHTML()
 		CString sHeightMgn; sHeightMgn.Format("height=\"%d\"", GetDocument()->getMaxPt().y + 50);
 		if (eDlg.m_xvRdImg == 0) {
 			CString svgPath = outdir + "\\" + eDlg.m_pathSvg;
-			GetDocument()->exportSVG(false, svgPath, true);
+			GetDocument()->exportSVG(false, svgPath, true, eDlg.m_pathTextSingle);
 			nf.WriteString("<object type=\"image/svg+xml\" data=\""
 				+ eDlg.m_pathSvg +
 				"\" classid=\"clsid:377B5106-3B4E-4A2D-8520-8767590CAC86 "
