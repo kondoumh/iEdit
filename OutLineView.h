@@ -74,7 +74,6 @@ protected:
 	bool levelToNode(const vector<CString>& lines, nVec& addNodes, const char levelChar='.');
 	int countLineIndentLevel(const CString& line, const char levelChar) const;
 	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab, BOOL bOutText=TRUE);
-	void OutputText();
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
 	void treeAddBranch(const DWORD rootKey);
 	void treeAddBranch2(const DWORD rootKey, nVec& addNodes);
@@ -156,6 +155,7 @@ protected:
 private:
 	struct ExportOption {
 		int treeOption;
+		int htmlOutOption;
 		int navOption;
 		int imgOption;
 		int textOption;

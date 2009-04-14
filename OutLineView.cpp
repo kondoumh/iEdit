@@ -305,6 +305,7 @@ OutlineView::OutlineView()
 	m_hSiblingPreMove = NULL;
 	m_bNodeSel = false;
 	m_exportOption.treeOption = 0;
+	m_exportOption.htmlOutOption = 0;
 	m_exportOption.textOption = 0;
 	m_exportOption.imgOption = 0;
 	m_exportOption.navOption = 0;
@@ -1754,19 +1755,11 @@ void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI)
 	
 }
 
-void OutlineView::OutputText()
-{
-}
-
 void OutlineView::OutputHTML()
 {
 	SetHtmlExportDlg eDlg;
 	eDlg.m_xvRdTree = m_exportOption.treeOption;
 	eDlg.m_xvRdNav = m_exportOption.navOption;
-	if (GetDocument()->isShowSubBranch()) {
-		tree().SelectItem(m_hItemShowRoot);
-		eDlg.m_xvRdTree = 1;
-	}
 	eDlg.m_xvRdImg = m_exportOption.imgOption;
 	eDlg.m_xvRdText = m_exportOption.textOption;
 	eDlg.m_xvEdCssToc = m_exportOption.cssToc;

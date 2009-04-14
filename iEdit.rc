@@ -1350,9 +1350,10 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "HTML出力設定"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "すべてのノードを出力する",IDC_RD_TREE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,17,17,106,9
-    CONTROL         "選択されたノード以下の階層をすべて出力する",IDC_RD_TREE2,"Button",BS_AUTORADIOBUTTON,17,31,175,9
-    CONTROL         "選択されたノードと子ノードのみを出力する",IDC_RD_TREE4,"Button",BS_AUTORADIOBUTTON,17,45,161,9
+    CONTROL         "すべてのノードを出力する(ネットワーク図は表示されているノードのみです)",IDC_RD_TREE,
+                    "Button",BS_AUTORADIOBUTTON | WS_GROUP,17,17,259,9
+    CONTROL         "ネットワーク図で表示されているノードのみ出力する",IDC_RD_TREE2,"Button",BS_AUTORADIOBUTTON,17,31,175,9
+    CONTROL         "選択されたノードと子ノードのみを出力する(これは消す予定)",IDC_RD_TREE4,"Button",BS_AUTORADIOBUTTON,17,45,225,9
     CONTROL         "アウトライン",IDC_RD_NAV_OUTLINE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,17,74,75,10
     CONTROL         "ネットワーク図",IDC_RD_NAV_NETWORK,"Button",BS_AUTORADIOBUTTON,17,88,59,10
     CONTROL         "アウトラインとネットワーク図",IDC_RD_NAV_BOTH,"Button",BS_AUTORADIOBUTTON,17,103,99,10
@@ -1387,7 +1388,7 @@ BEGIN
     LTEXT           "network.html",IDC_LB_NET,184,240,101,8
     LTEXT           "1.html, 2.html, ...",IDC_LB_TEXT_EVERYNODE,184,275,101,8
     LTEXT           "text.html",IDC_LB_TEXT_SINGLE,184,258,101,8
-    GROUPBOX        "階層構造の出力",IDC_STATIC,7,7,280,53
+    GROUPBOX        "ノード出力オプション",IDC_STATIC,7,7,280,53
 END
 
 IDD_DEBUG_WINDOW DIALOGEX 0, 0, 230, 68
