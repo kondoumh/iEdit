@@ -1758,7 +1758,7 @@ void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI)
 void OutlineView::OutputHTML()
 {
 	SetHtmlExportDlg eDlg;
-	eDlg.m_xvRdTree = m_exportOption.treeOption;
+	eDlg.m_xvRdTree = m_exportOption.htmlOutOption;
 	eDlg.m_xvRdNav = m_exportOption.navOption;
 	eDlg.m_xvRdImg = m_exportOption.imgOption;
 	eDlg.m_xvRdText = m_exportOption.textOption;
@@ -1771,8 +1771,7 @@ void OutlineView::OutputHTML()
 	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
 	eDlg.m_sDocTitle = GetDocument()->getTitleFromPath();
 	if (eDlg.DoModal() != IDOK) return;
-	m_opTreeOut = eDlg.m_xvRdTree;
-	m_exportOption.treeOption = eDlg.m_xvRdTree;
+	m_exportOption.htmlOutOption = eDlg.m_xvRdTree;
 	m_exportOption.navOption = eDlg.m_xvRdNav;
 	m_exportOption.imgOption = eDlg.m_xvRdImg;
 	m_exportOption.textOption = eDlg.m_xvRdText;
@@ -1861,10 +1860,15 @@ void OutlineView::OutputHTML()
 		CString keystr;
 
 		HTREEITEM root;
-		if (m_opTreeOut ==0) {
+		if (m_exportOption.htmlOutOption == 0) {
 			root = tree().GetRootItem();
-		} else {
+		} else if (m_exportOption.htmlOutOption == 1) {
+			if (GetDocument()->isShowSubBranch()) {
+				root = m_hItemShowRoot;
+			}
 			root = tree().GetSelectedItem();
+		} else if (m_exportOption.htmlOutOption == 3) {
+			root = tree().GetParentItem(tree().GetSelectedItem());
 		}
 		
 		keystr.Format("%d", tree().GetItemData(root));
