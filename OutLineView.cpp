@@ -1862,13 +1862,16 @@ void OutlineView::OutputHTML()
 		HTREEITEM root;
 		if (m_exportOption.htmlOutOption == 0) {
 			root = tree().GetRootItem();
-		} else if (m_exportOption.htmlOutOption == 1) {
+		} else {
 			if (GetDocument()->isShowSubBranch()) {
 				root = m_hItemShowRoot;
+			} else {
+				if (tree().GetSelectedItem() != tree().GetRootItem()) {
+					root = tree().GetParentItem(tree().GetSelectedItem());
+				} else {
+					root = tree().GetRootItem();
+				}
 			}
-			root = tree().GetSelectedItem();
-		} else if (m_exportOption.htmlOutOption == 3) {
-			root = tree().GetParentItem(tree().GetSelectedItem());
 		}
 		
 		keystr.Format("%d", tree().GetItemData(root));
@@ -1965,7 +1968,9 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CS
 	f->WriteString(itemStr);
 	f->WriteString("</a>\n");
 	
-	if (tree().ItemHasChildren(hItem) && m_opTreeOut != 2) {           // Žq‚Ç‚à‚ÉˆÚ“®
+	bool nested = m_exportOption.htmlOutOption == 0 || 
+		m_exportOption.htmlOutOption == 1 && GetDocument()->isShowSubBranch();
+	if (tree().ItemHasChildren(hItem) && nested) {
 		f->WriteString("<ul>\n");
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
 		htmlOutTree(hchildItem, fileTextSingle, f);
