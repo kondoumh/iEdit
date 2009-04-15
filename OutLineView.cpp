@@ -1950,13 +1950,7 @@ void OutlineView::OutputHTML()
 void OutlineView::htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CStdioFile *f,
 							  bool bVisibleOnly)
 {
-	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_opTreeOut != 0) {
-		return;
-	}
-	
 	f->WriteString("<li>");
-	
-	// リンクタグの生成
 	CString itemStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
 	f->WriteString("<a href=");
 	f->WriteString("\"" + fileTextSingle + "#");
@@ -1977,7 +1971,6 @@ void OutlineView::htmlOutTree(HTREEITEM hItem, const CString& fileTextSingle, CS
 	} else {
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {    // 次に兄弟がいない
-			
 			HTREEITEM hi = hItem;
 			HTREEITEM hParent = hItem;
 			while (hParent != tree().GetRootItem()) {
