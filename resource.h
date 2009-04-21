@@ -123,12 +123,14 @@
 #define IDC_BTN_SET_MARGIN              1015
 #define IDC_BTN_COPY                    1015
 #define IDC_RD_TREE4                    1015
+#define IDC_BTN_SET_PRF_BY_ROOT         1015
 #define IDC_COMBO3                      1016
 #define IDC_COMBOLINE                   1016
 #define IDC_BUTTON3                     1017
 #define IDC_BTN_TEXT                    1017
 #define IDC_BTN_RR                      1017
 #define IDC_BTN_RIGHT                   1017
+#define IDC_BTN_SET_PRF_BY_VISIBLE_ROOT 1017
 #define IDC_EDIT_LABEL                  1018
 #define IDC_BTN_LL                      1018
 #define IDC_BTN_BRS                     1019

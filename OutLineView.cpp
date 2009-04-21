@@ -1770,6 +1770,17 @@ void OutlineView::OutputHTML()
 	eDlg.m_xvEdPrfTextSingle = m_exportOption.prfTextSingle;
 	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
 	eDlg.m_sDocTitle = GetDocument()->getTitleFromPath();
+	eDlg.m_NameOfRoot = tree().GetItemText(tree().GetRootItem());
+	if (GetDocument()->isShowSubBranch()) {
+		eDlg.m_NameOfVisibleRoot = tree().GetItemText(m_hItemShowRoot);
+	} else {
+		if (tree().GetSelectedItem() == tree().GetRootItem()) {
+			eDlg.m_NameOfVisibleRoot = tree().GetItemText(tree().GetRootItem());
+		} else {
+			eDlg.m_NameOfVisibleRoot = 
+				tree().GetItemText(tree().GetParentItem(tree().GetSelectedItem()));
+		}
+	}
 	if (eDlg.DoModal() != IDOK) return;
 	m_exportOption.htmlOutOption = eDlg.m_xvRdTree;
 	m_exportOption.navOption = eDlg.m_xvRdNav;
@@ -1948,26 +1959,35 @@ void OutlineView::OutputHTML()
 }
 
 void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, 
-							  const CString& fileTextSingle, CStdioFile *f)
+							  const CString& TextHtmlName, CStdioFile *foutline,
+							  CStdioFile* ftext, bool textSingle)
 {
-	f->WriteString("<li>");
+	foutline->WriteString("<li>");
 	CString itemStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
-	f->WriteString("<a href=");
-	f->WriteString("\"" + fileTextSingle + "#");
+	foutline->WriteString("<a href=");
+	foutline->WriteString("\"" + TextHtmlName + "#");
 	CString keystr;
 	keystr.Format("%d", tree().GetItemData(hItem));
-	f->WriteString(keystr);
-	f->WriteString("\" target=text>");
+	foutline->WriteString(keystr);
+	foutline->WriteString("\" target=text>");
 	// 見出し書き込み
-	f->WriteString(itemStr);
-	f->WriteString("</a>\n");
+	foutline->WriteString(itemStr);
+	foutline->WriteString("</a>\n");
+	
+	// Text出力
+	if (textSingle) {
+		if (ftext != NULL) {
+		}
+	} else {
+		// createTextHtmlBy
+	}
 	
 	bool nested = m_exportOption.htmlOutOption == 0 || 
 		m_exportOption.htmlOutOption == 1 && GetDocument()->isShowSubBranch();
 	if (tree().ItemHasChildren(hItem) && nested) {
-		f->WriteString("<ul>\n");
+		foutline->WriteString("<ul>\n");
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
-		htmlOutTree(hRoot, hchildItem, fileTextSingle, f);
+		htmlOutTree(hRoot, hchildItem, TextHtmlName, foutline);
 	} else {
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {    // 次に兄弟がいない
@@ -1978,15 +1998,15 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem,
 			while (tree().GetParentItem(hParent) != hRoot) {
 				hParent = tree().GetParentItem(hi);
 				HTREEITEM hnextParent;
-				f->WriteString("\n</ul>\n");
+				foutline->WriteString("\n</ul>\n");
 				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
-					htmlOutTree(hRoot, hnextParent, fileTextSingle, f);
+					htmlOutTree(hRoot, hnextParent, TextHtmlName, foutline);
 					return;
 				}
 				hi = hParent;
 			}                                   // 兄弟のいる親まで戻る
 		} else {
-			htmlOutTree(hRoot, hnextItem, fileTextSingle, f);
+			htmlOutTree(hRoot, hnextItem, TextHtmlName, foutline);
 		}                                       // 兄弟に移動
 	}
 }

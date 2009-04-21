@@ -19,6 +19,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	CString m_NameOfRoot;
+	CString m_NameOfVisibleRoot;
 	CString m_pathIndex;
 	CString m_pathTextSingle;
 	CString m_pathOutline;
@@ -58,4 +60,6 @@ public:
 	afx_msg void OnEnChangeEdPrfTextSingle();
 	afx_msg void OnEnChangeEdPrfTextEverynode();
 	BOOL m_xvRdTree;
+	afx_msg void OnBnClickedBtnSetPrfByRoot();
+	afx_msg void OnBnClickedBtnSetPrfByVisibleRoot();
 };
