@@ -1993,8 +1993,6 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem,
 		if (hnextItem == NULL) {    // ŽŸ‚ÉŒZ’í‚ª‚¢‚È‚¢
 			HTREEITEM hi = hItem;
 			HTREEITEM hParent = hItem;
-			HTREEITEM hGrandParent = hParent;
-			
 			while (tree().GetParentItem(hParent) != hRoot) {
 				hParent = tree().GetParentItem(hi);
 				HTREEITEM hnextParent;
