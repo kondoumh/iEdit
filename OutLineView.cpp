@@ -1852,7 +1852,11 @@ void OutlineView::OutputHTML()
 	f.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\">\n");
 	f.WriteString("<html>\n<head>\n");
 	f.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
-	f.WriteString("<title>" + GetDocument()->getTitleFromPath() + "</title>\n");
+	CString title = GetDocument()->getTitleFromPath();
+	if (m_exportOption.prfIndex != "") {
+		title = m_exportOption.prfIndex;
+	}
+	f.WriteString("<title>" + title + "</title>\n");
 	f.WriteString("</head>\n");
 	if (eDlg.m_xvRdNav != 1) {
 		f.WriteString("  <frameset cols=\"35%,*\" >\n");
@@ -1886,12 +1890,19 @@ void OutlineView::OutputHTML()
 		olf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
 		olf.WriteString("<html>\n<head>\n");
 		olf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+		olf.WriteString("<style type=\"text/css\">\n");
+		olf.WriteString(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
+		olf.WriteString(" li {font-size: 95%; padding: 0px;}\n");
+		olf.WriteString("</style>\n");
 		olf.WriteString("</head>\n");
-		olf.WriteString("<body>\n<h3 align=center>");
+		olf.WriteString("<body>\n<h1>");
 		olf.WriteString("<a href=");
-		olf.WriteString("\"" + m_exportOption.pathTextSingle + "#");
-		olf.WriteString(keystr + "\" target=text>");
-		
+		if (m_exportOption.textOption == 0) {
+			olf.WriteString("\"" + m_exportOption.pathTextSingle + "#" + keystr);
+		} else {
+			olf.WriteString("\"" + m_exportOption.prfTextEverynode + keystr + ".html");
+		}
+		olf.WriteString("\" target=text>");
 		CString rootStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
 		olf.WriteString(rootStr);
 		olf.WriteString("</a></h3>\n");
@@ -1905,14 +1916,13 @@ void OutlineView::OutputHTML()
 			olf.Close();
 			return;
 		}
-		tf.WriteString("<html>\n<body>\n");
 		tf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
 		tf.WriteString("<html>\n<head>\n");
 		tf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
 		tf.WriteString("<style type=\"text/css\">\n");
 		tf.WriteString(" h1 {font-size: 100%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n");
 		tf.WriteString("</style>\n");
-		tf.WriteString("</head>\n");
+		tf.WriteString("</head>\n<body>\n");
 		GetDocument()->writeTextHtml(tree().GetItemData(root), &tf);
 	} else {
 		CStdioFile rootTf;
@@ -1922,12 +1932,13 @@ void OutlineView::OutputHTML()
 			olf.Close();
 			return;
 		}
-		rootTf.WriteString("<html>\n<body>\n");
 		rootTf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
 		rootTf.WriteString("<html>\n<head>\n");
 		rootTf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
-		rootTf.WriteString("</head>\n");
-		rootTf.WriteString("<html>\n<body>\n");
+		rootTf.WriteString("<style type=\"text/css\">\n");
+		rootTf.WriteString(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
+		rootTf.WriteString("</style>\n");
+		rootTf.WriteString("</head>\n<body>\n");
 		GetDocument()->writeTextHtml(tree().GetItemData(root), &rootTf, true, m_exportOption.prfTextEverynode);
 		rootTf.WriteString("</body>\n</html>\n");
 		rootTf.Close();
@@ -2024,12 +2035,13 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 			MessageBox(fName + " : 作成に失敗しました");
 			return;
 		}
-		tf.WriteString("<html>\n<body>\n");
 		tf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
 		tf.WriteString("<html>\n<head>\n");
 		tf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
-		tf.WriteString("</head>\n");
-		tf.WriteString("<html>\n<body>\n");
+		tf.WriteString("<style type=\"text/css\">\n");
+		tf.WriteString(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
+		tf.WriteString("</style>\n");
+		tf.WriteString("</head>\n<body>\n");
 		GetDocument()->writeTextHtml(key, &tf, true, m_exportOption.prfTextEverynode);
 		tf.WriteString("</body>\n</html>\n");
 		tf.Close();

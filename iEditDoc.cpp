@@ -3480,18 +3480,20 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 	CString keystr;
 	keystr.Format("%d", (*it).getKey());
 	f->WriteString(keystr);
-	f->WriteString("\"><br />\n");
+	f->WriteString("\" />\n");
 	
 	// “à—e‘‚«‚İ
 	f->WriteString("<h1>");
 	f->WriteString(nameStr);
 	f->WriteString("</h1>");
 	f->WriteString(rn2br((*it).getText()));
-	f->WriteString("<br />\n");
+	f->WriteString("\n");
 	
 	// ƒŠƒ“ƒN‚Ì‘‚«‚İ
 	const_literator li = links_.begin();
-	for ( ; li != links_.end(); li++) {
+	CString sLink("<ul>\n");
+	int cnt=0;
+	for (; li != links_.end(); li++) {
 		if ((*li).getKeyFrom() != (*it).getKey() &&
 			(*li).getKeyTo() != (*it).getKey()) {
 			continue;
@@ -3504,19 +3506,20 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 				if (itTo != nodes_.end()) {
 					CString keystr;
 					keystr.Format("%d", (*li).getKeyTo());
-					f->WriteString("<a href=");
+					sLink += "<li><a href=";
 					if (!textIsolated) {
-						f->WriteString("\"#");
-						f->WriteString(keystr);
+						sLink += "\"#";
+						sLink += keystr;
 					} else {
-						f->WriteString("\"" + textPrefix + keystr + ".html\"");
+						sLink += "\"" + textPrefix + keystr + ".html\"";
 					}
-					f->WriteString("\">");
-					f->WriteString("£" + Utilities::removeCR((*itTo).getName()));
+					sLink += "\">";
+					sLink += "£" + Utilities::removeCR((*itTo).getName());
 					if ((*li).getName() != "") {
-						f->WriteString("(" + (*li).getName() + ")");
+						sLink += "(" + (*li).getName() + ")";
 					}
-					f->WriteString("</a><br />\n");
+					sLink += "</a></li>\n";
+					cnt++;
 				}
 			} else if ((*it).getKey() == (*li).getKeyTo()) {
 				nodeFind.setKey((*li).getKeyFrom());
@@ -3524,36 +3527,41 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 				if (itFrom != nodes_.end()) {
 					CString keystr;
 					keystr.Format("%d", (*li).getKeyFrom());
-					f->WriteString("<a href=");
+					sLink += "<li><a href=";
 					if (!textIsolated) {
-						f->WriteString("\"#");
-						f->WriteString(keystr);
+						sLink += "\"#";
+						sLink += keystr;
 					} else {
-						f->WriteString("\"" + textPrefix + keystr + ".html\"");
+						sLink += "\"" + textPrefix + keystr + ".html\"";
 					}
-					f->WriteString("\">");
-					f->WriteString("¤" + Utilities::removeCR((*itFrom).getName()));
+					sLink += "\">";
+					sLink += "¤" + Utilities::removeCR((*itFrom).getName());
 					if ((*li).getName() != "") {
-						f->WriteString("(" + (*li).getName() + ")");
+						sLink += "(" + (*li).getName() + ")";
 					}
-					f->WriteString("</a><br />\n");
+					sLink += "</a></li>\n";
+					cnt++;
 				}
 			}
 		} else {
 			CString url = (*li).getPath();
 			if (url.Find("http://") != -1 || url.Find("https://") != -1 || url.Find("ftp://") != -1) {
-				f->WriteString("<a href=");
-				f->WriteString(url);
-				f->WriteString(" target=\"_top\">");
+				sLink += "<li><a href=";
+				sLink += url;
+				sLink += " target=\"_top\">";
 				if ((*li).getName() != "") {
-					f->WriteString((*li).getName());
+					sLink += (*li).getName();
 				} else {
-					f->WriteString(url);
+					sLink += url;
 				}
-				
-				f->WriteString("</a><br />\n");;
+				sLink += "</a></li>\n";
+				cnt++;
 			}
 		}
+	}
+	sLink += "</ul>\n";
+	if (cnt > 0) {
+		f->WriteString(sLink);
 	}
 }
 
