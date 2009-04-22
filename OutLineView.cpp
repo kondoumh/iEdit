@@ -1894,12 +1894,30 @@ void OutlineView::OutputHTML()
 		olf.WriteString("</h3>\n");
 		olf.WriteString("<ul>\n");
 		
+		///////////////////// create text.html
+		CStdioFile tf;
+		if (m_exportOption.textOption == 0) {
+			CString arName = outdir + "\\" + eDlg.m_pathTextSingle;
+			if (!tf.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+				MessageBox(arName + " : 作成に失敗しました");
+				olf.Close();
+				return;
+			}
+			tf.WriteString("<html>\n<body>\n");
+		}
+		
+		/////////////////// output SubTree
 		if (tree().ItemHasChildren(root)) {
 			HTREEITEM child = tree().GetNextItem(root, TVGN_CHILD);
-			htmlOutTree(root, child, eDlg.m_pathTextSingle, &olf);
+			htmlOutTree(root, child, eDlg.m_pathTextSingle, &olf, &tf, m_exportOption.textOption == 0);
 		}
+		
 		olf.WriteString("</body>\n</html>\n");
 		olf.Close();
+		if (m_exportOption.textOption = 0) {
+			tf.WriteString("</body>\n</html>\n");
+			tf.Close();
+		}
 	}
 	
 	///////////////////// create network.html
@@ -1942,17 +1960,6 @@ void OutlineView::OutputHTML()
 		nf.Close();
 	}
 	
-	///////////////////// create text.html
-	CStdioFile af;
-	CString arName = outdir + "\\" + eDlg.m_pathTextSingle;
-	if (!af.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-		MessageBox(arName + " : 作成に失敗しました");
-		return;
-	}
-	af.WriteString("<html>\n<body>\n");
-	GetDocument()->generateHTM(&af);
-	af.WriteString("</body>\n</html>\n");
-	af.Close();
 	m_exportOption.htmlOutDir = outdir;
 	if (MessageBox("生成したHTMLファイルを開きますか?", "HTMLの閲覧", MB_YESNO) != IDYES) return;
 	ShellExecute(m_hWnd, "open", indexFilePath, NULL, NULL, SW_SHOW);
@@ -1975,11 +1982,14 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem,
 	foutline->WriteString("</a>\n");
 	
 	// Text出力
+	DWORD key = tree().GetItemData(hItem);
 	if (textSingle) {
 		if (ftext != NULL) {
+			GetDocument()->writeTextHtml(key, ftext);
 		}
 	} else {
-		// createTextHtmlBy
+		// tf = createTextHtmlByEveryNode();
+		// GetDocument()->writeTextHtml(key, &tf);
 	}
 	
 	bool nested = m_exportOption.htmlOutOption == 0 || 
@@ -1987,7 +1997,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem,
 	if (tree().ItemHasChildren(hItem) && nested) {
 		foutline->WriteString("<ul>\n");
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
-		htmlOutTree(hRoot, hchildItem, TextHtmlName, foutline);
+		htmlOutTree(hRoot, hchildItem, TextHtmlName, foutline, ftext, textSingle);
 	} else {
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {    // 次に兄弟がいない
@@ -1998,13 +2008,13 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem,
 				HTREEITEM hnextParent;
 				foutline->WriteString("\n</ul>\n");
 				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
-					htmlOutTree(hRoot, hnextParent, TextHtmlName, foutline);
+					htmlOutTree(hRoot, hnextParent, TextHtmlName, foutline, ftext, textSingle);
 					return;
 				}
 				hi = hParent;
 			}                                   // 兄弟のいる親まで戻る
 		} else {
-			htmlOutTree(hRoot, hnextItem, TextHtmlName, foutline);
+			htmlOutTree(hRoot, hnextItem, TextHtmlName, foutline, ftext, textSingle);
 		}                                       // 兄弟に移動
 	}
 }
