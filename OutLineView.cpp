@@ -1825,6 +1825,23 @@ void OutlineView::OutputHTML()
 	CFileException e;
 	
 	CString indexFilePath = outdir + "\\" + eDlg.m_pathIndex;
+	CFileFind find;
+	if (find.FindFile(indexFilePath)) {
+		if (MessageBox(
+			indexFilePath + "\n既存のファイルを上書きしてよいですか", "HTML出力",
+			MB_YESNO) != IDYES) {
+			return;
+		}
+	}
+	CString textDir = outdir + "\\text";
+	if (m_exportOption.textOption == 1) {
+		if (!find.FindFile(textDir)) {
+			if (!::CreateDirectory(textDir, NULL)) {
+				MessageBox("フォルダー作成に失敗しました");
+				return;
+			}
+		}
+	}
 	
 	HTREEITEM root;
 	if (m_exportOption.htmlOutOption == 0) {
@@ -1849,9 +1866,7 @@ void OutlineView::OutputHTML()
 	if (!f.Open(indexFilePath, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		return;
 	}
-	f.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\">\n");
-	f.WriteString("<html>\n<head>\n");
-	f.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+	writeHtmlHeader(f);
 	CString title = GetDocument()->getTitleFromPath();
 	if (m_exportOption.prfIndex != "") {
 		title = m_exportOption.prfIndex;
@@ -1868,7 +1883,7 @@ void OutlineView::OutputHTML()
 	}
 	CString textLink = eDlg.m_pathTextSingle;
 	if (m_exportOption.textOption == 1) {
-		textLink = eDlg.m_xvEdPrfTextEverynode + keystr + ".html";
+		textLink = "text/" + eDlg.m_xvEdPrfTextEverynode + keystr + ".html";
 	}
 	f.WriteString("    <frame src=\"" + textLink + "\" name=\"text\">\n");
 	if (eDlg.m_xvRdNav == 1 || eDlg.m_xvRdNav == 2) {
@@ -1887,9 +1902,7 @@ void OutlineView::OutputHTML()
 			MessageBox(olName + " : 作成に失敗しました");
 			return;
 		}
-		olf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
-		olf.WriteString("<html>\n<head>\n");
-		olf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+		writeHtmlHeader(olf);
 		olf.WriteString("<style type=\"text/css\">\n");
 		olf.WriteString(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
 		olf.WriteString(" li {font-size: 95%; padding: 0px;}\n");
@@ -1900,7 +1913,7 @@ void OutlineView::OutputHTML()
 		if (m_exportOption.textOption == 0) {
 			olf.WriteString("\"" + m_exportOption.pathTextSingle + "#" + keystr);
 		} else {
-			olf.WriteString("\"" + m_exportOption.prfTextEverynode + keystr + ".html");
+			olf.WriteString("\"text/" + m_exportOption.prfTextEverynode + keystr + ".html");
 		}
 		olf.WriteString("\" target=text>");
 		CString rootStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
@@ -1916,28 +1929,20 @@ void OutlineView::OutputHTML()
 			olf.Close();
 			return;
 		}
-		tf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
-		tf.WriteString("<html>\n<head>\n");
-		tf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
-		tf.WriteString("<style type=\"text/css\">\n");
-		tf.WriteString(" h1 {font-size: 100%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n");
-		tf.WriteString("</style>\n");
+		writeHtmlHeader(tf);
+		writeTextStyle(tf);
 		tf.WriteString("</head>\n<body>\n");
 		GetDocument()->writeTextHtml(tree().GetItemData(root), &tf);
 	} else {
 		CStdioFile rootTf;
-		CString arName = outdir + "\\" + m_exportOption.prfTextEverynode + keystr + ".html";
+		CString arName = textDir + "\\" + m_exportOption.prfTextEverynode + keystr + ".html";
 		if (!rootTf.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 			MessageBox(arName + " : 作成に失敗しました");
 			olf.Close();
 			return;
 		}
-		rootTf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
-		rootTf.WriteString("<html>\n<head>\n");
-		rootTf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
-		rootTf.WriteString("<style type=\"text/css\">\n");
-		rootTf.WriteString(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
-		rootTf.WriteString("</style>\n");
+		writeHtmlHeader(rootTf);
+		writeTextStyle(rootTf, false);
 		rootTf.WriteString("</head>\n<body>\n");
 		GetDocument()->writeTextHtml(tree().GetItemData(root), &rootTf, true, m_exportOption.prfTextEverynode);
 		rootTf.WriteString("</body>\n</html>\n");
@@ -1966,9 +1971,7 @@ void OutlineView::OutputHTML()
 			MessageBox(nName + " : 作成に失敗しました");
 			return;
 		}
-		nf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
-		nf.WriteString("<html>\n<head>\n");
-		nf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+		writeHtmlHeader(nf);
 		nf.WriteString("</head>\n");
 		nf.WriteString("<body>\n");
 		
@@ -2015,7 +2018,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 			foutline->WriteString("\"" + m_exportOption.pathTextSingle + "#");
 			foutline->WriteString(keystr);
 		} else {
-			foutline->WriteString("\"" + m_exportOption.prfTextEverynode + keystr + ".html");
+			foutline->WriteString("\"text/" + m_exportOption.prfTextEverynode + keystr + ".html");
 		}
 		foutline->WriteString("\" target=text>");
 		// 見出し書き込み
@@ -2030,17 +2033,14 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 	} else {
 		CStdioFile tf;
 		CFileException e;
-		CString fName = m_exportOption.htmlOutDir + "\\" + m_exportOption.prfTextEverynode + keystr + ".html";
+		CString fName = m_exportOption.htmlOutDir + "\\text\\" 
+			+ m_exportOption.prfTextEverynode + keystr + ".html";
 		if (!tf.Open(fName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 			MessageBox(fName + " : 作成に失敗しました");
 			return;
 		}
-		tf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
-		tf.WriteString("<html>\n<head>\n");
-		tf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
-		tf.WriteString("<style type=\"text/css\">\n");
-		tf.WriteString(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
-		tf.WriteString("</style>\n");
+		writeHtmlHeader(tf);
+		writeTextStyle(tf, false);
 		tf.WriteString("</head>\n<body>\n");
 		GetDocument()->writeTextHtml(key, &tf, true, m_exportOption.prfTextEverynode);
 		tf.WriteString("</body>\n</html>\n");
@@ -2076,6 +2076,25 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 			htmlOutTree(hRoot, hnextItem, foutline, ftext);
 		}                                       // 兄弟に移動
 	}
+}
+
+void OutlineView::writeHtmlHeader(CStdioFile &f)
+{
+	f.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
+	f.WriteString("<html>\n<head>\n");
+	f.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+}
+
+void OutlineView::writeTextStyle(CStdioFile &f, bool single)
+{
+	f.WriteString("<style type=\"text/css\">\n");
+	if (single) {
+		f.WriteString(" h1 {font-size: 100%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n");
+	} else {
+		f.WriteString(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
+	}
+	f.WriteString(" li {font-size: 80%; padding: 0px;}\n");
+	f.WriteString("</style>\n");
 }
 
 void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOutText)

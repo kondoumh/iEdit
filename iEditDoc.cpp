@@ -3498,7 +3498,6 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 			(*li).getKeyTo() != (*it).getKey()) {
 			continue;
 		}
-		//if (!isKeyInLabels(ls, (*li).getKeyTo())) continue;
 		if ((*li).getArrowStyle() != iLink::other) {
 			if ((*it).getKey() == (*li).getKeyFrom()) {
 				nodeFind.setKey((*li).getKeyTo());

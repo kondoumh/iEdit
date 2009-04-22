@@ -68,6 +68,8 @@ protected:
 	afx_msg LRESULT OnHideSrchDlg(UINT wParam, LONG lParam);
 	afx_msg LRESULT OnSearchNode(UINT wParam, LONG lParam);
 	void htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile* foutline, CStdioFile* ftext);
+	void writeHtmlHeader(CStdioFile& f);
+	void writeTextStyle(CStdioFile& f, bool single=true);
 	bool ImportXML(const CString& inPath);
 	bool ImportText(const CString& inPath, nVec& addNodes, const char LevelChar);
 	bool levelToNode(const vector<CString>& lines, nVec& addNodes, const char levelChar='.');
