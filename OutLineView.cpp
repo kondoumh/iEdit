@@ -1762,13 +1762,12 @@ void OutlineView::OutputHTML()
 	eDlg.m_xvRdNav = m_exportOption.navOption;
 	eDlg.m_xvRdImg = m_exportOption.imgOption;
 	eDlg.m_xvRdText = m_exportOption.textOption;
-	eDlg.m_xvEdCssToc = m_exportOption.cssToc;
-	eDlg.m_xvEdCssText = m_exportOption.cssText;
 	eDlg.m_xvEdPrfIndex = m_exportOption.prfIndex;
 	eDlg.m_xvEdPrfToc = m_exportOption.prfToc;
 	eDlg.m_xvEdPrfNet = m_exportOption.prfNet;
 	eDlg.m_xvEdPrfTextSingle = m_exportOption.prfTextSingle;
 	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
+	eDlg.m_pathTextSingle = m_exportOption.pathTextSingle;
 	eDlg.m_sDocTitle = GetDocument()->getTitleFromPath();
 	eDlg.m_NameOfRoot = tree().GetItemText(tree().GetRootItem());
 	if (GetDocument()->isShowSubBranch()) {
@@ -1786,13 +1785,12 @@ void OutlineView::OutputHTML()
 	m_exportOption.navOption = eDlg.m_xvRdNav;
 	m_exportOption.imgOption = eDlg.m_xvRdImg;
 	m_exportOption.textOption = eDlg.m_xvRdText;
-	m_exportOption.cssToc = eDlg.m_xvEdCssToc;
-	m_exportOption.cssText = eDlg.m_xvEdCssText;
 	m_exportOption.prfIndex = eDlg.m_xvEdPrfIndex;
 	m_exportOption.prfToc = eDlg.m_xvEdPrfToc;
 	m_exportOption.prfNet = eDlg.m_xvEdPrfNet;
 	m_exportOption.prfTextSingle = eDlg.m_xvEdPrfTextSingle;
 	m_exportOption.prfTextEverynode = eDlg.m_xvEdPrfTextEverynode;
+	m_exportOption.pathTextSingle = eDlg.m_pathTextSingle;
 
 	TCHAR szBuff[MAX_PATH];
 	BROWSEINFO bi;
@@ -1816,14 +1814,35 @@ void OutlineView::OutputHTML()
 		//szBuffに選択したフォルダ名が入る
 		outdir = CString(szBuff);
 	} else {
+		MessageBox("出力先フォルダーを指定して下さい");
 		return;
 	}
+	m_exportOption.htmlOutDir = outdir;
+	
 	CWaitCursor wc;
 	CStdioFile f;
 	CFileStatus status;
 	CFileException e;
 	
 	CString indexFilePath = outdir + "\\" + eDlg.m_pathIndex;
+	
+	HTREEITEM root;
+	if (m_exportOption.htmlOutOption == 0) {
+		root = tree().GetRootItem();
+	} else {
+		if (GetDocument()->isShowSubBranch()) {
+			root = m_hItemShowRoot;
+		} else {
+			if (tree().GetSelectedItem() != tree().GetRootItem()) {
+				root = tree().GetParentItem(tree().GetSelectedItem());
+			} else {
+				root = tree().GetRootItem();
+			}
+		}
+	}
+	CString keystr;
+	keystr.Format("%d", tree().GetItemData(root));
+	
 	////////////////////////
 	////// create frame
 	////////////////////////
@@ -1843,7 +1862,11 @@ void OutlineView::OutputHTML()
 		f.WriteString("    <frameset rows=\"65%,*\">\n");
 		f.WriteString("      <frame src=\"" + eDlg.m_pathNetwork + "\" name=\"network\">\n  ");
 	}
-	f.WriteString("    <frame src=\"" + eDlg.m_pathTextSingle + "\" name=\"text\">\n");
+	CString textLink = eDlg.m_pathTextSingle;
+	if (m_exportOption.textOption == 1) {
+		textLink = eDlg.m_xvEdPrfTextEverynode + keystr + ".html";
+	}
+	f.WriteString("    <frame src=\"" + textLink + "\" name=\"text\">\n");
 	if (eDlg.m_xvRdNav == 1 || eDlg.m_xvRdNav == 2) {
 		f.WriteString("    </frameset>\n");
 	}
@@ -1853,9 +1876,8 @@ void OutlineView::OutputHTML()
 	f.WriteString("</html>\n");
 	f.Close();
 	
-	///////////////////// create outline.html
+	CStdioFile olf;
 	if (eDlg.m_xvRdNav != 1) {
-		CStdioFile olf;
 		CString olName = outdir + "\\" + eDlg.m_pathOutline;
 		if (!olf.Open(olName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 			MessageBox(olName + " : 作成に失敗しました");
@@ -1867,54 +1889,59 @@ void OutlineView::OutputHTML()
 		olf.WriteString("</head>\n");
 		olf.WriteString("<body>\n<h3 align=center>");
 		olf.WriteString("<a href=");
-		olf.WriteString("\"" + eDlg.m_pathTextSingle + "#");
-		CString keystr;
-
-		HTREEITEM root;
-		if (m_exportOption.htmlOutOption == 0) {
-			root = tree().GetRootItem();
-		} else {
-			if (GetDocument()->isShowSubBranch()) {
-				root = m_hItemShowRoot;
-			} else {
-				if (tree().GetSelectedItem() != tree().GetRootItem()) {
-					root = tree().GetParentItem(tree().GetSelectedItem());
-				} else {
-					root = tree().GetRootItem();
-				}
-			}
-		}
+		olf.WriteString("\"" + m_exportOption.pathTextSingle + "#");
+		olf.WriteString(keystr + "\" target=text>");
 		
-		keystr.Format("%d", tree().GetItemData(root));
 		CString rootStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
-		olf.WriteString(keystr + rootStr);
-		olf.WriteString("\" target=text>");
 		olf.WriteString(rootStr);
-		
-		olf.WriteString("</h3>\n");
+		olf.WriteString("</a></h3>\n");
 		olf.WriteString("<ul>\n");
-		
-		///////////////////// create text.html
-		CStdioFile tf;
-		if (m_exportOption.textOption == 0) {
-			CString arName = outdir + "\\" + eDlg.m_pathTextSingle;
-			if (!tf.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-				MessageBox(arName + " : 作成に失敗しました");
-				olf.Close();
-				return;
-			}
-			tf.WriteString("<html>\n<body>\n");
+	}
+	CStdioFile tf;
+	if (m_exportOption.textOption == 0) {
+		CString arName = outdir + "\\" + m_exportOption.pathTextSingle;
+		if (!tf.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+			MessageBox(arName + " : 作成に失敗しました");
+			olf.Close();
+			return;
 		}
-		
-		/////////////////// output SubTree
-		if (tree().ItemHasChildren(root)) {
-			HTREEITEM child = tree().GetNextItem(root, TVGN_CHILD);
-			htmlOutTree(root, child, eDlg.m_pathTextSingle, &olf, &tf, m_exportOption.textOption == 0);
+		tf.WriteString("<html>\n<body>\n");
+		tf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
+		tf.WriteString("<html>\n<head>\n");
+		tf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+		tf.WriteString("<style type=\"text/css\">\n");
+		tf.WriteString(" h1 {font-size: 100%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n");
+		tf.WriteString("</style>\n");
+		tf.WriteString("</head>\n");
+		GetDocument()->writeTextHtml(tree().GetItemData(root), &tf);
+	} else {
+		CStdioFile rootTf;
+		CString arName = outdir + "\\" + m_exportOption.prfTextEverynode + keystr + ".html";
+		if (!rootTf.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+			MessageBox(arName + " : 作成に失敗しました");
+			olf.Close();
+			return;
 		}
-		
+		rootTf.WriteString("<html>\n<body>\n");
+		rootTf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
+		rootTf.WriteString("<html>\n<head>\n");
+		rootTf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+		rootTf.WriteString("</head>\n");
+		rootTf.WriteString("<html>\n<body>\n");
+		GetDocument()->writeTextHtml(tree().GetItemData(root), &rootTf, true, m_exportOption.prfTextEverynode);
+		rootTf.WriteString("</body>\n</html>\n");
+		rootTf.Close();
+	}
+	/////////////////// output SubTree
+	if (tree().ItemHasChildren(root)) {
+		HTREEITEM child = tree().GetNextItem(root, TVGN_CHILD);
+		htmlOutTree(root, child, &olf, &tf);
+	}
+	
+	if (eDlg.m_xvRdNav != 1) {
 		olf.WriteString("</body>\n</html>\n");
 		olf.Close();
-		if (m_exportOption.textOption = 0) {
+		if (m_exportOption.textOption == 0) {
 			tf.WriteString("</body>\n</html>\n");
 			tf.Close();
 		}
@@ -1960,44 +1987,62 @@ void OutlineView::OutputHTML()
 		nf.Close();
 	}
 	
-	m_exportOption.htmlOutDir = outdir;
 	if (MessageBox("生成したHTMLファイルを開きますか?", "HTMLの閲覧", MB_YESNO) != IDYES) return;
 	ShellExecute(m_hWnd, "open", indexFilePath, NULL, NULL, SW_SHOW);
 }
 
-void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, 
-							  const CString& TextHtmlName, CStdioFile *foutline,
-							  CStdioFile* ftext, bool textSingle)
+void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *foutline, CStdioFile* ftext)
 {
-	foutline->WriteString("<li>");
-	CString itemStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
-	foutline->WriteString("<a href=");
-	foutline->WriteString("\"" + TextHtmlName + "#");
 	CString keystr;
 	keystr.Format("%d", tree().GetItemData(hItem));
-	foutline->WriteString(keystr);
-	foutline->WriteString("\" target=text>");
-	// 見出し書き込み
-	foutline->WriteString(itemStr);
-	foutline->WriteString("</a>\n");
+	// アウトライン書き込み
+	if (m_exportOption.navOption != 1) {
+		foutline->WriteString("<li>");
+		CString itemStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
+		foutline->WriteString("<a href=");
+		if (m_exportOption.textOption == 0) {
+			foutline->WriteString("\"" + m_exportOption.pathTextSingle + "#");
+			foutline->WriteString(keystr);
+		} else {
+			foutline->WriteString("\"" + m_exportOption.prfTextEverynode + keystr + ".html");
+		}
+		foutline->WriteString("\" target=text>");
+		// 見出し書き込み
+		foutline->WriteString(itemStr);
+		foutline->WriteString("</a>\n");
+	}
 	
 	// Text出力
 	DWORD key = tree().GetItemData(hItem);
-	if (textSingle) {
-		if (ftext != NULL) {
-			GetDocument()->writeTextHtml(key, ftext);
-		}
+	if (m_exportOption.textOption == 0) {
+		GetDocument()->writeTextHtml(key, ftext);
 	} else {
-		// tf = createTextHtmlByEveryNode();
-		// GetDocument()->writeTextHtml(key, &tf);
+		CStdioFile tf;
+		CFileException e;
+		CString fName = m_exportOption.htmlOutDir + "\\" + m_exportOption.prfTextEverynode + keystr + ".html";
+		if (!tf.Open(fName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+			MessageBox(fName + " : 作成に失敗しました");
+			return;
+		}
+		tf.WriteString("<html>\n<body>\n");
+		tf.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
+		tf.WriteString("<html>\n<head>\n");
+		tf.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+		tf.WriteString("</head>\n");
+		tf.WriteString("<html>\n<body>\n");
+		GetDocument()->writeTextHtml(key, &tf, true, m_exportOption.prfTextEverynode);
+		tf.WriteString("</body>\n</html>\n");
+		tf.Close();
 	}
 	
 	bool nested = m_exportOption.htmlOutOption == 0 || 
 		m_exportOption.htmlOutOption == 1 && GetDocument()->isShowSubBranch();
 	if (tree().ItemHasChildren(hItem) && nested) {
-		foutline->WriteString("<ul>\n");
+		if (m_exportOption.navOption != 1) {
+			foutline->WriteString("<ul>\n");
+		}
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
-		htmlOutTree(hRoot, hchildItem, TextHtmlName, foutline, ftext, textSingle);
+		htmlOutTree(hRoot, hchildItem, foutline, ftext);
 	} else {
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {    // 次に兄弟がいない
@@ -2006,15 +2051,17 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem,
 			while (tree().GetParentItem(hParent) != hRoot) {
 				hParent = tree().GetParentItem(hi);
 				HTREEITEM hnextParent;
-				foutline->WriteString("\n</ul>\n");
+				if (m_exportOption.navOption != 1) {
+					foutline->WriteString("\n</ul>\n");
+				}
 				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
-					htmlOutTree(hRoot, hnextParent, TextHtmlName, foutline, ftext, textSingle);
+					htmlOutTree(hRoot, hnextParent, foutline, ftext);
 					return;
 				}
 				hi = hParent;
 			}                                   // 兄弟のいる親まで戻る
 		} else {
-			htmlOutTree(hRoot, hnextItem, TextHtmlName, foutline, ftext, textSingle);
+			htmlOutTree(hRoot, hnextItem, foutline, ftext);
 		}                                       // 兄弟に移動
 	}
 }

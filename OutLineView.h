@@ -67,8 +67,7 @@ protected:
 	afx_msg LRESULT OnListUpNodes(UINT wParam, LONG lParam);
 	afx_msg LRESULT OnHideSrchDlg(UINT wParam, LONG lParam);
 	afx_msg LRESULT OnSearchNode(UINT wParam, LONG lParam);
-	void htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, const CString& TextHtmlName,
-		CStdioFile* foutline, CStdioFile* ftext = NULL, bool textSingle = true);
+	void htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile* foutline, CStdioFile* ftext);
 	bool ImportXML(const CString& inPath);
 	bool ImportText(const CString& inPath, nVec& addNodes, const char LevelChar);
 	bool levelToNode(const vector<CString>& lines, nVec& addNodes, const char levelChar='.');
@@ -159,13 +158,12 @@ private:
 		int navOption;
 		int imgOption;
 		int textOption;
-		CString cssToc;
-		CString cssText;
 		CString prfIndex;
 		CString prfNet;
 		CString prfToc;
 		CString prfTextSingle;
 		CString prfTextEverynode;
+		CString pathTextSingle;
 		CString htmlOutDir;
 	} m_exportOption;
 	void moveNodes(DWORD keyTarget, DWORD keyMove);

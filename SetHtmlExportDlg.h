@@ -31,8 +31,6 @@ public:
 	int m_xvRdNav;
 	int m_xvRdImg;
 	int m_xvRdText;
-	CString m_xvEdCssToc;
-	CString m_xvEdCssText;
 	CString m_xvEdPrfIndex;
 	CString m_xvEdPrfToc;
 	CString m_xvEdPrfTextSingle;

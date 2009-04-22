@@ -3468,11 +3468,10 @@ void iEditDoc::randomNodesPos(const CSize &area, bool bDrwAll)
 	SetModifiedFlag();
 }
 
-void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f)
+void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const CString& textPrefix)
 {
 	nodeFind.setKey(key);
 	const_niterator it = nodes_.findNode(nodeFind);
-	f->WriteString("<hr />\n");
 	
 	CString nameStr = Utilities::removeCR((*it).getName());
 	// リンクタグの生成
@@ -3484,9 +3483,9 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f)
 	f->WriteString("\"><br />\n");
 	
 	// 内容書き込み
-	f->WriteString("<h4 align=center>");
+	f->WriteString("<h1>");
 	f->WriteString(nameStr);
-	f->WriteString("</h4>");
+	f->WriteString("</h1>");
 	f->WriteString(rn2br((*it).getText()));
 	f->WriteString("<br />\n");
 	
@@ -3503,11 +3502,15 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f)
 				nodeFind.setKey((*li).getKeyTo());
 				const_niterator itTo = nodes_.findNode(nodeFind);
 				if (itTo != nodes_.end()) {
-					f->WriteString("<a href=");
-					f->WriteString("\"#");
 					CString keystr;
 					keystr.Format("%d", (*li).getKeyTo());
-					f->WriteString(keystr);
+					f->WriteString("<a href=");
+					if (!textIsolated) {
+						f->WriteString("\"#");
+						f->WriteString(keystr);
+					} else {
+						f->WriteString("\"" + textPrefix + keystr + ".html\"");
+					}
 					f->WriteString("\">");
 					f->WriteString("▲" + Utilities::removeCR((*itTo).getName()));
 					if ((*li).getName() != "") {
@@ -3519,11 +3522,15 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f)
 				nodeFind.setKey((*li).getKeyFrom());
 				const_niterator itFrom = nodes_.findNode(nodeFind);
 				if (itFrom != nodes_.end()) {
-					f->WriteString("<a href=");
-					f->WriteString("\"#");
 					CString keystr;
 					keystr.Format("%d", (*li).getKeyFrom());
-					f->WriteString(keystr);
+					f->WriteString("<a href=");
+					if (!textIsolated) {
+						f->WriteString("\"#");
+						f->WriteString(keystr);
+					} else {
+						f->WriteString("\"" + textPrefix + keystr + ".html\"");
+					}
 					f->WriteString("\">");
 					f->WriteString("▽" + Utilities::removeCR((*itFrom).getName()));
 					if ((*li).getName() != "") {

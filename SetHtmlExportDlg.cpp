@@ -16,8 +16,6 @@ SetHtmlExportDlg::SetHtmlExportDlg(CWnd* pParent /*=NULL*/)
 	, m_xvRdNav(0)
 	, m_xvRdImg(0)
 	, m_xvRdText(0)
-	, m_xvEdCssToc(_T(""))
-	, m_xvEdCssText(_T(""))
 	, m_xvEdPrfIndex(_T(""))
 	, m_xvEdPrfToc(_T(""))
 	, m_xvEdPrfTextSingle(_T(""))
@@ -40,8 +38,6 @@ void SetHtmlExportDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Radio(pDX, IDC_RD_NAV_OUTLINE, m_xvRdNav);
 	DDX_Radio(pDX, IDC_RD_IMG_SVG, m_xvRdImg);
 	DDX_Radio(pDX, IDC_RD_TEXT_SINGLE, m_xvRdText);
-	DDX_Text(pDX, IDC_ED_CSS_TOC, m_xvEdCssToc);
-	DDX_Text(pDX, IDC_ED_CSS_TEXT, m_xvEdCssText);
 	DDX_Text(pDX, IDC_ED_PRF_INDEX, m_xvEdPrfIndex);
 	DDX_Text(pDX, IDC_ED_PRF_TOC, m_xvEdPrfToc);
 	DDX_Text(pDX, IDC_ED_PRF_TEXT_SINGLE, m_xvEdPrfTextSingle);
