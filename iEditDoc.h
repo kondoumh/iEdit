@@ -191,7 +191,6 @@ public:
 	CString procLF(const CString& str);
 	CString procCR(const CString& str);
 	CString getKeyNodeText(DWORD key);
-	void generateHTM(CStdioFile* f);
 	void writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = "");
 	void randomNodesPos(const CSize& area, bool bDrwAll=false);
 	bool saveXML(const CString& outPath, bool bSerialize = false);
