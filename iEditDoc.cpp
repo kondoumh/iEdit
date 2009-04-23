@@ -3887,12 +3887,15 @@ void iEditDoc::viewSettingChanged()
 }
 
 void iEditDoc::exportSVG(bool bDrwAll, const CString &path, bool bEmbed,
-						 const CString& textFileName, const CString& textFilePrefix)
+						 const CString& textFileName, bool textSingle)
 {
 	serialVec vec = getOutlineView()->getDrawOrder(isShowSubBranch());
 	SvgWriter writer(nodes_, links_, vec, bDrwAll);
-	writer.setTextHtmlFileName(textFileName);
-	writer.setTextHtmlFilePrefix(textFilePrefix);
+	if (textSingle) {
+		writer.setTextHtmlFileName(textFileName);
+	} else {
+		writer.setTextHtmlFilePrefix(textFileName);
+	}
 	writer.exportSVG(path, getMaxPt(), bEmbed);
 }
 
@@ -4980,9 +4983,9 @@ bool iEditDoc::saveCurrentImage(const CString& pngPath)
 	return true;
 }
 
-bool iEditDoc::writeClickableMap(CStdioFile& f, const CString& textFileName)
+bool iEditDoc::writeClickableMap(CStdioFile& f, const CString& textFileName, bool singleText)
 {
-	f.WriteString(nodes_.createClickableMapString(textFileName));
+	f.WriteString(nodes_.createClickableMapString(textFileName, singleText));
 	return true;
 }
 

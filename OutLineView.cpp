@@ -1772,6 +1772,7 @@ void OutlineView::OutputHTML()
 	eDlg.m_NameOfRoot = tree().GetItemText(tree().GetRootItem());
 	if (GetDocument()->isShowSubBranch()) {
 		eDlg.m_NameOfVisibleRoot = tree().GetItemText(m_hItemShowRoot);
+		eDlg.m_xvRdTree = 1;
 	} else {
 		if (tree().GetSelectedItem() == tree().GetRootItem()) {
 			eDlg.m_NameOfVisibleRoot = tree().GetItemText(tree().GetRootItem());
@@ -1981,7 +1982,11 @@ void OutlineView::OutputHTML()
 		CString sHeightMgn; sHeightMgn.Format("height=\"%d\"", GetDocument()->getMaxPt().y + 50);
 		if (eDlg.m_xvRdImg == 0) {
 			CString svgPath = outdir + "\\" + eDlg.m_pathSvg;
-			GetDocument()->exportSVG(false, svgPath, true, eDlg.m_pathTextSingle);
+			if (m_exportOption.textOption == 0) {
+				GetDocument()->exportSVG(false, svgPath, true, m_exportOption.pathTextSingle);
+			} else {
+				GetDocument()->exportSVG(false, svgPath, true, m_exportOption.prfTextEverynode, false);
+			}
 			nf.WriteString("<object type=\"image/svg+xml\" data=\""
 				+ eDlg.m_pathSvg +
 				"\" classid=\"clsid:377B5106-3B4E-4A2D-8520-8767590CAC86 "
@@ -1994,7 +1999,11 @@ void OutlineView::OutputHTML()
 			GetDocument()->saveCurrentImage(outdir + "\\" + eDlg.m_pathPng);
 			nf.WriteString("<img src=\"" + eDlg.m_pathPng + "\" border=\"0\" usemap=\"#nodes\" />\n");
 			nf.WriteString("<map name=\"nodes\">\n");
-			GetDocument()->writeClickableMap(nf, eDlg.m_pathTextSingle);
+			if (m_exportOption.textOption == 0) {
+				GetDocument()->writeClickableMap(nf, m_exportOption.pathTextSingle);
+			} else {
+				GetDocument()->writeClickableMap(nf, m_exportOption.prfTextEverynode, false);
+			}
 			nf.WriteString("</map>\n");
 		}
 		nf.WriteString("</body>\n</html>\n");

@@ -19,9 +19,9 @@ static char THIS_FILE[]=__FILE__;
 //////////////////////////////////////////////////////////////////////
 
 SvgWriter::SvgWriter(iNodes& nodes, iLinks& links, serialVec& drawOrder, bool bDrwAll) :
-   m_nodes(nodes), m_links(links), m_drawOrder(drawOrder), m_bDrwAll(bDrwAll)
+   m_nodes(nodes), m_links(links), m_drawOrder(drawOrder), m_bDrwAll(bDrwAll),
+	   m_TextHtmlFileName(""), m_TextHtmlFilePrefix("")
 {
-
 }
 
 SvgWriter::~SvgWriter()
@@ -298,6 +298,8 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		CString url = "text.html#" + sKey;
 		if (m_TextHtmlFileName != "") {
 			url = m_TextHtmlFileName + "#" + sKey;
+		} else {
+			url = "text/" + m_TextHtmlFilePrefix + sKey + ".html";
 		}
 		MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
 		pNodeRef = pDoc->createElement("a");

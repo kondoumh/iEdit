@@ -98,7 +98,7 @@ public:
 // オペレーション
 public:
 	void fitSetlectedNodeSize();
-	bool writeClickableMap(CStdioFile& f, const CString& textFileName);
+	bool writeClickableMap(CStdioFile& f, const CString& textFileName, bool singleText=true);
 	bool saveCurrentImage(const CString& pngPath);
 	CString getTitleFromPath() const;
 	void swapLinkOrder(DWORD key1, DWORD key2);
@@ -161,7 +161,7 @@ public:
 	void setVisibleNodes(KeySet& keySet);
 	iNode getHitNode(const CPoint& pt, bool bDrwAll);
 	void exportSVG(bool bDrwAll, const CString& path, bool bEmbed = false,
-		const CString& textFileName = "", const CString& textFilePrefix = "");
+		const CString& textFileName = "", bool textSingle = true);
 	void viewSettingChanged();
 	void drawLinkSelectionTo(CDC* pDC, bool bDrwAll);
 	void drawLinkSelectionFrom(CDC* pDC, bool bDrwAll=false);
