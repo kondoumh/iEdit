@@ -3572,6 +3572,7 @@ CString iEditDoc::procWikiNotation(const CString &text)
 	const std::tr1::regex h3("^\\*\\*([^\\*].*)$");
 	const std::tr1::regex l1("^-([^-].*)$");
 	const std::tr1::regex l2("^--([^-].*)");
+	//const std::tr1::regex uri("(https?:\\/\\/[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+");
 	std::tr1::match_results<std::string::const_iterator> result;
 	int pos = 0;
 	CString rtnStr;
@@ -3596,6 +3597,13 @@ CString iEditDoc::procWikiNotation(const CString &text)
 			rtnStr += result[1].str().c_str();
 			rtnStr += "</li>\n";
 			rtnStr += "</ul>\n";
+		//} else if (std::tr1::regex_match(line, result, uri)) {
+		//	DEBUG_WRITE(line.c_str());
+		//	rtnStr += "<a href=\"";
+		//	rtnStr += result[0].str().c_str();
+		//	rtnStr += "\"";
+		//	rtnStr += result[0].str().c_str();
+		//	rtnStr += "</a>\n";
 		} else {
 			rtnStr += line.c_str();
 			rtnStr += "<br />\n";
