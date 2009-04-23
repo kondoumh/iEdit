@@ -299,6 +299,8 @@ protected:
 // 生成されたメッセージ マップ関数
 protected:
 	CString procWikiNotation(const CString& text);
+	void beginUL(CString& str, int& level, int& prevLevel);
+	void endUL(CString& str, int& level);
 	OutlineView* getOutlineView() const;
 	template <class T>
 	void outStyleSheetLine(T &f);

@@ -3568,47 +3568,85 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 
 CString iEditDoc::procWikiNotation(const CString &text)
 {
-	const std::tr1::regex h2("^\\*([^\\*].*)$"); //"^-.*$" "^[0-9].*$" "^\\*.*$"
-	const std::tr1::regex h3("^\\*\\*([^\\*].*)$");
-	const std::tr1::regex l1("^-([^-].*)$");
-	const std::tr1::regex l2("^--([^-].*)");
+	const std::tr1::regex h2("^\\*\\s([^\\*].*)$"); //"^-.*$" "^[0-9].*$" "^\\*.*$"
+	const std::tr1::regex h3("^\\*\\*\\s([^\\*].*)$");
+	const std::tr1::regex h4("^\\*\\*\\*\\s([^\\*].*)$");
+	const std::tr1::regex l1("^-\\s([^-].*)$");
+	const std::tr1::regex l2("^--\\s([^-].*)");
 	const std::tr1::regex uri("^.*(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+).*$");
 	std::tr1::match_results<std::string::const_iterator> result;
+	int level = 0;
+	int prevLevel = 0;
 	int pos = 0;
 	CString rtnStr;
 	CString token = " ";
 	while (token != "") {
 		token = text.Tokenize("\r\n", pos);
-		if (token.GetLength() == 0) { 
-			continue;
-		}
 		std::string line = token;
 		if (std::tr1::regex_match(line, result, h2)) {
+			endUL(rtnStr, level);
 			rtnStr += "<h2>";
 			rtnStr += result[1].str().c_str();
 			rtnStr += "</h2>\n";
 		} else if (std::tr1::regex_match(line, result, h3)) {
+			endUL(rtnStr, level);
 			rtnStr += "<h3>";
 			rtnStr += result[1].str().c_str();
 			rtnStr += "</h3>\n";
+		} else if (std::tr1::regex_match(line, result, h4)) {
+			endUL(rtnStr, level);
+			rtnStr += "<h4>";
+			rtnStr += result[1].str().c_str();
+			rtnStr += "</h4>\n";
 		} else if (std::tr1::regex_match(line, result, l1)) {
-			rtnStr += "<ul>\n";
+			prevLevel = level;
+			level = 1;
+			beginUL(rtnStr, level, prevLevel);
 			rtnStr += "<li>";
 			rtnStr += result[1].str().c_str();
 			rtnStr += "</li>\n";
-			rtnStr += "</ul>\n";
+		} else if (std::tr1::regex_match(line, result, l2)) {
+			prevLevel = level;
+			level = 2;
+			beginUL(rtnStr, level, prevLevel);
+			rtnStr += "<li>";
+			rtnStr += result[1].str().c_str();
+			rtnStr += "</li>\n";
 		} else if (std::tr1::regex_match(line, result, uri)) {
+			endUL(rtnStr, level);
 			rtnStr += "<a href=\"";
 			rtnStr += result[1].str().c_str();
 			rtnStr += "\" target=\"_blank\">";
 			rtnStr += result[1].str().c_str();
 			rtnStr += "</a><br />\n";
 		} else {
+			endUL(rtnStr, level);
 			rtnStr += line.c_str();
 			rtnStr += "<br />\n";
 		}
 	}
 	return rtnStr;
+}
+
+void iEditDoc::beginUL(CString& str, int& level, int& prevLevel)
+{
+	if (prevLevel == level) {
+		return;
+	} else if (prevLevel > level) {
+		str += "</ul>\n";
+	} else if (prevLevel < level) {
+		str += "<ul>\n";
+	}
+}
+
+void iEditDoc::endUL(CString & str, int& level)
+{
+	if (level == 1) {
+		str += "</ul>\n";
+	} else if (level == 2) {
+		str += "</ul>\n</ul>\n";
+	}
+	if (level > 0) level = 0;
 }
 
 CString iEditDoc::getKeyNodeText(DWORD key)

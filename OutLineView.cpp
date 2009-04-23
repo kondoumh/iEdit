@@ -2105,8 +2105,9 @@ void OutlineView::writeTextStyle(CStdioFile &f, bool single)
 	} else {
 		f.WriteString(" h1 {font-size: 120%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
 	}
-	f.WriteString(" h2 {font-size: 110%; border-bottom:1pt solid #9999FF; border-left:3pt solid #9999FF; padding: 5px 5px 5px;}\n");
+	f.WriteString(" h2 {font-size: 110%; border-bottom:2pt solid #9999FF; border-left:3pt solid #9999FF; padding: 5px 5px 5px;}\n");
 	f.WriteString(" h3 {font-size: 100%; border-bottom:1pt solid #9999FF; padding: 5px 5px 5px;}\n");
+	f.WriteString(" h4 {font-size: 100%; border-bottom: 1px dashed #999999; padding: 5px 5px 5px;}\n");
 	f.WriteString(" li {font-size: 80%; padding: 0px;}\n");
 	f.WriteString("</style>\n");
 }
