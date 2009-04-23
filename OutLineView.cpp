@@ -1807,6 +1807,8 @@ void OutlineView::OutputHTML()
 	bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
 	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
 	bi.iImage = 0;
+	CString folder = AfxGetApp()->GetProfileString(_T("Settings"), _T("HTML OutputDir"), _T(""));
+	bi.lParam = (LPARAM)folder.GetBuffer(folder.GetLength());
 	
 	CString outdir;
 	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
@@ -1844,6 +1846,7 @@ void OutlineView::OutputHTML()
 		}
 	}
 	
+	AfxGetApp()->WriteProfileString(_T("Settings"), _T("HTML OutputDir"), outdir);
 	HTREEITEM root;
 	if (m_exportOption.htmlOutOption == 0) {
 		root = tree().GetRootItem();
@@ -2098,10 +2101,12 @@ void OutlineView::writeTextStyle(CStdioFile &f, bool single)
 {
 	f.WriteString("<style type=\"text/css\">\n");
 	if (single) {
-		f.WriteString(" h1 {font-size: 100%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n");
+		f.WriteString(" h1 {font-size: 120%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n");
 	} else {
-		f.WriteString(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
+		f.WriteString(" h1 {font-size: 120%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
 	}
+	f.WriteString(" h2 {font-size: 110%; border-bottom:1pt solid #9999FF; border-left:3pt solid #9999FF; padding: 5px 5px 5px;}\n");
+	f.WriteString(" h3 {font-size: 100%; border-bottom:1pt solid #9999FF; padding: 5px 5px 5px;}\n");
 	f.WriteString(" li {font-size: 80%; padding: 0px;}\n");
 	f.WriteString("</style>\n");
 }

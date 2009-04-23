@@ -13,6 +13,7 @@
 #include <shlwapi.h>
 #include "Utilities.h"
 #include <atlimage.h>
+#include <regex>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -3483,13 +3484,13 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 	f->WriteString("\" />\n");
 	
 	// “à—e‘‚«ž‚Ý
-	f->WriteString("<h1>");
-	f->WriteString(nameStr);
-	f->WriteString("</h1>");
-	f->WriteString(rn2br((*it).getText()));
-	f->WriteString("\n");
+	f->WriteString("<h1>" + nameStr + "</h1>\n");
+	f->WriteString("<div class=\"text\">\n");
+	f->WriteString(procWikiNotation((*it).getText()));
+	f->WriteString("</div>\n");
 	
 	// ƒŠƒ“ƒN‚Ì‘‚«ž‚Ý
+	f->WriteString("<div class=\"links\">\n");
 	const_literator li = links_.begin();
 	CString sLink("<ul>\n");
 	int cnt=0;
@@ -3562,21 +3563,45 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 	if (cnt > 0) {
 		f->WriteString(sLink);
 	}
+	f->WriteString("</div>\n");
 }
 
-CString iEditDoc::rn2br(const CString &text)
+CString iEditDoc::procWikiNotation(const CString &text)
 {
-	CString toStr;
-	for (int i = 0; i < text.GetLength(); i++) {
-		if (text[i] == '\n') {
-			toStr += "<br />\n";
-		} else if (text[i] == '\r') {
-			;
+	const std::tr1::regex h2("^\\*([^\\*].*)$"); //"^-.*$" "^[0-9].*$" "^\\*.*$"
+	const std::tr1::regex h3("^\\*\\*([^\\*].*)$");
+	const std::tr1::regex l1("^-([^-].*)$");
+	const std::tr1::regex l2("^--([^-].*)");
+	std::tr1::match_results<std::string::const_iterator> result;
+	int pos = 0;
+	CString rtnStr;
+	CString token = " ";
+	while (token != "") {
+		token = text.Tokenize("\r\n", pos);
+		if (token.GetLength() == 0) { 
+			continue;
+		}
+		std::string line = token;
+		if (std::tr1::regex_match(line, result, h2)) {
+			rtnStr += "<h2>";
+			rtnStr += result[1].str().c_str();
+			rtnStr += "</h2>\n";
+		} else if (std::tr1::regex_match(line, result, h3)) {
+			rtnStr += "<h3>";
+			rtnStr += result[1].str().c_str();
+			rtnStr += "</h3>\n";
+		} else if (std::tr1::regex_match(line, result, l1)) {
+			rtnStr += "<ul>\n";
+			rtnStr += "<li>";
+			rtnStr += result[1].str().c_str();
+			rtnStr += "</li>\n";
+			rtnStr += "</ul>\n";
 		} else {
-			toStr += text[i];
+			rtnStr += line.c_str();
+			rtnStr += "<br />\n";
 		}
 	}
-	return toStr;
+	return rtnStr;
 }
 
 CString iEditDoc::getKeyNodeText(DWORD key)

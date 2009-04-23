@@ -298,6 +298,7 @@ protected:
 
 // 生成されたメッセージ マップ関数
 protected:
+	CString procWikiNotation(const CString& text);
 	OutlineView* getOutlineView() const;
 	template <class T>
 	void outStyleSheetLine(T &f);
@@ -318,7 +319,6 @@ protected:
 	bool DomTree2Nodes3(MSXML2::IXMLDOMElement* node);
 	bool isKeyInLabels(const Labels& labels, DWORD key);
 	double width2Len(int width);
-	CString rn2br(const CString& text);
 	void addImportData(bool brepRoot);
 	DWORD findPairKey(const DWORD first);
 	bool DomTree2Nodes(MSXML2::IXMLDOMElement* node, CStdioFile* f);
