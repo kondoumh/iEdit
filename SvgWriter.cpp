@@ -308,9 +308,23 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		pNodeRef->appendChild(pNText);
 		return pNodeRef;
 	} else {
-		// nodeのテキストの1行目がURLだったらリンクを作る
-		// TODO:リンクにURLが含まれている場合はそれの1個目を取ってくる
-		CString url = extractfirstURLfromText(node.getText());
+		// リンクかテキストの1行目からURLを抽出する)
+		CString url;
+		const_literator li = m_links.begin();
+		for ( ; li != m_links.end(); li++) {
+			if ((*li).getKeyFrom() == node.getKey()) {
+				if ((*li).getArrowStyle() == iLink::other) {
+					CString name = (*li).getPath();
+					if (name.Find("http://") != -1 || name.Find("https://") != -1) {
+						url = name;
+						break;
+					}
+				}
+			}
+		}
+		if (url == "") {
+			url = extractfirstURLfromText(node.getText());
+		}
 		if (url != "") {
 			MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
 			pNodeRef = pDoc->createElement("a");
