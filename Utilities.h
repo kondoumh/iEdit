@@ -7,4 +7,5 @@ public:
 	~Utilities(void);
 	static CString getSafeFileName(const CString& str);
 	static CString removeCR(const CString &str);
+	static vector<CString> getLines(const CString& text);
 };

@@ -43,3 +43,21 @@ CString Utilities::removeCR(const CString &str)
 	}
 	return toStr;
 }
+
+vector<CString> Utilities::getLines(const CString &text)
+{
+	vector<CString> lines;
+	CString line;
+	for (int i = 0; i < text.GetLength(); i++) {
+		if (text[i] != '\r' && text[i] != '\n') {
+			line += text[i];
+		} else if (text[i] == '\n') {
+			lines.push_back(line);
+			line = "";
+		}
+	}
+	if (line != "") {
+		lines.push_back(line);
+	}
+	return lines;
+}

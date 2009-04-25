@@ -3573,69 +3573,100 @@ CString iEditDoc::procWikiNotation(const CString &text)
 	const std::tr1::regex h4("^\\*\\*\\*\\s([^\\*].*)$");
 	const std::tr1::regex l1("^-\\s([^-].*)$");
 	const std::tr1::regex l2("^--\\s([^-].*)");
+	const std::tr1::regex l3("^---\\s([^-].*)");
 	const std::tr1::regex uri("^.*(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+).*$");
 	std::tr1::match_results<std::string::const_iterator> result;
+	
+	vector<CString> lines = Utilities::getLines(text);
 	int level = 0;
 	int prevLevel = 0;
-	int pos = 0;
 	CString rtnStr;
-	CString token = " ";
-	while (token != "") {
-		token = text.Tokenize("\r\n", pos);
-		std::string line = token;
+	for (unsigned int i = 0; i < lines.size(); i++) {
+		std::string line = lines[i];
 		if (std::tr1::regex_match(line, result, h2)) {
 			endUL(rtnStr, level);
 			rtnStr += "<h2>";
-			rtnStr += result[1].str().c_str();
+			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += "</h2>\n";
 		} else if (std::tr1::regex_match(line, result, h3)) {
 			endUL(rtnStr, level);
 			rtnStr += "<h3>";
-			rtnStr += result[1].str().c_str();
+			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += "</h3>\n";
 		} else if (std::tr1::regex_match(line, result, h4)) {
 			endUL(rtnStr, level);
 			rtnStr += "<h4>";
-			rtnStr += result[1].str().c_str();
+			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += "</h4>\n";
 		} else if (std::tr1::regex_match(line, result, l1)) {
 			prevLevel = level;
 			level = 1;
 			beginUL(rtnStr, level, prevLevel);
 			rtnStr += "<li>";
-			rtnStr += result[1].str().c_str();
+			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += "</li>\n";
 		} else if (std::tr1::regex_match(line, result, l2)) {
 			prevLevel = level;
 			level = 2;
 			beginUL(rtnStr, level, prevLevel);
 			rtnStr += "<li>";
-			rtnStr += result[1].str().c_str();
+			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += "</li>\n";
-		} else if (std::tr1::regex_match(line, result, uri)) {
-			endUL(rtnStr, level);
-			rtnStr += "<a href=\"";
-			rtnStr += result[1].str().c_str();
-			rtnStr += "\" target=\"_blank\">";
-			rtnStr += result[1].str().c_str();
-			rtnStr += "</a><br />\n";
+		} else if (std::tr1::regex_match(line, result, l3)) {
+			prevLevel = level;
+			level = 3;
+			beginUL(rtnStr, level, prevLevel);
+			rtnStr += "<li>";
+			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
+			rtnStr += "</li>\n";
 		} else {
 			endUL(rtnStr, level);
-			rtnStr += line.c_str();
+			rtnStr += makeInlineUrlLink(CString(line.c_str()));
 			rtnStr += "<br />\n";
 		}
 	}
 	return rtnStr;
 }
 
+// ÉCÉìÉâÉCÉìÇÃURLÇåüèoÇ∑ÇÈ ç°ÇÃÇ∆Ç±ÇÎç≈èâÇÃ1å¬ÇÃÇ›
+CString iEditDoc::makeInlineUrlLink(const CString &line)
+{
+	const std::tr1::regex uri("^(.*)(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)(.*)$");
+	const std::tr1::regex wikiLink("^(.*)\\[\\[(.+):(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)\\]\\](.*)$");
+	std::string sLine = line;
+	std::tr1::match_results<std::string::const_iterator> result;
+	if (std::tr1::regex_match(sLine, result, wikiLink)) {
+		CString rtnStr = result[1].str().c_str();
+		rtnStr += "<a href=\"";
+		rtnStr += result[3].str().c_str();
+		rtnStr += "\" target=\"_blank\">";
+		rtnStr += result[2].str().c_str();
+		rtnStr += "</a>";
+		rtnStr += result[4].str().c_str();
+		return rtnStr;
+	} else if (std::tr1::regex_match(sLine, result, uri)) {
+		CString rtnStr = result[1].str().c_str();
+		rtnStr += "<a href=\"";
+		rtnStr += result[2].str().c_str();
+		rtnStr += "\" target=\"_blank\">";
+		rtnStr += result[2].str().c_str();
+		rtnStr += "</a>";
+		rtnStr += result[3].str().c_str();
+		return rtnStr;
+	} 
+	return line;
+}
+
 void iEditDoc::beginUL(CString& str, int& level, int& prevLevel)
 {
-	if (prevLevel == level) {
-		return;
-	} else if (prevLevel > level) {
-		str += "</ul>\n";
-	} else if (prevLevel < level) {
+	if (prevLevel == level - 1) {
 		str += "<ul>\n";
+	} else if (prevLevel == level -2) {
+		str += "<ul>\n<ul>\n";
+	} else if (prevLevel == level + 1) {
+		str += "</ul>\n";
+	} else if (prevLevel == level + 2) {
+		str += "<ul></ul>\n";
 	}
 }
 
@@ -3645,6 +3676,8 @@ void iEditDoc::endUL(CString & str, int& level)
 		str += "</ul>\n";
 	} else if (level == 2) {
 		str += "</ul>\n</ul>\n";
+	} else if (level == 3) {
+		str += "</ul>\n</ul>\n</ul>\n";
 	}
 	if (level > 0) level = 0;
 }

@@ -301,6 +301,7 @@ protected:
 	CString procWikiNotation(const CString& text);
 	void beginUL(CString& str, int& level, int& prevLevel);
 	void endUL(CString& str, int& level);
+	CString makeInlineUrlLink(const CString& line);
 	OutlineView* getOutlineView() const;
 	template <class T>
 	void outStyleSheetLine(T &f);
