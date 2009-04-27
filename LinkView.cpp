@@ -28,15 +28,17 @@ bool operator <(const listitem& i1, const listitem& i2) {
 		if (i1.linkType == listitem::linkSL || i1.linkType == listitem::linkDL) {
 			s1 = i1.sTo;
 		} else if (i1.linkType == listitem::FileName ||
-			                  i1.linkType == listitem::WebURL ||
-							         i1.linkType == listitem::linkFolder) {
+			i1.linkType == listitem::WebURL ||
+			i1.linkType == listitem::linkFolder ||
+			i1.linkType == listitem::iedFile) {
 			s1 = i1.path;
 		}
 		if (i2.linkType == listitem::linkSL || i2.linkType == listitem::linkDL) {
 			s2 = i2.sTo;
 		} else if (i2.linkType == listitem::FileName ||
-			                  i2.linkType == listitem::WebURL ||
-							               i2.linkType == listitem::linkFolder) {
+			i2.linkType == listitem::WebURL ||
+			i2.linkType == listitem::linkFolder ||
+			i2.linkType == listitem::iedFile) {
 			s2 = i2.path;
 		}
 		return (s1 < s2);
@@ -262,7 +264,8 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 				::lstrcpy(pDispInfo->item.pszText, items_[index].sTo);
 			} else if (type == listitem::FileName || 
 				       type == listitem::WebURL ||
-					   type == listitem::linkFolder) {
+					   type == listitem::linkFolder ||
+					   type == listitem::iedFile) {
 				::lstrcpy(pDispInfo->item.pszText, items_[index].path);
 			}
 			break;
@@ -395,7 +398,7 @@ void LinkView::jumpTo()
 		return;
 	}
 	int type = items_[index].linkType;
-	if (type == listitem::FileName || type == listitem::linkFolder) {
+	if (type == listitem::FileName || type == listitem::linkFolder || type == listitem::iedFile) {
 		CString path = items_[index].path;
 		char drive[_MAX_DRIVE];
 		char dir[_MAX_DIR];

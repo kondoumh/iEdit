@@ -1301,7 +1301,11 @@ void iEditDoc::getLinkInfoList(lsItems &ls, bool drwAll)
 				if (finder.IsDirectory()) {
 					i.linkType = listitem::linkFolder;
 				} else {
-					i.linkType = listitem::FileName;
+					if (url.Right(5) == ".iedx" || url.Right(4) == ".ied") {
+						i.linkType = listitem::iedFile;
+					} else {
+						i.linkType = listitem::FileName;
+					}
 				}
 			}
 		}
@@ -3581,8 +3585,14 @@ CString iEditDoc::procWikiNotation(const CString &text)
 	int level = 0;
 	int prevLevel = 0;
 	CString rtnStr;
+	bool pre = false;
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		std::string line = lines[i];
+		if (line.find("<pre>") != -1) {
+			pre = true;
+		} else if (line.find("</pre>") != -1) {
+			pre = false;
+		}
 		if (std::tr1::regex_match(line, result, h2)) {
 			endUL(rtnStr, level);
 			rtnStr += "<h2>";
@@ -3621,8 +3631,12 @@ CString iEditDoc::procWikiNotation(const CString &text)
 			rtnStr += "</li>\n";
 		} else {
 			endUL(rtnStr, level);
-			rtnStr += makeInlineUrlLink(CString(line.c_str()));
-			rtnStr += "<br />\n";
+			if (!pre) {
+				rtnStr += makeInlineUrlLink(CString(line.c_str()));
+				rtnStr += "<br />\n";
+			} else {
+				rtnStr += lines[i] + "\n";
+			}
 		}
 	}
 	return rtnStr;
