@@ -3666,7 +3666,7 @@ void iEditDoc::beginUL(CString& str, int& level, int& prevLevel)
 	} else if (prevLevel == level + 1) {
 		str += "</ul>\n";
 	} else if (prevLevel == level + 2) {
-		str += "<ul></ul>\n";
+		str += "</ul>\n</ul>\n";
 	}
 }
 
