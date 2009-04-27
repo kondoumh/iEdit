@@ -738,7 +738,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 			CString url = getLocationFromURLFile(path);
 			GetDocument()->addURLLink(url, CString(fname));
 			continue;
-		} else if (extention == ".ied") {
+		} else if (extention == ".ied" || extention == ".iedx") {
 			SelFileDropDlg dlg;
 			dlg.m_nDropProc = 0;
 			if (dlg.DoModal() != IDOK) return TRUE;
