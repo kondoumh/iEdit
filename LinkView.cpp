@@ -418,7 +418,12 @@ void LinkView::jumpTo()
 			workdir.Format("%s%s", drive, dir, dir2);
 			path = combPath;
 		}
-		ShellExecute(m_hWnd, "open", path, NULL, workdir, SW_SHOW);
+		CString extention(ext);
+		if (extention == ".ied" || extention == ".iedx") {
+			AfxGetApp()->OpenDocumentFile(path);
+		} else {
+			ShellExecute(m_hWnd, "open", path, NULL, workdir, SW_SHOW);
+		}
 	} else if (type == listitem::WebURL) {
 		ShellExecute(m_hWnd, "open", items_[index].path, NULL, NULL, SW_SHOW);
 	} else {
