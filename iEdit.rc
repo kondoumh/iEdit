@@ -1352,7 +1352,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "すべてのノードを出力する(ネットワークビューは表示されているノードのみ出力)",IDC_RD_TREE,
                     "Button",BS_AUTORADIOBUTTON | WS_GROUP,18,17,259,9
-    CONTROL         "ネットワーク図で表示されているノードのみ出力する",IDC_RD_TREE2,"Button",BS_AUTORADIOBUTTON,18,31,175,9
+    CONTROL         "ネットワークビューで表示されているノードのみ出力する",IDC_RD_TREE2,"Button",BS_AUTORADIOBUTTON,18,31,175,9
     CONTROL         "アウトラインビューのみ出力する",IDC_RD_NAV_OUTLINE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,18,59,117,10
     CONTROL         "ネットワークビューのみ出力する",IDC_RD_NAV_NETWORK,"Button",BS_AUTORADIOBUTTON,18,73,111,10
     CONTROL         "アウトラインビューとネットワークビューを両方出力する",IDC_RD_NAV_BOTH,"Button",BS_AUTORADIOBUTTON,18,88,176,10
