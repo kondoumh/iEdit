@@ -247,6 +247,7 @@ void iNode::adjustFont(bool bForceResize)
 {
 	//DEBUG_WRITE("adjustFont");
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize && !bForceResize) return;
+	if (styleText == iNode::notext) return;
 	CSize sz = getNodeTextSize();
 	LONG hmargin = sz.cy*4/7;
 	LONG wmargin = sz.cy;
