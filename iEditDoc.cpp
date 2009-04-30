@@ -3593,6 +3593,10 @@ CString iEditDoc::procWikiNotation(const CString &text)
 		} else if (line.find("</pre>") != -1) {
 			pre = false;
 		}
+		if (pre) {
+			rtnStr += lines[i] + "\n";
+			continue;
+		}
 		if (std::tr1::regex_match(line, result, h2)) {
 			endUL(rtnStr, level);
 			rtnStr += "<h2>";
@@ -3631,12 +3635,8 @@ CString iEditDoc::procWikiNotation(const CString &text)
 			rtnStr += "</li>\n";
 		} else {
 			endUL(rtnStr, level);
-			if (!pre) {
-				rtnStr += makeInlineUrlLink(CString(line.c_str()));
-				rtnStr += "<br />\n";
-			} else {
-				rtnStr += lines[i] + "\n";
-			}
+			rtnStr += makeInlineUrlLink(CString(line.c_str()));
+			rtnStr += "<br />\n";
 		}
 	}
 	return rtnStr;
