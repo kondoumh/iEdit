@@ -360,7 +360,8 @@ void LinkView::setLinkInfo()
 		i.lf_ = dlg.lf;
 		::lstrcpy(i.lf_.lfFaceName, dlg.lf.lfFaceName);
 		GetDocument()->setSpecifiedLinkInfo(items_[index], i);
-	} else if (type == listitem::FileName || type == listitem::WebURL || type == listitem::linkFolder) {
+	} else if (type == listitem::FileName || type == listitem::WebURL ||
+		type == listitem::linkFolder || type == listitem::iedFile) {
 		LinkInfo2Dlg dlg;
 		dlg.strComment = i.comment;
 		dlg.strOrg = GetDocument()->getSelectedNodeLabel();
