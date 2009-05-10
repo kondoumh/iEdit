@@ -72,6 +72,9 @@ BOOL SetHtmlExportDlg::OnInitDialog()
 	setPathOutline();
 	if (m_xvRdNav == 0) {
 		SetRdImageEnable(FALSE);
+	} else if (m_xvRdNav == 1) {
+		GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(FALSE);
+		SetRdImageEnable(TRUE);
 	} else {
 		SetRdImageEnable(TRUE);
 		setPathNetwork();
@@ -93,6 +96,7 @@ BOOL SetHtmlExportDlg::OnInitDialog()
 void SetHtmlExportDlg::OnBnClickedRdNavOutline()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(TRUE);
 	SetRdImageEnable(FALSE);
 }
 
@@ -116,12 +120,14 @@ void SetHtmlExportDlg::SetEdPrfTextEverynodeEnable(BOOL bEnable)
 void SetHtmlExportDlg::OnBnClickedRdNavNetwork()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(FALSE);
 	SetRdImageEnable(TRUE);
 }
 
 void SetHtmlExportDlg::OnBnClickedRdNavBoth()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(TRUE);
 	SetRdImageEnable(TRUE);
 }
 
@@ -155,7 +161,9 @@ void SetHtmlExportDlg::setPathIndex()
 {
 	CString s;
 	GetDlgItem(IDC_ED_PRF_INDEX)->GetWindowText(s);
-	GetDlgItem(IDC_ED_PRF_TOC)->SetWindowTextA(s);
+	if (GetDlgItem(IDC_ED_PRF_TOC)->IsWindowEnabled()) {
+		GetDlgItem(IDC_ED_PRF_TOC)->SetWindowTextA(s);
+	}
 	if (GetDlgItem(IDC_ED_PRF_NET)->IsWindowEnabled()) {
 		GetDlgItem(IDC_ED_PRF_NET)->SetWindowTextA(s);
 	}
