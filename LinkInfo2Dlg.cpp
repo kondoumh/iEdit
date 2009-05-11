@@ -58,9 +58,6 @@ void LinkInfo2Dlg::OnOK()
 	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strPath);
 	m_Comment.GetWindowText(strComment);
-	if (strComment.GetLength() > 260) {
-		strComment = strComment.Left(260);
-	}
 	if (strPath == "") {
 		MessageBox("ファイル名または、URLを入力してください");
 		return;
@@ -71,7 +68,8 @@ void LinkInfo2Dlg::OnOK()
 BOOL LinkInfo2Dlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
-	
+	m_edit.SetLimitText(260);
+	m_Comment.SetLimitText(260);
 	// TODO: この位置に初期化の補足処理を追加してください
 	m_Org.SetWindowText(strOrg);
 	m_Comment.ReplaceSel(strComment);

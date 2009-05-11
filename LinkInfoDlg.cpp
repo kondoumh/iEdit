@@ -81,6 +81,7 @@ BOOL LinkInfoDlg::OnInitDialog()
 		m_combo.SetCurSel(0);
 	}
 	
+	m_edit.SetLimitText(260);
 	m_edit.ReplaceSel(strComment);
 	
 	if (styleLine == PS_DOT) {
@@ -131,9 +132,6 @@ void LinkInfoDlg::OnOK()
 {
 	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strComment);
-	if (strComment.GetLength() > 260) {
-		strComment = strComment.Left(260);
-	}
 	CDialog::OnOK();
 }
 
