@@ -261,7 +261,11 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 			int type = items_[index].linkType;
 			if (type == listitem::linkSL || type == listitem::linkDL ||
 				type == listitem::linkSL2 || type == listitem::linkDL2) {
-				::lstrcpy(pDispInfo->item.pszText, items_[index].sTo);
+				CString sTo = items_[index].sTo;
+				if (sTo.GetLength() > 260) {
+					sTo = sTo.Left(260);
+				}
+				::lstrcpy(pDispInfo->item.pszText, sTo);
 			} else if (type == listitem::FileName || 
 				       type == listitem::WebURL ||
 					   type == listitem::linkFolder ||

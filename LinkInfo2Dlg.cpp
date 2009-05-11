@@ -58,6 +58,9 @@ void LinkInfo2Dlg::OnOK()
 	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strPath);
 	m_Comment.GetWindowText(strComment);
+	if (strComment.GetLength() > 260) {
+		strComment = strComment.Left(260);
+	}
 	if (strPath == "") {
 		MessageBox("ファイル名または、URLを入力してください");
 		return;
