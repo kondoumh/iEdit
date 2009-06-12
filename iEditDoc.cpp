@@ -1848,8 +1848,10 @@ void iEditDoc::setSelectedNodeMetaFile(HENHMETAFILE metafile)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
+		(*it).setNodeShape(iNode::MetaFile);
 		(*it).setMetaFile(metafile);
 	}
+	setConnectPoint();
 	SetModifiedFlag();
 	iHint h; h.event = iHint::nodeStyleChanged;
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);

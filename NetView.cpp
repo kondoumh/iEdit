@@ -4546,5 +4546,9 @@ void NetView::OnReplaceMetafile()
 void NetView::OnUpdateReplaceMetafile(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-	pCmdUI->Enable(m_selectStatus == NetView::single);
+	BOOL canAvailable = ::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
+		::IsClipboardFormatAvailable(CF_DIB) ||
+		::IsClipboardFormatAvailable(CF_BITMAP);
+
+	pCmdUI->Enable(m_selectStatus == NetView::single && canAvailable && !GetDocument()->canCopyNode());
 }
