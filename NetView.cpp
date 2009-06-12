@@ -900,6 +900,10 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 			nw.top = 0;
 			nw.bottom = m_selectRect.Height();
 		}
+		bool resized = false;
+		if (m_selectRect.TopLeft() == nw.TopLeft() || m_selectRect.BottomRight() == nw.BottomRight()) {
+			resized = true;
+		}
 		m_selectRect = nw;
 		GetDocument()->setSelectedNodeBound(m_selectRect);
 		int moveX = m_selectRect.left - org.left;
@@ -919,7 +923,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 		}
 		adjustScrollArea();
 		
-		if (((CiEditApp*)AfxGetApp())->m_rgsNode.bEnableGroup) {
+		if (((CiEditApp*)AfxGetApp())->m_rgsNode.bEnableGroup && !resized) {
 			GetDocument()->moveNodesInBound(org, CSize(moveX, moveY));
 			if (GetDocument()->isShowSubBranch() && m_bGrpOlCoupled) {
 				GetDocument()->migrateGroup();
