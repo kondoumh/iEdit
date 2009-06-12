@@ -370,6 +370,8 @@ public:
 	afx_msg void OnUpdateSetMargin(CCmdUI *pCmdUI);
 	afx_msg void OnResizeTofit();
 	afx_msg void OnUpdateResizeTofit(CCmdUI *pCmdUI);
+	afx_msg void OnReplaceMetafile();
+	afx_msg void OnUpdateReplaceMetafile(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////

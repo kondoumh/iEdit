@@ -284,6 +284,8 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_SET_MARGIN, &NetView::OnUpdateSetMargin)
 	ON_COMMAND(ID_RESIZE_TOFIT, &NetView::OnResizeTofit)
 	ON_UPDATE_COMMAND_UI(ID_RESIZE_TOFIT, &NetView::OnUpdateResizeTofit)
+	ON_COMMAND(ID_REPLACE_METAFILE, &NetView::OnReplaceMetafile)
+	ON_UPDATE_COMMAND_UI(ID_REPLACE_METAFILE, &NetView::OnUpdateReplaceMetafile)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -4492,4 +4494,57 @@ void NetView::OnUpdateResizeTofit(CCmdUI *pCmdUI)
 {
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
+}
+
+void NetView::OnReplaceMetafile()
+{
+	// TODO: ここにコマンド ハンドラ コードを追加します。
+	CPoint ptDrop = GetDocument()->getSelectedNodeRect().TopLeft();
+	
+	if (!OpenClipboard()) {
+		::showLastErrorMessage();
+		return;
+	}
+	HENHMETAFILE hm = NULL;
+	if (::IsClipboardFormatAvailable(CF_ENHMETAFILE)) {
+		hm = (HENHMETAFILE)::GetClipboardData(CF_ENHMETAFILE);
+	} else if (::IsClipboardFormatAvailable(CF_DIB) || ::IsClipboardFormatAvailable(CF_BITMAP)) {
+		HBITMAP hb = (HBITMAP)::GetClipboardData(CF_BITMAP);
+		CBitmap * pBitmap = CBitmap::FromHandle(hb);
+		CClientDC dc(this);
+		CDC memDC;
+		memDC.CreateCompatibleDC(&dc);
+		CBitmap* tmpBitmap = memDC.GetCurrentBitmap();
+		memDC.SelectObject(pBitmap);
+
+		CSize szBitmap(100, 100);
+
+		BITMAP bitMap;
+		pBitmap->GetBitmap(&bitMap);
+		if (pBitmap != 0) {
+			szBitmap.cx = bitMap.bmWidth;
+			szBitmap.cy = bitMap.bmHeight;
+		}
+
+		CMetaFileDC* pMfDC = new CMetaFileDC;
+		pMfDC->CreateEnhanced(&dc, NULL, NULL, _T("iEdit"));
+		pMfDC->BitBlt(ptDrop.x, ptDrop.y, szBitmap.cx, szBitmap.cy, &memDC, 0, 0, SRCCOPY);
+		pMfDC->SelectObject(tmpBitmap);
+		hm = pMfDC->CloseEnhanced();
+		delete pMfDC;
+	}
+	if (hm != NULL) {
+		GetDocument()->setSelectedNodeMetaFile(hm);
+	}
+	if (!EmptyClipboard()) {
+		AfxMessageBox( "Cannot empty the Clipboard" );
+		return;
+	}
+	CloseClipboard();
+}
+
+void NetView::OnUpdateReplaceMetafile(CCmdUI *pCmdUI)
+{
+	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
+	pCmdUI->Enable(m_selectStatus == NetView::single);
 }

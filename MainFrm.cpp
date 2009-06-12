@@ -793,7 +793,7 @@ void CMainFrame::ShowDebugMessage(const CString &message)
 		m_pDebugPrintDlg->ShowWindow(SW_SHOWNORMAL);
 		CRect rc;
 		m_pDebugPrintDlg->GetWindowRect(rc);
-		rc.MoveToXY(900, 800);
+		rc.MoveToXY(1100, 500);
 		m_pDebugPrintDlg->MoveWindow(rc);
 	}
 	m_pDebugPrintDlg->m_edConsole.ReplaceSel(message + "\r\n");

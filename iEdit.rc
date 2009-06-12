@@ -511,6 +511,7 @@ BEGIN
         END
         MENUITEM "フォント(&F)",                    ID_SET_NODE_FONT
         MENUITEM "余白の設定(&Y)",                   ID_SET_MARGIN
+        MENUITEM "クリップボードの画像と置き換える",            ID_REPLACE_METAFILE
         MENUITEM SEPARATOR
         MENUITEM "リサイズする(&B)",                  ID_RESIZE_TOFIT
         MENUITEM SEPARATOR

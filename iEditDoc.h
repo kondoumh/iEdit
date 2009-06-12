@@ -204,6 +204,7 @@ public:
 	int getSelectedNodeTextStyle() const;
 	void setSelectedNodeLabel(const CString& label);
 	void setSelectedNodeShape(int shape, int mfIndex=0);
+	void setSelectedNodeMetaFile(HENHMETAFILE metafile);
 	int getSelectedNodeShape() const;
 	BOOL canCopyNode();
 	void makeCopyNode(const CPoint& pt, bool useDefault = true);

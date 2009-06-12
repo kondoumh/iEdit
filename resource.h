@@ -502,6 +502,8 @@
 #define ID_EXPORT_TO_XML                33075
 #define ID_DRAWABLESINGLE_33076         33076
 #define ID_RESIZE_TOFIT                 33077
+#define ID_NET_33081                    33081
+#define ID_REPLACE_METAFILE             33082
 
 // Next default values for new objects
 // 
@@ -509,7 +511,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        213
-#define _APS_NEXT_COMMAND_VALUE         33081
+#define _APS_NEXT_COMMAND_VALUE         33083
 #define _APS_NEXT_CONTROL_VALUE         1122
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

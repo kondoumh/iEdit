@@ -1844,6 +1844,17 @@ void iEditDoc::setSelectedNodeShape(int shape, int mfIndex)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
+void iEditDoc::setSelectedNodeMetaFile(HENHMETAFILE metafile)
+{
+	niterator it = nodes_.getSelectedNode();
+	if (it != nodes_.end()) {
+		(*it).setMetaFile(metafile);
+	}
+	SetModifiedFlag();
+	iHint h; h.event = iHint::nodeStyleChanged;
+	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+}
+
 void iEditDoc::setSelectedNodeLabel(const CString &label)
 {
 	niterator it = nodes_.getSelectedNode();
