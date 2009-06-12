@@ -963,11 +963,10 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iEditのバージョン情報"
 FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
-    LTEXT           "iEdit 1.91",IDC_STATIC,11,84,87,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1999-2009 kondoumh(MH)",IDC_STATIC,11,95,119,8
+    LTEXT           "iEdit 1.92\nCopyright (C) 1999-2009 kondoumh(MH)",IDC_STATIC,11,84,129,17,SS_NOPREFIX
     DEFPUSHBUTTON   "OK",IDOK,120,112,50,14,WS_GROUP
     PUSHBUTTON      "MH Home Page",IDC_TOMH,30,112,81,14
-    ICON            IDR_MAINFRAME,IDC_STATIC,136,68,20,20,SS_REALSIZEIMAGE
+    ICON            IDR_MAINFRAME,IDC_STATIC,142,80,18,21,SS_REALSIZEIMAGE
 END
 
 IDD_INPCN DIALOGEX 0, 0, 123, 41
@@ -1405,8 +1404,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,9,1,0
- PRODUCTVERSION 1,9,1,0
+ FILEVERSION 1,9,2,0
+ PRODUCTVERSION 1,9,2,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1424,12 +1423,12 @@ BEGIN
             VALUE "Comments", "A tool for idea processing and visualization"
             VALUE "CompanyName", "kondoumh"
             VALUE "FileDescription", "アイデアプロセッサ iEdit"
-            VALUE "FileVersion", "1, 9, 1, 0"
+            VALUE "FileVersion", "1, 9, 2, 0"
             VALUE "InternalName", "iEdit"
             VALUE "LegalCopyright", "Copyright (C) 1999-2009 kondoumh"
             VALUE "OriginalFilename", "iEdit.exe"
             VALUE "ProductName", "iEdit"
-            VALUE "ProductVersion", "1, 9, 1, 0"
+            VALUE "ProductVersion", "1, 9, 2, 0"
         END
     END
     BLOCK "VarFileInfo"
