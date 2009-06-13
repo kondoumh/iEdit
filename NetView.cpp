@@ -903,7 +903,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 			nw.bottom = m_selectRect.Height();
 		}
 		bool resized = false;
-		if (m_selectRect.TopLeft() == nw.TopLeft() || m_selectRect.BottomRight() == nw.BottomRight()) {
+		if (m_selectRect.Width() != nw.Width() || m_selectRect.Height() != nw.Height()) {
 			resized = true;
 		}
 		m_selectRect = nw;
