@@ -45,41 +45,6 @@ struct colorref {
 typedef vector<iLink> lVec;
 class OutlineView;
 
-class Command {
-private:
-	int commandType_;
-	vector<iNode> nodesBefoe_;
-	vector<iLink> linksBefore_;
-	vector<iNode> nodesAfter_;
-	vector<iLink> linksAfter_;
-	iNodes& docNodes;
-	iLinks& docLinks;
-public:
-	enum {Add, Delete, ChangeProperty, ChangeOutline};
-	void Undo(iNodes* pNodes, iLinks* pLinks);
-	void Redo(iNodes* pNodes, iLinks* pLinks);
-	inline void setCommandType(int commandType) { commandType_ = commandType; }
-	Command(iNodes& nodes, iLinks& links) : docNodes(nodes), docLinks(links) {}
-};
-
-class UndoManager {
-private:
-	iNodes* pNodes_;
-	iLinks* pLinks_;
-	vector<Command*> commandHistory_;
-	vector<Command*> redoHistory_;
-public:
-	UndoManager() {}
-	~UndoManager() {}
-	inline void setNodes(iNodes* pNodes) { pNodes_ = pNodes; }
-	inline void setLinks(iLinks* pLinks) { pLinks_ = pLinks; }
-	bool canUndo() const;
-	bool canRedo() const;
-	void Undo();
-	void Redo();
-	void AddCommandToHistory(Command* command);
-};
-
 class iEditDoc : public CDocument
 {
 	iNodes nodes_;
@@ -87,7 +52,6 @@ class iEditDoc : public CDocument
 	nVec nodes_undo;
 	lVec links_undo;
 	int m_serialVersion;
-	UndoManager m_undoManager;
 protected: // シリアライズ機能のみから作成します。
 	iEditDoc();
 	DECLARE_DYNCREATE(iEditDoc)

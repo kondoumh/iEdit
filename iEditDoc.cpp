@@ -477,8 +477,6 @@ void iEditDoc::InitDocument()
 	nodes_.setVisibleNodes(nodes_.getSelKey());
 	calcMaxPt(m_maxPt);
 	canCpyLink = FALSE;
-	m_undoManager.setNodes(&nodes_);
-	m_undoManager.setLinks(&links_);
 }
 
 CString iEditDoc::getSelectedNodeText()
@@ -5144,45 +5142,3 @@ void iEditDoc::fitSetlectedNodeSize()
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-///////////// UndoManagerのメソッド定義
-bool UndoManager::canUndo() const
-{
-	return commandHistory_.size() > 0;
-}
-
-bool UndoManager::canRedo() const
-{
-	return redoHistory_.size() > 0;
-}
-
-void UndoManager::Undo()
-{
-	Command* command = commandHistory_.back();
-	command->Undo(pNodes_, pLinks_);
-	redoHistory_.push_back(command);
-	commandHistory_.pop_back();
-}
-
-void UndoManager::Redo()
-{
-	Command* command = redoHistory_.back();
-	command->Redo(pNodes_, pLinks_);
-	commandHistory_.push_back(command);
-	redoHistory_.pop_back();
-}
-
-void UndoManager::AddCommandToHistory(Command *command)
-{
-	commandHistory_.push_back(command);
-}
-
-// Commandのメソッド定義
-void Command::Undo(iNodes* pNodes, iLinks* pLinks)
-{
-
-}
-
-void Command::Redo(iNodes* pNodes, iLinks* pLinks)
-{
-
-}
