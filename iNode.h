@@ -46,6 +46,8 @@ public:
 	void setNodeShape(int shape);
 	void moveBound(const CSize& sz);
 	bool isVisible() const;
+	bool isDeleted() const;
+	void setDelete();
 	void setVisible(bool v=true);
 	bool isSelected() const;
 	void selectNode(bool sel=true);
@@ -160,6 +162,7 @@ private:
 	CString name_;
 	DWORD parent_;
 	DWORD key_;
+	bool deleted_;
 protected:
 	void adjustFont(bool bForceResize=false);
 	CSize getNodeTextSize();
@@ -447,7 +450,15 @@ inline const bool iNode::isInChain() const
 	return bChain_;
 }
 
+inline bool iNode::isDeleted() const
+{
+	return deleted_;
+}
 
+inline void iNode::setDelete()
+{
+	deleted_ = true;
+}
 
 // iNodeDrawer ノード描画ベースクラス
 ////////////////////////////////////////////////////////////////

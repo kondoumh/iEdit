@@ -31,6 +31,7 @@ iLink::iLink()
 	lf_.lfWeight = pApp->m_rgsLink.lf.lfWeight;
 	
 	drwFlag = false;
+	deleted_ = false;
 	colorLine = pApp->m_rgsLink.colorLine;
 	styleArrow = iLink::line;
 	styleLine = pApp->m_rgsLink.styleLine;
@@ -48,31 +49,16 @@ iLink::~iLink()
 
 iLink::iLink(const iLink &l)
 {
-	key_ = l.key_;
-	keyFrom = l.keyFrom;
-	keyTo = l.keyTo;
-	rcFrom = l.rcFrom;
-	rcTo = l.rcTo;
-	ptFrom = l.ptFrom;
-	ptTo = l.ptTo;
-	ptPath = l.ptPath;
-	selfRect = l.selfRect;
-	drwFlag = l.drwFlag;
-	colorLine = l.colorLine;
-	selected_ = l.selected_;
-	name_ = l.name_;
-	lf_ = l.lf_;
-	::lstrcpy(lf_.lfFaceName, l.lf_.lfFaceName);
-	styleArrow = l.styleArrow;
-	styleLine = l.styleLine;
-	lineWidth = l.lineWidth;
-	path_ = l.path_;
-	curved_ = l.curved_;
-	angled_ = l.angled_;
-	len_ = l.len_;
+	initCopy(l);
 }
 
 iLink& iLink::operator =(const iLink &l)
+{
+	initCopy(l);
+	return *this;
+}
+
+void iLink::initCopy(const iLink& l)
 {
 	key_ = l.key_;
 	keyFrom = l.keyFrom;
@@ -84,6 +70,7 @@ iLink& iLink::operator =(const iLink &l)
 	ptPath = l.ptPath;
 	selfRect = l.selfRect;
 	drwFlag = l.drwFlag;
+	deleted_ = l.deleted_;
 	colorLine = l.colorLine;
 	selected_ = l.selected_;
 	name_ = l.name_;
@@ -96,7 +83,6 @@ iLink& iLink::operator =(const iLink &l)
 	curved_ = l.curved_;
 	angled_ = l.angled_;
 	len_ = l.len_;
-	return *this;
 }
 
 IMPLEMENT_SERIAL(iLink, CObject, 0)
@@ -407,6 +393,7 @@ void iLink::setConnectPoint()
 void iLink::Serialize(CArchive &ar)
 {
 	if (ar.IsStoring()) {
+		if (deleted_) return;
 		CString fname(lf_.lfFaceName);
 		
 		// Visual C++ 6.0 と 7.0(.NET)の互換性のためのシリアライズコード
@@ -445,6 +432,7 @@ void iLink::Serialize(CArchive &ar)
 void iLink::SerializeEx(CArchive& ar, int version)
 {
 	if (ar.IsStoring()) {
+		if (deleted_) return;
 		CString fname(lf_.lfFaceName);
 		
 		int curve = curved_ ? 1 : 0;

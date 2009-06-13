@@ -61,6 +61,7 @@ void iNode::init()
 	styleLine = pApp->m_rgsNode.styleLine;
 	selected_ = false;
 	visible = false;
+	deleted_ = false;
 	bfillcolor = pApp->m_rgsNode.bFillColor;
 	shape_ = pApp->m_rgsNode.shape;
 	dx = 0.0;
@@ -114,6 +115,7 @@ void iNode::initCopy(const iNode &n)
 
 	selected_ = n.selected_;
 	visible = n.visible;
+	deleted_ = n.deleted_;
 	shape_ = n.shape_;
 	dx = n.dx;
 	dy = n.dy;
@@ -135,6 +137,7 @@ IMPLEMENT_SERIAL(iNode, CObject, 0)
 void iNode::Serialize(CArchive &ar)
 {
 	if (ar.IsStoring()) {
+		if (deleted_) return;
 		CString fname(lf_.lfFaceName);
 		ar << key_ << parent_ << treeState_ << bound_ << styleLine << styleText << shape_ << fixed_
 		   << bfillcolor << colorFill << colorFont << colorLine << lineWidth << styleLine << name_ << text_
@@ -173,6 +176,7 @@ void iNode::Serialize(CArchive &ar)
 void iNode::SerializeEx(CArchive& ar, int version)
 {
 	if (ar.IsStoring()) {
+		if (deleted_) return;
 		CString fname(lf_.lfFaceName);
 		ar << key_ << parent_ << treeState_ << bound_ << styleLine << styleText << shape_ << fixed_
 		   << bfillcolor << colorFill << colorFont << colorLine << lineWidth << styleLine << name_ << text_

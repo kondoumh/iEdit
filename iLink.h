@@ -73,6 +73,8 @@ public:
 	iLink(const iLink& l);
 	bool canDraw() const;
 	void setDrawFlag(bool drw = true);
+	bool isDeleted() const;
+	void setDelete();
 	void setNodes(const CRect& rcf, const CRect& rct, DWORD keyf, DWORD keyt);
 	void drawArrow(CDC* pDC);
 	void drawLine(CDC* pDC);
@@ -97,6 +99,7 @@ public:
 	enum {upright, upleft, downleft, downright}; // 自己参照線の位置
 
 private:
+	void initCopy(const iLink& l);
 	void drawRectangles(CDC* pDC);
 	void drawTriangles(CDC* pDC);
 	CPen penCommentRect;
@@ -116,6 +119,7 @@ private:
 	CString name_;
 	CString path_;    // URL Fileなどへのリンク格納用
 	bool drwFlag;
+	bool deleted_;
 	DWORD keyTo;
 	DWORD keyFrom;
 	DWORD key_;
@@ -226,6 +230,16 @@ inline void iLink::setDrawFlag(bool drw)
 inline bool iLink::canDraw() const
 {
 	return drwFlag;
+}
+
+inline bool iLink::isDeleted() const
+{
+	return deleted_;
+}
+
+inline void iLink::setDelete()
+{
+	deleted_ = true;
 }
 
 inline DWORD iLink::getKeyFrom() const
