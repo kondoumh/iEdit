@@ -1831,15 +1831,19 @@ int iEditDoc::getSelectedNodeShape() const
 
 void iEditDoc::setSelectedNodeShape(int shape, int mfIndex)
 {
+	disableUndo();
+	backUpUndoNodes();
+	backUpUndoLinks();
 	nodes_.setSelectedNodeShape(shape);
+	SetModifiedFlag();
 	if (shape == iNode::MetaFile) {
 		niterator it = nodes_.getSelectedNode();
 		if (it != nodes_.end()) {
 			CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 			(*it).setMetaFile(pApp->m_hMetaFiles[mfIndex]);
+			setConnectPoint();
 		}
 	}
-	SetModifiedFlag();
 	iHint h; h.event = iHint::nodeStyleChanged;
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
@@ -1848,13 +1852,16 @@ void iEditDoc::setSelectedNodeMetaFile(HENHMETAFILE metafile)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
+		disableUndo();
+		backUpUndoNodes();
+		backUpUndoLinks();
 		(*it).setNodeShape(iNode::MetaFile);
 		(*it).setMetaFile(metafile);
+		setConnectPoint();
+		SetModifiedFlag();
+		iHint h; h.event = iHint::nodeStyleChanged;
+		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 	}
-	setConnectPoint();
-	SetModifiedFlag();
-	iHint h; h.event = iHint::nodeStyleChanged;
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
 void iEditDoc::setSelectedNodeLabel(const CString &label)
@@ -3864,7 +3871,7 @@ void iEditDoc::backUpUndoNodes()
 	niterator it = nodes_.begin();
 	for ( ; it != nodes_.end(); it++) {
 		if ((*it).isVisible()) {
-			iNode n = (*it);
+			iNode n(*it);
 			nodes_undo.push_back(n);
 		}
 	}
