@@ -654,6 +654,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	if (isAddingLink()) { // リンク追加開始の処理
 		CRect r;
 		if (GetDocument()->hitTest(logPt, r, false)) {
+			m_ptPrePos = point;
 			startLink(logPt);
 		}
 		return;
@@ -1373,6 +1374,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	
 	// リンクを追加し終わった(ノード上でマウスをリリースしたか)
+	if (m_ptPrePos == point) return;
 	bool linked = false;
 	switch (m_addMode) {
 	case NetView::link0:
@@ -3558,6 +3560,7 @@ void NetView::cancelDragRelax()
 void NetView::OnMButtonDown(UINT nFlags, CPoint point)
 {
 	CPoint logPt = point; ViewDPtoLP(&logPt);
+	m_ptPrePos = point;
 	CRect r;
 	if (GetDocument()->hitTest(logPt, r, false)) {
 		m_addMode = NetView::link0;
@@ -3575,6 +3578,8 @@ void NetView::OnMButtonUp(UINT nFlags, CPoint point)
 
 	m_bStartAdd = false;
 	CPoint logPt = point; ViewDPtoLP(&logPt);
+	
+	if (point == m_ptPrePos) return;
 	
 	if (GetDocument()->hitTest2(logPt)) {
 		GetDocument()->setEndLink(logPt);
