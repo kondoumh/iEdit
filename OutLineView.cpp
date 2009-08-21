@@ -2686,7 +2686,7 @@ void OutlineView::moveNodes(DWORD keyTarget, DWORD keyMove)
 	tree().SetItemImage(hNew, nImage, nImage);
 	
 	tree().Expand(hTarget, TVE_EXPAND);
-	GetDocument()->setKeyNodeParent(keyMove, keyTarget);
+	GetDocument()->setKeyNodeParent(keyMove, tree().GetItemData(hTarget));
 	if (tree().ItemHasChildren(hMove)) {
 		copySubNodes(tree().GetChildItem(hMove), hNew);
 	}

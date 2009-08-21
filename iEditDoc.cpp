@@ -4947,11 +4947,7 @@ void iEditDoc::migrateGroup()
 		}
 	}
 	iHint hint; hint.event = iHint::groupMigrate;
-	if (key != -1) {
-		hint.keyTarget = key;
-	} else {
-		hint.keyTarget = -1;
-	}
+	hint.keyTarget = key;
 	UpdateAllViews(NULL, (LPARAM)(*it).getKey(), &hint);
 }
 
