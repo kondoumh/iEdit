@@ -403,6 +403,7 @@ void iEditDoc::deleteKeyItem(DWORD key)
 
 BOOL iEditDoc::OnOpenDocument(LPCTSTR lpszPathName) 
 {
+	m_openFilePath = lpszPathName;
 	char drive[_MAX_DRIVE];
 	char dir[_MAX_DIR];
 	char fname[_MAX_FNAME];
@@ -468,6 +469,10 @@ void iEditDoc::InitDocument()
 		lastKey = 0;
 		iNode i("Žå‘è"); i.setKey(0); i.setParent(0);
 		i.moveBound(CSize(10, 10));
+		CString title = getTitleFromOpenPath();
+		if (getTitleFromOpenPath() != "") {
+			i.setName(title);
+		}
 		nodes_.insert(i);
 		sv.push_back(i.getKey());
 	}
@@ -477,6 +482,21 @@ void iEditDoc::InitDocument()
 	nodes_.setVisibleNodes(nodes_.getSelKey());
 	calcMaxPt(m_maxPt);
 	canCpyLink = FALSE;
+}
+
+CString iEditDoc::getTitleFromOpenPath()
+{
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+	_splitpath_s(m_openFilePath, drive, dir, fname, ext );
+	CString extent = ext;
+	extent.MakeLower();
+	if (extent == ".iedx" || extent == ".ied" || extent == ".xml") {
+		return fname;
+	}
+	return "";
 }
 
 CString iEditDoc::getSelectedNodeText()

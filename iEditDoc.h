@@ -91,6 +91,7 @@ public:
 
 // インプリメンテーション
 public:
+	CString getTitleFromOpenPath();
 	void setSelectedNodeMargin(int l, int r, int t, int b);
 	void getSelectedNodeMargin(int &l, int& r, int& t, int& b) const;
 	void setSelectedNodeTreeIconId(int id);
@@ -301,6 +302,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	CString m_openFilePath;
 	int m_initialBranchMode;
 	iNode m_nodeForFormat;
 	iLink m_linkForFormat;
