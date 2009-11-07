@@ -419,7 +419,11 @@ int OutlineView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	
 	// TODO: この位置に固有の作成用コードを追加してください
-	m_imgList.Create(IDB_TREE, 16, 11, RGB(255, 0, 255));
+	m_imgList.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, 1);
+	CBitmap images;
+	images.LoadBitmapA(IDB_TREE);
+	m_imgList.SetBkColor(CLR_NONE);
+	m_imgList.Add(&images, RGB(255, 0, 255));
 	tree().SetImageList(&m_imgList, TVSIL_NORMAL);
 	setViewFont();
 	m_pSrchDlg = new nodeSrchDlg;
