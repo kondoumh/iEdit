@@ -414,31 +414,31 @@ void CiEditApp::OnFileNew()
 
 void CAboutDlg::OnPaint() 
 {
-	CPaintDC paintDC(this); // 描画用のデバイス コンテキスト
-	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
-	if( m_bmp.GetSafeHandle() == NULL) {
-		// 適当にビットマップを作成
-		// ビットマップをロード
-		m_bmp.LoadBitmap(IDB_LOGO);
-	}
-	// ビットマップの大きさを取得
-	BITMAP bitmap;
-	m_bmp.GetBitmap( &bitmap);
-	CSize sz( bitmap.bmWidth, bitmap.bmHeight);
-	CDC dc;
-	dc.CreateCompatibleDC( &paintDC);
-	// ディバイスコンテキストで選択
-	CBitmap *pOld = dc.SelectObject( &m_bmp);
-	// もともとのディバイスコンテキストに
-	// ビットマップを透過で転送
-	if (::TransparentBlt(paintDC, 0, 30, sz.cx, sz.cy, dc, 0, 0, sz.cx, sz.cy, (UINT)RGB( 255, 255, 255)) == FALSE) {
-		// エラー番号を取得
-		DWORD dwErr = ::GetLastError();
-		// ここにエラー時の処理を記述すること
-	}
-	// ビットマップ選択解除
-	dc.SelectObject( pOld);
+	//CPaintDC paintDC(this); // 描画用のデバイス コンテキスト
+	//
+	//// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
+	//if( m_bmp.GetSafeHandle() == NULL) {
+	//	// 適当にビットマップを作成
+	//	// ビットマップをロード
+	//	m_bmp.LoadBitmap(IDB_LOGO);
+	//}
+	//// ビットマップの大きさを取得
+	//BITMAP bitmap;
+	//m_bmp.GetBitmap( &bitmap);
+	//CSize sz( bitmap.bmWidth, bitmap.bmHeight);
+	//CDC dc;
+	//dc.CreateCompatibleDC( &paintDC);
+	//// ディバイスコンテキストで選択
+	//CBitmap *pOld = dc.SelectObject( &m_bmp);
+	//// もともとのディバイスコンテキストに
+	//// ビットマップを透過で転送
+	//if (::TransparentBlt(paintDC, 0, 30, sz.cx, sz.cy, dc, 0, 0, sz.cx, sz.cy, (UINT)RGB( 255, 255, 250)) == FALSE) {
+	//	// エラー番号を取得
+	//	DWORD dwErr = ::GetLastError();
+	//	// ここにエラー時の処理を記述すること
+	//}
+	//// ビットマップ選択解除
+	//dc.SelectObject( pOld);
 }
 
 void CiEditApp::getOtherProfile()
