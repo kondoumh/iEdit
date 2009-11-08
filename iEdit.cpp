@@ -432,7 +432,7 @@ void CAboutDlg::OnPaint()
 	CBitmap *pOld = dc.SelectObject( &m_bmp);
 	// もともとのディバイスコンテキストに
 	// ビットマップを透過で転送
-	if (::TransparentBlt( paintDC, 0, 0, sz.cx, sz.cy, dc, 0, 0, sz.cx, sz.cy, (UINT)RGB( 255, 255, 255)) == FALSE) {
+	if (::TransparentBlt(paintDC, 0, 30, sz.cx, sz.cy, dc, 0, 0, sz.cx, sz.cy, (UINT)RGB( 255, 255, 255)) == FALSE) {
 		// エラー番号を取得
 		DWORD dwErr = ::GetLastError();
 		// ここにエラー時の処理を記述すること

@@ -112,7 +112,7 @@ int CSplashWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CenterWindow();
 
 	// スプラッシュ スクリーンを破棄するためのタイマーを設定します。
-	SetTimer(1, 750, NULL);
+	SetTimer(1, 1500, NULL);
 
 	return 0;
 }
