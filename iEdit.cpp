@@ -10,6 +10,7 @@
 #include "OutLineView.h"
 #include "Splash.h"
 #include "RelaxThrd.h"
+#include "afxwin.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -204,6 +205,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	CBitmap m_bmp;
+	CBrush m_brsDlg;
+public:
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
@@ -224,6 +229,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	ON_BN_CLICKED(IDC_TOMH, OnTomh)
 	ON_WM_PAINT()
 	//}}AFX_MSG_MAP
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 // ダイアログを実行するためのアプリケーション コマンド
@@ -450,4 +456,33 @@ void CiEditApp::getOtherProfile()
 void CiEditApp::DebugWriteLine(const CString &message)
 {
 	((CMainFrame*)m_pMainWnd)->ShowDebugMessage(message);
+}
+
+HBRUSH CAboutDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  ここで DC の属性を変更してください。
+
+	switch(nCtlColor){
+	case CTLCOLOR_DLG:
+		return (HBRUSH) m_brsDlg;
+	case CTLCOLOR_STATIC:
+		pDC->SetBkMode(TRANSPARENT);
+		pDC->SetTextColor(RGB(0, 0, 0));
+		return (HBRUSH) m_brsDlg;
+	default:
+		break;
+	}
+	return CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+}
+
+BOOL CAboutDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+	// TODO:  ここに初期化を追加してください
+	m_brsDlg.CreateSolidBrush(RGB(255,255,255));
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }
