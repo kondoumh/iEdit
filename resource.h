@@ -261,6 +261,7 @@
 #define IDC_LB_TEXT_SINGLE              1120
 #define IDC_EDIT_PRINT                  1121
 #define IDC_ST_VERSION                  1122
+#define IDC_WEBSITE                     1123
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773
@@ -513,7 +514,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        214
 #define _APS_NEXT_COMMAND_VALUE         33083
-#define _APS_NEXT_CONTROL_VALUE         1123
+#define _APS_NEXT_CONTROL_VALUE         1125
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

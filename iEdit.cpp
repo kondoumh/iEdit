@@ -199,16 +199,18 @@ public:
 // インプリメンテーション
 protected:
 	//{{AFX_MSG(CAboutDlg)
-	afx_msg void OnTomh();
-	afx_msg void OnPaint();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
 	CBitmap m_bmp;
 	CBrush m_brsDlg;
+	CFont m_webSiteFont;
+	LOGFONT m_logFont;
 public:
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	virtual BOOL OnInitDialog();
+	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+	afx_msg void OnStnClickedWebsite();
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
@@ -226,10 +228,11 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	//{{AFX_MSG_MAP(CAboutDlg)
-	ON_BN_CLICKED(IDC_TOMH, OnTomh)
-	ON_WM_PAINT()
+//	ON_WM_PAINT()
 	//}}AFX_MSG_MAP
 	ON_WM_CTLCOLOR()
+	ON_WM_SETCURSOR()
+	ON_STN_CLICKED(IDC_WEBSITE, &CAboutDlg::OnStnClickedWebsite)
 END_MESSAGE_MAP()
 
 // ダイアログを実行するためのアプリケーション コマンド
@@ -307,13 +310,6 @@ int CiEditApp::ExitInstance()
 	CloseHandle(CRelaxThrd::m_hAnotherDead);
 	
 	return CWinApp::ExitInstance();
-}
-
-void CAboutDlg::OnTomh() 
-{
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	ShellExecute(m_hWnd, "open", "http://homepage3.nifty.com/kondoumh/", NULL, "", SW_SHOW);
-	EndDialog(MB_OK);
 }
 
 void CiEditApp::loadMetaFiles(const CString& fname)
@@ -417,36 +413,6 @@ void CiEditApp::OnFileNew()
 	m_pDocTemplate->OpenDocumentFile(NULL);
 }
 
-
-void CAboutDlg::OnPaint() 
-{
-	//CPaintDC paintDC(this); // 描画用のデバイス コンテキスト
-	//
-	//// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
-	//if( m_bmp.GetSafeHandle() == NULL) {
-	//	// 適当にビットマップを作成
-	//	// ビットマップをロード
-	//	m_bmp.LoadBitmap(IDB_LOGO);
-	//}
-	//// ビットマップの大きさを取得
-	//BITMAP bitmap;
-	//m_bmp.GetBitmap( &bitmap);
-	//CSize sz( bitmap.bmWidth, bitmap.bmHeight);
-	//CDC dc;
-	//dc.CreateCompatibleDC( &paintDC);
-	//// ディバイスコンテキストで選択
-	//CBitmap *pOld = dc.SelectObject( &m_bmp);
-	//// もともとのディバイスコンテキストに
-	//// ビットマップを透過で転送
-	//if (::TransparentBlt(paintDC, 0, 30, sz.cx, sz.cy, dc, 0, 0, sz.cx, sz.cy, (UINT)RGB( 255, 255, 250)) == FALSE) {
-	//	// エラー番号を取得
-	//	DWORD dwErr = ::GetLastError();
-	//	// ここにエラー時の処理を記述すること
-	//}
-	//// ビットマップ選択解除
-	//dc.SelectObject( pOld);
-}
-
 void CiEditApp::getOtherProfile()
 {
 	m_rgsOther.bSetStylesheet = AfxGetApp()->GetProfileInt(REGS_OTHER, "XML StyleSheet", TRUE);
@@ -460,16 +426,21 @@ void CiEditApp::DebugWriteLine(const CString &message)
 
 HBRUSH CAboutDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
-	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+	//HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	// TODO:  ここで DC の属性を変更してください。
+	//// TODO:  ここで DC の属性を変更してください。
 
 	switch(nCtlColor){
 	case CTLCOLOR_DLG:
 		return (HBRUSH) m_brsDlg;
 	case CTLCOLOR_STATIC:
 		pDC->SetBkMode(TRANSPARENT);
-		pDC->SetTextColor(RGB(0, 0, 0));
+		if (pWnd->GetDlgCtrlID() == IDC_WEBSITE) {
+			pDC->SelectObject(&m_webSiteFont);
+			pDC->SetTextColor(RGB(0, 0, 255));
+		} else {
+			pDC->SetTextColor(RGB(0, 0, 0));
+		}
 		return (HBRUSH) m_brsDlg;
 	default:
 		break;
@@ -483,6 +454,29 @@ BOOL CAboutDlg::OnInitDialog()
 
 	// TODO:  ここに初期化を追加してください
 	m_brsDlg.CreateSolidBrush(RGB(255,255,255));
+	GetDlgItem(IDC_WEBSITE)->ModifyStyle(0, SS_NOTIFY);
+	HFONT hFont = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
+	::GetObject( hFont, sizeof( LOGFONT), &m_logFont);
+	m_logFont.lfUnderline = TRUE;
+	m_webSiteFont.CreateFontIndirect(&m_logFont);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
+}
+
+BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+	// TODO: ここにメッセージ ハンドラ コードを追加するか、既定の処理を呼び出します。
+	if (pWnd->GetDlgCtrlID() == IDC_WEBSITE) {
+		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+	} else {
+		return CDialog::OnSetCursor(pWnd, nHitTest, message);
+	}
+}
+
+void CAboutDlg::OnStnClickedWebsite()
+{
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	ShellExecute(m_hWnd, "open", "http://homepage3.nifty.com/kondoumh/", NULL, "", SW_SHOW);
+	EndDialog(MB_OK);
 }
