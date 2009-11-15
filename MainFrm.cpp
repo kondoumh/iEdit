@@ -421,14 +421,7 @@ LRESULT CMainFrame::OnSlideAlpha(UINT wParam, LONG lParam)
 
 void CMainFrame::MakeWindowTransparent()
 {
-	FWINLAYER pfWin;
-	HINSTANCE hDLL = LoadLibrary(_T("user32.dll"));
-	pfWin=(FWINLAYER)GetProcAddress(hDLL, (LPCSTR)_T("SetLayeredWindowAttributes"));
-	if (pfWin!=NULL) { /* SetLayeredWindowAttributesé¿çs */
-		pfWin(m_hWnd, 0 ,(BYTE)m_nAlphaValue, 2);
-	}
-	FreeLibrary(hDLL);
-//	SetLayeredWindowAttributes(0, (BYTE)m_nAlphaValue, LWA_ALPHA); // 2000 à»ç~Ç»ÇÁLoadLibraryïsóv
+	SetLayeredWindowAttributes(0, (BYTE)m_nAlphaValue, LWA_ALPHA);
 }
 
 
