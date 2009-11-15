@@ -107,7 +107,7 @@ BOOL shapesDlg::OnInitDialog()
 	
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	
-	CString mfname = pApp->GetProfileString(REGS_SHAPES, "recent file", "");
+	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
 	pApp->loadMetaFiles(mfname);
 	
 	for (int i = 0; i < 10; i++) {
@@ -134,13 +134,13 @@ void shapesDlg::OnUpdateDiagram()
 void shapesDlg::updateNetVew()
 {
 	if (m_selRect == CRect(0, 0, 0, 0)) {
-		AfxMessageBox("シェイプを選択してください");
+		AfxMessageBox(_T("シェイプを選択してください"));
 		return;
 	}
 	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] == NULL) {
-		AfxMessageBox("シェイプが登録されていません");
+		AfxMessageBox(_T("シェイプが登録されていません"));
 		return;
 	}
 	m_pParent->PostMessage(WM_ADDSHAPE, index/* メタファイルID*/);
@@ -200,7 +200,7 @@ void shapesDlg::editCatName()
 	CString s; m_catListBox.GetText(m_catListBox.GetCurSel(), s);
 	dlg.m_strName = s;
 	int index = m_catListBox.GetCurSel();
-	if (dlg.DoModal() != IDCANCEL && dlg.m_strName != "") {
+	if (dlg.DoModal() != IDCANCEL && dlg.m_strName != _T("")) {
 		m_catListBox.InsertString(m_catListBox.GetCurSel(), dlg.m_strName);
 		m_catListBox.DeleteString(m_catListBox.GetCurSel());
 		m_catListBox.SetCurSel(index);
@@ -216,19 +216,19 @@ void shapesDlg::OnNewShape()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_selRect == CRect(0, 0, 0, 0)) {
-		AfxMessageBox("登録する場所を選択してください");
+		AfxMessageBox(_T("登録する場所を選択してください"));
 		return;
 	}
 	shapeInsDlg dlg;
 	if (dlg.DoModal() != IDOK) return;
-	if (dlg.m_strPath == "") return;
+	if (dlg.m_strPath == _T("")) return;
 	HENHMETAFILE hm = ::GetEnhMetaFile(dlg.m_strPath);
 	if (hm == NULL) {
-		AfxMessageBox("メタファイルが読み込めませんでした");
+		AfxMessageBox(_T("メタファイルが読み込めませんでした"));
 		return;
 	}
 	
-	if (MessageBox("シェイプを登録しますか?", "シェイプの登録", MB_YESNO) != IDYES) return;
+	if (MessageBox(_T("シェイプを登録しますか?"), _T("シェイプの登録"), MB_YESNO) != IDYES) return;
 	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->m_hMetaFiles[index] = hm;
@@ -243,10 +243,10 @@ void shapesDlg::OnDeleteShape()
 	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] == NULL) {
-		AfxMessageBox("シェイプが登録されていません");
+		AfxMessageBox(_T("シェイプが登録されていません"));
 		return;
 	}
-	if (MessageBox("選択されたシェイプを削除します", "シェイプの削除", MB_YESNO) != IDYES) return;
+	if (MessageBox(_T("選択されたシェイプを削除します"), _T("シェイプの削除"), MB_YESNO) != IDYES) return;
 	
 	pApp->m_hMetaFiles[index] = NULL;
 	pApp->m_bShapeModified = true;
@@ -371,8 +371,8 @@ void shapesDlg::OnBtnRr()
 void shapesDlg::OnSaveShapeFile() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	char szFilters[] = "シェイプファイル (*.ies)|*.ies||";
-	CFileDialog dlg(FALSE, "ies", "shapes.ies", OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	WCHAR szFilters[] = _T("シェイプファイル (*.ies)|*.ies||");
+	CFileDialog dlg(FALSE, _T("ies"), _T("shapes.ies"), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
 	
@@ -385,13 +385,13 @@ void shapesDlg::OnOpenShapeFile()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString infile;
-	char szFilters[] = "シェイプファイル (*.ies)|*.ies||";
-	CFileDialog dlg(TRUE, "ies", infile, OFN_HIDEREADONLY, szFilters, this);
+	WCHAR szFilters[] = _T("シェイプファイル (*.ies)|*.ies||");
+	CFileDialog dlg(TRUE, _T("ies"), infile, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
 	CFile f;
 	if (!f.Open(infileName, CFile::modeRead)) {
-		AfxMessageBox("指定されたシェイプファイル存在しません");
+		AfxMessageBox(_T("指定されたシェイプファイル存在しません"));
 		return;
 	}
 	f.Close();
@@ -427,7 +427,7 @@ void shapesDlg::OnRegistNodeshape()
 void shapesDlg::getFromView()
 {
 	if (m_selRect == CRect(0, 0, 0, 0)) {
-		AfxMessageBox("シェイプを選択してください");
+		AfxMessageBox(_T("シェイプを選択してください"));
 		return;
 	}
 	m_pParent->PostMessage(WM_GETSHAPE, 0);
@@ -438,7 +438,7 @@ void shapesDlg::regNodeShape(HENHMETAFILE hMF)
 	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] != NULL) {
-		if (MessageBox("選択されたシェイプを差し替えます", "シェイプの差し替え", MB_YESNO) != IDYES) return;
+		if (MessageBox(_T("選択されたシェイプを差し替えます"), _T("シェイプの差し替え"), MB_YESNO) != IDYES) return;
 	}
 	
 	pApp->m_hMetaFiles[index] = hMF;
@@ -456,13 +456,13 @@ void shapesDlg::OnPasteFromClpbrd()
 		 ::IsClipboardFormatAvailable(CF_DIB) ) {
 		
 		if (!OpenClipboard()) {
-			AfxMessageBox("Cannot open the Clipboard");
+			AfxMessageBox(_T("Cannot open the Clipboard"));
 			return;
 		}
 		int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 		CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 		if (pApp->m_hMetaFiles[index] != NULL) {
-			if (MessageBox("選択されたシェイプを差し替えます", "シェイプの差し替え", MB_YESNO) != IDYES) return;
+			if (MessageBox(_T("選択されたシェイプを差し替えます"), _T("シェイプの差し替え"), MB_YESNO) != IDYES) return;
 		}
 		HENHMETAFILE hm = (HENHMETAFILE)GetClipboardData(CF_ENHMETAFILE);
 		CloseClipboard();
@@ -482,12 +482,12 @@ void shapesDlg::OnUpdatePasteFromClpbrd(CCmdUI* pCmdUI)
 void shapesDlg::decideShapef()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-	CString mfname = pApp->GetProfileString(REGS_SHAPES, "recent file", "");
-	if (mfname != "") return;
+	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
+	if (mfname != _T("")) return;
 	
-	AfxMessageBox("シェイプを保存するファイル名を指定してください");
-	char szFilters[] = "シェイプファイル (*.ies)|*.ies||";
-	CFileDialog dlg(FALSE, "ies", "shapes1", OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	AfxMessageBox(_T("シェイプを保存するファイル名を指定してください"));
+	WCHAR szFilters[] = _T("シェイプファイル (*.ies)|*.ies||");
+	CFileDialog dlg(FALSE, _T("ies"), _T("shapes1"), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
 	pApp->m_bShapeModified = false;
@@ -501,9 +501,9 @@ void shapesDlg::OnDestroy()
 	
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-	CString mfname = pApp->GetProfileString(REGS_SHAPES, "recent file", "");
-	if (mfname != "" && pApp->m_bShapeModified) {
-		if (MessageBox("シェイプファイルの変更を保存しますか", "シェイプファイルの保存", MB_YESNO) == IDYES) {
+	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
+	if (mfname != _T("") && pApp->m_bShapeModified) {
+		if (MessageBox(_T("シェイプファイルの変更を保存しますか"), _T("シェイプファイルの保存"), MB_YESNO) == IDYES) {
 			pApp->m_bShapeModified = false;
 			pApp->saveMetaFiles(mfname);
 		}

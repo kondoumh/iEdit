@@ -87,9 +87,9 @@ void CChildFrame::Dump(CDumpContext& dc) const
 BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
 {
 	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
-	long cxLeft = AfxGetApp()->GetProfileInt(REGS_FRAME, "Outline Width", lpcs->cx*1/3);
-	long cyTree = AfxGetApp()->GetProfileInt(REGS_FRAME, "Outline Height", lpcs->cy*2/3);
-	long cyNet = AfxGetApp()->GetProfileInt(REGS_FRAME, "Net Height", lpcs->cy*1/2);
+	long cxLeft = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Width"), lpcs->cx*1/3);
+	long cyTree = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Height"), lpcs->cy*2/3);
+	long cyNet = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Net Height"), lpcs->cy*1/2);
 	
 	m_Splitter1.CreateStatic(this, 1, 2);
 //	m_Splitter1.SetColumnInfo(0, cxLeft, 0);
@@ -163,7 +163,7 @@ void CChildFrame::OnDestroy()
 	WINDOWPLACEMENT wndplm;
 	pFrame->GetWindowPlacement(&wndplm);
 	
-	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", TRUE);
+	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
 	if (saveFrame && 
 		  (wndplm.showCmd == SW_SHOWNORMAL || wndplm.showCmd == SW_SHOWMAXIMIZED)) {
 		WINDOWPLACEMENT wndpl;
@@ -174,9 +174,9 @@ void CChildFrame::OnDestroy()
 		m_Splitter3.GetRowInfo(0, cur3, min3);
 		if (cur1 > 0 && cur1 < 1600 && cur2 > 0 && cur2 <1600 && cur3 > 0 && cur3 < 1600 && 
 			wndpl.showCmd == SW_SHOWMAXIMIZED) {
-			AfxGetApp()->WriteProfileInt(REGS_FRAME, "Outline Width", cur1);
-			AfxGetApp()->WriteProfileInt(REGS_FRAME, "Outline Height", cur2);
-			AfxGetApp()->WriteProfileInt(REGS_FRAME, "Net Height", cur3);
+			AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Outline Width"), cur1);
+			AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Outline Height"), cur2);
+			AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Net Height"), cur3);
 		}
 	}
 }

@@ -94,7 +94,7 @@ void nodeSrchDlg::OnStart()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetWindowText(m_srchString);
-	if (m_srchString == "") return;
+	if (m_srchString == _T("")) return;
 	m_btnStart.EnableWindow(FALSE);
 	m_lcResult.DeleteAllItems();
 	m_labels.clear();
@@ -139,8 +139,8 @@ BOOL nodeSrchDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 	
 	// TODO: この位置に初期化の補足処理を追加してください
-	m_lcResult.InsertColumn(0, "項目");
-	m_lcResult.InsertColumn(1, "種別");
+	m_lcResult.InsertColumn(0, _T("項目"));
+	m_lcResult.InsertColumn(1, _T("種別"));
 	CRect rc; m_lcResult.GetClientRect(&rc);
 	m_lcResult.SetColumnWidth(0, rc.Width() - 70);
 	m_lcResult.SetColumnWidth(1, 70);
@@ -204,13 +204,13 @@ void nodeSrchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 		case 1:
 			int state = m_labels[index].state;
 			if (state == 0) {
-				::lstrcpy(pDispInfo->item.pszText, "label");
+				::lstrcpy(pDispInfo->item.pszText, _T("label"));
 			} else if (state == 1) {
-				::lstrcpy(pDispInfo->item.pszText, "text");
+				::lstrcpy(pDispInfo->item.pszText, _T("text"));
 			} else if (state == 2) {
-				::lstrcpy(pDispInfo->item.pszText, "link");
+				::lstrcpy(pDispInfo->item.pszText, _T("link"));
 			} else if (state == 3) {
-				::lstrcpy(pDispInfo->item.pszText, "URL");
+				::lstrcpy(pDispInfo->item.pszText, _T("URL"));
 			}
 			break;
 		}
@@ -244,7 +244,7 @@ void nodeSrchDlg::OnEditchangeCombo()
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetWindowText(m_srchString);
 	m_lcResult.DeleteAllItems();
-	if (m_srchString == "") return;
+	if (m_srchString == _T("")) return;
 	m_btnStart.EnableWindow(FALSE);
 	m_labels.clear();
 	m_labels.resize(0);
@@ -256,7 +256,7 @@ void nodeSrchDlg::OnSelchangeCombo()
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetLBText(m_combSrch.GetCurSel(), m_srchString);
 	m_lcResult.DeleteAllItems();
-	if (m_srchString == "") return;
+	if (m_srchString == _T("")) return;
 	m_btnStart.EnableWindow(FALSE);
 	m_labels.clear();
 	m_labels.resize(0);

@@ -275,7 +275,7 @@ void iNode::adjustFont(bool bForceResize)
 		int width = sz.cx + margin_l_ + margin_r_;
 		int height = sz.cy + margin_t_;
 		if (bound_.Width()*bound_.Height() >= width*height) return;
-		if (name_.Find("\n") == -1) {
+		if (name_.Find(_T("\n")) == -1) {
 			enhanceBoundGradualy(width*height);
 			bound_.bottom += (int)((double)hmargin);
 		} else {
@@ -312,8 +312,8 @@ void iNode::enhanceLineOriented(const CSize& sz)
 
 void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
 {
-	CToken tok(str + "\n");
-	tok.SetToken("\n");
+	CToken tok(str + _T("\n"));
+	tok.SetToken(_T("\n"));
 	lineCount = 1;
 	maxLength = 0;
 	for ( ; tok.MoreTokens(); lineCount++) {
@@ -327,10 +327,10 @@ void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
 CSize iNode::getNodeTextSize()
 {
 	CWnd wnd;
-	CFont font; font.CreateFontIndirectA(&lf_);
+	CFont font; font.CreateFontIndirect(&lf_);
 	CClientDC dc(&wnd);
 	CFont* pOldFont = dc.SelectObject(&font);
-	CSize sz = dc.GetTabbedTextExtentA(name_, -1, 0, NULL);
+	CSize sz = dc.GetTabbedTextExtent(name_, -1, 0, NULL);
 	dc.SelectObject(pOldFont);
 	return sz;
 }
@@ -465,10 +465,10 @@ void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 	font.DeleteObject();
 	
 	if (bDrawOrderInfo) {
-		font.CreatePointFont(90, "MS Gothic", pDC);
+		font.CreatePointFont(90, _T("MS Gothic"), pDC);
 		pOldFont = pDC->SelectObject(&font);
 		preColor = pDC->SetTextColor(RGB(90, 90, 90));
-		CString test; test.Format("%d", node.getDrawOrder());
+		CString test; test.Format(_T("%d"), node.getDrawOrder());
 		pDC->TextOut(node.getBound().left+ 2, node.getBound().top + 2, test);
 		pDC->SelectObject(pOldFont);
 		pDC->SetTextColor(preColor);
@@ -1068,15 +1068,15 @@ CString iNodes::createClickableMapString(const CString& fileName, bool singleTex
 		CString coordsValue;
 		CPoint ptl = (*it)->getBound().TopLeft();
 		CPoint pbr = (*it)->getBound().BottomRight();
-		coordsValue.Format("%d,%d,%d,%d", ptl.x, ptl.y, pbr.x, pbr.y);
+		coordsValue.Format(_T("%d,%d,%d,%d"), ptl.x, ptl.y, pbr.x, pbr.y);
 		CString href;
 		if (singleText) {
-			href.Format(fileName + "#%d", (*it)->getKey());
+			href.Format(fileName + _T("#%d"), (*it)->getKey());
 		} else {
-			href.Format("text/" + fileName + "%d.html", (*it)->getKey());
+			href.Format(_T("text/") + fileName + _T("%d.html"), (*it)->getKey());
 		}
-		mapString += "<area shape=\"rect\" coords=\"" + coordsValue 
-			+ "\" href=\"" + href + "\" target=\"text\" alt=\"" + Utilities::removeCR((*it)->getName()) + "\" />\n";
+		mapString += _T("<area shape=\"rect\" coords=\"") + coordsValue 
+			+ _T("\" href=\"") + href + _T("\" target=\"text\" alt=\"") + Utilities::removeCR((*it)->getName()) + _T("\" />\n");
 	}
 	return mapString;
 }

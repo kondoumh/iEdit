@@ -72,7 +72,7 @@ HENHMETAFILE SetMFSizeDlg::createMF()
 void SetMFSizeDlg::showSizeInfo()
 {
 	CString info;
-	info.Format("ïù : %.01f  çÇÇ≥ : %.01f", m_rx, m_ry);
+	info.Format(_T("ïù : %.01f  çÇÇ≥ : %.01f"), m_rx, m_ry);
 	m_stInfo.SetWindowText(info);
 }
 

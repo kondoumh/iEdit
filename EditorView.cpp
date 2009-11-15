@@ -94,7 +94,7 @@ void EditorView::Dump(CDumpContext& dc) const
 BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs) 
 {
 	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
-	BOOL shwHScroll = AfxGetApp()->GetProfileInt(REGS_OTHER, "Show HScroll", FALSE);
+	BOOL shwHScroll = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Show HScroll"), FALSE);
 	cs.style |= WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL;
 	if (shwHScroll) {
 		cs.style |= WS_HSCROLL;
@@ -110,7 +110,7 @@ void EditorView::OnInitialUpdate()
 	CString t = GetDocument()->getSelectedNodeText();
 	GetEditCtrl().SetWindowText(t);
 	m_preKey = GetDocument()->getSelectedNodeKey();
-	m_bDrawUnderLine = AfxGetApp()->GetProfileInt(REGS_OTHER, "Draw Underline", FALSE);
+	m_bDrawUnderLine = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Draw Underline"), FALSE);
 	initSizeChar();
 }
 
@@ -131,8 +131,8 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	}
 	if (ph == NULL) return;
 	if (ph->event == iHint::viewSettingChanged) {
-		m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, "Edit bgColor", RGB(255, 255, 255));
-		m_textColor = AfxGetApp()->GetProfileInt(REGS_FRAME, "Edit forColor", RGB(0, 0, 0));
+		m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), RGB(255, 255, 255));
+		m_textColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit forColor"), RGB(0, 0, 0));
 		m_hBrsBack.CreateSolidBrush(m_bkColor);
 		Invalidate();
 		setViewFont();
@@ -146,8 +146,8 @@ int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	
 	// TODO: この位置に固有の作成用コードを追加してください
-	m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, "Edit bgColor", RGB(255, 255, 255));
-	m_textColor = AfxGetApp()->GetProfileInt(REGS_FRAME, "Edit forColor", RGB(0, 0, 0));
+	m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), RGB(255, 255, 255));
+	m_textColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit forColor"), RGB(0, 0, 0));
 	m_hBrsBack.CreateSolidBrush(m_bkColor);
 	
 	setViewFont();
@@ -197,7 +197,7 @@ void EditorView::OnUpdateDelete(CCmdUI* pCmdUI)
 
 void EditorView::setTabStop()
 {
-	int tabSelect = AfxGetApp()->GetProfileInt(REGS_OTHER, "Tab Stop", 2);
+	int tabSelect = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Tab Stop"), 2);
 	int tab = 16;
 	switch (tabSelect) {
 	case 0: tab = 8; break;
@@ -217,14 +217,14 @@ void EditorView::setViewFont()
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
 	
-	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, "Font3 Name", "FixedSys"));
-	lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font3 Height", 0xffffffed);
-	lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font3 Width", 0);
-	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font3 Italic", FALSE);
-	lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font3 UnderLine", FALSE);
-	lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font3 StrikeOut", FALSE);
-	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, "Font3 CharSet", SHIFTJIS_CHARSET);
-	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font3 Weight", FW_NORMAL);
+	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font3 Name"), _T("ＭＳ ゴシック")));
+	lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Height"), 0xffffffed);
+	lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Width"), 0);
+	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Italic"), FALSE);
+	lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 UnderLine"), FALSE);
+	lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 StrikeOut"), FALSE);
+	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 CharSet"), SHIFTJIS_CHARSET);
+	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Weight"), FW_NORMAL);
 	
 	m_font.CreateFontIndirect(&lf);
 	SetFont(&m_font, TRUE);
@@ -398,8 +398,8 @@ void EditorView::OnReplaceAll(LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase)
 	GetEditCtrl().SetWindowText(cText);
 	GetDocument()->setCurNodeText(cText);
 	GetDocument()->SetModifiedFlag();
-	CString mes; mes.Format("%d個の文字列を置換しました", rep);
-	MessageBox(mes, "置換の終了", MB_OK);
+	CString mes; mes.Format(_T("%d個の文字列を置換しました"), rep);
+	MessageBox(mes, _T("置換の終了"), MB_OK);
 }
 
 void EditorView::OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR lpszReplace)

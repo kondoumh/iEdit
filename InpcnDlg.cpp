@@ -55,10 +55,10 @@ BOOL CInpcnDlg::OnInitDialog()
 	}
 	
 	// TODO: この位置に初期化の補足処理を追加してください
-	if (m_strcn == "") {
-		m_editName.SetWindowText("新しいノード");
-	} else if (m_strcn == "ノード") {
-		m_editName.SetWindowText("ノード");
+	if (m_strcn == _T("")) {
+		m_editName.SetWindowText(_T("新しいノード"));
+	} else if (m_strcn == _T("ノード")) {
+		m_editName.SetWindowText(_T("ノード"));
 	} else {
 		PostMessage(WM_SETCHARDATA, 0);
 	}

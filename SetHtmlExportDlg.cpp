@@ -148,7 +148,7 @@ void SetHtmlExportDlg::OnBnClickedRdTextSingle()
 void SetHtmlExportDlg::OnBnClickedBtnSetPrfByFname()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowTextA(m_sDocTitle);
+	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(m_sDocTitle);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfIndex()
@@ -162,22 +162,22 @@ void SetHtmlExportDlg::setPathIndex()
 	CString s;
 	GetDlgItem(IDC_ED_PRF_INDEX)->GetWindowText(s);
 	if (GetDlgItem(IDC_ED_PRF_TOC)->IsWindowEnabled()) {
-		GetDlgItem(IDC_ED_PRF_TOC)->SetWindowTextA(s);
+		GetDlgItem(IDC_ED_PRF_TOC)->SetWindowText(s);
 	}
 	if (GetDlgItem(IDC_ED_PRF_NET)->IsWindowEnabled()) {
-		GetDlgItem(IDC_ED_PRF_NET)->SetWindowTextA(s);
+		GetDlgItem(IDC_ED_PRF_NET)->SetWindowText(s);
 	}
 	if (GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->IsWindowEnabled()) {
-		GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->SetWindowTextA(s);
+		GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->SetWindowText(s);
 	}
 	CString prf = s.Trim();
 	prf = Utilities::getSafeFileName(prf);
-	if (prf == "") {
-		m_pathIndex = "index.html";
+	if (prf == _T("")) {
+		m_pathIndex = _T("index.html");
 	} else {
-		m_pathIndex = prf + ".html";
+		m_pathIndex = prf + _T(".html");
 	}
-	GetDlgItem(IDC_LB_INDEX)->SetWindowTextA(m_pathIndex);
+	GetDlgItem(IDC_LB_INDEX)->SetWindowText(m_pathIndex);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfToc()
@@ -192,12 +192,12 @@ void SetHtmlExportDlg::setPathOutline()
 	GetDlgItem(IDC_ED_PRF_TOC)->GetWindowText(s);
 	CString prf = s.Trim();
 	prf = Utilities::getSafeFileName(prf);
-	if (prf == "") {
-		m_pathOutline = "outline.html";
+	if (prf == _T("")) {
+		m_pathOutline = _T("outline.html");
 	} else {
-		m_pathOutline = prf + "_outline.html";
+		m_pathOutline = prf + _T("_outline.html");
 	}
-	GetDlgItem(IDC_LB_TOC)->SetWindowTextA(m_pathOutline);
+	GetDlgItem(IDC_LB_TOC)->SetWindowText(m_pathOutline);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfNet()
@@ -212,16 +212,16 @@ void SetHtmlExportDlg::setPathNetwork()
 	GetDlgItem(IDC_ED_PRF_NET)->GetWindowText(s);
 	CString prf = s.Trim();
 	prf = Utilities::getSafeFileName(prf);
-	if (prf == "") {
-		m_pathNetwork = "network.html";
-		m_pathSvg = "network.svg";
-		m_pathPng = "network.png";
+	if (prf == _T("")) {
+		m_pathNetwork = _T("network.html");
+		m_pathSvg = _T("network.svg");
+		m_pathPng = _T("network.png");
 	} else {
-		m_pathNetwork = prf + "_network.html";
-		m_pathSvg = prf + "_network.svg";
-		m_pathPng = prf + "_network.png";
+		m_pathNetwork = prf + _T("_network.html");
+		m_pathSvg = prf + _T("_network.svg");
+		m_pathPng = prf + _T("_network.png");
 	}
-	GetDlgItem(IDC_LB_NET)->SetWindowTextA(m_pathNetwork);
+	GetDlgItem(IDC_LB_NET)->SetWindowText(m_pathNetwork);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfTextSingle()
@@ -236,12 +236,12 @@ void SetHtmlExportDlg::setPathTextSingle()
 	GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->GetWindowText(s);
 	CString prf = s.Trim();
 	prf = Utilities::getSafeFileName(prf);
-	if (prf == "") {
-		m_pathTextSingle = "text.html";
+	if (prf == _T("")) {
+		m_pathTextSingle = _T("text.html");
 	} else {
-		m_pathTextSingle = prf + "_text.html";
+		m_pathTextSingle = prf + _T("_text.html");
 	}
-	GetDlgItem(IDC_LB_TEXT_SINGLE)->SetWindowTextA(m_pathTextSingle);
+	GetDlgItem(IDC_LB_TEXT_SINGLE)->SetWindowText(m_pathTextSingle);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode()
@@ -252,24 +252,24 @@ void SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode()
 	CString prf = s.Trim();
 	prf = Utilities::getSafeFileName(prf);
 	if (prf == "") {
-		m_xvEdPrfTextEverynode = "";
+		m_xvEdPrfTextEverynode = _T("");
 	} else {
 		m_xvEdPrfTextEverynode = prf;
 	}
-	GetDlgItem(IDC_LB_TEXT_EVERYNODE)->SetWindowTextA(
-		m_xvEdPrfTextEverynode + "1.html, " + m_xvEdPrfTextEverynode + "2.html, ...");
+	GetDlgItem(IDC_LB_TEXT_EVERYNODE)->SetWindowText(
+		m_xvEdPrfTextEverynode + _T("1.html, ") + m_xvEdPrfTextEverynode + _T("2.html, ..."));
 }
 
 void SetHtmlExportDlg::OnBnClickedBtnSetPrfByRoot()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowTextA(
+	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
 		Utilities::getSafeFileName(m_NameOfRoot));
 }
 
 void SetHtmlExportDlg::OnBnClickedBtnSetPrfByVisibleRoot()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowTextA(
+	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
 		Utilities::getSafeFileName(m_NameOfVisibleRoot));
 }

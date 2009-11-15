@@ -126,7 +126,7 @@ public:
 	void setVisibleNodes(KeySet& keySet);
 	iNode getHitNode(const CPoint& pt, bool bDrwAll);
 	void exportSVG(bool bDrwAll, const CString& path, bool bEmbed = false,
-		const CString& textFileName = "", bool textSingle = true);
+		const CString& textFileName = _T(""), bool textSingle = true);
 	void viewSettingChanged();
 	void drawLinkSelectionTo(CDC* pDC, bool bDrwAll);
 	void drawLinkSelectionFrom(CDC* pDC, bool bDrwAll=false);
@@ -152,11 +152,10 @@ public:
 	void listUpNodes(const CString& sfind, Labels& labels, BOOL bLabel = TRUE, BOOL bText = FALSE, BOOL bLinks = FALSE, BOOL bUpper = FALSE);
 	void addNodeMF(const CString& name, const CPoint& pt, int mfIndex, HENHMETAFILE& mh);
 	void setConnectPoint();
-	bool saveXML2(const CString &outPath);
 	CString procLF(const CString& str);
 	CString procCR(const CString& str);
 	CString getKeyNodeText(DWORD key);
-	void writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = "");
+	void writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = _T(""));
 	void randomNodesPos(const CSize& area, bool bDrwAll=false);
 	bool saveXML(const CString& outPath, bool bSerialize = false);
 	bool loadXML(const CString& filename, bool replace=false);
@@ -273,7 +272,6 @@ protected:
 	void outStyleSheetLine(T &f);
 	void setConnectPoint3(); // visibleなリンクの再配置
 	void setConnectPoint2(); // 芋づるモードのリンク再配置用
-	void saveToXML(CArchive& ar);
 	bool loadFromXML(const CString& filename);
 	CPoint tags2pathPt(MSXML2::IXMLDOMNode* pNode);
 	COLORREF tags2linkColor(MSXML2::IXMLDOMNode* pNode);

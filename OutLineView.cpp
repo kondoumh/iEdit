@@ -20,6 +20,7 @@
 #include "SetHtmlExportDlg.h"
 #include "Utilities.h"
 #include <shlobj.h>
+#include <locale>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -309,7 +310,7 @@ OutlineView::OutlineView()
 	m_exportOption.textOption = 0;
 	m_exportOption.imgOption = 0;
 	m_exportOption.navOption = 0;
-	m_exportOption.htmlOutDir = "";
+	m_exportOption.htmlOutDir = _T("");
 }
 
 OutlineView::~OutlineView()
@@ -421,13 +422,13 @@ int OutlineView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO: この位置に固有の作成用コードを追加してください
 	m_imgList.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, 1);
 	CBitmap images;
-	images.LoadBitmapA(IDB_TREE);
+	images.LoadBitmap(IDB_TREE);
 	m_imgList.SetBkColor(CLR_NONE);
 	m_imgList.Add(&images, RGB(255, 0, 255));
 	tree().SetImageList(&m_imgList, TVSIL_NORMAL);
 	setViewFont();
 	m_pSrchDlg = new nodeSrchDlg;
-	m_pSrchDlg->Create("", "", SW_HIDE, CRect(0, 0, 0, 0), this, IDD_NODESRCH);
+	m_pSrchDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_NODESRCH);
 	m_hCsrCopy = AfxGetApp()->LoadCursor(IDC_POINTER_COPY);
 	m_hCsrMove = AfxGetApp()->LoadCursor(IDC_POINTER_MOVE);
 	return 0;
@@ -499,7 +500,7 @@ void OutlineView::treeConstruct2()
 				hNew = tree().InsertItem(ls[i].name, 0, 0, hItParent);
 				hParent = hItParent;
 			} else {
-				AfxMessageBox("キーが一致しませんa");
+				AfxMessageBox(_T("キーが一致しませんa"));
 			}
 			preKey = ls[i].parent;
 		} else if (prevLevel < ls[i].level) {
@@ -507,7 +508,7 @@ void OutlineView::treeConstruct2()
 				hNew = tree().InsertItem(ls[i].name, 0, 0, hPrevNew);
 				hParent = hPrevNew;
 			} else {
-				AfxMessageBox("キーが一致しませんb");
+				AfxMessageBox(_T("キーが一致しませんb"));
 			}
 		} else {
 			hNew = tree().InsertItem(ls[i].name, 0, 0, hParent, hPrevNew);
@@ -536,7 +537,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 	ASSERT(loop >= 0);
 	COnProcDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
-	prcdlg.m_ProcName.SetWindowText("登録中");
+	prcdlg.m_ProcName.SetWindowText(_T("登録中"));
 	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
 	prcdlg.m_ProgProc.SetRange(0, loop);
 	
@@ -582,7 +583,7 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 	
 	COnProcDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
-	prcdlg.m_ProcName.SetWindowText("登録中");
+	prcdlg.m_ProcName.SetWindowText(_T("登録中"));
 	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
 	prcdlg.m_ProgProc.SetRange(0, loop);
 	
@@ -713,7 +714,7 @@ void OutlineView::OnAddChild()
 	m_bAddingChild = true;
 	GetDocument()->disableUndo();
 	clearUndo();
-	HTREEITEM newItem = tree().InsertItem("新しいノード", 0, 0, curItem());
+	HTREEITEM newItem = tree().InsertItem(_T("新しいノード"), 0, 0, curItem());
 	m_HNew = newItem;
 	tree().Expand(curItem(), TVE_EXPAND);
 	tree().SelectItem(newItem);
@@ -773,7 +774,7 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 	iEditDoc* pDoc = GetDocument();
 	if (!m_bAdding) {
 		// ラベルが編集された場合
-		if (editString != "") {
+		if (editString != _T("")) {
 			pTVDispInfo->item.mask = TVIF_TEXT;
 			tree().SetItem(&pTVDispInfo->item);
 			pDoc->setKeyNodeName(tree().GetItemData(curItem()), tree().GetItemText(pTVDispInfo->item.hItem));
@@ -784,7 +785,7 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 			lstrcpy(pTVDispInfo->item.pszText, editString.Left(255));
 		}
 		
-		if (editString != "") {
+		if (editString != _T("")) {
 			pTVDispInfo->item.mask = TVIF_TEXT;
 			tree().SetItem(&pTVDispInfo->item);
 		}
@@ -1359,8 +1360,8 @@ void OutlineView::deleteNode()
 		return;
 	}
 	HTREEITEM hcur = curItem();
-	CString m = "<" + tree().GetItemText(hcur) + ">" + '\n' + "削除しますか？";
-	if (MessageBox(m, "ノードの削除", MB_YESNO) != IDYES) return;
+	CString m = "<" + tree().GetItemText(hcur) + _T(">") + '\n' + _T("削除しますか？");
+	if (MessageBox(m, _T("ノードの削除"), MB_YESNO) != IDYES) return;
 	GetDocument()->backupDeleteBound();
 	if (tree().GetNextSiblingItem(curItem()) == NULL) {
 		if (tree().GetPrevSiblingItem(curItem()) != NULL) {
@@ -1409,10 +1410,18 @@ void OutlineView::OnAddUrl()
 	if (dlg.DoModal() != IDOK) return;
 	GetDocument()->disableUndo();
 	clearUndo();
-	if (dlg.strComment == "" && dlg.strPath != "") {
-		char drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME], ext[_MAX_EXT];
-		_splitpath_s(dlg.strPath, drive, dir, fname, ext);
-		dlg.strComment.Format("%s%s", fname, ext);
+	if (dlg.strComment == _T("") && dlg.strPath != _T("")) {
+		WCHAR drive[_MAX_DRIVE];
+		WCHAR dir[_MAX_DIR];
+		WCHAR fileName[_MAX_FNAME];
+		WCHAR ext[_MAX_EXT];
+		ZeroMemory(drive, _MAX_DRIVE);
+		ZeroMemory(dir, _MAX_DIR);
+		ZeroMemory(fileName, _MAX_FNAME);
+		ZeroMemory(ext, _MAX_EXT);
+		
+		_wsplitpath_s((const wchar_t *)dlg.strPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+		dlg.strComment.Format(_T("%s%s"), fileName, ext);
 	}
 	GetDocument()->addURLLink(dlg.strPath, dlg.strComment);
 }
@@ -1456,14 +1465,14 @@ void OutlineView::setViewFont()
 	} else {
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
-	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, "Font1 Name", "ＭＳ Ｐゴシック"));
-	lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font1 Height", 0xfffffff3);
-	lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font1 Width", 0);
-	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font1 Italic", FALSE);
-	lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font1 UnderLine", FALSE);
-	lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font1 StrikeOut", FALSE);
-	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, "Font1 CharSet", SHIFTJIS_CHARSET);
-	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font1 Weight", FW_NORMAL);
+	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font1 Name"), _T("ＭＳ Ｐゴシック")));
+	lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Height"), 0xfffffff3);
+	lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Width"), 0);
+	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Italic"), FALSE);
+	lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 UnderLine"), FALSE);
+	lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 StrikeOut"), FALSE);
+	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 CharSet"), SHIFTJIS_CHARSET);
+	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Weight"), FW_NORMAL);
 	m_font.CreateFontIndirect(&lf);
 	SetFont(&m_font, TRUE);
 }
@@ -1680,31 +1689,35 @@ void OutlineView::OnImportData()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString txtpath;
-	char szFilters[] = "テキストファイル (*.txt)|*.txt|xmlファイル (*.xml)|*.xml||";
-	CFileDialog dlg(TRUE, "txt", txtpath, OFN_HIDEREADONLY, szFilters, this);
+	WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt|xmlファイル (*.xml)|*.xml||");
+	CFileDialog dlg(TRUE, _T("txt"), txtpath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
 	
+	WCHAR drive[_MAX_DRIVE];
+	WCHAR dir[_MAX_DIR];
+	WCHAR fileName[_MAX_FNAME];
+	WCHAR ext[_MAX_EXT];
+	ZeroMemory(drive, _MAX_DRIVE);
+	ZeroMemory(dir, _MAX_DIR);
+	ZeroMemory(fileName, _MAX_FNAME);
+	ZeroMemory(ext, _MAX_EXT);
 	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(infileName, drive, dir, fname, ext );
+	_wsplitpath_s((const wchar_t *)infileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 	CString extent = ext;
 	extent.MakeLower();
 	
 	CString caption;
 	int TextLevelCharNum = 0;
-	if (extent == ".txt") {
+	if (extent == _T(".txt")) {
 		ImportTextDlg dlg;
-		dlg.m_fileName = CString(fname) + CString(ext);
+		dlg.m_fileName = CString(fileName) + CString(ext);
 		dlg.m_charSelection = TextLevelCharNum;
 		if (dlg.DoModal() != IDOK) {
 			return;
 		}
 		TextLevelCharNum = dlg.m_charSelection;
-	} else if (extent == ".xml") {
+	} else if (extent == _T(".xml")) {
 		caption = "XMLファイルのインポート";
 		CString mes = infileName + "をインポートしますか";
 		if (MessageBox(mes, caption, MB_YESNO) != IDYES) {
@@ -1722,7 +1735,7 @@ void OutlineView::OnImportData()
 		GetDocument()->resetShowBranch();
 	}
 	bool ret;
-	if (extent == ".txt") {
+	if (extent == _T(".txt")) {
 		nVec addNodes;
 		char levelChar = '.';
 		if (TextLevelCharNum == 1) {
@@ -1732,7 +1745,7 @@ void OutlineView::OnImportData()
 		if (ret) {
 			treeAddBranch2(tree().GetItemData(curItem()), addNodes);
 		}
-	} else if (extent == ".xml") {
+	} else if (extent == _T(".xml")) {
 		ret = ImportXML(infileName);
 		if (ret) {
 			treeAddBranch(tree().GetItemData(curItem()));
@@ -1747,9 +1760,9 @@ void OutlineView::OnImportData()
 		OnShowSelectedBranch();
 	}
 	if (ret) {
-		MessageBox("終了しました", caption, MB_OK);
+		MessageBox(_T("終了しました"), caption, MB_OK);
 	} else {
-		MessageBox("失敗しました", caption, MB_OK);
+		MessageBox(_T("失敗しました"), caption, MB_OK);
 	}
 }
 
@@ -1821,7 +1834,7 @@ void OutlineView::OutputHTML()
 		//szBuffに選択したフォルダ名が入る
 		outdir = CString(szBuff);
 	} else {
-		MessageBox("出力先フォルダーを指定して下さい");
+		MessageBox(_T("出力先フォルダーを指定して下さい"));
 		return;
 	}
 	m_exportOption.htmlOutDir = outdir;
@@ -1830,21 +1843,22 @@ void OutlineView::OutputHTML()
 	CStdioFile f;
 	CFileStatus status;
 	CFileException e;
+	_wsetlocale(LC_ALL, _T("jpn"));
 	
-	CString indexFilePath = outdir + "\\" + eDlg.m_pathIndex;
+	CString indexFilePath = outdir + _T("\\") + eDlg.m_pathIndex;
 	CFileFind find;
 	if (find.FindFile(indexFilePath)) {
 		if (MessageBox(
-			indexFilePath + "\n既存のファイルを上書きしてよいですか", "HTML出力",
+			indexFilePath + _T("\n既存のファイルを上書きしてよいですか"), _T("HTML出力"),
 			MB_YESNO) != IDYES) {
 			return;
 		}
 	}
-	CString textDir = outdir + "\\text";
+	CString textDir = outdir + _T("\\text");
 	if (m_exportOption.textOption == 1) {
 		if (!find.FindFile(textDir)) {
 			if (!::CreateDirectory(textDir, NULL)) {
-				MessageBox("フォルダー作成に失敗しました");
+				MessageBox(_T("フォルダー作成に失敗しました"));
 				return;
 			}
 		}
@@ -1866,7 +1880,7 @@ void OutlineView::OutputHTML()
 		}
 	}
 	CString keystr;
-	keystr.Format("%d", tree().GetItemData(root));
+	keystr.Format(_T("%d"), tree().GetItemData(root));
 	
 	////////////////////////
 	////// create frame
@@ -1876,84 +1890,84 @@ void OutlineView::OutputHTML()
 	}
 	writeHtmlHeader(f);
 	CString title = GetDocument()->getTitleFromPath();
-	if (m_exportOption.prfIndex != "") {
+	if (m_exportOption.prfIndex != _T("")) {
 		title = m_exportOption.prfIndex;
 	}
-	f.WriteString("<title>" + title + "</title>\n");
-	f.WriteString("</head>\n");
+	f.WriteString(_T("<title>") + title + _T("</title>\n"));
+	f.WriteString(_T("</head>\n"));
 	if (eDlg.m_xvRdNav != 1) {
-		f.WriteString("  <frameset cols=\"35%,*\" >\n");
-		f.WriteString("    <frame src=\"" + eDlg.m_pathOutline + "\" name=\"outline\">\n");
+		f.WriteString(_T("  <frameset cols=\"35%,*\" >\n"));
+		f.WriteString(_T("    <frame src=\"") + eDlg.m_pathOutline + _T("\" name=\"outline\">\n"));
 	}
 	if (eDlg.m_xvRdNav == 1 || eDlg.m_xvRdNav == 2) {
-		f.WriteString("    <frameset rows=\"65%,*\">\n");
-		f.WriteString("      <frame src=\"" + eDlg.m_pathNetwork + "\" name=\"network\">\n  ");
+		f.WriteString(_T("    <frameset rows=\"65%,*\">\n"));
+		f.WriteString(_T("      <frame src=\"") + eDlg.m_pathNetwork + _T("\" name=\"network\">\n  "));
 	}
 	CString textLink = eDlg.m_pathTextSingle;
 	if (m_exportOption.textOption == 1) {
-		textLink = "text/" + eDlg.m_xvEdPrfTextEverynode + keystr + ".html";
+		textLink = _T("text/") + eDlg.m_xvEdPrfTextEverynode + keystr + _T(".html");
 	}
-	f.WriteString("    <frame src=\"" + textLink + "\" name=\"text\">\n");
+	f.WriteString(_T("    <frame src=\"") + textLink + _T("\" name=\"text\">\n"));
 	if (eDlg.m_xvRdNav == 1 || eDlg.m_xvRdNav == 2) {
-		f.WriteString("    </frameset>\n");
+		f.WriteString(_T("    </frameset>\n"));
 	}
 	if (eDlg.m_xvRdNav != 1) {
-		f.WriteString("  </frameset>\n");
+		f.WriteString(_T("  </frameset>\n"));
 	}
-	f.WriteString("</html>\n");
+	f.WriteString(_T("</html>\n"));
 	f.Close();
 	
 	CStdioFile olf;
 	if (eDlg.m_xvRdNav != 1) {
-		CString olName = outdir + "\\" + eDlg.m_pathOutline;
+		CString olName = outdir + _T("\\") + eDlg.m_pathOutline;
 		if (!olf.Open(olName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(olName + " : 作成に失敗しました");
+			MessageBox(olName + _T(" : 作成に失敗しました"));
 			return;
 		}
 		writeHtmlHeader(olf);
-		olf.WriteString("<style type=\"text/css\">\n");
-		olf.WriteString(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
-		olf.WriteString(" li {font-size: 95%; padding: 0px;}\n");
-		olf.WriteString("</style>\n");
-		olf.WriteString("</head>\n");
-		olf.WriteString("<body>\n<h1>");
-		olf.WriteString("<a href=");
+		olf.WriteString(_T("<style type=\"text/css\">\n"));
+		olf.WriteString(_T(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n"));
+		olf.WriteString(_T(" li {font-size: 95%; padding: 0px;}\n"));
+		olf.WriteString(_T("</style>\n"));
+		olf.WriteString(_T("</head>\n"));
+		olf.WriteString(_T("<body>\n<h1>"));
+		olf.WriteString(_T("<a href="));
 		if (m_exportOption.textOption == 0) {
-			olf.WriteString("\"" + m_exportOption.pathTextSingle + "#" + keystr);
+			olf.WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#") + keystr);
 		} else {
-			olf.WriteString("\"text/" + m_exportOption.prfTextEverynode + keystr + ".html");
+			olf.WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
 		}
-		olf.WriteString("\" target=text>");
+		olf.WriteString(_T("\" target=text>"));
 		CString rootStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
 		olf.WriteString(rootStr);
-		olf.WriteString("</a></h3>\n");
-		olf.WriteString("<ul>\n");
+		olf.WriteString(_T("</a></h3>\n"));
+		olf.WriteString(_T("<ul>\n"));
 	}
 	CStdioFile tf;
 	if (m_exportOption.textOption == 0) {
-		CString arName = outdir + "\\" + m_exportOption.pathTextSingle;
+		CString arName = outdir + _T("\\") + m_exportOption.pathTextSingle;
 		if (!tf.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(arName + " : 作成に失敗しました");
+			MessageBox(arName + _T(" : 作成に失敗しました"));
 			olf.Close();
 			return;
 		}
 		writeHtmlHeader(tf);
 		writeTextStyle(tf);
-		tf.WriteString("</head>\n<body>\n");
+		tf.WriteString(_T("</head>\n<body>\n"));
 		GetDocument()->writeTextHtml(tree().GetItemData(root), &tf);
 	} else {
 		CStdioFile rootTf;
-		CString arName = textDir + "\\" + m_exportOption.prfTextEverynode + keystr + ".html";
+		CString arName = textDir + _T("\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
 		if (!rootTf.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(arName + " : 作成に失敗しました");
+			MessageBox(arName + _T(" : 作成に失敗しました"));
 			olf.Close();
 			return;
 		}
 		writeHtmlHeader(rootTf);
 		writeTextStyle(rootTf, false);
-		rootTf.WriteString("</head>\n<body>\n");
+		rootTf.WriteString(_T("</head>\n<body>\n"));
 		GetDocument()->writeTextHtml(tree().GetItemData(root), &rootTf, true, m_exportOption.prfTextEverynode);
-		rootTf.WriteString("</body>\n</html>\n");
+		rootTf.WriteString(_T("</body>\n</html>\n"));
 		rootTf.Close();
 	}
 	/////////////////// output SubTree
@@ -1963,10 +1977,10 @@ void OutlineView::OutputHTML()
 	}
 	
 	if (eDlg.m_xvRdNav != 1) {
-		olf.WriteString("</body>\n</html>\n");
+		olf.WriteString(_T("</body>\n</html>\n"));
 		olf.Close();
 		if (m_exportOption.textOption == 0) {
-			tf.WriteString("</body>\n</html>\n");
+			tf.WriteString(_T("</body>\n</html>\n"));
 			tf.Close();
 		}
 	}
@@ -1974,72 +1988,73 @@ void OutlineView::OutputHTML()
 	///////////////////// create network.html
 	if (eDlg.m_xvRdNav > 0) {
 		CStdioFile nf;
-		CString nName = outdir + "\\" + eDlg.m_pathNetwork;
+		CString nName = outdir + _T("\\") + eDlg.m_pathNetwork;
 		if (!nf.Open(nName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(nName + " : 作成に失敗しました");
+			MessageBox(nName + _T(" : 作成に失敗しました"));
 			return;
 		}
 		writeHtmlHeader(nf);
-		nf.WriteString("</head>\n");
-		nf.WriteString("<body>\n");
+		nf.WriteString(_T("</head>\n"));
+		nf.WriteString(_T("<body>\n"));
 		
-		CString sWidth; sWidth.Format("width=\"%d\"", GetDocument()->getMaxPt().x);
-		CString sHeight; sHeight.Format("height=\"%d\"", GetDocument()->getMaxPt().y);
-		CString sWidthMgn; sWidthMgn.Format("width=\"%d\"", GetDocument()->getMaxPt().x + 50);
-		CString sHeightMgn; sHeightMgn.Format("height=\"%d\"", GetDocument()->getMaxPt().y + 50);
+		CString sWidth; sWidth.Format(_T("width=\"%d\""), GetDocument()->getMaxPt().x);
+		CString sHeight; sHeight.Format(_T("height=\"%d\""), GetDocument()->getMaxPt().y);
+		CString sWidthMgn; sWidthMgn.Format(_T("width=\"%d\""), GetDocument()->getMaxPt().x + 50);
+		CString sHeightMgn; sHeightMgn.Format(_T("height=\"%d\""), GetDocument()->getMaxPt().y + 50);
 		if (eDlg.m_xvRdImg == 0) {
-			CString svgPath = outdir + "\\" + eDlg.m_pathSvg;
+			CString svgPath = outdir + _T("\\") + eDlg.m_pathSvg;
 			if (m_exportOption.textOption == 0) {
 				GetDocument()->exportSVG(false, svgPath, true, m_exportOption.pathTextSingle);
 			} else {
 				GetDocument()->exportSVG(false, svgPath, true, m_exportOption.prfTextEverynode, false);
 			}
-			nf.WriteString("<object type=\"image/svg+xml\" data=\""
+			nf.WriteString(_T("<object type=\"image/svg+xml\" data=\"")
 				+ eDlg.m_pathSvg +
-				"\" classid=\"clsid:377B5106-3B4E-4A2D-8520-8767590CAC86 "
-				+ sWidth + " " + sHeight + " />\n");
-			nf.WriteString("<embed src=\""
-				+ eDlg.m_pathSvg + "\"" +
-				"type=\"image/svg+xml\" "
-				+ sWidthMgn + " " + sHeightMgn + " />\n");
+				_T("\" classid=\"clsid:377B5106-3B4E-4A2D-8520-8767590CAC86 ")
+				+ sWidth + " " + sHeight + _T(" />\n"));
+			nf.WriteString(_T("<embed src=\"")
+				+ eDlg.m_pathSvg + _T("\"") +
+				_T("type=\"image/svg+xml\" ")
+				+ sWidthMgn + " " + sHeightMgn + _T(" />\n"));
 		} else {
-			GetDocument()->saveCurrentImage(outdir + "\\" + eDlg.m_pathPng);
-			nf.WriteString("<img src=\"" + eDlg.m_pathPng + "\" border=\"0\" usemap=\"#nodes\" />\n");
-			nf.WriteString("<map name=\"nodes\">\n");
+			GetDocument()->saveCurrentImage(outdir + _T("\\") + eDlg.m_pathPng);
+			nf.WriteString(_T("<img src=\"") + eDlg.m_pathPng + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
+			nf.WriteString(_T("<map name=\"nodes\">\n"));
 			if (m_exportOption.textOption == 0) {
 				GetDocument()->writeClickableMap(nf, m_exportOption.pathTextSingle);
 			} else {
 				GetDocument()->writeClickableMap(nf, m_exportOption.prfTextEverynode, false);
 			}
-			nf.WriteString("</map>\n");
+			nf.WriteString(_T("</map>\n"));
 		}
-		nf.WriteString("</body>\n</html>\n");
+		nf.WriteString(_T("</body>\n</html>\n"));
 		nf.Close();
 	}
+	_wsetlocale(LC_ALL, _T(""));
 	
-	if (MessageBox("生成したHTMLファイルを開きますか?", "HTMLの閲覧", MB_YESNO) != IDYES) return;
-	ShellExecute(m_hWnd, "open", indexFilePath, NULL, NULL, SW_SHOW);
+	if (MessageBox(_T("生成したHTMLファイルを開きますか?"), _T("HTMLの閲覧"), MB_YESNO) != IDYES) return;
+	ShellExecute(m_hWnd, _T("open"), indexFilePath, NULL, NULL, SW_SHOW);
 }
 
 void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *foutline, CStdioFile* ftext)
 {
 	CString keystr;
-	keystr.Format("%d", tree().GetItemData(hItem));
+	keystr.Format(_T("%d"), tree().GetItemData(hItem));
 	// アウトライン書き込み
 	if (m_exportOption.navOption != 1) {
-		foutline->WriteString("<li>");
+		foutline->WriteString(_T("<li>"));
 		CString itemStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
-		foutline->WriteString("<a href=");
+		foutline->WriteString(_T("<a href="));
 		if (m_exportOption.textOption == 0) {
-			foutline->WriteString("\"" + m_exportOption.pathTextSingle + "#");
+			foutline->WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#"));
 			foutline->WriteString(keystr);
 		} else {
-			foutline->WriteString("\"text/" + m_exportOption.prfTextEverynode + keystr + ".html");
+			foutline->WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
 		}
-		foutline->WriteString("\" target=text>");
+		foutline->WriteString(_T("\" target=text>"));
 		// 見出し書き込み
 		foutline->WriteString(itemStr);
-		foutline->WriteString("</a>\n");
+		foutline->WriteString(_T("</a>\n"));
 	}
 	
 	// Text出力
@@ -2049,17 +2064,17 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 	} else {
 		CStdioFile tf;
 		CFileException e;
-		CString fName = m_exportOption.htmlOutDir + "\\text\\" 
-			+ m_exportOption.prfTextEverynode + keystr + ".html";
+		CString fName = m_exportOption.htmlOutDir + _T("\\text\\") 
+			+ m_exportOption.prfTextEverynode + keystr + _T(".html");
 		if (!tf.Open(fName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(fName + " : 作成に失敗しました");
+			MessageBox(fName + _T(" : 作成に失敗しました"));
 			return;
 		}
 		writeHtmlHeader(tf);
 		writeTextStyle(tf, false);
-		tf.WriteString("</head>\n<body>\n");
+		tf.WriteString(_T("</head>\n<body>\n"));
 		GetDocument()->writeTextHtml(key, &tf, true, m_exportOption.prfTextEverynode);
-		tf.WriteString("</body>\n</html>\n");
+		tf.WriteString(_T("</body>\n</html>\n"));
 		tf.Close();
 	}
 	
@@ -2067,7 +2082,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 		m_exportOption.htmlOutOption == 1 && GetDocument()->isShowSubBranch();
 	if (tree().ItemHasChildren(hItem) && nested) {
 		if (m_exportOption.navOption != 1) {
-			foutline->WriteString("<ul>\n");
+			foutline->WriteString(_T("<ul>\n"));
 		}
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
 		htmlOutTree(hRoot, hchildItem, foutline, ftext);
@@ -2080,7 +2095,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 				hParent = tree().GetParentItem(hi);
 				HTREEITEM hnextParent;
 				if (m_exportOption.navOption != 1) {
-					foutline->WriteString("\n</ul>\n");
+					foutline->WriteString(_T("\n</ul>\n"));
 				}
 				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
 					htmlOutTree(hRoot, hnextParent, foutline, ftext);
@@ -2096,24 +2111,24 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 
 void OutlineView::writeHtmlHeader(CStdioFile &f)
 {
-	f.WriteString("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"); 
-	f.WriteString("<html>\n<head>\n");
-	f.WriteString("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n");
+	f.WriteString(_T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n")); 
+	f.WriteString(_T("<html>\n<head>\n"));
+	f.WriteString(_T("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n"));
 }
 
 void OutlineView::writeTextStyle(CStdioFile &f, bool single)
 {
-	f.WriteString("<style type=\"text/css\">\n");
+	f.WriteString(_T("<style type=\"text/css\">\n"));
 	if (single) {
-		f.WriteString(" h1 {font-size: 120%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n");
+		f.WriteString(_T(" h1 {font-size: 120%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n"));
 	} else {
-		f.WriteString(" h1 {font-size: 120%; background: #F3F3F3; padding: 5px 5px 5px;}\n");
+		f.WriteString(_T(" h1 {font-size: 120%; background: #F3F3F3; padding: 5px 5px 5px;}\n"));
 	}
-	f.WriteString(" h2 {font-size: 110%; border-bottom:2pt solid #9999FF; border-left:3pt solid #9999FF; padding: 5px 5px 5px;}\n");
-	f.WriteString(" h3 {font-size: 100%; border-bottom:1pt solid #9999FF; padding: 5px 5px 5px;}\n");
-	f.WriteString(" h4 {font-size: 100%; border-bottom: 1px dashed #999999; padding: 5px 5px 5px;}\n");
-	f.WriteString(" li {font-size: 80%; padding: 0px;}\n");
-	f.WriteString("</style>\n");
+	f.WriteString(_T(" h2 {font-size: 110%; border-bottom:2pt solid #9999FF; border-left:3pt solid #9999FF; padding: 5px 5px 5px;}\n"));
+	f.WriteString(_T(" h3 {font-size: 100%; border-bottom:1pt solid #9999FF; padding: 5px 5px 5px;}\n"));
+	f.WriteString(_T(" h4 {font-size: 100%; border-bottom: 1px dashed #999999; padding: 5px 5px 5px;}\n"));
+	f.WriteString(_T(" li {font-size: 80%; padding: 0px;}\n"));
+	f.WriteString(_T("</style>\n"));
 }
 
 void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOutText)
@@ -2122,15 +2137,15 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOut
 		return;
 	}
 	
-	f->WriteString(".");
+	f->WriteString(_T("."));
 	for (int i = 0; i < tab; i++) {
-		f->WriteString(".");
+		f->WriteString(_T("."));
 	}
-	f->WriteString(Utilities::removeCR(tree().GetItemText(hItem)) + "\n");
+	f->WriteString(Utilities::removeCR(tree().GetItemText(hItem)) + _T("\n"));
 	
 	if (bOutText) {
 		f->WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(hItem))));
-		f->WriteString("\n");
+		f->WriteString(_T("\n"));
 	}
 	
 	if (tree().ItemHasChildren(hItem) && m_opTreeOut != 2) {           // 子どもに移動
@@ -2163,6 +2178,7 @@ bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char l
 	CFileStatus status;
 	CFileException e;
 	
+	_wsetlocale(LC_ALL, _T("jpn"));
 	
 	if (!f.Open(inPath, CFile::typeText | CFile::modeRead, &e)) {
 		return false;
@@ -2173,6 +2189,8 @@ bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char l
 	while (f.ReadString(line) != NULL) {
 		lines.push_back(line);
 	}
+	_wsetlocale(LC_ALL, _T(""));
+	f.Close();
 	return levelToNode(lines, addNodes, levelChar);
 }
 
@@ -2180,7 +2198,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 {
 	COnProcDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
-	prcdlg.m_ProcName.SetWindowText("インポート中");
+	prcdlg.m_ProcName.SetWindowText(_T("インポート中"));
 	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
 	prcdlg.m_ProgProc.SetRange(0, lines.size() - 1);
 	
@@ -2192,12 +2210,12 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		int level = countLineIndentLevel(lines[i], levelChar);
 		if (level > curLevel && level - curLevel > 1 && nodeCreated) {
-			CString mes; mes.Format("%d行目 : %s", i + 1, lines[i]);
-			MessageBox(mes, "インポートエラー:階層が正しくありません", MB_ICONSTOP);
+			CString mes; mes.Format(_T("%d行目 : %s"), i + 1, lines[i]);
+			MessageBox(mes, _T("インポートエラー:階層が正しくありません"), MB_ICONSTOP);
 			return false;
 		}
 		if (level == 0) {
-			if (text == "" && lines[i] == "") {
+			if (text == _T("") && lines[i] == _T("")) {
 				continue;
 			}
 			if (nodeCreated) {
@@ -2205,7 +2223,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 				continue;
 			}
 		} else {
-			if (label == "") {
+			if (label == _T("")) {
 				CString line = lines[i];
 				label = line.TrimLeft(_T("."));
 				continue;
@@ -2219,19 +2237,19 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 			node.setLevel(curLevel);
 			addNodes.push_back(node);
 			
-			text = "";
+			text = _T("");
 			CString line = lines[i];
 			label = line.TrimLeft(_T("\t."));
 			curLevel = level;
-			if (label == "") {
-				label = "<名称未設定>";
+			if (label == _T("")) {
+				label = _T("<名称未設定>");
 			}
 			mvSz.cx += 20; mvSz.cy += 30;
 			prcdlg.m_ProgProc.StepIt();  // プログレスバーを更新
 		}
 	}
 	
-	if (label != "") {
+	if (label != _T("")) {
 		iNode node;
 		node.setName(label);
 		node.setText(text);
@@ -2383,9 +2401,9 @@ void OutlineView::foldUpTree(HTREEITEM hItem, int curLevel, int levelSet)
 
 void OutlineView::doColorSetting()
 {
-	COLORREF colorBG = AfxGetApp()->GetProfileInt(REGS_FRAME, "Outline bgColor", RGB(255, 255, 255));
-	COLORREF colorFor = AfxGetApp()->GetProfileInt(REGS_FRAME, "Outline forColor", RGB(0, 0, 0));
-	COLORREF colorIM = AfxGetApp()->GetProfileInt(REGS_FRAME, "InsertMark Color", RGB(0, 0, 0));
+	COLORREF colorBG = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline bgColor"), RGB(255, 255, 255));
+	COLORREF colorFor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline forColor"), RGB(0, 0, 0));
+	COLORREF colorIM = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("InsertMark Color"), RGB(0, 0, 0));
 	TreeView_SetBkColor(m_hWnd, colorBG);
 	TreeView_SetTextColor(m_hWnd, colorFor);
 	TreeView_SetInsertMarkColor(m_hWnd, colorIM);
@@ -2398,7 +2416,7 @@ void OutlineView::OnAddChild2()
 	dlg.m_iniPt.x = -1;
 	dlg.m_iniPt.y = -1;
 	if (dlg.DoModal() != IDOK) return;
-	if (dlg.m_strcn == "") return;
+	if (dlg.m_strcn == _T("")) return;
 	GetDocument()->disableUndo();
 	clearUndo();
 	HTREEITEM newItem = tree().InsertItem(dlg.m_strcn, 0, 0, curItem());
@@ -2618,7 +2636,7 @@ void OutlineView::OnCopyTreeToClipboard()
 
 		char * pchData;
 		pchData = (char*)GlobalLock(hClipboardData);
-		strcpy_s(pchData, strData.GetLength()+1, strData.GetBuffer());
+		strcpy_s(pchData, strData.GetLength()+1, (const char*)strData.GetBuffer());
 		GlobalUnlock(hClipboardData);
 		SetClipboardData(CF_TEXT,hClipboardData);
 		CloseClipboard();
@@ -2636,11 +2654,11 @@ void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
 	int level = GetDocument()->getKeyNodeLevelNumber(key);
 	if (level != -1) {
 		for (int i = 1; i <= level; i++) {
-			text += "\t";
+			text += _T("\t");
 		}
 		CString label = GetDocument()->getKeyNodeLabel(key);
 		text += Utilities::removeCR(label);
-		text += "\r\n";
+		text += _T("\r\n");
 	}
 	if (tree().ItemHasChildren(hItem)) {
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
@@ -2970,9 +2988,9 @@ void OutlineView::OnPasteTreeFromClipboard()
 		GetDocument()->resetShowBranch();
 	}
 	
-	ClipText += "\n";
+	ClipText += _T("\n");
 	CToken tok(ClipText);
-	tok.SetToken("\n");
+	tok.SetToken(_T("\n"));
 	vector<CString> lines;
 	while(tok.MoreTokens()) {
 		CString s = tok.GetNextToken();
@@ -3022,13 +3040,13 @@ void OutlineView::OnExportToText()
 	CString outfile = GetDocument()->getTitleFromPath();	
 	if (dlg.m_nTreeOp != 0) {
 		CString label = Utilities::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
-		if (label != "") {
+		if (label != _T("")) {
 			outfile = label;
 		}
 	}
 	
-	char szFilters[] = "テキストファイル (*.txt)|*.txt";	
-	CFileDialog fdlg(FALSE, "txt", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt");	
+	CFileDialog fdlg(FALSE, _T("txt"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (fdlg.DoModal() != IDOK) return;
 	CString outfileName = fdlg.GetPathName();
 	
@@ -3041,22 +3059,25 @@ void OutlineView::OnExportToText()
 	if (!f.Open(outfileName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 		return;
 	}
-	
+	_wsetlocale(LC_ALL, _T("jpn"));
 	if (m_opTreeOut == 0) {
 		textOutTree(tree().GetRootItem(), &f, 0, dlg.m_bPrintText);
 	} else {
-		f.WriteString(".");
-		f.WriteString(Utilities::removeCR(tree().GetItemText(tree().GetSelectedItem())) + "\n");
+		f.WriteString(_T("."));
+		f.WriteString(Utilities::removeCR(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
+		f.WriteString(tree().GetItemText(tree().GetSelectedItem()) + _T("\n"));
 		if (dlg.m_bPrintText) {
 			f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
-			f.WriteString("\n");
+			f.WriteString(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem())));
+			f.WriteString(_T("\n"));
 		}
 		if (tree().ItemHasChildren(tree().GetSelectedItem())) {
 			textOutTree(tree().GetChildItem(tree().GetSelectedItem()), &f, 1, dlg.m_bPrintText);
 		}
 	}
+	_wsetlocale(LC_ALL, _T(""));
 	f.Close();
-	ShellExecute(m_hWnd, "open", outfileName, NULL, NULL, SW_SHOW);
+	ShellExecute(m_hWnd, _T("open"), outfileName, NULL, NULL, SW_SHOW);
 
 }
 
@@ -3078,18 +3099,20 @@ void OutlineView::OnExportToXml()
 	CString outfile = GetDocument()->getTitleFromPath();
 	if (dlg.m_nTreeOp != 0) {
 		CString label = Utilities::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
-		if (label != "") {
+		if (label != _T("")) {
 			outfile = label;
 		}
 	}
-	char szFilters[] = "XMLファイル (*.xml)|*.xml";	
-	CFileDialog fdlg(FALSE, "xml", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	WCHAR szFilters[] = _T("XMLファイル (*.xml)|*.xml");	
+	CFileDialog fdlg(FALSE, _T("xml"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (fdlg.DoModal() != IDOK) return;
 	CString outfileName = fdlg.GetPathName();
+	_wsetlocale(LC_ALL, _T("jpn"));
 	
 	if (GetDocument()->saveXML(outfileName)) {
-		MessageBox("終了しました", "XMLへのエクスポート", MB_OK);
+		MessageBox(_T("終了しました"), _T("XMLへのエクスポート"), MB_OK);
 	}
+	_wsetlocale(LC_ALL, _T(""));
 }
 
 void OutlineView::OnUpdateExportToXml(CCmdUI *pCmdUI)

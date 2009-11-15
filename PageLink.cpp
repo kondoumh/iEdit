@@ -80,7 +80,7 @@ BOOL PageLink::OnInitDialog()
 	m_Slider.SetRangeMin(0, TRUE);
 	m_Slider.SetPos(strength);
 	CString mes;
-	mes.Format("%.1f", (double)m_Slider.GetPos()/10.0);
+	mes.Format(_T("%.1f"), (double)m_Slider.GetPos()/10.0);
 	m_strn.SetWindowText(mes);
 	
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
@@ -131,7 +131,7 @@ void PageLink::OnReleasedcaptureSlid(NMHDR* pNMHDR, LRESULT* pResult)
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CString mes;
 	strength = m_Slider.GetPos();
-	mes.Format("%.1f", (double)strength/10.0);
+	mes.Format(_T("%.1f"), (double)strength/10.0);
 	m_strn.SetWindowText(mes);
 	*pResult = 0;
 }
@@ -141,7 +141,7 @@ void PageLink::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CString mes;
 	strength = m_Slider.GetPos();
-	mes.Format("%.1f", (double)strength/10.0);
+	mes.Format(_T("%.1f"), (double)strength/10.0);
 	m_strn.SetWindowText(mes);
 	
 	CDialog::OnHScroll(nSBCode, nPos, pScrollBar);

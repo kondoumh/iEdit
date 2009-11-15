@@ -141,8 +141,8 @@ void PageOther::OnBtnSetmfsize()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	SetMFSizeDlg dlg;
-	double mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, "MF rWidth", 0)/10.0;
-	double mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, "MF rHeight", 0)/10.0;
+	double mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rWidth"), 0)/10.0;
+	double mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rHeight"), 0)/10.0;
 	
 	
 	if (mfWidth != 0 && mfHeight != 0) {
@@ -155,9 +155,9 @@ void PageOther::OnBtnSetmfsize()
 	}
 	
 	if (dlg.DoModal() == IDOK) {
-		AfxGetApp()->WriteProfileInt(REGS_OTHER, "MF rWidth", (int)(dlg.m_rx*10));
-		AfxGetApp()->WriteProfileInt(REGS_OTHER, "MF rHeight", (int)(dlg.m_ry*10));
-		MessageBox("この設定は再起動後に反映されます");
+		AfxGetApp()->WriteProfileInt(REGS_OTHER, _T("MF rWidth"), (int)(dlg.m_rx*10));
+		AfxGetApp()->WriteProfileInt(REGS_OTHER, _T("MF rHeight"), (int)(dlg.m_ry*10));
+		MessageBox(_T("この設定は再起動後に反映されます"));
 	}
 }
 

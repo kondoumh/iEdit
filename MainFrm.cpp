@@ -115,7 +115,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
-		TRACE0("Failed to create toolbar\n");
+		TRACE0(_T("Failed to create toolbar\n"));
 		return -1;      // 作成に失敗
 	}
 	
@@ -123,7 +123,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(0,0,0,0), IDR_FORM_PALLETE) ||
 		!m_wndFormPalette.LoadToolBar(IDR_FORM_PALLETE))
 	{
-		TRACE0("Failed to create form pallete\n");
+		TRACE0(_T("Failed to create form pallete\n"));
 		return -1;      // 作成に失敗
 	}
 	
@@ -132,7 +132,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		!m_wndStatusBar.SetIndicators(indicators,
 		  sizeof(indicators)/sizeof(UINT)))
 	{
-		TRACE0("Failed to create status bar\n");
+		TRACE0(_T("Failed to create status bar\n"));
 		return -1;      // 作成に失敗
 	}
 	
@@ -150,7 +150,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
 	m_wndToolBar.GetToolBarCtrl().SetButtonInfo(ID_BTN_LINK_ARROW, &tbButtonInfo);
 	
-	m_wndToolBar.SetWindowText("編集");
+	m_wndToolBar.SetWindowText(_T("編集"));
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	// ズーム変更用コンボボックスの追加
 	addComboZoom();
@@ -169,22 +169,22 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
 	m_wndFormPalette.GetToolBarCtrl().SetButtonInfo(ID_BTN_TEXT_COLOR, &tbButtonInfo);
 
-	m_wndFormPalette.SetWindowText("書式");
+	m_wndFormPalette.SetWindowText(_T("書式"));
 	m_wndFormPalette.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
 	JointCBLine(this,&m_wndFormPalette,&m_wndToolBar);
 	
 	
-	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save bar status", TRUE);
+	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 	if (saveBar) {
-		LoadBarState("BarSettings");
+		LoadBarState(_T("BarSettings"));
 	}
 	
 	// CG: 以下のブロックはスプラッシュ スクリーン コンポーネントによって追加されました
 	CSplashWnd::ShowSplashScreen(this);
 	
-	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", TRUE);
+	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
 	if (saveFrame) {
 		loadFramePosition();
 	}	
@@ -239,12 +239,12 @@ void CMainFrame::OnUpdateSetProperties(CCmdUI* pCmdUI)
 void CMainFrame::OnClose() 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
-	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save bar status", TRUE);
+	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 	if (saveBar) {
-		SaveBarState("BarSettings");
+		SaveBarState(_T("BarSettings"));
 	}	
 	
-	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, "Save Frame Sizes", TRUE);
+	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
 	if (saveFrame) {
 		saveFramePosition();
 	}
@@ -255,18 +255,24 @@ void CMainFrame::OnClose()
 void CMainFrame::OnDropFiles(HDROP hDropInfo) 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
-	char fileName[MAX_PATH];
+	WCHAR fileName[MAX_PATH];
 	DragQueryFile(hDropInfo, 0, fileName, MAX_PATH);
 	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(fileName, drive, dir, fname, ext );
+	WCHAR drive[_MAX_DRIVE];
+	WCHAR dir[_MAX_DIR];
+	WCHAR fname[_MAX_FNAME];
+	WCHAR ext[_MAX_EXT];
+	ZeroMemory(drive, _MAX_DRIVE);
+	ZeroMemory(dir, _MAX_DIR);
+	ZeroMemory(fname, _MAX_FNAME);
+	ZeroMemory(ext, _MAX_EXT);
+	
+	_wsplitpath_s((const wchar_t *)fileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
+	
 	CString extent = ext;
 	extent.MakeLower();
-	if (extent != ".iedx" && extent != ".ied" && extent != ".xml") {
-		AfxMessageBox("iEditファイルではありません");
+	if (extent != _T(".iedx") && extent != _T(".ied") && extent != _T(".xml")) {
+		AfxMessageBox(_T("iEditファイルではありません"));
 		return;
 	}
 	
@@ -280,20 +286,20 @@ void CMainFrame::saveFramePosition()
 	if (wndpl.showCmd == SW_SHOWNORMAL || wndpl.showCmd == SW_SHOWMAXIMIZED) {
 		CRect rc(&wndpl.rcNormalPosition);
 		if (rc.left >= -10 && rc.top >= -10 && rc.Width() < 10000 && rc.Height() < 10000) {
-			AfxGetApp()->WriteProfileInt(REGS_FRAME, "Window Left", rc.left);
-			AfxGetApp()->WriteProfileInt(REGS_FRAME, "Window Top", rc.top);
-			AfxGetApp()->WriteProfileInt(REGS_FRAME, "Window Width", rc.Width());
-			AfxGetApp()->WriteProfileInt(REGS_FRAME, "Window Height", rc.Height());
+			AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Window Left"), rc.left);
+			AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Window Top"), rc.top);
+			AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Window Width"), rc.Width());
+			AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Window Height"), rc.Height());
 		}
 	}
 }
 
 void CMainFrame::loadFramePosition()
 {
-	int left = AfxGetApp()->GetProfileInt(REGS_FRAME, "Window Left", 0);
-	int top = AfxGetApp()->GetProfileInt(REGS_FRAME, "Window Top", 0);
-	int width = AfxGetApp()->GetProfileInt(REGS_FRAME, "Window Width", 640);
-	int height = AfxGetApp()->GetProfileInt(REGS_FRAME, "Window Height", 480);
+	int left = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Window Left"), 0);
+	int top = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Window Top"), 0);
+	int width = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Window Width"), 640);
+	int height = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Window Height"), 480);
 	MoveWindow(left, top, width, height);
 }
 
@@ -363,8 +369,8 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		m_bCanBeTransparent = FALSE;
 	}
 	
-	m_bTransparent = AfxGetApp()->GetProfileInt(REGS_FRAME, "Transparent Mode", FALSE);
-	m_nAlphaValue = AfxGetApp()->GetProfileInt(REGS_FRAME, "Alpha Value",  200);
+	m_bTransparent = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Transparent Mode"), FALSE);
+	m_nAlphaValue = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Alpha Value"),  200);
 	if (m_bTransparent) {
 		cs.dwExStyle |= WS_EX_LAYERED;
 	}
@@ -376,7 +382,7 @@ void CMainFrame::OnAdjustAlpha()
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_pSetAlphaDlg = new SetAlphaDlg;
 	m_pSetAlphaDlg->m_nLevel = m_nAlphaValue;
-	m_pSetAlphaDlg->Create("", "", SW_HIDE, CRect(0, 0, 0, 0), this, IDD_ALPHASLIDE);
+	m_pSetAlphaDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_ALPHASLIDE);
 	m_pSetAlphaDlg->ShowWindow(SW_SHOWNORMAL);
 	m_pSetAlphaDlg->SetFocus();
 
@@ -399,7 +405,7 @@ void CMainFrame::OnDestroy()
 		} else if (m_nAlphaValue < 40) {
 			m_nAlphaValue = 40;
 		}
-		AfxGetApp()->WriteProfileInt(REGS_FRAME, "Alpha Value", m_nAlphaValue);
+		AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Alpha Value"), m_nAlphaValue);
 		
 		m_pSetAlphaDlg->DestroyWindow();
 		delete m_pSetAlphaDlg;
@@ -416,8 +422,8 @@ LRESULT CMainFrame::OnSlideAlpha(UINT wParam, LONG lParam)
 void CMainFrame::MakeWindowTransparent()
 {
 	FWINLAYER pfWin;
-	HINSTANCE hDLL = LoadLibrary("user32.dll");
-	pfWin=(FWINLAYER)GetProcAddress(hDLL,"SetLayeredWindowAttributes");
+	HINSTANCE hDLL = LoadLibrary(_T("user32.dll"));
+	pfWin=(FWINLAYER)GetProcAddress(hDLL, (LPCSTR)_T("SetLayeredWindowAttributes"));
 	if (pfWin!=NULL) { /* SetLayeredWindowAttributes実行 */
 		pfWin(m_hWnd, 0 ,(BYTE)m_nAlphaValue, 2);
 	}
@@ -431,7 +437,7 @@ void CMainFrame::OnTransparentMode()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_bTransparent = !m_bTransparent;
-	AfxGetApp()->WriteProfileInt(REGS_FRAME, "Transparent Mode", m_bTransparent);
+	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Transparent Mode"), m_bTransparent);
 	if (m_bTransparent) {
 		SetWindowLong(m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 		MakeWindowTransparent();
@@ -789,12 +795,12 @@ void CMainFrame::ShowDebugMessage(const CString &message)
 {
 	if (m_pDebugPrintDlg == NULL) {
 		m_pDebugPrintDlg = new DebugPrintDlg();
-		m_pDebugPrintDlg->Create("", "", SW_HIDE, CRect(0, 0, 0, 0), this, IDD_DEBUG_WINDOW);
+		m_pDebugPrintDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_DEBUG_WINDOW);
 		m_pDebugPrintDlg->ShowWindow(SW_SHOWNORMAL);
 		CRect rc;
 		m_pDebugPrintDlg->GetWindowRect(rc);
 		rc.MoveToXY(1100, 500);
 		m_pDebugPrintDlg->MoveWindow(rc);
 	}
-	m_pDebugPrintDlg->m_edConsole.ReplaceSel(message + "\r\n");
+	m_pDebugPrintDlg->m_edConsole.ReplaceSel(message + _T("\r\n"));
 }

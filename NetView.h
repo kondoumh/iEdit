@@ -93,7 +93,7 @@ protected:
 	CRect getCurveBound(const CPoint& pt);
 	void drawCurve(CDC* pDC);
 	void adjustRedrawBound(CRect& rc);
-	void addNode(const CPoint& logPt, const CPoint& screenPt, const CString& s="");
+	void addNode(const CPoint& logPt, const CPoint& screenPt, const CString& s=_T(""));
 	void trackMulti(CPoint& logPt, CPoint& point, CDC* pDC);
 	void trackSingle(CPoint& logPt, CPoint& point, CDC* pDC, BOOL keepRatio = FALSE);
 	void drawAddLink(CDC* pDC);

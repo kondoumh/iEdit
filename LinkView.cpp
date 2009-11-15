@@ -216,8 +216,8 @@ int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	// TODO: この位置に固有の作成用コードを追加してください
 	m_oleDropTarget.Register(this);
-	GetListCtrl().InsertColumn(0, "リンク名", LVCFMT_LEFT, 100); 
-	GetListCtrl().InsertColumn(1, "リンク先", LVCFMT_LEFT, 100);
+	GetListCtrl().InsertColumn(0, _T("リンク名"), LVCFMT_LEFT, 100); 
+	GetListCtrl().InsertColumn(1, _T("リンク先"), LVCFMT_LEFT, 100);
 	m_imageList.Create(IDB_LINKS, 16, 1, RGB(255, 0, 255));	
 	GetListCtrl().SetImageList(&m_imageList, LVSIL_SMALL);
 	setViewFont();
@@ -313,8 +313,8 @@ void LinkView::OnDelete()
 	
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
-		CString s = '<' + items_[index].comment +">\n削除しますか?";
-		if (MessageBox(s, "リンクの削除", MB_YESNO) != IDYES) return;
+		CString s = '<' + items_[index].comment + _T(">\n削除しますか?");
+		if (MessageBox(s, _T("リンクの削除"), MB_YESNO) != IDYES) return;
 		GetDocument()->deleteSpecifidLink(items_[index]);
 	} else {
 		pEdit->SendMessage(WM_KEYDOWN, VK_DELETE, VK_DELETE);
@@ -374,9 +374,17 @@ void LinkView::setLinkInfo()
 		i.comment = dlg.strComment;
 		i.path = dlg.strPath;
 		if (i.comment == "" && i.path != "") {
-			char drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME], ext[_MAX_EXT];
-			_splitpath_s(i.path, drive, dir, fname, ext);
-			i.comment.Format("%s%s", fname, ext);
+			WCHAR drive[_MAX_DRIVE];
+			WCHAR dir[_MAX_DIR];
+			WCHAR fileName[_MAX_FNAME];
+			WCHAR ext[_MAX_EXT];
+			ZeroMemory(drive, _MAX_DRIVE);
+			ZeroMemory(dir, _MAX_DIR);
+			ZeroMemory(fileName, _MAX_FNAME);
+			ZeroMemory(ext, _MAX_EXT);
+
+			_wsplitpath_s((const wchar_t *)i.path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+			i.comment.Format(_T("%s%s"), fileName, ext);
 		}
 		GetDocument()->setSpecifiedLinkInfo(items_[index], i);
 	}
@@ -405,35 +413,43 @@ void LinkView::jumpTo()
 	int type = items_[index].linkType;
 	if (type == listitem::FileName || type == listitem::linkFolder || type == listitem::iedFile) {
 		CString path = items_[index].path;
-		char drive[_MAX_DRIVE];
-		char dir[_MAX_DIR];
-		char fname[_MAX_FNAME];
-		char ext[_MAX_EXT];
-		_splitpath_s(path, drive, dir, fname, ext );
-		CString workdir; workdir.Format("%s%s", drive, dir);
+		WCHAR drive[_MAX_DRIVE];
+		WCHAR dir[_MAX_DIR];
+		WCHAR fileName[_MAX_FNAME];
+		WCHAR ext[_MAX_EXT];
+		ZeroMemory(drive, _MAX_DRIVE);
+		ZeroMemory(dir, _MAX_DIR);
+		ZeroMemory(fileName, _MAX_FNAME);
+		ZeroMemory(ext, _MAX_EXT);
+		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+		CString workdir; workdir.Format(_T("%s%s"), drive, dir);
 		
 		CString sdrive(drive);
-		if (sdrive == "") {
+		if (sdrive == _T("")) {
 			// ドライブレターが無い場合、編集中のieditファイルとの
 			// 相対位置と見なして、ファイルオープンを試みる
 			CString ieditFilePath = GetDocument()->GetPathName();
-			char drive2[_MAX_DRIVE];
-			char dir2[_MAX_DIR];
-			char fname2[_MAX_FNAME];
-			char ext2[_MAX_EXT];
-			_splitpath_s(ieditFilePath, drive2, dir2, fname2, ext2);
-			CString combPath; combPath.Format("%s%s%s%s%s",drive2, dir2, dir, fname, ext);
-			workdir.Format("%s%s", drive, dir, dir2);
+			WCHAR drive2[_MAX_DRIVE];
+			WCHAR dir2[_MAX_DIR];
+			WCHAR fileName2[_MAX_FNAME];
+			WCHAR ext2[_MAX_EXT];
+			ZeroMemory(drive2, _MAX_DRIVE);
+			ZeroMemory(dir2, _MAX_DIR);
+			ZeroMemory(fileName2, _MAX_FNAME);
+			ZeroMemory(ext2, _MAX_EXT);
+			_wsplitpath_s((const wchar_t *)ieditFilePath, drive2, _MAX_DRIVE, dir2, _MAX_DIR, fileName2, _MAX_FNAME, ext2, _MAX_EXT);
+			CString combPath; combPath.Format(_T("%s%s%s%s%s"),drive2, dir2, dir, fileName, ext);
+			workdir.Format(_T("%s%s"), drive2, dir2, dir2);
 			path = combPath;
 		}
 		CString extention(ext);
-		if (extention == ".ied" || extention == ".iedx") {
+		if (extention == _T(".ied") || extention == _T(".iedx")) {
 			AfxGetApp()->OpenDocumentFile(path);
 		} else {
-			ShellExecute(m_hWnd, "open", path, NULL, workdir, SW_SHOW);
+			ShellExecute(m_hWnd, _T("open"), path, NULL, workdir, SW_SHOW);
 		}
 	} else if (type == listitem::WebURL) {
-		ShellExecute(m_hWnd, "open", items_[index].path, NULL, NULL, SW_SHOW);
+		ShellExecute(m_hWnd, _T("open"), items_[index].path, NULL, NULL, SW_SHOW);
 	} else {
 		kstack.push(GetDocument()->getSelectedNodeKey());
 		GetDocument()->selChanged(items_[index].keyTo, true, GetDocument()->isShowSubBranch());
@@ -581,14 +597,14 @@ void LinkView::setViewFont()
 	} else {
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
-	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, "Font2 Name", "ＭＳ Ｐゴシック"));
-	lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font2 Height", 0xfffffff3);
-	lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font2 Width", 0);
-	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font2 Italic", FALSE);
-	lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font2 UnderLine", FALSE);
-	lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font2 StrikeOut", FALSE);
-	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, "Font2 CharSet", SHIFTJIS_CHARSET);
-	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, "Font2 Weight", FW_NORMAL);
+	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font2 Name"), _T("ＭＳ Ｐゴシック")));
+	lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Height"), 0xfffffff3);
+	lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Width"), 0);
+	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Italic"), FALSE);
+	lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 UnderLine"), FALSE);
+	lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 StrikeOut"), FALSE);
+	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 CharSet"), SHIFTJIS_CHARSET);
+	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Weight"), FW_NORMAL);
 	m_font.CreateFontIndirect(&lf);
 	SetFont(&m_font, TRUE);
 }
@@ -629,14 +645,14 @@ void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 	
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CString editString = pDispInfo->item.pszText;
-	if (editString == "") return;
+	if (editString == _T("")) return;
 	
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	int type = items_[index].linkType;
 	listitem i = items_[index];
 	
 	if (!i.isFromLink()) {
-		MessageBox("このリンクを編集するにはリンク元のノードを選択して下さい");
+		MessageBox(_T("このリンクを編集するにはリンク元のノードを選択して下さい"));
 		return;
 	}
 	i.comment = editString;
@@ -716,11 +732,11 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		CMemFile sf((BYTE*) ::GlobalLock(hmem), ::GlobalSize(hmem));
 		CString buffer;
 		
-		LPSTR str = buffer.GetBufferSetLength(::GlobalSize(hmem));
+		LPSTR str = (LPSTR)buffer.GetBufferSetLength(::GlobalSize(hmem));
 		sf.Read(str, ::GlobalSize(hmem));
 		::GlobalUnlock(hmem);
 		if (isURLStr(str)) {
-			GetDocument()->addURLLink(str, "URLリンク");
+			GetDocument()->addURLLink(str, _T("URLリンク"));
 		}
 		return TRUE;
 	}
@@ -728,15 +744,15 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 	HGLOBAL hData = pDataObject->GetGlobalData(CF_HDROP);
 	const HDROP hdrop = (const HDROP)::GlobalLock(hData);
 	int n = ::DragQueryFile(hdrop, 0xffffffff, NULL, 0);
-	char path[_MAX_PATH];
+	WCHAR path[_MAX_PATH];
 	if (n > 0) {
 		GetDocument()->disableUndo();
 	}
 	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
+	WCHAR drive[_MAX_DRIVE];
+	WCHAR dir[_MAX_DIR];
+	WCHAR fname[_MAX_FNAME];
+	WCHAR ext[_MAX_EXT];
 	
 	for (int i = 0; i < n; i++){
 		::DragQueryFile(hdrop, i, path, sizeof(path));
@@ -744,14 +760,14 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		memset(dir, '\0', _MAX_DIR);
 		memset(fname, '\0', _MAX_FNAME);
 		memset(ext, '\0', _MAX_EXT);
-		_splitpath_s(path, drive, dir, fname, ext);
+	_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
 		CString extention(ext);
 		extention.MakeLower();
-		if (extention == ".url") {
+		if (extention == _T(".url")) {
 			CString url = getLocationFromURLFile(path);
 			GetDocument()->addURLLink(url, CString(fname));
 			continue;
-		} else if (extention == ".ied" || extention == ".iedx") {
+		} else if (extention == _T(".ied") || extention == _T(".iedx")) {
 			SelFileDropDlg dlg;
 			dlg.m_nDropProc = 0;
 			if (dlg.DoModal() != IDOK) return TRUE;
@@ -763,7 +779,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		}
 		
 		CString fileName;
-		fileName.Format("%s%s", fname, ext);
+		fileName.Format(_T("%s%s"), fname, ext);
 		GetDocument()->addURLLink(path, fileName);
 	}
 	::GlobalUnlock(hData);	
@@ -778,23 +794,23 @@ CString LinkView::getLocationFromURLFile(LPCTSTR path)
 	CFileException e;
 	
 	if (!f.Open(path, CFile::typeText | CFile::modeRead, &e)) {
-		return "";
+		return _T("");
 	}
 	CString line;
 	CString url;
 	while (f.ReadString(line)) {
-		if (line.Find("BASEURL=") != -1) {
+		if (line.Find(_T("BASEURL=")) != -1) {
 			url = line.Right(line.GetLength() - 8);
 			break;
 		}
 	}
 	f.Close();
-	if (url == "") {
+	if (url == _T("")) {
 		if (!f.Open(path, CFile::typeText | CFile::modeRead, &e)) {
-			return "";
+			return _T("");
 		}
 		while (f.ReadString(line)) {
-			if (line.Find("URL=") != -1) {
+			if (line.Find(_T("URL=")) != -1) {
 				url = line.Right(line.GetLength() - 4);
 				break;
 			}
@@ -806,19 +822,19 @@ CString LinkView::getLocationFromURLFile(LPCTSTR path)
 
 bool LinkView::isURLStr(const CString &str) const
 {
-	if (str.Find("http://") != 0 && str.Find("https://") != 0 && str.Find("ftp://") != 0) {
+	if (str.Find(_T("http://")) != 0 && str.Find(_T("https://")) != 0 && str.Find(_T("ftp://")) != 0) {
 		return false;
 	}
 	
-	if (str.Find("\r") != -1 || str.Find("\n") != -1) return false;
+	if (str.Find(_T("\r")) != -1 || str.Find(_T("\n")) != -1) return false;
 	
 	return true;
 }
 
 void LinkView::doColorSetting()
 {
-	COLORREF colorBG = AfxGetApp()->GetProfileInt(REGS_FRAME, "Link bgColor", RGB(255, 255, 255));
-	COLORREF colorFor = AfxGetApp()->GetProfileInt(REGS_FRAME, "Link forColor", RGB(0, 0, 0));
+	COLORREF colorBG = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Link bgColor"), RGB(255, 255, 255));
+	COLORREF colorFor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Link forColor"), RGB(0, 0, 0));
 	ListView_SetBkColor(m_hWnd, colorBG);
 	ListView_SetTextBkColor(m_hWnd, colorBG);
 	ListView_SetTextColor(m_hWnd, colorFor);

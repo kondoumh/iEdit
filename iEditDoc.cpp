@@ -14,6 +14,7 @@
 #include "Utilities.h"
 #include <atlimage.h>
 #include <regex>
+#include <locale>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -136,8 +137,6 @@ void iEditDoc::Serialize(CArchive& ar)
  	else
  	{
  		// TODO: この位置に読み込み用のコードを追加してください。
-		
-		
 		if (m_bSerializeXML) {
 			SerializeXML(ar);
 		} else {
@@ -195,7 +194,6 @@ void iEditDoc::SerializeXML(CArchive &ar)
 {
 	if (ar.IsStoring())
 	{
-		saveToXML(ar);
 	}
 	else
 	{
@@ -404,25 +402,29 @@ void iEditDoc::deleteKeyItem(DWORD key)
 BOOL iEditDoc::OnOpenDocument(LPCTSTR lpszPathName) 
 {
 	m_openFilePath = lpszPathName;
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(lpszPathName, drive, dir, fname, ext );
+	WCHAR drive[_MAX_DRIVE];
+	WCHAR dir[_MAX_DIR];
+	WCHAR fileName[_MAX_FNAME];
+	WCHAR ext[_MAX_EXT];
+	ZeroMemory(drive, _MAX_DRIVE);
+	ZeroMemory(dir, _MAX_DIR);
+	ZeroMemory(fileName, _MAX_FNAME);
+	ZeroMemory(ext, _MAX_EXT);
+	_wsplitpath_s((const wchar_t *)m_openFilePath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 	CString extent = ext;
 	extent.MakeLower();
-	if (extent != ".iedx" && extent != ".ied" && extent != ".xml") {
-		AfxMessageBox("iEditファイルではありません");
+	if (extent != _T(".iedx") && extent != _T(".ied") && extent != _T(".xml")) {
+		AfxMessageBox(_T("iEditファイルではありません"));
 		return FALSE;
 	}
 	m_bSerializeXML = false;
-	if (extent == ".iedx") {
+	if (extent == _T(".iedx")) {
 		m_bSerializeXML = false;
 		m_bOldBinary = false;
-	} else if (extent == ".ied") {
+	} else if (extent == _T(".ied")) {
 		m_bSerializeXML = false;
 		m_bOldBinary = true;
-	} else if (extent == ".xml") {
+	} else if (extent == _T(".xml")) {
 		m_bSerializeXML = true;
 		m_bOldBinary = false;
 	}
@@ -438,24 +440,28 @@ BOOL iEditDoc::OnOpenDocument(LPCTSTR lpszPathName)
 BOOL iEditDoc::OnSaveDocument(LPCTSTR lpszPathName) 
 {
 	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(lpszPathName, drive, dir, fname, ext );
+	WCHAR drive[_MAX_DRIVE];
+	WCHAR dir[_MAX_DIR];
+	WCHAR fileName[_MAX_FNAME];
+	WCHAR ext[_MAX_EXT];
+	ZeroMemory(drive, _MAX_DRIVE);
+	ZeroMemory(dir, _MAX_DIR);
+	ZeroMemory(fileName, _MAX_FNAME);
+	ZeroMemory(ext, _MAX_EXT);
+	_wsplitpath_s((const wchar_t *)lpszPathName, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 	CString extent = ext;
-	if (extent != ".iedx" && extent != ".ied" &&extent != ".xml") {
-		extent = ".iedx";
+	if (extent != _T(".iedx") && extent != _T(".ied") &&extent != _T(".xml")) {
+		extent = _T(".iedx");
 	}
 	m_bSerializeXML = false;
 	
-	if (extent == ".iedx") {
+	if (extent == _T(".iedx")) {
 		m_bSerializeXML = false;
 		m_bOldBinary = false;
-	} else if (extent == ".ied") {
+	} else if (extent == _T(".ied")) {
 		m_bSerializeXML = false;
 		m_bOldBinary = true;
-	} else if (extent == ".xml") {
+	} else if (extent == _T(".xml")) {
 		m_bSerializeXML = true;
 		m_bOldBinary = false;
 	}
@@ -467,10 +473,10 @@ void iEditDoc::InitDocument()
 {
 	if (nodes_.size() == 0) {
 		lastKey = 0;
-		iNode i("主題"); i.setKey(0); i.setParent(0);
+		iNode i(_T("主題")); i.setKey(0); i.setParent(0);
 		i.moveBound(CSize(10, 10));
 		CString title = getTitleFromOpenPath();
-		if (getTitleFromOpenPath() != "") {
+		if (getTitleFromOpenPath() != _T("")) {
 			i.setName(title);
 		}
 		nodes_.insert(i);
@@ -486,17 +492,21 @@ void iEditDoc::InitDocument()
 
 CString iEditDoc::getTitleFromOpenPath()
 {
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(m_openFilePath, drive, dir, fname, ext );
+	WCHAR drive[_MAX_DRIVE];
+	WCHAR dir[_MAX_DIR];
+	WCHAR fileName[_MAX_FNAME];
+	WCHAR ext[_MAX_EXT];
+	ZeroMemory(drive, _MAX_DRIVE);
+	ZeroMemory(dir, _MAX_DIR);
+	ZeroMemory(fileName, _MAX_FNAME);
+	ZeroMemory(ext, _MAX_EXT);
+	_wsplitpath_s((const wchar_t *)m_openFilePath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 	CString extent = ext;
 	extent.MakeLower();
-	if (extent == ".iedx" || extent == ".ied" || extent == ".xml") {
-		return fname;
+	if (extent == _T(".iedx") || extent == _T(".ied") || extent == _T(".xml")) {
+		return fileName;
 	}
-	return "";
+	return _T("");
 }
 
 CString iEditDoc::getSelectedNodeText()
@@ -505,7 +515,7 @@ CString iEditDoc::getSelectedNodeText()
 	if (it != nodes_.end()) {
 		return (*it).getText();
 	}
-	return "";
+	return _T("");
 }
 
 void iEditDoc::selChanged(DWORD key, bool reflesh, bool bShowSubBranch)
@@ -1249,12 +1259,12 @@ CString iEditDoc::getSelectedNodeLabel()
 	if (it != nodes_.end()) {
 		return (*it).getName();
 	}
-	return "";
+	return _T("");
 }
 
 CString iEditDoc::getSelectedLinkLabel(bool drawAll)
 {
-	CString label("");
+	CString label(_T(""));
 	const_literator it = links_.getSelectedLink(drawAll);
 	if (it != links_.end()) {
 		label = (*it).getName();
@@ -1310,7 +1320,7 @@ void iEditDoc::getLinkInfoList(lsItems &ls, bool drwAll)
 			}
 		} else {
 			CString url = (*it).getPath();
-			if (url.Find("http://") != -1 || url.Find("https://") != -1 || url.Find("ftp://") != -1) {
+			if (url.Find(_T("http://")) != -1 || url.Find(_T("https://")) != -1 || url.Find(_T("ftp://")) != -1) {
 				i.linkType = listitem::WebURL;
 			} else {
 				CFileFind finder;
@@ -1319,7 +1329,7 @@ void iEditDoc::getLinkInfoList(lsItems &ls, bool drwAll)
 				if (finder.IsDirectory()) {
 					i.linkType = listitem::linkFolder;
 				} else {
-					if (url.Right(5) == ".iedx" || url.Right(4) == ".ied") {
+					if (url.Right(5) == _T(".iedx") || url.Right(4) == _T(".ied")) {
 						i.linkType = listitem::iedFile;
 					} else {
 						i.linkType = listitem::FileName;
@@ -1642,7 +1652,7 @@ void iEditDoc::setSelectedLinkCurve(CPoint pt, bool curve, bool bDrwAll)
 		}
 		(*li).setPathPt(pt);
 		(*li).curve();
-		if ((*li).hitTest2(pt) && (*li).getName() == "") {
+		if ((*li).hitTest2(pt) && (*li).getName() == _T("")) {
 			(*li).curve(false);
 		}
 		SetModifiedFlag();
@@ -1960,7 +1970,7 @@ bool iEditDoc::loadXML(const CString &filename, bool replace)
 	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
 							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if(!pDoc) {
-		AfxMessageBox("この機能を利用するには Microsoft Internet Explorer 5が必要になります");
+		AfxMessageBox(_T("この機能を利用するには Microsoft Internet Explorer 5が必要になります"));
 		return false;
 	}
     pDoc->put_async(VARIANT_FALSE);
@@ -1995,17 +2005,17 @@ bool iEditDoc::loadXML(const CString &filename, bool replace)
 		if(!wcscmp(s,L"element")) {
 			element->get_nodeName(&s);
 			CString elems(s);
-			if (elems != "iEditDoc") {
-				AfxMessageBox("これはiEdit用のXMLファイルではありません");
+			if (elems != _T("iEditDoc")) {
+				AfxMessageBox(_T("これはiEdit用のXMLファイルではありません"));
 				return false;
 			}
 		}
 		nodeImport.setBound(CRect(-1, -1, 0, 0));
-		nodeImport.setName("");
-		nodeImport.setText("");
+		nodeImport.setName(_T(""));
+		nodeImport.setText(_T(""));
 		nodeImport.setTreeState(TVIS_EXPANDED);
-		linkImport.setName("");
-		linkImport.setPath("");
+		linkImport.setName(_T(""));
+		linkImport.setPath(_T(""));
 		linkImport.setArrowStyle(iLink::line);
 		linkImport.setLineWidth(0);
 		linkImport.setLinkColor(RGB(0, 0, 0));
@@ -2014,7 +2024,7 @@ bool iEditDoc::loadXML(const CString &filename, bool replace)
 		CFileStatus status;
 		CFileException e;
 	
-		if (!f.Open("import.log", CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+		if (!f.Open(_T("import.log"), CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 			return false;
 		}
 		bool ret = DomTree2Nodes2(element, &f);
@@ -2050,12 +2060,12 @@ bool iEditDoc::loadFromXML(const CString &filename)
 	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
 							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if(!pDoc) {
-		AfxMessageBox("この機能を利用するには Microsoft Internet Explorer 5が必要になります");
+		AfxMessageBox(_T("この機能を利用するには Microsoft Internet Explorer 5が必要になります"));
 		return false;
 	}
     pDoc->put_async(VARIANT_FALSE);
 	bstr = filename.AllocSysString();
-	hr = pDoc->load (bstr);
+	hr = pDoc->load(bstr);
     SysFreeString(bstr);
 	
 	if (!hr) {
@@ -2085,8 +2095,8 @@ bool iEditDoc::loadFromXML(const CString &filename)
 		if(!wcscmp(s,L"element")) {
 			element->get_nodeName(&s);
 			CString elems(s);
-			if (elems != "iEditDoc") {
-				AfxMessageBox("これはiEdit用のXMLファイルではありません");
+			if (elems != _T("iEditDoc")) {
+				AfxMessageBox(_T("これはiEdit用のXMLファイルではありません"));
 				return false;
 			}
 		}
@@ -2149,8 +2159,8 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 		childs->get_item(i, &childnode);
 		BSTR name = childnode->nodeName;
 		CString ename(name);
-		if (ename == "inode") {
-			iNode n("add"); n.setKey(getUniqKey());
+		if (ename == _T("inode")) {
+			iNode n(_T("add")); n.setKey(getUniqKey());
 			n.setNoBrush(FALSE);
 			n.setBound(CRect(-1, -1, 0, 0));
 			nodesImport.push_back(n);
@@ -2159,11 +2169,11 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				childs2->get_item(j, &childnode2);
 				BSTR name2 = childnode2->nodeName;
 				CString ename2(name2);
-				if (ename2 == "id") {
+				if (ename2 == _T("id")) {
 					childnode2->firstChild->get_text(&s);
 					CString ids(s);
 					int id;
-					sscanf_s(ids, "%d", &id);
+					swscanf_s((const wchar_t*)ids.GetBuffer(), _T("%d"), &id);
 					idConv idc;
 					idc.first = (DWORD)id;
 					idc.second = nodesImport[nodesImport.size()-1].getKey();
@@ -2171,51 +2181,51 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 					
 					ids += ' '; f->WriteString(ids); // log
 					
-				} else if (ename2 == "pid") {
+				} else if (ename2 == _T("pid")) {
 					childnode2->firstChild->get_text(&s);
 					CString pids(s);
 					int pid;
-					sscanf_s(pids, "%d", &pid);
+					swscanf_s((const wchar_t*)pids.GetBuffer(), _T("%d"), &pid);
 					nodesImport[nodesImport.size()-1].setParent((DWORD)pid);
-				} else if (ename2 == "label") {
+				} else if (ename2 == _T("label")) {
 					childnode2->firstChild->get_text(&s);
 					CString name(s);
 					nodesImport[nodesImport.size()-1].setName(name);
 					
 					name += '\n'; f->WriteString(name); // log
 					
-				} else if (ename2 == "text") {
+				} else if (ename2 == _T("text")) {
 					childnode2->firstChild->get_text(&s);
 					CString text(s);
 					text = procLF(text);
 					nodesImport[nodesImport.size()-1].setText(text);
-				} else if (ename2 == "labelAlign") {
+				} else if (ename2 == _T("labelAlign")) {
 					childnode2->firstChild->get_text(&s);
 					CString align(s);
 					nodesImport[nodesImport.size()-1].setTextStyle(tag2Align(align));
-				} else if (ename2 == "shape") {
+				} else if (ename2 == _T("shape")) {
 					childnode2->firstChild->get_text(&s);
 					CString shape(s);
 					nodesImport[nodesImport.size()-1].setNodeShape(tag2Shape(shape));
-				} else if (ename2 == "bound") {
+				} else if (ename2 == _T("bound")) {
 					CRect rc = nodesImport[nodesImport.size()-1].getBound();
 					tags2bound(childnode2, rc);
 					rc.NormalizeRect();
 					nodesImport[nodesImport.size()-1].setBound(rc);
-				} else if (ename2 == "ForColor") {
+				} else if (ename2 == _T("ForColor")) {
 					COLORREF cr = tags2foreColor(childnode2);
 					nodesImport[nodesImport.size()-1].setBrush(cr);
-				} else if (ename2 == "nodeLine") {
+				} else if (ename2 == _T("nodeLine")) {
 					int lineStyle(PS_SOLID), lineWidth(0);
 					tags2nodeLine(childnode2, lineStyle, lineWidth);
 					nodesImport[nodesImport.size()-1].setLineStyle(lineStyle);
 					nodesImport[nodesImport.size()-1].setLineWidth(lineWidth);
-				} else if (ename2 == "nodeLineColor") {
+				} else if (ename2 == _T("nodeLineColor")) {
 					COLORREF cr = tags2nodeLineColor(childnode2);
 					nodesImport[nodesImport.size()-1].setLineColor(cr);
 				}
 			}
-		} else if (ename == "ilink") {
+		} else if (ename == _T("ilink")) {
 			iLink l;
 			linksImport.push_back(l);
 			childnode->get_childNodes(&childs2);
@@ -2223,30 +2233,30 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				childs2->get_item(j, &childnode2);
 				BSTR name2 = childnode2->nodeName;
 				CString ename2(name2);
-				if (ename2 == "from") {
+				if (ename2 == _T("from")) {
 					childnode2->firstChild->get_text(&s);
-					CString from(s); int idfrom; sscanf_s(from, "%d", &idfrom);
+					CString from(s); int idfrom; swscanf_s((const wchar_t*)from.GetBuffer(), _T("%d"), &idfrom);
 					linksImport[linksImport.size()-1].setKeyFrom(findPairKey((DWORD)idfrom));
-				} else if (ename2 == "to") {
+				} else if (ename2 == _T("to")) {
 					childnode2->firstChild->get_text(&s);
-					CString to(s); int idto; sscanf_s(to, "%d", &idto);
+					CString to(s); int idto; swscanf_s((const wchar_t*)to.GetBuffer(), _T("%d"), &idto);
 					linksImport[linksImport.size()-1].setKeyTo(findPairKey((DWORD)idto));
-				} else if (ename2 == "caption") {
+				} else if (ename2 == _T("caption")) {
 					childnode2->firstChild->get_text(&s);
 					linksImport[linksImport.size()-1].setName(CString(s));
-				} else if (ename2 == "linkLine") {
+				} else if (ename2 == _T("linkLine")) {
 					int style(PS_SOLID); int lineWidth(0); int arrow(iLink::line);
 					tags2linkStyle(childnode2, style, lineWidth, arrow);
 					linksImport[linksImport.size()-1].setLineStyle(style);
 					linksImport[linksImport.size()-1].setLineWidth(lineWidth);
 					linksImport[linksImport.size()-1].setArrowStyle(arrow);
-				} else if (ename2 == "linkLineColor") {
+				} else if (ename2 == _T("linkLineColor")) {
 					COLORREF rc = tags2linkColor(childnode2);
 					linksImport[linksImport.size()-1].setLinkColor(rc);
-				} else if (ename2 == "pathPt") {
+				} else if (ename2 == _T("pathPt")) {
 					CPoint pt = tags2pathPt(childnode2);
 					linksImport[linksImport.size()-1].setPathPt(pt);
-				} else if (ename2 == "locate") {
+				} else if (ename2 == _T("locate")) {
 					childnode2->firstChild->get_text(&s);
 					CString path(s);
 					linksImport[linksImport.size()-1].setPath(path);
@@ -2273,8 +2283,8 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 		childs->get_item(i, &childnode);
 		BSTR name = childnode->nodeName;
 		CString ename(name);
-		if (ename == "inode") {
-			iNode n("add"); n.setKey(0);
+		if (ename == _T("inode")) {
+			iNode n(_T("add")); n.setKey(0);
 			n.setNoBrush(FALSE);
 			n.setBound(CRect(-1, -1, 0, 0));
 			nodesImport.push_back(n);
@@ -2283,11 +2293,11 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 				childs2->get_item(j, &childnode2);
 				BSTR name2 = childnode2->nodeName;
 				CString ename2(name2);
-				if (ename2 == "id") {
+				if (ename2 == _T("id")) {
 					childnode2->firstChild->get_text(&s);
 					CString ids(s);
 					int id;
-					sscanf_s(ids, "%d", &id);
+					swscanf_s((const wchar_t*)ids.GetBuffer(), _T("%d"), &id);
 					
 				//	ids += ' '; f->WriteString(ids); // log
 					nodesImport[nodesImport.size()-1].setKey((DWORD)id);
@@ -2296,11 +2306,11 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 					} else {
 						nodesImport[nodesImport.size()-1].setTreeState(0);
 					}
-				} else if (ename2 == "pid") {
+				} else if (ename2 == _T("pid")) {
 					childnode2->firstChild->get_text(&s);
 					CString pids(s);
 					int pid;
-					sscanf_s(pids, "%d", &pid);
+					swscanf_s((const wchar_t *)pids.GetBuffer(), _T("%d"), &pid);
 					nodesImport[nodesImport.size()-1].setParent((DWORD)pid);
 			/*	} else if (ename2 == "level") {
 					childnode2->firstChild->get_text(&s);
@@ -2308,45 +2318,45 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 					int nLevel;
 					sscanf(sLevel, "%d", &nLevel);
 					nodesImport[nodesImport.size()-1].setLevel(nLevel); */
-				} else if (ename2 == "label") {
+				} else if (ename2 == _T("label")) {
 					childnode2->firstChild->get_text(&s);
 					CString name(s);
 					nodesImport[nodesImport.size()-1].setName(name);
 					
 				//	name += '\n'; f->WriteString(name); // log
 					
-				} else if (ename2 == "text") {
+				} else if (ename2 == _T("text")) {
 					childnode2->firstChild->get_text(&s);
 					CString text(s);
 					text = procLF(text);
 					nodesImport[nodesImport.size()-1].setText(text);
-				} else if (ename2 == "labelAlign") {
+				} else if (ename2 == _T("labelAlign")) {
 					childnode2->firstChild->get_text(&s);
 					CString align(s);
 					nodesImport[nodesImport.size()-1].setTextStyle(tag2Align(align));
-				} else if (ename2 == "shape") {
+				} else if (ename2 == _T("shape")) {
 					childnode2->firstChild->get_text(&s);
 					CString shape(s);
 					nodesImport[nodesImport.size()-1].setNodeShape(tag2Shape(shape));
-				} else if (ename2 == "bound") {
+				} else if (ename2 == _T("bound")) {
 					CRect rc = nodesImport[nodesImport.size()-1].getBound();
 					tags2bound(childnode2, rc);
 					rc.NormalizeRect();
 					nodesImport[nodesImport.size()-1].setBound(rc);
-				} else if (ename2 == "ForColor") {
+				} else if (ename2 == _T("ForColor")) {
 					COLORREF cr = tags2foreColor(childnode2);
 					nodesImport[nodesImport.size()-1].setBrush(cr);
-				} else if (ename2 == "nodeLine") {
+				} else if (ename2 == _T("nodeLine")) {
 					int lineStyle(PS_SOLID), lineWidth(0);
 					tags2nodeLine(childnode2, lineStyle, lineWidth);
 					nodesImport[nodesImport.size()-1].setLineStyle(lineStyle);
 					nodesImport[nodesImport.size()-1].setLineWidth(lineWidth);
-				} else if (ename2 == "nodeLineColor") {
+				} else if (ename2 == _T("nodeLineColor")) {
 					COLORREF cr = tags2nodeLineColor(childnode2);
 					nodesImport[nodesImport.size()-1].setLineColor(cr);
 				}
 			}
-		} else if (ename == "ilink") {
+		} else if (ename == _T("ilink")) {
 			iLink l;
 			linksImport.push_back(l);
 			childnode->get_childNodes(&childs2);
@@ -2354,30 +2364,30 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 				childs2->get_item(j, &childnode2);
 				BSTR name2 = childnode2->nodeName;
 				CString ename2(name2);
-				if (ename2 == "from") {
+				if (ename2 == _T("from")) {
 					childnode2->firstChild->get_text(&s);
-					CString from(s); int idfrom; sscanf_s(from, "%d", &idfrom);
+					CString from(s); int idfrom; swscanf_s((const wchar_t*)from.GetBuffer(), _T("%d"), &idfrom);
 					linksImport[linksImport.size()-1].setKeyFrom(((DWORD)idfrom));
-				} else if (ename2 == "to") {
+				} else if (ename2 == _T("to")) {
 					childnode2->firstChild->get_text(&s);
-					CString to(s); int idto; sscanf_s(to, "%d", &idto);
+					CString to(s); int idto; swscanf_s((const wchar_t*)to.GetBuffer(), _T("%d"), &idto);
 					linksImport[linksImport.size()-1].setKeyTo(((DWORD)idto));
-				} else if (ename2 == "caption") {
+				} else if (ename2 == _T("caption")) {
 					childnode2->firstChild->get_text(&s);
 					linksImport[linksImport.size()-1].setName(CString(s));
-				} else if (ename2 == "linkLine") {
+				} else if (ename2 == _T("linkLine")) {
 					int style(PS_SOLID); int lineWidth(0); int arrow(iLink::line);
 					tags2linkStyle(childnode2, style, lineWidth, arrow);
 					linksImport[linksImport.size()-1].setLineStyle(style);
 					linksImport[linksImport.size()-1].setLineWidth(lineWidth);
 					linksImport[linksImport.size()-1].setArrowStyle(arrow);
-				} else if (ename2 == "linkLineColor") {
+				} else if (ename2 == _T("linkLineColor")) {
 					COLORREF rc = tags2linkColor(childnode2);
 					linksImport[linksImport.size()-1].setLinkColor(rc);
-				} else if (ename2 == "pathPt") {
+				} else if (ename2 == _T("pathPt")) {
 					CPoint pt = tags2pathPt(childnode2);
 					linksImport[linksImport.size()-1].setPathPt(pt);
-				} else if (ename2 == "locate") {
+				} else if (ename2 == _T("locate")) {
 					childnode2->firstChild->get_text(&s);
 					CString path(s);
 					linksImport[linksImport.size()-1].setPath(path);
@@ -2391,31 +2401,31 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 
 int iEditDoc::tag2Align(const CString &tag)
 {
-	if (tag == "single-middle-center") {
+	if (tag == _T("single-middle-center")) {
 		return iNode::s_cc;
-	} else if (tag == "single-middle-left") {
+	} else if (tag == _T("single-middle-left")) {
 		return iNode::s_cl;
-	} else if (tag == "single-midele-right") {
+	} else if (tag == _T("single-midele-right")) {
 		return iNode::s_cr;
-	} else if (tag == "single-top-center") {
+	} else if (tag == _T("single-top-center")) {
 		return iNode::s_tc;
-	} else if (tag == "single-top-left") {
+	} else if (tag == _T("single-top-left")) {
 		return iNode::s_tl;
-	} else if (tag == "single-top-right") {
+	} else if (tag == _T("single-top-right")) {
 		return iNode::s_tr;
-	} else if (tag == "single-bottom-center") {
+	} else if (tag == _T("single-bottom-center")) {
 		return iNode::s_bc;
-	} else if (tag == "single-bottom-left") {
+	} else if (tag == _T("single-bottom-left")) {
 		return iNode::s_bl;
-	} else if (tag == "single-bottom-right") {
+	} else if (tag == _T("single-bottom-right")) {
 		return iNode::s_br;
-	} else if (tag == "multi-center") {
+	} else if (tag == _T("multi-center")) {
 		return iNode::m_c;
-	} else if (tag == "multi-left") {
+	} else if (tag == _T("multi-left")) {
 		return iNode::m_l;
-	} else if (tag == "multi-right") {
+	} else if (tag == _T("multi-right")) {
 		return iNode::m_r;
-	} else if (tag == "hidden") {
+	} else if (tag == _T("hidden")) {
 		return iNode::notext;
 	}
 	return iNode::s_cc;
@@ -2424,15 +2434,15 @@ int iEditDoc::tag2Align(const CString &tag)
 
 int iEditDoc::tag2Shape(const CString &tag)
 {
-	if (tag == "Rect") {
+	if (tag == _T("Rect")) {
 		return iNode::rectangle;
-	} else if (tag == "Oval") {
+	} else if (tag == _T("Oval")) {
 		return iNode::arc;
-	} else if (tag == "RoundRect") {
+	} else if (tag == _T("RoundRect")) {
 		return iNode::roundRect;
-	} else if (tag == "MetaFile") {
+	} else if (tag == _T("MetaFile")) {
 		return iNode::MetaFile;
-	} else if (tag == "MMNode") {
+	} else if (tag == _T("MMNode")) {
 		return (iNode::MindMapNode);
 	}
 	return iNode::rectangle;
@@ -2450,19 +2460,19 @@ void iEditDoc::tags2bound(MSXML2::IXMLDOMNode *pNode, CRect &rc)
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		childnode->firstChild->get_text(&s);
-		if (ename == "left") {
+		if (ename == _T("left")) {
 			CString left(s);
-			sscanf_s(left, "%d", &rc.left);
-		} else if (ename == "right") {
+			swscanf_s((const wchar_t*)left.GetBuffer(), _T("%d"), &rc.left);
+		} else if (ename == _T("right")) {
 			CString right(s);
-			sscanf_s(right, "%d", &rc.right);
-		} else if (ename == "top") {
+			swscanf_s((const wchar_t*)right.GetBuffer(), _T("%d"), &rc.right);
+		} else if (ename == _T("top")) {
 			CString top(s);
-			sscanf_s(top, "%d", &rc.top);
-		} else if (ename == "bottom") {
+			swscanf_s((const wchar_t*)top.GetBuffer(), _T("%d"), &rc.top);
+		} else if (ename == _T("bottom")) {
 			childnode->firstChild->get_text(&s);
 			CString bottom(s);
-			sscanf_s(bottom, "%d", &rc.bottom);
+			swscanf_s((const wchar_t*)bottom.GetBuffer(), _T("%d"), &rc.bottom);
 		}
 	}
 }
@@ -2480,15 +2490,15 @@ COLORREF iEditDoc::tags2foreColor(MSXML2::IXMLDOMNode *pNode)
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		childnode->firstChild->get_text(&s);
-		if (ename == "f_red") {
+		if (ename == _T("f_red")) {
 			CString red(s);
-			sscanf_s(red, "%d", &r);
-		} else if (ename == "f_green") {
+			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
+		} else if (ename == _T("f_green")) {
 			CString green(s);
-			sscanf_s(green, "%d", &g);
-		} else if (ename == "f_blue") {
+			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
+		} else if (ename == _T("f_blue")) {
 			CString blue(s);
-			sscanf_s(blue, "%d", &b);
+			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
 		}
 	}
 	return RGB(r, g, b);
@@ -2506,17 +2516,17 @@ void iEditDoc::tags2nodeLine(MSXML2::IXMLDOMNode *pNode, int &style, int &width)
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		childnode->firstChild->get_text(&s);
-		if (ename == "nodeLineStyle") {
+		if (ename == _T("nodeLineStyle")) {
 			CString lstyle(s);
-			if (lstyle == "solidLine") {
+			if (lstyle == _T("solidLine")) {
 				style = PS_SOLID;
-			} else if (lstyle == "dotedLine") {
+			} else if (lstyle == _T("dotedLine")) {
 				style = PS_DOT;
-			} else if (lstyle == "noLine") {
+			} else if (lstyle == _T("noLine")) {
 				style = PS_NULL;
 			}
-		} else if (ename == "nodeLineWidth") {
-			CString lwidth(s); int w; sscanf_s(lwidth, "%d", &w);
+		} else if (ename == _T("nodeLineWidth")) {
+			CString lwidth(s); int w; swscanf_s((const wchar_t*)lwidth.GetBuffer(), _T("%d"), &w);
 			if (w == 1) w = 0;
 			width = w;
 		}
@@ -2537,15 +2547,15 @@ COLORREF iEditDoc::tags2nodeLineColor(MSXML2::IXMLDOMNode *pNode)
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		childnode->firstChild->get_text(&s);
-		if (ename == "l_red") {
+		if (ename == _T("l_red")) {
 			CString red(s);
-			sscanf_s(red, "%d", &r);
-		} else if (ename == "l_green") {
+			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
+		} else if (ename == _T("l_green")) {
 			CString green(s);
-			sscanf_s(green, "%d", &g);
-		} else if (ename == "l_blue") {
+			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
+		} else if (ename == _T("l_blue")) {
 			CString blue(s);
-			sscanf_s(blue, "%d", &b);
+			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
 		}
 	}
 	return RGB(r, g, b);
@@ -2563,34 +2573,34 @@ void iEditDoc::tags2linkStyle(MSXML2::IXMLDOMNode *pNode, int &style, int &width
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		childnode->firstChild->get_text(&s);
-		if (ename == "linkLineStyle") {
+		if (ename == _T("linkLineStyle")) {
 			CString lstyle(s);
-			if (lstyle == "solidLine") {
+			if (lstyle == _T("solidLine")) {
 				style = PS_SOLID;
-			} else if (lstyle == "dotedLine") {
+			} else if (lstyle == _T("dotedLine")) {
 				style = PS_DOT;
 			}
-		} else if (ename == "linkLineWidth") {
-			CString lwidth(s); int w; sscanf_s(lwidth, "%d", &w);
+		} else if (ename == _T("linkLineWidth")) {
+			CString lwidth(s); int w; swscanf_s((const wchar_t*)lwidth.GetBuffer(), _T("%d"), &w);
 			if (w == 1) w = 0;
 			width = w;
-		} else if (ename == "arrow") {
+		} else if (ename == _T("arrow")) {
 			CString astyle(s);
-			if (astyle == "a_none") {
+			if (astyle == _T("a_none")) {
 				arrow = iLink::line;
-			} else if (astyle == "a_single") {
+			} else if (astyle == _T("a_single")) {
 				arrow = iLink::arrow;
-			} else if (astyle == "a_double") {
+			} else if (astyle == _T("a_double")) {
 				arrow = iLink::arrow2;
-			} else if (astyle == "a_depend") {
+			} else if (astyle == _T("a_depend")) {
 				arrow = iLink::depend;
-			} else if (astyle == "a_depend_double") {
+			} else if (astyle == _T("a_depend_double")) {
 				arrow = iLink::depend2;
-			} else if (astyle == "a_inherit") {
+			} else if (astyle == _T("a_inherit")) {
 				arrow = iLink::inherit;
-			} else if (astyle == "a_aggregat") {
+			} else if (astyle == _T("a_aggregat")) {
 				arrow = iLink::aggregat;
-			} else if (astyle == "a_composit") {
+			} else if (astyle == _T("a_composit")) {
 				arrow = iLink::composit;
 			}
 		}
@@ -2610,15 +2620,15 @@ COLORREF iEditDoc::tags2linkColor(MSXML2::IXMLDOMNode *pNode)
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		childnode->firstChild->get_text(&s);
-		if (ename == "n_red") {
+		if (ename == _T("n_red")) {
 			CString red(s);
-			sscanf_s(red, "%d", &r);
-		} else if (ename == "n_green") {
+			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
+		} else if (ename == _T("n_green")) {
 			CString green(s);
-			sscanf_s(green, "%d", &g);
-		} else if (ename == "n_blue") {
+			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
+		} else if (ename == _T("n_blue")) {
 			CString blue(s);
-			sscanf_s(blue, "%d", &b);
+			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
 		}
 	}
 	return RGB(r, g, b);
@@ -2638,12 +2648,12 @@ CPoint iEditDoc::tags2pathPt(MSXML2::IXMLDOMNode *pNode)
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		childnode->firstChild->get_text(&s);
-		if (ename == "path_x") {
+		if (ename == _T("path_x")) {
 			CString x(s);
-			sscanf_s(x, "%d", &pt.x);
-		} else if (ename == "path_y") {
+			swscanf_s((const wchar_t*)x.GetBuffer(), _T("%d"), &pt.x);
+		} else if (ename == _T("path_y")) {
 			CString y(s);
-			sscanf_s(y, "%d", &pt.y);
+			swscanf_s((const wchar_t*)y.GetBuffer(), _T("%d"), &pt.y);
 		}
 	
 	}	
@@ -2663,76 +2673,76 @@ bool iEditDoc::DomTree2Nodes(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 	if(!wcscmp(s,L"element")) {
 		node->get_nodeName(&s);
 		CString elems(s);
-		if (elems == "inode") {
+		if (elems == _T("inode")) {
 			if (nodeImport.getKey() != -1) {
 				nodesImport.push_back(nodeImport);
 				nodeImport.setBound(CRect(-1, -1, 0, 0));
-				nodeImport.setName("");
-				nodeImport.setText("");
+				nodeImport.setName(_T(""));
+				nodeImport.setText(_T(""));
 				nodeImport.setTreeState(TVIS_EXPANDED);
 			}
-		} else if (elems == "id") {
+		} else if (elems == _T("id")) {
 			node->firstChild->get_text(&s);
 			CString ids(s);
 			int id;
-			sscanf_s(ids, "%d", &id);
+			swscanf_s((const wchar_t*)ids.GetBuffer(), _T("%d"), &id);
 			nodeImport.setKey(getUniqKey());
 			idConv idc;
 			idc.first = (DWORD)id;
 			idc.second = nodeImport.getKey();
 			idcVec.push_back(idc);
-		} else if (elems == "pid") {
+		} else if (elems == _T("pid")) {
 			node->firstChild->get_text(&s);
 			CString pids(s);
 			int pid;
-			sscanf_s(pids, "%d", &pid);
+			swscanf_s((const wchar_t*)pids.GetBuffer(), _T("%d"), &pid);
 			nodeImport.setParent((DWORD)pid);
-		} else if (elems == "label") {
+		} else if (elems == _T("label")) {
 			node->firstChild->get_text(&s);
 			CString label(s);
 			label += '\n';
 			f->WriteString(label);
 			
 			nodeImport.setName(CString(s));
-		} else if (elems == "text") {
+		} else if (elems == _T("text")) {
 			node->firstChild->get_text(&s);
 			CString text = CString(s);
 			text = procLF(text);
 			nodeImport.setText(text);
-		} else if (elems == "ilink") {
+		} else if (elems == _T("ilink")) {
 			if (linkImport.getKeyFrom() != -1 && linkImport.getKeyTo() != -1) {
 				linksImport.push_back(linkImport);
-				linkImport.setName("");
-				linkImport.setPath("");
+				linkImport.setName(_T(""));
+				linkImport.setPath(_T(""));
 				linkImport.setArrowStyle(iLink::line);
 				linkImport.setLineWidth(0);
 			}
-		} else if (elems == "from") {
+		} else if (elems == _T("from")) {
 			node->firstChild->get_text(&s);
 			CString fromids(s);
 			int fromid;
-			sscanf_s(fromids, "%d", &fromid);
+			swscanf_s((const wchar_t*)fromids.GetBuffer(), _T("%d"), &fromid);
 			linkImport.setKeyFrom(findPairKey((DWORD)fromid));
-		} else if (elems == "to") {
+		} else if (elems == _T("to")) {
 			node->firstChild->get_text(&s);
 			CString toids(s);
 			int toid;
-			sscanf_s(toids, "%d", &toid);
+			swscanf_s((const wchar_t*)toids.GetBuffer(), _T("%d"), &toid);
 			linkImport.setKeyTo(findPairKey((DWORD)toid));
-		} else if (elems == "linkLineWidth") {
+		} else if (elems == _T("linkLineWidth")) {
 			node->firstChild->get_text(&s);
 			CString wids(s);
-			int width; sscanf_s(wids, "%d", &width);
+			int width; swscanf_s((const wchar_t*)wids.GetBuffer(), _T("%d"), &width);
 			if (width == 1) {
 				width = 0;
 			}
 			linkImport.setLineWidth(width);
-		} else if (elems == "locate") {
+		} else if (elems == _T("locate")) {
 			node->firstChild->get_text(&s);
 			CString path(s);
 			linkImport.setPath(path);
 			linkImport.setArrowStyle(iLink::other);
-		} else if (elems == "caption") {
+		} else if (elems == _T("caption")) {
 			node->firstChild->get_text(&s);
 			linkImport.setName(CString(s));
 		}
@@ -2745,44 +2755,6 @@ bool iEditDoc::DomTree2Nodes(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 			DomTree2Nodes((MSXML2::IXMLDOMElement *)childnode, f);
 		}
 	}
-	return true;
-}
-
-bool iEditDoc::saveXML2(const CString &outPath)
-{
-	OutlineView* pView = this->getOutlineView();
-	Labels ls;
-	pView->treeToSequence(ls);
-	
-	MSXML2::IXMLDOMDocument		*pDoc        = NULL;
-	BSTR	bstr = NULL;
-	HRESULT hr = S_OK;
-    BSTR pBURL = NULL;
-    BSTR pBOutputName = NULL;
-	
-	hr = CoInitialize(NULL);
-	if(!SUCCEEDED(hr))
-		return false;
-	
-	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
-							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
-	
-	if(!pDoc) {
-		AfxMessageBox("この機能を利用するには Microsoft Internet Explorer 5が必要になります");
-		return false;
-	}
-	
-	
-	MSXML2::IXMLDOMNode *root = NULL;
-	MSXML2::IXMLDOMElement *rootElem = NULL;
-	MSXML2::IXMLDOMNode *node = NULL, *p = NULL, *p1 = NULL;
-	
-	
-	// save
-	VARIANT vName;
-    vName.vt = VT_BSTR;
-    V_BSTR(&vName) = outPath.AllocSysString();
-    pDoc->save(vName);
 	return true;
 }
 
@@ -2807,16 +2779,16 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 	}
 	
 	// Header of XML file
-	f.WriteString("<?xml version=\"1.0\" encoding=\"Shift_JIS\"?>\n");
+	f.WriteString(_T("<?xml version=\"1.0\" encoding=\"Shift_JIS\"?>\n"));
 	outStyleSheetLine(f);
-	f.WriteString("<iEditDoc>\n");
+	f.WriteString(_T("<iEditDoc>\n"));
 	
 	// iNodes -->iNode Data
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		nodeFind.setKey(ls[i].key);
 		const_niterator it = nodes_.findNode(nodeFind);
 		
-		f.WriteString("\t<inode>\n");
+		f.WriteString(_T("\t<inode>\n"));
 		
 		CString ids;
 		DWORD key, parent;
@@ -2824,170 +2796,170 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		if (i == 0 && key != parent) {
 			parent = key;
 		}
-		ids.Format("\t\t<id>%d</id>\n\t\t<pid>%d</pid>\n", key, parent);
+		ids.Format(_T("\t\t<id>%d</id>\n\t\t<pid>%d</pid>\n"), key, parent);
 		f.WriteString(ids);
 		
 		CString sLevel;
-		sLevel.Format("\t\t<level>%d</level>\n", (*it).getLevel());
+		sLevel.Format(_T("\t\t<level>%d</level>\n"), (*it).getLevel());
 		f.WriteString(sLevel);
 		
-		f.WriteString("\t\t<label>");
-		CString title = "<![CDATA[" + (*it).getName() + "]]>";
+		f.WriteString(_T("\t\t<label>"));
+		CString title = _T("<![CDATA[") + (*it).getName() + _T("]]>");
 		if ((*it).getTextStyle() >= iNode::m_c) {
 			f.WriteString(procCR(title));
 		} else {
 			f.WriteString(title);
 		}
-		f.WriteString("</label>\n");
+		f.WriteString(_T("</label>\n"));
 		
-		f.WriteString("\t\t<text>");
-		CString text = "<![CDATA[" + (*it).getText() + "]]>";
+		f.WriteString(_T("\t\t<text>"));
+		CString text = _T("<![CDATA[") + (*it).getText() + _T("]]>");
 		f.WriteString(procCR(text));
-		f.WriteString("\n\t\t</text>\n");
+		f.WriteString(_T("\n\t\t</text>\n"));
 		
 		// ラベルのアライメント
-		f.WriteString("\t\t<labelAlign>");
+		f.WriteString(_T("\t\t<labelAlign>"));
 		int align = (*it).getTextStyle(); CString salign;
 		switch (align) {
-		case iNode::s_cc: salign = "single-middle-center"; break;
-		case iNode::s_cl: salign = "single-middle-left"; break;
-		case iNode::s_cr: salign = "single-midele-right"; break;
-		case iNode::s_tc: salign = "single-top-center"; break;
-		case iNode::s_tl: salign = "single-top-left"; break;
-		case iNode::s_tr: salign = "single-top-right"; break;
-		case iNode::s_bc: salign = "single-bottom-center"; break;
-		case iNode::s_bl: salign = "single-bottom-left"; break;
-		case iNode::s_br: salign = "single-bottom-right"; break;
-		case iNode::m_c: salign = "multi-center"; break;
-		case iNode::m_l: salign = "multi-left"; break;
-		case iNode::m_r: salign = "multi-right"; break;
-		case iNode::notext: salign = "hidden"; break;
+		case iNode::s_cc: salign = _T("single-middle-center"); break;
+		case iNode::s_cl: salign = _T("single-middle-left"); break;
+		case iNode::s_cr: salign = _T("single-midele-right"); break;
+		case iNode::s_tc: salign = _T("single-top-center"); break;
+		case iNode::s_tl: salign = _T("single-top-left"); break;
+		case iNode::s_tr: salign = _T("single-top-right"); break;
+		case iNode::s_bc: salign = _T("single-bottom-center"); break;
+		case iNode::s_bl: salign = _T("single-bottom-left"); break;
+		case iNode::s_br: salign = _T("single-bottom-right"); break;
+		case iNode::m_c: salign = _T("multi-center"); break;
+		case iNode::m_l: salign = _T("multi-left"); break;
+		case iNode::m_r: salign = _T("multi-right"); break;
+		case iNode::notext: salign = _T("hidden"); break;
 		}
 		f.WriteString(salign);
-		f.WriteString("</labelAlign>\n");
+		f.WriteString(_T("</labelAlign>\n"));
 		
 		// 形
-		f.WriteString("\t\t<shape>");
+		f.WriteString(_T("\t\t<shape>"));
 		int shape = (*it).getNodeShape();
 		if (shape == iNode::rectangle) {
-			f.WriteString("Rect");
+			f.WriteString(_T("Rect"));
 		} else if (shape == iNode::arc) {
-			f.WriteString("Oval");
+			f.WriteString(_T("Oval"));
 		} else if (shape == iNode::roundRect) {
-			f.WriteString("RoundRect");
+			f.WriteString(_T("RoundRect"));
 		} else if (shape == iNode::MetaFile) {
-			f.WriteString("MetaFile");
+			f.WriteString(_T("MetaFile"));
 		} else if (shape == iNode::MindMapNode) {
-			f.WriteString("MMNode");
+			f.WriteString(_T("MMNode"));
 		} else {
-			f.WriteString("Rect");
+			f.WriteString(_T("Rect"));
 		}
-		f.WriteString("</shape>\n");
+		f.WriteString(_T("</shape>\n"));
 		
 		// 位置
 		CString spt;
 		CRect bound = (*it).getBound();
 		
-		f.WriteString("\t\t<bound>\n");
-		f.WriteString("\t\t\t<left>");
-		spt.Format("%d", bound.left);
+		f.WriteString(_T("\t\t<bound>\n"));
+		f.WriteString(_T("\t\t\t<left>"));
+		spt.Format(_T("%d"), bound.left);
 		f.WriteString(spt);
-		f.WriteString("</left>\n");
+		f.WriteString(_T("</left>\n"));
 		
-		f.WriteString("\t\t\t<right>");
-		spt.Format("%d", bound.right);
+		f.WriteString(_T("\t\t\t<right>"));
+		spt.Format(_T("%d"), bound.right);
 		f.WriteString(spt);
-		f.WriteString("</right>\n");
+		f.WriteString(_T("</right>\n"));
 		
-		f.WriteString("\t\t\t<top>");
-		spt.Format("%d", bound.top);
+		f.WriteString(_T("\t\t\t<top>"));
+		spt.Format(_T("%d"), bound.top);
 		f.WriteString(spt);
-		f.WriteString("</top>\n");
+		f.WriteString(_T("</top>\n"));
 		
-		f.WriteString("\t\t\t<bottom>");
-		spt.Format("%d", bound.bottom);
+		f.WriteString(_T("\t\t\t<bottom>"));
+		spt.Format(_T("%d"), bound.bottom);
 		f.WriteString(spt);
-		f.WriteString("</bottom>\n");
-		f.WriteString("\t\t</bound>\n");
+		f.WriteString(_T("</bottom>\n"));
+		f.WriteString(_T("\t\t</bound>\n"));
 		
 		
 		CString sc;
 		// 色(塗りつぶし)
 		if ((*it).isFilled()) {
-			f.WriteString("\t\t<ForColor>\n");
+			f.WriteString(_T("\t\t<ForColor>\n"));
 			COLORREF fc = (*it).getBrsColor();
 			BYTE fred = GetRValue(fc);
 			BYTE fgrn = GetGValue(fc);
 			BYTE fblu = GetBValue(fc);
 			
-			f.WriteString("\t\t\t<f_red>");
-			sc.Format("%d", fred);
+			f.WriteString(_T("\t\t\t<f_red>"));
+			sc.Format(_T("%d"), fred);
 			f.WriteString(sc);
-			f.WriteString("</f_red>\n");
+			f.WriteString(_T("</f_red>\n"));
 			
-			f.WriteString("\t\t\t<f_green>");
-			sc.Format("%d", fgrn);
+			f.WriteString(_T("\t\t\t<f_green>"));
+			sc.Format(_T("%d"), fgrn);
 			f.WriteString(sc);
-			f.WriteString("</f_green>\n");
+			f.WriteString(_T("</f_green>\n"));
 			
-			f.WriteString("\t\t\t<f_blue>");
-			sc.Format("%d", fblu);
+			f.WriteString(_T("\t\t\t<f_blue>"));
+			sc.Format(_T("%d"), fblu);
 			f.WriteString(sc);
-			f.WriteString("</f_blue>\n");
-			f.WriteString("\t\t</ForColor>\n");
+			f.WriteString(_T("</f_blue>\n"));
+			f.WriteString(_T("\t\t</ForColor>\n"));
 		}
 		
 		// 線のスタイル
-		f.WriteString("\t\t<nodeLine>\n");
-		f.WriteString("\t\t\t<nodeLineStyle>");
+		f.WriteString(_T("\t\t<nodeLine>\n"));
+		f.WriteString(_T("\t\t\t<nodeLineStyle>"));
 		if ((*it).getLineStyle() == PS_NULL) {
-			f.WriteString("noLine");
+			f.WriteString(_T("noLine"));
 		} else if ((*it).getLineStyle() == PS_SOLID) {
-			f.WriteString("solidLine");
+			f.WriteString(_T("solidLine"));
 		} else if ((*it).getLineStyle() == PS_DOT) {
-			f.WriteString("dotedLine");
+			f.WriteString(_T("dotedLine"));
 		}
-		f.WriteString("</nodeLineStyle>\n");
+		f.WriteString(_T("</nodeLineStyle>\n"));
 		
 		if ((*it).getLineStyle() == PS_SOLID) {
-			f.WriteString("\t\t\t<nodeLineWidth>");
+			f.WriteString(_T("\t\t\t<nodeLineWidth>"));
 			int width = (*it).getLineWidth();
 			if (width == 0) {
 				width = 1;
 			}
-			CString sl; sl.Format("%d", width);
+			CString sl; sl.Format(_T("%d"), width);
 			f.WriteString(sl);
-			f.WriteString("</nodeLineWidth>\n");
+			f.WriteString(_T("</nodeLineWidth>\n"));
 		}
-		f.WriteString("\t\t</nodeLine>\n");
+		f.WriteString(_T("\t\t</nodeLine>\n"));
 		
 		// 色(線)
 		if ((*it).getLineStyle() != PS_NULL) {
-			f.WriteString("\t\t<nodeLineColor>\n");
+			f.WriteString(_T("\t\t<nodeLineColor>\n"));
 			COLORREF lc = (*it).getLineColor();
 			BYTE lred = GetRValue(lc);
 			BYTE lgrn = GetGValue(lc);
 			BYTE lblu = GetBValue(lc);
 
-			f.WriteString("\t\t\t<l_red>");
-			sc.Format("%d", lred);
+			f.WriteString(_T("\t\t\t<l_red>"));
+			sc.Format(_T("%d"), lred);
 			f.WriteString(sc);
-			f.WriteString("</l_red>\n");
+			f.WriteString(_T("</l_red>\n"));
 			
-			f.WriteString("\t\t\t<l_green>");
-			sc.Format("%d", lgrn);
+			f.WriteString(_T("\t\t\t<l_green>"));
+			sc.Format(_T("%d"), lgrn);
 			f.WriteString(sc);
-			f.WriteString("</l_green>\n");
+			f.WriteString(_T("</l_green>\n"));
 			
-			f.WriteString("\t\t\t<l_blue>");
-			sc.Format("%d", lblu);
+			f.WriteString(_T("\t\t\t<l_blue>"));
+			sc.Format(_T("%d"), lblu);
 			f.WriteString(sc);
-			f.WriteString("</l_blue>\n");
-			f.WriteString("\t\t</nodeLineColor>\n");
+			f.WriteString(_T("</l_blue>\n"));
+			f.WriteString(_T("\t\t</nodeLineColor>\n"));
 		}
 		
 		// end of inode tag
-		f.WriteString("\t</inode>\n");
+		f.WriteString(_T("\t</inode>\n"));
 	}
 	
 	// iLinks --> iLink Data
@@ -2997,409 +2969,108 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 			continue;
 		}
 		
-		f.WriteString("\t<ilink>\n");
+		f.WriteString(_T("\t<ilink>\n"));
 		CString links;
 		if ((*li).getArrowStyle() != iLink::other) {
-			links.Format("\t\t<from>%d</from>\n\t\t<to>%d</to>\n", (*li).getKeyFrom(), (*li).getKeyTo());
+			links.Format(_T("\t\t<from>%d</from>\n\t\t<to>%d</to>\n"), (*li).getKeyFrom(), (*li).getKeyTo());
 		} else {
-			links.Format("\t\t<from>%d</from>\n\t\t<to>%d</to>\n", (*li).getKeyFrom(), (*li).getKeyFrom());
+			links.Format(_T("\t\t<from>%d</from>\n\t\t<to>%d</to>\n"), (*li).getKeyFrom(), (*li).getKeyFrom());
 		}
 		f.WriteString(links);
 		
-		CString caption = "<![CDATA[" + (*li).getName() + "]]>";
-		f.WriteString("\t\t<caption>");
+		CString caption = _T("<![CDATA[") + (*li).getName() + "]]>";
+		f.WriteString(_T("\t\t<caption>"));
 		f.WriteString(caption);
-		f.WriteString("</caption>\n");
+		f.WriteString(_T("</caption>\n"));
 		
 		int astyle = (*li).getArrowStyle();
 		
 		if (astyle == iLink::other && (*li).getPath() != "") {
-			f.WriteString("\t\t<locate>");
-			CString path = "<![CDATA[" + (*li).getPath() + "]]>";
+			f.WriteString(_T("\t\t<locate>"));
+			CString path = _T("<![CDATA[") + (*li).getPath() + _T("]]>");
 			f.WriteString(path);
-			f.WriteString("</locate>\n");
+			f.WriteString(_T("</locate>\n"));
 		} else {
-			f.WriteString("\t\t<linkLine>\n");
+			f.WriteString(_T("\t\t<linkLine>\n"));
 			
-			f.WriteString("\t\t\t<linkLineStyle>");
+			f.WriteString(_T("\t\t\t<linkLineStyle>"));
 			if ((*li).getLineStyle() == PS_SOLID) {
-				f.WriteString("solidLine");
+				f.WriteString(_T("solidLine"));
 			} else if ((*li).getLineStyle() == PS_DOT) {
-				f.WriteString("dotedLine");
+				f.WriteString(_T("dotedLine"));
 			}
-			f.WriteString("</linkLineStyle>\n");
+			f.WriteString(_T("</linkLineStyle>\n"));
 			
 			int width = (*li).getLineWidth();
 			if (width == 0) {
 				width=1;
 			}
-			CString w; w.Format("\t\t\t<linkLineWidth>%d</linkLineWidth>\n", width);
+			CString w; w.Format(_T("\t\t\t<linkLineWidth>%d</linkLineWidth>\n"), width);
 			f.WriteString(w);
 			
-			f.WriteString("\t\t\t<arrow>");
+			f.WriteString(_T("\t\t\t<arrow>"));
 			if (astyle == iLink::line) {
-				f.WriteString("a_none");
+				f.WriteString(_T("a_none"));
 			} else if (astyle == iLink::arrow) {
-				f.WriteString("a_single");
+				f.WriteString(_T("a_single"));
 			} else if (astyle == iLink::arrow2) {
-				f.WriteString("a_double");
+				f.WriteString(_T("a_double"));
 			} else if (astyle == iLink::depend) {
-				f.WriteString("a_depend");
+				f.WriteString(_T("a_depend"));
 			} else if (astyle == iLink::depend2) {
-				f.WriteString("a_depend_double");
+				f.WriteString(_T("a_depend_double"));
 			} else if (astyle == iLink::inherit) {
-				f.WriteString("a_inherit");
+				f.WriteString(_T("a_inherit"));
 			} else if (astyle == iLink::aggregat) {
-				f.WriteString("a_aggregat");
+				f.WriteString(_T("a_aggregat"));
 			} else if (astyle == iLink::composit) {
-				f.WriteString("a_composit");
+				f.WriteString(_T("a_composit"));
 			}
-			f.WriteString("</arrow>\n");
+			f.WriteString(_T("</arrow>\n"));
 			
-			f.WriteString("\t\t</linkLine>\n");
+			f.WriteString(_T("\t\t</linkLine>\n"));
 			
 			
-			f.WriteString("\t\t<linkLineColor>\n");
+			f.WriteString(_T("\t\t<linkLineColor>\n"));
 			CString sc;
 			COLORREF nc = (*li).getLinkColor();
 			BYTE nred = GetRValue(nc);
 			BYTE ngrn = GetGValue(nc);
 			BYTE nblu = GetBValue(nc);
 			
-			f.WriteString("\t\t\t<n_red>");
-			sc.Format("%d", nred);
+			f.WriteString(_T("\t\t\t<n_red>"));
+			sc.Format(_T("%d"), nred);
 			f.WriteString(sc);
-			f.WriteString("</n_red>\n");
+			f.WriteString(_T("</n_red>\n"));
 			
-			f.WriteString("\t\t\t<n_green>");
-			sc.Format("%d", ngrn);
+			f.WriteString(_T("\t\t\t<n_green>"));
+			sc.Format(_T("%d"), ngrn);
 			f.WriteString(sc);
-			f.WriteString("</n_green>\n");
+			f.WriteString(_T("</n_green>\n"));
 			
-			f.WriteString("\t\t\t<n_blue>");
-			sc.Format("%d", nblu);
+			f.WriteString(_T("\t\t\t<n_blue>"));
+			sc.Format(_T("%d"), nblu);
 			f.WriteString(sc);
-			f.WriteString("</n_blue>\n");
+			f.WriteString(_T("</n_blue>\n"));
 			
-			f.WriteString("\t\t</linkLineColor>\n");
+			f.WriteString(_T("\t\t</linkLineColor>\n"));
 			
 			
 			if ((*li).isCurved()) {
-				f.WriteString("\t\t<pathPt>\n");
-				CString sp; sp.Format("\t\t\t<path_x>%d</path_x>\n\t\t\t<path_y>%d</path_y>\n", 
+				f.WriteString(_T("\t\t<pathPt>\n"));
+				CString sp; sp.Format(_T("\t\t\t<path_x>%d</path_x>\n\t\t\t<path_y>%d</path_y>\n"), 
 					(*li).getPtPath().x, (*li).getPtPath().y);
 				f.WriteString(sp);
-				f.WriteString("\t\t</pathPt>\n");
+				f.WriteString(_T("\t\t</pathPt>\n"));
 			}
 		}
-		f.WriteString("\t</ilink>\n");
+		f.WriteString(_T("\t</ilink>\n"));
 	}
 	
-	f.WriteString("</iEditDoc>\n");
+	f.WriteString(_T("</iEditDoc>\n"));
 	f.Flush();
 	f.Close();
 	return true;
-}
-
-void iEditDoc::saveToXML(CArchive &ar)
-{
-	ar.Flush();
-	OutlineView* pView = getOutlineView();
-	
-	Labels ls;
-	pView->treeToSequence0(ls);
-	
-	// Header of XML file
-	ar.WriteString("<?xml version=\"1.0\" encoding=\"Shift_JIS\"?>\n");
-	outStyleSheetLine(ar);
-	ar.WriteString("<iEditDoc>\n");
-	
-	// iNodes -->iNode Data
-	for (unsigned int i = 0; i < ls.size(); i++) {
-		nodeFind.setKey(ls[i].key);
-		const_niterator it = nodes_.findNode(nodeFind);
-		
-		ar.WriteString("\t<inode>\n");
-		
-		CString ids;
-		DWORD key, parent;
-		key = (*it).getKey(); parent = (*it).getParent();
-		if (i == 0 && key != parent) {
-			parent = key;
-		}
-		ids.Format("\t\t<id>%d</id>\n\t\t<pid>%d</pid>\n", key, parent);
-		ar.WriteString(ids);
-		
-		CString sLevel;
-		sLevel.Format("\t\t<level>%d</level>\n", (*it).getLevel());
-		ar.WriteString(sLevel);
-		
-		ar.WriteString("\t\t<label>");
-		CString title = "<![CDATA[" + (*it).getName() + "]]>";
-		if ((*it).getTextStyle() >= iNode::m_c) {
-			ar.WriteString(procCR(title));
-		} else {
-			ar.WriteString(title);
-		}
-		ar.WriteString("</label>\n");
-		
-		ar.WriteString("\t\t<text>");
-		CString text = "<![CDATA[" + (*it).getText() + "]]>";
-		ar.WriteString(procCR(text));
-		ar.WriteString("\n\t\t</text>\n");
-		
-		// ラベルのアライメント
-		ar.WriteString("\t\t<labelAlign>");
-		int align = (*it).getTextStyle(); CString salign;
-		switch (align) {
-		case iNode::s_cc: salign = "single-middle-center"; break;
-		case iNode::s_cl: salign = "single-middle-left"; break;
-		case iNode::s_cr: salign = "single-midele-right"; break;
-		case iNode::s_tc: salign = "single-top-center"; break;
-		case iNode::s_tl: salign = "single-top-left"; break;
-		case iNode::s_tr: salign = "single-top-right"; break;
-		case iNode::s_bc: salign = "single-bottom-center"; break;
-		case iNode::s_bl: salign = "single-bottom-left"; break;
-		case iNode::s_br: salign = "single-bottom-right"; break;
-		case iNode::m_c: salign = "multi-center"; break;
-		case iNode::m_l: salign = "multi-left"; break;
-		case iNode::m_r: salign = "multi-right"; break;
-		case iNode::notext: salign = "hidden"; break;
-		}
-		ar.WriteString(salign);
-		ar.WriteString("</labelAlign>\n");
-		
-		// 形
-		ar.WriteString("\t\t<shape>");
-		int shape = (*it).getNodeShape();
-		if (shape == iNode::rectangle) {
-			ar.WriteString("Rect");
-		} else if (shape == iNode::arc) {
-			ar.WriteString("Oval");
-		} else if (shape == iNode::roundRect) {
-			ar.WriteString("RoundRect");
-		} else if (shape == iNode::MetaFile) {
-			ar.WriteString("MetaFile");
-		} else if (shape == iNode::MindMapNode) {
-			ar.WriteString("MMNode");
-		} else {
-			ar.WriteString("Rect");
-		}
-		ar.WriteString("</shape>\n");
-		
-		// 位置
-		CString spt;
-		CRect bound = (*it).getBound();
-		
-		ar.WriteString("\t\t<bound>\n");
-		ar.WriteString("\t\t\t<left>");
-		spt.Format("%d", bound.left);
-		ar.WriteString(spt);
-		ar.WriteString("</left>\n");
-		
-		ar.WriteString("\t\t\t<right>");
-		spt.Format("%d", bound.right);
-		ar.WriteString(spt);
-		ar.WriteString("</right>\n");
-		
-		ar.WriteString("\t\t\t<top>");
-		spt.Format("%d", bound.top);
-		ar.WriteString(spt);
-		ar.WriteString("</top>\n");
-		
-		ar.WriteString("\t\t\t<bottom>");
-		spt.Format("%d", bound.bottom);
-		ar.WriteString(spt);
-		ar.WriteString("</bottom>\n");
-		ar.WriteString("\t\t</bound>\n");
-		
-		
-		CString sc;
-		// 色(塗りつぶし)
-		if ((*it).isFilled()) {
-			ar.WriteString("\t\t<ForColor>\n");
-			COLORREF fc = (*it).getBrsColor();
-			BYTE fred = GetRValue(fc);
-			BYTE fgrn = GetGValue(fc);
-			BYTE fblu = GetBValue(fc);
-			
-			ar.WriteString("\t\t\t<f_red>");
-			sc.Format("%d", fred);
-			ar.WriteString(sc);
-			ar.WriteString("</f_red>\n");
-			
-			ar.WriteString("\t\t\t<f_green>");
-			sc.Format("%d", fgrn);
-			ar.WriteString(sc);
-			ar.WriteString("</f_green>\n");
-			
-			ar.WriteString("\t\t\t<f_blue>");
-			sc.Format("%d", fblu);
-			ar.WriteString(sc);
-			ar.WriteString("</f_blue>\n");
-			ar.WriteString("\t\t</ForColor>\n");
-		}
-		
-		// 線のスタイル
-		ar.WriteString("\t\t<nodeLine>\n");
-		ar.WriteString("\t\t\t<nodeLineStyle>");
-		if ((*it).getLineStyle() == PS_NULL) {
-			ar.WriteString("noLine");
-		} else if ((*it).getLineStyle() == PS_SOLID) {
-			ar.WriteString("solidLine");
-		} else if ((*it).getLineStyle() == PS_DOT) {
-			ar.WriteString("dotedLine");
-		}
-		ar.WriteString("</nodeLineStyle>\n");
-		
-		if ((*it).getLineStyle() == PS_SOLID) {
-			ar.WriteString("\t\t\t<nodeLineWidth>");
-			int width = (*it).getLineWidth();
-			if (width == 0) {
-				width = 1;
-			}
-			CString sl; sl.Format("%d", width);
-			ar.WriteString(sl);
-			ar.WriteString("</nodeLineWidth>\n");
-		}
-		ar.WriteString("\t\t</nodeLine>\n");
-		
-		// 色(線)
-		if ((*it).getLineStyle() != PS_NULL) {
-			ar.WriteString("\t\t<nodeLineColor>\n");
-			COLORREF lc = (*it).getLineColor();
-			BYTE lred = GetRValue(lc);
-			BYTE lgrn = GetGValue(lc);
-			BYTE lblu = GetBValue(lc);
-
-			ar.WriteString("\t\t\t<l_red>");
-			sc.Format("%d", lred);
-			ar.WriteString(sc);
-			ar.WriteString("</l_red>\n");
-			
-			ar.WriteString("\t\t\t<l_green>");
-			sc.Format("%d", lgrn);
-			ar.WriteString(sc);
-			ar.WriteString("</l_green>\n");
-			
-			ar.WriteString("\t\t\t<l_blue>");
-			sc.Format("%d", lblu);
-			ar.WriteString(sc);
-			ar.WriteString("</l_blue>\n");
-			ar.WriteString("\t\t</nodeLineColor>\n");
-		}
-		
-		// end of inode tag
-		ar.WriteString("\t</inode>\n");
-	}
-	
-	// iLinks --> iLink Data
-	const_literator li = links_.begin();
-	for ( ; li != links_.end(); li++) {
-		if (!isKeyInLabels(ls, (*li).getKeyFrom()) || !isKeyInLabels(ls, (*li).getKeyTo())) {
-			continue;
-		}
-		
-		ar.WriteString("\t<ilink>\n");
-		CString links;
-		if ((*li).getArrowStyle() != iLink::other) {
-			links.Format("\t\t<from>%d</from>\n\t\t<to>%d</to>\n", (*li).getKeyFrom(), (*li).getKeyTo());
-		} else {
-			links.Format("\t\t<from>%d</from>\n\t\t<to>%d</to>\n", (*li).getKeyFrom(), (*li).getKeyFrom());
-		}
-		ar.WriteString(links);
-		
-		CString caption = "<![CDATA[" + (*li).getName() + "]]>";
-		ar.WriteString("\t\t<caption>");
-		ar.WriteString(caption);
-		ar.WriteString("</caption>\n");
-		
-		int astyle = (*li).getArrowStyle();
-		
-		if (astyle == iLink::other && (*li).getPath() != "") {
-			ar.WriteString("\t\t<locate>");
-			CString path = "<![CDATA[" + (*li).getPath() + "]]>";
-			ar.WriteString(path);
-			ar.WriteString("</locate>\n");
-		} else {
-			ar.WriteString("\t\t<linkLine>\n");
-			
-			ar.WriteString("\t\t\t<linkLineStyle>");
-			if ((*li).getLineStyle() == PS_SOLID) {
-				ar.WriteString("solidLine");
-			} else if ((*li).getLineStyle() == PS_DOT) {
-				ar.WriteString("dotedLine");
-			}
-			ar.WriteString("</linkLineStyle>\n");
-			
-			int width = (*li).getLineWidth();
-			if (width == 0) {
-				width=1;
-			}
-			CString w; w.Format("\t\t\t<linkLineWidth>%d</linkLineWidth>\n", width);
-			ar.WriteString(w);
-			
-			ar.WriteString("\t\t\t<arrow>");
-			if (astyle == iLink::line) {
-				ar.WriteString("a_none");
-			} else if (astyle == iLink::arrow) {
-				ar.WriteString("a_single");
-			} else if (astyle == iLink::arrow2) {
-				ar.WriteString("a_double");
-			} else if (astyle == iLink::depend) {
-				ar.WriteString("a_depend");
-			} else if (astyle == iLink::depend2) {
-				ar.WriteString("a_depend_double");
-			} else if (astyle == iLink::inherit) {
-				ar.WriteString("a_inherit");
-			} else if (astyle == iLink::aggregat) {
-				ar.WriteString("a_aggregat");
-			} else if (astyle == iLink::composit) {
-				ar.WriteString("a_composit");
-			}
-			ar.WriteString("</arrow>\n");
-			
-			ar.WriteString("\t\t</linkLine>\n");
-			
-			
-			ar.WriteString("\t\t<linkLineColor>\n");
-			CString sc;
-			COLORREF nc = (*li).getLinkColor();
-			BYTE nred = GetRValue(nc);
-			BYTE ngrn = GetGValue(nc);
-			BYTE nblu = GetBValue(nc);
-			
-			ar.WriteString("\t\t\t<n_red>");
-			sc.Format("%d", nred);
-			ar.WriteString(sc);
-			ar.WriteString("</n_red>\n");
-			
-			ar.WriteString("\t\t\t<n_green>");
-			sc.Format("%d", ngrn);
-			ar.WriteString(sc);
-			ar.WriteString("</n_green>\n");
-			
-			ar.WriteString("\t\t\t<n_blue>");
-			sc.Format("%d", nblu);
-			ar.WriteString(sc);
-			ar.WriteString("</n_blue>\n");
-			
-			ar.WriteString("\t\t</linkLineColor>\n");
-			
-			
-			if ((*li).isCurved()) {
-				ar.WriteString("\t\t<pathPt>\n");
-				CString sp; sp.Format("\t\t\t<path_x>%d</path_x>\n\t\t\t<path_y>%d</path_y>\n", 
-					(*li).getPtPath().x, (*li).getPtPath().y);
-				ar.WriteString(sp);
-				ar.WriteString("\t\t</pathPt>\n");
-			}
-		}
-		ar.WriteString("\t</ilink>\n");
-	}
-	
-	ar.WriteString("</iEditDoc>\n");
-	ar.Flush();
 }
 
 DWORD iEditDoc::findPairKey(const DWORD first)
@@ -3518,23 +3189,23 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 	
 	CString nameStr = Utilities::removeCR((*it).getName());
 	// リンクタグの生成
-	f->WriteString("<a id=");
-	f->WriteString("\"");
+	f->WriteString(_T("<a id="));
+	f->WriteString(_T("\""));
 	CString keystr;
-	keystr.Format("%d", (*it).getKey());
+	keystr.Format(_T("%d"), (*it).getKey());
 	f->WriteString(keystr);
-	f->WriteString("\" />\n");
+	f->WriteString(_T("\" />\n"));
 	
 	// 内容書き込み
-	f->WriteString("<h1>" + nameStr + "</h1>\n");
-	f->WriteString("<div class=\"text\">\n");
+	f->WriteString(_T("<h1>") + nameStr + _T("</h1>\n"));
+	f->WriteString(_T("<div class=\"text\">\n"));
 	f->WriteString(procWikiNotation((*it).getText()));
-	f->WriteString("</div>\n");
+	f->WriteString(_T("</div>\n"));
 	
 	// リンクの書き込み
-	f->WriteString("<div class=\"links\">\n");
+	f->WriteString(_T("<div class=\"links\">\n"));
 	const_literator li = links_.begin();
-	CString sLink("<ul>\n");
+	CString sLink(_T("<ul>\n"));
 	int cnt=0;
 	for (; li != links_.end(); li++) {
 		if ((*li).getKeyFrom() != (*it).getKey() &&
@@ -3547,134 +3218,134 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 				const_niterator itTo = nodes_.findNode(nodeFind);
 				if (itTo != nodes_.end()) {
 					CString keystr;
-					keystr.Format("%d", (*li).getKeyTo());
-					sLink += "<li><a href=";
+					keystr.Format(_T("%d"), (*li).getKeyTo());
+					sLink += _T("<li><a href=");
 					if (!textIsolated) {
-						sLink += "\"#";
+						sLink += _T("\"#");
 						sLink += keystr;
 					} else {
-						sLink += "\"" + textPrefix + keystr + ".html\"";
+						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
 					}
-					sLink += "\">";
-					sLink += "▲" + Utilities::removeCR((*itTo).getName());
-					if ((*li).getName() != "") {
-						sLink += "(" + (*li).getName() + ")";
+					sLink += _T("\">");
+					sLink += _T("▲") + Utilities::removeCR((*itTo).getName());
+					if ((*li).getName() != _T("")) {
+						sLink += _T("(") + (*li).getName() + _T(")");
 					}
-					sLink += "</a></li>\n";
+					sLink += _T("</a></li>\n");
 					cnt++;
 				}
 			} else if ((*it).getKey() == (*li).getKeyTo()) {
 				nodeFind.setKey((*li).getKeyFrom());
 				const_niterator itFrom = nodes_.findNode(nodeFind);
 				if (itFrom != nodes_.end()) {
-					CString keystr;
-					keystr.Format("%d", (*li).getKeyFrom());
-					sLink += "<li><a href=";
+					CString keystr;\
+					keystr.Format(_T("%d"), (*li).getKeyFrom());
+					sLink += _T("<li><a href=");
 					if (!textIsolated) {
-						sLink += "\"#";
+						sLink += _T("\"#");
 						sLink += keystr;
 					} else {
-						sLink += "\"" + textPrefix + keystr + ".html\"";
+						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
 					}
-					sLink += "\">";
-					sLink += "▽" + Utilities::removeCR((*itFrom).getName());
+					sLink += _T("\">");
+					sLink += _T("▽") + Utilities::removeCR((*itFrom).getName());
 					if ((*li).getName() != "") {
-						sLink += "(" + (*li).getName() + ")";
+						sLink += _T("(") + (*li).getName() + ")";
 					}
-					sLink += "</a></li>\n";
+					sLink += _T("</a></li>\n");
 					cnt++;
 				}
 			}
 		} else {
 			CString url = (*li).getPath();
-			if (url.Find("http://") != -1 || url.Find("https://") != -1 || url.Find("ftp://") != -1) {
-				sLink += "<li><a href=";
+			if (url.Find(_T("http://")) != -1 || url.Find(_T("https://")) != -1 || url.Find(_T("ftp://")) != -1) {
+				sLink += _T("<li><a href=");
 				sLink += url;
-				sLink += " target=\"_top\">";
-				if ((*li).getName() != "") {
+				sLink += _T(" target=\"_top\">");
+				if ((*li).getName() != _T("")) {
 					sLink += (*li).getName();
 				} else {
 					sLink += url;
 				}
-				sLink += "</a></li>\n";
+				sLink += _T("</a></li>\n");
 				cnt++;
 			}
 		}
 	}
-	sLink += "</ul>\n";
+	sLink += _T("</ul>\n");
 	if (cnt > 0) {
 		f->WriteString(sLink);
 	}
-	f->WriteString("</div>\n");
+	f->WriteString(_T("</div>\n"));
 }
 
 CString iEditDoc::procWikiNotation(const CString &text)
 {
-	const std::tr1::regex h2("^\\*\\s([^\\*].*)$"); //"^-.*$" "^[0-9].*$" "^\\*.*$"
-	const std::tr1::regex h3("^\\*\\*\\s([^\\*].*)$");
-	const std::tr1::regex h4("^\\*\\*\\*\\s([^\\*].*)$");
-	const std::tr1::regex l1("^-\\s([^-].*)$");
-	const std::tr1::regex l2("^--\\s([^-].*)");
-	const std::tr1::regex l3("^---\\s([^-].*)");
-	const std::tr1::regex uri("^.*(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+).*$");
-	std::tr1::match_results<std::string::const_iterator> result;
-	
+	const std::tr1::wregex h2(_T("^\\*\\s([^\\*].*)$")); //"^-.*$" "^[0-9].*$" "^\\*.*$"
+	const std::tr1::wregex h3(_T("^\\*\\*\\s([^\\*].*)$"));
+	const std::tr1::wregex h4(_T("^\\*\\*\\*\\s([^\\*].*)$"));
+	const std::tr1::wregex l1(_T("^-\\s([^-].*)$"));
+	const std::tr1::wregex l2(_T("^--\\s([^-].*)"));
+	const std::tr1::wregex l3(_T("^---\\s([^-].*)"));
+	const std::tr1::wregex uri(_T("^.*(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+).*$"));
+	std::tr1::match_results<std::wstring::const_iterator> result;
+	// TODO:wstring使うようにしてみたが、処理が動くか検証
 	vector<CString> lines = Utilities::getLines(text);
 	int level = 0;
 	int prevLevel = 0;
 	CString rtnStr;
 	bool pre = false;
 	for (unsigned int i = 0; i < lines.size(); i++) {
-		std::string line = lines[i];
-		if (line.find("<pre>") != -1) {
+		std::wstring line = static_cast<LPCTSTR>(lines[i]);
+		if (line.find(_T("<pre>")) != -1) {
 			pre = true;
-		} else if (line.find("</pre>") != -1) {
+		} else if (line.find(_T("</pre>")) != -1) {
 			pre = false;
 		}
 		if (pre) {
-			rtnStr += lines[i] + "\n";
+			rtnStr += lines[i] + _T("\n");
 			continue;
 		}
 		if (std::tr1::regex_match(line, result, h2)) {
 			endUL(rtnStr, level);
-			rtnStr += "<h2>";
+			rtnStr += _T("<h2>");
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
-			rtnStr += "</h2>\n";
+			rtnStr += _T("</h2>\n");
 		} else if (std::tr1::regex_match(line, result, h3)) {
 			endUL(rtnStr, level);
-			rtnStr += "<h3>";
+			rtnStr += _T("<h3>");
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
-			rtnStr += "</h3>\n";
+			rtnStr += _T("</h3>\n");
 		} else if (std::tr1::regex_match(line, result, h4)) {
 			endUL(rtnStr, level);
-			rtnStr += "<h4>";
+			rtnStr += _T("<h4>");
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
-			rtnStr += "</h4>\n";
+			rtnStr += _T("</h4>\n");
 		} else if (std::tr1::regex_match(line, result, l1)) {
 			prevLevel = level;
 			level = 1;
 			beginUL(rtnStr, level, prevLevel);
-			rtnStr += "<li>";
+			rtnStr += _T("<li>");
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
-			rtnStr += "</li>\n";
+			rtnStr += _T("</li>\n");
 		} else if (std::tr1::regex_match(line, result, l2)) {
 			prevLevel = level;
 			level = 2;
 			beginUL(rtnStr, level, prevLevel);
-			rtnStr += "<li>";
+			rtnStr += _T("<li>");
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
-			rtnStr += "</li>\n";
+			rtnStr += _T("</li>\n");
 		} else if (std::tr1::regex_match(line, result, l3)) {
 			prevLevel = level;
 			level = 3;
 			beginUL(rtnStr, level, prevLevel);
-			rtnStr += "<li>";
+			rtnStr += _T("<li>");
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
-			rtnStr += "</li>\n";
+			rtnStr += _T("</li>\n");
 		} else {
 			endUL(rtnStr, level);
 			rtnStr += makeInlineUrlLink(CString(line.c_str()));
-			rtnStr += "<br />\n";
+			rtnStr += _T("<br />\n");
 		}
 	}
 	return rtnStr;
@@ -3683,26 +3354,26 @@ CString iEditDoc::procWikiNotation(const CString &text)
 // インラインのURLを検出する 今のところ最初の1個のみ
 CString iEditDoc::makeInlineUrlLink(const CString &line)
 {
-	const std::tr1::regex uri("^(.*)(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)(.*)$");
-	const std::tr1::regex wikiLink("^(.*)\\[\\[(.+):(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)\\]\\](.*)$");
-	std::string sLine = line;
-	std::tr1::match_results<std::string::const_iterator> result;
+	const std::tr1::wregex uri(_T("^(.*)(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)(.*)$"));
+	const std::tr1::wregex wikiLink(_T("^(.*)\\[\\[(.+):(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)\\]\\](.*)$"));
+	std::wstring sLine = static_cast<LPCTSTR>(line);
+	std::tr1::match_results<std::wstring::const_iterator> result;
 	if (std::tr1::regex_match(sLine, result, wikiLink)) {
 		CString rtnStr = result[1].str().c_str();
-		rtnStr += "<a href=\"";
+		rtnStr += _T("<a href=\"");
 		rtnStr += result[3].str().c_str();
-		rtnStr += "\" target=\"_blank\">";
+		rtnStr += _T("\" target=\"_blank\">");
 		rtnStr += result[2].str().c_str();
-		rtnStr += "</a>";
+		rtnStr += _T("</a>");
 		rtnStr += result[4].str().c_str();
 		return rtnStr;
 	} else if (std::tr1::regex_match(sLine, result, uri)) {
 		CString rtnStr = result[1].str().c_str();
-		rtnStr += "<a href=\"";
+		rtnStr += _T("<a href=\"");
 		rtnStr += result[2].str().c_str();
-		rtnStr += "\" target=\"_blank\">";
+		rtnStr += _T("\" target=\"_blank\">");
 		rtnStr += result[2].str().c_str();
-		rtnStr += "</a>";
+		rtnStr += _T("</a>");
 		rtnStr += result[3].str().c_str();
 		return rtnStr;
 	} 
@@ -3712,24 +3383,24 @@ CString iEditDoc::makeInlineUrlLink(const CString &line)
 void iEditDoc::beginUL(CString& str, int& level, int& prevLevel)
 {
 	if (prevLevel == level - 1) {
-		str += "<ul>\n";
+		str += _T("<ul>\n");
 	} else if (prevLevel == level -2) {
-		str += "<ul>\n<ul>\n";
+		str += _T("<ul>\n<ul>\n");
 	} else if (prevLevel == level + 1) {
-		str += "</ul>\n";
+		str += _T("</ul>\n");
 	} else if (prevLevel == level + 2) {
-		str += "</ul>\n</ul>\n";
+		str += _T("</ul>\n</ul>\n");
 	}
 }
 
 void iEditDoc::endUL(CString & str, int& level)
 {
 	if (level == 1) {
-		str += "</ul>\n";
+		str += _T("</ul>\n");
 	} else if (level == 2) {
-		str += "</ul>\n</ul>\n";
+		str += _T("</ul>\n</ul>\n");
 	} else if (level == 3) {
-		str += "</ul>\n</ul>\n</ul>\n";
+		str += _T("</ul>\n</ul>\n</ul>\n");
 	}
 	if (level > 0) level = 0;
 }
@@ -3741,7 +3412,7 @@ CString iEditDoc::getKeyNodeText(DWORD key)
 	if (it != nodes_.end()) {
 		return (*it).getText();
 	}
-	return "";
+	return _T("");
 }
 
 CString iEditDoc::getKeyNodeLabel(DWORD key)
@@ -3751,7 +3422,7 @@ CString iEditDoc::getKeyNodeLabel(DWORD key)
 	if (it != nodes_.end()) {
 		return (*it).getName();
 	}
-	return "";
+	return _T("");
 }
 
 CString iEditDoc::procCR(const CString &str)
@@ -3761,7 +3432,7 @@ CString iEditDoc::procCR(const CString &str)
 		if (str[i] == '\n') {
 			;
 		} else if (str[i] == '\r') {
-			toStr += "\n";
+			toStr += _T("\n");
 		} else {
 			toStr += str[i];
 		}
@@ -3776,7 +3447,7 @@ CString iEditDoc::procLF(const CString &str)
 		if (str[i] == '\r') {
 			;
 		} else if (str[i] == '\n') {
-			toStr += "\r\n";
+			toStr += _T("\r\n");
 		} else {
 			toStr += str[i];
 		}
@@ -3966,16 +3637,16 @@ void iEditDoc::adjustNodesEnd(const CString& side, const CRect& rect, bool bDrwA
 	//	}
 		if (!(*it).isSelected()) continue;
 		CPoint pt;
-		if (side == "left") {
+		if (side == _T("left")) {
 			pt.x = rect.left;
 			pt.y = (*it).getBound().top;
-		} else if (side == "right") {
+		} else if (side == _T("right")) {
 			pt.x = (*it).getBound().left + rect.right - (*it).getBound().right;
 			pt.y = (*it).getBound().top;
-		} else if (side == "top") {
+		} else if (side == _T("top")) {
 			pt.x = (*it).getBound().left;
 			pt.y = rect.top;
-		} else if (side == "bottom") {
+		} else if (side == _T("bottom")) {
 			pt.x = (*it).getBound().left;
 			pt.y = (*it).getBound().top + rect.bottom - (*it).getBound().bottom;
 		}
@@ -3998,11 +3669,11 @@ void iEditDoc::sameNodesSize(const CString &strSize, bool bDrwAll)
 //		}
 		if (!(*it).isSelected()) continue;
 		rc = (*it).getBound();
-		if (strSize == "height") {
+		if (strSize == _T("height")) {
 			rc.bottom = rc.top + maxSz.cy;
-		} else if (strSize == "width") {
+		} else if (strSize == _T("width")) {
 			rc.right = rc.left + maxSz.cx;
-		} else if (strSize == "rect") {
+		} else if (strSize == _T("rect")) {
 			rc.bottom = rc.top + maxSz.cy;
 			rc.right = rc.left + maxSz.cx;
 		}
@@ -4100,7 +3771,7 @@ CString iEditDoc::getSubBranchRootLabel() const
 	if (n != nodes_.end()) {
 		return (*n).getName();
 	}
-	return "";
+	return _T("");
 }
 
 bool iEditDoc::isShowSubBranch() const
@@ -4129,19 +3800,23 @@ void iEditDoc::OnFileSaveAs()
 	CString fullPath = GetPathName();
 	CString fileName;
 	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(fullPath, drive, dir, fname, ext );
+	WCHAR drive[_MAX_DRIVE];
+	WCHAR dir[_MAX_DIR];
+	WCHAR fname[_MAX_FNAME];
+	WCHAR ext[_MAX_EXT];
+	ZeroMemory(drive, _MAX_DRIVE);
+	ZeroMemory(dir, _MAX_DIR);
+	ZeroMemory(fname, _MAX_FNAME);
+	ZeroMemory(ext, _MAX_EXT);
+	_wsplitpath_s((const wchar_t *)fullPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
 	
 	fileName = fname;
 	CString driveName = drive;
-	if (driveName == "") {
+	if (driveName == _T("")) {
 		iNode nf; nf.setKey(0);
 		const_niterator it = nodes_.find(nf);
 		CString rootLabel = (*it).getName();
-		if (rootLabel != "主題") {
+		if (rootLabel != _T("主題")) {
 			// TODO:ファイル名として不正な文字の除去
 			CString safeFileName = Utilities::getSafeFileName(rootLabel);
 			if (safeFileName == "") {
@@ -4154,7 +3829,7 @@ void iEditDoc::OnFileSaveAs()
 		}
 	}
 	
-	CString szFilter = "iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied|XMLファイル(*.xml)|*.xml||";
+	CString szFilter = _T("iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied||");
 	CFileDialog cfDlg(FALSE, NULL, fileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
 		OFN_FILEMUSTEXIST | OFN_EXPLORER, szFilter, AfxGetMainWnd());
 	if (cfDlg.DoModal() == IDOK) {
@@ -4166,28 +3841,19 @@ void iEditDoc::OnFileSaveAs()
 		
 		switch (index) {
 		case 1: // iedx
-			if (ext != "iedx" && ext != "ied" && ext != "xml") {
-				OnSaveDocument(pathName + ".iedx");
-				SetPathName(cfDlg.GetPathName() + ".iedx");
-			} else if (ext == "iedx" || ext == "ied"|| ext == "xml") {
+			if (ext != _T("iedx") && ext != _T("ied")) {
+				OnSaveDocument(pathName + _T(".iedx"));
+				SetPathName(cfDlg.GetPathName() + _T(".iedx"));
+			} else if (ext == _T("iedx") || ext == _T("ied")) {
 				OnSaveDocument(pathName);
 				SetPathName(cfDlg.GetPathName());
 			}
 			break;
 		case 2: // ied
-			if (ext != "iedx" && ext != "ied" && ext != "xml") {
-				OnSaveDocument(pathName + ".ied");
-				SetPathName(cfDlg.GetPathName() + ".ied");
-			} else if (ext == "iedx" || ext == "ied"|| ext == "xml") {
-				OnSaveDocument(pathName);
-				SetPathName(cfDlg.GetPathName());
-			}
-			break;
-		case 3: // xml
-			if (ext != "iedx" && ext != "xml" && ext != "ied") {
-				OnSaveDocument(cfDlg.GetPathName() + ".xml");
-				SetPathName(cfDlg.GetPathName() + ".xml");
-			} else if (ext == "iedx" || ext == "ied"|| ext == "xml") {
+			if (ext != _T("iedx") && ext != _T("ied")) {
+				OnSaveDocument(pathName + _T(".ied"));
+				SetPathName(cfDlg.GetPathName() + _T(".ied"));
+			} else if (ext == _T("iedx") || ext == _T("ied")) {
 				OnSaveDocument(pathName);
 				SetPathName(cfDlg.GetPathName());
 			}
@@ -4205,17 +3871,22 @@ void iEditDoc::OnFileSave()
 	CString fileName = GetTitle();
 	CString extName;
 	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(fullPath, drive, dir, fname, ext );
+	WCHAR drive[_MAX_DRIVE];
+	WCHAR dir[_MAX_DIR];
+	WCHAR fname[_MAX_FNAME];
+	WCHAR ext[_MAX_EXT];
+	ZeroMemory(drive, _MAX_DRIVE);
+	ZeroMemory(dir, _MAX_DIR);
+	ZeroMemory(fname, _MAX_FNAME);
+	ZeroMemory(ext, _MAX_EXT);
+	_wsplitpath_s((const wchar_t *)fullPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
+	
 	driveName = drive;
 	dirName = dir;
 	fileName = fname;
 	extName = ext;
 	
-	if (driveName == "") {
+	if (driveName == _T("")) {
 		OnFileSaveAs();
 	} else {
 		OnSaveDocument(fullPath);
@@ -4533,11 +4204,11 @@ void iEditDoc::outStyleSheetLine(T &f)
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (!pApp->m_rgsOther.bSetStylesheet) return;
 	CString strStylesheetFile = pApp->m_rgsOther.strStyleSheetFile;
-	if (strStylesheetFile == "") {
-		strStylesheetFile = "iedit.xsl";
+	if (strStylesheetFile == _T("")) {
+		strStylesheetFile = _T("iedit.xsl");
 	}
-	CString s = "<?xml-stylesheet type=\"text/xsl\" ";
-	s +=  "href=\"" + strStylesheetFile + "\"" + " ?>\n";
+	CString s = _T("<?xml-stylesheet type=\"text/xsl\" ");
+	s +=  _T("href=\"") + strStylesheetFile + _T("\"") + _T(" ?>\n");
 //	f.WriteString("<?xml-stylesheet type=\"text/xsl\" href=\"iedit.xsl\" ?>\n");
 	f.WriteString(s);
 }
@@ -4552,9 +4223,9 @@ const CRect iEditDoc::addNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 	iNode nwNode;
 	if (bMindmap) {
 	CPoint ptTarget = (*it).getBound().CenterPoint() + CPoint(100, -100);
-		nwNode = insertNode(nodeType, "ノード", ptTarget);
+		nwNode = insertNode(nodeType, _T("ノード"), ptTarget);
 	} else {
-		nwNode = insertNode(nodeType, "ノード", pt);
+		nwNode = insertNode(nodeType, _T("ノード"), pt);
 	}
 	
 	DWORD newKey = nwNode.getKey();
@@ -4624,7 +4295,7 @@ const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 		ptTarget += CPoint(50, 50);
 	}
 	
-	iNode nwNode = insertNode(nodeType, "ノード", ptTarget);
+	iNode nwNode = insertNode(nodeType, _T("ノード"), ptTarget);
 	DWORD newKey = nwNode.getKey();
 	
 	selChanged(nwNode.getKey(), true, isShowSubBranch());
@@ -5104,14 +4775,16 @@ void iEditDoc::setSelectedNodeMargin(int l, int r, int t, int b)
 CString iEditDoc::getTitleFromPath() const
 {
 	CString fullPath = GetPathName();
-	CString fileName;
-	
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(fullPath, drive, dir, fname, ext );
-	return CString(fname);
+	WCHAR drive[_MAX_DRIVE];
+	WCHAR dir[_MAX_DIR];
+	WCHAR fileName[_MAX_FNAME];
+	WCHAR ext[_MAX_EXT];
+	ZeroMemory(drive, _MAX_DRIVE);
+	ZeroMemory(dir, _MAX_DIR);
+	ZeroMemory(fileName, _MAX_FNAME);
+	ZeroMemory(ext, _MAX_EXT);
+	_wsplitpath_s((const wchar_t *)fullPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+	return CString(fileName);
 }
 
 bool iEditDoc::saveCurrentImage(const CString& pngPath)
@@ -5130,7 +4803,7 @@ bool iEditDoc::saveCurrentImage(const CString& pngPath)
 	drawNodes(pDC, false);
 	drawLinks(pDC, false, true);
 	image.ReleaseDC();
-	image.Save(TEXT(pngPath), Gdiplus::ImageFormatPNG);
+	image.Save(pngPath, Gdiplus::ImageFormatPNG);
 	return true;
 }
 

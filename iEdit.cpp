@@ -26,7 +26,7 @@ static char THIS_FILE[] = __FILE__;
 
 void showLastErrorMessage()
 {
-	LPSTR lpBuffer;
+	LPTSTR lpBuffer;
 	FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
 		NULL,
@@ -149,7 +149,7 @@ BOOL CiEditApp::InitInstance()
 	
 	// DDE Execute open を使用可能にします。
 	HKEY hkResult;
-	if (::RegOpenKey(HKEY_CURRENT_USER, "Software\\Classes", &hkResult) == ERROR_SUCCESS) {
+	if (::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Classes"), &hkResult) == ERROR_SUCCESS) {
 		RegOverridePredefKey(HKEY_CLASSES_ROOT, hkResult);	
 		EnableShellOpen();
 		RegisterShellFileTypes(TRUE);
@@ -256,51 +256,51 @@ BOOL CiEditApp::PreTranslateMessage(MSG* pMsg)
 
 void CiEditApp::getNodeProfile()
 {
-	m_rgsNode.colorFill = AfxGetApp()->GetProfileInt(REGS_NODE, "Fill Color", RGB(255, 255, 255));
-	m_rgsNode.colorLine = AfxGetApp()->GetProfileInt(REGS_NODE, "Line Color", RGB(0, 0, 0));
-	m_rgsNode.colorFont = AfxGetApp()->GetProfileInt(REGS_NODE, "Font Color", RGB(0, 0, 0));
-	m_rgsNode.bFillColor = AfxGetApp()->GetProfileInt(REGS_NODE, "Paint", FALSE);
-	m_rgsNode.lineWidth = AfxGetApp()->GetProfileInt(REGS_NODE, "Line Width", 0);
-	m_rgsNode.styleLine = AfxGetApp()->GetProfileInt(REGS_NODE, "Line Style", PS_SOLID);
-	m_rgsNode.shape= AfxGetApp()->GetProfileInt(REGS_NODE, "Node Shape", iNode::rectangle);
-	m_rgsNode.styleText = AfxGetApp()->GetProfileInt(REGS_NODE, "Text Align", iNode::s_cc);
-	::lstrcpy(m_rgsNode.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_NODE, "Font Name", "ＭＳ ゴシック"));
-	m_rgsNode.lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_NODE, "Font Height", 0xfffffff3);
-	m_rgsNode.lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_NODE, "Font Width", 0);
-	m_rgsNode.lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_NODE, "Font Italic", FALSE);
-	m_rgsNode.lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_NODE, "Font UnderLine", FALSE);
-	m_rgsNode.lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_NODE, "Font StrikeOut", FALSE);
-	m_rgsNode.lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_NODE, "Font CharSet", SHIFTJIS_CHARSET);
-	m_rgsNode.lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_NODE, "Font Weight", FW_NORMAL);
+	m_rgsNode.colorFill = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Fill Color"), RGB(255, 255, 255));
+	m_rgsNode.colorLine = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Line Color"), RGB(0, 0, 0));
+	m_rgsNode.colorFont = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Color"), RGB(0, 0, 0));
+	m_rgsNode.bFillColor = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Paint"), FALSE);
+	m_rgsNode.lineWidth = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Line Width"), 0);
+	m_rgsNode.styleLine = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Line Style"), PS_SOLID);
+	m_rgsNode.shape= AfxGetApp()->GetProfileInt(REGS_NODE, _T("Node Shape"), iNode::rectangle);
+	m_rgsNode.styleText = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Text Align"), iNode::s_cc);
+	::lstrcpy(m_rgsNode.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_NODE, _T("Font Name"), _T("ＭＳ ゴシック")));
+	m_rgsNode.lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Height"), 0xfffffff3);
+	m_rgsNode.lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Width"), 0);
+	m_rgsNode.lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Italic"), FALSE);
+	m_rgsNode.lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font UnderLine"), FALSE);
+	m_rgsNode.lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font StrikeOut"), FALSE);
+	m_rgsNode.lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font CharSet"), SHIFTJIS_CHARSET);
+	m_rgsNode.lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Weight"), FW_NORMAL);
 	
-	m_rgsNode.bInheritParent = AfxGetApp()->GetProfileInt(REGS_NODE, "Inherit Parent", FALSE);
-	m_rgsNode.bInheritSibling = AfxGetApp()->GetProfileInt(REGS_NODE, "Inherit Sibling", FALSE);
-	m_rgsNode.bSyncOrder = AfxGetApp()->GetProfileInt(REGS_NODE, "Sync Order", FALSE);
-	m_rgsNode.orderDirection = AfxGetApp()->GetProfileInt(REGS_NODE, "Order Direction", 0);
-	m_rgsNode.bEnableGroup = AfxGetApp()->GetProfileInt(REGS_NODE, "Enable Grouping", FALSE);
-	m_rgsNode.bDisableNodeResize = AfxGetApp()->GetProfileInt(REGS_NODE, "Disable NodeResize", FALSE);
-	m_rgsNode.margin_l = AfxGetApp()->GetProfileIntA(REGS_NODE, "Margin Left", 0);
-	m_rgsNode.margin_r = AfxGetApp()->GetProfileIntA(REGS_NODE, "Margin Right", 0);
-	m_rgsNode.margin_t = AfxGetApp()->GetProfileIntA(REGS_NODE, "Margin Top", 0);
-	m_rgsNode.margin_b = AfxGetApp()->GetProfileIntA(REGS_NODE, "Margin Bottom", 0);
+	m_rgsNode.bInheritParent = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Inherit Parent"), FALSE);
+	m_rgsNode.bInheritSibling = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Inherit Sibling"), FALSE);
+	m_rgsNode.bSyncOrder = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Sync Order"), FALSE);
+	m_rgsNode.orderDirection = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Order Direction"), 0);
+	m_rgsNode.bEnableGroup = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Enable Grouping"), FALSE);
+	m_rgsNode.bDisableNodeResize = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Disable NodeResize"), FALSE);
+	m_rgsNode.margin_l = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Margin Left"), 0);
+	m_rgsNode.margin_r = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Margin Right"), 0);
+	m_rgsNode.margin_t = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Margin Top"), 0);
+	m_rgsNode.margin_b = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Margin Bottom"), 0);
 }
 
 void CiEditApp::getLinkProfile()
 {
-	m_rgsLink.colorLine = AfxGetApp()->GetProfileInt(REGS_LINK, "Line Color", RGB(0, 0, 0));
-	m_rgsLink.lineWidth = AfxGetApp()->GetProfileInt(REGS_LINK, "Line Width", 0);
-	m_rgsLink.strength  = AfxGetApp()->GetProfileInt(REGS_LINK, "Strength", 10);
-	m_rgsLink.styleLine = AfxGetApp()->GetProfileInt(REGS_LINK, "Line Style", PS_SOLID);
-	m_rgsLink.bSetStrength = AfxGetApp()->GetProfileInt(REGS_LINK, "Set Strength", TRUE);
+	m_rgsLink.colorLine = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Color"), RGB(0, 0, 0));
+	m_rgsLink.lineWidth = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Width"), 0);
+	m_rgsLink.strength  = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Strength"), 10);
+	m_rgsLink.styleLine = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Style"), PS_SOLID);
+	m_rgsLink.bSetStrength = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Set Strength"), TRUE);
 	
-	::lstrcpy(m_rgsLink.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_LINK, "Font Name", "ＭＳ ゴシック"));
-	m_rgsLink.lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_LINK, "Font Height", 0xfffffff3);
-	m_rgsLink.lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_LINK, "Font Width", 0);
-	m_rgsLink.lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_LINK, "Font Italic", FALSE);
-	m_rgsLink.lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_LINK, "Font UnderLine", FALSE);
-	m_rgsLink.lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_LINK, "Font StrikeOut", FALSE);
-	m_rgsLink.lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_LINK, "Font CharSet", SHIFTJIS_CHARSET);
-	m_rgsLink.lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_LINK, "Font Weight", FW_NORMAL);
+	::lstrcpy(m_rgsLink.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_LINK, _T("Font Name"), _T("ＭＳ ゴシック")));
+	m_rgsLink.lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Height"), 0xfffffff3);
+	m_rgsLink.lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Width"), 0);
+	m_rgsLink.lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Italic"), FALSE);
+	m_rgsLink.lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font UnderLine"), FALSE);
+	m_rgsLink.lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font StrikeOut"), FALSE);
+	m_rgsLink.lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font CharSet"), SHIFTJIS_CHARSET);
+	m_rgsLink.lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Weight"), FW_NORMAL);
 }
 
 int CiEditApp::ExitInstance() 
@@ -315,7 +315,7 @@ int CiEditApp::ExitInstance()
 void CiEditApp::loadMetaFiles(const CString& fname)
 {
 	for (int i = 0; i < 10; i++) {
-		CString cname; cname.Format("%02d", i+1);
+		CString cname; cname.Format(_T("%02d"), i+1);
 		m_mfCategories[i] = cname;
 		for (int j = 0; j < 20; j++) {
 			HENHMETAFILE hm = NULL;
@@ -328,7 +328,7 @@ void CiEditApp::loadMetaFiles(const CString& fname)
 		CArchive ar(&f, CArchive::load);
 		loadmfs(ar);
 	} else {
-		AfxGetApp()->WriteProfileString(REGS_SHAPES, "recent file", "");
+		AfxGetApp()->WriteProfileString(REGS_SHAPES, _T("recent file"), _T(""));
 	}
 }
 
@@ -354,7 +354,7 @@ void CiEditApp::saveMetaFiles(const CString &fname)
 			}
 		}
 	}
-	WriteProfileString(REGS_SHAPES, "recent file", fname);
+	WriteProfileString(REGS_SHAPES, _T("recent file"), fname);
 }
 
 void CiEditApp::loadmfs(CArchive &ar)
@@ -381,7 +381,7 @@ void CiEditApp::loadmfs(CArchive &ar)
 		}
 	}
 	CFile* pf = ar.GetFile();
-	WriteProfileString(REGS_SHAPES, "recent file", pf->GetFilePath());
+	WriteProfileString(REGS_SHAPES, _T("recent file"), pf->GetFilePath());
 }
 
 void CiEditApp::notifyViewSetting()
@@ -398,7 +398,7 @@ void CiEditApp::notifyViewSetting()
 void CiEditApp::OnFileOpen() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	CString szFilter = "iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied|XMLファイル(*.xml)|*.xml||";
+	CString szFilter = _T("iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied|XMLファイル(*.xml)|*.xml||");
 	CFileDialog cfDlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
 		OFN_FILEMUSTEXIST | OFN_EXPLORER, szFilter, AfxGetMainWnd());
 	if (cfDlg.DoModal() == IDOK) {
@@ -415,8 +415,8 @@ void CiEditApp::OnFileNew()
 
 void CiEditApp::getOtherProfile()
 {
-	m_rgsOther.bSetStylesheet = AfxGetApp()->GetProfileInt(REGS_OTHER, "XML StyleSheet", TRUE);
-	m_rgsOther.strStyleSheetFile = AfxGetApp()->GetProfileString(REGS_OTHER, "XML StyleSheet Name", "iedit.xsl");
+	m_rgsOther.bSetStylesheet = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("XML StyleSheet"), TRUE);
+	m_rgsOther.strStyleSheetFile = AfxGetApp()->GetProfileString(REGS_OTHER, _T("XML StyleSheet Name"), _T("iedit.xsl"));
 }
 
 void CiEditApp::DebugWriteLine(const CString &message)
@@ -469,6 +469,7 @@ BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	// TODO: ここにメッセージ ハンドラ コードを追加するか、既定の処理を呼び出します。
 	if (pWnd->GetDlgCtrlID() == IDC_WEBSITE) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+		return TRUE;
 	} else {
 		return CDialog::OnSetCursor(pWnd, nHitTest, message);
 	}
@@ -477,6 +478,6 @@ BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 void CAboutDlg::OnStnClickedWebsite()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	ShellExecute(m_hWnd, "open", "http://homepage3.nifty.com/kondoumh/", NULL, "", SW_SHOW);
+	ShellExecute(m_hWnd, _T("open"), _T("http://homepage3.nifty.com/kondoumh/"), NULL, _T(""), SW_SHOW);
 	EndDialog(MB_OK);
 }

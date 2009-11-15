@@ -57,7 +57,7 @@ BOOL SetAlphaDlg::OnInitDialog()
 	// TODO: この位置に初期化の補足処理を追加してください
 	m_sldrAlpha.SetRange(50, 255);
 	m_sldrAlpha.SetPos(m_nLevel);
-	CString s; s.Format("%d", m_sldrAlpha.GetPos());
+	CString s; s.Format(_T("%d"), m_sldrAlpha.GetPos());
 	m_lbLevel.SetWindowText(s);
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
@@ -66,7 +66,7 @@ BOOL SetAlphaDlg::OnInitDialog()
 void SetAlphaDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
-	CString s; s.Format("%d", m_sldrAlpha.GetPos());
+	CString s; s.Format(_T("%d"), m_sldrAlpha.GetPos());
 	m_lbLevel.SetWindowText(s);
 	m_pParent->PostMessage(WM_SLIDEALPHA, 0, m_sldrAlpha.GetPos());
 	CDialog::OnHScroll(nSBCode, nPos, pScrollBar);

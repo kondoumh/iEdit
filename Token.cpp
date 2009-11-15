@@ -83,7 +83,7 @@ CString CToken::GetNextToken()
 	if (pos == -1)
 	{
 		// This should never happen
-		AfxMessageBox("Opps. I did not think this would happen.\nPlease Contact Richard Case: case@dcs.kcl.ac.uk");
+		AfxMessageBox(_T("Opps. I did not think this would happen.\nPlease Contact Richard Case: case@dcs.kcl.ac.uk"));
 	}
 	m_bFoundAny = TRUE;
 	newtok = newtok.Left(pos);
@@ -105,12 +105,12 @@ CString CToken::GetNextToken()
 
 int CToken::GetIndent(const CString &string)
 {
-	CString res = string.SpanIncluding("\t 　.");
+	CString res = string.SpanIncluding(_T("\t 　."));
 	
 	if (res.IsEmpty()) {
 		return 0;
 	} else {
-		if (res.Find("　", 0) == 0) {
+		if (res.Find(_T("　"), 0) == 0) {
 			return res.GetLength()/2;
 		} else {
 			return res.GetLength();
@@ -122,9 +122,9 @@ int CToken::GetIndent(const CString &string)
 CString CToken::TrimLeft(const CString &string)
 {
 	CString str = string;
-	str.TrimLeft("\t .");
-	if (str.Find("　", 0) == 0) {
-		CString res = str.SpanIncluding("　");
+	str.TrimLeft(_T("\t ."));
+	if (str.Find(_T("　"), 0) == 0) {
+		CString res = str.SpanIncluding(_T("　"));
 		return str.Right(str.GetLength() - res.GetLength());
 	}
 	return str;

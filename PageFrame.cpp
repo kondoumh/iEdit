@@ -139,7 +139,7 @@ void PageFrame::drawOLPreView(CDC *pDC)
 	CFont* pOldFont = pDC->SelectObject(&fntOutline);
 	COLORREF preColor = pDC->SetTextColor(m_colorOLFor);
 	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
-	pDC->DrawText("A ‚  ˆŸ", &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	pDC->DrawText(_T("A ‚  ˆŸ"), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	pDC->SelectObject(pOldFont);
 	pDC->SetTextColor(preColor);
 	pDC->SetBkMode(oldBkMode);
@@ -163,7 +163,7 @@ void PageFrame::drawLNPreView(CDC *pDC)
 	CFont* pOldFont = pDC->SelectObject(&fntLink);
 	COLORREF preColor = pDC->SetTextColor(m_colorLNFor);
 	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
-	pDC->DrawText("A ‚  ˆŸ", &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	pDC->DrawText(_T("A ‚  ˆŸ"), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	pDC->SelectObject(pOldFont);
 	pDC->SetTextColor(preColor);
 	pDC->SetBkMode(oldBkMode);
@@ -187,7 +187,7 @@ void PageFrame::drawTextPreView(CDC *pDC)
 	CFont* pOldFont = pDC->SelectObject(&fntText);
 	COLORREF preColor = pDC->SetTextColor(m_colorEditFor);
 	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
-	pDC->DrawText("A ‚  ˆŸ", &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	pDC->DrawText(_T("A ‚  ˆŸ"), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	pDC->SelectObject(pOldFont);
 	pDC->SetTextColor(preColor);
 	pDC->SetBkMode(oldBkMode);

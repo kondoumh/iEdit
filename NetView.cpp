@@ -1170,14 +1170,14 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		CRect r;
 		iEditDoc* pDoc = GetDocument();
 		iNode node = pDoc->getHitNode(logPt, false);
-		if (node.getText() != "") {
-			CString strTipNew = node.getText().Left(300) + "....";
+		if (node.getText() != _T("")) {
+			CString strTipNew = node.getText().Left(300) + _T("....");
 			if (m_strTip != strTipNew) {
 				m_strTip = strTipNew;
 				m_toolTip.Update();
 			}
 		} else {
-			m_strTip = "";
+			m_strTip = _T("");
 			m_toolTip.Pop();
 		}
 	}
@@ -1454,7 +1454,7 @@ void NetView::OnSetNodeFont()
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	LOGFONT lf;
 	memset(&lf, 0, sizeof(LOGFONT));
-	::lstrcpy(lf.lfFaceName, "ＭＳ ゴシック");
+	::lstrcpy(lf.lfFaceName, _T("ＭＳ ゴシック"));
 	lf.lfHeight = 0xfffffff3;
 	lf.lfWidth = 0;
 	lf.lfItalic = FALSE;
@@ -1854,7 +1854,7 @@ void NetView::addNode(const CPoint &logPt, const CPoint& screenPt, const CString
 	
 	dlg.m_iniPt.x = screenPt.x;
 	dlg.m_iniPt.y = screenPt.y;
-	if (s != "") {
+	if (s != _T("")) {
 		dlg.m_strcn = s;
 	}
 	
@@ -1862,7 +1862,7 @@ void NetView::addNode(const CPoint &logPt, const CPoint& screenPt, const CString
 		m_addMode = NetView::normal;
 		return;
 	}
-	if (dlg.m_strcn == "") {
+	if (dlg.m_strcn == _T("")) {
 		m_addMode = NetView::normal;
 		return;
 	}
@@ -1963,8 +1963,8 @@ void NetView::OnDelete()
 		GetDocument()->deleteSelectedNode();
 		InvalidateRect(old);
 	} else if (m_selectStatus == NetView::link) {
-		CString s = '<' + GetDocument()->getSelectedLinkLabel() + ">\n" + "削除しますか";
-		if (MessageBox(s, "リンクの削除", MB_YESNO) != IDYES) return;
+		CString s = '<' + GetDocument()->getSelectedLinkLabel() + _T(">\n" + "削除しますか");
+		if (MessageBox(s, _T("リンクの削除"), MB_YESNO) != IDYES) return;
 		GetDocument()->deleteSelectedLink();
 	} else if (m_selectStatus == NetView::multi) {
 		deleteSelectedNodes();
@@ -1972,12 +1972,12 @@ void NetView::OnDelete()
 }
 
 void NetView::deleteSelectedNodes() {
-	if (MessageBox("選択したノードおよび配下のノードがすべて削除されます","ノードの削除", MB_YESNO) != IDYES) return;
+	if (MessageBox(_T("選択したノードおよび配下のノードがすべて削除されます"),_T("ノードの削除"), MB_YESNO) != IDYES) return;
 	if (GetDocument()->isShowSubBranch()) {
-		CString mes = "「" + GetDocument()->getSubBranchRootLabel() + "」";
-		mes += "配下のノードをすべて表示するモードです。";
-		mes += "選択したノード以外にも表示されているノードが削除される可能性があります。\n続行しますか?";
-		if (MessageBox(mes, "選択範囲のノードを削除", MB_YESNO) != IDYES) return;
+		CString mes = _T("「") + GetDocument()->getSubBranchRootLabel() + _T("」");
+		mes += _T("配下のノードをすべて表示するモードです。");
+		mes += _T("選択したノード以外にも表示されているノードが削除される可能性があります。\n続行しますか?");
+		if (MessageBox(mes, _T("選択範囲のノードを削除"), MB_YESNO) != IDYES) return;
 	}
 	GetDocument()->deleteSelectedNodes();
 	Invalidate();
@@ -2015,7 +2015,7 @@ void NetView::OnAutoLayout()
 		GetDocument()->setNodeRelax(pRelaxThrd, bDrwAll);
 		if (!pRelaxThrd->CreateThread(CREATE_SUSPENDED))
 		{
-			AfxMessageBox("Cannnot Create Thread");
+			AfxMessageBox(_T("Cannnot Create Thread"));
 			delete pRelaxThrd;
 			return;
 		}
@@ -2461,9 +2461,9 @@ void NetView::OnEditPaste()
 			delete pMfDC;
 		}
 		GetDocument()->disableUndo();
-		GetDocument()->addNodeMF("図形", ptDrop, iNode::MetaFile, hm);
+		GetDocument()->addNodeMF(_T("図形"), ptDrop, iNode::MetaFile, hm);
 		if (!EmptyClipboard()) {
-			AfxMessageBox( "Cannot empty the Clipboard" );
+			AfxMessageBox(_T("Cannot empty the Clipboard"));
 			return;
 		}
 		CloseClipboard();
@@ -2751,9 +2751,9 @@ int NetView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	// TODO: この位置に固有の作成用コードを追加してください
 	m_pDC = new CClientDC(this);
-	m_bAccel = AfxGetApp()->GetProfileInt(REGS_OTHER, "Accel Move", FALSE);
+	m_bAccel = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Accel Move"), FALSE);
 	m_pShapesDlg = new shapesDlg;
-	m_pShapesDlg->Create("", "", SW_HIDE, CRect(0, 0, 0, 0), this, IDD_SHAPES);	
+	m_pShapesDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_SHAPES);	
 	doColorSetting();
 	setMFSize();
 	
@@ -2932,7 +2932,7 @@ LRESULT NetView::OnAddMetaFileID(UINT wParam, LONG lParam)
 	
 	GetDocument()->disableUndo();
 	if (m_selectStatus == NetView::none) {
-		GetDocument()->addNodeMF("図形", CPoint(rand()%150, rand()%150), iNode::MetaFile, pApp->m_hMetaFiles[(int)wParam]);
+		GetDocument()->addNodeMF(_T("図形"), CPoint(rand()%150, rand()%150), iNode::MetaFile, pApp->m_hMetaFiles[(int)wParam]);
 	} else if (m_selectStatus == NetView::single) {
 		GetDocument()->backUpUndoNodes();
 		GetDocument()->setSelectedNodeShape(iNode::MetaFile, (int)wParam);
@@ -2964,7 +2964,7 @@ LRESULT NetView::OnRegNodeMetaFile(UINT wParam, LONG lParam)
 	if (GetDocument()->getSelectedNodeShape()  == iNode::MetaFile) {
 		m_pShapesDlg->regNodeShape(GetDocument()->getSelectedNodeMetaFile());
 	} else {
-		AfxMessageBox("シェイプではありません");
+		AfxMessageBox(_T("シェイプではありません"));
 	}
 	return 0;
 }
@@ -3026,7 +3026,7 @@ void NetView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 void NetView::OnAdjustTop() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	adjustNodesEnd("top");
+	adjustNodesEnd(_T("top"));
 }
 
 void NetView::OnUpdateAdjustTop(CCmdUI* pCmdUI) 
@@ -3038,7 +3038,7 @@ void NetView::OnUpdateAdjustTop(CCmdUI* pCmdUI)
 void NetView::OnAdjustBottom() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	adjustNodesEnd("bottom");
+	adjustNodesEnd(_T("bottom"));
 }
 
 void NetView::OnUpdateAdjustBottom(CCmdUI* pCmdUI) 
@@ -3050,7 +3050,7 @@ void NetView::OnUpdateAdjustBottom(CCmdUI* pCmdUI)
 void NetView::OnAdjustLeft() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	adjustNodesEnd("left");
+	adjustNodesEnd(_T("left"));
 }
 
 void NetView::OnUpdateAdjustLeft(CCmdUI* pCmdUI) 
@@ -3062,7 +3062,7 @@ void NetView::OnUpdateAdjustLeft(CCmdUI* pCmdUI)
 void NetView::OnAdjustRight() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	adjustNodesEnd("right");
+	adjustNodesEnd(_T("right"));
 }
 
 void NetView::OnUpdateAdjustRight(CCmdUI* pCmdUI) 
@@ -3098,7 +3098,7 @@ void NetView::adjustNodesEnd(const CString& side)
 void NetView::OnSameHeight() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	sameNodesSize("height");
+	sameNodesSize(_T("height"));
 }
 
 void NetView::OnUpdateSameHeight(CCmdUI* pCmdUI) 
@@ -3110,7 +3110,7 @@ void NetView::OnUpdateSameHeight(CCmdUI* pCmdUI)
 void NetView::OnSameRect() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	sameNodesSize("rect");
+	sameNodesSize(_T("rect"));
 }
 
 void NetView::OnUpdateSameRect(CCmdUI* pCmdUI) 
@@ -3122,7 +3122,7 @@ void NetView::OnUpdateSameRect(CCmdUI* pCmdUI)
 void NetView::OnSameWidth() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	sameNodesSize("width");
+	sameNodesSize(_T("width"));
 }
 
 void NetView::OnUpdateSameWidth(CCmdUI* pCmdUI) 
@@ -3464,7 +3464,7 @@ void NetView::OnSelchangeDropdown()
 
 void NetView::doColorSetting()
 {
-	m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, "Net bgColor", RGB(255, 255, 255));
+	m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Net bgColor"), RGB(255, 255, 255));
 }
 
 void NetView::OnExportSvg() 
@@ -3472,26 +3472,31 @@ void NetView::OnExportSvg()
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString path = GetDocument()->GetPathName();
 	CString outfile;
-	if (path == "") {
+	if (path == _T("")) {
 		outfile = GetDocument()->GetTitle();
 	} else {
-		char drive[_MAX_DRIVE];
-		char dir[_MAX_DIR];
-		char fname[_MAX_FNAME];
-		char ext[_MAX_EXT];
-		_splitpath_s(path, drive, dir, fname, ext );
-		CString title(fname);
+		WCHAR drive[_MAX_DRIVE];
+		WCHAR dir[_MAX_DIR];
+		WCHAR fileName[_MAX_FNAME];
+		WCHAR ext[_MAX_EXT];
+		ZeroMemory(drive, _MAX_DRIVE);
+		ZeroMemory(dir, _MAX_DIR);
+		ZeroMemory(fileName, _MAX_FNAME);
+		ZeroMemory(ext, _MAX_EXT);
+		
+		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+		CString title(fileName);
 		outfile = title;
 	}
 	
-	char szFilters[] = "SVGファイル (*.svg)|*.svg";
-	CFileDialog dlg(FALSE, "svg", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	WCHAR szFilters[] = _T("SVGファイル (*.svg)|*.svg");
+	CFileDialog dlg(FALSE, _T("svg"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
 	
 	bool bDrwAll = false;
 	GetDocument()->exportSVG(bDrwAll, outfileName);
-	MessageBox("終了しました", "SVG出力");
+	MessageBox(_T("終了しました"), _T("SVG出力"));
 }
 
 void NetView::OnUpdateExportSvg(CCmdUI* pCmdUI) 
@@ -3502,8 +3507,8 @@ void NetView::OnUpdateExportSvg(CCmdUI* pCmdUI)
 
 void NetView::setMFSize()
 {
-	m_mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, "MF rWidth", 0)/10.0;
-	m_mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, "MF rHeight", 0)/10.0;
+	m_mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rWidth"), 0)/10.0;
+	m_mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rHeight"), 0)/10.0;
 	
 	if (m_mfWidth != 0 && m_mfHeight != 0) return; // レジストリの値を採用
 	
@@ -3530,7 +3535,7 @@ void NetView::OnTipDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
             //表示すべき文字列はm_strTipに入っています。これが空のときは
             //表示すべきではありません。
 			lpttd = (LPNMTTDISPINFO)pNMHDR;
-			lpttd->lpszText = (LPSTR)(LPCTSTR)m_strTip;
+			lpttd->lpszText = (LPWSTR)(LPCTSTR)m_strTip;
 		}
 	}
 	*pResult = 0;
@@ -3677,9 +3682,9 @@ void NetView::OnAddNodesFromCfText()
 		GlobalUnlock(hData);
 		::CloseClipboard();
 	}
-	ClipText += "\n";
+	ClipText += _T("\n");
 	CToken tok(ClipText);
-	tok.SetToken("\n");
+	tok.SetToken(_T("\n"));
 	
 	if (m_ptPaste.x <= 0) {
 		m_ptPaste.x = 70;
@@ -3690,7 +3695,7 @@ void NetView::OnAddNodesFromCfText()
 		CString s = tok.GetNextToken();
 		int indent = CToken::GetIndent(s);
 		CString s2 = CToken::TrimLeft(s);
-		if (s2 != "" && s2 != "\n" && s2 != '\r') {
+		if (s2 != _T("") && s2 != _T("\n") && s2 != '\r') {
 			CString label;
 			m_ptPaste.x = initialX +60*(indent-1);
 			GetDocument()->addNodeRect(s2, m_ptPaste, false);
@@ -3770,7 +3775,7 @@ void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (isalpha(nChar) != 0 || nChar >= 0x30 && nChar <= 0x5A || nChar == VK_SPACE) {
 		if (!bImeOn) {
 			CString s;
-			s.Format("%c", nChar);
+			s.Format(_T("%c"), nChar);
 			m_addMode = NetView::rect;
 			CPoint logPt = m_ptScreen;
 			logPt -= GetScrollPosition();
@@ -3859,7 +3864,7 @@ void NetView::procRenameDialog(const CRect& nodeBound)
 	dlg.m_strcn = GetDocument()->getSelectedNodeLabel();
 	
 	if (dlg.DoModal() != IDOK) return;
-	if (dlg.m_strcn == "") return;
+	if (dlg.m_strcn == _T("")) return;
 	GetDocument()->setSelectedNodeLabel(dlg.m_strcn);
 }
 
@@ -4358,8 +4363,8 @@ void NetView::OnUpdateDeleteSelectedNodes(CCmdUI *pCmdUI)
 void NetView::OnDeleteSelectedLinks()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
-	if (MessageBox("選択範囲にあるリンクを削除しますか?",
-		"選択範囲のリンクを削除", MB_YESNO) != IDYES) return;
+	if (MessageBox(_T("選択範囲にあるリンクを削除しますか?"),
+		_T("選択範囲のリンクを削除"), MB_YESNO) != IDYES) return;
 	GetDocument()->deleteLinksInBound(m_selectRect);
 }
 
@@ -4391,20 +4396,25 @@ void NetView::OnExportEmf()
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString path = GetDocument()->GetPathName();
 	CString outfile;
-	if (path == "") {
+	if (path == _T("")) {
 		outfile = GetDocument()->GetTitle();
 	} else {
-		char drive[_MAX_DRIVE];
-		char dir[_MAX_DIR];
-		char fname[_MAX_FNAME];
-		char ext[_MAX_EXT];
-		_splitpath_s(path, drive, dir, fname, ext );
-		CString title(fname);
+		WCHAR drive[_MAX_DRIVE];
+		WCHAR dir[_MAX_DIR];
+		WCHAR fileName[_MAX_FNAME];
+		WCHAR ext[_MAX_EXT];
+		ZeroMemory(drive, _MAX_DRIVE);
+		ZeroMemory(dir, _MAX_DIR);
+		ZeroMemory(fileName, _MAX_FNAME);
+		ZeroMemory(ext, _MAX_EXT);
+		
+		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+		CString title(fileName);
 		outfile = title;
 	}
 	
-	char szFilters[] = "EMFファイル (*.emf)|*.emf";
-	CFileDialog dlg(FALSE, "emf", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	WCHAR szFilters[] = _T("EMFファイル (*.emf)|*.emf");
+	CFileDialog dlg(FALSE, _T("emf"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
 	
@@ -4436,20 +4446,25 @@ void NetView::OnExportPng()
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString path = GetDocument()->GetPathName();
 	CString outfile;
-	if (path == "") {
+	if (path == _T("")) {
 		outfile = GetDocument()->GetTitle();
 	} else {
-		char drive[_MAX_DRIVE];
-		char dir[_MAX_DIR];
-		char fname[_MAX_FNAME];
-		char ext[_MAX_EXT];
-		_splitpath_s(path, drive, dir, fname, ext );
-		CString title(fname);
+		WCHAR drive[_MAX_DRIVE];
+		WCHAR dir[_MAX_DIR];
+		WCHAR fileName[_MAX_FNAME];
+		WCHAR ext[_MAX_EXT];
+		ZeroMemory(drive, _MAX_DRIVE);
+		ZeroMemory(dir, _MAX_DIR);
+		ZeroMemory(fileName, _MAX_FNAME);
+		ZeroMemory(ext, _MAX_EXT);
+
+		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+		CString title(fileName);
 		outfile = title;
 	}
 	
-	char szFilters[] = "PNGファイル (*.png)|*.png";
-	CFileDialog dlg(FALSE, "png", outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	WCHAR szFilters[] = _T("PNGファイル (*.png)|*.png");
+	CFileDialog dlg(FALSE, _T("png"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
 	GetDocument()->saveCurrentImage(outfileName);
@@ -4542,7 +4557,7 @@ void NetView::OnReplaceMetafile()
 		GetDocument()->setSelectedNodeMetaFile(hm);
 	}
 	if (!EmptyClipboard()) {
-		AfxMessageBox( "Cannot empty the Clipboard" );
+		AfxMessageBox(_T("Cannot empty the Clipboard"));
 		return;
 	}
 	CloseClipboard();

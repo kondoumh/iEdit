@@ -46,8 +46,8 @@ END_MESSAGE_MAP()
 void LinkInfo2Dlg::OnBrowse() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	char szFilters[] = "全てのファイル (*.*)|*.*|";
-	CFileDialog dlg(TRUE, "*.*", NULL, OFN_HIDEREADONLY, szFilters, NULL);
+	WCHAR szFilters[] = _T("全てのファイル (*.*)|*.*|");
+	CFileDialog dlg(TRUE, _T("*.*"), NULL, OFN_HIDEREADONLY, szFilters, NULL);
 	if (dlg.DoModal() != IDOK) return;
 	m_edit.SetSel(0, -1);
 	m_edit.ReplaceSel(dlg.GetPathName());
@@ -58,8 +58,8 @@ void LinkInfo2Dlg::OnOK()
 	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strPath);
 	m_Comment.GetWindowText(strComment);
-	if (strPath == "") {
-		MessageBox("ファイル名または、URLを入力してください");
+	if (strPath == _T("")) {
+		MessageBox(_T("ファイル名または、URLを入力してください"));
 		return;
 	}
 	CDialog::OnOK();
