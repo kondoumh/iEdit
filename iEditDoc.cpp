@@ -3257,19 +3257,23 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 				}
 			}
 		} else {
+			sLink += _T("<li><a href=\"");
 			CString url = (*li).getPath();
-			if (url.Find(_T("http://")) != -1 || url.Find(_T("https://")) != -1 || url.Find(_T("ftp://")) != -1) {
-				sLink += _T("<li><a href=");
-				sLink += url;
-				sLink += _T(" target=\"_top\">");
-				if ((*li).getName() != _T("")) {
-					sLink += (*li).getName();
-				} else {
-					sLink += url;
-				}
-				sLink += _T("</a></li>\n");
-				cnt++;
+			if (url.Find(_T("http://")) == -1 && url.Find(_T("https://")) == -1 && url.Find(_T("ftp://")) == -1) {
+				url = "file:///" + url;
+				// TODO:相対パスの場合の処理 ied/iedx
+				// の場合はそのままかな
+				// HTML(html/htm)ファイルの場合は、相対パスなら file:/// 付けない方がいいな
 			}
+			sLink += url;
+			sLink += _T("\" target=\"_top\">");
+			if ((*li).getName() != _T("")) {
+				sLink += (*li).getName();
+			} else {
+				sLink += url;
+			}
+			sLink += _T("</a></li>\n");
+			cnt++;
 		}
 	}
 	sLink += _T("</ul>\n");
