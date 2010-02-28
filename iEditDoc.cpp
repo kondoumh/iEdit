@@ -454,7 +454,6 @@ BOOL iEditDoc::OnSaveDocument(LPCTSTR lpszPathName)
 		extent = _T(".iedx");
 	}
 	m_bSerializeXML = false;
-	
 	if (extent == _T(".iedx")) {
 		m_bSerializeXML = false;
 		m_bOldBinary = false;
@@ -464,6 +463,8 @@ BOOL iEditDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	} else if (extent == _T(".xml")) {
 		m_bSerializeXML = true;
 		m_bOldBinary = false;
+		saveXML(lpszPathName, true);
+		return TRUE;
 	}
 	return CDocument::OnSaveDocument(lpszPathName);
 }
@@ -2805,6 +2806,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		
 		f.WriteString(_T("\t\t<label>"));
 		CString title = _T("<![CDATA[") + (*it).getName() + _T("]]>");
+		DEBUG_WRITE(_T("title:") + title + _T("org:") + (*it).getName());
 		if ((*it).getTextStyle() >= iNode::m_c) {
 			f.WriteString(procCR(title));
 		} else {
@@ -3833,7 +3835,7 @@ void iEditDoc::OnFileSaveAs()
 		}
 	}
 	
-	CString szFilter = _T("iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied||");
+	CString szFilter = _T("iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied|XMLファイル(*.xml)|*xml||");
 	CFileDialog cfDlg(FALSE, NULL, fileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
 		OFN_FILEMUSTEXIST | OFN_EXPLORER, szFilter, AfxGetMainWnd());
 	if (cfDlg.DoModal() == IDOK) {
@@ -3845,19 +3847,28 @@ void iEditDoc::OnFileSaveAs()
 		
 		switch (index) {
 		case 1: // iedx
-			if (ext != _T("iedx") && ext != _T("ied")) {
+			if (ext != _T("iedx") && ext != _T("ied") && ext != _T("xml")) {
 				OnSaveDocument(pathName + _T(".iedx"));
 				SetPathName(cfDlg.GetPathName() + _T(".iedx"));
-			} else if (ext == _T("iedx") || ext == _T("ied")) {
+			} else if (ext == _T("iedx") || ext == _T("ied") || ext == _T("xml")) {
 				OnSaveDocument(pathName);
 				SetPathName(cfDlg.GetPathName());
 			}
 			break;
 		case 2: // ied
-			if (ext != _T("iedx") && ext != _T("ied")) {
+			if (ext != _T("iedx") && ext != _T("ied") && ext != _T("xml")) {
 				OnSaveDocument(pathName + _T(".ied"));
 				SetPathName(cfDlg.GetPathName() + _T(".ied"));
-			} else if (ext == _T("iedx") || ext == _T("ied")) {
+			} else if (ext == _T("iedx") || ext == _T("ied") || ext == _T("xml")) {
+				OnSaveDocument(pathName);
+				SetPathName(cfDlg.GetPathName());
+			}
+			break;
+		case 3: // xml
+			if (ext != _T("iedx") && ext != _T("ied") && ext != _T("xml")) {
+				OnSaveDocument(cfDlg.GetPathName() + ".xml");
+				SetPathName(cfDlg.GetPathName() + ".xml");
+			} else if (ext == _T("iedx") || ext == _T("ied")|| ext == _T("xml")) {
 				OnSaveDocument(pathName);
 				SetPathName(cfDlg.GetPathName());
 			}
