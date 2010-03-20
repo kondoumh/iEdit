@@ -117,7 +117,6 @@ public:
 	void setNodeLevel(const DWORD key, const int nLevel);
 	void backupDeleteBound();
 	CRect restoreDeleteBound() const;
-	void SerializeXML(CArchive& ar);
 	bool isCurKeyInBranch() const;
 	bool isShowSubBranch() const;
 	void resetShowBranch();

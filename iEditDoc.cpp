@@ -108,9 +108,7 @@ void iEditDoc::Serialize(CArchive& ar)
 	if (ar.IsStoring())
  	{
  		// TODO: この位置に保存用のコードを追加してください。
-		if (m_bSerializeXML) {
-			SerializeXML(ar);
-		} else {
+		if (!m_bSerializeXML) {
 			if (m_bOldBinary) {
 				saveOrderByTree(ar); // ノードの保存
 				// リンクの保存
@@ -138,7 +136,7 @@ void iEditDoc::Serialize(CArchive& ar)
  	{
  		// TODO: この位置に読み込み用のコードを追加してください。
 		if (m_bSerializeXML) {
-			SerializeXML(ar);
+			loadFromXML(ar.GetFile()->GetFilePath());
 		} else {
 			if (m_bOldBinary) {
 				// ノードの読み込み
@@ -189,18 +187,6 @@ void iEditDoc::Serialize(CArchive& ar)
 		}
  	}
 }
-
-void iEditDoc::SerializeXML(CArchive &ar)
-{
-	if (ar.IsStoring())
-	{
-	}
-	else
-	{
-		loadFromXML(ar.GetFile()->GetFilePath());
-	}
-}
-
 
 void iEditDoc::saveOrderByTree(CArchive& ar)
 {
@@ -453,7 +439,6 @@ BOOL iEditDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	if (extent != _T(".iedx") && extent != _T(".ied") &&extent != _T(".xml")) {
 		extent = _T(".iedx");
 	}
-	m_bSerializeXML = false;
 	if (extent == _T(".iedx")) {
 		m_bSerializeXML = false;
 		m_bOldBinary = false;
@@ -463,6 +448,7 @@ BOOL iEditDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	} else if (extent == _T(".xml")) {
 		m_bSerializeXML = true;
 		m_bOldBinary = false;
+		SetModifiedFlag(FALSE);
 		saveXML(lpszPathName, true);
 		return TRUE;
 	}
@@ -2779,6 +2765,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		pView->treeToSequence(ls);
 	}
 	
+	_wsetlocale(LC_ALL, _T("jpn"));
 	// Header of XML file
 	f.WriteString(_T("<?xml version=\"1.0\" encoding=\"Shift_JIS\"?>\n"));
 	outStyleSheetLine(f);
@@ -2806,7 +2793,6 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		
 		f.WriteString(_T("\t\t<label>"));
 		CString title = _T("<![CDATA[") + (*it).getName() + _T("]]>");
-		DEBUG_WRITE(_T("title:") + title + _T("org:") + (*it).getName());
 		if ((*it).getTextStyle() >= iNode::m_c) {
 			f.WriteString(procCR(title));
 		} else {
@@ -2979,7 +2965,6 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 			links.Format(_T("\t\t<from>%d</from>\n\t\t<to>%d</to>\n"), (*li).getKeyFrom(), (*li).getKeyFrom());
 		}
 		f.WriteString(links);
-		
 		CString caption = _T("<![CDATA[") + (*li).getName() + "]]>";
 		f.WriteString(_T("\t\t<caption>"));
 		f.WriteString(caption);
@@ -3072,6 +3057,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 	f.WriteString(_T("</iEditDoc>\n"));
 	f.Flush();
 	f.Close();
+	_wsetlocale(LC_ALL, _T(""));
 	return true;
 }
 
@@ -3845,34 +3831,25 @@ void iEditDoc::OnFileSaveAs()
 		CString ext = cfDlg.GetFileExt();
 		ext.MakeLower();
 		
+		CString extension;
 		switch (index) {
 		case 1: // iedx
-			if (ext != _T("iedx") && ext != _T("ied") && ext != _T("xml")) {
-				OnSaveDocument(pathName + _T(".iedx"));
-				SetPathName(cfDlg.GetPathName() + _T(".iedx"));
-			} else if (ext == _T("iedx") || ext == _T("ied") || ext == _T("xml")) {
-				OnSaveDocument(pathName);
-				SetPathName(cfDlg.GetPathName());
-			}
+			extension = _T(".iedx");
 			break;
 		case 2: // ied
-			if (ext != _T("iedx") && ext != _T("ied") && ext != _T("xml")) {
-				OnSaveDocument(pathName + _T(".ied"));
-				SetPathName(cfDlg.GetPathName() + _T(".ied"));
-			} else if (ext == _T("iedx") || ext == _T("ied") || ext == _T("xml")) {
-				OnSaveDocument(pathName);
-				SetPathName(cfDlg.GetPathName());
-			}
+			extension = _T(".ied");
 			break;
 		case 3: // xml
-			if (ext != _T("iedx") && ext != _T("ied") && ext != _T("xml")) {
-				OnSaveDocument(cfDlg.GetPathName() + ".xml");
-				SetPathName(cfDlg.GetPathName() + ".xml");
-			} else if (ext == _T("iedx") || ext == _T("ied")|| ext == _T("xml")) {
-				OnSaveDocument(pathName);
-				SetPathName(cfDlg.GetPathName());
-			}
+			extension = _T(".xml");
+			SetModifiedFlag(FALSE);
 			break;
+		}
+		if (ext != _T("iedx") && ext != _T("ied") && ext != _T("xml")) {
+			OnSaveDocument(pathName + extension);
+			SetPathName(cfDlg.GetPathName() + extension);
+		} else if (ext == _T("iedx") || ext == _T("ied") || ext == _T("xml")) {
+			OnSaveDocument(pathName);
+			SetPathName(cfDlg.GetPathName());
 		}
 	}
 }
