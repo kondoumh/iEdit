@@ -287,7 +287,6 @@ protected:
 	double width2Len(int width);
 	void addImportData(bool brepRoot);
 	DWORD findPairKey(const DWORD first);
-	bool DomTree2Nodes(MSXML2::IXMLDOMElement* node, CStdioFile* f);
 	void calcMaxPt(CPoint& pt);
 	void InitDocument();
 	void saveOrderByTree(CArchive& ar);
@@ -305,6 +304,7 @@ private:
 	iLink m_linkForFormat;
 	CRect m_deleteBound;
 	bool m_bSerializeXML;
+	bool m_bLoadXmlSucceeded;
 	bool m_bOldBinary;
 	KeySet m_visibleKeys;
 	DWORD m_dwBranchRootKey;

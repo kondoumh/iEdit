@@ -81,6 +81,7 @@ iEditDoc::iEditDoc()
 	m_initialBranchMode = 0;
 	m_bOldBinary = false;
 	m_serialVersion = 0;
+	m_bLoadXmlSucceeded = false;
 }
 
 iEditDoc::~iEditDoc()
@@ -412,13 +413,15 @@ BOOL iEditDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		m_bOldBinary = true;
 	} else if (extent == _T(".xml")) {
 		m_bSerializeXML = true;
+		m_bLoadXmlSucceeded = false;
 		m_bOldBinary = false;
 	}
 	
 	if (!CDocument::OnOpenDocument(lpszPathName))
 		return FALSE;
-	
-	// TODO: この位置に固有の作成用コードを追加してください
+	if (m_bSerializeXML && !m_bLoadXmlSucceeded) {
+		return FALSE;
+	}
 	InitDocument();
 	return TRUE;
 }
@@ -2099,6 +2102,13 @@ bool iEditDoc::loadFromXML(const CString &filename)
 		
 		bool ret = DomTree2Nodes3(element);
 		
+		if (nodesImport.size() > 0 && nodesImport[0].getKey() != 0) {
+			CString mes = _T("部分的にエクスポートしたデータを直接開くことはできません。\n";
+			mes += _T("インポート機能を使用して取り込んでください。");
+			AfxMessageBox(mes));
+			return false;
+		}
+		
 		if (ret) {
 			unsigned int i;
 			for (i = 0; i < nodesImport.size(); i++) {
@@ -2125,6 +2135,7 @@ bool iEditDoc::loadFromXML(const CString &filename)
 				links_.push_back(linksImport[i]);
 			}
 		}
+		m_bLoadXmlSucceeded = true;
 		return ret;
 	}
 	return false;
@@ -2645,104 +2656,6 @@ CPoint iEditDoc::tags2pathPt(MSXML2::IXMLDOMNode *pNode)
 	
 	}	
 	return pt;
-}
-
-bool iEditDoc::DomTree2Nodes(MSXML2::IXMLDOMElement *node, CStdioFile* f)
-{
-	MSXML2::IXMLDOMNodeList	*childs    = NULL; 
-	MSXML2::IXMLDOMNode		*childnode = NULL;
-	
-	BSTR        s = NULL;
-	long        i;
-	
-	node->get_nodeTypeString(&s);
-	
-	if(!wcscmp(s,L"element")) {
-		node->get_nodeName(&s);
-		CString elems(s);
-		if (elems == _T("inode")) {
-			if (nodeImport.getKey() != -1) {
-				nodesImport.push_back(nodeImport);
-				nodeImport.setBound(CRect(-1, -1, 0, 0));
-				nodeImport.setName(_T(""));
-				nodeImport.setText(_T(""));
-				nodeImport.setTreeState(TVIS_EXPANDED);
-			}
-		} else if (elems == _T("id")) {
-			node->firstChild->get_text(&s);
-			CString ids(s);
-			int id;
-			swscanf_s((const wchar_t*)ids.GetBuffer(), _T("%d"), &id);
-			nodeImport.setKey(getUniqKey());
-			idConv idc;
-			idc.first = (DWORD)id;
-			idc.second = nodeImport.getKey();
-			idcVec.push_back(idc);
-		} else if (elems == _T("pid")) {
-			node->firstChild->get_text(&s);
-			CString pids(s);
-			int pid;
-			swscanf_s((const wchar_t*)pids.GetBuffer(), _T("%d"), &pid);
-			nodeImport.setParent((DWORD)pid);
-		} else if (elems == _T("label")) {
-			node->firstChild->get_text(&s);
-			CString label(s);
-			label += '\n';
-			f->WriteString(label);
-			
-			nodeImport.setName(CString(s));
-		} else if (elems == _T("text")) {
-			node->firstChild->get_text(&s);
-			CString text = CString(s);
-			text = procLF(text);
-			nodeImport.setText(text);
-		} else if (elems == _T("ilink")) {
-			if (linkImport.getKeyFrom() != -1 && linkImport.getKeyTo() != -1) {
-				linksImport.push_back(linkImport);
-				linkImport.setName(_T(""));
-				linkImport.setPath(_T(""));
-				linkImport.setArrowStyle(iLink::line);
-				linkImport.setLineWidth(0);
-			}
-		} else if (elems == _T("from")) {
-			node->firstChild->get_text(&s);
-			CString fromids(s);
-			int fromid;
-			swscanf_s((const wchar_t*)fromids.GetBuffer(), _T("%d"), &fromid);
-			linkImport.setKeyFrom(findPairKey((DWORD)fromid));
-		} else if (elems == _T("to")) {
-			node->firstChild->get_text(&s);
-			CString toids(s);
-			int toid;
-			swscanf_s((const wchar_t*)toids.GetBuffer(), _T("%d"), &toid);
-			linkImport.setKeyTo(findPairKey((DWORD)toid));
-		} else if (elems == _T("linkLineWidth")) {
-			node->firstChild->get_text(&s);
-			CString wids(s);
-			int width; swscanf_s((const wchar_t*)wids.GetBuffer(), _T("%d"), &width);
-			if (width == 1) {
-				width = 0;
-			}
-			linkImport.setLineWidth(width);
-		} else if (elems == _T("locate")) {
-			node->firstChild->get_text(&s);
-			CString path(s);
-			linkImport.setPath(path);
-			linkImport.setArrowStyle(iLink::other);
-		} else if (elems == _T("caption")) {
-			node->firstChild->get_text(&s);
-			linkImport.setName(CString(s));
-		}
-	}
-	
-	if(node->hasChildNodes()) {
-		node->get_childNodes(&childs);
-		for(i=0;i < childs->Getlength(); i++) {
-			childs->get_item(i,&childnode);
-			DomTree2Nodes((MSXML2::IXMLDOMElement *)childnode, f);
-		}
-	}
-	return true;
 }
 
 // エクスポート時のXML出力関数
