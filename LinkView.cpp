@@ -253,25 +253,29 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 	
 	if (pDispInfo->item.mask & LVIF_TEXT) {
 		int index = (int)pDispInfo->item.lParam;
+		CString sComment;
 		switch (pDispInfo->item.iSubItem) {
 		case 0:
-			::lstrcpy(pDispInfo->item.pszText, items_[index].comment);
+			sComment = items_[index].comment;
+			if (sComment.GetLength() > 260) {
+				sComment = sComment.Left(259);
+			}
+			::lstrcpy(pDispInfo->item.pszText, sComment);
+
 			break;
 		case 1:
 			int type = items_[index].linkType;
+			CString sTo;
 			if (type == listitem::linkSL || type == listitem::linkDL ||
 				type == listitem::linkSL2 || type == listitem::linkDL2) {
-				CString sTo = items_[index].sTo;
-				if (sTo.GetLength() > 260) {
-					sTo = sTo.Left(260);
-				}
-				::lstrcpy(pDispInfo->item.pszText, sTo);
-			} else if (type == listitem::FileName || 
-				       type == listitem::WebURL ||
-					   type == listitem::linkFolder ||
-					   type == listitem::iedFile) {
-				::lstrcpy(pDispInfo->item.pszText, items_[index].path);
+					sTo = items_[index].sTo;
+			} else if (type == listitem::FileName || type == listitem::WebURL || type == listitem::linkFolder || type == listitem::iedFile) {
+				sTo = items_[index].path;
 			}
+			if (sTo.GetLength() > 260) {
+				sTo = sTo.Left(259);
+			}
+			::lstrcpy(pDispInfo->item.pszText, sTo);
 			break;
 		}
 	}
@@ -331,6 +335,7 @@ void LinkView::OnUpdateDelete(CCmdUI* pCmdUI)
 void LinkView::OnSetLinkInfo() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
+		DEBUG_WRITE("hoghohgoah");
 	setLinkInfo();
 }
 
@@ -367,12 +372,22 @@ void LinkView::setLinkInfo()
 	} else if (type == listitem::FileName || type == listitem::WebURL ||
 		type == listitem::linkFolder || type == listitem::iedFile) {
 		LinkInfo2Dlg dlg;
+		DEBUG_WRITE("22");
 		dlg.strComment = i.comment;
 		dlg.strOrg = GetDocument()->getSelectedNodeLabel();
 		dlg.strPath = i.path;
 		if (dlg.DoModal() != IDOK) return;
-		i.comment = dlg.strComment;
-		i.path = dlg.strPath;
+		CString comment = dlg.strComment;
+		if (comment.GetLength() > 260) {
+			comment = comment.Left(259);
+		}
+		i.comment = comment;
+		CString path = dlg.strPath;
+		if (path.GetLength() > 260) {
+			DEBUG_WRITE("hogeo");
+			path = _T("!!-リンクパスが長すぎます");
+		}
+		i.path = path;
 		if (i.comment == "" && i.path != "") {
 			WCHAR drive[_MAX_DRIVE];
 			WCHAR dir[_MAX_DIR];
