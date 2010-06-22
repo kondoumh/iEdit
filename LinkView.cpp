@@ -335,7 +335,6 @@ void LinkView::OnUpdateDelete(CCmdUI* pCmdUI)
 void LinkView::OnSetLinkInfo() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-		DEBUG_WRITE("hoghohgoah");
 	setLinkInfo();
 }
 
@@ -372,7 +371,6 @@ void LinkView::setLinkInfo()
 	} else if (type == listitem::FileName || type == listitem::WebURL ||
 		type == listitem::linkFolder || type == listitem::iedFile) {
 		LinkInfo2Dlg dlg;
-		DEBUG_WRITE("22");
 		dlg.strComment = i.comment;
 		dlg.strOrg = GetDocument()->getSelectedNodeLabel();
 		dlg.strPath = i.path;
@@ -384,7 +382,6 @@ void LinkView::setLinkInfo()
 		i.comment = comment;
 		CString path = dlg.strPath;
 		if (path.GetLength() > 260) {
-			DEBUG_WRITE("hogeo");
 			path = _T("!!-リンクパスが長すぎます");
 		}
 		i.path = path;
