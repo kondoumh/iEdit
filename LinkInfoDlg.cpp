@@ -81,7 +81,6 @@ BOOL LinkInfoDlg::OnInitDialog()
 		m_combo.SetCurSel(0);
 	}
 	
-	//m_edit.SetLimitText(260);
 	m_edit.ReplaceSel(strComment);
 	
 	if (styleLine == PS_DOT) {

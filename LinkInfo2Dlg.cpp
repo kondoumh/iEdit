@@ -68,8 +68,6 @@ void LinkInfo2Dlg::OnOK()
 BOOL LinkInfo2Dlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
-	//m_edit.SetLimitText(260);
-	//m_Comment.SetLimitText(260);
 	// TODO: ‚±‚ÌˆÊ’u‚É‰Šú‰»‚Ì•â‘«ˆ—‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
 	m_Org.SetWindowText(strOrg);
 	m_Comment.ReplaceSel(strComment);

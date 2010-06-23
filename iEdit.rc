@@ -436,6 +436,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "別のノードへのリンク(&N)",              ID_ADD_LINK
         MENUITEM "他のファイル/URLへのリンク(&T)",         ID_ADD_URL
+        MENUITEM SEPARATOR
+        MENUITEM "ノードのプロパティ(&R)",               ID_SET_NODE_PROP
     END
     POPUP "Net"
     BEGIN
