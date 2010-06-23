@@ -257,11 +257,10 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 		switch (pDispInfo->item.iSubItem) {
 		case 0:
 			sComment = items_[index].comment;
-			if (sComment.GetLength() > 260) {
+			if (sComment.GetLength() >= 260) {
 				sComment = sComment.Left(259);
 			}
 			::lstrcpy(pDispInfo->item.pszText, sComment);
-
 			break;
 		case 1:
 			int type = items_[index].linkType;
@@ -272,7 +271,7 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 			} else if (type == listitem::FileName || type == listitem::WebURL || type == listitem::linkFolder || type == listitem::iedFile) {
 				sTo = items_[index].path;
 			}
-			if (sTo.GetLength() > 260) {
+			if (sTo.GetLength() >= 260) {
 				sTo = sTo.Left(259);
 			}
 			::lstrcpy(pDispInfo->item.pszText, sTo);
@@ -375,16 +374,8 @@ void LinkView::setLinkInfo()
 		dlg.strOrg = GetDocument()->getSelectedNodeLabel();
 		dlg.strPath = i.path;
 		if (dlg.DoModal() != IDOK) return;
-		CString comment = dlg.strComment;
-		if (comment.GetLength() > 260) {
-			comment = comment.Left(259);
-		}
-		i.comment = comment;
-		CString path = dlg.strPath;
-		if (path.GetLength() > 260) {
-			path = _T("!!-ƒŠƒ“ƒNƒpƒX‚ª’·‚·‚¬‚Ü‚·");
-		}
-		i.path = path;
+		i.comment = dlg.strComment;
+		i.path = dlg.strPath;
 		if (i.comment == "" && i.path != "") {
 			WCHAR drive[_MAX_DRIVE];
 			WCHAR dir[_MAX_DIR];
