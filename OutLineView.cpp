@@ -2141,10 +2141,13 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOut
 	for (int i = 0; i < tab; i++) {
 		f->WriteString(_T("."));
 	}
-	f->WriteString(Utilities::removeCR(tree().GetItemText(hItem)) + _T("\n"));
+	CString label = Utilities::removeDependChar(tree().GetItemText(hItem));
+	label = Utilities::removeCR(label);
+	f->WriteString(label + _T("\n"));
 	
 	if (bOutText) {
-		f->WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(hItem))));
+		CString text = Utilities::removeDependChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
+		f->WriteString(GetDocument()->procCR(text));
 		f->WriteString(_T("\n"));
 	}
 	

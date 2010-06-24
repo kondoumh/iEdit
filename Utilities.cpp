@@ -101,7 +101,7 @@ bool Utilities::isDependChar(int nByte)
 CString Utilities::removeDependChar(LPCTSTR moji)
 {
 	CString strChkMoji;  // 検証対象の文字列
-	strChkMoji.Format( _T("%s"), moji );
+	strChkMoji.Format(_T("%s"), moji);
 	INT nLen = strChkMoji.GetLength();
 	INT nByte; // 文字コード 
 	CString strOKWords;
@@ -109,7 +109,7 @@ CString Utilities::removeDependChar(LPCTSTR moji)
 
 	for (int nPos = 0; nPos < nLen; nPos++) {
 		TBYTE p_ch =
-			static_cast< TBYTE >(strChkMoji.GetAt(nPos));
+			static_cast<TBYTE>(strChkMoji.GetAt(nPos));
 		// マルチバイト判定
 		if (((0x81 <= p_ch) && (p_ch <= 0x9F)) || ((0xE0 <= p_ch) && (p_ch <= 0xFC))) {
 			TBYTE p_ch1 = (TBYTE)strChkMoji.GetAt(nPos);
@@ -118,6 +118,7 @@ CString Utilities::removeDependChar(LPCTSTR moji)
 			// 機種依存文字 or Shift-JISでない場合
 			if (isDependChar(nByte) || (p_ch > 0xef) ) {
 				++nPos;
+				strOKWords += _T("?");
 				continue;
 			}
 			strOKWords += strChkMoji.GetAt(nPos);
@@ -128,8 +129,10 @@ CString Utilities::removeDependChar(LPCTSTR moji)
 			// 半角文字
 			nByte = (TBYTE)strChkMoji.GetAt(nPos);
 			// 半角文字の機種依存チェック
-			if (isDependChar(nByte))
+			if (isDependChar(nByte)) {
+				strOKWords += _T("?");
 				continue;
+			}
 
 			strOKWords += strChkMoji.GetAt(nPos);
 		}
