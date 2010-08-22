@@ -2032,7 +2032,7 @@ void OutlineView::OutputHTML()
 	}
 	_wsetlocale(LC_ALL, _T(""));
 	
-	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExports) {
+	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExport) {
 		ShellExecute(m_hWnd, _T("open"), indexFilePath, NULL, NULL, SW_SHOW);
 	}
 }
@@ -3081,7 +3081,7 @@ void OutlineView::OnExportToText()
 	}
 	_wsetlocale(LC_ALL, _T(""));
 	f.Close();
-	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExports) {
+	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExport) {
 		ShellExecute(m_hWnd, _T("open"), outfileName, NULL, NULL, SW_SHOW);
 	}
 }

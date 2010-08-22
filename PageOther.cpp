@@ -29,7 +29,7 @@ PageOther::PageOther(CWnd* pParent /*=NULL*/)
 	m_bInheritSibling = FALSE;
 	m_bAccelmove = FALSE;
 	m_bDrawUnderLine = FALSE;
-	m_bOpenFilesAfterExports = TRUE;
+	m_bOpenFilesAfterExport = TRUE;
 	m_bSetStylesheet = FALSE;
 	m_strStylesheet = _T("");
 	//}}AFX_DATA_INIT
@@ -46,7 +46,8 @@ void PageOther::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CHK_ACCEL, m_chkAccelMove);
 	DDX_Control(pDX, IDC_CHK_INHERIT_SIBLING, m_chkInheritSibling);
 	DDX_Control(pDX, IDC_CHK_INHERIT_PARENT, m_chkInheritParent);
-	DDX_Control(pDX, IDC_CHK_POST_ACTION, m_chkOpenFilesAfterExports);
+	DDX_Control(pDX, IDC_CHK_POST_ACTION, m_chkOpenFilesAfterExport);
+	DDX_Control(pDX, IDC_CHK_EXPORT_FILELINK, m_chkOutputFileLinksOnExport);
 	DDX_Control(pDX, IDC_CHK_SHOW_HS, m_chkShowHS);
 	DDX_Radio(pDX, IDC_RD_TAB1, m_tabSelect);
 	DDX_Check(pDX, IDC_CHK_SHOW_HS, m_bShowHS);
@@ -55,7 +56,8 @@ void PageOther::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHK_ACCEL, m_bAccelmove);
 	DDX_Check(pDX, IDC_CHK_DRW_UNDRLN, m_bDrawUnderLine);
 	DDX_Check(pDX, IDC_CHK_SET_STYLESHEET, m_bSetStylesheet);
-	DDX_Check(pDX, IDC_CHK_POST_ACTION, m_bOpenFilesAfterExports);
+	DDX_Check(pDX, IDC_CHK_POST_ACTION, m_bOpenFilesAfterExport);
+	DDX_Check(pDX, IDC_CHK_EXPORT_FILELINK, m_bOutputFileLinksOnExport);
 	DDX_Text(pDX, IDC_EDIT_STYLESHEET, m_strStylesheet);
 	//}}AFX_DATA_MAP
 }
@@ -76,6 +78,7 @@ BEGIN_MESSAGE_MAP(PageOther, CDialog)
 	ON_EN_CHANGE(IDC_EDIT_STYLESHEET, OnChangeEditStylesheet)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_CHK_POST_ACTION, &PageOther::OnBnClickedChkPostAction)
+	ON_BN_CLICKED(IDC_CHK_EXPORT_FILELINK, &PageOther::OnBnClickedChkExportFilelink)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -193,5 +196,11 @@ void PageOther::OnChangeEditStylesheet()
 void PageOther::OnBnClickedChkPostAction()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	m_bOpenFilesAfterExports = m_chkOpenFilesAfterExports.GetCheck();
+	m_bOpenFilesAfterExport = m_chkOpenFilesAfterExport.GetCheck();
+}
+
+void PageOther::OnBnClickedChkExportFilelink()
+{
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	m_bOutputFileLinksOnExport = m_chkOutputFileLinksOnExport.GetCheck();
 }

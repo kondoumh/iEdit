@@ -289,7 +289,8 @@ void CPropertyDlg::initPageOther()
 	pOther->m_bInheritSibling = pApp->m_rgsNode.bInheritSibling;
 	pOther->m_bAccelmove = pApp->GetProfileInt(REGS_OTHER, _T("Accel Move"), FALSE);
 	pOther->m_bDrawUnderLine = pApp->GetProfileInt(REGS_OTHER, _T("Draw Underline"), FALSE);
-	pOther->m_bOpenFilesAfterExports = pApp->GetProfileInt(REGS_OTHER, _T("Open Files After Export"), TRUE);
+	pOther->m_bOpenFilesAfterExport = pApp->GetProfileInt(REGS_OTHER, _T("Open Files After Export"), TRUE);
+	pOther->m_bOutputFileLinksOnExport = pApp->GetProfileInt(REGS_OTHER, _T("Output Filelinks On Export"), FALSE);
 	pOther->m_bSetStylesheet = pApp->GetProfileInt(REGS_OTHER, _T("XML StyleSheet"), TRUE);
 	pOther->m_strStylesheet = pApp->GetProfileString(REGS_OTHER, _T("XML StyleSheet Name"), _T("iedit.xsl"));
 }
@@ -303,7 +304,8 @@ void CPropertyDlg::writePageOther()
 	pApp->WriteProfileInt(REGS_NODE, _T("Inherit Sibling"), pOther->m_bInheritSibling);
 	pApp->WriteProfileInt(REGS_OTHER, _T("Accel Move"), pOther->m_bAccelmove);
 	pApp->WriteProfileInt(REGS_OTHER, _T("Draw Underline"), pOther->m_bDrawUnderLine);
-	pApp->WriteProfileInt(REGS_OTHER, _T("Open Files After Export"), pOther->m_bOpenFilesAfterExports);
+	pApp->WriteProfileInt(REGS_OTHER, _T("Open Files After Export"), pOther->m_bOpenFilesAfterExport);
+	pApp->WriteProfileInt(REGS_OTHER, _T("Output Filelinks On Export"), pOther->m_bOutputFileLinksOnExport);
 	pApp->WriteProfileInt(REGS_OTHER, _T("XML StyleSheet"), pOther->m_bSetStylesheet);
 	pApp->WriteProfileString(REGS_OTHER, _T("XML StyleSheet Name"), pOther->m_strStylesheet);
 	
@@ -312,7 +314,8 @@ void CPropertyDlg::writePageOther()
 	
 	pApp->m_rgsOther.bSetStylesheet = pOther->m_bSetStylesheet;
 	pApp->m_rgsOther.strStyleSheetFile = pOther->m_strStylesheet;
-	pApp->m_rgsOther.bOpenFilesAfterExports = pOther->m_bOpenFilesAfterExports;
+	pApp->m_rgsOther.bOpenFilesAfterExport = pOther->m_bOpenFilesAfterExport;
+	pApp->m_rgsOther.bOutputFileLinksOnExport = pOther->m_bOutputFileLinksOnExport;
 }
 
 void CPropertyDlg::initPageFrame()

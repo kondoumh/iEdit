@@ -417,7 +417,8 @@ void CiEditApp::getOtherProfile()
 {
 	m_rgsOther.bSetStylesheet = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("XML StyleSheet"), TRUE);
 	m_rgsOther.strStyleSheetFile = AfxGetApp()->GetProfileString(REGS_OTHER, _T("XML StyleSheet Name"), _T("iedit.xsl"));
-	m_rgsOther.bOpenFilesAfterExports = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Open Files After Export"), TRUE);
+	m_rgsOther.bOpenFilesAfterExport = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Open Files After Export"), TRUE);
+	m_rgsOther.bOutputFileLinksOnExport = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Output Filelinks On Export"), FALSE);
 }
 
 void CiEditApp::DebugWriteLine(const CString &message)

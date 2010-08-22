@@ -21,14 +21,16 @@ public:
 	enum { IDD = IDD_PG_OTHER };
 	CButton	m_chkStylesheet;
 	CEdit	m_edStylesheet;
-	CButton m_chkOpenFilesAfterExports;
+	CButton m_chkOpenFilesAfterExport;
+	CButton m_chkOutputFileLinksOnExport;
 	CButton	m_chkDrawUnderLine;
 	CButton	m_chkAccelMove;
 	CButton	m_chkInheritSibling;
 	CButton	m_chkInheritParent;
 	CButton	m_chkShowHS;
 	int		m_tabSelect;
-	BOOL	m_bOpenFilesAfterExports;
+	BOOL	m_bOutputFileLinksOnExport;
+	BOOL	m_bOpenFilesAfterExport;
 	BOOL	m_bShowHS;
 	BOOL	m_bInheritParent;
 	BOOL	m_bInheritSibling;
@@ -68,6 +70,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedChkPostAction();
+	afx_msg void OnBnClickedChkExportFilelink();
 };
 
 //{{AFX_INSERT_LOCATION}}

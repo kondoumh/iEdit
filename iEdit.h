@@ -49,7 +49,8 @@ struct rgsLink {
 struct rgsOther {
 	BOOL bSetStylesheet;
 	CString strStyleSheetFile;
-	BOOL bOpenFilesAfterExports;
+	BOOL bOpenFilesAfterExport;
+	BOOL bOutputFileLinksOnExport;
 };
 
 typedef map<int, HENHMETAFILE> HMetaFiles;
