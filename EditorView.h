@@ -94,6 +94,8 @@ private:
 	CFindReplaceDialog* m_pFindReplacedlg;
 	CFont m_font;
 	DWORD m_preKey;
+public:
+	afx_msg void OnEnVscroll();
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -75,6 +75,7 @@ void iNode::init()
 	margin_r_ = pApp->m_rgsNode.margin_r;
 	margin_t_ = pApp->m_rgsNode.margin_t;
 	margin_b_ = pApp->m_rgsNode.margin_b;
+	scrollpos_ = 0;
 }
 
 iNode::~iNode()
@@ -130,6 +131,7 @@ void iNode::initCopy(const iNode &n)
 	margin_r_ = n.margin_r_;
 	margin_t_ = n.margin_t_;
 	margin_b_ = n.margin_b_;
+	scrollpos_ = n.scrollpos_;
 }
 
 IMPLEMENT_SERIAL(iNode, CObject, 0)

@@ -62,6 +62,7 @@ BEGIN_MESSAGE_MAP(EditorView, CEditView)
 	ON_COMMAND(ID_FILE_PRINT, CEditView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CEditView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CEditView::OnFilePrintPreview)
+	ON_CONTROL_REFLECT(EN_VSCROLL, &EditorView::OnEnVscroll)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -138,6 +139,7 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		setViewFont();
 		setTabStop();
 	}
+	GetEditCtrl().LineScroll(GetDocument()->getSelectedNodeScrollPos());
 }
 
 int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
@@ -173,7 +175,7 @@ void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t);
+	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 	
 	if (nChar == VK_ESCAPE) {
 		GetDocument()->selChanged(m_preKey, false, GetDocument()->isShowSubBranch());
@@ -243,7 +245,7 @@ void EditorView::OnEditCut()
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetEditCtrl().Cut();
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t);
+	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 void EditorView::OnUpdateEditCut(CCmdUI* pCmdUI) 
@@ -259,7 +261,7 @@ void EditorView::OnEditPaste()
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetEditCtrl().Paste();
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t);
+	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 void EditorView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
@@ -279,7 +281,7 @@ void EditorView::OnEditUndo()
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetEditCtrl().Undo();
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t);
+	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 void EditorView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
@@ -293,7 +295,7 @@ void EditorView::OnEditClear()
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetEditCtrl().Clear();
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t);
+	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 void EditorView::OnUpdateEditClear(CCmdUI* pCmdUI) 
@@ -396,7 +398,7 @@ void EditorView::OnReplaceAll(LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase)
 	CString cText; GetEditCtrl().GetWindowText(cText);
 	int rep = cText.Replace(lpszFind, lpszReplace);
 	GetEditCtrl().SetWindowText(cText);
-	GetDocument()->setCurNodeText(cText);
+	GetDocument()->setCurNodeText(cText, GetEditCtrl().GetFirstVisibleLine());
 	GetDocument()->SetModifiedFlag();
 	CString mes; mes.Format(_T("%d個の文字列を置換しました"), rep);
 	MessageBox(mes, _T("置換の終了"), MB_OK);
@@ -420,7 +422,7 @@ void EditorView::OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR 
 		GetEditCtrl().ReplaceSel(lpszReplace);
 	}
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t);
+	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 HBRUSH EditorView::CtlColor(CDC* pDC, UINT nCtlColor) 
@@ -630,4 +632,10 @@ void EditorView::OnChange()
 //	if (start != -1) {
 //		AfxMessageBox("ハケーン");
 //	}
+}
+
+void EditorView::OnEnVscroll()
+{
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
+	GetDocument()->setSelectedNodeScrollPos(GetEditCtrl().GetFirstVisibleLine());
 }

@@ -14,6 +14,8 @@ class iNode : public CObject
 DECLARE_SERIAL(iNode)
 public:
 	void fitSize();
+	int getScrollPos() const;
+	void setScrollPos(int pos);
 	int getMarginL() const;
 	int getMarginR() const;
 	int getMarginT() const;
@@ -131,6 +133,7 @@ private:
 	void enhanceBoundGradualy(int area);
 	void enhanceLineOriented(const CSize& sz);
 	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
+	int scrollpos_;
 	int margin_l_;
 	int margin_r_;
 	int margin_t_;
@@ -167,6 +170,16 @@ protected:
 	void adjustFont(bool bForceResize=false);
 	CSize getNodeTextSize();
 };
+
+inline int iNode::getScrollPos() const
+{
+	return scrollpos_;
+}
+
+inline void iNode::setScrollPos(int pos)
+{
+	scrollpos_ = pos;
+}
 
 inline void iNode::setMarginB(int margin)
 {

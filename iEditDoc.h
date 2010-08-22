@@ -92,6 +92,8 @@ public:
 // インプリメンテーション
 public:
 	CString getTitleFromOpenPath();
+	int getSelectedNodeScrollPos() const;
+	void setSelectedNodeScrollPos(int pos);
 	void setSelectedNodeMargin(int l, int r, int t, int b);
 	void getSelectedNodeMargin(int &l, int& r, int& t, int& b) const;
 	void setSelectedNodeTreeIconId(int id);
@@ -243,7 +245,7 @@ public:
 	void moveSelectedNode(const CSize& sz);
 	bool hitTest(const CPoint& pt, CRect& r, bool bDrwAll=false);
 	void drawNodes(CDC* pDC, bool bDrwAll = false);
-	void setCurNodeText(CString& s);
+	void setCurNodeText(CString& s, int scrollPos);
 	void selChanged(DWORD key, bool reflesh=true, bool bShowSubBranch = false);
 	CString getSelectedNodeText();
 	void deleteKeyItem(DWORD key);

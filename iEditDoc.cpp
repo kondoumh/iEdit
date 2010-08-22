@@ -548,11 +548,12 @@ void iEditDoc::selChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 	}
 }
 
-void iEditDoc::setCurNodeText(CString &s)
+void iEditDoc::setCurNodeText(CString &s, int scrollPos)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
 		(*it).setText(s);
+		(*it).setScrollPos(scrollPos);
 	}
 	// Undo 処理のためのメッセージを飛ばす方が良い。
 }
@@ -4746,3 +4747,19 @@ void iEditDoc::fitSetlectedNodeSize()
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
+int iEditDoc::getSelectedNodeScrollPos() const
+{
+	const_niterator it = nodes_.getSelectedNodeR();
+	if (it != nodes_.end()) {
+		return (*it).getScrollPos();
+	}
+	return 0;
+}
+
+void iEditDoc::setSelectedNodeScrollPos(int pos)
+{
+	niterator it = nodes_.getSelectedNode();
+	if (it != nodes_.end()) {
+		(*it).setScrollPos(pos);
+	}
+}
