@@ -417,6 +417,7 @@ void CiEditApp::getOtherProfile()
 {
 	m_rgsOther.bSetStylesheet = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("XML StyleSheet"), TRUE);
 	m_rgsOther.strStyleSheetFile = AfxGetApp()->GetProfileString(REGS_OTHER, _T("XML StyleSheet Name"), _T("iedit.xsl"));
+	m_rgsOther.bOpenFilesAfterExports = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Open Files After Export"), TRUE);
 }
 
 void CiEditApp::DebugWriteLine(const CString &message)

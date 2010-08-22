@@ -966,7 +966,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iEditのバージョン情報"
 FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
-    LTEXT           "iEdit 1.92  Copyright (C) 1999-2009 kondoumh",IDC_ST_VERSION,6,7,180,10,SS_NOPREFIX
+    LTEXT           "iEdit 1.93  Copyright (C) 1999-2010 kondoumh",IDC_ST_VERSION,6,7,180,10,SS_NOPREFIX
     DEFPUSHBUTTON   "OK",IDOK,152,142,50,14,WS_GROUP
     CONTROL         142,IDC_STATIC,"Static",SS_BITMAP,7,16,195,114
     LTEXT           "iEdit Website (MH HOME)",IDC_WEBSITE,7,134,76,8
@@ -1159,12 +1159,13 @@ BEGIN
     PUSHBUTTON      "メタファイルサイズ(&M)",IDC_BTN_SETMFSIZE,16,131,70,14
     CONTROL         "ノードのカーソルキー移動で加速度を付ける(&A)",IDC_CHK_ACCEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,149,152,10
     LTEXT           "(再起動時有効)",IDC_STATIC,115,160,47,8
-    CONTROL         "スタイルシートを指定(&T)",IDC_CHK_SET_STYLESHEET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,183,86,16
-    EDITTEXT        IDC_EDIT_STYLESHEET,20,201,155,12,ES_AUTOHSCROLL
+    CONTROL         "エクスポート終了後開く(&O)",IDC_CHK_POST_ACTION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,187,93,10
+    CONTROL         "スタイルシートを指定(&T)",IDC_CHK_SET_STYLESHEET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,203,86,16
+    EDITTEXT        IDC_EDIT_STYLESHEET,20,221,155,12,ES_AUTOHSCROLL
     GROUPBOX        "テキストビューの設定",IDC_STATIC,7,7,175,55
     GROUPBOX        "アウトラインビューで追加時のノード属性の継承",IDC_STATIC,7,65,175,52
     GROUPBOX        "ネットワークビューの調整",IDC_STATIC,7,118,175,53
-    GROUPBOX        "XML出力",IDC_STATIC,7,172,175,50
+    GROUPBOX        "エクスポート設定",IDC_STATIC,7,172,175,67
 END
 
 IDD_SELIMPORT DIALOGEX 0, 0, 190, 79
@@ -1407,8 +1408,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,9,2,0
- PRODUCTVERSION 1,9,2,0
+ FILEVERSION 1,9,3,0
+ PRODUCTVERSION 1,9,3,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1426,12 +1427,12 @@ BEGIN
             VALUE "Comments", "A tool for idea processing and visualization"
             VALUE "CompanyName", "kondoumh"
             VALUE "FileDescription", "アイデアプロセッサ iEdit"
-            VALUE "FileVersion", "1, 9, 2, 0"
+            VALUE "FileVersion", "1, 9, 3, 0"
             VALUE "InternalName", "iEdit"
             VALUE "LegalCopyright", "Copyright (C) 1999-2009 kondoumh"
             VALUE "OriginalFilename", "iEdit.exe"
             VALUE "ProductName", "iEdit"
-            VALUE "ProductVersion", "1, 9, 2, 0"
+            VALUE "ProductVersion", "1, 9, 3, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1535,7 +1536,7 @@ BEGIN
         RIGHTMARGIN, 190
         TOPMARGIN, 7
         BOTTOMMARGIN, 248
-        HORZGUIDE, 228
+        HORZGUIDE, 239
     END
 
     IDD_SELIMPORT, DIALOG

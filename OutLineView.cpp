@@ -2032,8 +2032,9 @@ void OutlineView::OutputHTML()
 	}
 	_wsetlocale(LC_ALL, _T(""));
 	
-	if (MessageBox(_T("生成したHTMLファイルを開きますか?"), _T("HTMLの閲覧"), MB_YESNO) != IDYES) return;
-	ShellExecute(m_hWnd, _T("open"), indexFilePath, NULL, NULL, SW_SHOW);
+	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExports) {
+		ShellExecute(m_hWnd, _T("open"), indexFilePath, NULL, NULL, SW_SHOW);
+	}
 }
 
 void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *foutline, CStdioFile* ftext)
@@ -3080,8 +3081,9 @@ void OutlineView::OnExportToText()
 	}
 	_wsetlocale(LC_ALL, _T(""));
 	f.Close();
-	ShellExecute(m_hWnd, _T("open"), outfileName, NULL, NULL, SW_SHOW);
-
+	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExports) {
+		ShellExecute(m_hWnd, _T("open"), outfileName, NULL, NULL, SW_SHOW);
+	}
 }
 
 void OutlineView::OnUpdateExportToText(CCmdUI *pCmdUI)
