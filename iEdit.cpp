@@ -43,15 +43,12 @@ void showLastErrorMessage()
 // CiEditApp
 
 BEGIN_MESSAGE_MAP(CiEditApp, CWinApp)
-	//{{AFX_MSG_MAP(CiEditApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
-	ON_COMMAND(ID_FILE_OPEN, OnFileOpen)
-	//}}AFX_MSG_MAP
 	// 標準のファイル基本ドキュメント コマンド
-	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
+	ON_COMMAND(ID_FILE_OPEN, CiEditApp::OnFileOpen)
+	ON_COMMAND(ID_FILE_NEW, CiEditApp::OnFileNew)
 	// 標準の印刷セットアップ コマンド
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
-	ON_COMMAND(ID_FILE_NEW, &CiEditApp::OnFileNew)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

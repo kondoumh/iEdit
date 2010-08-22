@@ -316,7 +316,6 @@ private:
 	afx_msg void OnUpdateSetLinkDependSingle(CCmdUI *pCmdUI);
 	afx_msg void OnSetLinkDependDouble();
 	afx_msg void OnUpdateSetLinkDependDouble(CCmdUI *pCmdUI);
-	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnSetLinkInherit();
 	afx_msg void OnUpdateSetLinkInherit(CCmdUI *pCmdUI);
 	afx_msg void OnSetLinkAgregat();

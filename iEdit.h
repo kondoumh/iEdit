@@ -117,18 +117,15 @@ public:
 	//}}AFX_VIRTUAL
 
 // インプリメンテーション
-	//{{AFX_MSG(CiEditApp)
 	afx_msg void OnAppAbout();
 	afx_msg void OnFileOpen();
-	//}}AFX_MSG
+	afx_msg void OnFileNew();
 	DECLARE_MESSAGE_MAP()
 protected:
 	void loadmfs(CArchive& ar);
 private:
 	CMultiDocTemplate* m_pDocTemplate;
 	CMultiDocTemplate* m_pDocTemplate2;
-public:
-	afx_msg void OnFileNew();
 };
 
 

@@ -206,7 +206,7 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_SET_LINK_ARROW_DOUBLE, OnUpdateSetLinkArrowDouble)
 	//}}AFX_MSG_MAP
 	// 標準印刷コマンド
-	ON_NOTIFY( TTN_GETDISPINFO, 0, OnTipDispInfo)
+	//ON_NOTIFY(TTN_GETDISPINFO, 0, OnTipDispInfo)
 	ON_COMMAND(ID_FILE_PRINT, CScrollView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CScrollView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CScrollView::OnFilePrintPreview)
@@ -3536,9 +3536,9 @@ void NetView::OnTipDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
             //表示すべきではありません。
 			lpttd = (LPNMTTDISPINFO)pNMHDR;
 			lpttd->lpszText = (LPWSTR)(LPCTSTR)m_strTip;
+			*pResult = 0;
 		}
 	}
-	*pResult = 0;
 }
 
 

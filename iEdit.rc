@@ -1926,7 +1926,7 @@ BEGIN
     ID_ADD_LINK0            "リンクの追加(矢印なし)\nリンクの追加(矢印なし)"
     ID_SET_MULTI_LINE       "ラベルを複数行表示にする\n複数行表示"
     ID_SET_NODE_FONT        "ノード・リンクのフォント属性を設定する"
-    ID_SET_NODE_LINE_COLOR  "ノード・リンクの線の色"
+    ID_SET_NODE_LINE_COLOR  "ノード・リンクの線の色を設定する色設定"
     ID_SET_PROPERTIES       "デフォルトのオプションを設定する"
     ID_SET_SINGLE_LINE      "ラベルを1行表示にする\n1行表示"
     ID_ADD_RECT             "ノードの追加(長方形)\nノードの追加(長方形)"
@@ -2027,13 +2027,14 @@ END
 
 STRINGTABLE 
 BEGIN
+    ID_BTN_LINK_ARROW       "リンクの矢印の種類を設定する\n矢印の種類"
     ID_FONT_ENLARGE         "選択したノードのフォントサイズを大きくする\nフォントを大きく"
     ID_FONT_ENSMALL         "選択したノードのフォントサイズを小さくする\nフォントを小さく"
 END
 
 STRINGTABLE 
 BEGIN
-    ID_BTN_LINK_LINE_STYLE  "線種の設定"
+    ID_BTN_LINK_LINE_STYLE  "線の種類を設定する\n線の種類"
 END
 
 STRINGTABLE 
