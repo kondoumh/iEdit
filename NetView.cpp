@@ -3528,12 +3528,10 @@ void NetView::OnTipDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMTTDISPINFO lpttd;
 	
-	if (pNMHDR->code == TTN_GETDISPINFO) //意味のないif
+	if (pNMHDR->code == TTN_GETDISPINFO)
 	{
 		if (!m_strTip.IsEmpty())
         {
-            //表示すべき文字列はm_strTipに入っています。これが空のときは
-            //表示すべきではありません。
 			lpttd = (LPNMTTDISPINFO)pNMHDR;
 			lpttd->lpszText = (LPWSTR)(LPCTSTR)m_strTip;
 			*pResult = 0;
