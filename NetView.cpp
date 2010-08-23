@@ -3520,7 +3520,7 @@ void NetView::setMFSize()
 BOOL NetView::PreTranslateMessage(MSG* pMsg) 
 {
 	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
-	m_toolTip.RelayEvent( pMsg );
+	m_toolTip.RelayEvent(pMsg);
 	return CScrollView::PreTranslateMessage(pMsg);
 }
 
