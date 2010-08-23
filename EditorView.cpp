@@ -23,6 +23,7 @@ IMPLEMENT_DYNCREATE(EditorView, CEditView)
 EditorView::EditorView()
 {
 	m_bCanPaint = TRUE;
+	m_bPreUpdateReplace = false;
 }
 
 EditorView::~EditorView()
@@ -119,11 +120,14 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
 	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	DWORD curKey = 	GetDocument()->getSelectedNodeKey();
+	m_bPreUpdateReplace = true;
 	if (curKey != m_preKey) {
+		//CString s; s.Format(_T("pre:%d cur:%d"), curKey, m_preKey);DEBUG_WRITE(s);
 		m_nCaretLine = GetCaretLine(); // テスト
 		m_preKey = curKey;
 		CString t = GetDocument()->getSelectedNodeText();
 		GetEditCtrl().SetWindowText(t);
+		m_bPreUpdateReplace = false;
 	}
 	
 	iHint* ph = NULL;
@@ -637,5 +641,7 @@ void EditorView::OnChange()
 void EditorView::OnEnVscroll()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	GetDocument()->setSelectedNodeScrollPos(GetEditCtrl().GetFirstVisibleLine());
+	if (!m_bPreUpdateReplace) {
+		GetDocument()->setSelectedNodeScrollPos(GetEditCtrl().GetFirstVisibleLine());
+	}
 }

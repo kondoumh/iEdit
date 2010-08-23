@@ -84,6 +84,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	bool m_bPreUpdateReplace;
 	BOOL m_bDrawUnderLine;
 	BOOL	m_bCanPaint;
 	int		m_nCaretLine;

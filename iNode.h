@@ -179,6 +179,7 @@ inline int iNode::getScrollPos() const
 inline void iNode::setScrollPos(int pos)
 {
 	scrollpos_ = pos;
+	//CString s; s.Format(_T("%d : %d"), key_, pos);	DEBUG_WRITE(s);
 }
 
 inline void iNode::setMarginB(int margin)
