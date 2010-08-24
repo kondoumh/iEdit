@@ -298,6 +298,7 @@ private:
 	// ツールチップ表示用
 	CToolTipCtrl m_toolTip;
 	CString m_strTip;
+	afx_msg BOOL OnTtnNeedText(UINT id, NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnAddlinkednodeArc();
 	afx_msg void OnUpdateAddlinkednodeArc(CCmdUI *pCmdUI);

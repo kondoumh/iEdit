@@ -206,7 +206,7 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_SET_LINK_ARROW_DOUBLE, OnUpdateSetLinkArrowDouble)
 	//}}AFX_MSG_MAP
 	// 標準印刷コマンド
-	//ON_NOTIFY(TTN_GETDISPINFO, 0, OnTipDispInfo)
+	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, &OnTtnNeedText)
 	ON_COMMAND(ID_FILE_PRINT, CScrollView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CScrollView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CScrollView::OnFilePrintPreview)
@@ -317,8 +317,6 @@ void NetView::OnInitialUpdate()
 	::SetRect( &r, 10, 10, 10, 10 );
 	m_toolTip.SetMargin( &r );
 	m_toolTip.SetDelayTime(TTDT_AUTOPOP, 3000);
-//	m_toolTip.SetDelayTime(TTDT_INITIAL, 100);
-//	m_toolTip.SetDelayTime(TTDT_RESHOW, 2000);
 	m_toolTip.SendMessage(TTM_SETMAXTIPWIDTH, 0, 300);
 
 }
@@ -1171,7 +1169,10 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		iEditDoc* pDoc = GetDocument();
 		iNode node = pDoc->getHitNode(logPt, false);
 		if (node.getText() != _T("")) {
-			CString strTipNew = node.getText().Left(300) + _T("....");
+			CString strTipNew = node.getText().Left(300);
+			if (node.getText().GetLength() > 300) {
+				strTipNew += _T("....");
+			}
 			if (m_strTip != strTipNew) {
 				m_strTip = strTipNew;
 				m_toolTip.Update();
@@ -2756,7 +2757,7 @@ int NetView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pShapesDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_SHAPES);	
 	doColorSetting();
 	setMFSize();
-	
+	EnableToolTips();
 	return 0;
 }
 
@@ -4569,4 +4570,31 @@ void NetView::OnUpdateReplaceMetafile(CCmdUI *pCmdUI)
 		::IsClipboardFormatAvailable(CF_BITMAP);
 
 	pCmdUI->Enable(m_selectStatus == NetView::single && canAvailable && !GetDocument()->canCopyNode());
+}
+
+
+BOOL NetView::OnTtnNeedText(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
+{
+	if (m_strTip == _T("")) return FALSE;
+	UNREFERENCED_PARAMETER(id);
+
+	TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pNMHDR;
+	UINT_PTR nID = pNMHDR->idFrom;
+	BOOL bRet = FALSE;
+
+	if (pTTT->uFlags & TTF_IDISHWND)
+	{
+		// idFrom is actually the HWND of the tool
+		nID = ::GetDlgCtrlID((HWND)nID);
+		if(nID)
+		{
+			pTTT->lpszText = (LPWSTR)(LPCTSTR)m_strTip;
+			pTTT->hinst = AfxGetResourceHandle();
+			bRet = TRUE;
+		}
+	}
+
+	*pResult = 0;
+
+	return bRet;
 }
