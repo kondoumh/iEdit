@@ -120,22 +120,21 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
 	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	DWORD curKey = 	GetDocument()->getSelectedNodeKey();
-	m_bPreUpdateReplace = true;
+	m_bPreUpdateReplace = false;
 	if (curKey != m_preKey) {
+		m_bPreUpdateReplace = true;
 		//CString s; s.Format(_T("pre:%d cur:%d"), curKey, m_preKey);DEBUG_WRITE(s);
 		m_nCaretLine = GetCaretLine(); // テスト
 		m_preKey = curKey;
 		CString t = GetDocument()->getSelectedNodeText();
 		GetEditCtrl().SetWindowText(t);
-		m_bPreUpdateReplace = false;
 	}
 	
 	iHint* ph = NULL;
 	if (pHint != NULL) {
 		ph = reinterpret_cast<iHint*>(pHint);
 	}
-	if (ph == NULL) return;
-	if (ph->event == iHint::viewSettingChanged) {
+	if (ph != NULL && ph->event == iHint::viewSettingChanged) {
 		m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), RGB(255, 255, 255));
 		m_textColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit forColor"), RGB(0, 0, 0));
 		m_hBrsBack.CreateSolidBrush(m_bkColor);
@@ -143,7 +142,9 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		setViewFont();
 		setTabStop();
 	}
-	GetEditCtrl().LineScroll(GetDocument()->getSelectedNodeScrollPos());
+	if (m_bPreUpdateReplace) {
+		GetEditCtrl().LineScroll(GetDocument()->getSelectedNodeScrollPos());
+	}
 }
 
 int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
@@ -641,7 +642,5 @@ void EditorView::OnChange()
 void EditorView::OnEnVscroll()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	if (!m_bPreUpdateReplace) {
-		GetDocument()->setSelectedNodeScrollPos(GetEditCtrl().GetFirstVisibleLine());
-	}
+	GetDocument()->setSelectedNodeScrollPos(GetEditCtrl().GetFirstVisibleLine());
 }
