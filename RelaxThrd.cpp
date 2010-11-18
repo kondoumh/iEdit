@@ -107,10 +107,10 @@ void CRelaxThrd::SingleStep()
 		double f = (edges[i].len - len)/(len*3);
 		double dx = f*vx;
 		double dy = f*vy;
-		(*itTo).dx += dx;
-		(*itTo).dy += dy;
-		(*itFrom).dx -= dx;
-		(*itFrom).dy -= dy;
+		const_cast<iBound&>(*itTo).dx += dx;
+		const_cast<iBound&>(*itTo).dy += dy;
+		const_cast<iBound&>(*itFrom).dx -= dx;
+		const_cast<iBound&>(*itFrom).dy -= dy;
 	}
 	
 	srand((unsigned)time(NULL));
@@ -140,8 +140,8 @@ void CRelaxThrd::SingleStep()
 		double dlen = dx*dx + dy*dy;
 		if (dlen > 0) {
 			dlen = sqrt(dlen)/2;
-			(*it1).dx += dx/dlen;
-			(*it1).dy += dy/dlen;
+			const_cast<iBound&>(*it1).dx += dx/dlen;
+			const_cast<iBound&>(*it1).dy += dy/dlen;
 		}
 	}
 	
@@ -161,10 +161,10 @@ void CRelaxThrd::SingleStep()
 			rc.top = 0;
 		}
 		if (!(*it1).fixed) {
-			(*it1).newBound = rc;
+			const_cast<iBound&>(*it1).newBound = rc;
 		}	
-		(*it1).dx /= 2;
-		(*it1).dy /= 2;
+		const_cast<iBound&>(*it1).dx /= 2;
+		const_cast<iBound&>(*it1).dy /= 2;
 	}
 	
 	EnterCriticalSection(&CRelaxThrd::m_csGDILock);
@@ -188,7 +188,7 @@ void CRelaxThrd::SingleStep()
 			}
 			m_dc.FrameRect(old, &m_brush2);
 			m_dc.FrameRect(nw, &m_brush);
-			(*it).oldBound = (*it).newBound;
+			const_cast<iBound&>(*it).oldBound = const_cast<iBound&>(*it).newBound;
 		}
 	
 		// Win32 optimizes GDI calls by collecting them in a batch
