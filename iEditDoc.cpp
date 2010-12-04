@@ -200,8 +200,8 @@ void iEditDoc::saveOrderByTree(CArchive& ar)
 		nodeFind.setKey(ls[i].key);
 		niterator it = nodes_.findNodeW(nodeFind);
 		if (it != nodes_.end()) {
-			const_cast<iNode&>(*it).setTreeState(ls[i].state);
-			const_cast<iNode&>(*it).Serialize(ar);
+			/*const_cast<iNode&>*/(*it).setTreeState(ls[i].state);
+			/*const_cast<iNode&>*/(*it).Serialize(ar);
 		}
 	}
 }
@@ -217,8 +217,8 @@ void iEditDoc::saveOrderByTreeEx(CArchive &ar, int version)
 		nodeFind.setKey(ls[i].key);
 		niterator it = nodes_.findNodeW(nodeFind);
 		if (it != nodes_.end()) {
-			const_cast<iNode&>(*it).setTreeState(ls[i].state);
-			const_cast<iNode&>(*it).SerializeEx(ar, version);
+			/*const_cast<iNode&>*/(*it).setTreeState(ls[i].state);
+			/*const_cast<iNode&>*/(*it).SerializeEx(ar, version);
 		}
 	}
 }
@@ -347,7 +347,7 @@ bool iEditDoc::setKeyNodeName(DWORD key, const CString &name)
 	if (it == nodes_.end()) {
 		return false;
 	}
-	const_cast<iNode&>(*it).setName(name);
+	/*const_cast<iNode&>*/(*it).setName(name);
 	SetModifiedFlag();
 	UpdateAllViews(NULL);
 	return true;
@@ -358,7 +358,7 @@ void iEditDoc::setKeyNodeParent(DWORD key, DWORD parent)
 	nodeFind.setKey(key);
 	niterator it = nodes_.findNodeW(nodeFind);
 	if (it != nodes_.end()) {
-		const_cast<iNode&>(*it).setParent(parent);
+		/*const_cast<iNode&>*/(*it).setParent(parent);
 	}
 	SetModifiedFlag();
 	UpdateAllViews(NULL);
@@ -552,8 +552,8 @@ void iEditDoc::setCurNodeText(CString &s, int scrollPos)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		const_cast<iNode&>(*it).setText(s);
-		const_cast<iNode&>(*it).setScrollPos(scrollPos);
+		/*const_cast<iNode&>*/(*it).setText(s);
+		/*const_cast<iNode&>*/(*it).setScrollPos(scrollPos);
 	}
 	// Undo 処理のためのメッセージを飛ばす方が良い。
 }
@@ -602,7 +602,7 @@ void iEditDoc::moveNodesInBound(const CRect& bound,	const CSize move)
 			            bound.PtInRect((*it).getBound().BottomRight());
 		if (bInBound) {
 			if ((*it).getDrawOrder() > (*itSelected).getDrawOrder()) {
-				const_cast<iNode&>(*it).moveBound(move);
+				/*const_cast<iNode&>*/(*it).moveBound(move);
 				keySet.insert((*it).getKey());
 				moved = true;
 			}
@@ -1859,7 +1859,7 @@ void iEditDoc::setSelectedNodeShape(int shape, int mfIndex)
 		niterator it = nodes_.getSelectedNode();
 		if (it != nodes_.end()) {
 			CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-			const_cast<iNode&>(*it).setMetaFile(pApp->m_hMetaFiles[mfIndex]);
+			/*const_cast<iNode&>*/(*it).setMetaFile(pApp->m_hMetaFiles[mfIndex]);
 			setConnectPoint();
 		}
 	}
@@ -1874,8 +1874,8 @@ void iEditDoc::setSelectedNodeMetaFile(HENHMETAFILE metafile)
 		disableUndo();
 		backUpUndoNodes();
 		backUpUndoLinks();
-		const_cast<iNode&>(*it).setNodeShape(iNode::MetaFile);
-		const_cast<iNode&>(*it).setMetaFile(metafile);
+		/*const_cast<iNode&>*/(*it).setNodeShape(iNode::MetaFile);
+		/*const_cast<iNode&>*/(*it).setMetaFile(metafile);
 		setConnectPoint();
 		SetModifiedFlag();
 		iHint h; h.event = iHint::nodeStyleChanged;
@@ -1887,7 +1887,7 @@ void iEditDoc::setSelectedNodeLabel(const CString &label)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		const_cast<iNode&>(*it).setName(label);
+		/*const_cast<iNode&>*/(*it).setName(label);
 		SetModifiedFlag();
 		iHint hint; hint.event = iHint::nodeLabelChanged;
 		hint.str = label;
@@ -1934,7 +1934,7 @@ void iEditDoc::setResultRelax(Bounds &bounds)
 	for ( ; it != bounds.end(); it++) {
 		nodeFind.setKey((*it).key);
 		niterator nit = nodes_.findNodeW(nodeFind);
-		const_cast<iNode&>(*nit).setBound((*it).newBound);
+		/*const_cast<iNode&>*/(*nit).setBound((*it).newBound);
 	}
 	calcMaxPt(m_maxPt);
 	setConnectPoint();
@@ -3015,9 +3015,9 @@ void iEditDoc::addImportData(bool brepRoot)
 			}
 		}
 		niterator it = nodes_.getSelectedNode();
-		const_cast<iNode&>(*it).setName(nodesImport[0].getName());
-		const_cast<iNode&>(*it).setText(nodesImport[0].getText());
-		const_cast<iNode&>(*it).setBound(nodesImport[0].getBound());
+		/*const_cast<iNode&>*/(*it).setName(nodesImport[0].getName());
+		/*const_cast<iNode&>*/(*it).setText(nodesImport[0].getText());
+		/*const_cast<iNode&>*/(*it).setBound(nodesImport[0].getBound());
 	}
 	
 	// nodeの格納
@@ -3076,8 +3076,8 @@ void iEditDoc::randomNodesPos(const CSize &area, bool bDrwAll)
 //		if (!bDrwAll) {
 			if (!(*it).isVisible()) continue;
 //		}
-		const_cast<iNode&>(*it).moveTo(CPoint(0, 0));
-		const_cast<iNode&>(*it).moveBound(CSize(rand()%area.cx, rand()%area.cy));
+		/*const_cast<iNode&>*/(*it).moveTo(CPoint(0, 0));
+		/*const_cast<iNode&>*/(*it).moveBound(CSize(rand()%area.cx, rand()%area.cy));
 	}
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
@@ -3488,7 +3488,7 @@ void iEditDoc::resumeUndoNodes()
 		nodeFind.setKey(nodes_undo[i].getKey());
 		niterator it = nodes_.findNodeW(nodeFind);
 		if (it != nodes_.end()) {
-			const_cast<iNode&>(*it) = nodes_undo[i];
+			/*const_cast<iNode&>*/(*it) = nodes_undo[i];
 		}
 	}
 //	setConnectPoint();
@@ -3567,7 +3567,7 @@ void iEditDoc::adjustNodesEnd(const CString& side, const CRect& rect, bool bDrwA
 			pt.y = (*it).getBound().top + rect.bottom - (*it).getBound().bottom;
 		}
 		
-		const_cast<iNode&>(*it).moveTo(pt);
+		/*const_cast<iNode&>*/(*it).moveTo(pt);
 	}
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
@@ -3593,7 +3593,7 @@ void iEditDoc::sameNodesSize(const CString &strSize, bool bDrwAll)
 			rc.bottom = rc.top + maxSz.cy;
 			rc.right = rc.left + maxSz.cx;
 		}
-		const_cast<iNode&>(*it).setBound(rc);
+		/*const_cast<iNode&>*/(*it).setBound(rc);
 	}
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
@@ -3831,7 +3831,7 @@ void iEditDoc::setNodeLevel(const DWORD key, const int nLevel)
 	if (it == nodes_.end()) {
 		return;
 	}
-	const_cast<iNode&>(*it).setLevel(nLevel);
+	/*const_cast<iNode&>*/(*it).setLevel(nLevel);
 }
 
 
@@ -3868,15 +3868,15 @@ void iEditDoc::calcEdges()
 			if (!(*li).isInChain()) continue;
 			nodeFind.setKey((*li).getKeyFrom());
 			niterator itFrom = nodes_.findNodeW(nodeFind);
-			const_cast<iNode&>(*itFrom).setBoundPre((*itFrom).getBound());
-			const_cast<iNode&>(*itFrom).dx = 0.0;
-			const_cast<iNode&>(*itFrom).dy = 0.0;
+			/*const_cast<iNode&>*/(*itFrom).setBoundPre((*itFrom).getBound());
+			/*const_cast<iNode&>*/(*itFrom).dx = 0.0;
+			/*const_cast<iNode&>*/(*itFrom).dy = 0.0;
 			
 			nodeFind.setKey((*li).getKeyTo());
 			niterator itTo = nodes_.findNodeW(nodeFind);
-			const_cast<iNode&>(*itTo).setBoundPre((*itTo).getBound());
-			const_cast<iNode&>(*itTo).dx = 0.0;
-			const_cast<iNode&>(*itTo).dy = 0.0;
+			/*const_cast<iNode&>*/(*itTo).setBoundPre((*itTo).getBound());
+			/*const_cast<iNode&>*/(*itTo).dx = 0.0;
+			/*const_cast<iNode&>*/(*itTo).dy = 0.0;
 		}
 	}
 }
@@ -3905,8 +3905,8 @@ void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 				rc.bottom = height;
 			}
 			
-			const_cast<iNode&>(*ni).setBoundPre((*ni).getBoundPre());
-			const_cast<iNode&>(*ni).setBound(rc);
+			/*const_cast<iNode&>*/(*ni).setBoundPre((*ni).getBoundPre());
+			/*const_cast<iNode&>*/(*ni).setBound(rc);
 			break;
 		}
 	}
@@ -3938,10 +3938,10 @@ void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 		double f = ((*li).getLen() - len)/(len*3);
 		double dx = f*vx;
 		double dy = f*vy;
-		const_cast<iNode&>(*itTo).dx += dx;
-		const_cast<iNode&>(*itTo).dy += dy;
-		const_cast<iNode&>(*itFrom).dx -= dx;
-		const_cast<iNode&>(*itFrom).dy -= dy;
+		/*const_cast<iNode&>*/(*itTo).dx += dx;
+		/*const_cast<iNode&>*/(*itTo).dy += dy;
+		/*const_cast<iNode&>*/(*itFrom).dx -= dx;
+		/*const_cast<iNode&>*/(*itFrom).dy -= dy;
 	}
 	
 	srand((unsigned)time(NULL));
@@ -3976,8 +3976,8 @@ void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 		double dlen = dx*dx + dy*dy;
 		if (dlen > 0) {
 			dlen = sqrt(dlen)/2;
-			const_cast<iNode&>(*nit1).dx += dx/dlen;
-			const_cast<iNode&>(*nit1).dy += dy/dlen;
+			/*const_cast<iNode&>*/(*nit1).dx += dx/dlen;
+			/*const_cast<iNode&>*/(*nit1).dy += dy/dlen;
 		}
 	}
 	
@@ -4000,17 +4000,17 @@ void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 			rc.top = 0;
 		}
 		if (!(*nit).isFixed() && !(*nit).isSelected()) {
-			const_cast<iNode&>(*nit).setBound(rc);
+			/*const_cast<iNode&>*/(*nit).setBound(rc);
 		}
-		const_cast<iNode&>(*nit).dx /= 2;
-		const_cast<iNode&>(*nit).dy /= 2;
+		/*const_cast<iNode&>*/(*nit).dx /= 2;
+		/*const_cast<iNode&>*/(*nit).dy /= 2;
 	}
 
 	niterator it = nodes_.begin();
 	for ( ; it != nodes_.end(); it++) {
 		if (!(*it).isVisible()) continue;
 		if (!(*it).isInChain()) continue;
-		const_cast<iNode&>(*it).setBoundPre((*it).getBound());
+		/*const_cast<iNode&>*/(*it).setBoundPre((*it).getBound());
 	}
 	setConnectPoint2();
 }
@@ -4021,7 +4021,7 @@ void iEditDoc::listupChainNodes(bool bResetLinkCurve)
 	// 直前までのフラグをクリア
 	niterator nit = nodes_.begin();
 	for ( ; nit != nodes_.end(); nit++) {
-		const_cast<iNode&>(*nit).setInChain(false);
+		/*const_cast<iNode&>*/(*nit).setInChain(false);
 	}
 	literator linit = links_.begin();
 	for ( ; linit != links_.end(); linit++) {
@@ -4060,7 +4060,7 @@ void iEditDoc::listupChainNodes(bool bResetLinkCurve)
 					nodeFind.setKey(pairKey);
 					niterator nf = nodes_.find(nodeFind);
 					if (nf != nodes_.end()) {
-						const_cast<iNode&>(*nf).setInChain();
+						/*const_cast<iNode&>*/(*nf).setInChain();
 					}
 				}
 			}
@@ -4296,10 +4296,10 @@ void iEditDoc::relaxSingleStep2()
 		double f = ((*li).getLen() - len)/(len*3);
 		double dx = f*vx;
 		double dy = f*vy;
-		const_cast<iNode&>(*itTo).dx += dx;
-		const_cast<iNode&>(*itTo).dy += dy;
-		const_cast<iNode&>(*itFrom).dx -= dx;
-		const_cast<iNode&>(*itFrom).dy -= dy;
+		/*const_cast<iNode&>*/(*itTo).dx += dx;
+		/*const_cast<iNode&>*/(*itTo).dy += dy;
+		/*const_cast<iNode&>*/(*itFrom).dx -= dx;
+		/*const_cast<iNode&>*/(*itFrom).dy -= dy;
 	}
 	
 	srand((unsigned)time(NULL));
@@ -4334,8 +4334,8 @@ void iEditDoc::relaxSingleStep2()
 		double dlen = dx*dx + dy*dy;
 		if (dlen > 0) {
 			dlen = sqrt(dlen)/2;
-			const_cast<iNode&>(*nit1).dx += dx/dlen;
-			const_cast<iNode&>(*nit1).dy += dy/dlen;
+			/*const_cast<iNode&>*/(*nit1).dx += dx/dlen;
+			/*const_cast<iNode&>*/(*nit1).dy += dy/dlen;
 		}
 	}
 	
@@ -4357,17 +4357,17 @@ void iEditDoc::relaxSingleStep2()
 			rc.top = 0;
 		}
 		if (!(*nit).isFixed()) {
-			const_cast<iNode&>(*nit).setBound(rc);
+			/*const_cast<iNode&>*/(*nit).setBound(rc);
 		}
-		const_cast<iNode&>(*nit).dx /= 2;
-		const_cast<iNode&>(*nit).dy /= 2;
+		/*const_cast<iNode&>*/(*nit).dx /= 2;
+		/*const_cast<iNode&>*/(*nit).dy /= 2;
 	}
 
 	niterator it = nodes_.begin();
 	for ( ; it != nodes_.end(); it++) {
 		if (!(*it).isVisible()) continue;
 		if (!(*it).isInChain()) continue;
-		const_cast<iNode&>(*it).setBoundPre((*it).getBound());
+		/*const_cast<iNode&>*/(*it).setBoundPre((*it).getBound());
 	}
 	setConnectPoint2();
 }
@@ -4568,23 +4568,23 @@ void iEditDoc::applyFormatToSelectedNode()
 {
 	backUpUndoNodes();
 	niterator n = nodes_.getSelectedNode();
-	const_cast<iNode&>(*n).setLineColor(m_nodeForFormat.getLineColor());
-	const_cast<iNode&>(*n).setLineColor(m_nodeForFormat.getLineColor());
-	const_cast<iNode&>(*n).setLineStyle(m_nodeForFormat.getLineStyle());
-	const_cast<iNode&>(*n).setBrush(m_nodeForFormat.getBrsColor());
-	const_cast<iNode&>(*n).setNoBrush(m_nodeForFormat.isFilled());
-	const_cast<iNode&>(*n).setTextStyle(m_nodeForFormat.getTextStyle());
-	const_cast<iNode&>(*n).setFontColor(m_nodeForFormat.getFontColor());
-	const_cast<iNode&>(*n).setFontInfo(m_nodeForFormat.getFontInfo());
+	/*const_cast<iNode&>*/(*n).setLineColor(m_nodeForFormat.getLineColor());
+	/*const_cast<iNode&>*/(*n).setLineColor(m_nodeForFormat.getLineColor());
+	/*const_cast<iNode&>*/(*n).setLineStyle(m_nodeForFormat.getLineStyle());
+	/*const_cast<iNode&>*/(*n).setBrush(m_nodeForFormat.getBrsColor());
+	/*const_cast<iNode&>*/(*n).setNoBrush(m_nodeForFormat.isFilled());
+	/*const_cast<iNode&>*/(*n).setTextStyle(m_nodeForFormat.getTextStyle());
+	/*const_cast<iNode&>*/(*n).setFontColor(m_nodeForFormat.getFontColor());
+	/*const_cast<iNode&>*/(*n).setFontInfo(m_nodeForFormat.getFontInfo());
 	if (m_nodeForFormat.getNodeShape() == iNode::MetaFile) {
 		HENHMETAFILE hMetaFile = m_nodeForFormat.getMetaFile();
-		const_cast<iNode&>(*n).setMetaFile(hMetaFile);
+		/*const_cast<iNode&>*/(*n).setMetaFile(hMetaFile);
 	}
-	const_cast<iNode&>(*n).setNodeShape(m_nodeForFormat.getNodeShape());
-	const_cast<iNode&>(*n).setMarginL(m_nodeForFormat.getMarginL());
-	const_cast<iNode&>(*n).setMarginR(m_nodeForFormat.getMarginR());
-	const_cast<iNode&>(*n).setMarginT(m_nodeForFormat.getMarginT());
-	const_cast<iNode&>(*n).setMarginB(m_nodeForFormat.getMarginB());
+	/*const_cast<iNode&>*/(*n).setNodeShape(m_nodeForFormat.getNodeShape());
+	/*const_cast<iNode&>*/(*n).setMarginL(m_nodeForFormat.getMarginL());
+	/*const_cast<iNode&>*/(*n).setMarginR(m_nodeForFormat.getMarginR());
+	/*const_cast<iNode&>*/(*n).setMarginT(m_nodeForFormat.getMarginT());
+	/*const_cast<iNode&>*/(*n).setMarginB(m_nodeForFormat.getMarginB());
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
@@ -4736,7 +4736,7 @@ void iEditDoc::fitSetlectedNodeSize()
 	niterator it = nodes_.begin();
 	for ( ; it != nodes_.end(); it++) {
 		if ((*it).isSelected()) {
-			const_cast<iNode&>(*it).fitSize();
+			/*const_cast<iNode&>*/(*it).fitSize();
 		}
 	}
 	SetModifiedFlag();
@@ -4760,6 +4760,6 @@ void iEditDoc::setSelectedNodeScrollPos(int pos)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		const_cast<iNode&>(*it).setScrollPos(pos);
+		/*const_cast<iNode&>*/(*it).setScrollPos(pos);
 	}
 }
