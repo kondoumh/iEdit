@@ -2636,15 +2636,15 @@ void OutlineView::OnCopyTreeToClipboard()
 	if (OpenClipboard()) {
 		EmptyClipboard();
 		HGLOBAL hClipboardData;
-		hClipboardData = GlobalAlloc(GMEM_DDESHARE, strData.GetLength()+1);
+		size_t len = strData.GetLength()*sizeof(TCHAR);
+		hClipboardData = GlobalAlloc(GMEM_DDESHARE, len);
 
-		char * pchData;
-		pchData = (char*)GlobalLock(hClipboardData);
-		strcpy_s(pchData, strData.GetLength()+1, (const char*)strData.GetBuffer());
+		TCHAR* pchData;
+		pchData = (TCHAR*)GlobalLock(hClipboardData);
+		CopyMemory(pchData, strData, len);
 		GlobalUnlock(hClipboardData);
-		SetClipboardData(CF_TEXT,hClipboardData);
+		SetClipboardData(CF_UNICODETEXT, hClipboardData);
 		CloseClipboard();
-	//	GlobalFree(hClipboardData);
 	}
 	
 }
