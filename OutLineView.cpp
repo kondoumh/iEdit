@@ -2636,7 +2636,7 @@ void OutlineView::OnCopyTreeToClipboard()
 	if (OpenClipboard()) {
 		EmptyClipboard();
 		HGLOBAL hClipboardData;
-		size_t len = strData.GetLength()*sizeof(TCHAR);
+		size_t len = (strData.GetLength() + 1)*sizeof(TCHAR);
 		hClipboardData = GlobalAlloc(GMEM_DDESHARE, len);
 
 		TCHAR* pchData;
