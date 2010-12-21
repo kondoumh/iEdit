@@ -760,6 +760,15 @@ void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
+	int style = GetDocument()->getSelectedNodeTextStyle();
+
+	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
+		m_bLabelEditting = false;
+		GetDocument()->RouteCmdToAllViews(NULL, ID_SET_NODE_PROP, CN_COMMAND, NULL, NULL);
+		*pResult = 1;
+		return;
+	}
+
 	m_bLabelEditting = true;
 	*pResult = 0;
 }
