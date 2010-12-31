@@ -171,6 +171,8 @@ void CPropertyDlg::initPageNode()
 	pNode->margins.r = pApp->m_rgsNode.margin_r;
 	pNode->margins.t = pApp->m_rgsNode.margin_t;
 	pNode->margins.b = pApp->m_rgsNode.margin_b;
+
+	pNode->m_bPriorSelectionDragging = pApp->m_rgsNode.bPriorSelectionDragging;
 }
 
 void CPropertyDlg::initPageLink()
@@ -253,7 +255,8 @@ void CPropertyDlg::writePageNode()
 	pApp->WriteProfileInt(REGS_NODE, _T("Margin Right"), pNode->margins.r);
 	pApp->WriteProfileInt(REGS_NODE, _T("Margin Top"), pNode->margins.t);
 	pApp->WriteProfileInt(REGS_NODE, _T("Margin Bottom"), pNode->margins.b);
-		
+	pApp->WriteProfileInt(REGS_NODE, _T("Prior Selected Node Dragging"), pNode->m_bPriorSelectionDragging);
+	
 	pApp->getNodeProfile(); // アプリケーションオブジェクトの再設定
 }
 

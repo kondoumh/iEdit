@@ -6,11 +6,11 @@
 #define IDD_INPCN                       102
 #define IDB_SPLASH                      103
 #define IDD_ONPROC                      104
-#define IDR_MAINFRAME                   128
-#define IDR_IEDITTYPE                   129
+#define IDR_MAINFRAME                   127
+#define IDR_IEDITTYPE                   128
 #define IDR_FORM_PALLETE                129
 #define IDR_CONTEXT                     130
-#define IDR_XMLTYPE                     130
+#define IDR_XMLTYPE                     131
 #define IDC_LINK                        134
 #define IDC_RECT                        137
 #define IDC_ARC                         138
@@ -53,7 +53,6 @@
 #define IDB_NORMAL                      184
 #define IDC_POINTER_COPY                185
 #define IDC_POINTER_MOVE                186
-#define IDC_CURSOR1                     186
 #define IDD_ALPHASLIDE                  187
 #define IDC_LABELONLY                   197
 #define IDB_TB_PLDWN                    200
@@ -240,11 +239,8 @@
 #define IDC_ED_LEFT                     1103
 #define IDC_RADIO5                      1104
 #define IDC_RD_NAV_BOTH                 1104
-#define IDC_RADIO6                      1105
 #define IDC_RD_IMG_SVG                  1105
-#define IDC_RADIO7                      1106
 #define IDC_RD_IMG_PNG                  1106
-#define IDC_EDIT3                       1107
 #define IDC_ED_PRF_INDEX                1107
 #define IDC_ED_PRF_TOC                  1108
 #define IDC_ED_PRF_TEXT_SINGLE          1109
@@ -263,8 +259,8 @@
 #define IDC_ST_VERSION                  1122
 #define IDC_WEBSITE                     1123
 #define IDC_CHK_POST_ACTION             1125
-#define IDC_CHECK4                      1126
 #define IDC_CHK_EXPORT_FILELINK         1126
+#define IDC_PRIOR_SELECTION_DRAGGING    1127
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773

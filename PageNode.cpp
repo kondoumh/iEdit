@@ -47,8 +47,9 @@ void PageNode::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CHK_ENABLE_GROUPING, m_chkEnableGroup);
 	DDX_Control(pDX, IDC_RADIO_ASCENDING, m_btnAscending);
 	DDX_Control(pDX, IDC_RADIO_DESCENDING, m_btnDescending);
-	//}}AFX_DATA_MAP
 	DDX_Control(pDX, IDC_DISABLE_NODE_RESIZE, m_ChkDisableNodeResize);
+	DDX_Control(pDX, IDC_PRIOR_SELECTION_DRAGGING, m_chkPriorSelectionDragging);
+	//}}AFX_DATA_MAP
 }
 
 
@@ -71,9 +72,10 @@ BEGIN_MESSAGE_MAP(PageNode, CDialog)
 	ON_BN_CLICKED(IDC_CHK_ENABLE_GROUPING, &PageNode::OnBnClickedChkEnableGrouping)
 	ON_BN_CLICKED(IDC_RADIO_ASCENDING, &PageNode::OnBnClickedRadioAscending)
 	ON_BN_CLICKED(IDC_RADIO_DESCENDING, &PageNode::OnBnClickedRadioDescending)
-	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_DISABLE_NODE_RESIZE, &PageNode::OnBnClickedDisableNodeResize)
 	ON_BN_CLICKED(IDC_BTN_SET_MARGIN, &PageNode::OnBnClickedBtnSetMargin)
+	ON_BN_CLICKED(IDC_PRIOR_SELECTION_DRAGGING, &PageNode::OnBnClickedPriorSelectionDragging)
+	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -125,6 +127,7 @@ BOOL PageNode::OnInitDialog()
 	m_btnDescending.EnableWindow(m_bSyncOrder);
 	m_chkEnableGroup.SetCheck(m_bEnableGroup);
 	m_ChkDisableNodeResize.SetCheck(m_bDisableNodeResize);
+	m_chkPriorSelectionDragging.SetCheck(m_bPriorSelectionDragging);
 	
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
@@ -281,4 +284,11 @@ void PageNode::OnBnClickedBtnSetMargin()
 	margins.r = dlg.m_nRight;
 	margins.t = dlg.m_nTop;
 	margins.b = dlg.m_nBottom;
+}
+
+
+void PageNode::OnBnClickedPriorSelectionDragging()
+{
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	m_bPriorSelectionDragging = m_chkPriorSelectionDragging.GetCheck();
 }

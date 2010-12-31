@@ -31,6 +31,7 @@ struct rgsNode {
 	int  orderDirection;
 	BOOL bEnableGroup;
 	BOOL bDisableNodeResize;
+	BOOL bPriorSelectionDragging;
 	int margin_l;
 	int margin_r;
 	int margin_t;

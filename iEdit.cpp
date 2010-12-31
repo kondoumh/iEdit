@@ -280,6 +280,7 @@ void CiEditApp::getNodeProfile()
 	m_rgsNode.margin_r = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Margin Right"), 0);
 	m_rgsNode.margin_t = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Margin Top"), 0);
 	m_rgsNode.margin_b = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Margin Bottom"), 0);
+	m_rgsNode.bPriorSelectionDragging = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Prior Selected Node Dragging"), FALSE);
 }
 
 void CiEditApp::getLinkProfile()

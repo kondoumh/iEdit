@@ -698,7 +698,12 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		int trackState = tracker.HitTest(logPt);
 		CClientDC dc(this);
 		OnPrepareDC(&dc);
-		if (trackState != CRectTracker::hitNothing && trackState != CRectTracker::hitMiddle) {
+		bool hit = trackState != CRectTracker::hitNothing;
+		BOOL priorSelectionDragging = ((CiEditApp*)AfxGetApp())->m_rgsNode.bPriorSelectionDragging;
+		if (!priorSelectionDragging) {
+			hit &= trackState != CRectTracker::hitMiddle;
+		}
+		if (hit) {
 			trackSingle(logPt, point, &dc, nFlags & MK_SHIFT);
 			return;
 		}
@@ -886,7 +891,6 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 	tracker.m_nStyle = CRectTracker::resizeInside;
 	CRect old = GetDocument()->getRelatedBound(false); adjustRedrawBound(old);
 	if(tracker.Track(this, point, TRUE) ) {
-		
 		GetDocument()->backUpUndoNodes();
 		GetDocument()->backUpUndoLinks();
 		

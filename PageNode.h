@@ -96,6 +96,9 @@ public:
 	BOOL m_bDisableNodeResize;
 	afx_msg void OnBnClickedDisableNodeResize();
 	afx_msg void OnBnClickedBtnSetMargin();
+	BOOL m_bPriorSelectionDragging;
+	CButton m_chkPriorSelectionDragging;
+	afx_msg void OnBnClickedPriorSelectionDragging();
 };
 
 //{{AFX_INSERT_LOCATION}}
