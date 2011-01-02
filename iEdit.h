@@ -54,6 +54,11 @@ struct rgsOther {
 	BOOL bOutputFileLinksOnExport;
 };
 
+struct rgsOptions {
+	BOOL registFiletype;
+	BOOL registOldFiletype;
+};
+
 typedef map<int, HENHMETAFILE> HMetaFiles;
 
 void showLastErrorMessage();
@@ -80,9 +85,11 @@ public:
 	void loadMetaFiles(const CString& fname);
 	void getLinkProfile();
 	void getNodeProfile();
+	void getOptionsProfile();
 	rgsNode m_rgsNode;
 	rgsLink m_rgsLink;
 	rgsOther m_rgsOther;
+	rgsOptions m_rgsOptions;
 	HMetaFiles m_hMetaFiles;
 	CString m_mfCategories[10];
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
@@ -127,6 +134,8 @@ protected:
 private:
 	CMultiDocTemplate* m_pDocTemplate;
 	CMultiDocTemplate* m_pDocTemplate2;
+public:
+	afx_msg void OnFiletypeRegDel();
 };
 
 

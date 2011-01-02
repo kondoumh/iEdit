@@ -12,6 +12,8 @@
 #include "RelaxThrd.h"
 #include "afxwin.h"
 
+#include "FiletypeSettingDlg.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -49,6 +51,7 @@ BEGIN_MESSAGE_MAP(CiEditApp, CWinApp)
 	ON_COMMAND(ID_FILE_NEW, CiEditApp::OnFileNew)
 	// 標準の印刷セットアップ コマンド
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
+	ON_COMMAND(ID_FILETYPE_REG_DEL, &CiEditApp::OnFiletypeRegDel)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -109,6 +112,7 @@ BOOL CiEditApp::InitInstance()
 	getNodeProfile();
 	getLinkProfile();
 	getOtherProfile();
+	getOptionsProfile();
 	m_bShapeModified = false;
 	// アプリケーション用のドキュメント テンプレートを登録します。ドキュメント テンプレート
 	//  はドキュメント、フレーム ウィンドウとビューを結合するために機能します。
@@ -125,12 +129,14 @@ BOOL CiEditApp::InitInstance()
 	AddDocTemplate(m_pDocTemplate);
 	
 	// CMultiDocTemplate* pDocTemplate;
-	m_pDocTemplate2 = new CMultiDocTemplate(
-		IDR_IEDITTYPE_OLD,
-		RUNTIME_CLASS(iEditDoc),
-		RUNTIME_CLASS(CChildFrame),
-		RUNTIME_CLASS(OutlineView));
-	AddDocTemplate(m_pDocTemplate2);
+	if (m_rgsOptions.registOldFiletype) {
+		m_pDocTemplate2 = new CMultiDocTemplate(
+			IDR_IEDITTYPE_OLD,
+			RUNTIME_CLASS(iEditDoc),
+			RUNTIME_CLASS(CChildFrame),
+			RUNTIME_CLASS(OutlineView));
+		AddDocTemplate(m_pDocTemplate2);
+	}
 	
 	// メイン MDI フレーム ウィンドウを作成
 	CMainFrame* pMainFrame = new CMainFrame;
@@ -144,13 +150,15 @@ BOOL CiEditApp::InitInstance()
 	// ドラッグ/ドロップ のオープンを許可します
 	m_pMainWnd->DragAcceptFiles();
 	
-	// DDE Execute open を使用可能にします。
-	HKEY hkResult;
-	if (::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Classes"), &hkResult) == ERROR_SUCCESS) {
-		RegOverridePredefKey(HKEY_CLASSES_ROOT, hkResult);	
-		EnableShellOpen();
-		RegisterShellFileTypes(TRUE);
-		::RegOverridePredefKey(HKEY_CLASSES_ROOT, NULL);
+	if (m_rgsOptions.registFiletype) {
+		// DDE Execute open を使用可能にします。
+		HKEY hkResult;
+		if (::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Classes"), &hkResult) == ERROR_SUCCESS) {
+			RegOverridePredefKey(HKEY_CLASSES_ROOT, hkResult);
+			EnableShellOpen();
+			RegisterShellFileTypes(TRUE);
+			::RegOverridePredefKey(HKEY_CLASSES_ROOT, NULL);
+		}
 	}
 	
 	// DDE、file open など標準のシェル コマンドのコマンドラインを解析します。
@@ -299,6 +307,12 @@ void CiEditApp::getLinkProfile()
 	m_rgsLink.lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font StrikeOut"), FALSE);
 	m_rgsLink.lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font CharSet"), SHIFTJIS_CHARSET);
 	m_rgsLink.lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Weight"), FW_NORMAL);
+}
+
+void CiEditApp::getOptionsProfile()
+{
+	m_rgsOptions.registFiletype = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Register Filetypes"), TRUE);
+	m_rgsOptions.registOldFiletype = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Register Old Filetype"), TRUE);
 }
 
 int CiEditApp::ExitInstance() 
@@ -480,4 +494,28 @@ void CAboutDlg::OnStnClickedWebsite()
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	ShellExecute(m_hWnd, _T("open"), _T("http://homepage3.nifty.com/kondoumh/"), NULL, _T(""), SW_SHOW);
 	EndDialog(MB_OK);
+}
+
+
+void CiEditApp::OnFiletypeRegDel()
+{
+	// TODO: ここにコマンド ハンドラー コードを追加します。
+	FiletypeSettingDlg dlg;
+	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
+	BOOL bRegist = pApp->m_rgsOptions.registFiletype;
+	dlg.m_registFileType = bRegist ? 1 : 0;
+	dlg.m_bRegistOldtype = pApp->m_rgsOptions.registOldFiletype;
+	if (dlg.DoModal() != IDOK) return;
+	if (dlg.m_registFileType == 1) {
+		bRegist = TRUE;
+	} else {
+		bRegist = FALSE;
+	}
+	pApp->m_rgsOptions.registFiletype = bRegist;
+	pApp->m_rgsOptions.registOldFiletype = dlg.m_bRegistOldtype;
+	pApp->WriteProfileInt(REGS_OTHER, _T("Register Filetypes"), bRegist);
+	pApp->WriteProfileInt(REGS_OTHER, _T("Register Old Filetype"), dlg.m_bRegistOldtype);
+	if (!bRegist) {
+		UnregisterShellFileTypes();
+	}
 }

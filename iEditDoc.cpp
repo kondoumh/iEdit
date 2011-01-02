@@ -3746,6 +3746,9 @@ void iEditDoc::OnFileSaveAs()
 	}
 	
 	CString szFilter = _T("iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied|XMLファイル(*.xml)|*xml||");
+	if (!((CiEditApp*)AfxGetApp())->m_rgsOptions.registOldFiletype) {
+		szFilter = _T("iEditファイル(*.iedx)|*.iedx|XMLファイル(*.xml)|*xml||");
+	}
 	CFileDialog cfDlg(FALSE, NULL, fileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
 		OFN_FILEMUSTEXIST | OFN_EXPLORER, szFilter, AfxGetMainWnd());
 	if (cfDlg.DoModal() == IDOK) {

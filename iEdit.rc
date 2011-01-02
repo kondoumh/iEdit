@@ -171,6 +171,8 @@ BEGIN
         MENUITEM "透過ウィンドウを有効に(&T)",             ID_TRANSPARENT_MODE
         MENUITEM "透明度の調整(&A)",                  ID_ADJUST_ALPHA
         MENUITEM SEPARATOR
+        MENUITEM "ファイルタイプの登録・削除(&F)",           ID_FILETYPE_REG_DEL
+        MENUITEM SEPARATOR
         MENUITEM "オプション(&O)",                   ID_SET_PROPERTIES
     END
     POPUP "ヘルプ(&H)"
@@ -375,6 +377,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "透過ウィンドウを有効に(&T)",             ID_TRANSPARENT_MODE
         MENUITEM "透明度の調整(&A)",                  ID_ADJUST_ALPHA
+        MENUITEM SEPARATOR
+        MENUITEM "ファイルタイプの登録・削除(&F)",           ID_FILETYPE_REG_DEL
         MENUITEM SEPARATOR
         MENUITEM "オプション(&O)",                   ID_SET_PROPERTIES
     END
@@ -897,6 +901,8 @@ BEGIN
         MENUITEM "透過ウィンドウを有効に(&T)",             ID_TRANSPARENT_MODE
         MENUITEM "透明度の調整(&A)",                  ID_ADJUST_ALPHA
         MENUITEM SEPARATOR
+        MENUITEM "ファイルタイプの登録・削除(&F)",           ID_FILETYPE_REG_DEL
+        MENUITEM SEPARATOR
         MENUITEM "オプション(&O)",                   ID_SET_PROPERTIES
     END
     POPUP "ウィンドウ(&W)"
@@ -1403,6 +1409,20 @@ BEGIN
     PUSHBUTTON      "コピー(&C)",IDC_BTN_COPY,132,54,78,14
 END
 
+IDD_SHELL_FILETYPE_SETTING DIALOGEX 0, 0, 268, 82
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ファイルタイプ登録設定"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "iEditのファイルタイプ(iedx)をシステムに登録しない(登録を解除します)",IDC_RD_NOT_REGIST,
+                    "Button",BS_AUTORADIOBUTTON | WS_GROUP,7,8,229,10
+    CONTROL         "iEditのファイルタイプ(iedx)をシステムに登録する(再起動時有効)",IDC_RD_REGIST,
+                    "Button",BS_AUTORADIOBUTTON,7,27,214,10
+    CONTROL         "旧ファイルタイプ(ied形式)も登録する",IDC_CHK_REGIST_OLDTYPE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,42,129,10
+    DEFPUSHBUTTON   "OK",IDOK,147,61,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,211,61,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1652,6 +1672,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 61
     END
+
+    IDD_SHELL_FILETYPE_SETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 261
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 75
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -1806,6 +1834,10 @@ END
 STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "iEdit"
+END
+
+STRINGTABLE
+BEGIN
     IDR_IEDITTYPE           "\niEdit\niEdit\niEdit ファイル (*.iedx)\n.iedx\niEdit.Document\niEdit Document"
     IDR_XMLTYPE             "\nXML\nxml\nxmlファイル (*.xml)\n.xml\nXML.Document\nXML Document"
 END
@@ -2092,6 +2124,7 @@ END
 STRINGTABLE
 BEGIN
     ID_RESIZE_TOFIT         "フィットするようにリサイズする\nリサイズする"
+    ID_FILETYPE_REG_DEL     "ファイルタイプを登録・削除する"
 END
 
 #endif    // 日本語 (日本) resources

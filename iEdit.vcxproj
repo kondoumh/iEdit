@@ -158,6 +158,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="FiletypeSettingDlg.cpp" />
     <ClCompile Include="iEdit.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -317,6 +318,7 @@
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="DebugPrintDlg.h" />
     <ClInclude Include="EditorView.h" />
+    <ClInclude Include="FiletypeSettingDlg.h" />
     <ClInclude Include="iEdit.h" />
     <ClInclude Include="iEditDoc.h" />
     <ClInclude Include="iLink.h" />

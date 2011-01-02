@@ -63,6 +63,7 @@
 #define IDD_SETMARGIN                   210
 #define IDD_SET_HTML_EXPORT             211
 #define IDD_DEBUG_WINDOW                212
+#define IDD_SHELL_FILETYPE_SETTING      214
 #define IDC_LINKFROM                    1001
 #define IDC_LINKTO                      1002
 #define IDC_COMBO                       1003
@@ -144,6 +145,7 @@
 #define IDC_CHK_PRINT_TEXT              1027
 #define IDC_CHKLABEL                    1027
 #define IDC_CHK_SYNC_ORDER              1027
+#define IDC_CHK_REGIST_OLDTYPE          1027
 #define IDC_PROC_NAME                   1028
 #define IDC_CHK_SAVE_FRAME              1028
 #define IDC_LB_OUTLINE                  1029
@@ -261,6 +263,8 @@
 #define IDC_CHK_POST_ACTION             1125
 #define IDC_CHK_EXPORT_FILELINK         1126
 #define IDC_PRIOR_SELECTION_DRAGGING    1127
+#define IDC_RD_NOT_REGIST               1127
+#define IDC_RD_REGIST                   1128
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773
@@ -505,15 +509,17 @@
 #define ID_RESIZE_TOFIT                 33077
 #define ID_NET_33081                    33081
 #define ID_REPLACE_METAFILE             33082
+#define ID_33083                        33083
+#define ID_FILETYPE_REG_DEL             33084
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        214
-#define _APS_NEXT_COMMAND_VALUE         33083
-#define _APS_NEXT_CONTROL_VALUE         1127
+#define _APS_NEXT_RESOURCE_VALUE        215
+#define _APS_NEXT_COMMAND_VALUE         33085
+#define _APS_NEXT_CONTROL_VALUE         1129
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif
