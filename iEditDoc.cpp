@@ -3159,7 +3159,6 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 				}
 			}
 		} else {
-			sLink += _T("<li><a href=\"");
 			CString url = (*li).getPath();
 			if (url.Find(_T("http://")) == -1 && url.Find(_T("https://")) == -1 && url.Find(_T("ftp://")) == -1) {
 				if (!((CiEditApp*)AfxGetApp())->m_rgsOther.bOutputFileLinksOnExport) continue;
@@ -3177,6 +3176,7 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 					url = _T("file:///") + url;
 				}
 			}
+			sLink += _T("<li><a href=\"");
 			sLink += url;
 			sLink += _T("\" target=\"_top\">");
 			if ((*li).getName() != _T("")) {
