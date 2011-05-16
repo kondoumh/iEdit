@@ -481,85 +481,84 @@ void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
 {
 	int styleText = node.getTextStyle();
-	UINT nFormat = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
-	
+	UINT nFormat;
 	switch (styleText) {
 	case iNode::s_cc:
-		nFormat = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
+		nFormat = DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_cl:
-		nFormat = DT_LEFT | DT_VCENTER | DT_SINGLELINE;
+		nFormat = DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_cr:
-		nFormat = DT_RIGHT | DT_VCENTER | DT_SINGLELINE;
+		nFormat = DT_RIGHT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_tc:
-		nFormat =DT_CENTER | DT_TOP | DT_SINGLELINE;
+		nFormat =DT_CENTER | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_tl:
-		nFormat = DT_LEFT | DT_TOP | DT_SINGLELINE;
+		nFormat = DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_tr:
-		nFormat =DT_RIGHT | DT_TOP | DT_SINGLELINE;
+		nFormat =DT_RIGHT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_bc:
-		nFormat =DT_CENTER | DT_BOTTOM | DT_SINGLELINE;
+		nFormat =DT_CENTER | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.bottom -= node.getMarginB();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_bl:
-		nFormat = DT_LEFT | DT_BOTTOM | DT_SINGLELINE;
+		nFormat = DT_LEFT | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.bottom -= node.getMarginB();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::s_br:
-		nFormat = DT_RIGHT | DT_BOTTOM | DT_SINGLELINE;
+		nFormat = DT_RIGHT | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.bottom -= node.getMarginB();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::m_c:
-		nFormat = DT_CENTER | DT_WORDBREAK;
+		nFormat = DT_CENTER | DT_WORDBREAK | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::m_l:
-		nFormat = DT_LEFT | DT_WORDBREAK;
+		nFormat = DT_LEFT | DT_WORDBREAK | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
 	
 	case iNode::m_r:
-		nFormat = DT_RIGHT | DT_WORDBREAK;
+		nFormat = DT_RIGHT | DT_WORDBREAK | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
