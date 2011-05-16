@@ -674,8 +674,12 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 		return;
 	}
-	
-	
+
+	// ぷるぷるモード
+	if (nFlags & MK_SHIFT) {
+		
+	}
+
 	// 複数選択中にトラッカを選択した → 複数トラック処理
 	if (m_selectStatus == NetView::multi) {
 		if (m_selectRect.PtInRect(logPt)) {
@@ -1224,6 +1228,10 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		return;
 	}
 	
+	if (nFlags & MK_SHIFT) {
+		
+		return;
+	}
 	
 	/////////////////////
 	// link の Curve
