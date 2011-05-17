@@ -335,7 +335,7 @@ BEGIN
             MENUITEM "ルーペ(&L)",                     ID_ZOOM_MODE
             MENUITEM "つかんでスクロール(&G)",               ID_GRASP_MODE
             MENUITEM "再描画(&I)",                     ID_REFRESH_NET_VIEW
-            MENUITEM "ランダム配置(&R)",                  ID_RANDOMIZE
+            MENUITEM "ランダム配置(&R)\tCtrl+Shift+R",    ID_RANDOMIZE
             MENUITEM "自動レイアウトモード(&A)",              ID_AUTO_LAYOUT
             MENUITEM "描画順序を表示(&O)",                 ID_DRAW_ORDER_INFO
         END
@@ -857,7 +857,7 @@ BEGIN
             MENUITEM "ルーペ(&L)",                     ID_ZOOM_MODE
             MENUITEM "つかんでスクロール(&G)",               ID_GRASP_MODE
             MENUITEM "再描画(&I)",                     ID_REFRESH_NET_VIEW
-            MENUITEM "ランダム配置(&R)",                  ID_RANDOMIZE
+            MENUITEM "ランダム配置(&R)\tCtrl+Shift+R",    ID_RANDOMIZE
             MENUITEM "自動レイアウトモード(&A)",              ID_AUTO_LAYOUT
             MENUITEM "描画順序を表示(&O)",                 ID_DRAW_ORDER_INFO
         END
@@ -953,11 +953,11 @@ BEGIN
     VK_LEFT,        ID_LEBEL_UP,            VIRTKEY, SHIFT, CONTROL, NOINVERT
     VK_DOWN,        ID_ORDER_DOWN,          VIRTKEY, SHIFT, CONTROL, NOINVERT
     VK_UP,          ID_ORDER_UP,            VIRTKEY, SHIFT, CONTROL, NOINVERT
+    "R",            ID_RANDOMIZE,           VIRTKEY, SHIFT, CONTROL, NOINVERT
     "T",            ID_RESIZE_TOFIT,        VIRTKEY, CONTROL, NOINVERT
     "M",            ID_SHOW_NODE_SHAPES,    VIRTKEY, CONTROL, NOINVERT
     VK_F6,          ID_SHOW_SELECTED_BRANCH, VIRTKEY, NOINVERT
     VK_F5,          ID_SHOW_SELECTED_CHILDREN, VIRTKEY, NOINVERT
-    "R",            ID_RANDOMIZE,           VIRTKEY, SHIFT, NOINVERT
 END
 
 
