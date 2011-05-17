@@ -10,7 +10,6 @@
 #include "nodePropDlg.h"
 #include "OnProcDlg.h"
 #include "RelaxThrd.h"
-#include "randAreaDlg.h"
 #include "shapesDlg.h"
 #include "MainFrm.h"
 #include "MfSizer.h"
@@ -2582,6 +2581,7 @@ void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 		CScrollView::OnKeyUp(nChar, nRepCnt, nFlags);
 		return;
 	}
+
 	if (nChar == VK_ESCAPE) {
 		if (m_bLinkCurving) {
 			m_bLinkCurving = false;
@@ -2845,16 +2845,14 @@ void NetView::OnRandomize()
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
-	randAreaDlg dlg;
-	dlg.m_height = 768;
-	dlg.m_width = 1024;
-	if (dlg.DoModal() != IDOK) return;
+	CRect rc; GetClientRect(rc);
 	GetDocument()->disableUndo();
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
-	GetDocument()->randomNodesPos(CSize(dlg.m_width, dlg.m_height), bDrwAll);
+	GetDocument()->randomNodesPos(CSize(rc.Width(), rc.Height()), bDrwAll);
 	m_selectRect = CRect(0, 0, 0, 0);
 	adjustScrollArea();
+	Invalidate();
 }
 
 void NetView::OnUpdateRandomize(CCmdUI* pCmdUI) 

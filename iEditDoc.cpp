@@ -3071,6 +3071,9 @@ void iEditDoc::addImportData(bool brepRoot)
 
 void iEditDoc::randomNodesPos(const CSize &area, bool bDrwAll)
 {
+	SYSTEMTIME st;
+	GetSystemTime(&st);
+	srand((unsigned)st.wMilliseconds);
 	niterator it = nodes_.begin();
 	for ( ; it != nodes_.end(); it++) {
 //		if (!bDrwAll) {

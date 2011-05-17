@@ -37,7 +37,6 @@
 #define IDC_LAYOUT                      162
 #define IDC_RRECT                       163
 #define IDD_SELIMPORT                   164
-#define IDD_RANDAREA                    165
 #define IDD_SELEXPORT                   166
 #define IDD_SHAPES                      168
 #define IDR_SHAPE                       169
@@ -156,8 +155,6 @@
 #define IDC_EDITCY                      1035
 #define IDC_EDIT1                       1036
 #define IDC_RADIO_SHAPE3                1037
-#define IDC_WIDTH                       1038
-#define IDC_HEIGHT                      1039
 #define IDC_SLID                        1041
 #define IDC_STRN                        1042
 #define IDC_CHK_INHERIT_PARENT          1043
@@ -518,7 +515,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        215
-#define _APS_NEXT_COMMAND_VALUE         33085
+#define _APS_NEXT_COMMAND_VALUE         33088
 #define _APS_NEXT_CONTROL_VALUE         1129
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

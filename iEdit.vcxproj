@@ -241,10 +241,6 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="randAreaDlg.cpp">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
     <ClCompile Include="RectTrackerPlus.cpp" />
     <ClCompile Include="RelaxThrd.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -341,7 +337,6 @@
     <ClInclude Include="PageNode.h" />
     <ClInclude Include="PageOther.h" />
     <ClInclude Include="PropertyDlg.h" />
-    <ClInclude Include="randAreaDlg.h" />
     <ClInclude Include="RectTrackerPlus.h" />
     <ClInclude Include="RelaxThrd.h" />
     <ClInclude Include="Resource.h" />
