@@ -2849,7 +2849,7 @@ void NetView::OnRandomize()
 	GetDocument()->disableUndo();
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
-	GetDocument()->randomNodesPos(CSize(rc.Width(), rc.Height()), bDrwAll);
+	GetDocument()->randomNodesPos(CSize((int)(rc.Width()*0.8), (int)(rc.Height()*0.8)), bDrwAll);
 	m_selectRect = CRect(0, 0, 0, 0);
 	adjustScrollArea();
 	Invalidate();
