@@ -2238,7 +2238,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 		} else {
 			if (label == _T("")) {
 				CString line = lines[i];
-				label = line.TrimLeft(_T("."));
+				label = line.TrimLeft(_T("\t."));
 				continue;
 			}
 			nodeCreated = true;
@@ -3010,7 +3010,19 @@ void OutlineView::OnPasteTreeFromClipboard()
 		lines.push_back(s);
 	}
 	nVec addNodes;
-	if (levelToNode(lines, addNodes, '\t')) {
+	
+	ImportTextDlg dlg;
+	dlg.m_fileName = _T("<クリップボードから>");
+	dlg.m_charSelection = 1;
+	if (dlg.DoModal() != IDOK) {
+		return;
+	}
+	int levelChar = '.';
+	if (dlg.m_charSelection == 1) {
+		levelChar = '\t';
+	}
+	
+	if (levelToNode(lines, addNodes, levelChar)) {
 		treeAddBranch2(tree().GetItemData(curItem()), addNodes);
 	}
 	if (mode == 1) {
