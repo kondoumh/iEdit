@@ -383,7 +383,6 @@
     <None Include="res\rect.cur" />
     <None Include="res\Toolbar.bmp" />
     <None Include="res\tree.bmp" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="iEdit.reg" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
