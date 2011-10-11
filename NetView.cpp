@@ -3369,7 +3369,7 @@ bool NetView::isScaleChanged() const
 BOOL NetView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
-	if (m_bZooming) {
+	if (m_bZooming || nFlags & MK_CONTROL) {
 		CPoint logPt = pt; ViewDPtoLP(&logPt);
 		if (zDelta < 0) {
 			ZoomIn(/*NULL*/&pt, 0.05);
