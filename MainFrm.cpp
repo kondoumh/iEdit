@@ -77,6 +77,7 @@ ON_UPDATE_COMMAND_UI(ID_VIEW_FORM_BAR, &CMainFrame::OnUpdateViewFormBar)
 ON_COMMAND(ID_SELECT_NODE_COLOR, &CMainFrame::OnSelectNodeColor)
 ON_COMMAND(ID_SELECT_LINE_COLOR, &CMainFrame::OnSelectLineColor)
 ON_COMMAND(ID_SELECT_FONT_COLOR, &CMainFrame::OnSelectFontColor)
+ON_COMMAND(ID_APP_HELP, &CMainFrame::OnAppHelp)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -796,4 +797,10 @@ void CMainFrame::ShowDebugMessage(const CString &message)
 		m_pDebugPrintDlg->MoveWindow(rc);
 	}
 	m_pDebugPrintDlg->m_edConsole.ReplaceSel(message + _T("\r\n"));
+}
+
+
+void CMainFrame::OnAppHelp()
+{
+	ShellExecute(m_hWnd, _T("open"), _T("http://kondoumh.com/software/ieditman/index.html"), NULL, _T(""), SW_SHOW);
 }

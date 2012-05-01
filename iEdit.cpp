@@ -492,7 +492,7 @@ BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 void CAboutDlg::OnStnClickedWebsite()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	ShellExecute(m_hWnd, _T("open"), _T("http://homepage3.nifty.com/kondoumh/"), NULL, _T(""), SW_SHOW);
+	ShellExecute(m_hWnd, _T("open"), _T("http://kondoumh.com/software/iedit.html"), NULL, _T(""), SW_SHOW);
 	EndDialog(MB_OK);
 }
 

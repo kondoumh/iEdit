@@ -142,6 +142,7 @@ public:
 	afx_msg void OnSelectNodeColor();
 	afx_msg void OnSelectLineColor();
 	afx_msg void OnSelectFontColor();
+	afx_msg void OnAppHelp();
 };
 
 /////////////////////////////////////////////////////////////////////////////

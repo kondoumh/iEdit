@@ -508,6 +508,8 @@
 #define ID_REPLACE_METAFILE             33082
 #define ID_33083                        33083
 #define ID_FILETYPE_REG_DEL             33084
+#define ID_33088                        33088
+#define ID_APP_HELP                     33089
 
 // Next default values for new objects
 // 
@@ -515,7 +517,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        215
-#define _APS_NEXT_COMMAND_VALUE         33088
+#define _APS_NEXT_COMMAND_VALUE         33090
 #define _APS_NEXT_CONTROL_VALUE         1129
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
