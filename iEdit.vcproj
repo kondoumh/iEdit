@@ -261,6 +261,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\FiletypeSettingDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath="iEdit.cpp"
 				>
 				<FileConfiguration
@@ -689,26 +693,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="randAreaDlg.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\RectTrackerPlus.cpp"
 				>
 			</File>
@@ -1024,6 +1008,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FiletypeSettingDlg.h"
+				>
+			</File>
+			<File
 				RelativePath="iEdit.h"
 				>
 			</File>
@@ -1109,10 +1097,6 @@
 			</File>
 			<File
 				RelativePath="PropertyDlg.h"
-				>
-			</File>
-			<File
-				RelativePath="randAreaDlg.h"
 				>
 			</File>
 			<File
@@ -1297,10 +1281,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ClassDiagram1.cd"
-			>
-		</File>
 		<File
 			RelativePath="iEdit.reg"
 			>
