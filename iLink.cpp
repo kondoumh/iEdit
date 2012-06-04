@@ -101,9 +101,12 @@ void iLink::drawComment(CDC *pDC, bool clipbrd)
 //	COLORREF oldColor = pDC->SetBkColor(RGB(128, 0, 255));
 //	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
 //	pDC->DrawText(name_, &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	
 	pDC->TextOut(rc.left, rc.top, name_);
 	
-	if (!pDC->IsPrinting() && !clipbrd) {
+	bool renderHandle = this->curved_ && this->name_.GetLength() == 0 && !this->angled_;
+	
+	if (!pDC->IsPrinting() && !clipbrd && renderHandle) {
 		penCommentRect.CreatePen(PS_DOT, 0, RGB(127, 127, 127));
 		CPen* poldPen = pDC->SelectObject(&penCommentRect);
 		pDC->MoveTo(rc.TopLeft());
