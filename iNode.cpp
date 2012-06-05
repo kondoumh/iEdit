@@ -274,16 +274,20 @@ void iNode::adjustFont(bool bForceResize)
 			bound_.bottom = bound_.top + height;
 		}
 	} else {
-		int width = sz.cx + margin_l_ + margin_r_;
-		int height = sz.cy + margin_t_;
-		if (bound_.Width()*bound_.Height() >= width*height) return;
-		if (name_.Find(_T("\n")) == -1) {
-			enhanceBoundGradualy(width*height);
-			bound_.bottom += (int)((double)hmargin);
+		if (true) { // TODO ƒIƒvƒVƒ‡ƒ“‰»
+			fitFixedWidth();
 		} else {
-			enhanceLineOriented(sz);
+			int width = sz.cx + margin_l_ + margin_r_;
+			int height = sz.cy + margin_t_;
+			if (bound_.Width()*bound_.Height() >= width*height) return;
+			if (name_.Find(_T("\n")) == -1) {
+				enhanceBoundGradualy(width*height);
+				bound_.bottom += (int)((double)hmargin);
+			} else {
+				enhanceLineOriented(sz);
+			}
+			bound_.right += wmargin;
 		}
-		bound_.right += wmargin;
 	}
 }
 
@@ -310,6 +314,16 @@ void iNode::enhanceLineOriented(const CSize& sz)
 	int height = sz.cy*(lineCount - 1) + margin_t_;
 	bound_.right = bound_.left + width;
 	bound_.bottom = bound_.top + height;
+}
+
+void iNode::fitFixedWidth()
+{
+	int lineCount, maxLength;
+	getInnerLineInfo(name_, lineCount, maxLength);
+	
+	double dw = bound_.Width();
+	double dh = bound_.Height();
+	int square = (int)(dw*dh);
 }
 
 void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
