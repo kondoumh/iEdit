@@ -318,12 +318,20 @@ void iNode::enhanceLineOriented(const CSize& sz)
 
 void iNode::fitFixedWidth()
 {
-	int lineCount, maxLength;
-	getInnerLineInfo(name_, lineCount, maxLength);
-	
-	double dw = bound_.Width();
-	double dh = bound_.Height();
-	int square = (int)(dw*dh);
+	int lineCount = 1;
+	CToken tok(this->getName()+ _T("\n"));
+	tok.SetToken(_T("\n"));
+	CSize fontSz = getNodeTextSize();
+	for ( ; tok.MoreTokens(); lineCount++) {
+		CString line = tok.GetNextToken();
+		double lineWidth = ((double)fontSz.cx)*((double)line.GetLength());
+		int formatLine = (int)(lineWidth/(double)bound_.Width());
+		if (formatLine > 1) {
+			lineCount += formatLine;
+		}
+	}
+
+	bound_.bottom = bound_.top + /*fontSz.cy*/10*lineCount /* + margin_t_*/;
 }
 
 void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
