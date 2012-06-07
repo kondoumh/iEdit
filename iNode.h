@@ -132,7 +132,7 @@ private:
 	void initCopy(const iNode& n);
 	void enhanceBoundGradualy(int area);
 	void enhanceLineOriented(const CSize& sz);
-	void fitFixedWidth();
+	//void fitFixedWidth();
 	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
 	int scrollpos_;
 	int margin_l_;

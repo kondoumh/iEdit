@@ -274,20 +274,16 @@ void iNode::adjustFont(bool bForceResize)
 			bound_.bottom = bound_.top + height;
 		}
 	} else {
-		if (true) { // TODO オプション化
-			fitFixedWidth();
+		int width = sz.cx + margin_l_ + margin_r_;
+		int height = sz.cy + margin_t_;
+		if (bound_.Width()*bound_.Height() >= width*height) return;
+		if (name_.Find(_T("\n")) == -1) {
+			enhanceBoundGradualy(width*height);
+			bound_.bottom += (int)((double)hmargin);
 		} else {
-			int width = sz.cx + margin_l_ + margin_r_;
-			int height = sz.cy + margin_t_;
-			if (bound_.Width()*bound_.Height() >= width*height) return;
-			if (name_.Find(_T("\n")) == -1) {
-				enhanceBoundGradualy(width*height);
-				bound_.bottom += (int)((double)hmargin);
-			} else {
-				enhanceLineOriented(sz);
-			}
-			bound_.right += wmargin;
+			enhanceLineOriented(sz);
 		}
+		bound_.right += wmargin;
 	}
 }
 
@@ -316,23 +312,31 @@ void iNode::enhanceLineOriented(const CSize& sz)
 	bound_.bottom = bound_.top + height;
 }
 
-void iNode::fitFixedWidth()
-{
-	int lineCount = 1;
-	CToken tok(this->getName()+ _T("\n"));
-	tok.SetToken(_T("\n"));
-	CSize fontSz = getNodeTextSize();
-	for ( ; tok.MoreTokens(); lineCount++) {
-		CString line = tok.GetNextToken();
-		double lineWidth = ((double)fontSz.cx)*((double)line.GetLength());
-		int formatLine = (int)(lineWidth/(double)bound_.Width());
-		if (formatLine > 1) {
-			lineCount += formatLine;
-		}
-	}
-
-	bound_.bottom = bound_.top + /*fontSz.cy*/10*lineCount /* + margin_t_*/;
-}
+// 幅固定で行を伸縮させることを考えて作りかけたが、DrawText が
+// 複数行の折り返しに対応してないので、意味がないことが分かった
+// 1行1行DrawTextすれば出来そうだが。。
+//void iNode::fitFixedWidth()
+//{
+//	int lineCount = 0;
+//	CToken tok(this->getName()+ _T("\n"));
+//	tok.SetToken(_T("\n"));
+//	CSize fontSz = (int)((double)getNodeTextSize().cx/(double)name_.GetLength());
+//	do {
+//		CString line = tok.GetNextToken();
+//		lineCount++;
+//		int lineWidth = fontSz.cx*line.GetLength();
+//		int formatLine = (int)((double)lineWidth/(double)bound_.Width());
+//		lineCount += formatLine;
+//		CString t; t.Format(_T("w:%d fw:%d len:%d lw:%d, fl:%d"), 
+//			bound_.Width(), fontSz.cx, line.GetLength(), lineWidth, formatLine);
+//		DEBUG_WRITE(t);
+//	} while (tok.MoreTokens());
+//
+//	CString s; s.Format(_T("%d"), lineCount);
+//	DEBUG_WRITE(s);
+//
+//	bound_.bottom = bound_.top + /*fontSz.cy*/10*lineCount /* + margin_t_*/;
+//}
 
 void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
 {
