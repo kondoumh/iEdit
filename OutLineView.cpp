@@ -761,8 +761,11 @@ void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int style = GetDocument()->getSelectedNodeTextStyle();
+	bool multiline = GetDocument()->isSelectedNodeMultiLine();
+	CString label = GetDocument()->getSelectedNodeLabel();
+	bool multilineActual = label.Find(_T("\n")) != -1;
 
-	if ((style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) && !m_bAddingChild && !m_bAdding) {
+	if (multiline && multilineActual && !m_bAddingChild && !m_bAdding) {
 		m_bLabelEditting = false;
 		GetDocument()->RouteCmdToAllViews(NULL, ID_SET_NODE_PROP, CN_COMMAND, NULL, NULL);
 		*pResult = 1;
