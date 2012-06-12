@@ -765,7 +765,7 @@ void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 	CString label = GetDocument()->getSelectedNodeLabel();
 	bool multilineActual = label.Find(_T("\n")) != -1;
 
-	if (multiline && multilineActual && !m_bAddingChild && !m_bAdding) {
+	if (multiline && multilineActual && !m_bAdding) {
 		m_bLabelEditting = false;
 		GetDocument()->RouteCmdToAllViews(NULL, ID_SET_NODE_PROP, CN_COMMAND, NULL, NULL);
 		*pResult = 1;
