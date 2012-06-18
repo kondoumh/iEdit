@@ -676,7 +676,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 
 	// リンクオーバーアクション開始
-	if (nFlags & MK_SHIFT) {
+	if (GetAsyncKeyState(VK_MENU) & 0x8000) {
 		CRect r;
 		if (GetDocument()->hitTest(logPt, r, false)) {
 			// ノードの矩形内のオフセットを計算
@@ -1243,7 +1243,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	///////////////////////////////
 	// リンクオーバーアクション
 	///////////////////////////////
-	if (nFlags & MK_SHIFT && m_bLinkAction) {
+	if (GetAsyncKeyState(VK_MENU) & 0x8000 && m_bLinkAction) {
 		CRect rc = GetDocument()->getSelectedNodeRect();
 		CRect prevRc = rc;
 		int height = rc.Height();
@@ -1263,7 +1263,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 			rc.bottom = height;
 		}
 		
-		GetDocument()->setSelectedNodeBound(rc);
+		GetDocument()->setSelectedNodeBound(rc, false);
 		
 		CRect rBound = prevRc + rc;
 		ViewLPtoDP(rBound);
@@ -1359,6 +1359,12 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	// 芋蔓モードの解除
 	if (m_bDragRelax) {
 		cancelDragRelax();
+		return;
+	}
+
+	// 付け外しアクションの解除
+	if (m_bLinkAction) {
+		m_bLinkAction = false;
 		return;
 	}
 	

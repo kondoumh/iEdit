@@ -241,7 +241,7 @@ public:
 	bool setEndLink(const CPoint& pt, int arrowType=iLink::line, bool bDrwAll=false, bool bArrowSpecification=false);
 	bool setStartLink(const CPoint& pt);
 	void drawLinks(CDC* pDC, bool bDrwAll=false, bool clipbrd=false);
-	void setSelectedNodeBound(const CRect& r);
+	void setSelectedNodeBound(const CRect& r, bool widthLink = true);
 	void moveSelectedNode(const CSize& sz);
 	bool hitTest(const CPoint& pt, CRect& r, bool bDrwAll=false);
 	void drawNodes(CDC* pDC, bool bDrwAll = false);

@@ -642,11 +642,13 @@ void iEditDoc::moveSelectedLink(const CSize &sz)
 }
 
 
-void iEditDoc::setSelectedNodeBound(const CRect &r)
+void iEditDoc::setSelectedNodeBound(const CRect &r, bool withLink)
 {
 	backUpUndoNodes();
 	nodes_.setSelectedNodeBound(r);
-	setConnectPoint();
+	if (withLink) {
+		setConnectPoint();
+	}
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
