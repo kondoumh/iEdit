@@ -237,6 +237,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	bool m_bLinkAction;
 	CPoint m_curveStartPt;
 	CPoint m_alterLinkStartPt;
 	void deleteSelectedNodes();

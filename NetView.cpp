@@ -67,6 +67,7 @@ NetView::NetView()
 	m_bDragRelax = false;
 	m_bFormCopied = FALSE;
 	m_bGrpOlCoupled = FALSE;
+	m_bLinkAction = false;
 }
 
 NetView::~NetView()
@@ -674,9 +675,21 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	// ぷるぷるモード
+	// リンクオーバーアクション開始
 	if (nFlags & MK_SHIFT) {
-		
+		CRect r;
+		if (GetDocument()->hitTest(logPt, r, false)) {
+			// ノードの矩形内のオフセットを計算
+			CPoint selTopLeft = GetDocument()->getSelectedNodeRect().TopLeft();
+			m_dragOffset = selTopLeft - logPt;
+			
+			GetDocument()->disableUndo();
+			GetDocument()->backUpUndoNodes();
+			GetDocument()->backUpUndoLinks();
+			m_bLinkAction = true;
+			m_ptPrePos = point;
+		}
+		return;
 	}
 
 	// 複数選択中にトラッカを選択した → 複数トラック処理
@@ -1227,8 +1240,34 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		return;
 	}
 	
-	if (nFlags & MK_SHIFT) {
+	///////////////////////////////
+	// リンクオーバーアクション
+	///////////////////////////////
+	if (nFlags & MK_SHIFT && m_bLinkAction) {
+		CRect rc = GetDocument()->getSelectedNodeRect();
+		CRect prevRc = rc;
+		int height = rc.Height();
+		int width = rc.Width();
+		rc.left = point.x;
+		rc.top = point.y;
+		rc.right = rc.left + width;
+		rc.bottom = rc.top + height;
+		rc.OffsetRect(m_dragOffset);
 		
+		if (rc.left < 0) {
+			rc.left = 0;
+			rc.right = width;
+		}
+		if (rc.top < 0) {
+			rc.top = 0;
+			rc.bottom = height;
+		}
+		
+		GetDocument()->setSelectedNodeBound(rc);
+		
+		CRect rBound = prevRc + rc;
+		ViewLPtoDP(rBound);
+		InvalidateRect(rBound);
 		return;
 	}
 	
