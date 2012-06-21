@@ -40,6 +40,7 @@ iLink::iLink()
 	curved_ = false;
 	angled_ = false;
 	len_ = -1.0;
+	dropTarget_ = false;
 }
 
 iLink::~iLink()
@@ -83,6 +84,7 @@ void iLink::initCopy(const iLink& l)
 	curved_ = l.curved_;
 	angled_ = l.angled_;
 	len_ = l.len_;
+	dropTarget_ = l.dropTarget_;
 }
 
 IMPLEMENT_SERIAL(iLink, CObject, 0)
@@ -161,6 +163,11 @@ void iLink::drawLine(CDC *pDC)
 			pDC->LineTo(ptTo);
 		}
 	}
+
+	if (dropTarget_) {
+		pDC->TextOut((ptFrom.x + ptTo.x)/2, (ptFrom.y + ptTo.y)/2, _T("hoge"));
+	}
+
 	pDC->SelectObject(pOldPen);
 	penLine.DeleteObject();
 }
@@ -788,6 +795,21 @@ bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path, bool bDrwAll)
 		}
 	}
 	return hit;
+}
+
+void iLinks::hitTestDropTarget(const CPoint &pt)
+{
+	literator it = begin();
+	for (; it != end(); it++) {
+		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+			continue;
+		}
+		if ((*it).hitTest(pt)) {
+			(*it).setDropTarget();
+		} else {
+			(*it).setDropTarget(false);
+		}
+	}
 }
 
 bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path, bool bDrwAll)

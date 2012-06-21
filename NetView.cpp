@@ -1265,6 +1265,8 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		
 		GetDocument()->setSelectedNodeBound(rc, false);
 		
+		GetDocument()->hitTestDropTarget(point);
+		
 		CRect rBound = prevRc + rc;
 		ViewLPtoDP(rBound);
 		InvalidateRect(rBound);

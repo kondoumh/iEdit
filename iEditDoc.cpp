@@ -1048,6 +1048,11 @@ bool iEditDoc::hitTestLinks(const CPoint &pt, bool drwAll)
 	return hit;
 }
 
+void iEditDoc::hitTestDropTarget(const CPoint& pt)
+{
+	links_.hitTestDropTarget(pt);
+}
+
 bool iEditDoc::hitTestLinksFrom(const CPoint &pt, bool drwAll)
 {
 	DWORD key; CString path;

@@ -220,6 +220,7 @@ public:
 	void setNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString& comment, int styleArrow);
 	void drawLinkSelection(CDC* pDC, bool bDrwAll = false);
 	bool hitTestLinks(const CPoint& pt, bool drwAll = false);
+	void hitTestDropTarget(const CPoint& pt);
 	void addNodeArc(const CString& name, const CPoint& pt);
 	void addNodeRect(const CString& name, const CPoint& pt, bool bSetMultiLineProcess = true, bool bNoBound = false);
 	CRect getRecentNodeRect();

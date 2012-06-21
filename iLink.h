@@ -13,6 +13,8 @@ class iLink : public CObject
 {
 DECLARE_SERIAL(iLink)
 public:
+	const bool isDropTarget() const;
+	void setDropTarget(bool dropTarget = true);
 	const bool isRectLink() const;
 	const bool isDual() const;
 	const bool isSingle() const;
@@ -130,6 +132,7 @@ private:
 	CRect rcFrom;
 	double len_;        // ばねモデル用リンク長(直線距離)
 	bool bChain_;
+	bool dropTarget_;
 protected:
 	void rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg);
 	CPoint getClossPoint(const CRect& target, const CPoint& start);
@@ -388,6 +391,16 @@ inline const bool iLink::isTerminalNodeKey(const DWORD key) const
 	return (key == getKeyFrom() || key == getKeyTo());
 }
 
+inline const bool iLink::isDropTarget() const
+{
+	return dropTarget_;
+}
+
+inline void iLink::setDropTarget(bool dropTarget)
+{
+	dropTarget_ = dropTarget;
+}
+
 // iLinks : iLink のコレクション
 // 
 /////////////////////////////////////////////////////////////////////
@@ -423,6 +436,7 @@ public:
 	const_literator getSelectedLink2() const;
 	void drawSelection(CDC* pDC, bool bDrwAll);
 	bool hitTest(const CPoint& pt, DWORD& key, CString& path, bool bDrwAll);
+	void hitTestDropTarget(const CPoint& pt);
 	void drawArrows(CDC* pDC, bool bDrwAll);
 	void drawLines(CDC* pDC, bool bDrwAll);
 	void drawComments(CDC* pDC, bool bDrwAll, bool clipbrd=false);
