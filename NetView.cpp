@@ -1366,6 +1366,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 
 	// 付け外しアクションの解除
 	if (m_bLinkAction) {
+		GetDocument()->hitTestDropTarget(CPoint(-1, -1));
 		m_bLinkAction = false;
 		return;
 	}
