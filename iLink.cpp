@@ -165,7 +165,8 @@ void iLink::drawLine(CDC *pDC)
 	}
 
 	if (dropTarget_) {
-		pDC->TextOut((ptFrom.x + ptTo.x)/2, (ptFrom.y + ptTo.y)/2, _T("hoge"));
+		CString sKey; sKey.Format(_T("%d"), key_);
+		pDC->TextOut((ptFrom.x + ptTo.x)/2, (ptFrom.y + ptTo.y)/2, sKey);
 	}
 
 	pDC->SelectObject(pOldPen);
@@ -797,19 +798,26 @@ bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path, bool bDrwAll)
 	return hit;
 }
 
-void iLinks::hitTestDropTarget(const CPoint &pt)
+DWORD iLinks::hitTestDropTarget(const CPoint &pt)
 {
+	DWORD hitKey = -1;
+	bool hit = false;
 	literator it = begin();
 	for (; it != end(); it++) {
 		if (!(*it).canDraw() /*&& !bDrwAll*/) {
 			continue;
 		}
 		if ((*it).hitTest(pt)) {
-			(*it).setDropTarget();
+			if (!hit) {
+				(*it).setDropTarget();
+				hitKey = (*it).getKey();
+				hit = true;
+			}
 		} else {
 			(*it).setDropTarget(false);
 		}
 	}
+	return hitKey;
 }
 
 bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path, bool bDrwAll)
