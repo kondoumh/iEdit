@@ -798,13 +798,16 @@ bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path, bool bDrwAll)
 	return hit;
 }
 
-DWORD iLinks::hitTestDropTarget(const CPoint &pt)
+DWORD iLinks::hitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
 {
 	DWORD hitKey = -1;
 	bool hit = false;
 	literator it = begin();
 	for (; it != end(); it++) {
 		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+			continue;
+		}
+		if ((*it).getKeyFrom() == selectedNodeKey || (*it).getKeyTo() == selectedNodeKey) {
 			continue;
 		}
 		if ((*it).hitTest(pt)) {

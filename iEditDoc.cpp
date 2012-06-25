@@ -1048,9 +1048,9 @@ bool iEditDoc::hitTestLinks(const CPoint &pt, bool drwAll)
 	return hit;
 }
 
-DWORD iEditDoc::hitTestDropTarget(const CPoint& pt)
+DWORD iEditDoc::hitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey)
 {
-	return links_.hitTestDropTarget(pt);
+	return links_.hitTestDropTarget(pt, selectedNodeKey);
 }
 
 bool iEditDoc::hitTestLinksFrom(const CPoint &pt, bool drwAll)

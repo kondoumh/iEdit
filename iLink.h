@@ -436,7 +436,7 @@ public:
 	const_literator getSelectedLink2() const;
 	void drawSelection(CDC* pDC, bool bDrwAll);
 	bool hitTest(const CPoint& pt, DWORD& key, CString& path, bool bDrwAll);
-	DWORD hitTestDropTarget(const CPoint& pt);
+	DWORD hitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey);
 	void drawArrows(CDC* pDC, bool bDrwAll);
 	void drawLines(CDC* pDC, bool bDrwAll);
 	void drawComments(CDC* pDC, bool bDrwAll, bool clipbrd=false);
