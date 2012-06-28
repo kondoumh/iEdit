@@ -4776,3 +4776,9 @@ void iEditDoc::setSelectedNodeScrollPos(int pos)
 		/*const_cast<iNode&>*/(*it).setScrollPos(pos);
 	}
 }
+
+void iEditDoc::divideTargetLink(DWORD key)
+{
+	links_.divideTargetLinks(key, lastLinkKey++);
+	setConnectPoint();
+}

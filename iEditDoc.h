@@ -91,6 +91,7 @@ public:
 
 // インプリメンテーション
 public:
+	void divideTargetLink(DWORD key);
 	CString getTitleFromOpenPath();
 	int getSelectedNodeScrollPos() const;
 	void setSelectedNodeScrollPos(int pos);

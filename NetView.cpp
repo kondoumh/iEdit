@@ -68,6 +68,7 @@ NetView::NetView()
 	m_bFormCopied = FALSE;
 	m_bGrpOlCoupled = FALSE;
 	m_bLinkAction = false;
+	m_nodeKeyDrop = -1;
 }
 
 NetView::~NetView()
@@ -1266,7 +1267,11 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		GetDocument()->setSelectedNodeBound(rc, false);
 		
 		DWORD hitKey = GetDocument()->hitTestDropTarget(point, GetDocument()->getSelectedNodeKey());
-		
+		if (hitKey != -1) {
+			m_nodeKeyDrop = hitKey;
+		} else {
+			m_nodeKeyDrop = -1;
+		}
 		CRect rBound = prevRc + rc;
 		ViewLPtoDP(rBound);
 		InvalidateRect(rBound);
@@ -1364,8 +1369,11 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		return;
 	}
 
-	// 付け外しアクションの解除
+	// 付け外しアクションの処理
 	if (m_bLinkAction) {
+		if (m_nodeKeyDrop != -1) {
+			GetDocument()->divideTargetLink(m_nodeKeyDrop);
+		}
 		m_bLinkAction = false;
 		GetDocument()->hitTestDropTarget(CPoint(-1, -1), -1);
 		Invalidate();

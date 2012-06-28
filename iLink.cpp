@@ -1195,3 +1195,20 @@ const_literator iLinks::findByKey(DWORD key) const
 
 	return end();
 }
+
+void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
+{
+	literator li = begin();
+	for ( ; li != end(); li++) {
+		if ((*li).isDropTarget()) {
+			DWORD orgKeyTo = (*li).getKeyTo();
+			(*li).setKeyTo(dropNodeKey);
+			iLink l;
+			l.setKey(newLinkKey);
+			l.setKeyTo(orgKeyTo);
+			l.setKeyFrom(dropNodeKey);
+			push_back(l);
+			break;
+		}
+	}
+}
