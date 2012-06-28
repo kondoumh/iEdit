@@ -1249,8 +1249,8 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		CRect prevRc = rc;
 		int height = rc.Height();
 		int width = rc.Width();
-		rc.left = point.x;
-		rc.top = point.y;
+		rc.left = logPt.x;
+		rc.top = logPt.y;
 		rc.right = rc.left + width;
 		rc.bottom = rc.top + height;
 		rc.OffsetRect(m_dragOffset);
@@ -1266,7 +1266,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		
 		GetDocument()->setSelectedNodeBound(rc, false);
 		
-		DWORD hitKey = GetDocument()->hitTestDropTarget(point, GetDocument()->getSelectedNodeKey());
+		DWORD hitKey = GetDocument()->hitTestDropTarget(logPt, GetDocument()->getSelectedNodeKey());
 		if (hitKey != -1) {
 			m_nodeKeyDrop = GetDocument()->getSelectedNodeKey();
 		} else {
