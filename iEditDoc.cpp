@@ -4781,4 +4781,6 @@ void iEditDoc::divideTargetLink(DWORD key)
 {
 	links_.divideTargetLinks(key, lastLinkKey++);
 	setConnectPoint();
+	calcMaxPt(m_maxPt);
+	SetModifiedFlag();
 }
