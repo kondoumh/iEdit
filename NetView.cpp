@@ -1268,7 +1268,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		
 		DWORD hitKey = GetDocument()->hitTestDropTarget(point, GetDocument()->getSelectedNodeKey());
 		if (hitKey != -1) {
-			m_nodeKeyDrop = hitKey;
+			m_nodeKeyDrop = GetDocument()->getSelectedNodeKey();
 		} else {
 			m_nodeKeyDrop = -1;
 		}

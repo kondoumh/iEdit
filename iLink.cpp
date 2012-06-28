@@ -1206,6 +1206,7 @@ void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 			iLink l;
 			l.setKey(newLinkKey);
 			l.setKeyTo(orgKeyTo);
+			l.setArrowStyle((*li).getArrowStyle());
 			l.setKeyFrom(dropNodeKey);
 			push_back(l);
 			break;
