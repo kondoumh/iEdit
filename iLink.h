@@ -80,6 +80,7 @@ public:
 	void setNodes(const CRect& rcf, const CRect& rct, DWORD keyf, DWORD keyt);
 	void drawArrow(CDC* pDC);
 	void drawLine(CDC* pDC);
+	void drawDropTarget(CDC* pDC);
 	void drawComment(CDC* pDC, bool clipbrd=false);
 	iLink();
 	virtual ~iLink();

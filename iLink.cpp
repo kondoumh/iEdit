@@ -165,8 +165,48 @@ void iLink::drawLine(CDC *pDC)
 	}
 
 	if (dropTarget_) {
-		CString sKey; sKey.Format(_T("%d"), key_);
-		pDC->TextOut((ptFrom.x + ptTo.x)/2, (ptFrom.y + ptTo.y)/2, sKey);
+		drawDropTarget(pDC);
+	}
+
+	pDC->SelectObject(pOldPen);
+	penLine.DeleteObject();
+}
+
+void iLink::drawDropTarget(CDC* pDC)
+{
+	penLine.CreatePen(PS_SOLID, 10, RGB(127, 127, 255));
+	CPen* pOldPen = pDC->SelectObject(&penLine);
+	if (keyFrom != keyTo) {
+		if (!curved_) {
+			pDC->MoveTo(ptFrom);
+			pDC->LineTo(ptTo);
+		} else {
+			if (!angled_) {
+				CPoint pt[4];
+				pt[0] = ptFrom;
+				pt[1] = ptPath;
+				pt[2] = ptPath;
+				pt[3] = ptTo;
+				pDC->PolyBezier(pt, 4);
+			} else {
+				pDC->MoveTo(ptFrom);
+				pDC->LineTo(ptPath);
+				pDC->LineTo(ptTo);
+			}
+		}
+	} else {
+		if (!angled_) {
+			CPoint pt[4];
+			pt[0] = ptFrom;
+			pt[1] = ptPath;
+			pt[2] = ptPath;
+			pt[3] = ptTo;
+			pDC->PolyBezier(pt, 4);
+		} else {
+			pDC->MoveTo(ptFrom);
+			pDC->LineTo(ptPath);
+			pDC->LineTo(ptTo);
+		}
 	}
 
 	pDC->SelectObject(pOldPen);

@@ -1373,6 +1373,8 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	if (m_bLinkAction) {
 		if (m_nodeKeyDrop != -1) {
 			GetDocument()->divideTargetLink(m_nodeKeyDrop);
+		} else {
+			GetDocument()->setConnectPoint();
 		}
 		m_bLinkAction = false;
 		GetDocument()->hitTestDropTarget(CPoint(-1, -1), -1);
