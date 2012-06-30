@@ -1263,10 +1263,9 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 			rc.top = 0;
 			rc.bottom = height;
 		}
-		
 		GetDocument()->setSelectedNodeBound(rc, false);
 		
-		DWORD hitKey = GetDocument()->hitTestDropTarget(logPt, GetDocument()->getSelectedNodeKey());
+		DWORD hitKey = GetDocument()->hitTestDropTarget(rc.CenterPoint(), GetDocument()->getSelectedNodeKey());
 		if (hitKey != -1) {
 			m_nodeKeyDrop = GetDocument()->getSelectedNodeKey();
 		} else {
