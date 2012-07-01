@@ -779,6 +779,12 @@ void iLink::reverseDirection()
 // iLinks : iLinks クラスのインプリメンテーション
 //
 //////////////////////////////////////////////////////////////////////
+
+iLinks::iLinks()
+{
+	dividedLinkKey_ = -1;
+}
+
 void iLinks::drawComments(CDC *pDC, bool bDrwAll, bool clipbrd)
 {
 	literator it = begin();
@@ -1236,6 +1242,21 @@ const_literator iLinks::findByKey(DWORD key) const
 	return end();
 }
 
+DWORD iLinks::getDividedLinkKey() const
+{
+	if (dividedLinkKey_ != -1) {
+		if (findByKey(dividedLinkKey_) != end()) {
+			return dividedLinkKey_;
+		}
+	}
+	return -1;
+}
+
+void iLinks::clearDividedLinkKey()
+{
+	dividedLinkKey_ = -1;
+}
+
 void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 {
 	literator li = begin();
@@ -1245,10 +1266,12 @@ void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 			iLink l((*li));
 			DWORD orgKeyTo = (*li).getKeyTo();
 			(*li).setKeyTo(dropNodeKey);
+			(*li).setDropTarget(false);
 			l.setKey(newLinkKey);
 			l.setKeyTo(orgKeyTo);
 			l.setKeyFrom(dropNodeKey);
 			push_back(l);
+			dividedLinkKey_ = newLinkKey;
 			break;
 		}
 	}

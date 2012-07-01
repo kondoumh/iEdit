@@ -411,6 +411,8 @@ typedef list<iLink>::iterator literator;
 
 class iLinks : public lContena {
 public:
+	void clearDividedLinkKey();
+	DWORD getDividedLinkKey() const;
 	void divideTargetLinks(DWORD dropNodekey, DWORD newLinkKey);
 	const_literator findByKey(DWORD key) const;
 	void resizeSelectedLinkFont(bool bEnlarge);
@@ -442,6 +444,9 @@ public:
 	void drawArrows(CDC* pDC, bool bDrwAll);
 	void drawLines(CDC* pDC, bool bDrwAll);
 	void drawComments(CDC* pDC, bool bDrwAll, bool clipbrd=false);
+	iLinks();
+private:
+	DWORD dividedLinkKey_;
 };
 
 #endif // !defined(AFX_ILINK_H__FCFD79F4_18EB_11D3_A0D2_000000000000__INCLUDED_)

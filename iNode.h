@@ -13,6 +13,8 @@ class iNode : public CObject
 {
 DECLARE_SERIAL(iNode)
 public:
+	bool isDragging() const;
+	void setDragging(bool dragging = true);
 	void fitSize();
 	int getScrollPos() const;
 	void setScrollPos(int pos);
@@ -167,6 +169,7 @@ private:
 	DWORD parent_;
 	DWORD key_;
 	bool deleted_;
+	bool dragging_;
 protected:
 	void adjustFont(bool bForceResize=false);
 	CSize getNodeTextSize();
@@ -482,6 +485,7 @@ class iNodeDrawer {
 public:
 	void draw(const iNode& node, CDC* pDC, BOOL bDrawOrderInfo);
 protected:
+	void drawDraggingTracker(const iNode& node, CDC* pDC);
 	virtual void adjustTextArea(const iNode& node);
 	CRect m_textRect;
 	virtual void drawLabelSpecific(const iNode& node, CDC* pDC);
@@ -552,6 +556,7 @@ typedef vector<iNode> nVec;
 
 class iNodes : public nContena {
 public:
+	void setSelectedLinkDragging(bool dragging = true);
 	CString createClickableMapString(const CString& fileName, bool singleText = true);
 	void setSelectedNodeMargin(int l, int r, int t, int b);
 	BOOL m_bDrawOrderInfo;

@@ -76,6 +76,7 @@ void iNode::init()
 	margin_t_ = pApp->m_rgsNode.margin_t;
 	margin_b_ = pApp->m_rgsNode.margin_b;
 	scrollpos_ = 0;
+	dragging_ = false;
 }
 
 iNode::~iNode()
@@ -132,6 +133,7 @@ void iNode::initCopy(const iNode &n)
 	margin_t_ = n.margin_t_;
 	margin_b_ = n.margin_b_;
 	scrollpos_ = n.scrollpos_;
+	dragging_ = n.dragging_;
 }
 
 IMPLEMENT_SERIAL(iNode, CObject, 0)
@@ -423,6 +425,16 @@ void iNode::fitSize()
 	adjustFont();
 }
 
+void iNode::setDragging(bool dragging)
+{
+	dragging_ = dragging;
+}
+
+bool iNode::isDragging() const
+{
+	return dragging_;
+}
+
 // iNodeDrawer クラスのインプリメンテーション
 //
 //////////////////////////////////////////////////////////////////////
@@ -436,8 +448,28 @@ void iNodeDrawer::draw(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 	drawShape(node, pDC);
 	adjustTextArea(node);
 	drawLabel(node, pDC, bDrawOrderInfo);
+	if (node.isDragging()) {
+		drawDraggingTracker(node, pDC);
+	}
 	
 	pDC->SetBkMode(oldBkMode); // DCの背景リストア
+}
+
+void iNodeDrawer::drawDraggingTracker(const iNode& node, CDC* pDC)
+{
+	CPen penLine;
+	penLine.CreatePen(PS_SOLID, 10, RGB(127, 127, 255)); // ペン作成
+	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCのペン変更
+	
+	CRect bound = node.getBound();
+	pDC->MoveTo(bound.TopLeft());
+	pDC->LineTo(bound.right, bound.top);
+	pDC->LineTo(bound.BottomRight());
+	pDC->LineTo(bound.left, bound.bottom);
+	pDC->LineTo(bound.TopLeft());
+	
+	pDC->SelectObject(pOldPen);  // DCのペンリストア
+	penLine.DeleteObject();          // ペン開放
 }
 
 void iNodeDrawer::adjustTextArea(const iNode &node)
@@ -1373,6 +1405,17 @@ void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
 			/*const_cast<iNode&>*/(*it).setMarginR(r);
 			/*const_cast<iNode&>*/(*it).setMarginT(t);
 			/*const_cast<iNode&>*/(*it).setMarginB(b);
+		}
+	}
+}
+
+void iNodes::setSelectedLinkDragging(bool dragging)
+{
+	niterator it = begin();
+	for ( ; it != end(); it++) {
+		if ((*it).isSelected()) {
+			(*it).setDragging(dragging);
+			return;
 		}
 	}
 }

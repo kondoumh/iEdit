@@ -676,7 +676,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	// リンクオーバーアクション開始
+	// リンク分割挿入アクション開始
 	if (GetAsyncKeyState(VK_MENU) & 0x8000) {
 		CRect r;
 		if (GetDocument()->hitTest(logPt, r, false)) {
@@ -687,8 +687,8 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 			GetDocument()->disableUndo();
 			GetDocument()->backUpUndoNodes();
 			GetDocument()->backUpUndoLinks();
+			GetDocument()->setSelectedNodeDragging();
 			m_bLinkAction = true;
-			m_ptPrePos = point;
 		}
 		return;
 	}
@@ -1242,7 +1242,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	
 	///////////////////////////////
-	// リンクオーバーアクション
+	// リンク分割挿入アクション
 	///////////////////////////////
 	if (GetAsyncKeyState(VK_MENU) & 0x8000 && m_bLinkAction) {
 		CRect rc = GetDocument()->getSelectedNodeRect();
@@ -1263,7 +1263,8 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 			rc.top = 0;
 			rc.bottom = height;
 		}
-		GetDocument()->setSelectedNodeBound(rc, false);
+		GetDocument()->setSelectedNodeBound(rc, false, true);
+		GetDocument()->setConnectPoint();
 		
 		DWORD hitKey = GetDocument()->hitTestDropTarget(rc.CenterPoint(), GetDocument()->getSelectedNodeKey());
 		if (hitKey != -1) {
@@ -1368,8 +1369,9 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		return;
 	}
 
-	// 付け外しアクションの処理
+	// リンク分割挿入アクションの処理
 	if (m_bLinkAction) {
+		GetDocument()->setSelectedNodeDragging(false);
 		if (m_nodeKeyDrop != -1) {
 			GetDocument()->divideTargetLink(m_nodeKeyDrop);
 		} else {

@@ -34,6 +34,7 @@ public:
 	bool operator()(const iNode& n) const { return n.getKey() == key_; }
 };
 
+
 /// iLink のPredicate リンクの道連れ削除判定
 class iLink_eq : public unary_function<iLink, bool>
 {
@@ -42,6 +43,17 @@ public:
 	explicit iLink_eq(DWORD key) : key_(key) { }
 	bool operator()(const iLink& l) const {
 		return (l.getKeyFrom() == key_ || l.getKeyTo() == key_);
+	}
+};
+
+/// iLink のキーが同一かを判定
+class iLink_eqkey : public unary_function<iLink, bool>
+{
+	DWORD key_;  // 削除されるnodeのキー
+public:
+	explicit iLink_eqkey(DWORD key) : key_(key) { }
+	bool operator()(const iLink& l) const {
+		return (l.getKey() == key_);
 	}
 };
 
@@ -642,9 +654,11 @@ void iEditDoc::moveSelectedLink(const CSize &sz)
 }
 
 
-void iEditDoc::setSelectedNodeBound(const CRect &r, bool withLink)
+void iEditDoc::setSelectedNodeBound(const CRect &r, bool withLink, bool noBackup)
 {
-	backUpUndoNodes();
+	if (!noBackup) {
+		backUpUndoNodes();
+	}
 	nodes_.setSelectedNodeBound(r);
 	if (withLink) {
 		setConnectPoint();
@@ -3548,6 +3562,10 @@ void iEditDoc::resumeUndoLinks()
 			}
 		}
 	}
+	if (links_.getDividedLinkKey() != -1) {
+		links_.erase(remove_if(links_.begin(), links_.end(), iLink_eqkey(links_.getDividedLinkKey())), links_.end());
+		links_.clearDividedLinkKey();
+	}
 	calcMaxPt(m_maxPt);
 	links_undo.clear();
 	links_undo.resize(0);
@@ -4783,4 +4801,9 @@ void iEditDoc::divideTargetLink(DWORD key)
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
+}
+
+void iEditDoc::setSelectedNodeDragging(bool dragging)
+{
+	nodes_.setSelectedLinkDragging(dragging);
 }

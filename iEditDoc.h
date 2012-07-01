@@ -91,6 +91,7 @@ public:
 
 // インプリメンテーション
 public:
+	void setSelectedNodeDragging(bool dragging = true);
 	void divideTargetLink(DWORD key);
 	CString getTitleFromOpenPath();
 	int getSelectedNodeScrollPos() const;
@@ -243,7 +244,7 @@ public:
 	bool setEndLink(const CPoint& pt, int arrowType=iLink::line, bool bDrwAll=false, bool bArrowSpecification=false);
 	bool setStartLink(const CPoint& pt);
 	void drawLinks(CDC* pDC, bool bDrwAll=false, bool clipbrd=false);
-	void setSelectedNodeBound(const CRect& r, bool widthLink = true);
+	void setSelectedNodeBound(const CRect& r, bool widthLink = true, bool noBackup = false);
 	void moveSelectedNode(const CSize& sz);
 	bool hitTest(const CPoint& pt, CRect& r, bool bDrwAll=false);
 	void drawNodes(CDC* pDC, bool bDrwAll = false);
@@ -273,8 +274,8 @@ protected:
 	OutlineView* getOutlineView() const;
 	template <class T>
 	void outStyleSheetLine(T &f);
-	void setConnectPoint3(); // visibleなリンクの再配置
 	void setConnectPoint2(); // 芋づるモードのリンク再配置用
+	void setConnectPoint3(); // visibleなリンクの再配置
 	bool loadFromXML(const CString& filename);
 	CPoint tags2pathPt(MSXML2::IXMLDOMNode* pNode);
 	COLORREF tags2linkColor(MSXML2::IXMLDOMNode* pNode);
