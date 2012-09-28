@@ -99,7 +99,7 @@ void PageLink::OnBtnFont()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
-	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
+	// dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
 }
 

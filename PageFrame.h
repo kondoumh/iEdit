@@ -73,6 +73,9 @@ protected:
 	afx_msg void OnBtnInsertmark();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+private:
+	void updateFont(LOGFONT* plf, CFont& font);
+	void drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor);
 };
 
 //{{AFX_INSERT_LOCATION}}

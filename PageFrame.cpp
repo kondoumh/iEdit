@@ -70,31 +70,25 @@ void PageFrame::OnCancel()
 
 void PageFrame::OnBtnLink() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	CFontDialog dlg(&lfLink);
-	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
-	if (dlg.DoModal() != IDOK) return;
-	fntLink.CreateFontIndirect(&lfLink);
-	Invalidate();
+	updateFont(&lfLink, fntLink);
 }
 
 void PageFrame::OnBtnOutline() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	CFontDialog dlg(&lfOutline);
-	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
-	if (dlg.DoModal() != IDOK) return;
-	fntOutline.CreateFontIndirect(&lfOutline);
-	Invalidate();
+	updateFont(&lfOutline, fntOutline);
 }
 
 void PageFrame::OnBtnText() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	CFontDialog dlg(&lfText);
-	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
+	updateFont(&lfText, fntText);
+}
+
+void PageFrame::updateFont(LOGFONT* plf, CFont& font)
+{
+	CFontDialog dlg(plf);
+	//dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
-	fntText.CreateFontIndirect(&lfText);
+	font.CreateFontIndirect(plf);
 	Invalidate();
 }
 
@@ -124,56 +118,24 @@ void PageFrame::OnPaint()
 void PageFrame::drawOLPreView(CDC *pDC)
 {
 	CRect rc(200, 28, 310, 78);
-	
-	CBrush brs(m_colorOLBG);
-	CBrush* brsOld = pDC->SelectObject(&brs);
-	pDC->FillRect(rc, &brs);
-	pDC->SelectObject(brsOld);
-	
-	pDC->MoveTo(rc.TopLeft());
-	pDC->LineTo(CPoint(rc.right, rc.top));
-	pDC->LineTo(rc.BottomRight());
-	pDC->LineTo(CPoint(rc.left, rc.bottom));
-	pDC->LineTo(rc.TopLeft());
-	
-	CFont* pOldFont = pDC->SelectObject(&fntOutline);
-	COLORREF preColor = pDC->SetTextColor(m_colorOLFor);
-	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
-	pDC->DrawText(_T("A あ 亜"), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	pDC->SelectObject(pOldFont);
-	pDC->SetTextColor(preColor);
-	pDC->SetBkMode(oldBkMode);
+	drawFontPreview(pDC, rc, fntOutline, m_colorOLBG, m_colorOLFor);
 }
 
 void PageFrame::drawLNPreView(CDC *pDC)
 {
 	CRect rc(200, 103, 310, 153);
-	
-	CBrush brs(m_colorLNBG);
-	CBrush* brsOld = pDC->SelectObject(&brs);
-	pDC->FillRect(rc, &brs);
-	pDC->SelectObject(brsOld);
-	
-	pDC->MoveTo(rc.TopLeft());
-	pDC->LineTo(CPoint(rc.right, rc.top));
-	pDC->LineTo(rc.BottomRight());
-	pDC->LineTo(CPoint(rc.left, rc.bottom));
-	pDC->LineTo(rc.TopLeft());
-	
-	CFont* pOldFont = pDC->SelectObject(&fntLink);
-	COLORREF preColor = pDC->SetTextColor(m_colorLNFor);
-	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
-	pDC->DrawText(_T("A あ 亜"), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	pDC->SelectObject(pOldFont);
-	pDC->SetTextColor(preColor);
-	pDC->SetBkMode(oldBkMode);
+	drawFontPreview(pDC, rc, fntLink, m_colorLNBG, m_colorLNFor);
 }
 
 void PageFrame::drawTextPreView(CDC *pDC)
 {
 	CRect rc(200, 180, 310, 230);
+	drawFontPreview(pDC, rc, fntText, m_colorEditBG, m_colorEditFor);
+}
+
+void PageFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor) {
 	
-	CBrush brs(m_colorEditBG);
+	CBrush brs(bgColor);
 	CBrush* brsOld = pDC->SelectObject(&brs);
 	pDC->FillRect(rc, &brs);
 	pDC->SelectObject(brsOld);
@@ -184,10 +146,18 @@ void PageFrame::drawTextPreView(CDC *pDC)
 	pDC->LineTo(CPoint(rc.left, rc.bottom));
 	pDC->LineTo(rc.TopLeft());
 	
-	CFont* pOldFont = pDC->SelectObject(&fntText);
-	COLORREF preColor = pDC->SetTextColor(m_colorEditFor);
+	CFont* pOldFont = pDC->SelectObject(&font);
+	COLORREF preColor = pDC->SetTextColor(fontColor);
 	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
-	pDC->DrawText(_T("A あ 亜"), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	LOGFONT lf;
+	font.GetLogFont(&lf);
+	CString sSample;
+	if (lf.lfCharSet == SHIFTJIS_CHARSET) {
+		sSample = _T("A あ 亜");
+	} else {
+		sSample = _T("AaBbYyZz");
+	}
+	pDC->DrawText(sSample, &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	pDC->SelectObject(pOldFont);
 	pDC->SetTextColor(preColor);
 	pDC->SetBkMode(oldBkMode);
