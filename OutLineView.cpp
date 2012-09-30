@@ -1858,9 +1858,6 @@ void OutlineView::OutputHTML()
 	m_exportOption.htmlOutDir = outdir;
 	
 	CWaitCursor wc;
-	CStdioFile f;
-	CFileStatus status;
-	CFileException e;
 	_wsetlocale(LC_ALL, _T("jpn"));
 	
 	CString indexFilePath = outdir + _T("\\") + eDlg.m_pathIndex;
@@ -1903,9 +1900,7 @@ void OutlineView::OutputHTML()
 	////////////////////////
 	////// create frame
 	////////////////////////
-	if (!f.Open(indexFilePath, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-		return;
-	}
+	CStdioFile f(_tfopen(indexFilePath, _T("w, ccs=UTF-8")));
 	writeHtmlHeader(f);
 	CString title = GetDocument()->getTitleFromPath();
 	if (m_exportOption.prfIndex != _T("")) {
@@ -1935,13 +1930,9 @@ void OutlineView::OutputHTML()
 	f.WriteString(_T("</html>\n"));
 	f.Close();
 	
-	CStdioFile olf;
+	CString olName = outdir + _T("\\") + eDlg.m_pathOutline;
+	CStdioFile olf(_tfopen(olName, _T("w, ccs=UTF-8")));
 	if (eDlg.m_xvRdNav != 1) {
-		CString olName = outdir + _T("\\") + eDlg.m_pathOutline;
-		if (!olf.Open(olName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(olName + _T(" : çÏê¨Ç…é∏îsÇµÇ‹ÇµÇΩ"));
-			return;
-		}
 		writeHtmlHeader(olf);
 		olf.WriteString(_T("<style type=\"text/css\">\n"));
 		olf.WriteString(_T(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n"));
@@ -1961,26 +1952,16 @@ void OutlineView::OutputHTML()
 		olf.WriteString(_T("</a></h3>\n"));
 		olf.WriteString(_T("<ul>\n"));
 	}
-	CStdioFile tf;
+	CString arName = outdir + _T("\\") + m_exportOption.pathTextSingle;
+	CStdioFile tf(_tfopen(arName, _T("w, ccs=UTF-8")));
 	if (m_exportOption.textOption == 0) {
-		CString arName = outdir + _T("\\") + m_exportOption.pathTextSingle;
-		if (!tf.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(arName + _T(" : çÏê¨Ç…é∏îsÇµÇ‹ÇµÇΩ"));
-			olf.Close();
-			return;
-		}
 		writeHtmlHeader(tf);
 		writeTextStyle(tf);
 		tf.WriteString(_T("</head>\n<body>\n"));
 		GetDocument()->writeTextHtml(tree().GetItemData(root), &tf);
 	} else {
-		CStdioFile rootTf;
 		CString arName = textDir + _T("\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
-		if (!rootTf.Open(arName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(arName + _T(" : çÏê¨Ç…é∏îsÇµÇ‹ÇµÇΩ"));
-			olf.Close();
-			return;
-		}
+		CStdioFile rootTf(_tfopen(arName,  _T("w, ccs=UTF-8")));		
 		writeHtmlHeader(rootTf);
 		writeTextStyle(rootTf, false);
 		rootTf.WriteString(_T("</head>\n<body>\n"));
@@ -2005,12 +1986,8 @@ void OutlineView::OutputHTML()
 	
 	///////////////////// create network.html
 	if (eDlg.m_xvRdNav > 0) {
-		CStdioFile nf;
 		CString nName = outdir + _T("\\") + eDlg.m_pathNetwork;
-		if (!nf.Open(nName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(nName + _T(" : çÏê¨Ç…é∏îsÇµÇ‹ÇµÇΩ"));
-			return;
-		}
+		CStdioFile nf(_tfopen(nName, _T("w, ccs=UTF-8")));
 		writeHtmlHeader(nf);
 		nf.WriteString(_T("</head>\n"));
 		nf.WriteString(_T("<body>\n"));
@@ -2132,7 +2109,7 @@ void OutlineView::writeHtmlHeader(CStdioFile &f)
 {
 	f.WriteString(_T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n")); 
 	f.WriteString(_T("<html>\n<head>\n"));
-	f.WriteString(_T("<meta http-equiv=\"content-Type\" content=\"text/html; charset=Shift_JIS\" />\n"));
+	f.WriteString(_T("<meta http-equiv=\"content-Type\" content=\"text/html; charset=UTF-8\" />\n"));
 }
 
 void OutlineView::writeTextStyle(CStdioFile &f, bool single)

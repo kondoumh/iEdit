@@ -1982,7 +1982,7 @@ bool iEditDoc::loadXML(const CString &filename, bool replace)
 	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
 							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if(!pDoc) {
-		AfxMessageBox(_T("この機能を利用するには Microsoft Internet Explorer 5が必要になります"));
+		AfxMessageBox(_T("XML ドキュメントをパースできません。"));
 		return false;
 	}
     pDoc->put_async(VARIANT_FALSE);
@@ -2072,7 +2072,7 @@ bool iEditDoc::loadFromXML(const CString &filename)
 	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
 							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if(!pDoc) {
-		AfxMessageBox(_T("この機能を利用するには Microsoft Internet Explorer 5が必要になります"));
+		AfxMessageBox(_T("XML ドキュメントをパースできません。"));
 		return false;
 	}
     pDoc->put_async(VARIANT_FALSE);
