@@ -293,7 +293,7 @@ void CPropertyDlg::initPageOther()
 	pOther->m_bInheritSibling = pApp->m_rgsNode.bInheritSibling;
 	pOther->m_bAccelmove = pApp->GetProfileInt(REGS_OTHER, _T("Accel Move"), TRUE);
 	pOther->m_bDrawUnderLine = pApp->GetProfileInt(REGS_OTHER, _T("Draw Underline"), TRUE);
-	pOther->m_bOpenFilesAfterExport = pApp->GetProfileInt(REGS_OTHER, _T("Open Files After Export"), TRUE);
+	pOther->m_bOpenFilesAfterExport = pApp->GetProfileInt(REGS_OTHER, _T("Open Files After Export"), FALSE);
 	pOther->m_bOutputFileLinksOnExport = pApp->GetProfileInt(REGS_OTHER, _T("Output Filelinks On Export"), FALSE);
 	pOther->m_bSetStylesheet = pApp->GetProfileInt(REGS_OTHER, _T("XML StyleSheet"), FALSE);
 	pOther->m_strStylesheet = pApp->GetProfileString(REGS_OTHER, _T("XML StyleSheet Name"), _T("iedit.xsl"));

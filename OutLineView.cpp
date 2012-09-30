@@ -1900,7 +1900,12 @@ void OutlineView::OutputHTML()
 	////////////////////////
 	////// create frame
 	////////////////////////
-	CStdioFile f(_tfopen(indexFilePath, _T("w, ccs=UTF-8")));
+	FILE* pFp;
+	if (_tfopen_s(&pFp, indexFilePath, _T("w, ccs=UTF-8")) != 0) {
+		AfxMessageBox(_T("coud not open file. ") + indexFilePath);
+		return;
+	}
+	CStdioFile f(pFp);
 	writeHtmlHeader(f);
 	CString title = GetDocument()->getTitleFromPath();
 	if (m_exportOption.prfIndex != _T("")) {
@@ -1931,7 +1936,12 @@ void OutlineView::OutputHTML()
 	f.Close();
 	
 	CString olName = outdir + _T("\\") + eDlg.m_pathOutline;
-	CStdioFile olf(_tfopen(olName, _T("w, ccs=UTF-8")));
+	FILE* pOf;
+	if (_tfopen_s(&pOf, olName, _T("w, ccs=UTF-8")) != 0) {
+		AfxMessageBox(_T("coud not open file. ") + olName);
+		return;
+	}
+	CStdioFile olf(pOf);
 	if (eDlg.m_xvRdNav != 1) {
 		writeHtmlHeader(olf);
 		olf.WriteString(_T("<style type=\"text/css\">\n"));
@@ -1953,7 +1963,12 @@ void OutlineView::OutputHTML()
 		olf.WriteString(_T("<ul>\n"));
 	}
 	CString arName = outdir + _T("\\") + m_exportOption.pathTextSingle;
-	CStdioFile tf(_tfopen(arName, _T("w, ccs=UTF-8")));
+	FILE* pf;
+	if (_tfopen_s(&pf, arName, _T("w, ccs=UTF-8")) != 0) {
+		AfxMessageBox(_T("coud not open file. ") + arName);
+		return;
+	}
+	CStdioFile tf(pf);
 	if (m_exportOption.textOption == 0) {
 		writeHtmlHeader(tf);
 		writeTextStyle(tf);
@@ -1961,7 +1976,12 @@ void OutlineView::OutputHTML()
 		GetDocument()->writeTextHtml(tree().GetItemData(root), &tf);
 	} else {
 		CString arName = textDir + _T("\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
-		CStdioFile rootTf(_tfopen(arName,  _T("w, ccs=UTF-8")));		
+		FILE* pRf;
+		if (_tfopen_s(&pRf, arName, _T("w, ccs=UTF-8")) != 0) {
+			AfxMessageBox(_T("coud not open file. ") + arName);
+			return;
+		}
+		CStdioFile rootTf(pRf);		
 		writeHtmlHeader(rootTf);
 		writeTextStyle(rootTf, false);
 		rootTf.WriteString(_T("</head>\n<body>\n"));
@@ -1983,11 +2003,18 @@ void OutlineView::OutputHTML()
 			tf.Close();
 		}
 	}
+	olf.Close();
+	tf.Close();
 	
 	///////////////////// create network.html
 	if (eDlg.m_xvRdNav > 0) {
 		CString nName = outdir + _T("\\") + eDlg.m_pathNetwork;
-		CStdioFile nf(_tfopen(nName, _T("w, ccs=UTF-8")));
+		FILE* pNf;
+		if (_tfopen_s(&pNf, nName, _T("w, ccs=UTF-8")) != 0) {
+			AfxMessageBox(_T("coud not open file. ") + nName);
+			return;
+		}
+		CStdioFile nf(pNf);
 		writeHtmlHeader(nf);
 		nf.WriteString(_T("</head>\n"));
 		nf.WriteString(_T("<body>\n"));

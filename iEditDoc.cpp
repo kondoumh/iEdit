@@ -2683,7 +2683,12 @@ CPoint iEditDoc::tags2pathPt(MSXML2::IXMLDOMNode *pNode)
 // エクスポート時のXML出力関数
 bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 {
-	CStdioFile f(_tfopen(outPath, _T("w, ccs=UTF-8")));
+	FILE* fp;
+	if (_tfopen_s(&fp, outPath, _T("w, ccs=UTF-8")) != 0) {
+		AfxMessageBox(_T("coud not open file. ") + outPath);
+		return false;
+	}
+	CStdioFile f(fp);
 	
 	OutlineView* pView = getOutlineView();
 	
