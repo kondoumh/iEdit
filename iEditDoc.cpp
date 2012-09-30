@@ -2683,13 +2683,7 @@ CPoint iEditDoc::tags2pathPt(MSXML2::IXMLDOMNode *pNode)
 // エクスポート時のXML出力関数
 bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 {
-	CStdioFile f;
-	CFileStatus status;
-	CFileException e;
-	CWaitCursor wc;
-	if (!f.Open(outPath, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-		return false;
-	}
+	CStdioFile f(_tfopen(outPath, _T("w, ccs=UTF-8")));
 	
 	OutlineView* pView = getOutlineView();
 	
@@ -2702,7 +2696,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 	
 	_wsetlocale(LC_ALL, _T("jpn"));
 	// Header of XML file
-	f.WriteString(_T("<?xml version=\"1.0\" encoding=\"Shift_JIS\"?>\n"));
+	f.WriteString(_T("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
 	outStyleSheetLine(f);
 	f.WriteString(_T("<iEditDoc>\n"));
 	
