@@ -8,6 +8,7 @@
 #include "LinkInfoDlg.h"
 #include "LinkInfo2Dlg.h"
 #include "SelFileDropDlg.h"
+#include "SystemConfiguration.h"
 #include <algorithm>
 
 #ifdef _DEBUG
@@ -600,7 +601,12 @@ void LinkView::setViewFont()
 	} else {
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
-	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font2 Name"), _T("‚l‚r ‚oƒSƒVƒbƒN")));
+	CString defaultFont = _T("MS UI Gothic");
+	SystemConfiguration sc;
+	if (sc.isMeiryoUiEnabled()) {
+		defaultFont = _T("Meiryo UI");
+	}
+	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font2 Name"), defaultFont));
 	lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Height"), 0xfffffff3);
 	lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Width"), 0);
 	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Italic"), FALSE);
@@ -836,8 +842,9 @@ bool LinkView::isURLStr(const CString &str) const
 
 void LinkView::doColorSetting()
 {
-	COLORREF colorBG = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Link bgColor"), RGB(255, 255, 255));
-	COLORREF colorFor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Link forColor"), RGB(0, 0, 0));
+	CiEditApp* app = (CiEditApp*)AfxGetApp();
+	COLORREF colorBG = app->GetProfileInt(REGS_FRAME, _T("Link bgColor"), app->m_colorLinkViewBg);
+	COLORREF colorFor = app->GetProfileInt(REGS_FRAME, _T("Link forColor"), app->m_colorLinkViewFg);
 	ListView_SetBkColor(m_hWnd, colorBG);
 	ListView_SetTextBkColor(m_hWnd, colorBG);
 	ListView_SetTextColor(m_hWnd, colorFor);

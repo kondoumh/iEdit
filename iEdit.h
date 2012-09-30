@@ -76,6 +76,13 @@ public:
 	COLORREF m_colorNodeBtn;
 	COLORREF m_colorLineBtn;
 	COLORREF m_colorFontBtn;
+	COLORREF m_colorOutlineViewBg;
+	COLORREF m_colorOutlineViewFg;
+	COLORREF m_colorLinkViewBg;
+	COLORREF m_colorLinkViewFg;
+	COLORREF m_colorTextViewBg;
+	COLORREF m_colorTextViewFg;
+	COLORREF m_colorNetViewBg;
 	int m_curLinkArrow;
 	int m_curLinkLineStyle;
 	void getOtherProfile();

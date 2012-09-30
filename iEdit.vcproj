@@ -947,6 +947,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\SystemConfiguration.cpp"
+				>
+			</File>
+			<File
 				RelativePath="TabSeet.cpp"
 				>
 				<FileConfiguration
@@ -1161,6 +1165,10 @@
 			</File>
 			<File
 				RelativePath="SvgWriter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SystemConfiguration.h"
 				>
 			</File>
 			<File

@@ -17,6 +17,7 @@
 #include "imm.h"
 #include "RectTrackerPlus.h"
 #include "SetMarginDlg.h"
+#include "SystemConfiguration.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1526,7 +1527,14 @@ void NetView::OnSetNodeFont()
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	LOGFONT lf;
 	memset(&lf, 0, sizeof(LOGFONT));
-	::lstrcpy(lf.lfFaceName, _T("ＭＳ ゴシック"));
+
+	CString defaultFont = _T("MS UI Gothic");
+	SystemConfiguration sc;
+	if (sc.isMeiryoEnabled()) {
+		defaultFont = _T("メイリオ");
+	}
+	
+	::lstrcpy(lf.lfFaceName, defaultFont);
 	lf.lfHeight = 0xfffffff3;
 	lf.lfWidth = 0;
 	lf.lfItalic = FALSE;
@@ -2824,7 +2832,7 @@ int NetView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	// TODO: この位置に固有の作成用コードを追加してください
 	m_pDC = new CClientDC(this);
-	m_bAccel = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Accel Move"), FALSE);
+	m_bAccel = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Accel Move"), TRUE);
 	m_pShapesDlg = new shapesDlg;
 	m_pShapesDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_SHAPES);	
 	doColorSetting();
@@ -3535,7 +3543,8 @@ void NetView::OnSelchangeDropdown()
 
 void NetView::doColorSetting()
 {
-	m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Net bgColor"), RGB(255, 255, 255));
+	CiEditApp* app = (CiEditApp*)AfxGetApp();
+	m_bkColor = app->GetProfileInt(REGS_FRAME, _T("Net bgColor"), app->m_colorNetViewBg);
 }
 
 void NetView::OnExportSvg() 

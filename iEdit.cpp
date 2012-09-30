@@ -8,6 +8,7 @@
 #include "ChildFrm.h"
 #include "iEditDoc.h"
 #include "OutLineView.h"
+#include "SystemConfiguration.h"
 #include "Splash.h"
 #include "RelaxThrd.h"
 #include "afxwin.h"
@@ -63,6 +64,13 @@ CiEditApp::CiEditApp()
 	// ここに InitInstance 中の重要な初期化処理をすべて記述してください。
 	m_curLinkLineStyle = CiEditApp::LS_R0;
 	m_curLinkArrow = CiEditApp::LA_NONE;
+	m_colorOutlineViewBg = RGB(238, 255, 255);
+	m_colorOutlineViewFg = RGB(0, 0, 0);
+	m_colorLinkViewBg = RGB(255, 230, 255);
+	m_colorLinkViewFg = RGB(0, 0, 0);
+	m_colorTextViewBg = RGB(0, 64, 128);
+	m_colorTextViewFg = RGB(255, 255, 128);
+	m_colorNetViewBg = RGB(255, 255, 238);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -261,6 +269,11 @@ BOOL CiEditApp::PreTranslateMessage(MSG* pMsg)
 
 void CiEditApp::getNodeProfile()
 {
+	SystemConfiguration sc;
+	CString defaultFontName = _T("MS UI Gothic");
+	if (sc.isMeiryoEnabled()) {
+		defaultFontName = _T("メイリオ");
+	}
 	m_rgsNode.colorFill = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Fill Color"), RGB(255, 255, 255));
 	m_rgsNode.colorLine = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Line Color"), RGB(0, 0, 0));
 	m_rgsNode.colorFont = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Color"), RGB(0, 0, 0));
@@ -269,7 +282,7 @@ void CiEditApp::getNodeProfile()
 	m_rgsNode.styleLine = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Line Style"), PS_SOLID);
 	m_rgsNode.shape= AfxGetApp()->GetProfileInt(REGS_NODE, _T("Node Shape"), iNode::rectangle);
 	m_rgsNode.styleText = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Text Align"), iNode::s_cc);
-	::lstrcpy(m_rgsNode.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_NODE, _T("Font Name"), _T("ＭＳ ゴシック")));
+	::lstrcpy(m_rgsNode.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_NODE, _T("Font Name"), defaultFontName));
 	m_rgsNode.lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Height"), 0xfffffff3);
 	m_rgsNode.lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Width"), 0);
 	m_rgsNode.lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Italic"), FALSE);
@@ -278,11 +291,11 @@ void CiEditApp::getNodeProfile()
 	m_rgsNode.lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font CharSet"), SHIFTJIS_CHARSET);
 	m_rgsNode.lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Weight"), FW_NORMAL);
 	
-	m_rgsNode.bInheritParent = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Inherit Parent"), FALSE);
-	m_rgsNode.bInheritSibling = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Inherit Sibling"), FALSE);
-	m_rgsNode.bSyncOrder = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Sync Order"), FALSE);
+	m_rgsNode.bInheritParent = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Inherit Parent"), TRUE);
+	m_rgsNode.bInheritSibling = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Inherit Sibling"), TRUE);
+	m_rgsNode.bSyncOrder = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Sync Order"), TRUE);
 	m_rgsNode.orderDirection = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Order Direction"), 0);
-	m_rgsNode.bEnableGroup = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Enable Grouping"), FALSE);
+	m_rgsNode.bEnableGroup = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Enable Grouping"), TRUE);
 	m_rgsNode.bDisableNodeResize = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Disable NodeResize"), FALSE);
 	m_rgsNode.margin_l = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Margin Left"), 0);
 	m_rgsNode.margin_r = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Margin Right"), 0);
@@ -293,13 +306,18 @@ void CiEditApp::getNodeProfile()
 
 void CiEditApp::getLinkProfile()
 {
+	SystemConfiguration sc;
+	CString defaultFontName = _T("MS UI Gothic");
+	if (sc.isMeiryoEnabled()) {
+		defaultFontName = _T("メイリオ");
+	}
 	m_rgsLink.colorLine = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Color"), RGB(0, 0, 0));
 	m_rgsLink.lineWidth = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Width"), 0);
-	m_rgsLink.strength  = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Strength"), 10);
+	m_rgsLink.strength  = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Strength"), 9);
 	m_rgsLink.styleLine = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Style"), PS_SOLID);
 	m_rgsLink.bSetStrength = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Set Strength"), TRUE);
 	
-	::lstrcpy(m_rgsLink.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_LINK, _T("Font Name"), _T("ＭＳ ゴシック")));
+	::lstrcpy(m_rgsLink.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_LINK, _T("Font Name"), defaultFontName));
 	m_rgsLink.lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Height"), 0xfffffff3);
 	m_rgsLink.lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Width"), 0);
 	m_rgsLink.lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Italic"), FALSE);
@@ -312,7 +330,7 @@ void CiEditApp::getLinkProfile()
 void CiEditApp::getOptionsProfile()
 {
 	m_rgsOptions.registFiletype = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Register Filetypes"), TRUE);
-	m_rgsOptions.registOldFiletype = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Register Old Filetype"), TRUE);
+	m_rgsOptions.registOldFiletype = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Register Old Filetype"), FALSE);
 }
 
 int CiEditApp::ExitInstance() 

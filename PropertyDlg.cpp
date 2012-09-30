@@ -11,6 +11,7 @@
 #include "PageOther.h"
 #include "iNode.h"
 #include "iLink.h"
+#include "SystemConfiguration.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -286,12 +287,12 @@ void CPropertyDlg::initPageOther()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pOther->m_bShowHS = pApp->GetProfileInt(REGS_OTHER, _T("Show HScroll"), FALSE);
-	pOther->m_tabSelect = pApp->GetProfileInt(REGS_OTHER, _T("Tab Stop"), 2);
+	pOther->m_tabSelect = pApp->GetProfileInt(REGS_OTHER, _T("Tab Stop"), 1);
 	
 	pOther->m_bInheritParent = pApp->m_rgsNode.bInheritParent;
 	pOther->m_bInheritSibling = pApp->m_rgsNode.bInheritSibling;
-	pOther->m_bAccelmove = pApp->GetProfileInt(REGS_OTHER, _T("Accel Move"), FALSE);
-	pOther->m_bDrawUnderLine = pApp->GetProfileInt(REGS_OTHER, _T("Draw Underline"), FALSE);
+	pOther->m_bAccelmove = pApp->GetProfileInt(REGS_OTHER, _T("Accel Move"), TRUE);
+	pOther->m_bDrawUnderLine = pApp->GetProfileInt(REGS_OTHER, _T("Draw Underline"), TRUE);
 	pOther->m_bOpenFilesAfterExport = pApp->GetProfileInt(REGS_OTHER, _T("Open Files After Export"), TRUE);
 	pOther->m_bOutputFileLinksOnExport = pApp->GetProfileInt(REGS_OTHER, _T("Output Filelinks On Export"), FALSE);
 	pOther->m_bSetStylesheet = pApp->GetProfileInt(REGS_OTHER, _T("XML StyleSheet"), TRUE);
@@ -323,64 +324,69 @@ void CPropertyDlg::writePageOther()
 
 void CPropertyDlg::initPageFrame()
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìì¬—pƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	SystemConfiguration sc;
+	CString defaultFontName = _T("MS UI Gothic");
+	if (sc.isMeiryoUiEnabled()) {
+		defaultFontName = _T("Meiryo UI");
+	}
+	CiEditApp* app = (CiEditApp*)AfxGetApp();
 	// OullineView Font
-	::lstrcpy(pFrame->lfOutline.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font1 Name"), _T("‚l‚r ‚oƒSƒVƒbƒN")));
-	pFrame->lfOutline.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Height"), 0xfffffff3);
-	pFrame->lfOutline.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Width"), 0);
-	pFrame->lfOutline.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Italic"), FALSE);
-	pFrame->lfOutline.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 UnderLine"), FALSE);
-	pFrame->lfOutline.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 StrikeOut"), FALSE);
-	pFrame->lfOutline.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 CharSet"), SHIFTJIS_CHARSET);
-	pFrame->lfOutline.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Weight"), FW_NORMAL);
+	::lstrcpy(pFrame->lfOutline.lfFaceName, app->GetProfileString(REGS_FRAME, _T("Font1 Name"), defaultFontName));
+	pFrame->lfOutline.lfHeight = app->GetProfileInt(REGS_FRAME, _T("Font1 Height"), 0xfffffff3);
+	pFrame->lfOutline.lfWidth = app->GetProfileInt(REGS_FRAME, _T("Font1 Width"), 0);
+	pFrame->lfOutline.lfItalic = app->GetProfileInt(REGS_FRAME, _T("Font1 Italic"), FALSE);
+	pFrame->lfOutline.lfUnderline = app->GetProfileInt(REGS_FRAME, _T("Font1 UnderLine"), FALSE);
+	pFrame->lfOutline.lfStrikeOut = app->GetProfileInt(REGS_FRAME, _T("Font1 StrikeOut"), FALSE);
+	pFrame->lfOutline.lfCharSet= app->GetProfileInt(REGS_FRAME, _T("Font1 CharSet"), SHIFTJIS_CHARSET);
+	pFrame->lfOutline.lfWeight = app->GetProfileInt(REGS_FRAME, _T("Font1 Weight"), FW_NORMAL);
 	pFrame->lfOutline.lfEscapement = 0;
 	pFrame->fntOutline.CreateFontIndirect(&pFrame->lfOutline);
 	
 	// LinkView Font
-	::lstrcpy(pFrame->lfLink.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font2 Name"), _T("‚l‚r ‚oƒSƒVƒbƒN")));
-	pFrame->lfLink.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Height"), 0xfffffff3);
-	pFrame->lfLink.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Width"), 0);
-	pFrame->lfLink.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Italic"), FALSE);
-	pFrame->lfLink.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 UnderLine"), FALSE);
-	pFrame->lfLink.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 StrikeOut"), FALSE);
-	pFrame->lfLink.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 CharSet"), SHIFTJIS_CHARSET);
-	pFrame->lfLink.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Weight"), FW_NORMAL);
+	::lstrcpy(pFrame->lfLink.lfFaceName, app->GetProfileString(REGS_FRAME, _T("Font2 Name"), defaultFontName));
+	pFrame->lfLink.lfHeight = app->GetProfileInt(REGS_FRAME, _T("Font2 Height"), 0xfffffff3);
+	pFrame->lfLink.lfWidth = app->GetProfileInt(REGS_FRAME, _T("Font2 Width"), 0);
+	pFrame->lfLink.lfItalic = app->GetProfileInt(REGS_FRAME, _T("Font2 Italic"), FALSE);
+	pFrame->lfLink.lfUnderline = app->GetProfileInt(REGS_FRAME, _T("Font2 UnderLine"), FALSE);
+	pFrame->lfLink.lfStrikeOut = app->GetProfileInt(REGS_FRAME, _T("Font2 StrikeOut"), FALSE);
+	pFrame->lfLink.lfCharSet= app->GetProfileInt(REGS_FRAME, _T("Font2 CharSet"), SHIFTJIS_CHARSET);
+	pFrame->lfLink.lfWeight = app->GetProfileInt(REGS_FRAME, _T("Font2 Weight"), FW_NORMAL);
 	pFrame->lfLink.lfEscapement = 0;
 	pFrame->fntLink.CreateFontIndirect(&pFrame->lfLink);
 	
 	// TextView Font
-	::lstrcpy(pFrame->lfText.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font3 Name"), _T("‚l‚r ƒSƒVƒbƒN")));
-	pFrame->lfText.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Height"), 0xfffffff1);
-	pFrame->lfText.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Width"), 0);
-	pFrame->lfText.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Italic"), FALSE);
-	pFrame->lfText.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 UnderLine"), FALSE);
-	pFrame->lfText.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 StrikeOut"), FALSE);
-	pFrame->lfText.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 CharSet"), SHIFTJIS_CHARSET);
-	pFrame->lfText.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Weight"), FW_NORMAL);
+	::lstrcpy(pFrame->lfText.lfFaceName, app->GetProfileString(REGS_FRAME, _T("Font3 Name"), defaultFontName));
+	pFrame->lfText.lfHeight = app->GetProfileInt(REGS_FRAME, _T("Font3 Height"), 0xfffffff1);
+	pFrame->lfText.lfWidth = app->GetProfileInt(REGS_FRAME, _T("Font3 Width"), 0);
+	pFrame->lfText.lfItalic = app->GetProfileInt(REGS_FRAME, _T("Font3 Italic"), FALSE);
+	pFrame->lfText.lfUnderline = app->GetProfileInt(REGS_FRAME, _T("Font3 UnderLine"), FALSE);
+	pFrame->lfText.lfStrikeOut = app->GetProfileInt(REGS_FRAME, _T("Font3 StrikeOut"), FALSE);
+	pFrame->lfText.lfCharSet= app->GetProfileInt(REGS_FRAME, _T("Font3 CharSet"), SHIFTJIS_CHARSET);
+	pFrame->lfText.lfWeight = app->GetProfileInt(REGS_FRAME, _T("Font3 Weight"), FW_NORMAL);
 	pFrame->lfText.lfEscapement = 0;
 	pFrame->fntText.CreateFontIndirect(&pFrame->lfText);
 	
 	// TreeView Color
-	pFrame->m_colorOLBG = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline bgColor"), RGB(255, 255, 255));
-	pFrame->m_colorOLFor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline forColor"), RGB(0, 0, 0));
-	pFrame->m_colorInsrtMrk = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("InsertMark Color"), RGB(0, 0, 0));
+	pFrame->m_colorOLBG = app->GetProfileInt(REGS_FRAME, _T("Outline bgColor"), app->m_colorOutlineViewBg);
+	pFrame->m_colorOLFor = app->GetProfileInt(REGS_FRAME, _T("Outline forColor"), app->m_colorOutlineViewFg);
+	pFrame->m_colorInsrtMrk = app->GetProfileInt(REGS_FRAME, _T("InsertMark Color"), RGB(0, 0, 0));
 	
 	// LinkView Color
-	pFrame->m_colorLNBG = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Link bgColor"), RGB(255, 255, 255));
-	pFrame->m_colorLNFor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Link forColor"), RGB(0, 0, 0));
+	pFrame->m_colorLNBG = app->GetProfileInt(REGS_FRAME, _T("Link bgColor"), app->m_colorLinkViewBg);
+	pFrame->m_colorLNFor = app->GetProfileInt(REGS_FRAME, _T("Link forColor"), app->m_colorLinkViewFg);
 	
 	// EditerView Color
-	pFrame->m_colorEditBG = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), RGB(255, 255, 255));
-	pFrame->m_colorEditFor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit forColor"), RGB(0, 0, 0));
+	pFrame->m_colorEditBG = app->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), app->m_colorTextViewBg);
+	pFrame->m_colorEditFor = app->GetProfileInt(REGS_FRAME, _T("Edit forColor"), app->m_colorTextViewFg);
 	
 	// NetView Color
-	pFrame->m_colorNWBG = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Net bgColor"), RGB(255, 255, 255));
+	pFrame->m_colorNWBG = app->GetProfileInt(REGS_FRAME, _T("Net bgColor"), app->m_colorNetViewBg);
 	
 	// Frame Option
-	pFrame->m_bSaveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
+	pFrame->m_bSaveFrame = app->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
 	
 	// Bar State Option
-	pFrame->m_bSaveBarState = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
+	pFrame->m_bSaveBarState = app->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 }
 
 void CPropertyDlg::writePageFrame()

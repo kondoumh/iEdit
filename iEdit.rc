@@ -13,11 +13,13 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 日本語 (日本) resources
+// 日本語 resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 #pragma code_page(932)
+#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -85,7 +87,7 @@ IDR_FORM_PALLETE        BITMAP                  "res\\bmp_tb_form.bmp"
 // Toolbar
 //
 
-IDR_MAINFRAME TOOLBAR 16, 15
+IDR_MAINFRAME TOOLBAR  16, 15
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -119,7 +121,7 @@ BEGIN
     BUTTON      ID_GRP_OL_COUPLED
 END
 
-IDR_FORM_PALLETE TOOLBAR 16, 15
+IDR_FORM_PALLETE TOOLBAR  16, 15
 BEGIN
     BUTTON      ID_HALIGN_LEFT
     BUTTON      ID_HALIGN_CENTER
@@ -147,7 +149,7 @@ END
 // Menu
 //
 
-IDR_MAINFRAME MENU
+IDR_MAINFRAME MENU 
 BEGIN
     POPUP "ファイル(&F)"
     BEGIN
@@ -182,7 +184,7 @@ BEGIN
     END
 END
 
-IDR_IEDITTYPE MENU
+IDR_IEDITTYPE MENU 
 BEGIN
     POPUP "ファイル(&F)"
     BEGIN
@@ -397,7 +399,7 @@ BEGIN
     END
 END
 
-IDR_CONTEXT MENU
+IDR_CONTEXT MENU 
 BEGIN
     POPUP "OutLine"
     BEGIN
@@ -656,7 +658,7 @@ BEGIN
     END
 END
 
-IDR_SHAPE MENU
+IDR_SHAPE MENU 
 BEGIN
     POPUP "ファイル(&F)"
     BEGIN
@@ -679,7 +681,7 @@ BEGIN
     END
 END
 
-IDR_TB_PLDWN MENU
+IDR_TB_PLDWN MENU 
 BEGIN
     POPUP "linkLineStyle"
     BEGIN
@@ -719,7 +721,7 @@ BEGIN
     END
 END
 
-IDR_IEDITTYPE_OLD MENU
+IDR_IEDITTYPE_OLD MENU 
 BEGIN
     POPUP "ファイル(&F)"
     BEGIN
@@ -927,7 +929,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS
+IDR_MAINFRAME ACCELERATORS 
 BEGIN
     VK_RIGHT,       ID_ADD_CHILD,           VIRTKEY, CONTROL, ALT, NOINVERT
     VK_DOWN,        ID_ADD_SIBLING,         VIRTKEY, CONTROL, ALT, NOINVERT
@@ -972,7 +974,7 @@ END
 IDD_ABOUTBOX DIALOGEX 0, 0, 209, 161
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iEditのバージョン情報"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 400, 0, 0x80
 BEGIN
     LTEXT           "iEdit 1.99 Copyright (C) 1999-2012 kondoumh",IDC_ST_VERSION,6,7,180,10,SS_NOPREFIX
     DEFPUSHBUTTON   "OK",IDOK,152,142,50,14,WS_GROUP
@@ -983,7 +985,7 @@ END
 IDD_INPCN DIALOGEX 0, 0, 123, 41
 STYLE DS_SETFONT | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
 CAPTION "ノードのラベル"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT1,7,6,108,14,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,7,24,50,14
@@ -993,7 +995,7 @@ END
 IDD_LINKINFO DIALOGEX 0, 0, 209, 191
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "リンクのプロパティ"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT,51,65,130,12,ES_AUTOHSCROLL
     COMBOBOX        IDC_COMBO,51,87,130,105,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -1016,7 +1018,7 @@ END
 IDD_LINKINFO2 DIALOGEX 0, 0, 219, 113
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ファイル/URLへのリンク"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT2,51,36,127,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT1,51,61,127,14,ES_AUTOHSCROLL
@@ -1032,7 +1034,7 @@ END
 IDD_PRPNODE DIALOGEX 0, 0, 207, 247
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ノードのプロパティ"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT_LABEL,49,13,151,16,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
     CONTROL         "シングル(&S)",IDC_RADIO_TLINE1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,68,50,10
@@ -1061,9 +1063,9 @@ BEGIN
     LTEXT           "ラベル",IDC_STATIC,17,17,20,8
 END
 
-IDD_ONPROC DIALOG 100, 100, 209, 87
+IDD_ONPROC DIALOG  100, 100, 209, 87
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "MS UI Gothic"
 BEGIN
     CONTROL         "Progress2",IDC_PROGPROC,"msctls_progress32",WS_BORDER,10,60,185,15
     CTEXT           "",IDC_PROC_NAME,32,24,150,15,SS_CENTERIMAGE | SS_SUNKEN
@@ -1072,7 +1074,7 @@ END
 IDD_PROPERTIES DIALOGEX 0, 0, 223, 329
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "オプション設定"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,105,308,50,14
     PUSHBUTTON      "キャンセル",IDCANCEL,166,308,50,14
@@ -1081,7 +1083,7 @@ END
 
 IDD_PG_FRAME DIALOGEX 0, 0, 197, 256
 STYLE DS_SETFONT | WS_CHILD
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     PUSHBUTTON      "文字色",IDC_BTN__FCLR_OL,12,19,38,16
     PUSHBUTTON      "フォント",IDC_BTN_OUTLINE,52,19,38,16
@@ -1104,7 +1106,7 @@ END
 
 IDD_PG_NODE DIALOGEX 0, 0, 197, 273
 STYLE DS_SETFONT | WS_CHILD
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     CONTROL         "シングル(&S)",IDC_RADIO_TLINE1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,22,50,10
     CONTROL         "マルチ(&M)",IDC_RADIO_TLINE2,"Button",BS_AUTORADIOBUTTON,15,40,45,10
@@ -1138,7 +1140,7 @@ END
 
 IDD_PG_LINK DIALOGEX 0, 0, 197, 256
 STYLE DS_SETFONT | WS_CHILD
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     PUSHBUTTON      "線の色(&C)",IDC_BTN_COLOR,14,25,39,14
     PUSHBUTTON      "フォント(&F)",IDC_BTN_FONT,58,25,39,14
@@ -1154,7 +1156,7 @@ END
 
 IDD_PG_OTHER DIALOGEX 0, 0, 197, 281
 STYLE DS_SETFONT | WS_CHILD
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     LTEXT           "タブ文字数",IDC_STATIC,19,18,33,8
     CONTROL         "&2",IDC_RD_TAB1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,69,18,19,10
@@ -1183,7 +1185,7 @@ END
 IDD_SELIMPORT DIALOGEX 0, 0, 190, 79
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "XMLデータのインポートオプション"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     CONTROL         "選択中のノードを置き換える",IDC_RD_REP,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,13,97,10
     CONTROL         "選択中のノードの配下にインポートする",IDC_RD_SUB,"Button",BS_AUTORADIOBUTTON,15,35,128,10
@@ -1194,7 +1196,7 @@ END
 IDD_SELEXPORT DIALOGEX 0, 0, 207, 125
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "エクスポートオプション"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     CONTROL         "すべてのノードを出力する",IDC_RD_TREE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,18,19,91,10
     CONTROL         "選択されたノード以下の階層をすべて出力する",IDC_RD_TREE2,"Button",BS_AUTORADIOBUTTON,18,37,150,10
@@ -1205,11 +1207,11 @@ BEGIN
     GROUPBOX        "階層構造の出力",IDC_STATIC,7,7,183,72
 END
 
-IDD_SHAPES DIALOG 0, 0, 159, 157
+IDD_SHAPES DIALOG  0, 0, 159, 157
 STYLE DS_SETFONT | DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "シェイプの一覧"
 MENU IDR_SHAPE
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "MS UI Gothic"
 BEGIN
     LISTBOX         IDC_CATLIST,7,19,64,103,LBS_NOINTEGRALHEIGHT | LBS_WANTKEYBOARDINPUT | WS_TABSTOP
     DEFPUSHBUTTON   "↓ &Drop",IDC_BTN_DROP,8,132,26,14
@@ -1226,7 +1228,7 @@ END
 IDD_SHPCATDLG DIALOGEX 0, 0, 123, 47
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "カテゴリ名の編集"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT1,7,7,99,14,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,5,28,50,14
@@ -1236,7 +1238,7 @@ END
 IDD_SHAPEINS DIALOGEX 0, 0, 149, 119
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "シェイプの指定"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,91,7,50,14
     PUSHBUTTON      "キャンセル",IDCANCEL,91,24,50,14
@@ -1246,10 +1248,10 @@ BEGIN
     LTEXT           "拡張メタファイルへのパス",IDC_STATIC,7,88,75,8
 END
 
-IDD_NODESRCH DIALOG 0, 0, 146, 288
+IDD_NODESRCH DIALOG  0, 0, 146, 288
 STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "ノードの検索"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "MS UI Gothic"
 BEGIN
     COMBOBOX        IDC_COMBO,7,7,132,97,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "再検索(&S)",IDC_START,96,31,43,15
@@ -1265,7 +1267,7 @@ END
 IDD_SETFOLDUP DIALOGEX 0, 0, 187, 49
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "折りたたみの指定"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDITLEVEL,68,15,40,14,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin1",IDC_SPIN_LEVEL,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,110,12,11,20
@@ -1277,7 +1279,7 @@ END
 IDD_SELFILEDROP DIALOGEX 0, 0, 147, 51
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iedファイルのドロップ処理"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     CONTROL         "リンクを追加する",IDC_RD_LINK,"Button",BS_AUTORADIOBUTTON | WS_GROUP,7,9,65,10
     CONTROL         "ファイルを開く",IDC_RD_OPEN,"Button",BS_AUTORADIOBUTTON,7,27,56,10
@@ -1288,7 +1290,7 @@ END
 IDD_MFSIZE DIALOGEX 0, 0, 235, 157
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "メタファイルサイズ調整"
-FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
+FONT 9, "MS UI Gothic", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "-",IDC_BTN_DOWN,119,43,16,15
     PUSHBUTTON      "+",IDC_BTN_UP,119,64,16,15
@@ -1302,10 +1304,10 @@ BEGIN
     LTEXT           "円が枠の中にちょうど納まるように+ - ボタンで縦横サイズを調整してください",IDC_STATIC,145,7,83,37
 END
 
-IDD_ALPHASLIDE DIALOG 0, 0, 247, 55
+IDD_ALPHASLIDE DIALOG  0, 0, 247, 55
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "透明度調整"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "MS UI Gothic"
 BEGIN
     CONTROL         "Slider1",IDC_SLIDER_ALPHA,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,35,10,201,20
     PUSHBUTTON      "閉じる(&C)",IDCANCEL,185,35,50,14
@@ -1313,9 +1315,9 @@ BEGIN
 END
 
 IDD_IMPORT_TEXT DIALOGEX 0, 0, 217, 91
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "階層付きテキストインポート"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
+FONT 9, "MS UI Gothic", 400, 0, 0x80
 BEGIN
     CONTROL         ". ピリオド(階層付きテキストの標準)",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,31,35,125,10
     CONTROL         "タブ",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,31,51,27,10
@@ -1327,9 +1329,9 @@ BEGIN
 END
 
 IDD_SETMARGIN DIALOGEX 0, 0, 192, 79
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ノードの余白設定(ピクセル単位)"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
+FONT 9, "MS UI Gothic", 400, 0, 0x80
 BEGIN
     EDITTEXT        IDC_ED_LEFT,50,16,35,14,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN_LEFT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,82,16,10,14
@@ -1348,9 +1350,9 @@ BEGIN
 END
 
 IDD_SET_HTML_EXPORT DIALOGEX 0, 0, 305, 300
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "HTML出力設定"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
+FONT 9, "MS UI Gothic", 400, 0, 0x80
 BEGIN
     CONTROL         "すべてのノードを出力する(ネットワークビューは表示されているノードのみ出力)",IDC_RD_TREE,
                     "Button",BS_AUTORADIOBUTTON | WS_GROUP,18,17,259,9
@@ -1399,18 +1401,18 @@ BEGIN
     PUSHBUTTON      "コピー(&C)",IDC_BTN_COPY,132,54,78,14
 END
 
-IDD_SHELL_FILETYPE_SETTING DIALOGEX 0, 0, 268, 82
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_SHELL_FILETYPE_SETTING DIALOGEX 0, 0, 255, 82
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ファイルタイプ登録設定"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
+FONT 9, "MS UI Gothic", 400, 0, 0x80
 BEGIN
     CONTROL         "iEditのファイルタイプ(iedx)をシステムに登録しない(登録を解除します)",IDC_RD_NOT_REGIST,
                     "Button",BS_AUTORADIOBUTTON | WS_GROUP,7,8,229,10
     CONTROL         "iEditのファイルタイプ(iedx)をシステムに登録する(再起動時有効)",IDC_RD_REGIST,
                     "Button",BS_AUTORADIOBUTTON,7,27,214,10
     CONTROL         "旧ファイルタイプ(ied形式)も登録する",IDC_CHK_REGIST_OLDTYPE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,42,129,10
-    DEFPUSHBUTTON   "OK",IDOK,147,61,50,14
-    PUSHBUTTON      "キャンセル",IDCANCEL,211,61,50,14
+    DEFPUSHBUTTON   "OK",IDOK,137,61,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,198,61,50,14
 END
 
 
@@ -1460,7 +1462,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
@@ -1658,7 +1660,7 @@ BEGIN
     IDD_SHELL_FILETYPE_SETTING, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 261
+        RIGHTMARGIN, 248
         TOPMARGIN, 7
         BOTTOMMARGIN, 75
     END
@@ -1813,24 +1815,24 @@ END
 // String Table
 //
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDR_MAINFRAME           "iEdit"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDR_IEDITTYPE           "\niEdit\niEdit\niEdit ファイル (*.iedx)\n.iedx\niEdit.Document\niEdit Document"
     IDR_XMLTYPE             "\nXML\nxml\nxmlファイル (*.xml)\n.xml\nXML.Document\nXML Document"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     AFX_IDS_APP_TITLE       "iEdit"
     AFX_IDS_IDLEMESSAGE     "レディ"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_INDICATOR_EXT        "EXT"
     ID_INDICATOR_CAPS       "CAP"
@@ -1841,7 +1843,7 @@ BEGIN
     ID_INDICATOR_KANA       "カナ"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_FILE_NEW             "新規にファイルを作成\n新規ファイル"
     ID_FILE_OPEN            "既存のファイルを開く\n開く"
@@ -1854,13 +1856,13 @@ BEGIN
     ID_FILE_PRINT_PREVIEW   "印刷イメージを表示\n印刷プレビュー"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_APP_ABOUT            "iEditの情報、バージョン、著作権を表示\nバージョン情報"
     ID_APP_EXIT             "iEditを終了し、ファイルの保存を指示\n終了"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_FILE_MRU_FILE1       "指定のファイルを開く"
     ID_FILE_MRU_FILE2       "指定のファイルを開く"
@@ -1880,7 +1882,7 @@ BEGIN
     ID_FILE_MRU_FILE16      "指定のファイルを開く"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_WINDOW_NEW           "作業中のウィンドウを複写して表示\n新規ｳｨﾝﾄﾞｳ"
     ID_WINDOW_ARRANGE       "ウィンドウの下部にｱｲｺﾝを整列\nアイコンの整列"
@@ -1890,7 +1892,7 @@ BEGIN
     ID_WINDOW_SPLIT         "作業中のウィンドウを分割\n分割"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_EDIT_CLEAR           "選択範囲を消去\n消去"
     ID_EDIT_CLEAR_ALL       "すべて消去\nすべて消去"
@@ -1905,13 +1907,13 @@ BEGIN
     ID_EDIT_REDO            "直前に行った動作を繰り返す\n繰り返す"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_VIEW_TOOLBAR         "ツールバーの 表示/非表示\nツールバーの表示切り替え"
     ID_VIEW_STATUS_BAR      "ステータスバーの 表示/非表示\nステータスバーの表示切り替え"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     AFX_IDS_SCSIZE          "ウィンドウのサイズを変更"
     AFX_IDS_SCMOVE          "ウィンドウの位置を変更"
@@ -1922,19 +1924,19 @@ BEGIN
     AFX_IDS_SCCLOSE         "作業中のウィンドウを閉じ、変更したファイルの保存を指示"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     AFX_IDS_SCRESTORE       "ウィンドウを通常のサイズに戻す"
     AFX_IDS_SCTASKLIST      "アプリケーションの切り替え"
     AFX_IDS_MDICHILD        "指定のウィンドウを表示"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     AFX_IDS_PREVIEW_CLOSE   "印刷プレビューモードの終わり\nプレビューのキャンセル"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_ADD_LINK0            "リンクの追加(矢印なし)\nリンクの追加(矢印なし)"
     ID_SET_MULTI_LINE       "ラベルを複数行表示にする\n複数行表示"
@@ -1945,7 +1947,7 @@ BEGIN
     ID_ADD_RECT             "ノードの追加(長方形)\nノードの追加(長方形)"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_ADD_ARC              "ノードの追加(楕円)\nノードの追加(楕円)"
     ID_ADD_LINK1            "リンクの追加(一方向)\nリンクの追加(一方向)"
@@ -1957,7 +1959,7 @@ BEGIN
     ID_JUMP_BACK            "選択したリンク先からもとのノードに戻る"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_ADD_CHILD            "ノードを下のレベルに追加\n下のレベルに追加(Ctrl+Alt+Right)"
     ID_ADD_SIBLING          "ノードを同じレベルに追加\n同じレベルに追加(Ctrl+Alt+Down)"
@@ -1969,7 +1971,7 @@ BEGIN
     ID_DELETE               "ノード・リンクを削除する"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_AUTO_LAYOUT          "自動レイアウトモード\n自動レイアウトモード"
     ID_SET_NODE_PROP        "ノードのプロパティをダイアログで設定する"
@@ -1986,7 +1988,7 @@ BEGIN
     ID_SET_NODE_ARC         "ノードの形 楕円"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_NORMAL_CURSOR        "選択モード\n選択モード"
     ID_ADD_ROUND_RECT       "ノードの追加(角の丸い長方形)\nノードの追加(角の丸い長方形)"
@@ -1997,12 +1999,12 @@ BEGIN
     ID_REFRESH_NET_VIEW     "ネットワークビューを再描画する\n再描画"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_SET_FOLDUP           "折りたたみのレベルを指定する\n折りたたみの指定"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_ZOOM_MODE            "ルーペツール\nルーペ"
     ID_EXPORT_SVG           "図をSVG形式に出力する\nSVG出力"
@@ -2011,12 +2013,12 @@ BEGIN
                             "アウトラインで選択されているノード配下の子ノードを表示する\n選択されたノード配下の子ノードを表示"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_ADD_CHILD2           "下の階層に新しいノードを追加する"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_INSERT_CHILD         "マインドマップ的操作 選択ノードの子ノードを追加する\n子ノード挿入"
     ID_INSERT_SIBLING       "マインドマップ的操作 選択ノードの兄弟ノードを追加する\n兄弟ノード挿入"
@@ -2033,24 +2035,24 @@ BEGIN
                             "選択されたノード配下のツリーをテキストデータとしてクリップボードにコピーする\nツリーをクリップボードに転送"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_ADD_LABEL_ONLY       "テキストボックスの追加\nテキストボックスの追加"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_BTN_LINK_ARROW       "リンクの矢印の種類を設定する\n矢印の種類"
     ID_FONT_ENLARGE         "選択したノードのフォントサイズを大きくする\nフォントを大きく"
     ID_FONT_ENSMALL         "選択したノードのフォントサイズを小さくする\nフォントを小さく"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_BTN_LINK_LINE_STYLE  "線の種類を設定する\n線の種類"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_HALIGN_LEFT          "ラベルを左寄せにする\n左寄せ"
     ID_VALIGN_CENTER        "ラベルを中配置にする\n中配置"
@@ -2061,36 +2063,36 @@ BEGIN
     ID_BTN_LINE_COLOR       "ノード枠、矢印の色を設定する\n線の色"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_VALIGN_TOP           "ラベルを天配置にする\n天配置"
     ID_ALIGN_BOTTOM         "ラベルを地配置にする\n地配置"
     ID_HALIGN_RIGHT         "ラベルを右寄せにする\n右寄せ"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_APLY_FORMAT          "保存された書式を適用する\n保存書式を適用"
     ID_GRP_OL_COUPLED       "簡易グループ化機能とアウトラインビューの階層を連動させる\n簡易グループ化とアウトラインを連動"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDR_IEDITTYPE_OLD       "\niEdit old\niEdit old\niEdit ファイル(旧) (*.ied)\n.ied\niEdit.Document_old\niEdit Document (old)"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_SET_LINK_ANGLED      "リンクの曲げ方をベジエじゃなく角張らせる\n角張らせる"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_EXPORT_EMF           "図をEMF形式に出力する\nEMF出力"
     ID_EXPORT_PNG           "図をPNG形式に出力する\nPNG出力"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_TREE_IMAGE_BLUE      "青い丸のアイコン(標準)\n青い丸"
     ID_TREE_IMAGE_RED       "赤い丸のアイコン\n赤い丸"
@@ -2103,18 +2105,18 @@ BEGIN
     ID_TREE_IMAGE_IDEA      "アイデア(電球)アイコン\nアイデア"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_RESIZE_TOFIT         "フィットするようにリサイズする\nリサイズする"
     ID_FILETYPE_REG_DEL     "ファイルタイプを登録・削除する"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_APP_HELP             "iEdit のユーザーズマニュアルをWebブラウザーで表示します。"
 END
 
-#endif    // 日本語 (日本) resources
+#endif    // 日本語 resources
 /////////////////////////////////////////////////////////////////////////////
 
 

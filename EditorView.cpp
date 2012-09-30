@@ -5,6 +5,7 @@
 #include "iEdit.h"
 #include "EditorView.h"
 #include "iEditDoc.h"
+#include "SystemConfiguration.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -101,7 +102,6 @@ BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs)
 	if (shwHScroll) {
 		cs.style |= WS_HSCROLL;
 	}
-	
 	return CEditView::PreCreateWindow(cs);
 }
 
@@ -112,7 +112,7 @@ void EditorView::OnInitialUpdate()
 	CString t = GetDocument()->getSelectedNodeText();
 	GetEditCtrl().SetWindowText(t);
 	m_preKey = GetDocument()->getSelectedNodeKey();
-	m_bDrawUnderLine = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Draw Underline"), FALSE);
+	m_bDrawUnderLine = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Draw Underline"), TRUE);
 	initSizeChar();
 }
 
@@ -134,9 +134,10 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	if (pHint != NULL) {
 		ph = reinterpret_cast<iHint*>(pHint);
 	}
+	CiEditApp* app = (CiEditApp*)AfxGetApp();
 	if (ph != NULL && ph->event == iHint::viewSettingChanged) {
-		m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), RGB(255, 255, 255));
-		m_textColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit forColor"), RGB(0, 0, 0));
+		m_bkColor = app->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), app->m_colorTextViewBg);
+		m_textColor = app->GetProfileInt(REGS_FRAME, _T("Edit forColor"), app->m_colorTextViewFg);
 		m_hBrsBack.CreateSolidBrush(m_bkColor);
 		Invalidate();
 		setViewFont();
@@ -151,10 +152,10 @@ int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CEditView::OnCreate(lpCreateStruct) == -1)
 		return -1;
-	
+	CiEditApp* app = (CiEditApp*)AfxGetApp();
 	// TODO: この位置に固有の作成用コードを追加してください
-	m_bkColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), RGB(255, 255, 255));
-	m_textColor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Edit forColor"), RGB(0, 0, 0));
+	m_bkColor = app->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), app->m_colorTextViewBg);
+	m_textColor = app->GetProfileInt(REGS_FRAME, _T("Edit forColor"), app->m_colorTextViewFg);
 	m_hBrsBack.CreateSolidBrush(m_bkColor);
 	
 	setViewFont();
@@ -204,7 +205,7 @@ void EditorView::OnUpdateDelete(CCmdUI* pCmdUI)
 
 void EditorView::setTabStop()
 {
-	int tabSelect = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Tab Stop"), 2);
+	int tabSelect = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Tab Stop"), 1);
 	int tab = 16;
 	switch (tabSelect) {
 	case 0: tab = 8; break;
@@ -223,8 +224,12 @@ void EditorView::setViewFont()
 	} else {
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
-	
-	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font3 Name"), _T("ＭＳ ゴシック")));
+	CString defaultFont = _T("MS UI Gothic");
+	SystemConfiguration sc;
+	if (sc.isMeiryoUiEnabled()) {
+		defaultFont = _T("Meiryo UI");
+	}
+	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font3 Name"), defaultFont));
 	lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Height"), 0xffffffed);
 	lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Width"), 0);
 	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Italic"), FALSE);

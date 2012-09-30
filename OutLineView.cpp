@@ -19,6 +19,7 @@
 #include "Token.h"
 #include "SetHtmlExportDlg.h"
 #include "Utilities.h"
+#include "SystemConfiguration.h"
 #include <shlobj.h>
 #include <locale>
 
@@ -1477,7 +1478,12 @@ void OutlineView::setViewFont()
 	} else {
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
-	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font1 Name"), _T("‚l‚r ‚oƒSƒVƒbƒN")));
+	CString defaultFont = _T("MS UI Gothic");
+	SystemConfiguration sc;
+	if (sc.isMeiryoUiEnabled()) {
+		defaultFont = _T("Meiryo UI");
+	}
+	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font1 Name"), defaultFont));
 	lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Height"), 0xfffffff3);
 	lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Width"), 0);
 	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Italic"), FALSE);
@@ -2417,9 +2423,10 @@ void OutlineView::foldUpTree(HTREEITEM hItem, int curLevel, int levelSet)
 
 void OutlineView::doColorSetting()
 {
-	COLORREF colorBG = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline bgColor"), RGB(255, 255, 255));
-	COLORREF colorFor = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline forColor"), RGB(0, 0, 0));
-	COLORREF colorIM = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("InsertMark Color"), RGB(0, 0, 0));
+	CiEditApp* app = (CiEditApp*)AfxGetApp();
+	COLORREF colorBG = app->GetProfileInt(REGS_FRAME, _T("Outline bgColor"), app->m_colorOutlineViewBg);
+	COLORREF colorFor = app->GetProfileInt(REGS_FRAME, _T("Outline forColor"), app->m_colorOutlineViewFg);
+	COLORREF colorIM = app->GetProfileInt(REGS_FRAME, _T("InsertMark Color"), RGB(0, 0, 0));
 	TreeView_SetBkColor(m_hWnd, colorBG);
 	TreeView_SetTextColor(m_hWnd, colorFor);
 	TreeView_SetInsertMarkColor(m_hWnd, colorIM);
