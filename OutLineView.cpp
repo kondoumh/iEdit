@@ -3089,15 +3089,12 @@ void OutlineView::OnExportToText()
 	if (fdlg.DoModal() != IDOK) return;
 	CString outfileName = fdlg.GetPathName();
 	
-	
-	CWaitCursor wc;
-	CStdioFile f;
-	CFileStatus status;
-	CFileException e;
-	
-	if (!f.Open(outfileName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+	FILE* fp;
+	if (_tfopen_s(&fp, outfileName, _T("w, ccs=UTF-8")) != 0) {
+		AfxMessageBox(_T("coud not open file. ") + outfileName);
 		return;
 	}
+	CStdioFile f(fp);
 	_wsetlocale(LC_ALL, _T("jpn"));
 	if (m_opTreeOut == 0) {
 		textOutTree(tree().GetRootItem(), &f, 0, dlg.m_bPrintText);
