@@ -2200,16 +2200,15 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOut
 
 bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char levelChar)
 {
-	CStdioFile f;
-	CFileStatus status;
-	CFileException e;
-	
 	_wsetlocale(LC_ALL, _T("jpn"));
 	
-	if (!f.Open(inPath, CFile::typeText | CFile::modeRead, &e)) {
+	FILE* fp;
+	if (_tfopen_s(&fp, inPath, _T("r, ccs=UTF-8")) != 0) {
+		AfxMessageBox(_T("coud not open file. ") + inPath);
 		return false;
 	}
-
+	CStdioFile f(fp);
+	
 	CString line;
 	vector<CString> lines;
 	while (f.ReadString(line) != NULL) {
