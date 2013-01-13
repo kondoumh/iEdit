@@ -325,7 +325,6 @@ private:
 	CPoint ptSelectMin;
 	serialVec sv;
 	serialVec copyOrg;
-	iNode nodeFind;
 	BOOL canCpyLink;
 	iLink m_cpLinkOrg;
 	CPoint m_maxPt;

@@ -539,17 +539,7 @@ class iNodeMMNodeDrawer : public iNodeDrawer {
 	void drawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
 };
 
-// iNodes : iNode のコレクション
-////////////////////////////////////////////////////////////////
-struct iNode_less : binary_function<iNode, iNode, bool> {
-	bool operator()(const iNode& n1, const iNode& n2) const
-	{
-		return n1.getKey() < n2.getKey();
-	}
-};
-
-
-typedef set<iNode, iNode_less> nContena;
+typedef map<DWORD, iNode> nContena;
 typedef nContena::const_iterator const_niterator;
 typedef nContena::iterator niterator;
 typedef vector<iNode> nVec;
@@ -571,8 +561,8 @@ public:
 	void setSelectedNodeFixed(BOOL f=TRUE);
 	BOOL isSelectedNodeFixed() const;
 	const_niterator getSelectedNodeR() const;
-	niterator findNodeW(const iNode& n);
-	const_niterator findNode(const iNode& n) const;
+	niterator findNodeW(DWORD key);
+	const_niterator findNode(DWORD key) const;
 	void setSelectedNodeShape(int shape);
 	int getSelectedNodeShape() const;
 	void setSelectedNodeNoBrush(BOOL noBrush=TRUE);
@@ -610,7 +600,6 @@ private:
 	vector<iNode*> nodesDraw_; // 描画用ノード配列
 	serialVec svec_; // 描画順序情報
 	iNodeDrawer* getNodeDrawer(const iNode& node);
-	iNode nodeFind;
 	DWORD curParent_;
 	DWORD selKey_;
 	iNodeRectDrawer* m_pNodeRectDrawer;

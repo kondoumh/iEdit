@@ -789,42 +789,39 @@ void iNodeMMNodeDrawer::drawShapeSpecific(const iNode &node, CDC* pDC, const CPe
 void iNodes::setSelKey(DWORD key)
 {
 	selKey_ = key;
-	nodeFind.setKey(selKey_);
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if (selKey_ == (*it).getKey()) {
-			/*const_cast<iNode&>*/(*it).selectNode();
-			curParent_ = (*it).getParent();
+		if (selKey_ == (*it).second.getKey()) {
+			(*it).second.selectNode();
+			curParent_ = (*it).second.getParent();
 		} else {
-			/*const_cast<iNode&>*/(*it).selectNode(false);
+			(*it).second.selectNode(false);
 		}
 	}
 }
 
 niterator iNodes::getSelectedNode()
 {
-	return findNodeW(nodeFind);
+	return findNodeW(selKey_);
 }
 
 const_niterator iNodes::getSelectedNodeR() const
 {
-	return findNode(nodeFind);
+	return findNode(selKey_);
 }
 
 void iNodes::initSelection()
 {
 	if (size() == 1) {
 		selKey_ = 0;
-		nodeFind.setKey(selKey_);
 		setSelKey(selKey_);
 	} else {
 		const_niterator it = begin();
 		for ( ; it != end(); it++) {
-			if ((*it).getTreeState() & TVIS_SELECTED) {
+			if ((*it).second.getTreeState() & TVIS_SELECTED) {
 				// TVIS_EXPANDED‚ÆŠÔˆá‚¦‚Ä‚½
-				selKey_ = (*it).getKey();
-				nodeFind.setKey(selKey_);
-				curParent_ = (*it).getParent();
+				selKey_ = (*it).second.getKey();
+				curParent_ = (*it).second.getParent();
 				break;
 			}
 		}
@@ -844,7 +841,7 @@ iNode* iNodes::hitTest(const CPoint &pt, bool bTestAll)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		/*const_cast<iNode&>*/(*it).selectNode(false);
+		(*it).second.selectNode(false);
 	}
 	
 	vector<iNode*>::reverse_iterator vit = nodesDraw_.rbegin();
@@ -910,17 +907,17 @@ void iNodes::moveSelectedNode(const CSize &sz)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).moveBound(sz);
+		if ((*it).second.isSelected()) {
+			(*it).second.moveBound(sz);
 		}
 	}
 }
 
 void iNodes::setSelectedNodeBound(const CRect &r)
 {
-	niterator it = findNodeW(nodeFind);
+	niterator it = findNodeW(selKey_);
 	if (it != end()) {
-		/*const_cast<iNode&>*/(*it).setBound(r);
+		(*it).second.setBound(r);
 	}
 }
 
@@ -928,18 +925,18 @@ void iNodes::setSelectedNodeFont(const LOGFONT &lf)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setFontInfo(lf);
+		if ((*it).second.isSelected()) {
+			(*it).second.setFontInfo(lf);
 		}
 	}
 }
 
 void iNodes::getSelectedNodeFont(LOGFONT& lf)
 {
-	const_niterator it = findNode(nodeFind);
+	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		lf = (*it).getFontInfo();
-		::lstrcpy(lf.lfFaceName, (*it).getFontInfo().lfFaceName);
+		lf = (*it).second.getFontInfo();
+		::lstrcpy(lf.lfFaceName, (*it).second.getFontInfo().lfFaceName);
 	}
 }
 
@@ -947,9 +944,9 @@ void iNodes::getSelectedNodeFont(LOGFONT& lf)
 COLORREF iNodes::getSelectedNodeFontColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
-	const_niterator it = findNode(nodeFind);
+	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		c = (*it).getFontColor();
+		c = (*it).second.getFontColor();
 	}
 	return c;
 }
@@ -958,8 +955,8 @@ void iNodes::setSelectedNodeFontColor(const COLORREF &c)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setFontColor(c);
+		if ((*it).second.isSelected()) {
+			(*it).second.setFontColor(c);
 		}
 	}
 }
@@ -968,8 +965,8 @@ void iNodes::setSelectedNodeBrush(const COLORREF &c)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setBrush(c);
+		if ((*it).second.isSelected()) {
+			(*it).second.setBrush(c);
 		}
 	}
 }
@@ -978,8 +975,8 @@ void iNodes::setSelectedNodeNoBrush(BOOL noBrush)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setNoBrush(noBrush);
+		if ((*it).second.isSelected()) {
+			(*it).second.setNoBrush(noBrush);
 		}
 	}
 }
@@ -988,8 +985,8 @@ void iNodes::setSelectedNodeLineColor(const COLORREF &c)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setLineColor(c);
+		if ((*it).second.isSelected()) {
+			(*it).second.setLineColor(c);
 		}
 	}
 }
@@ -997,9 +994,9 @@ void iNodes::setSelectedNodeLineColor(const COLORREF &c)
 COLORREF iNodes::getSelectedNodeLineColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
-	const_niterator it = findNode(nodeFind);
+	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		c = (*it).getLineColor();
+		c = (*it).second.getLineColor();
 	}
 	return c;
 }
@@ -1007,9 +1004,9 @@ COLORREF iNodes::getSelectedNodeLineColor() const
 COLORREF iNodes::getSelectedNodeBrsColor() const
 {
 	COLORREF c = RGB(255, 255, 255);
-	const_niterator it = findNode(nodeFind);
+	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		c = (*it).getBrsColor();
+		c = (*it).second.getBrsColor();
 	}
 	return c;
 }
@@ -1018,8 +1015,8 @@ void iNodes::setSelectedNodeLineStyle(int style)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setLineStyle(style);
+		if ((*it).second.isSelected()) {
+			(*it).second.setLineStyle(style);
 		}
 	}
 }
@@ -1027,9 +1024,9 @@ void iNodes::setSelectedNodeLineStyle(int style)
 int iNodes::getSelectedNodeLineStyle() const
 {
 	int s = PS_SOLID;
-	const_niterator it = findNode(nodeFind);
+	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		s = (*it).getLineStyle();
+		s = (*it).second.getLineStyle();
 	}
 	return s;
 }
@@ -1038,8 +1035,8 @@ void iNodes::setSelectedNodeLineWidth(int w)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setLineWidth(w);
+		if ((*it).second.isSelected()) {
+			(*it).second.setLineWidth(w);
 		}
 	}
 }
@@ -1048,9 +1045,9 @@ void iNodes::setSelectedNodeLineWidth(int w)
 int iNodes::getSelectedNodeLineWidth() const
 {
 	int w = 0;
-	const_niterator it = findNode(nodeFind);
+	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		w = (*it).getLineWidth();
+		w = (*it).second.getLineWidth();
 	}
 	return w;
 }
@@ -1059,26 +1056,26 @@ void iNodes::setSelectedNodeTextStyle(int style)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setTextStyle(style);
+		if ((*it).second.isSelected()) {
+			(*it).second.setTextStyle(style);
 		}
 	}
 }
 
 void iNodes::setSelectedNodeTreeIconId(int id)
 {
-	niterator it = findNodeW(nodeFind);
+	niterator it = findNodeW(selKey_);
 	if (it != end()) {
-		/*const_cast<iNode&>*/(*it).setTreeIconId(id);
+		(*it).second.setTreeIconId(id);
 	}
 }
 
 int iNodes::getSelectedNodeTextStyle() const
 {
 	int s = iNode::s_cc;
-	const_niterator it = findNode(nodeFind);
+	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		s = (*it).getTextStyle();
+		s = (*it).second.getTextStyle();
 	}
 	return s;
 }
@@ -1088,26 +1085,26 @@ int iNodes::selectNodesInBound(const CRect &bound, CRect &selRect, bool bDrwAll)
 	niterator it = begin();
 	int cnt=0;
 	for ( ; it != end(); it++) {
-		CRect r = (*it).getBound();
+		CRect r = (*it).second.getBound();
 //		if (!bDrwAll) {
-			if (!(*it).isVisible()) continue;
+			if (!(*it).second.isVisible()) continue;
 //		}
 		if ((r | bound) == bound /*r.IntersectRect(r, bound)*/) {
-			/*const_cast<iNode&>*/(*it).selectNode();
-			selRect = (*it).getBound();
+			(*it).second.selectNode();
+			selRect = (*it).second.getBound();
 			cnt++;
 		} else {
-			/*const_cast<iNode&>*/(*it).selectNode(false);
+			(*it).second.selectNode(false);
 		}
 	}
 	
 	it = begin();
 	for ( ; it != end(); it++) {
-		if (/*(*it).isVisible() && */(*it).isSelected()) {
-			if ((*it).getBound().left < selRect.left) selRect.left = (*it).getBound().left;
-			if ((*it).getBound().right > selRect.right) selRect.right = (*it).getBound().right;
-			if ((*it).getBound().top < selRect.top) selRect.top = (*it).getBound().top;
-			if ((*it).getBound().bottom > selRect.bottom) selRect.bottom = (*it).getBound().bottom;
+		if (/*(*it).isVisible() && */(*it).second.isSelected()) {
+			if ((*it).second.getBound().left < selRect.left) selRect.left = (*it).second.getBound().left;
+			if ((*it).second.getBound().right > selRect.right) selRect.right = (*it).second.getBound().right;
+			if ((*it).second.getBound().top < selRect.top) selRect.top = (*it).second.getBound().top;
+			if ((*it).second.getBound().bottom > selRect.bottom) selRect.bottom = (*it).second.getBound().bottom;
 		}
 	}
 	return cnt;
@@ -1147,17 +1144,17 @@ void iNodes::setVisibleNodes(DWORD key)
 	
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).getParent() != curParent_) {
-			/*const_cast<iNode&>*/(*it).setVisible(false);
+		if ((*it).second.getParent() != curParent_) {
+			(*it).second.setVisible(false);
 		} else {
-			/*const_cast<iNode&>*/(*it).setVisible();
+			(*it).second.setVisible();
 			unsigned int order = 0;
-			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*it).getKey());
+			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*it).second.getKey());
 			if (ik != svec_.end()) {
 				order = std::distance(svec_.begin(), ik);
 			}
-			/*const_cast<iNode&>*/(*it).setDrawOrder(order);
-			nodesDraw_.push_back(&(/*const_cast<iNode&>*/(*it)));
+			(*it).second.setDrawOrder(order);
+			nodesDraw_.push_back(&((*it).second));
 		}
 	}
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bSyncOrder) {
@@ -1177,24 +1174,22 @@ void iNodes::setVisibleNodes(KeySet& keySet)
 	
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		/*const_cast<iNode&>*/(*it).setVisible(false);
+		(*it).second.setVisible(false);
 	}
 	
 	set<DWORD>::iterator itks = keySet.begin();
-	iNode nf;
 	niterator nit;
 	for ( ; itks != keySet.end(); itks++) {
-		nf.setKey(*itks);
-		nit = findNodeW(nf);
+		nit = findNodeW(*itks);
 		if (nit != end()) {
-			/*const_cast<iNode&>*/(*nit).setVisible(true);
+			(*nit).second.setVisible(true);
 			unsigned int order = 0;
-			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*nit).getKey());
+			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*nit).second.getKey());
 			if (ik != svec_.end()) {
 				order = std::distance(svec_.begin(), ik);
 			}
-			/*const_cast<iNode&>*/(*nit).setDrawOrder(order);
-			nodesDraw_.push_back(&(/*const_cast<iNode&>*/(*nit)));
+			(*nit).second.setDrawOrder(order);
+			nodesDraw_.push_back(&((*nit).second));
 		}
 	}
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
@@ -1207,8 +1202,8 @@ BOOL iNodes::isSelectedNodeFilled() const
 {
 	const_niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			return ((*it).isFilled());
+		if ((*it).second.isSelected()) {
+			return ((*it).second.isFilled());
 		}
 	}
 	return FALSE;
@@ -1217,9 +1212,9 @@ BOOL iNodes::isSelectedNodeFilled() const
 int iNodes::getSelectedNodeShape() const
 {
 	int shape = iNode::rectangle;
-	const_niterator it = findNode(nodeFind);
+	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		shape = (*it).getNodeShape();
+		shape = (*it).second.getNodeShape();
 	}
 	return shape;
 }
@@ -1228,11 +1223,11 @@ void iNodes::setSelectedNodeShape(int shape)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setNodeShape(shape);
+		if ((*it).second.isSelected()) {
+			(*it).second.setNodeShape(shape);
 			if (shape > 9) {
 				CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-				/*const_cast<iNode&>*/(*it).setMetaFile(pApp->m_hMetaFiles[shape-10]);
+				(*it).second.setMetaFile(pApp->m_hMetaFiles[shape-10]);
 			}
 		}
 	}
@@ -1240,30 +1235,30 @@ void iNodes::setSelectedNodeShape(int shape)
 
 BOOL iNodes::isSelectedNodeFixed() const
 {
-	const_niterator it = findNode(nodeFind);
+	const_niterator it = findNode(selKey_);
 	BOOL fix = FALSE;
 	if (it != end()) {
-		fix = (*it).isFixed();
+		fix = (*it).second.isFixed();
 	}
 	return fix;
 }
 
 void iNodes::setSelectedNodeFixed(BOOL f)
 {
-	niterator it = findNodeW(nodeFind);
+	niterator it = findNodeW(selKey_);
 	if (it != end()) {
-		/*const_cast<iNode&>*/(*it).fix(f);
+		/*const_cast<iNode&>*/(*it).second.fix(f);
 	}
 }
 
-const_niterator iNodes::findNode(const iNode &n) const
+const_niterator iNodes::findNode(DWORD key) const
 {
-	return find(n);
+	return find(key);
 }
 
-niterator iNodes::findNodeW(const iNode &n)
+niterator iNodes::findNodeW(DWORD key)
 {
-	return find(n);
+	return find(key);
 }
 
 CSize iNodes::getMaxNodeSize(bool selection, bool bDrwAll) const
@@ -1273,16 +1268,16 @@ CSize iNodes::getMaxNodeSize(bool selection, bool bDrwAll) const
 	const_niterator it = begin();
 	for ( ; it != end(); it++) {
 //		if (!bDrwAll) {
-			if (!(*it).isVisible()) {
+			if (!(*it).second.isVisible()) {
 				continue;
 			}
 //		}
 		if (selection) {
-			if (!(*it).isSelected()) {
+			if (!(*it).second.isSelected()) {
 				continue;
 			}
 		}
-		CRect rc = (*it).getBound();
+		CRect rc = (*it).second.getBound();
 		if (sz.cx < rc.Width()) {
 			sz.cx = rc.Width();
 		}
@@ -1344,10 +1339,10 @@ void iNodes::fixNodesReversibly(DWORD keyExcluded)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isInChain()) {
-			/*const_cast<iNode&>*/(*it).backupState();
-			if ((*it).getKey() != keyExcluded) {
-				/*const_cast<iNode&>*/(*it).fix();
+		if ((*it).second.isInChain()) {
+			(*it).second.backupState();
+			if ((*it).second.getKey() != keyExcluded) {
+				(*it).second.fix();
 			}
 		}
 	}
@@ -1357,9 +1352,9 @@ void iNodes::restoreNodesFixState(DWORD keyExcluded)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isInChain()) {
-			if ((*it).getKey() != keyExcluded) {
-				/*const_cast<iNode&>*/(*it).restoreState();
+		if ((*it).second.isInChain()) {
+			if ((*it).second.getKey() != keyExcluded) {
+				(*it).second.restoreState();
 			}
 		}
 	}
@@ -1369,8 +1364,8 @@ void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			LOGFONT lf = (*it).getFontInfo();
+		if ((*it).second.isSelected()) {
+			LOGFONT lf = (*it).second.getFontInfo();
 			LONG pre = lf.lfHeight;
 			if (bEnlarge) {
 				lf.lfHeight -= 2;
@@ -1379,7 +1374,7 @@ void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 					lf.lfHeight += 2;
 				}
 			}
-			/*const_cast<iNode&>*/(*it).setFontInfo(lf, false);
+			(*it).second.setFontInfo(lf, false);
 		}
 	}
 }
@@ -1389,8 +1384,8 @@ serialVec iNodes::getSelectedNodeKeys() const
 	serialVec v;
 	const_niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected() && (*it).isVisible()) {
-			v.push_back((*it).getKey());
+		if ((*it).second.isSelected() && (*it).second.isVisible()) {
+			v.push_back((*it).second.getKey());
 		}
 	}
 	return v;
@@ -1400,11 +1395,11 @@ void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			/*const_cast<iNode&>*/(*it).setMarginL(l);
-			/*const_cast<iNode&>*/(*it).setMarginR(r);
-			/*const_cast<iNode&>*/(*it).setMarginT(t);
-			/*const_cast<iNode&>*/(*it).setMarginB(b);
+		if ((*it).second.isSelected()) {
+			(*it).second.setMarginL(l);
+			(*it).second.setMarginR(r);
+			(*it).second.setMarginT(t);
+			(*it).second.setMarginB(b);
 		}
 	}
 }
@@ -1413,8 +1408,8 @@ void iNodes::setSelectedLinkDragging(bool dragging)
 {
 	niterator it = begin();
 	for ( ; it != end(); it++) {
-		if ((*it).isSelected()) {
-			(*it).setDragging(dragging);
+		if ((*it).second.isSelected()) {
+			(*it).second.setDragging(dragging);
 			return;
 		}
 	}

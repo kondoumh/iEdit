@@ -63,12 +63,11 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 	// ƒm[ƒh‚Ì—ñ‹“
 	vector<DWORD>::iterator svIt = m_drawOrder.begin();
 	for ( ; svIt != m_drawOrder.end(); svIt++) {
-		iNode nf; nf.setKey((*svIt));
-		const_niterator it = m_nodes.findNode(nf);
-		if (!m_bDrwAll && !(*it).isVisible()) continue;
+		const_niterator it = m_nodes.findNode(*svIt);
+		if (!m_bDrwAll && !(*it).second.isVisible()) continue;
 		MSXML2::IXMLDOMElementPtr eGrp  = doc->createElement(_T("g"));
 		
-		iNode node = (*it);
+		iNode node = (*it).second;
 		MSXML2::IXMLDOMElementPtr eNode = createNodeElement(node, doc);
 		if (eNode != NULL) {
 			eGrp->appendChild(eNode);

@@ -2,15 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{33e1815d-40f1-4100-9a38-46935da4d19b}</UniqueIdentifier>
+      <UniqueIdentifier>{8bdbda30-957f-4432-99bc-b35508369048}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{930ce48f-87fc-4d09-bbae-7985ed37a260}</UniqueIdentifier>
+      <UniqueIdentifier>{8b2aedc8-20e6-4cc3-8682-eda699256370}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{ba57f58c-78e8-4235-b768-14ba307a4e40}</UniqueIdentifier>
+      <UniqueIdentifier>{49189e4b-115c-40ad-9c07-a7d47bad0100}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
@@ -22,6 +22,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditorView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FiletypeSettingDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="iEdit.cpp">
@@ -135,6 +138,9 @@
     <ClCompile Include="SvgWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SystemConfiguration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="TabSeet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -142,9 +148,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FiletypeSettingDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -161,6 +164,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EditorView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FiletypeSettingDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="iEdit.h">
@@ -277,6 +283,9 @@
     <ClInclude Include="SvgWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SystemConfiguration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="TabSeet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -286,18 +295,9 @@
     <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FiletypeSettingDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\arc.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\bitmap1.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\bmp_tb_form.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\cur00001.cur">
@@ -324,31 +324,13 @@
     <None Include="res\hand_clo.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\icon1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\iEdit.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\iEdit.rc2">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\iEditDoc.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\iEditDoc_old.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\link.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\links.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\linktree.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\logo.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\pointer_.cur">
@@ -360,14 +342,41 @@
     <None Include="res\rect.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\Toolbar.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\tree.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="ClassDiagram1.cd" />
     <None Include="iEdit.reg" />
-    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bmp_tb_form.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\iEdit.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\iEditDoc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\iEditDoc_old.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\links.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\logo.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tree.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>
