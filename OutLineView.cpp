@@ -653,6 +653,8 @@ HTREEITEM OutlineView::findKeyItem(DWORD key, HTREEITEM item=NULL)
 void OutlineView::OnContextMenu(CWnd* pWnd, CPoint point) 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
+	CEdit* pEdit = tree().GetEditControl();
+	if (pEdit != NULL) return;
 	CMenu menu;
 	menu.LoadMenu(IDR_CONTEXT);
 	
@@ -682,6 +684,9 @@ void OutlineView::OnContextMenu(CWnd* pWnd, CPoint point)
 void OutlineView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
+	CEdit* pEdit = tree().GetEditControl();
+	if (pEdit != NULL) return;
+
 	if (m_bAddingLink) {
 		m_bAddingLink = false;
 	}
@@ -1090,6 +1095,9 @@ void OutlineView::OnUpdateDelete(CCmdUI* pCmdUI)
 
 void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult) 
 {
+	CEdit* pEdit = tree().GetEditControl();
+	if (pEdit != NULL) return;
+
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	bool bShowBranch = false;
@@ -1339,6 +1347,8 @@ BOOL OutlineView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 void OutlineView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
+	CEdit* pEdit = tree().GetEditControl();
+	if (pEdit != NULL) return;
 	TV_HITTESTINFO hitTestInfo;
 	hitTestInfo.pt = point;
 	tree().HitTest(&hitTestInfo);
