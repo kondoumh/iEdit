@@ -785,11 +785,11 @@ iLinks::iLinks()
 	dividedLinkKey_ = -1;
 }
 
-void iLinks::drawComments(CDC *pDC, bool bDrwAll, bool clipbrd)
+void iLinks::drawComments(CDC *pDC, bool clipbrd)
 {
 	literator it = begin();
 	for( ; it != end(); it++) {
-		if (!(*it).canDraw() /* && !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).getArrowStyle() != iLink::other) {
@@ -798,11 +798,11 @@ void iLinks::drawComments(CDC *pDC, bool bDrwAll, bool clipbrd)
 	}
 }
 
-void iLinks::drawLines(CDC *pDC, bool bDrwAll)
+void iLinks::drawLines(CDC *pDC)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).getArrowStyle() != iLink::other) {
@@ -811,11 +811,11 @@ void iLinks::drawLines(CDC *pDC, bool bDrwAll)
 	}
 }
 
-void iLinks::drawArrows(CDC *pDC, bool bDrwAll)
+void iLinks::drawArrows(CDC *pDC)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).getArrowStyle() != iLink::other) {
@@ -824,12 +824,12 @@ void iLinks::drawArrows(CDC *pDC, bool bDrwAll)
 	}
 }
 
-bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path, bool bDrwAll)
+bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path)
 {
 	literator it = begin();
 	bool hit = false;
 	for (; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).hitTest(pt)) {
@@ -850,7 +850,7 @@ DWORD iLinks::hitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
 	bool hit = false;
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).getKeyFrom() == selectedNodeKey || (*it).getKeyTo() == selectedNodeKey) {
@@ -869,12 +869,12 @@ DWORD iLinks::hitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
 	return hitKey;
 }
 
-bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path, bool bDrwAll)
+bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path)
 {
 	literator it = begin();
 	bool hit = false;
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()/* && !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).hitTestFrom_c(pt)) {
@@ -889,12 +889,12 @@ bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path, bool bDrwA
 	return hit;
 }
 
-bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path, bool bDrwAll)
+bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path)
 {
 	literator it = begin();
 	bool hit = false;
 	for (; it != end(); it++) {
-		if (!(*it).canDraw() /* && !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).hitTestTo_c(pt)) {
@@ -909,11 +909,11 @@ bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path, bool bDrwAll
 	return hit;
 }
 
-void iLinks::drawSelection(CDC *pDC, bool bDrwAll)
+void iLinks::drawSelection(CDC *pDC)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).isSelected()) {
@@ -922,11 +922,11 @@ void iLinks::drawSelection(CDC *pDC, bool bDrwAll)
 	}
 }
 
-void iLinks::drawSelectionFrom(CDC *pDC, bool bDrwAll)
+void iLinks::drawSelectionFrom(CDC *pDC)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /* && !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).isSelected()) {
@@ -935,11 +935,11 @@ void iLinks::drawSelectionFrom(CDC *pDC, bool bDrwAll)
 	}
 }
 
-void iLinks::drawSelectionTo(CDC *pDC, bool bDrwAll)
+void iLinks::drawSelectionTo(CDC *pDC)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /* && !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).isSelected()) {
@@ -948,13 +948,12 @@ void iLinks::drawSelectionTo(CDC *pDC, bool bDrwAll)
 	}
 }
 
-const_literator iLinks::getSelectedLink(bool bDrwAll) const
+const_literator iLinks::getSelectedLink() const
 {
 	const_literator it = begin();
 	for ( ; it != end(); it++) {
-		// URLリンクのコピー＆ペーストのバグで修正
 		if ((*it).getArrowStyle() != iLink::other) {
-			if (!(*it).canDraw() /*&& !bDrwAll*/) {
+			if (!(*it).canDraw()) {
 				continue;
 			}
 			if ((*it).isSelected()) {
@@ -976,13 +975,12 @@ const_literator iLinks::getSelectedLink2() const
 	return end();
 }
 
-literator iLinks::getSelectedLinkW(bool bDrwAll)
+literator iLinks::getSelectedLinkW()
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		// URLリンクのコピー＆ペーストのバグで修正
 		if ((*it).getArrowStyle() != iLink::other) {
-			if (!(*it).canDraw() /* && !bDrwAll*/) {
+			if (!(*it).canDraw()) {
 				continue;
 			}
 			if ((*it).isSelected()) {
@@ -993,11 +991,22 @@ literator iLinks::getSelectedLinkW(bool bDrwAll)
 	return end();
 }
 
-void iLinks::selectLinksInBound(const CRect &r, bool bDrwAll)
+literator iLinks::getSelectedLinkW2()
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw()/* && !bDrwAll*/) {
+		if ((*it).isSelected()) {
+			return it;
+		}
+	}
+	return end();
+}
+
+void iLinks::selectLinksInBound(const CRect &r)
+{
+	literator it = begin();
+	for ( ; it != end(); it++) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if (!(*it).isCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
@@ -1025,11 +1034,11 @@ void iLinks::selectLinksInBound(const CRect &r, bool bDrwAll)
 }
 
 
-void iLinks::getSelectedLinkFont(LOGFONT &lf, bool bDrwAll)
+void iLinks::getSelectedLinkFont(LOGFONT &lf)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).isSelected()) {
@@ -1039,11 +1048,11 @@ void iLinks::getSelectedLinkFont(LOGFONT &lf, bool bDrwAll)
 	}
 }
 
-void iLinks::setSelectedLinkFont(const LOGFONT &lf, bool bDrwAll)
+void iLinks::setSelectedLinkFont(const LOGFONT &lf)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).isSelected()) {
@@ -1052,11 +1061,11 @@ void iLinks::setSelectedLinkFont(const LOGFONT &lf, bool bDrwAll)
 	}
 }
 
-void iLinks::setSelectedLinkLineColor(const COLORREF &c, bool bDrwAll)
+void iLinks::setSelectedLinkLineColor(const COLORREF &c)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).isSelected()) {
@@ -1065,12 +1074,12 @@ void iLinks::setSelectedLinkLineColor(const COLORREF &c, bool bDrwAll)
 	}
 }
 
-COLORREF iLinks::getSelectedLinkLineColor(bool bDrwAll) const
+COLORREF iLinks::getSelectedLinkLineColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
 	const_literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).isSelected()) {
@@ -1080,11 +1089,11 @@ COLORREF iLinks::getSelectedLinkLineColor(bool bDrwAll) const
 	return c;
 }
 
-void iLinks::setSelectedLinkWidth(int w, bool bDrwAll)
+void iLinks::setSelectedLinkWidth(int w)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw() /*&& !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).isSelected()) {
@@ -1093,21 +1102,21 @@ void iLinks::setSelectedLinkWidth(int w, bool bDrwAll)
 	}
 }
 
-int iLinks::getSelectedLinkWidth(bool bDrwAll) const
+int iLinks::getSelectedLinkWidth() const
 {
 	int w = 0;
-	const_literator it = getSelectedLink(bDrwAll);
+	const_literator it = getSelectedLink();
 	if (it != end()) {
 		w = (*it).getLineWidth();
 	}
 	return w;
 }
 
-void iLinks::setSelectedLinkLineStyle(int style, bool bDrwAll)
+void iLinks::setSelectedLinkLineStyle(int style)
 {
 	literator it = begin();
 	for ( ; it != end(); it++) {
-		if (!(*it).canDraw()/* && !bDrwAll*/) {
+		if (!(*it).canDraw()) {
 			continue;
 		}
 		if ((*it).isSelected()) {
@@ -1147,7 +1156,7 @@ bool iLinks::isIsolated(DWORD key,  bool bDrawAll) const
 
 CRect iLinks::getSelectedLinkBound(bool bDrawAll) const
 {
-	const_literator it = getSelectedLink(false);
+	const_literator it = getSelectedLink();
 	CRect rc(0, 0, 0, 0);
 	if (it == end()) return rc;
 	rc = (*it).getBound();
@@ -1165,9 +1174,9 @@ CRect iLinks::getSelectedLinkBound(bool bDrawAll) const
 	return rc;
 }
 
-void iLinks::setSelectedNodeLinkFrom(DWORD key, const CRect &bound, bool bDrwAll)
+void iLinks::setSelectedNodeLinkFrom(DWORD key, const CRect &bound)
 {
-	literator it = getSelectedLinkW(bDrwAll);
+	literator it = getSelectedLinkW();
 	if (it != end()) {
 		if (key != (*it).getKeyFrom()) {
 			(*it).setKeyFrom(key);
@@ -1176,9 +1185,9 @@ void iLinks::setSelectedNodeLinkFrom(DWORD key, const CRect &bound, bool bDrwAll
 	}
 }
 
-void iLinks::setSelectedNodeLinkTo(DWORD key, const CRect& bound, bool bDrwAll)
+void iLinks::setSelectedNodeLinkTo(DWORD key, const CRect& bound)
 {
-	literator it = getSelectedLinkW(bDrwAll);
+	literator it = getSelectedLinkW();
 	if (it != end()) {
 		if (key != (*it).getKeyTo()) {
 			(*it).setKeyTo(key);
@@ -1187,9 +1196,9 @@ void iLinks::setSelectedNodeLinkTo(DWORD key, const CRect& bound, bool bDrwAll)
 	}
 }
 
-void iLinks::setSelectedLinkReverse(bool bDrwAll)
+void iLinks::setSelectedLinkReverse()
 {
-	literator it = getSelectedLinkW(bDrwAll);
+	literator it = getSelectedLinkW();
 	if (it != end()) {
 		(*it).reverseDirection();
 	}

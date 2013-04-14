@@ -206,7 +206,8 @@ public:
 	CString getSelectedNodeLabel();
 	void deleteSelectedNode();
 	void deleteSelectedNodes();
-	void deleteSelectedLink(bool drwAll=false);
+	void deleteSelectedLink();
+	void deleteSelectedLink2();
 	BOOL RouteCmdToAllViews(CView * pView, UINT nID, int nCode, void * pExtra, AFX_CMDHANDLERINFO * pHandlerInfo);
 	void getSelectedLinkFont(LOGFONT& lf, bool drwAll=false);
 	void setSelectedLinkFont(const LOGFONT& lf, bool drwAll=false);

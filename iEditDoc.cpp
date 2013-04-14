@@ -725,9 +725,9 @@ void iEditDoc::calcMaxPt(CPoint &pt)
 
 void iEditDoc::drawLinks(CDC *pDC, bool bDrwAll, bool clipbrd)
 {
-	links_.drawLines(pDC, bDrwAll);
-	links_.drawArrows(pDC, bDrwAll);
-	links_.drawComments(pDC, bDrwAll, clipbrd);
+	links_.drawLines(pDC);
+	links_.drawArrows(pDC);
+	links_.drawComments(pDC, clipbrd);
 }
 
 bool iEditDoc::setStartLink(const CPoint& pt)
@@ -772,7 +772,7 @@ bool iEditDoc::setAlterLinkFrom(const CPoint &pt, bool bDrwAll)
 	iNode* pNode = nodes_.hitTest(pt, bDrwAll); // リンク元を再選択
 	if (pNode != NULL) {
 		backUpUndoLinks();
-		links_.setSelectedNodeLinkFrom(pNode->getKey(), pNode->getBound(), bDrwAll);
+		links_.setSelectedNodeLinkFrom(pNode->getKey(), pNode->getBound());
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkModified;
 		UpdateAllViews(NULL, (LPARAM)getSelectedNodeKey(), &h);
@@ -786,7 +786,7 @@ bool iEditDoc::setAlterLinkTo(const CPoint &pt, bool bDrwAll)
 	iNode* pNode = nodes_.hitTest2(pt, bDrwAll); // 再選択なし
 	if (pNode != NULL) {
 		backUpUndoLinks();
-		links_.setSelectedNodeLinkTo(pNode->getKey(), pNode->getBound(), bDrwAll);
+		links_.setSelectedNodeLinkTo(pNode->getKey(), pNode->getBound());
 		SetModifiedFlag();
 		UpdateAllViews(NULL);
 		iHint h; h.event = iHint::linkModified;
@@ -1042,7 +1042,7 @@ void iEditDoc::addNodeMF(const CString &name, const CPoint &pt, int mfIndex, HEN
 bool iEditDoc::hitTestLinks(const CPoint &pt, bool drwAll)
 {
 	DWORD key; CString path;
-	bool hit = links_.hitTest(pt, key, path, drwAll);
+	bool hit = links_.hitTest(pt, key, path);
 	if (hit) {
 		iHint h; h.event = iHint::linkSel; h.str = path;
 		UpdateAllViews(NULL, (LPARAM)key, &h);
@@ -1058,7 +1058,7 @@ DWORD iEditDoc::hitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey)
 bool iEditDoc::hitTestLinksFrom(const CPoint &pt, bool drwAll)
 {
 	DWORD key; CString path;
-	bool hit = links_.hitTestFrom(pt, key, path, drwAll);
+	bool hit = links_.hitTestFrom(pt, key, path);
 	if (hit) {
 		iHint h; h.event = iHint::linkSel; h.str = path;
 		UpdateAllViews(NULL, (LPARAM)key, &h);
@@ -1069,7 +1069,7 @@ bool iEditDoc::hitTestLinksFrom(const CPoint &pt, bool drwAll)
 bool iEditDoc::hitTestLinksTo(const CPoint &pt, bool drwAll)
 {
 	DWORD key; CString path;
-	bool hit = links_.hitTestTo(pt, key, path, drwAll);
+	bool hit = links_.hitTestTo(pt, key, path);
 	if (hit) {
 		iHint h; h.event = iHint::linkSel; h.str = path;
 		UpdateAllViews(NULL, (LPARAM)key, &h);
@@ -1079,17 +1079,17 @@ bool iEditDoc::hitTestLinksTo(const CPoint &pt, bool drwAll)
 
 void iEditDoc::drawLinkSelection(CDC *pDC, bool bDrwAll)
 {
-	links_.drawSelection(pDC, bDrwAll);
+	links_.drawSelection(pDC);
 }
 
 void iEditDoc::drawLinkSelectionFrom(CDC *pDC, bool bDrwAll)
 {
-	links_.drawSelectionFrom(pDC, bDrwAll);
+	links_.drawSelectionFrom(pDC);
 }
 
 void iEditDoc::drawLinkSelectionTo(CDC *pDC, bool bDrwAll)
 {
-	links_.drawSelectionTo(pDC, bDrwAll);
+	links_.drawSelectionTo(pDC);
 }
 
 void iEditDoc::setNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment, int styleArrow)
@@ -1113,7 +1113,7 @@ void iEditDoc::setNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment
 
 void iEditDoc::getSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComment, int &arrowType, bool bDrwAll)
 {
-	const_literator li = links_.getSelectedLink(bDrwAll);
+	const_literator li = links_.getSelectedLink();
 	if (li != links_.end()) {
 		sComment = (*li).getName();
 		arrowType = (*li).getArrowStyle();
@@ -1126,7 +1126,7 @@ void iEditDoc::getSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComme
 
 void iEditDoc::setSelectedLinkInfo(const CString &sComment, int arrowType, bool bDrwAll)
 {
-	literator li = links_.getSelectedLinkW(bDrwAll);
+	literator li = links_.getSelectedLinkW();
 	if (li != links_.end()) {
 		backUpUndoLinks();
 		(*li).setName(sComment);
@@ -1141,7 +1141,7 @@ void iEditDoc::selectLinksInBound(const CRect &r, bool drwAll)
 {
 	// HINT: ノードが選択されてるかの判断が必要なので、iEditDocで実装すべき
 	// 今のところcanDrawがtrueだと選択する
-	links_.selectLinksInBound(r, drwAll);
+	links_.selectLinksInBound(r);
 }
 
 int iEditDoc::getSelectedLinkWidth(bool drwAll) const
@@ -1150,12 +1150,12 @@ int iEditDoc::getSelectedLinkWidth(bool drwAll) const
 	// docでやってもかまわないとこの関数を書いていて気づいた。
 	// 方針変更しようと思ったが、inlineで同じメソッド名を使用している
 	// とリンカがうまくいかないのでやはり...
-	return links_.getSelectedLinkWidth(drwAll);
+	return links_.getSelectedLinkWidth();
 }
 
 void iEditDoc::setSelectedLinkWidth(int w, bool drwAll)
 {
-	links_.setSelectedLinkWidth(w, drwAll);
+	links_.setSelectedLinkWidth(w);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
@@ -1163,7 +1163,7 @@ void iEditDoc::setSelectedLinkWidth(int w, bool drwAll)
 
 void iEditDoc::setSelectedLinkLineStyle(int style, bool drwAll)
 {
-	links_.setSelectedLinkLineStyle(style, drwAll);
+	links_.setSelectedLinkLineStyle(style);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
@@ -1176,12 +1176,12 @@ int iEditDoc::getSelectedLinkLineStyle(bool drwAll)
 
 COLORREF iEditDoc::getSelectedLinkLineColor(bool drwAll) const
 {
-	return links_.getSelectedLinkLineColor(drwAll);
+	return links_.getSelectedLinkLineColor();
 }
 
 void iEditDoc::setSelectedLinkLineColor(const COLORREF &c, bool drwAll)
 {
-	links_.setSelectedLinkLineColor(c, drwAll);
+	links_.setSelectedLinkLineColor(c);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
@@ -1189,7 +1189,7 @@ void iEditDoc::setSelectedLinkLineColor(const COLORREF &c, bool drwAll)
 
 void iEditDoc::setSelectedLinkFont(const LOGFONT &lf, bool drwAll)
 {
-	links_.setSelectedLinkFont(lf, drwAll);
+	links_.setSelectedLinkFont(lf);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
@@ -1197,7 +1197,7 @@ void iEditDoc::setSelectedLinkFont(const LOGFONT &lf, bool drwAll)
 
 void iEditDoc::getSelectedLinkFont(LOGFONT &lf, bool drwAll)
 {
-	links_.getSelectedLinkFont(lf, drwAll);
+	links_.getSelectedLinkFont(lf);
 }
 
 BOOL iEditDoc::RouteCmdToAllViews(CView *pView, UINT nID, int nCode, void *pExtra, AFX_CMDHANDLERINFO *pHandlerInfo)
@@ -1212,9 +1212,21 @@ BOOL iEditDoc::RouteCmdToAllViews(CView *pView, UINT nID, int nCode, void *pExtr
 	return FALSE;
 }
 
-void iEditDoc::deleteSelectedLink(bool drwAll)
+void iEditDoc::deleteSelectedLink()
 {
-	literator it = links_.getSelectedLinkW(drwAll);
+	literator it = links_.getSelectedLinkW();
+	if (it != links_.end()) {
+		m_deleteBound = (*it).getBound();
+		links_.erase(it);
+		SetModifiedFlag();
+		iHint h; h.event = iHint::linkDelete;
+		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+	}
+}
+
+void iEditDoc::deleteSelectedLink2()
+{
+	literator it = links_.getSelectedLinkW2();
 	if (it != links_.end()) {
 		m_deleteBound = (*it).getBound();
 		links_.erase(it);
@@ -1261,7 +1273,7 @@ CString iEditDoc::getSelectedNodeLabel()
 CString iEditDoc::getSelectedLinkLabel(bool drawAll)
 {
 	CString label(_T(""));
-	const_literator it = links_.getSelectedLink(drawAll);
+	const_literator it = links_.getSelectedLink();
 	if (it != links_.end()) {
 		label = (*it).getName();
 	}
@@ -1630,7 +1642,7 @@ CRect iEditDoc::getRelatedBoundAnd(bool drwAll)
 
 void iEditDoc::setSelectedLinkCurve(CPoint pt, bool curve, bool bDrwAll)
 {
-	literator li = links_.getSelectedLinkW(bDrwAll);
+	literator li = links_.getSelectedLinkW();
 	if (li != links_.end()) {
 		if (!curve) {
 			(*li).curve(false);
@@ -1658,7 +1670,7 @@ void iEditDoc::setSelectedLinkCurve(CPoint pt, bool curve, bool bDrwAll)
 void iEditDoc::setSelectedLinkAngled(bool angled)
 {
 	backUpUndoLinks();
-	literator li = links_.getSelectedLinkW(false);
+	literator li = links_.getSelectedLinkW();
 	if (li == links_.end()) return;
 	if (!(*li).isCurved()) return;
 	(*li).angle(angled);
@@ -1670,7 +1682,7 @@ void iEditDoc::setSelectedLinkAngled(bool angled)
 
 void iEditDoc::getSelectedLinkPts(CPoint &start, CPoint &end, bool bDrwAll)
 {
-	const_literator li = links_.getSelectedLink(bDrwAll);
+	const_literator li = links_.getSelectedLink();
 	if (li != links_.end()) {
 		const_niterator itstart = nodes_.findNode((*li).getKeyFrom());
 		const_niterator itend = nodes_.findNode((*li).getKeyTo());
@@ -1693,7 +1705,7 @@ void iEditDoc::selectChild()
 
 BOOL iEditDoc::isSelectedLinkCurved(bool bDrwAll) const
 {
-	const_literator li = links_.getSelectedLink(bDrwAll);
+	const_literator li = links_.getSelectedLink();
 	if (li != links_.end() && (*li).isCurved()) {
 		return TRUE;
 	}
@@ -1702,7 +1714,7 @@ BOOL iEditDoc::isSelectedLinkCurved(bool bDrwAll) const
 
 BOOL iEditDoc::isSelectedLinkSelf() const
 {
-	const_literator li = links_.getSelectedLink(false);
+	const_literator li = links_.getSelectedLink();
 
 	if (li == links_.end()) return FALSE;
 	if ((*li).getArrowStyle() == iLink::other) return FALSE;
@@ -3592,7 +3604,7 @@ void iEditDoc::sameNodesSize(const CString &strSize, bool bDrwAll)
 
 const iLink* iEditDoc::getSelectedLink(bool bDrawAll) const
 {
-	const_literator li = links_.getSelectedLink(bDrawAll);
+	const_literator li = links_.getSelectedLink();
 	if (li == links_.end()) {
 		return NULL;
 	}
@@ -3604,7 +3616,7 @@ void iEditDoc::setSelectedLinkReverse(bool bDrwAll)
 	const iLink* pl = getSelectedLink(bDrwAll);
 	if (pl == NULL) return;
 	DWORD keyTo = pl->getKeyTo();
-	links_.setSelectedLinkReverse(bDrwAll);
+	links_.setSelectedLinkReverse();
 	SetModifiedFlag();
 	selChanged(keyTo, true, isShowSubBranch());
 	iHint h; h.event = iHint::linkModified;
@@ -4562,7 +4574,7 @@ void iEditDoc::applyFormatToSelectedNode()
 
 void iEditDoc::saveSelectedLinkFormat()
 {
-	const_literator l = links_.getSelectedLink(false);
+	const_literator l = links_.getSelectedLink();
 	m_linkForFormat.setArrowStyle((*l).getArrowStyle());
 	m_linkForFormat.setLineStyle((*l).getLineStyle());
 	m_linkForFormat.setLineWidth((*l).getLineWidth());
@@ -4572,7 +4584,7 @@ void iEditDoc::saveSelectedLinkFormat()
 void iEditDoc::applyFormatToSelectedLink()
 {
 	backUpUndoLinks();
-	literator l = links_.getSelectedLinkW(false);
+	literator l = links_.getSelectedLinkW();
 	(*l).setArrowStyle(m_linkForFormat.getArrowStyle());
 	(*l).setLineStyle(m_linkForFormat.getLineStyle());
 	(*l).setLineWidth(m_linkForFormat.getLineWidth());
