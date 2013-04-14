@@ -677,6 +677,13 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
+	// ホイールボタンの代替アクション
+	if (nFlags & MK_SHIFT) {
+		m_addMode = NetView::link0;
+		startLink(logPt);
+		return;
+	}
+
 	// リンク分割挿入アクション開始
 	if (GetAsyncKeyState(VK_MENU) & 0x8000) {
 		CRect r;
@@ -1369,7 +1376,12 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		cancelDragRelax();
 		return;
 	}
-
+	
+	// ホイールボタンの代替
+	if (m_bStartAdd) {
+		PointedLinkEndPosition(point);
+		return;
+	}
 	// リンク分割挿入アクションの処理
 	if (m_bLinkAction) {
 		GetDocument()->setSelectedNodeDragging(false);
@@ -1427,7 +1439,6 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		}
 		return;
 	}
-	
 	
 	// リンクを曲げた
 	if (!m_bStartAdd) {
@@ -3658,7 +3669,11 @@ void NetView::OnMButtonUp(UINT nFlags, CPoint point)
 		CScrollView::OnRButtonUp(nFlags, point);
 		return;
 	}
+	PointedLinkEndPosition(point);
+}
 
+void NetView::PointedLinkEndPosition(CPoint point)
+{
 	m_bStartAdd = false;
 	CPoint logPt = point; ViewDPtoLP(&logPt);
 	

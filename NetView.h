@@ -237,6 +237,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	void PointedLinkEndPosition(CPoint point);
 	DWORD m_nodeKeyDrop;
 	bool m_bLinkAction;
 	CPoint m_curveStartPt;
