@@ -1332,10 +1332,7 @@ void iEditDoc::getLinkInfoList(lsItems &ls, bool drwAll)
 			if (url.Find(_T("http://")) != -1 || url.Find(_T("https://")) != -1 || url.Find(_T("ftp://")) != -1) {
 				i.linkType = listitem::WebURL;
 			} else {
-				CFileFind finder;
-				finder.FindFile(url);
-				finder.FindNextFile();
-				if (finder.IsDirectory()) {
+				if (PathIsDirectory(url)) {
 					i.linkType = listitem::linkFolder;
 				} else {
 					if (url.Right(5) == _T(".iedx") || url.Right(4) == _T(".ied")) {
