@@ -974,7 +974,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iEditのバージョン情報"
 FONT 9, "MS UI Gothic", 400, 0, 0x80
 BEGIN
-    LTEXT           "iEdit 2.10 Copyright (C) 1999-2013 kondoumh",IDC_ST_VERSION,6,7,180,10,SS_NOPREFIX
+    LTEXT           "iEdit 2.10 Copyright (C) 1999 kondoumh",IDC_ST_VERSION,6,7,180,10,SS_NOPREFIX
     DEFPUSHBUTTON   "OK",IDOK,152,142,50,14,WS_GROUP
     CONTROL         142,IDC_STATIC,"Static",SS_BITMAP,7,16,195,114
     LTEXT           "iEdit Website (kondoumh.com)",IDC_WEBSITE,7,134,88,8
@@ -1441,7 +1441,7 @@ BEGIN
             VALUE "FileDescription", "アイデアプロセッサ iEdit"
             VALUE "FileVersion", "2.1.0.0"
             VALUE "InternalName", "iEdit"
-            VALUE "LegalCopyright", "Copyright (C) 1999-2013 kondoumh"
+            VALUE "LegalCopyright", "Copyright (C) 1999 kondoumh"
             VALUE "OriginalFilename", "iEdit.exe"
             VALUE "ProductName", "iEdit"
             VALUE "ProductVersion", "2.1.0.0"
