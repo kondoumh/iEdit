@@ -2253,10 +2253,8 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 			if (text == _T("") && lines[i] == _T("")) {
 				continue;
 			}
-			if (nodeCreated) {
-				text.Append(lines[i] + _T("\r\n"));
-				continue;
-			}
+			text.Append(lines[i] + _T("\r\n"));
+			continue;
 		} else {
 			if (label == _T("")) {
 				CString line = lines[i];
