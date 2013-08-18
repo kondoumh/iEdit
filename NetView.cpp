@@ -1378,10 +1378,11 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	
 	// ホイールボタンの代替
-	if (m_bStartAdd) {
+	if (nFlags & MK_SHIFT) {
 		PointedLinkEndPosition(point);
 		return;
 	}
+
 	// リンク分割挿入アクションの処理
 	if (m_bLinkAction) {
 		GetDocument()->setSelectedNodeDragging(false);
