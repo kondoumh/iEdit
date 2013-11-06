@@ -1,4 +1,4 @@
-// shapeInsDlg.cpp : ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“ ƒtƒ@ƒCƒ‹
+ï»¿// shapeInsDlg.cpp : ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// shapeInsDlg ƒ_ƒCƒAƒƒO
+// shapeInsDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 
 shapeInsDlg::shapeInsDlg(CWnd* pParent /*=NULL*/)
@@ -43,13 +43,13 @@ BEGIN_MESSAGE_MAP(shapeInsDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// shapeInsDlg ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// shapeInsDlg ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 void shapeInsDlg::OnBtnBrowse() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString empath;
-	WCHAR szFilters[] = _T("Šg’£ƒƒ^ƒtƒ@ƒCƒ‹ (*.emf)|*.emf|‘S‚Ä‚Ìƒtƒ@ƒCƒ‹ (*.*)|*.*||");
+	WCHAR szFilters[] = _T("æ‹¡å¼µãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ« (*.emf)|*.emf|å…¨ã¦ã®ãƒ•ã‚¡ã‚¤ãƒ« (*.*)|*.*||");
 	CFileDialog dlg(TRUE, _T("emf"), empath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
@@ -60,16 +60,16 @@ void shapeInsDlg::OnBtnBrowse()
 			m_strPath = infileName;
 			m_edPath.SetWindowText(m_strPath);
 		} else {
-			AfxMessageBox(_T("—LŒø‚Èƒƒ^ƒtƒ@ƒCƒ‹Œ`®‚Å‚Í‚ ‚è‚Ü‚¹‚ñ"));
+			AfxMessageBox(_T("æœ‰åŠ¹ãªãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼ã§ã¯ã‚ã‚Šã¾ã›ã‚“"));
 		}
 	}
 }
 
 void shapeInsDlg::OnOK() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É‚»‚Ì‘¼‚ÌŒŸØ—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãã®ä»–ã®æ¤œè¨¼ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_strPath == _T("")) {
-		AfxMessageBox(_T("ƒƒ^ƒtƒ@ƒCƒ‹‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ"));
+		AfxMessageBox(_T("ãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“"));
 		return;
 	}
 	CDialog::OnOK();

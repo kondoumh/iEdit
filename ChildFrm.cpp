@@ -1,4 +1,4 @@
-// ChildFrm.cpp : CChildFrame ƒNƒ‰ƒX‚Ì“®ì‚Ì’è‹`‚ğs‚¢‚Ü‚·B
+ï»¿// ChildFrm.cpp : CChildFrame ã‚¯ãƒ©ã‚¹ã®å‹•ä½œã®å®šç¾©ã‚’è¡Œã„ã¾ã™ã€‚
 //
 
 #include "stdafx.h"
@@ -40,11 +40,11 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWnd)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CChildFrame ƒNƒ‰ƒX‚Ì\’z/Á–Å
+// CChildFrame ã‚¯ãƒ©ã‚¹ã®æ§‹ç¯‰/æ¶ˆæ»…
 
 CChildFrame::CChildFrame()
 {
-	// TODO: ƒƒ“ƒo‰Šú‰»ƒR[ƒh‚ğ‚±‚ÌˆÊ’u‚É’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ãƒ¡ãƒ³ãƒåˆæœŸåŒ–ã‚³ãƒ¼ãƒ‰ã‚’ã“ã®ä½ç½®ã«è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 }
 
 CChildFrame::~CChildFrame()
@@ -53,8 +53,8 @@ CChildFrame::~CChildFrame()
 
 BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: ‚±‚ÌˆÊ’u‚Å CREATESTRUCT cs ‚Ìİ’è‚ğs‚Á‚ÄAWindow ƒNƒ‰ƒX‚Ü‚½‚Í
-	//       ƒXƒ^ƒCƒ‹‚ğ•ÏX‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã®ä½ç½®ã§ CREATESTRUCT cs ã®è¨­å®šã‚’è¡Œã£ã¦ã€Window ã‚¯ãƒ©ã‚¹ã¾ãŸã¯
+	//       ã‚¹ã‚¿ã‚¤ãƒ«ã‚’å¤‰æ›´ã—ã¦ãã ã•ã„ã€‚
 	cs.style |= WS_CHILD | WS_VISIBLE |WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
 	
 	if( !CMDIChildWnd::PreCreateWindow(cs) )
@@ -66,7 +66,7 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CChildFrame ƒNƒ‰ƒX‚Ìf’f
+// CChildFrame ã‚¯ãƒ©ã‚¹ã®è¨ºæ–­
 
 #ifdef _DEBUG
 void CChildFrame::AssertValid() const
@@ -82,11 +82,11 @@ void CChildFrame::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// CChildFrame ƒNƒ‰ƒX‚ÌƒƒbƒZ[ƒWƒnƒ“ƒhƒ‰
+// CChildFrame ã‚¯ãƒ©ã‚¹ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒ³ãƒ‰ãƒ©
 
 BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	long cxLeft = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Width"), lpcs->cx*1/3);
 	long cyTree = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Height"), lpcs->cy*2/3);
 	long cyNet = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Net Height"), lpcs->cy*1/2);
@@ -111,14 +111,14 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 
 BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (CMDIChildWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
 		return TRUE;
 	}
 	iEditDoc* pDoc = (iEditDoc*)GetActiveDocument();
 	ASSERT(pDoc->IsKindOf(RUNTIME_CLASS(iEditDoc)));
 	
-	// ƒRƒ}ƒ“ƒhƒtƒBƒ‹ƒ^ (‘S•”‚Ìƒrƒ…[‚Éƒ‹[ƒeƒBƒ“ƒO‚µ‚½‚­‚È‚¢‚Æ‚«‚Í‚±‚±‚É’Ç‰Á‚·‚é
+	// ã‚³ãƒãƒ³ãƒ‰ãƒ•ã‚£ãƒ«ã‚¿ (å…¨éƒ¨ã®ãƒ“ãƒ¥ãƒ¼ã«ãƒ«ãƒ¼ãƒ†ã‚£ãƒ³ã‚°ã—ãŸããªã„ã¨ãã¯ã“ã“ã«è¿½åŠ ã™ã‚‹
 	if (nID == ID_INSERT_SIBLING || nID == ID_INSERT_CHILD) {
 		return FALSE;
 	}
@@ -133,11 +133,11 @@ BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 
 /*void CChildFrame::OnSetProperties() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CPropertyDlg dlg;
 	if (dlg.DoModal() != IDOK) return;
 	
-	// Šeƒrƒ…[‚Ìæ“¾
+	// å„ãƒ“ãƒ¥ãƒ¼ã®å–å¾—
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
 	POSITION pos = pDoc->GetFirstViewPosition();
 	OutlineView* pOutlineView = (OutlineView*)pDoc->GetNextView(pos);
@@ -145,7 +145,7 @@ BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
 	EditorView* pEditorView = (EditorView*)pDoc->GetNextView(pos);
 	
-	// Šeƒrƒ…[‚ÌÄİ’è
+	// å„ãƒ“ãƒ¥ãƒ¼ã®å†è¨­å®š
 	pOutlineView->setViewFont();
 	pLinkView->setViewFont();
 	pEditorView->setViewFont();
@@ -158,7 +158,7 @@ void CChildFrame::OnDestroy()
 {
 	CMDIChildWnd::OnDestroy();
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CMDIFrameWnd* pFrame = GetMDIFrame();
 	WINDOWPLACEMENT wndplm;
 	pFrame->GetWindowPlacement(&wndplm);
@@ -184,13 +184,13 @@ void CChildFrame::OnDestroy()
 
 void CChildFrame::OnClose() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	CMDIChildWnd::OnClose();
 }
 
 void CChildFrame::OnChangeViewFocus() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
 	
 	POSITION pos = pDoc->GetFirstViewPosition();
@@ -213,7 +213,7 @@ void CChildFrame::OnChangeViewFocus()
 
 void CChildFrame::OnUpdateChangeViewFocus(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -221,7 +221,7 @@ void CChildFrame::OnMDIActivate(BOOL bActivate, CWnd* pActivateWnd, CWnd* pDeact
 {
 	CMDIChildWnd::OnMDIActivate(bActivate, pActivateWnd, pDeactivateWnd);
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (!bActivate) {
 		CView* pView = GetActiveView();
 		if (pView == NULL) return;

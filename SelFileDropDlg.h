@@ -1,46 +1,46 @@
-#if !defined(AFX_SELFILEDROPDLG_H__B17C7D51_E20B_11D5_9ACE_00105A6E744E__INCLUDED_)
+﻿#if !defined(AFX_SELFILEDROPDLG_H__B17C7D51_E20B_11D5_9ACE_00105A6E744E__INCLUDED_)
 #define AFX_SELFILEDROPDLG_H__B17C7D51_E20B_11D5_9ACE_00105A6E744E__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// SelFileDropDlg.h : �w�b�_�[ �t�@�C��
+// SelFileDropDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// SelFileDropDlg �_�C�A���O
+// SelFileDropDlg ダイアログ
 
 class SelFileDropDlg : public CDialog
 {
-// �R���X�g���N�V����
+// コンストラクション
 public:
-	SelFileDropDlg(CWnd* pParent = NULL);   // �W���̃R���X�g���N�^
+	SelFileDropDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
-// �_�C�A���O �f�[�^
+// ダイアログ データ
 	//{{AFX_DATA(SelFileDropDlg)
 	enum { IDD = IDD_SELFILEDROP };
 	int		m_nDropProc;
 	//}}AFX_DATA
 
 
-// �I�[�o�[���C�h
-	// ClassWizard �͉��z�֐��̃I�[�o�[���C�h�𐶐����܂��B
+// オーバーライド
+	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(SelFileDropDlg)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV �T�|�[�g
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
 
-// �C���v�������e�[�V����
+// インプリメンテーション
 protected:
 
-	// �������ꂽ���b�Z�[�W �}�b�v�֐�
+	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(SelFileDropDlg)
-		// ����: ClassWizard �͂��̈ʒu�Ƀ����o�֐���ǉ����܂��B
+		// メモ: ClassWizard はこの位置にメンバ関数を追加します。
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ �͑O�s�̒��O�ɒǉ��̐錾��}�����܂��B
+// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_SELFILEDROPDLG_H__B17C7D51_E20B_11D5_9ACE_00105A6E744E__INCLUDED_)

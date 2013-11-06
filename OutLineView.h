@@ -1,4 +1,4 @@
-// OutLineView.h : OutlineView ƒNƒ‰ƒX‚ÌéŒ¾‚¨‚æ‚ÑƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì’è‹`‚ğ‚µ‚Ü‚·B
+ï»¿// OutLineView.h : OutlineView ã‚¯ãƒ©ã‚¹ã®å®£è¨€ãŠã‚ˆã³ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®å®šç¾©ã‚’ã—ã¾ã™ã€‚
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -13,26 +13,26 @@ class nodeSrchDlg;
 
 class OutlineView : public CTreeView
 {
-protected: // ƒVƒŠƒAƒ‰ƒCƒY‹@”\‚Ì‚İ‚©‚çì¬‚µ‚Ü‚·B
+protected: // ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºæ©Ÿèƒ½ã®ã¿ã‹ã‚‰ä½œæˆã—ã¾ã™ã€‚
 	OutlineView();
 	DECLARE_DYNCREATE(OutlineView)
 
-// ƒAƒgƒŠƒrƒ…[ƒg
+// ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆ
 public:
 	iEditDoc* GetDocument();
 	enum {blue, blueRoot1, blueRoot2, red, yellow, check, cancel, question, warning, face, idea};
 
-// ƒIƒyƒŒ[ƒVƒ‡ƒ“
+// ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 
-// ƒI[ƒo[ƒ‰ƒCƒh
-	// ClassWizard ‚Í‰¼‘zŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh‚ğ¶¬‚µ‚Ü‚·B
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+	// ClassWizard ã¯ä»®æƒ³é–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	//{{AFX_VIRTUAL(OutlineView)
 	public:
-	virtual void OnDraw(CDC* pDC);  // ‚±‚Ìƒrƒ…[‚ğ•`‰æ‚·‚éÛ‚ÉƒI[ƒo[ƒ‰ƒCƒh‚³‚ê‚Ü‚·B
+	virtual void OnDraw(CDC* pDC);  // ã“ã®ãƒ“ãƒ¥ãƒ¼ã‚’æç”»ã™ã‚‹éš›ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã•ã‚Œã¾ã™ã€‚
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
-	virtual void OnInitialUpdate(); // \’zŒã‚ÌÅ‰‚Ì‚P“x‚¾‚¯ŒÄ‚Ño‚³‚ê‚Ü‚·B
+	virtual void OnInitialUpdate(); // æ§‹ç¯‰å¾Œã®æœ€åˆã®ï¼‘åº¦ã ã‘å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
@@ -40,7 +40,7 @@ public:
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	int getBranchMode() const;
 	serialVec getDrawOrder(const bool bShowSubBranch) const;
@@ -57,7 +57,7 @@ public:
 
 protected:
 
-// ¶¬‚³‚ê‚½ƒƒbƒZ[ƒW ƒ}ƒbƒvŠÖ”
+// ç”Ÿæˆã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒƒãƒ—é–¢æ•°
 protected:
 	void cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, IdMap& idm);
 	void resetShowBranch();
@@ -245,7 +245,7 @@ inline HTREEITEM OutlineView::curItem() const
 	return GetTreeCtrl().GetSelectedItem();
 }
 
-#ifndef _DEBUG  // OutLineView.cpp ƒtƒ@ƒCƒ‹‚ªƒfƒoƒbƒOŠÂ‹«‚Ìg—p‚³‚ê‚Ü‚·B
+#ifndef _DEBUG  // OutLineView.cpp ãƒ•ã‚¡ã‚¤ãƒ«ãŒãƒ‡ãƒãƒƒã‚°ç’°å¢ƒã®æ™‚ä½¿ç”¨ã•ã‚Œã¾ã™ã€‚
 inline iEditDoc* OutlineView::GetDocument()
    { return (iEditDoc*)m_pDocument; }
 #endif
@@ -253,6 +253,6 @@ inline iEditDoc* OutlineView::GetDocument()
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ ‚Í‘Os‚Ì’¼‘O‚É’Ç‰Á‚ÌéŒ¾‚ğ‘}“ü‚µ‚Ü‚·B
+// Microsoft Visual C++ ã¯å‰è¡Œã®ç›´å‰ã«è¿½åŠ ã®å®£è¨€ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚
 
 #endif // !defined(AFX_OUTLINEVIEW_H__96DFF9C1_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

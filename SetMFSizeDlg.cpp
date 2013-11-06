@@ -1,4 +1,4 @@
-// SetMFSizeDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// SetMFSizeDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// SetMFSizeDlg �_�C�A���O
+// SetMFSizeDlg ダイアログ
 
 
 SetMFSizeDlg::SetMFSizeDlg(CWnd* pParent /*=NULL*/)
@@ -45,17 +45,17 @@ BEGIN_MESSAGE_MAP(SetMFSizeDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// SetMFSizeDlg ���b�Z�[�W �n���h��
+// SetMFSizeDlg メッセージ ハンドラ
 
 BOOL SetMFSizeDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	m_stMF.SetEnhMetaFile(createMF());
 	showSizeInfo();
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 HENHMETAFILE SetMFSizeDlg::createMF()
@@ -72,13 +72,13 @@ HENHMETAFILE SetMFSizeDlg::createMF()
 void SetMFSizeDlg::showSizeInfo()
 {
 	CString info;
-	info.Format(_T("�� : %.01f  ���� : %.01f"), m_rx, m_ry);
+	info.Format(_T("幅 : %.01f  高さ : %.01f"), m_rx, m_ry);
 	m_stInfo.SetWindowText(info);
 }
 
 void SetMFSizeDlg::OnBtnLeft() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rx -= 0.1;
 	if (m_rx <= 0) {
 		m_rx = 0.1;
@@ -89,7 +89,7 @@ void SetMFSizeDlg::OnBtnLeft()
 
 void SetMFSizeDlg::OnBtnRight() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rx += 0.1;
 	m_stMF.SetEnhMetaFile(createMF());
 	showSizeInfo();
@@ -97,7 +97,7 @@ void SetMFSizeDlg::OnBtnRight()
 
 void SetMFSizeDlg::OnBtnDown() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_ry -= 0.1;
 	if (m_ry <= 0) {
 		m_ry = 0.1;
@@ -108,7 +108,7 @@ void SetMFSizeDlg::OnBtnDown()
 
 void SetMFSizeDlg::OnBtnUp() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_ry += 0.1;
 	m_stMF.SetEnhMetaFile(createMF());
 	showSizeInfo();
@@ -116,7 +116,7 @@ void SetMFSizeDlg::OnBtnUp()
 
 void SetMFSizeDlg::OnBnClickedBtnReset()
 {
-	// TODO : �����ɃR���g���[���ʒm�n���h�� �R�[�h��ǉ����܂��B
+	// TODO : ここにコントロール通知ハンドラ コードを追加します。
 	CSize szMF = MfSizer::getMFSize();
 	m_rx = ((double)szMF.cx)/10.0;
 	m_ry = ((double)szMF.cy)/10.0;;

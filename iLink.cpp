@@ -1,4 +1,4 @@
-// iLink.cpp: iLink ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+ï»¿// iLink.cpp: iLink ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -14,7 +14,7 @@ static char THIS_FILE[]=__FILE__;
 #endif
 
 //////////////////////////////////////////////////////////////////////
-// \’z/Á–Å
+// æ§‹ç¯‰/æ¶ˆæ»…
 //////////////////////////////////////////////////////////////////////
 
 iLink::iLink()
@@ -380,14 +380,14 @@ void iLink::rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CP
 	c = ((double)(pFrom.x - pTo.x))/r;
 	s = ((double)(pFrom.y - pTo.y))/r;
 	
-	for (int i = 0; i < size; i++) { // ’¸“_‚Ì”‚¾‚¯ŒJ‚è•Ô‚µ
-		// m_ptTo ‚ğŒ´“_‚É‚È‚é‚æ‚¤‚ÉÀ•W‚Ì•ÀsˆÚ“®
+	for (int i = 0; i < size; i++) { // é ‚ç‚¹ã®æ•°ã ã‘ç¹°ã‚Šè¿”ã—
+		// m_ptTo ã‚’åŸç‚¹ã«ãªã‚‹ã‚ˆã†ã«åº§æ¨™ã®ä¸¦è¡Œç§»å‹•
 		pPoint[i].x = pPoint[i].x - pTo.x;
 		pPoint[i].y = pPoint[i].y - pTo.y;
-		// ‰ñ“]ˆ—
+		// å›è»¢å‡¦ç†
 		int rotatedX = (int)(pPoint[i].x*c - pPoint[i].y*s);
 		int rotatedY = (int)(pPoint[i].y*c + pPoint[i].x*s);
-		// À•W‚ğ•ÀsˆÚ“®
+		// åº§æ¨™ã‚’ä¸¦è¡Œç§»å‹•
 		pPoint[i].x = rotatedX + ptOrg.x;
 		pPoint[i].y = rotatedY + ptOrg.y;
 	}
@@ -447,9 +447,9 @@ void iLink::Serialize(CArchive &ar)
 		if (deleted_) return;
 		CString fname(lf_.lfFaceName);
 		
-		// Visual C++ 6.0 ‚Æ 7.0(.NET)‚ÌŒİŠ·«‚Ì‚½‚ß‚ÌƒVƒŠƒAƒ‰ƒCƒYƒR[ƒh
-		// 7.0‚Å‚Íbool’l‚ğ‚»‚Ì‚Ü‚ÜƒVƒŠƒAƒ‹‰»‰Â”\‚Æ‚È‚Á‚Ä‚¢‚é‚ªA‰ß‹‚Ìƒtƒ@ƒCƒ‹
-		// ‚Æ‚Ì®‡«‚Ì‚½‚ß1‚Æ0‚É•ÏŠ·‚µ‚ÄƒVƒŠƒAƒ‹‰»‚·‚é‚±‚Æ‚Æ‚·‚é
+		// Visual C++ 6.0 ã¨ 7.0(.NET)ã®äº’æ›æ€§ã®ãŸã‚ã®ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºã‚³ãƒ¼ãƒ‰
+		// 7.0ã§ã¯boolå€¤ã‚’ãã®ã¾ã¾ã‚·ãƒªã‚¢ãƒ«åŒ–å¯èƒ½ã¨ãªã£ã¦ã„ã‚‹ãŒã€éå»ã®ãƒ•ã‚¡ã‚¤ãƒ«
+		// ã¨ã®æ•´åˆæ€§ã®ãŸã‚1ã¨0ã«å¤‰æ›ã—ã¦ã‚·ãƒªã‚¢ãƒ«åŒ–ã™ã‚‹ã“ã¨ã¨ã™ã‚‹
 		int curve;
 		if (curved_ == true) {
 			curve = 1;
@@ -745,7 +745,7 @@ CRect iLink::getBound() const
 		rc.TopLeft() = ptFrom;
 		rc.BottomRight() = ptTo;
 		rc.NormalizeRect();
-		// ƒm[ƒh“¯m‚ª³‘Î‚µ‚Ä‚é‚ÆRect‚ª‚Å‚«‚È‚¢‚½‚ß’²®
+		// ãƒãƒ¼ãƒ‰åŒå£«ãŒæ­£å¯¾ã—ã¦ã‚‹ã¨RectãŒã§ããªã„ãŸã‚èª¿æ•´
 		rc.right += 5;
 		rc.bottom += 5;
 		if (curved_) {
@@ -776,7 +776,7 @@ void iLink::reverseDirection()
 	setConnectPoint();
 }
 
-// iLinks : iLinks ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// iLinks : iLinks ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 

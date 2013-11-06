@@ -1,8 +1,8 @@
-#pragma once
+Ôªø#pragma once
 #include "afxwin.h"
 
 
-// DebugPrintDlg É_ÉCÉAÉçÉO
+// DebugPrintDlg „ÉÄ„Ç§„Ç¢„É≠„Ç∞
 
 class DebugPrintDlg : public CDialog
 {
@@ -11,7 +11,7 @@ class DebugPrintDlg : public CDialog
 	CWnd* m_pParent;
 
 public:
-	DebugPrintDlg(CWnd* pParent = NULL);   // ïWèÄÉRÉìÉXÉgÉâÉNÉ^
+	DebugPrintDlg(CWnd* pParent = NULL);   // Ê®ôÊ∫ñ„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 	virtual ~DebugPrintDlg();
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, 
 		DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, 
@@ -20,11 +20,11 @@ public:
 	virtual void OnOK();
 	virtual void OnCancel();
 
-// É_ÉCÉAÉçÉO ÉfÅ[É^
+// „ÉÄ„Ç§„Ç¢„É≠„Ç∞ „Éá„Éº„Çø
 	enum { IDD = IDD_DEBUG_WINDOW };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ÉTÉ|Å[Ég
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV „Çµ„Éù„Éº„Éà
 
 	DECLARE_MESSAGE_MAP()
 public:

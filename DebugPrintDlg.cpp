@@ -1,4 +1,4 @@
-// DebugPrintDlg.cpp : À‘•ƒtƒ@ƒCƒ‹
+ï»¿// DebugPrintDlg.cpp : å®Ÿè£…ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -6,7 +6,7 @@
 #include "DebugPrintDlg.h"
 
 
-// DebugPrintDlg ƒ_ƒCƒAƒƒO
+// DebugPrintDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 IMPLEMENT_DYNAMIC(DebugPrintDlg, CDialog)
 
@@ -48,18 +48,18 @@ BEGIN_MESSAGE_MAP(DebugPrintDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// DebugPrintDlg ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// DebugPrintDlg ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 void DebugPrintDlg::OnBnClickedBtnClear()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	m_edConsole.SetSel(0, -1);
 	m_edConsole.Clear();
 }
 
 void DebugPrintDlg::OnBnClickedBtnCopy()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	m_edConsole.SetSel(0, -1);
 	m_edConsole.Copy();
 }

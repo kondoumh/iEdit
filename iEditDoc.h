@@ -1,4 +1,4 @@
-// iEditDoc.h : iEditDoc ƒNƒ‰ƒX‚ÌéŒ¾‚¨‚æ‚ÑƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì’è‹`‚ğ‚µ‚Ü‚·B
+ï»¿// iEditDoc.h : iEditDoc ã‚¯ãƒ©ã‚¹ã®å®£è¨€ãŠã‚ˆã³ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®å®šç¾©ã‚’ã—ã¾ã™ã€‚
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -12,10 +12,10 @@
 #include "iNode.h"
 #include "iLink.h"
 #include "RelaxThrd.h"
-#include "StdAfx.h"	// ClassView ‚É‚æ‚Á‚Ä’Ç‰Á‚³‚ê‚Ü‚µ‚½B
+#include "StdAfx.h"	// ClassView ã«ã‚ˆã£ã¦è¿½åŠ ã•ã‚Œã¾ã—ãŸã€‚
 #include <stack>
 
-// View ‚Ö‚ÌXVHintƒIƒuƒWƒFƒNƒg
+// View ã¸ã®æ›´æ–°Hintã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 //////////////////////////////////
 class iHint : public CObject {
 public:
@@ -52,14 +52,14 @@ class iEditDoc : public CDocument
 	nVec nodes_undo;
 	lVec links_undo;
 	int m_serialVersion;
-protected: // ƒVƒŠƒAƒ‰ƒCƒY‹@”\‚Ì‚İ‚©‚çì¬‚µ‚Ü‚·B
+protected: // ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºæ©Ÿèƒ½ã®ã¿ã‹ã‚‰ä½œæˆã—ã¾ã™ã€‚
 	iEditDoc();
 	DECLARE_DYNCREATE(iEditDoc)
 
-// ƒAƒgƒŠƒrƒ…[ƒg
+// ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆ
 public:
 
-// ƒIƒyƒŒ[ƒVƒ‡ƒ“
+// ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	void fitSetlectedNodeSize();
 	bool writeClickableMap(CStdioFile& f, const CString& textFileName, bool singleText=true);
@@ -79,8 +79,8 @@ public:
 	int getAppLinkWidth() const;
 	int getAppLinkArrow() const;
 
-//ƒI[ƒo[ƒ‰ƒCƒh
-	// ClassWizard ‚Í‰¼‘zŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh‚ğ¶¬‚µ‚Ü‚·B
+//ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+	// ClassWizard ã¯ä»®æƒ³é–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	//{{AFX_VIRTUAL(iEditDoc)
 	public:
 	virtual BOOL OnNewDocument();
@@ -89,7 +89,7 @@ public:
 	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	void setSelectedNodeDragging(bool dragging = true);
 	void divideTargetLink(DWORD key);
@@ -266,7 +266,7 @@ public:
 
 protected:
 
-// ¶¬‚³‚ê‚½ƒƒbƒZ[ƒW ƒ}ƒbƒvŠÖ”
+// ç”Ÿæˆã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒƒãƒ—é–¢æ•°
 protected:
 	CString procWikiNotation(const CString& text);
 	void beginUL(CString& str, int& level, int& prevLevel);
@@ -275,8 +275,8 @@ protected:
 	OutlineView* getOutlineView() const;
 	template <class T>
 	void outStyleSheetLine(T &f);
-	void setConnectPoint2(); // ˆğ‚Ã‚éƒ‚[ƒh‚ÌƒŠƒ“ƒNÄ”z’u—p
-	void setConnectPoint3(); // visible‚ÈƒŠƒ“ƒN‚ÌÄ”z’u
+	void setConnectPoint2(); // èŠ‹ã¥ã‚‹ãƒ¢ãƒ¼ãƒ‰ã®ãƒªãƒ³ã‚¯å†é…ç½®ç”¨
+	void setConnectPoint3(); // visibleãªãƒªãƒ³ã‚¯ã®å†é…ç½®
 	bool loadFromXML(const CString& filename);
 	CPoint tags2pathPt(MSXML2::IXMLDOMNode* pNode);
 	COLORREF tags2linkColor(MSXML2::IXMLDOMNode* pNode);
@@ -346,6 +346,6 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ ‚Í‘Os‚Ì’¼‘O‚É’Ç‰Á‚ÌéŒ¾‚ğ‘}“ü‚µ‚Ü‚·B
+// Microsoft Visual C++ ã¯å‰è¡Œã®ç›´å‰ã«è¿½åŠ ã®å®£è¨€ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚
 
 #endif // !defined(AFX_IEDITDOC_H__96DFF9BF_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

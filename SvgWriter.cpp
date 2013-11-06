@@ -1,4 +1,4 @@
-// SvgWriter.cpp: SvgWriter ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+ï»¿// SvgWriter.cpp: SvgWriter ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -15,7 +15,7 @@ static char THIS_FILE[]=__FILE__;
 #endif
 
 //////////////////////////////////////////////////////////////////////
-// \’z/Á–Å
+// æ§‹ç¯‰/æ¶ˆæ»…
 //////////////////////////////////////////////////////////////////////
 
 SvgWriter::SvgWriter(iNodes& nodes, iLinks& links, serialVec& drawOrder, bool bDrwAll) :
@@ -43,7 +43,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 {
 	CWaitCursor wc;
 	
-	// DOM¶¬
+	// DOMç”Ÿæˆ
 	MSXML2::IXMLDOMDocumentPtr doc(_T("MSXML.DOMDocument"));
 	
 	doc->appendChild(
@@ -60,7 +60,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 	doc->appendChild(eSvg);
 	
 	
-	// ƒm[ƒh‚Ì—ñ‹“
+	// ãƒãƒ¼ãƒ‰ã®åˆ—æŒ™
 	vector<DWORD>::iterator svIt = m_drawOrder.begin();
 	for ( ; svIt != m_drawOrder.end(); svIt++) {
 		const_niterator it = m_nodes.findNode(*svIt);
@@ -74,14 +74,14 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 		}
 		
 		if (node.getTextStyle() == iNode::notext && node.getNodeShape() != iNode::MetaFile) continue;
-		// ƒƒ^ƒtƒ@ƒCƒ‹‚Ìê‡‚ÍAnotext‚Å‚àƒeƒLƒXƒg‚ğ•`‰æ‚·‚é‚æ‚¤‚É‚·‚é
+		// ãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã®å ´åˆã¯ã€notextã§ã‚‚ãƒ†ã‚­ã‚¹ãƒˆã‚’æç”»ã™ã‚‹ã‚ˆã†ã«ã™ã‚‹
 		MSXML2::IXMLDOMElementPtr eNText = createNodeTextElement(node, doc, bEmbed);
 		if (eNText != NULL) {
 			eGrp->appendChild(eNText);
 		}
 		eSvg->appendChild(eGrp);
 	}
-	// ƒŠƒ“ƒN‚Ì—ñ‹“
+	// ãƒªãƒ³ã‚¯ã®åˆ—æŒ™
 	const_literator li = m_links.begin();
 	for ( ; li != m_links.end(); li++) {
 		if (!m_bDrwAll && !(*li).canDraw()) continue;
@@ -267,11 +267,11 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		break;
 	}
 	
-	// ƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹İ’è
+	// ãƒ•ã‚©ãƒ³ãƒˆã‚¹ã‚¿ã‚¤ãƒ«è¨­å®š
 	CString sStyle = createTextStyle(node.getFontInfo(), node.getFontColor());
 	pNText->setAttribute(_T("style"), sStyle.GetBuffer(sStyle.GetLength()));
 	
-	// ƒ‰ƒxƒ‹
+	// ãƒ©ãƒ™ãƒ«
 	CString name = node.getName();
 	int style = node.getTextStyle();
 	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
@@ -307,7 +307,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		pNodeRef->appendChild(pNText);
 		return pNodeRef;
 	} else {
-		// ƒŠƒ“ƒN‚©ƒeƒLƒXƒg‚Ì1s–Ú‚©‚çURL‚ğ’Šo‚·‚é)
+		// ãƒªãƒ³ã‚¯ã‹ãƒ†ã‚­ã‚¹ãƒˆã®1è¡Œç›®ã‹ã‚‰URLã‚’æŠ½å‡ºã™ã‚‹)
 		CString url;
 		const_literator li = m_links.begin();
 		for ( ; li != m_links.end(); li++) {
@@ -389,7 +389,7 @@ vector<CString> SvgWriter::splitByWidth(const CString& line, const int byte)
 	return v;
 }
 
-// TODO:Utilities‚ÖˆÚ“®
+// TODO:Utilitiesã¸ç§»å‹•
 CSize SvgWriter::getNodeTextSize(const iNode& node)
 {
 	CWnd wnd;
@@ -508,7 +508,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MS
 	MSXML2::IXMLDOMElementPtr pLText = NULL;
 	if (link.getName() == _T("")) return NULL;
 	
-	// ƒ‰ƒxƒ‹•\¦ˆÊ’u
+	// ãƒ©ãƒ™ãƒ«è¡¨ç¤ºä½ç½®
 	CPoint ptOrg = calcLinkLabelOrg(link);
 	CString sCx; sCx.Format(_T("%d"), ptOrg.x);
 	CString sCy; sCy.Format(_T("%d"), ptOrg.y);
@@ -517,18 +517,18 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MS
 	pLText->setAttribute(_T("x"), sCx.GetBuffer(sCx.GetLength()));
 	pLText->setAttribute(_T("y"), sCy.GetBuffer(sCy.GetLength()));
 	
-	// ƒXƒ^ƒCƒ‹İ’è
+	// ã‚¹ã‚¿ã‚¤ãƒ«è¨­å®š
 	CString sStyle = createTextStyle(link.getFontInfo(), link.getLinkColor());
 	pLText->setAttribute(_T("style"), sStyle.GetBuffer(sStyle.GetLength()));
 	
-	// ƒ‰ƒxƒ‹İ’è
+	// ãƒ©ãƒ™ãƒ«è¨­å®š
 	CString name = link.getName();
 	pLText->Puttext(name.GetBuffer(name.GetLength()));
 	
 	return pLText;
 }
 
-// ƒŠƒ“ƒNƒ‰ƒxƒ‹‚ÌÀ•WŒvZ
+// ãƒªãƒ³ã‚¯ãƒ©ãƒ™ãƒ«ã®åº§æ¨™è¨ˆç®—
 CPoint SvgWriter::calcLinkLabelOrg(const iLink& link)
 {
 	LOGFONT lf = link.getFontInfo();
@@ -795,14 +795,14 @@ void SvgWriter::rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo
 	c = ((double)(pFrom.x - pTo.x))/r;
 	s = ((double)(pFrom.y - pTo.y))/r;
 	
-	for (int i = 0; i < size; i++) { // ’¸“_‚Ì”‚¾‚¯ŒJ‚è•Ô‚µ
-		// m_ptTo ‚ğŒ´“_‚É‚È‚é‚æ‚¤‚ÉÀ•W‚Ì•ÀsˆÚ“®
+	for (int i = 0; i < size; i++) { // é ‚ç‚¹ã®æ•°ã ã‘ç¹°ã‚Šè¿”ã—
+		// m_ptTo ã‚’åŸç‚¹ã«ãªã‚‹ã‚ˆã†ã«åº§æ¨™ã®ä¸¦è¡Œç§»å‹•
 		pPoint[i].x = pPoint[i].x - pTo.x;
 		pPoint[i].y = pPoint[i].y - pTo.y;
-		// ‰ñ“]ˆ—
+		// å›è»¢å‡¦ç†
 		int rotatedX = (int)(pPoint[i].x*c - pPoint[i].y*s);
 		int rotatedY = (int)(pPoint[i].y*c + pPoint[i].x*s);
-		// À•W‚ğ•ÀsˆÚ“®
+		// åº§æ¨™ã‚’ä¸¦è¡Œç§»å‹•
 		pPoint[i].x = rotatedX + ptOrg.x;
 		pPoint[i].y = rotatedY + ptOrg.y;
 	}
@@ -825,15 +825,15 @@ CString SvgWriter::createTextStyle(const LOGFONT& lf, COLORREF fontColor)
 	
 	// font family
 	CString sFName = lf.lfFaceName;
-	if (sFName == _T("‚l‚r –¾’©")) {
+	if (sFName == _T("ï¼­ï¼³ æ˜æœ")) {
 		sFName = _T("MS-Mincho");
-	} else if (sFName == _T("‚l‚r ‚o–¾’©")) {
+	} else if (sFName == _T("ï¼­ï¼³ ï¼°æ˜æœ")) {
 		sFName = _T("MS-PMincho");
-	} else if (sFName == _T("‚l‚r ƒSƒVƒbƒN")) {
+	} else if (sFName == _T("ï¼­ï¼³ ã‚´ã‚·ãƒƒã‚¯")) {
 		sFName = _T("MS-Gothic");
-	} else if (sFName == _T("‚l‚r ‚oƒSƒVƒbƒN")) {
+	} else if (sFName == _T("ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯")) {
 		sFName = _T("MS-PGothic");
-	} else if (sFName == _T("ƒƒCƒŠƒI")) {
+	} else if (sFName == _T("ãƒ¡ã‚¤ãƒªã‚ª")) {
 		sFName = _T("Meiryo");
 	} else {
 		sFName = _T("MS-Gothic");

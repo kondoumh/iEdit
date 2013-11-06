@@ -1,4 +1,4 @@
-// ALOptDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+// ALOptDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// ALOptDlg �_�C�A���O
+// ALOptDlg ダイアログ
 
 
 ALOptDlg::ALOptDlg(CWnd* pParent /*=NULL*/)
@@ -46,33 +46,33 @@ BEGIN_MESSAGE_MAP(ALOptDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// ALOptDlg ���b�Z�[�W �n���h��
+// ALOptDlg メッセージ ハンドラ
 
 BOOL ALOptDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	m_spin.SetRange(0, 10000);
 	if (m_showMode == 0) {
 		m_spin.EnableWindow(FALSE);
 		m_editCY.EnableWindow(FALSE);
 	}
 
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 void ALOptDlg::OnOK() 
 {
-	// TODO: ���̈ʒu�ɂ��̑��̌��ؗp�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にその他の検証用のコードを追加してください
 	m_cycle = m_spin.GetPos();
 	CDialog::OnOK();
 }
 
 void ALOptDlg::OnRdAni() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_spin.EnableWindow(FALSE);
 	m_editCY.EnableWindow(FALSE);
 	m_showMode = 0;
@@ -80,7 +80,7 @@ void ALOptDlg::OnRdAni()
 
 void ALOptDlg::OnRdCy() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_spin.EnableWindow(TRUE);
 	m_editCY.EnableWindow(TRUE);
 	m_showMode = 1;

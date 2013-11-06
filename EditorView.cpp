@@ -1,4 +1,4 @@
-// EditorView.cpp : ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“ ƒtƒ@ƒCƒ‹
+ï»¿// EditorView.cpp : ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -60,7 +60,7 @@ BEGIN_MESSAGE_MAP(EditorView, CEditView)
 	ON_WM_CTLCOLOR_REFLECT()
 	ON_CONTROL_REFLECT(EN_CHANGE, OnChange)
 	//}}AFX_MSG_MAP
-	// •W€ˆóüƒRƒ}ƒ“ƒh
+	// æ¨™æº–å°åˆ·ã‚³ãƒžãƒ³ãƒ‰
 	ON_COMMAND(ID_FILE_PRINT, CEditView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CEditView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CEditView::OnFilePrintPreview)
@@ -68,16 +68,16 @@ BEGIN_MESSAGE_MAP(EditorView, CEditView)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// EditorView •`‰æ
+// EditorView æç”»
 
 void EditorView::OnDraw(CDC* pDC)
 {
 	CDocument* pDoc = GetDocument();
-	// TODO: ‚±‚ÌˆÊ’u‚É•`‰æ—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«æç”»ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// EditorView f’f
+// EditorView è¨ºæ–­
 
 #ifdef _DEBUG
 void EditorView::AssertValid() const
@@ -92,11 +92,11 @@ void EditorView::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// EditorView ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// EditorView ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ð’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	BOOL shwHScroll = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Show HScroll"), FALSE);
 	cs.style |= WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL;
 	if (shwHScroll) {
@@ -108,7 +108,7 @@ BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs)
 void EditorView::OnInitialUpdate() 
 {
 	CEditView::OnInitialUpdate();
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ð’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	CString t = GetDocument()->getSelectedNodeText();
 	GetEditCtrl().SetWindowText(t);
 	m_preKey = GetDocument()->getSelectedNodeKey();
@@ -118,13 +118,13 @@ void EditorView::OnInitialUpdate()
 
 void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ð’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	DWORD curKey = 	GetDocument()->getSelectedNodeKey();
 	m_bPreUpdateReplace = false;
 	if (curKey != m_preKey) {
 		m_bPreUpdateReplace = true;
 		//CString s; s.Format(_T("pre:%d cur:%d"), curKey, m_preKey);DEBUG_WRITE(s);
-		m_nCaretLine = GetCaretLine(); // ƒeƒXƒg
+		m_nCaretLine = GetCaretLine(); // ãƒ†ã‚¹ãƒˆ
 		m_preKey = curKey;
 		CString t = GetDocument()->getSelectedNodeText();
 		GetEditCtrl().SetWindowText(t);
@@ -153,7 +153,7 @@ int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CEditView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	CiEditApp* app = (CiEditApp*)AfxGetApp();
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìì¬—pƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®ä½œæˆç”¨ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_bkColor = app->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), app->m_colorTextViewBg);
 	m_textColor = app->GetProfileInt(REGS_FRAME, _T("Edit forColor"), app->m_colorTextViewFg);
 	m_hBrsBack.CreateSolidBrush(m_bkColor);
@@ -179,7 +179,7 @@ void EditorView::initSizeChar()
 
 void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 	
@@ -192,14 +192,14 @@ void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void EditorView::OnDelete() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetEditCtrl().SendMessage(WM_KEYDOWN, VK_DELETE, VK_DELETE);
 	GetDocument()->SetModifiedFlag();
 }
 
 void EditorView::OnUpdateDelete(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -246,13 +246,13 @@ void EditorView::setViewFont()
 
 void EditorView::OnEditLabel() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void EditorView::OnEditCut() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetEditCtrl().Cut();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
@@ -260,7 +260,7 @@ void EditorView::OnEditCut()
 
 void EditorView::OnUpdateEditCut(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
 	pCmdUI->Enable(start < end);
@@ -268,7 +268,7 @@ void EditorView::OnUpdateEditCut(CCmdUI* pCmdUI)
 
 void EditorView::OnEditPaste() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetEditCtrl().Paste();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
@@ -276,7 +276,7 @@ void EditorView::OnEditPaste()
 
 void EditorView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (!::OpenClipboard(m_hWnd)) {
 		pCmdUI->Enable(FALSE);
 		return;
@@ -288,7 +288,7 @@ void EditorView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 void EditorView::OnEditUndo() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetEditCtrl().Undo();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
@@ -296,13 +296,13 @@ void EditorView::OnEditUndo()
 
 void EditorView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(GetEditCtrl().CanUndo());
 }
 
 void EditorView::OnEditClear() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetEditCtrl().Clear();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
@@ -310,7 +310,7 @@ void EditorView::OnEditClear()
 
 void EditorView::OnUpdateEditClear(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
 	pCmdUI->Enable(start < end);
@@ -318,7 +318,7 @@ void EditorView::OnUpdateEditClear(CCmdUI* pCmdUI)
 
 void EditorView::OnContextMenu(CWnd* pWnd, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CMenu menu;
 	menu.LoadMenu(IDR_CONTEXT);
 	
@@ -333,7 +333,7 @@ void EditorView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void EditorView::OnEditFind() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString cText; GetEditCtrl().GetWindowText(cText);
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
@@ -349,13 +349,13 @@ void EditorView::OnEditFind()
 
 void EditorView::OnUpdateEditFind(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void EditorView::OnEditReplace() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString cText; GetEditCtrl().GetWindowText(cText);
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
@@ -371,7 +371,7 @@ void EditorView::OnEditReplace()
 
 void EditorView::OnUpdateEditReplace(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -410,8 +410,8 @@ void EditorView::OnReplaceAll(LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase)
 	GetEditCtrl().SetWindowText(cText);
 	GetDocument()->setCurNodeText(cText, GetEditCtrl().GetFirstVisibleLine());
 	GetDocument()->SetModifiedFlag();
-	CString mes; mes.Format(_T("%dŒÂ‚Ì•¶Žš—ñ‚ð’uŠ·‚µ‚Ü‚µ‚½"), rep);
-	MessageBox(mes, _T("’uŠ·‚ÌI—¹"), MB_OK);
+	CString mes; mes.Format(_T("%då€‹ã®æ–‡å­—åˆ—ã‚’ç½®æ›ã—ã¾ã—ãŸ"), rep);
+	MessageBox(mes, _T("ç½®æ›ã®çµ‚äº†"), MB_OK);
 }
 
 void EditorView::OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR lpszReplace)
@@ -437,12 +437,12 @@ void EditorView::OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR 
 
 HBRUSH EditorView::CtlColor(CDC* pDC, UINT nCtlColor) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚Å DC ‚ÌƒAƒgƒŠƒrƒ…[ƒg‚ð•ÏX‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã§ DC ã®ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆã‚’å¤‰æ›´ã—ã¦ãã ã•ã„
 	pDC->SetBkColor(m_bkColor);
 	pDC->SetTextColor(m_textColor);
 	return m_hBrsBack;
 	
-	// TODO: eƒnƒ“ƒhƒ‰‚ðŒÄ‚Ño‚µ‚½‚­‚È‚¢ê‡‚Í‚±‚±‚Åƒuƒ‰ƒV‚Ìƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä NULL ˆÈŠO‚ð•Ô‚·‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: è¦ªãƒãƒ³ãƒ‰ãƒ©ã‚’å‘¼ã³å‡ºã—ãŸããªã„å ´åˆã¯ã“ã“ã§ãƒ–ãƒ©ã‚·ã®ãƒãƒ³ãƒ‰ãƒ«ã¨ã—ã¦ NULL ä»¥å¤–ã‚’è¿”ã™ã‚ˆã†ã«ã—ã¦ãã ã•ã„
 	return NULL;
 }
 
@@ -546,19 +546,19 @@ void EditorView::DrawCaretLine(BOOL bInPaint)
 
 void EditorView::OnPaint() 
 {
-//	CPaintDC dc(this); // •`‰æ—p‚ÌƒfƒoƒCƒX ƒRƒ“ƒeƒLƒXƒg
+//	CPaintDC dc(this); // æç”»ç”¨ã®ãƒ‡ãƒã‚¤ã‚¹ ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	Default();
 	if (m_bDrawUnderLine && m_bCanPaint)
 		DrawCaretLine(TRUE);
 	
-	// •`‰æ—pƒƒbƒZ[ƒW‚Æ‚µ‚Ä CEditView::OnPaint() ‚ðŒÄ‚Ño‚µ‚Ä‚Í‚¢‚¯‚Ü‚¹‚ñ
+	// æç”»ç”¨ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¨ã—ã¦ CEditView::OnPaint() ã‚’å‘¼ã³å‡ºã—ã¦ã¯ã„ã‘ã¾ã›ã‚“
 }
 
 void EditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	Default();
 	int nLine = GetCaretLine();
 	if (m_nCaretLine == nLine)
@@ -582,7 +582,7 @@ void EditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void EditorView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	Default();
 	if (m_bDrawUnderLine && m_bCanPaint)
 		DrawCaretLine();
@@ -592,7 +592,7 @@ void EditorView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void EditorView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	Default();
 	if (m_bDrawUnderLine && m_bCanPaint)
 		DrawCaretLine();
@@ -602,7 +602,7 @@ void EditorView::OnLButtonDown(UINT nFlags, CPoint point)
 
 void EditorView::OnMouseMove(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	Default();
 	if (nFlags & MK_LBUTTON)
 	{
@@ -628,24 +628,24 @@ void EditorView::OnMouseMove(UINT nFlags, CPoint point)
 
 void EditorView::OnChange() 
 {
-	// TODO: ‚±‚ê‚ª RICHEDIT ƒRƒ“ƒgƒ[ƒ‹‚Ìê‡AƒRƒ“ƒgƒ[ƒ‹‚ÍA lParam ƒ}ƒXƒN
-	// “à‚Å‚Ì˜_—˜a‚Ì ENM_CHANGE ƒtƒ‰ƒO•t‚«‚Å CRichEditCrtl().SetEventMask()
-	// ƒƒbƒZ[ƒW‚ðƒRƒ“ƒgƒ[ƒ‹‚Ö‘—‚é‚½‚ß‚É CEditView::OnInitDialog() ŠÖ”‚ðƒI[ƒo[
-	// ƒ‰ƒCƒh‚µ‚È‚¢ŒÀ‚è‚±‚Ì’Ê’m‚ð‘—‚è‚Ü‚¹‚ñB
+	// TODO: ã“ã‚ŒãŒ RICHEDIT ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®å ´åˆã€ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã¯ã€ lParam ãƒžã‚¹ã‚¯
+	// å†…ã§ã®è«–ç†å’Œã® ENM_CHANGE ãƒ•ãƒ©ã‚°ä»˜ãã§ CRichEditCrtl().SetEventMask()
+	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã¸é€ã‚‹ãŸã‚ã« CEditView::OnInitDialog() é–¢æ•°ã‚’ã‚ªãƒ¼ãƒãƒ¼
+	// ãƒ©ã‚¤ãƒ‰ã—ãªã„é™ã‚Šã“ã®é€šçŸ¥ã‚’é€ã‚Šã¾ã›ã‚“ã€‚
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->SetModifiedFlag();
 //	char buf[100];
 //	GetEditCtrl().GetLine(m_nCaretLine, buf);
 //	CString caretLine(buf);
 //	int start = caretLine.Find("http:/");
 //	if (start != -1) {
-//		AfxMessageBox("ƒnƒP[ƒ“");
+//		AfxMessageBox("ãƒã‚±ãƒ¼ãƒ³");
 //	}
 }
 
 void EditorView::OnEnVscroll()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->setSelectedNodeScrollPos(GetEditCtrl().GetFirstVisibleLine());
 }

@@ -1,4 +1,4 @@
-// shapesDlg.cpp : ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“ ƒtƒ@ƒCƒ‹
+ï»¿// shapesDlg.cpp : ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -16,7 +16,7 @@ static char THIS_FILE[] = __FILE__;
 #define REGS_SHAPES _T("Shapes")
 
 /////////////////////////////////////////////////////////////////////////////
-// shapesDlg ƒ_ƒCƒAƒƒO
+// shapesDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 
 shapesDlg::shapesDlg(CWnd* pParent /*=NULL*/)
@@ -69,13 +69,13 @@ BEGIN_MESSAGE_MAP(shapesDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// shapesDlg ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// shapesDlg ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 BOOL shapesDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ‚±‚ÌˆÊ’u‚É‰Šú‰»‚Ì•â‘«ˆ—‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«åˆæœŸåŒ–ã®è£œè¶³å‡¦ç†ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_bounds[0]  = CRect(137,  22, 167,  52);
 	m_bounds[1]  = CRect(169,  22, 199,  52);
 	m_bounds[2]  = CRect(201,  22, 231,  52);
@@ -115,48 +115,48 @@ BOOL shapesDlg::OnInitDialog()
 	}
 	m_catListBox.SetCurSel(0);
 	
-	return TRUE;  // ƒRƒ“ƒgƒ[ƒ‹‚ÉƒtƒH[ƒJƒX‚ğİ’è‚µ‚È‚¢‚Æ‚«A–ß‚è’l‚Í TRUE ‚Æ‚È‚è‚Ü‚·
-	              // —áŠO: OCX ƒvƒƒpƒeƒB ƒy[ƒW‚Ì–ß‚è’l‚Í FALSE ‚Æ‚È‚è‚Ü‚·
+	return TRUE;  // ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã«ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’è¨­å®šã—ãªã„ã¨ãã€æˆ»ã‚Šå€¤ã¯ TRUE ã¨ãªã‚Šã¾ã™
+	              // ä¾‹å¤–: OCX ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ãƒšãƒ¼ã‚¸ã®æˆ»ã‚Šå€¤ã¯ FALSE ã¨ãªã‚Šã¾ã™
 }
 
 void shapesDlg::OnBtnDrop() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	updateNetVew();
 }
 
 void shapesDlg::OnUpdateDiagram() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	updateNetVew();
 }
 
 void shapesDlg::updateNetVew()
 {
 	if (m_selRect == CRect(0, 0, 0, 0)) {
-		AfxMessageBox(_T("ƒVƒFƒCƒv‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢"));
+		AfxMessageBox(_T("ã‚·ã‚§ã‚¤ãƒ—ã‚’é¸æŠã—ã¦ãã ã•ã„"));
 		return;
 	}
 	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] == NULL) {
-		AfxMessageBox(_T("ƒVƒFƒCƒv‚ª“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ"));
+		AfxMessageBox(_T("ã‚·ã‚§ã‚¤ãƒ—ãŒç™»éŒ²ã•ã‚Œã¦ã„ã¾ã›ã‚“"));
 		return;
 	}
-	m_pParent->PostMessage(WM_ADDSHAPE, index/* ƒƒ^ƒtƒ@ƒCƒ‹ID*/);
+	m_pParent->PostMessage(WM_ADDSHAPE, index/* ãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ID*/);
 	m_pParent->SetFocus();
 }
 
 BOOL shapesDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	m_pParent = pParentWnd;
 	return CDialog::Create(IDD, pParentWnd);
 }
 
 void shapesDlg::OnOK() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É‚»‚Ì‘¼‚ÌŒŸØ—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãã®ä»–ã®æ¤œè¨¼ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	return;
 //	m_pParent->PostMessage(WM_CLOSESHAPEWINDOW, IDOK);
 //	CDialog::OnOK();
@@ -164,14 +164,14 @@ void shapesDlg::OnOK()
 
 void shapesDlg::OnCancel() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É“Á•Ê‚ÈŒãˆ—‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã®ä½ç½®ã«ç‰¹åˆ¥ãªå¾Œå‡¦ç†ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 	m_pParent->PostMessage(WM_CLOSESHAPEWINDOW, IDCANCEL);
 	CDialog::OnCancel();
 }
 
 void shapesDlg::OnSelchangeCatlist() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	InvalidateRect(m_selRect);
 	m_indexIncat = 0;
 	m_selRect = m_bounds[0];
@@ -184,13 +184,13 @@ void shapesDlg::OnSelchangeCatlist()
 
 void shapesDlg::OnDblclkCatlist() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	editCatName();
 }
 
 void shapesDlg::OnEditCatName() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	editCatName();
 }
 
@@ -214,9 +214,9 @@ void shapesDlg::editCatName()
 
 void shapesDlg::OnNewShape() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_selRect == CRect(0, 0, 0, 0)) {
-		AfxMessageBox(_T("“o˜^‚·‚éêŠ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢"));
+		AfxMessageBox(_T("ç™»éŒ²ã™ã‚‹å ´æ‰€ã‚’é¸æŠã—ã¦ãã ã•ã„"));
 		return;
 	}
 	shapeInsDlg dlg;
@@ -224,11 +224,11 @@ void shapesDlg::OnNewShape()
 	if (dlg.m_strPath == _T("")) return;
 	HENHMETAFILE hm = ::GetEnhMetaFile(dlg.m_strPath);
 	if (hm == NULL) {
-		AfxMessageBox(_T("ƒƒ^ƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ‚Å‚µ‚½"));
+		AfxMessageBox(_T("ãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ã¾ã›ã‚“ã§ã—ãŸ"));
 		return;
 	}
 	
-	if (MessageBox(_T("ƒVƒFƒCƒv‚ğ“o˜^‚µ‚Ü‚·‚©?"), _T("ƒVƒFƒCƒv‚Ì“o˜^"), MB_YESNO) != IDYES) return;
+	if (MessageBox(_T("ã‚·ã‚§ã‚¤ãƒ—ã‚’ç™»éŒ²ã—ã¾ã™ã‹?"), _T("ã‚·ã‚§ã‚¤ãƒ—ã®ç™»éŒ²"), MB_YESNO) != IDYES) return;
 	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->m_hMetaFiles[index] = hm;
@@ -239,14 +239,14 @@ void shapesDlg::OnNewShape()
 
 void shapesDlg::OnDeleteShape() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] == NULL) {
-		AfxMessageBox(_T("ƒVƒFƒCƒv‚ª“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ"));
+		AfxMessageBox(_T("ã‚·ã‚§ã‚¤ãƒ—ãŒç™»éŒ²ã•ã‚Œã¦ã„ã¾ã›ã‚“"));
 		return;
 	}
-	if (MessageBox(_T("‘I‘ğ‚³‚ê‚½ƒVƒFƒCƒv‚ğíœ‚µ‚Ü‚·"), _T("ƒVƒFƒCƒv‚Ìíœ"), MB_YESNO) != IDYES) return;
+	if (MessageBox(_T("é¸æŠã•ã‚ŒãŸã‚·ã‚§ã‚¤ãƒ—ã‚’å‰Šé™¤ã—ã¾ã™"), _T("ã‚·ã‚§ã‚¤ãƒ—ã®å‰Šé™¤"), MB_YESNO) != IDYES) return;
 	
 	pApp->m_hMetaFiles[index] = NULL;
 	pApp->m_bShapeModified = true;
@@ -256,9 +256,9 @@ void shapesDlg::OnDeleteShape()
 
 void shapesDlg::OnPaint() 
 {
-	CPaintDC dc(this); // •`‰æ—p‚ÌƒfƒoƒCƒX ƒRƒ“ƒeƒLƒXƒg
+	CPaintDC dc(this); // æç”»ç”¨ã®ãƒ‡ãƒã‚¤ã‚¹ ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	for (int i = 0; i < 20; i++) {
 		if (pApp->m_hMetaFiles[m_catListBox.GetCurSel()*100+i]) {
@@ -276,12 +276,12 @@ void shapesDlg::OnPaint()
 	tracker.m_nStyle = CRectTracker::resizeInside;
 	tracker.Draw(&dc);
 	
-	// •`‰æ—pƒƒbƒZ[ƒW‚Æ‚µ‚Ä CDialog::OnPaint() ‚ğŒÄ‚Ño‚µ‚Ä‚Í‚¢‚¯‚Ü‚¹‚ñ
+	// æç”»ç”¨ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¨ã—ã¦ CDialog::OnPaint() ã‚’å‘¼ã³å‡ºã—ã¦ã¯ã„ã‘ã¾ã›ã‚“
 }
 
 void shapesDlg::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	for (int i = 0; i < 20; i++) {
 		if (m_bounds[i].PtInRect(point)) {
 			m_indexIncat = i;
@@ -297,7 +297,7 @@ void shapesDlg::OnLButtonDown(UINT nFlags, CPoint point)
 
 void shapesDlg::OnLButtonDblClk(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	for (int i = 0; i < 20; i++) {
 		if (m_bounds[i].PtInRect(point)) {
 			m_indexIncat = i;
@@ -310,7 +310,7 @@ void shapesDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 void shapesDlg::OnBtnL() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_indexIncat > 0) {
 		m_indexIncat--;
 		m_oldRect = m_selRect;
@@ -330,7 +330,7 @@ void shapesDlg::OnBtnL()
 
 void shapesDlg::OnBtnR() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_indexIncat < 19) {
 		m_indexIncat++;
 		m_oldRect = m_selRect;
@@ -350,7 +350,7 @@ void shapesDlg::OnBtnR()
 
 void shapesDlg::OnBtnLl() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = m_catListBox.GetCurSel();
 	if (index > 0) {
 		m_catListBox.SetCurSel(index-1);
@@ -360,7 +360,7 @@ void shapesDlg::OnBtnLl()
 
 void shapesDlg::OnBtnRr() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = m_catListBox.GetCurSel();
 	if (index < 9) {
 		m_catListBox.SetCurSel(index+1);
@@ -370,8 +370,8 @@ void shapesDlg::OnBtnRr()
 
 void shapesDlg::OnSaveShapeFile() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
-	WCHAR szFilters[] = _T("ƒVƒFƒCƒvƒtƒ@ƒCƒ‹ (*.ies)|*.ies||");
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
+	WCHAR szFilters[] = _T("ã‚·ã‚§ã‚¤ãƒ—ãƒ•ã‚¡ã‚¤ãƒ« (*.ies)|*.ies||");
 	CFileDialog dlg(FALSE, _T("ies"), _T("shapes.ies"), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
@@ -383,15 +383,15 @@ void shapesDlg::OnSaveShapeFile()
 
 void shapesDlg::OnOpenShapeFile() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString infile;
-	WCHAR szFilters[] = _T("ƒVƒFƒCƒvƒtƒ@ƒCƒ‹ (*.ies)|*.ies||");
+	WCHAR szFilters[] = _T("ã‚·ã‚§ã‚¤ãƒ—ãƒ•ã‚¡ã‚¤ãƒ« (*.ies)|*.ies||");
 	CFileDialog dlg(TRUE, _T("ies"), infile, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
 	CFile f;
 	if (!f.Open(infileName, CFile::modeRead)) {
-		AfxMessageBox(_T("w’è‚³‚ê‚½ƒVƒFƒCƒvƒtƒ@ƒCƒ‹‘¶İ‚µ‚Ü‚¹‚ñ"));
+		AfxMessageBox(_T("æŒ‡å®šã•ã‚ŒãŸã‚·ã‚§ã‚¤ãƒ—ãƒ•ã‚¡ã‚¤ãƒ«å­˜åœ¨ã—ã¾ã›ã‚“"));
 		return;
 	}
 	f.Close();
@@ -414,20 +414,20 @@ void shapesDlg::OnOpenShapeFile()
 
 void shapesDlg::OnBtnget() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	getFromView();
 }
 
 void shapesDlg::OnRegistNodeshape() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	getFromView();
 }
 
 void shapesDlg::getFromView()
 {
 	if (m_selRect == CRect(0, 0, 0, 0)) {
-		AfxMessageBox(_T("ƒVƒFƒCƒv‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢"));
+		AfxMessageBox(_T("ã‚·ã‚§ã‚¤ãƒ—ã‚’é¸æŠã—ã¦ãã ã•ã„"));
 		return;
 	}
 	m_pParent->PostMessage(WM_GETSHAPE, 0);
@@ -438,7 +438,7 @@ void shapesDlg::regNodeShape(HENHMETAFILE hMF)
 	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] != NULL) {
-		if (MessageBox(_T("‘I‘ğ‚³‚ê‚½ƒVƒFƒCƒv‚ğ·‚µ‘Ö‚¦‚Ü‚·"), _T("ƒVƒFƒCƒv‚Ì·‚µ‘Ö‚¦"), MB_YESNO) != IDYES) return;
+		if (MessageBox(_T("é¸æŠã•ã‚ŒãŸã‚·ã‚§ã‚¤ãƒ—ã‚’å·®ã—æ›¿ãˆã¾ã™"), _T("ã‚·ã‚§ã‚¤ãƒ—ã®å·®ã—æ›¿ãˆ"), MB_YESNO) != IDYES) return;
 	}
 	
 	pApp->m_hMetaFiles[index] = hMF;
@@ -450,7 +450,7 @@ void shapesDlg::regNodeShape(HENHMETAFILE hMF)
 
 void shapesDlg::OnPasteFromClpbrd() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		 ::IsClipboardFormatAvailable(CF_METAFILEPICT) ||
 		 ::IsClipboardFormatAvailable(CF_DIB) ) {
@@ -462,7 +462,7 @@ void shapesDlg::OnPasteFromClpbrd()
 		int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 		CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 		if (pApp->m_hMetaFiles[index] != NULL) {
-			if (MessageBox(_T("‘I‘ğ‚³‚ê‚½ƒVƒFƒCƒv‚ğ·‚µ‘Ö‚¦‚Ü‚·"), _T("ƒVƒFƒCƒv‚Ì·‚µ‘Ö‚¦"), MB_YESNO) != IDYES) return;
+			if (MessageBox(_T("é¸æŠã•ã‚ŒãŸã‚·ã‚§ã‚¤ãƒ—ã‚’å·®ã—æ›¿ãˆã¾ã™"), _T("ã‚·ã‚§ã‚¤ãƒ—ã®å·®ã—æ›¿ãˆ"), MB_YESNO) != IDYES) return;
 		}
 		HENHMETAFILE hm = (HENHMETAFILE)GetClipboardData(CF_ENHMETAFILE);
 		CloseClipboard();
@@ -475,7 +475,7 @@ void shapesDlg::OnPasteFromClpbrd()
 
 void shapesDlg::OnUpdatePasteFromClpbrd(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -485,8 +485,8 @@ void shapesDlg::decideShapef()
 	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
 	if (mfname != _T("")) return;
 	
-	AfxMessageBox(_T("ƒVƒFƒCƒv‚ğ•Û‘¶‚·‚éƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢"));
-	WCHAR szFilters[] = _T("ƒVƒFƒCƒvƒtƒ@ƒCƒ‹ (*.ies)|*.ies||");
+	AfxMessageBox(_T("ã‚·ã‚§ã‚¤ãƒ—ã‚’ä¿å­˜ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ‡å®šã—ã¦ãã ã•ã„"));
+	WCHAR szFilters[] = _T("ã‚·ã‚§ã‚¤ãƒ—ãƒ•ã‚¡ã‚¤ãƒ« (*.ies)|*.ies||");
 	CFileDialog dlg(FALSE, _T("ies"), _T("shapes1"), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
@@ -499,11 +499,11 @@ void shapesDlg::OnDestroy()
 {
 	CDialog::OnDestroy();
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
 	if (mfname != _T("") && pApp->m_bShapeModified) {
-		if (MessageBox(_T("ƒVƒFƒCƒvƒtƒ@ƒCƒ‹‚Ì•ÏX‚ğ•Û‘¶‚µ‚Ü‚·‚©"), _T("ƒVƒFƒCƒvƒtƒ@ƒCƒ‹‚Ì•Û‘¶"), MB_YESNO) == IDYES) {
+		if (MessageBox(_T("ã‚·ã‚§ã‚¤ãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã®å¤‰æ›´ã‚’ä¿å­˜ã—ã¾ã™ã‹"), _T("ã‚·ã‚§ã‚¤ãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¿å­˜"), MB_YESNO) == IDYES) {
 			pApp->m_bShapeModified = false;
 			pApp->saveMetaFiles(mfname);
 		}

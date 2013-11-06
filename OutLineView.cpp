@@ -1,4 +1,4 @@
-// OutLineView.cpp : OutlineView ƒNƒ‰ƒX‚Ì“®ì‚Ì’è‹`‚ğs‚¢‚Ü‚·B
+ï»¿// OutLineView.cpp : OutlineView ã‚¯ãƒ©ã‚¹ã®å‹•ä½œã®å®šç¾©ã‚’è¡Œã„ã¾ã™ã€‚
 //
 
 #include "stdafx.h"
@@ -31,7 +31,7 @@ static char THIS_FILE[] = __FILE__;
 
 #define REGS_FRAME _T("Frame Options")
 
-// ŠÖ”ƒIƒuƒWƒFƒNƒg‚¨‚µ ŠÖ”ƒ|ƒCƒ“ƒ^”Å
+// é–¢æ•°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŠè©¦ã— é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ç‰ˆ
 int labelMessage(CTreeCtrl& tree, HTREEITEM item) {
 	CString s = tree.GetItemText(item);
 	AfxMessageBox(s);
@@ -42,7 +42,7 @@ typedef pointer_to_binary_function<CTreeCtrl&, HTREEITEM, int> OnNode;
 OnNode test(labelMessage);
 
 
-// ŠÖ”ƒIƒuƒWƒFƒNƒg‚¨‚µ binary_function ”Å
+// é–¢æ•°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŠè©¦ã— binary_function ç‰ˆ
 struct treeTest : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	int operator() (const CTreeCtrl& tree, HTREEITEM item) const {
 		CString s = tree.GetItemText(item);
@@ -51,7 +51,7 @@ struct treeTest : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	}
 };
 
-// vector ‚Éƒ‰ƒxƒ‹‚ÆƒL[‚ğ‹l‚ß‚ŞŠÖ”ƒIƒuƒWƒFƒNƒg
+// vector ã«ãƒ©ãƒ™ãƒ«ã¨ã‚­ãƒ¼ã‚’è©°ã‚è¾¼ã‚€é–¢æ•°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 struct copyLabels : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	Labels& ls_;
 	copyLabels(Labels& ls) : ls_(ls) {}
@@ -70,7 +70,7 @@ struct copyLabels : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	}
 };
 
-// KeySet‚ÉƒL[‚ğ‹l‚ß‚ŞŠÖ”ƒIƒuƒWƒFƒNƒg
+// KeySetã«ã‚­ãƒ¼ã‚’è©°ã‚è¾¼ã‚€é–¢æ•°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 struct copyKeys : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	KeySet& ks_;
 	copyKeys(KeySet& ks) : ks_(ks) {}
@@ -82,7 +82,7 @@ struct copyKeys : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	}
 };
 
-// vector ‚ÉƒL[‚ğ‹l‚ß‚ŞŠÖ”ƒIƒuƒWƒFƒNƒg
+// vector ã«ã‚­ãƒ¼ã‚’è©°ã‚è¾¼ã‚€é–¢æ•°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 struct copyKeyVec : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	serialVec& svec_;
 	copyKeyVec(serialVec& svec) : svec_(svec) {}
@@ -95,7 +95,7 @@ struct copyKeyVec : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 
 
 ////////////////////////////////////////////////////////////
-//     tree „‰ñƒAƒ‹ƒSƒŠƒYƒ€ treeview_for_each            //
+//     tree å·¡å›ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ  treeview_for_each            //
 ////////////////////////////////////////////////////////////
 template<class BinaryFunction>
 BinaryFunction treeview_for_each(CTreeCtrl& tree, BinaryFunction function, HTREEITEM item=0)
@@ -133,7 +133,7 @@ BinaryFunction treeview_for_each2(CTreeCtrl& tree, BinaryFunction function, HTRE
 
 
 ////////////////////////////////////////////////////////////
-//        tree ŒŸõƒAƒ‹ƒSƒŠƒYƒ€ treeview_find             //
+//        tree æ¤œç´¢ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ  treeview_find             //
 ////////////////////////////////////////////////////////////
 template<class Predicate>
 HTREEITEM treeview_find(CTreeCtrl& tree, Predicate pred, HTREEITEM item=0)
@@ -158,7 +158,7 @@ HTREEITEM treeview_find(CTreeCtrl& tree, Predicate pred, HTREEITEM item=0)
 	return NULL;
 }
 
-// ƒtƒHƒ‹ƒ_‘I‘ğƒ_ƒCƒAƒƒO—pƒR[ƒ‹ƒoƒbƒNƒvƒƒV[ƒWƒƒ
+// ãƒ•ã‚©ãƒ«ãƒ€é¸æŠãƒ€ã‚¤ã‚¢ãƒ­ã‚°ç”¨ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
 static int _stdcall FolderDlgCallBackProc( 
 	HWND hWnd, UINT uiMsg, LPARAM lParam, LPARAM lpData)
 {
@@ -245,7 +245,7 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_COMMAND(ID_COPY_TREE_TO_CLIPBOARD, OnCopyTreeToClipboard)
 	ON_UPDATE_COMMAND_UI(ID_COPY_TREE_TO_CLIPBOARD, OnUpdateCopyTreeToClipboard)
 	//}}AFX_MSG_MAP
-	// •W€ˆóüƒRƒ}ƒ“ƒh
+	// æ¨™æº–å°åˆ·ã‚³ãƒãƒ³ãƒ‰
 //	ON_COMMAND(ID_FILE_PRINT, CTreeView::OnFilePrint)
 //	ON_COMMAND(ID_FILE_PRINT_DIRECT, CTreeView::OnFilePrint)
 //	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CTreeView::OnFilePrintPreview)
@@ -287,11 +287,11 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// OutlineView ƒNƒ‰ƒX‚Ì\’z/Á–Å
+// OutlineView ã‚¯ãƒ©ã‚¹ã®æ§‹ç¯‰/æ¶ˆæ»…
 
 OutlineView::OutlineView()
 {
-	// TODO: ‚±‚ÌêŠ‚É\’z—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã®å ´æ‰€ã«æ§‹ç¯‰ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 	m_bHitR = false;
 	m_bAdding = false;
 	m_bLabelEditting = false;
@@ -320,20 +320,20 @@ OutlineView::~OutlineView()
 
 BOOL OutlineView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: ‚±‚ÌˆÊ’u‚Å CREATESTRUCT cs ‚ğC³‚µ‚Ä Window ƒNƒ‰ƒX‚Ü‚½‚ÍƒXƒ^ƒCƒ‹‚ğ
-	//  C³‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã®ä½ç½®ã§ CREATESTRUCT cs ã‚’ä¿®æ­£ã—ã¦ Window ã‚¯ãƒ©ã‚¹ã¾ãŸã¯ã‚¹ã‚¿ã‚¤ãƒ«ã‚’
+	//  ä¿®æ­£ã—ã¦ãã ã•ã„ã€‚
 	cs.style |= TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS | TVS_EDITLABELS/* | TVS_DISABLEDRAGDROP*/;
 	return CTreeView::PreCreateWindow(cs);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// OutlineView ƒNƒ‰ƒX‚Ì•`‰æ
+// OutlineView ã‚¯ãƒ©ã‚¹ã®æç”»
 
 void OutlineView::OnDraw(CDC* pDC)
 {
 	iEditDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	// TODO: ‚±‚ÌêŠ‚ÉƒlƒCƒeƒBƒu ƒf[ƒ^—p‚Ì•`‰æƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã®å ´æ‰€ã«ãƒã‚¤ãƒ†ã‚£ãƒ– ãƒ‡ãƒ¼ã‚¿ç”¨ã®æç”»ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	
 }
 
@@ -341,17 +341,17 @@ void OutlineView::OnInitialUpdate()
 {
 	CTreeView::OnInitialUpdate();
 	
-	// TODO:  GetTreeCtrl() ƒƒ“ƒoŠÖ”‚ÌŒÄ‚Ño‚µ‚ğ’Ê‚µ‚Ä’¼Ú‚»‚ÌƒŠƒXƒg ƒRƒ“ƒgƒ[ƒ‹‚É
-	//  ƒAƒNƒZƒX‚·‚é‚±‚Æ‚É‚æ‚Á‚Ä TreeView ‚ğƒAƒCƒeƒ€‚ÅŒÅ’è‚Å‚«‚Ü‚·B
+	// TODO:  GetTreeCtrl() ãƒ¡ãƒ³ãƒé–¢æ•°ã®å‘¼ã³å‡ºã—ã‚’é€šã—ã¦ç›´æ¥ãã®ãƒªã‚¹ãƒˆ ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã«
+	//  ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦ TreeView ã‚’ã‚¢ã‚¤ãƒ†ãƒ ã§å›ºå®šã§ãã¾ã™ã€‚
 	if (GetDocument()->isOldBinary() || GetDocument()->getSerialVersion() <= 1) {
 		treeConstruct();
 	} else {
 		treeConstruct2();
 	}
 	
-	doColorSetting(); // ”wŒiF‚â•¶šF‚Ìİ’è
+	doColorSetting(); // èƒŒæ™¯è‰²ã‚„æ–‡å­—è‰²ã®è¨­å®š
 	
-	// SubBranch•\¦ó‘Ô‚ÌƒŠƒXƒgƒA
+	// SubBranchè¡¨ç¤ºçŠ¶æ…‹ã®ãƒªã‚¹ãƒˆã‚¢
 	if (GetDocument()->isShowSubBranch()) {
 		int branchMode = GetDocument()->getInitialBranchMode();
 		m_hItemShowRoot = findKeyItem(GetDocument()->getBranchRootKey(), tree().GetRootItem());
@@ -373,26 +373,26 @@ void OutlineView::OnInitialUpdate()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// OutlineView ƒNƒ‰ƒX‚Ìˆóü
+// OutlineView ã‚¯ãƒ©ã‚¹ã®å°åˆ·
 
 BOOL OutlineView::OnPreparePrinting(CPrintInfo* pInfo)
 {
-	// ƒfƒtƒHƒ‹ƒg‚Ìˆóü€”õ
+	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å°åˆ·æº–å‚™
 	return DoPreparePrinting(pInfo);
 }
 
 void OutlineView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-	// TODO: ˆóü‘O‚Ì“Á•Ê‚È‰Šú‰»ˆ—‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: å°åˆ·å‰ã®ç‰¹åˆ¥ãªåˆæœŸåŒ–å‡¦ç†ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 }
 
 void OutlineView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-	// TODO: ˆóüŒã‚ÌŒãˆ—‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: å°åˆ·å¾Œã®å¾Œå‡¦ç†ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// OutlineView ƒNƒ‰ƒX‚Ìf’f
+// OutlineView ã‚¯ãƒ©ã‚¹ã®è¨ºæ–­
 
 #ifdef _DEBUG
 void OutlineView::AssertValid() const
@@ -405,7 +405,7 @@ void OutlineView::Dump(CDumpContext& dc) const
 	CTreeView::Dump(dc);
 }
 
-iEditDoc* OutlineView::GetDocument() // ”ñƒfƒoƒbƒO ƒo[ƒWƒ‡ƒ“‚ÍƒCƒ“ƒ‰ƒCƒ“‚Å‚·B
+iEditDoc* OutlineView::GetDocument() // éãƒ‡ãƒãƒƒã‚° ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã¯ã‚¤ãƒ³ãƒ©ã‚¤ãƒ³ã§ã™ã€‚
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(iEditDoc)));
 	return (iEditDoc*)m_pDocument;
@@ -413,14 +413,14 @@ iEditDoc* OutlineView::GetDocument() // ”ñƒfƒoƒbƒO ƒo[ƒWƒ‡ƒ“‚ÍƒCƒ“ƒ‰ƒCƒ“‚Å‚·B
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// OutlineView ƒNƒ‰ƒX‚ÌƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// OutlineView ã‚¯ãƒ©ã‚¹ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 int OutlineView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
 	if (CTreeView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìì¬—pƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®ä½œæˆç”¨ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_imgList.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, 1);
 	CBitmap images;
 	images.LoadBitmap(IDB_TREE);
@@ -475,9 +475,9 @@ void OutlineView::treeConstruct2()
 	tree().SetItemData(hRoot, ls[0].key);
 	tree().SetItemState(hRoot, ls[0].state, TVIS_EXPANDED);
 //	tree().SetItemImage(hRoot, ls[0].treeIconId, ls[0].treeIconId);
-	/* Root‚ÌƒCƒ[ƒW‚ğƒVƒŠƒAƒ‹‰»‚ÅÄŒ»‚·‚é‚Æƒlƒbƒgƒ[ƒNƒrƒ…[‚É
-	   ‰½‚à•\¦‚³‚ê‚È‚¢‚Ì‚ÅA¡‚ÍƒRƒƒ“ƒgƒAƒEƒg
-	   TODO:Œ´ˆö’Ç‹y
+	/* Rootã®ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ã‚·ãƒªã‚¢ãƒ«åŒ–ã§å†ç¾ã™ã‚‹ã¨ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒ“ãƒ¥ãƒ¼ã«
+	   ä½•ã‚‚è¡¨ç¤ºã•ã‚Œãªã„ã®ã§ã€ä»Šã¯ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ
+	   TODO:åŸå› è¿½åŠ
 	 */
 	
 	DWORD preKey = 0;
@@ -501,7 +501,7 @@ void OutlineView::treeConstruct2()
 				hNew = tree().InsertItem(ls[i].name, 0, 0, hItParent);
 				hParent = hItParent;
 			} else {
-				AfxMessageBox(_T("ƒL[‚ªˆê’v‚µ‚Ü‚¹‚ña"));
+				AfxMessageBox(_T("ã‚­ãƒ¼ãŒä¸€è‡´ã—ã¾ã›ã‚“a"));
 			}
 			preKey = ls[i].parent;
 		} else if (prevLevel < ls[i].level) {
@@ -509,7 +509,7 @@ void OutlineView::treeConstruct2()
 				hNew = tree().InsertItem(ls[i].name, 0, 0, hPrevNew);
 				hParent = hPrevNew;
 			} else {
-				AfxMessageBox(_T("ƒL[‚ªˆê’v‚µ‚Ü‚¹‚ñb"));
+				AfxMessageBox(_T("ã‚­ãƒ¼ãŒä¸€è‡´ã—ã¾ã›ã‚“b"));
 			}
 		} else {
 			hNew = tree().InsertItem(ls[i].name, 0, 0, hParent, hPrevNew);
@@ -538,8 +538,8 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 	ASSERT(loop >= 0);
 	COnProcDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
-	prcdlg.m_ProcName.SetWindowText(_T("“o˜^’†"));
-	prcdlg.m_ProgProc.SetStep(1);              // ƒvƒƒOƒŒƒXƒo[‚Ì‰Šúİ’è
+	prcdlg.m_ProcName.SetWindowText(_T("ç™»éŒ²ä¸­"));
+	prcdlg.m_ProgProc.SetStep(1);              // ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼ã®åˆæœŸè¨­å®š
 	prcdlg.m_ProgProc.SetRange(0, loop);
 	
 	HTREEITEM hRoot = findKeyItem(rootKey, tree().GetRootItem());
@@ -558,7 +558,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 		HTREEITEM hnew = tree().InsertItem(ls[i].name, 0, 0, hPreParent);
 		tree().SetItemData(hnew, ls[i].key);
 	//	tree().SetItemState(hnew, TVIS_EXPANDED, TVIS_EXPANDED);
-		prcdlg.m_ProgProc.StepIt();  // ƒvƒƒOƒŒƒXƒo[‚ğXV
+		prcdlg.m_ProgProc.StepIt();  // ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼ã‚’æ›´æ–°
 	}
 	tree().SelectItem(hsel);
 	tree().Expand(hsel, TVIS_EXPANDED);
@@ -584,8 +584,8 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 	
 	COnProcDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
-	prcdlg.m_ProcName.SetWindowText(_T("“o˜^’†"));
-	prcdlg.m_ProgProc.SetStep(1);              // ƒvƒƒOƒŒƒXƒo[‚Ì‰Šúİ’è
+	prcdlg.m_ProcName.SetWindowText(_T("ç™»éŒ²ä¸­"));
+	prcdlg.m_ProgProc.SetStep(1);              // ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼ã®åˆæœŸè¨­å®š
 	prcdlg.m_ProgProc.SetRange(0, loop);
 	
 	DWORD preKey = rootKey;
@@ -619,7 +619,7 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 		tree().SetItemData(hNew, addNodes[i].getKey());
 		tree().SetItemImage(hNew, 0, 0);
 		
-		prcdlg.m_ProgProc.StepIt();  // ƒvƒƒOƒŒƒXƒo[‚ğXV
+		prcdlg.m_ProgProc.StepIt();  // ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼ã‚’æ›´æ–°
 	}
 	
 	tree().SelectItem(hSel);
@@ -652,7 +652,7 @@ HTREEITEM OutlineView::findKeyItem(DWORD key, HTREEITEM item=NULL)
 
 void OutlineView::OnContextMenu(CWnd* pWnd, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
 	CMenu menu;
@@ -683,7 +683,7 @@ void OutlineView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void OutlineView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
 
@@ -708,10 +708,10 @@ void OutlineView::OnRButtonDown(UINT nFlags, CPoint point)
 }
 
 ///////////////////////////
-// qƒm[ƒh’Ç‰Á
+// å­ãƒãƒ¼ãƒ‰è¿½åŠ 
 void OutlineView::OnAddChild() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bAdding) return;
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
@@ -720,7 +720,7 @@ void OutlineView::OnAddChild()
 	m_bAddingChild = true;
 	GetDocument()->disableUndo();
 	clearUndo();
-	HTREEITEM newItem = tree().InsertItem(_T("V‚µ‚¢ƒm[ƒh"), 0, 0, curItem());
+	HTREEITEM newItem = tree().InsertItem(_T("æ–°ã—ã„ãƒãƒ¼ãƒ‰"), 0, 0, curItem());
 	m_HNew = newItem;
 	tree().Expand(curItem(), TVE_EXPAND);
 	tree().SelectItem(newItem);
@@ -729,13 +729,13 @@ void OutlineView::OnAddChild()
 
 void OutlineView::OnUpdateAddChild(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bAdding);
 }
 
 void OutlineView::OnAddSibling() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bAdding) return;
 	
 	CEdit* pEdit = tree().GetEditControl();
@@ -758,14 +758,14 @@ void OutlineView::OnAddSibling()
 
 void OutlineView::OnUpdateAddSibling(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(curItem() != tree().GetRootItem());
 }
 
 void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int style = GetDocument()->getSelectedNodeTextStyle();
 	bool multiline = GetDocument()->isSelectedNodeMultiLine();
 	CString label = GetDocument()->getSelectedNodeLabel();
@@ -785,20 +785,20 @@ void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_bLabelEditting = false;
 	CString editString = pTVDispInfo->item.pszText;
 	
 	iEditDoc* pDoc = GetDocument();
 	if (!m_bAdding) {
-		// ƒ‰ƒxƒ‹‚ª•ÒW‚³‚ê‚½ê‡
+		// ãƒ©ãƒ™ãƒ«ãŒç·¨é›†ã•ã‚ŒãŸå ´åˆ
 		if (editString != _T("")) {
 			pTVDispInfo->item.mask = TVIF_TEXT;
 			tree().SetItem(&pTVDispInfo->item);
 			pDoc->setKeyNodeName(tree().GetItemData(curItem()), tree().GetItemText(pTVDispInfo->item.hItem));
 		}
 	} else {
-		// ƒ‰ƒxƒ‹‚ª’Ç‰Á‚³‚ê‚½ê‡
+		// ãƒ©ãƒ™ãƒ«ãŒè¿½åŠ ã•ã‚ŒãŸå ´åˆ
 		if (editString.GetLength() > 256) {
 			lstrcpy(pTVDispInfo->item.pszText, editString.Left(255));
 		}
@@ -811,7 +811,7 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 		label l;
 		l.name = tree().GetItemText(pTVDispInfo->item.hItem);
 		l.key = pDoc->getUniqKey();
-	//	tree().SetItemData(tree().GetSelectedItem(), l.key); // ƒoƒO‚Ì‰·° curItem() != NewItem‚Ìê‡‚ª‚ ‚é
+	//	tree().SetItemData(tree().GetSelectedItem(), l.key); // ãƒã‚°ã®æ¸©åºŠ curItem() != NewItemã®å ´åˆãŒã‚ã‚‹
 		tree().SetItemData(m_HNew, l.key);
 		l.parent = tree().GetItemData(tree().GetParentItem(m_HNew));
 		
@@ -836,7 +836,7 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 			pDoc->selChanged(tree().GetItemData(curItem()));
 		} else {
 			if (isPosterityOF(m_hItemShowRoot, curItem())) {
-				// showBranchƒ‚[ƒh‚ÌiEditDocƒƒ\ƒbƒh‚ğŒÄ‚Ô
+				// showBranchãƒ¢ãƒ¼ãƒ‰ã®iEditDocãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶
 				pDoc->selChanged(tree().GetItemData(curItem()), m_bNodeSel, true);
 			}
 		}
@@ -849,10 +849,10 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 void OutlineView::treeToSequence(Labels &ls)
 {
 	if (m_opTreeOut == 0) {
-		setAllNodeLevels(); // level İ’è
+		setAllNodeLevels(); // level è¨­å®š
 		treeview_for_each(tree(), copyLabels(ls), tree().GetRootItem());
 	} else if (m_opTreeOut == 1) {
-		setSubNodeLevels(); // level İ’è
+		setSubNodeLevels(); // level è¨­å®š
 		label l;
 		l.key = tree().GetItemData(tree().GetSelectedItem());
 		if (tree().GetSelectedItem() != tree().GetRootItem()) {
@@ -865,7 +865,7 @@ void OutlineView::treeToSequence(Labels &ls)
 			treeview_for_each(tree(), copyLabels(ls), tree().GetChildItem(tree().GetSelectedItem()));
 		}
 	} else if (m_opTreeOut == 2) {
-		setSubNodeLevels(); // level İ’è
+		setSubNodeLevels(); // level è¨­å®š
 		label l;
 		l.key = tree().GetItemData(tree().GetSelectedItem());
 		if (tree().GetSelectedItem() != tree().GetRootItem()) {
@@ -913,19 +913,19 @@ serialVec OutlineView::getDrawOrder(const bool bShowSubBranch) const
 
 void OutlineView::OnEditLabel() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	tree().EditLabel(curItem());
 }
 
 void OutlineView::OnUpdateEditLabel(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void OutlineView::OnLebelUp() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bAdding) return;
 	HTREEITEM hParent = tree().GetParentItem(curItem());
 	HTREEITEM hGrdParent = tree().GetParentItem(hParent);
@@ -953,13 +953,13 @@ void OutlineView::OnLebelUp()
 
 void OutlineView::OnUpdateLebelUp(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(curItem() != tree().GetRootItem() && tree().GetParentItem(curItem()) != tree().GetRootItem());
 }
 
 void OutlineView::OnLebelDown() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bAdding) return;
 	HTREEITEM hcur = curItem();
 	
@@ -977,7 +977,7 @@ void OutlineView::OnLebelDown()
 	if (tree().ItemHasChildren(hcur)) {
 		copySubNodes(tree().GetChildItem(hcur), hNew);
 	}
-	tree().SelectItem(hNew); // æ‚É‘I‘ğó‘Ô‚É‚·‚é‚±‚Æ‚ÅAeƒm[ƒh‘I‘ğ‚ğ–h‚®
+	tree().SelectItem(hNew); // å…ˆã«é¸æŠçŠ¶æ…‹ã«ã™ã‚‹ã“ã¨ã§ã€è¦ªãƒãƒ¼ãƒ‰é¸æŠã‚’é˜²ã
 	tree().DeleteItem(hcur);
 	GetDocument()->disableUndo();
 	m_hItemMoved = hNew; // Undo Info
@@ -986,13 +986,13 @@ void OutlineView::OnLebelDown()
 
 void OutlineView::OnUpdateLebelDown(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(curItem() != tree().GetRootItem() && tree().GetPrevSiblingItem(curItem()) != NULL);
 }
 
 void OutlineView::OnOrderUp() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bAdding) return;
 	HTREEITEM hcur = curItem();
 	HTREEITEM hpre = tree().GetPrevSiblingItem(curItem());
@@ -1025,13 +1025,13 @@ void OutlineView::OnOrderUp()
 
 void OutlineView::OnUpdateOrderUp(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(tree().GetPrevSiblingItem(curItem()) != NULL);
 }
 
 void OutlineView::OnOrderDown() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bAdding) return;
 	HTREEITEM hcur = curItem();
 	
@@ -1056,7 +1056,7 @@ void OutlineView::OnOrderDown()
 
 void OutlineView::OnUpdateOrderDown(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(tree().GetNextSiblingItem(curItem()) != NULL);
 }
 
@@ -1080,7 +1080,7 @@ void OutlineView::copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent)
 
 void OutlineView::OnDelete() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->disableUndo();
 	clearUndo();
 	deleteNode();
@@ -1088,7 +1088,7 @@ void OutlineView::OnDelete()
 
 void OutlineView::OnUpdateDelete(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(curItem() != tree().GetRootItem() && !m_bLabelEditting ||
 		           m_bLabelEditting);
 }
@@ -1099,7 +1099,7 @@ void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 	if (pEdit != NULL) return;
 
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bShowBranch = false;
 	int branchMode = getBranchMode();
 	
@@ -1127,7 +1127,7 @@ void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 
 void OutlineView::OnEditUndo() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Undo();
 		return;
@@ -1163,14 +1163,14 @@ void OutlineView::OnEditUndo()
 
 void OutlineView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_bLabelEditting || m_hItemMoved != NULL || GetDocument()->canResumeUndo());
 
 }
 
 void OutlineView::OnEditCut() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Cut();
 	}
@@ -1178,13 +1178,13 @@ void OutlineView::OnEditCut()
 
 void OutlineView::OnUpdateEditCut(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void OutlineView::OnEditCopy() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Copy();
 	} else {
@@ -1194,13 +1194,13 @@ void OutlineView::OnEditCopy()
 
 void OutlineView::OnUpdateEditCopy(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void OutlineView::OnEditPaste() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Paste();
 	} else {
@@ -1211,7 +1211,7 @@ void OutlineView::OnEditPaste()
 
 void OutlineView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (!m_bLabelEditting) {
 		pCmdUI->Enable(GetDocument()->canCopyNode());
 	}
@@ -1219,7 +1219,7 @@ void OutlineView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (pHint == NULL) return;
 	m_bNodeSel = true;
 	
@@ -1309,7 +1309,7 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 
 void OutlineView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	int branchMode = getBranchMode();
 	if (bActivate) {
 		GetDocument()->selChanged(tree().GetItemData(curItem()), true, branchMode != 0);
@@ -1320,19 +1320,19 @@ void OutlineView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pD
 
 void OutlineView::OnAddLink() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_bAddingLink = !m_bAddingLink;
 }
 
 void OutlineView::OnUpdateAddLink(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->SetCheck(m_bAddingLink);
 }
 
 BOOL OutlineView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (m_bItemDragging) {
 		::SetCursor(m_hCsrMove);
 		return TRUE;
@@ -1346,7 +1346,7 @@ BOOL OutlineView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 void OutlineView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
 	TV_HITTESTINFO hitTestInfo;
@@ -1363,7 +1363,7 @@ void OutlineView::OnLButtonDown(UINT nFlags, CPoint point)
 		dlg.strTo = tree().GetItemText(hitTestInfo.hItem);
 		dlg.styleArrow = 0;
 		if (dlg.DoModal() == IDOK) {
-			// iEditDoc‚ÌƒŠƒ“ƒN’Ç‰Áˆ—
+			// iEditDocã®ãƒªãƒ³ã‚¯è¿½åŠ å‡¦ç†
 			GetDocument()->setNewLinkInfo(tree().GetItemData(curItem()), tree().GetItemData(hitTestInfo.hItem),
 				                          dlg.strComment, dlg.styleArrow);
 		}
@@ -1383,8 +1383,8 @@ void OutlineView::deleteNode()
 		return;
 	}
 	HTREEITEM hcur = curItem();
-	CString m = "<" + tree().GetItemText(hcur) + _T(">") + '\n' + _T("íœ‚µ‚Ü‚·‚©H");
-	if (MessageBox(m, _T("ƒm[ƒh‚Ìíœ"), MB_YESNO) != IDYES) return;
+	CString m = "<" + tree().GetItemText(hcur) + _T(">") + '\n' + _T("å‰Šé™¤ã—ã¾ã™ã‹ï¼Ÿ");
+	if (MessageBox(m, _T("ãƒãƒ¼ãƒ‰ã®å‰Šé™¤"), MB_YESNO) != IDYES) return;
 	GetDocument()->backupDeleteBound();
 	if (tree().GetNextSiblingItem(curItem()) == NULL) {
 		if (tree().GetPrevSiblingItem(curItem()) != NULL) {
@@ -1427,7 +1427,7 @@ void OutlineView::deleteKeyNode(DWORD key, DWORD parentKey)
 
 void OutlineView::OnAddUrl() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	LinkInfo2Dlg dlg;
 	dlg.strOrg = tree().GetItemText(curItem());
 	if (dlg.DoModal() != IDOK) return;
@@ -1451,31 +1451,31 @@ void OutlineView::OnAddUrl()
 
 void OutlineView::OnUpdateAddUrl(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void OutlineView::OnSelectChild() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	tree().SelectItem(tree().GetChildItem(curItem()));
 }
 
 void OutlineView::OnUpdateSelectChild(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
 void OutlineView::OnSelectParent() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	tree().SelectItem(tree().GetParentItem(curItem()));
 }
 
 void OutlineView::OnUpdateSelectParent(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(curItem() != tree().GetRootItem());
 }
 
@@ -1507,20 +1507,20 @@ void OutlineView::setViewFont()
 
 void OutlineView::OnSortChildren() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	tree().SortChildren(curItem());
 }
 
 void OutlineView::OnUpdateSortChildren(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
 void OutlineView::OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_bItemDragging = true;
 	
 	CPoint		ptAction;
@@ -1541,7 +1541,7 @@ void OutlineView::OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult)
 
 void OutlineView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (m_bItemDragging) {
 		tree().SelectDropTarget(NULL);
 		if (m_nDropStatus == OutlineView::drop_child) {
@@ -1565,9 +1565,9 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 			//	tree().DeleteItem(m_hitemDrag);
 				GetDocument()->disableUndo();
 				m_hItemMoved = hNew; // Undo Info
-				tree().SelectItem(hNew);         // ‚±‚±‚Å1“x‘I‘ğ‚µ‚Ä‚¨‚©‚È‚¢‚Æ
-				tree().DeleteItem(m_hitemDrag);  // ˆê”Ô‰º’[‚É‚ ‚éƒm[ƒh‚ğÁ‚µ‚½‚ÉF6ó‘Ô‚­‚¸‚ê‚é
-				tree().SelectItem(hNew);         // Ä“x‘I‘ğ
+				tree().SelectItem(hNew);         // ã“ã“ã§1åº¦é¸æŠã—ã¦ãŠã‹ãªã„ã¨
+				tree().DeleteItem(m_hitemDrag);  // ä¸€ç•ªä¸‹ç«¯ã«ã‚ã‚‹ãƒãƒ¼ãƒ‰ã‚’æ¶ˆã—ãŸæ™‚ã«F6çŠ¶æ…‹ããšã‚Œã‚‹
+				tree().SelectItem(hNew);         // å†åº¦é¸æŠ
 			} else {
 				tree().SelectItem(m_hitemDrag);
 			}
@@ -1581,9 +1581,9 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 				
 				if (tree().ItemHasChildren(m_hitemDrop) && 
 					(TVIS_EXPANDED & tree().GetItemState(m_hitemDrop, TVIS_EXPANDED))) {
-					// Dropæƒm[ƒh‚ªqŠK‘w‚ğ‚Á‚Ä‚¢‚é‚Æ‚«‚ÉAqŠK‘w‚Ìæ“ª‚É‚·‚é‚©
-					// Dropæƒm[ƒh‚Æ“¯ˆêŠK‘w‚É‚·‚é‚©Aƒƒjƒ…[‚Å‘I‚Ô‚æ‚¤‚É‚µ‚½B
-					// ŠJ‚¢‚Ä‚¢‚é‚Æ‚«‚¾‚¯ƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ğo‚·‚æ‚¤‚É‚µ‚½‚¢‚Ì‚¾‚ªEEE
+					// Dropå…ˆãƒãƒ¼ãƒ‰ãŒå­éšå±¤ã‚’æŒã£ã¦ã„ã‚‹ã¨ãã«ã€å­éšå±¤ã®å…ˆé ­ã«ã™ã‚‹ã‹
+					// Dropå…ˆãƒãƒ¼ãƒ‰ã¨åŒä¸€éšå±¤ã«ã™ã‚‹ã‹ã€ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã§é¸ã¶ã‚ˆã†ã«ã—ãŸã€‚
+					// é–‹ã„ã¦ã„ã‚‹ã¨ãã ã‘ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’å‡ºã™ã‚ˆã†ã«ã—ãŸã„ã®ã ãŒãƒ»ãƒ»ãƒ»
 					CPoint sPt = point;
 					ClientToScreen(&sPt);
 					CMenu menu;
@@ -1622,7 +1622,7 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 
 void OutlineView::OnMouseMove(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (m_bItemDragging)
 	{
 		if (!nFlags & MK_LBUTTON) {
@@ -1684,7 +1684,7 @@ void OutlineView::OnMouseMove(UINT nFlags, CPoint point)
 
 void OutlineView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (nChar == VK_ESCAPE) {
 		if (m_bItemDragging) {
 			m_bItemDragging = false;
@@ -1715,9 +1715,9 @@ BOOL OutlineView::IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedPa
 
 void OutlineView::OnImportData() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString txtpath;
-	WCHAR szFilters[] = _T("ƒeƒLƒXƒgƒtƒ@ƒCƒ‹ (*.txt)|*.txt|xmlƒtƒ@ƒCƒ‹ (*.xml)|*.xml||");
+	WCHAR szFilters[] = _T("ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ« (*.txt)|*.txt|xmlãƒ•ã‚¡ã‚¤ãƒ« (*.xml)|*.xml||");
 	CFileDialog dlg(TRUE, _T("txt"), txtpath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
@@ -1746,8 +1746,8 @@ void OutlineView::OnImportData()
 		}
 		TextLevelCharNum = dlg.m_charSelection;
 	} else if (extent == _T(".xml")) {
-		caption = "XMLƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒ|[ƒg";
-		CString mes = infileName + "‚ğƒCƒ“ƒ|[ƒg‚µ‚Ü‚·‚©";
+		caption = "XMLãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¤ãƒ³ãƒãƒ¼ãƒˆ";
+		CString mes = infileName + "ã‚’ã‚¤ãƒ³ãƒãƒ¼ãƒˆã—ã¾ã™ã‹";
 		if (MessageBox(mes, caption, MB_YESNO) != IDYES) {
 			return;
 		}
@@ -1788,15 +1788,15 @@ void OutlineView::OnImportData()
 		OnShowSelectedBranch();
 	}
 	if (ret) {
-		MessageBox(_T("I—¹‚µ‚Ü‚µ‚½"), caption, MB_OK);
+		MessageBox(_T("çµ‚äº†ã—ã¾ã—ãŸ"), caption, MB_OK);
 	} else {
-		MessageBox(_T("¸”s‚µ‚Ü‚µ‚½"), caption, MB_OK);
+		MessageBox(_T("å¤±æ•—ã—ã¾ã—ãŸ"), caption, MB_OK);
 	}
 }
 
 void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -1844,7 +1844,7 @@ void OutlineView::OutputHTML()
 	
 	bi.pidlRoot = NULL;
 	bi.pszDisplayName = szBuff;
-	bi.lpszTitle = _T("HTMLo—ÍæƒtƒHƒ‹ƒ_[‘I‘ğ");
+	bi.lpszTitle = _T("HTMLå‡ºåŠ›å…ˆãƒ•ã‚©ãƒ«ãƒ€ãƒ¼é¸æŠ");
 	
 	bi.ulFlags = BIF_RETURNONLYFSDIRS;
 	bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
@@ -1859,10 +1859,10 @@ void OutlineView::OutputHTML()
 	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
 	if (pList == NULL) return;
     if (::SHGetPathFromIDList(pList, szBuff)) {
-		//szBuff‚É‘I‘ğ‚µ‚½ƒtƒHƒ‹ƒ_–¼‚ª“ü‚é
+		//szBuffã«é¸æŠã—ãŸãƒ•ã‚©ãƒ«ãƒ€åãŒå…¥ã‚‹
 		outdir = CString(szBuff);
 	} else {
-		MessageBox(_T("o—ÍæƒtƒHƒ‹ƒ_[‚ğw’è‚µ‚Ä‰º‚³‚¢"));
+		MessageBox(_T("å‡ºåŠ›å…ˆãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã‚’æŒ‡å®šã—ã¦ä¸‹ã•ã„"));
 		return;
 	}
 	m_exportOption.htmlOutDir = outdir;
@@ -1874,7 +1874,7 @@ void OutlineView::OutputHTML()
 	CFileFind find;
 	if (find.FindFile(indexFilePath)) {
 		if (MessageBox(
-			indexFilePath + _T("\nŠù‘¶‚Ìƒtƒ@ƒCƒ‹‚ğã‘‚«‚µ‚Ä‚æ‚¢‚Å‚·‚©"), _T("HTMLo—Í"),
+			indexFilePath + _T("\næ—¢å­˜ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¸Šæ›¸ãã—ã¦ã‚ˆã„ã§ã™ã‹"), _T("HTMLå‡ºåŠ›"),
 			MB_YESNO) != IDYES) {
 			return;
 		}
@@ -1883,7 +1883,7 @@ void OutlineView::OutputHTML()
 	if (m_exportOption.textOption == 1) {
 		if (!find.FindFile(textDir)) {
 			if (!::CreateDirectory(textDir, NULL)) {
-				MessageBox(_T("ƒtƒHƒ‹ƒ_[ì¬‚É¸”s‚µ‚Ü‚µ‚½"));
+				MessageBox(_T("ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ"));
 				return;
 			}
 		}
@@ -2073,7 +2073,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 {
 	CString keystr;
 	keystr.Format(_T("%d"), tree().GetItemData(hItem));
-	// ƒAƒEƒgƒ‰ƒCƒ“‘‚«‚İ
+	// ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³æ›¸ãè¾¼ã¿
 	if (m_exportOption.navOption != 1) {
 		foutline->WriteString(_T("<li>"));
 		CString itemStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
@@ -2085,12 +2085,12 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 			foutline->WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
 		}
 		foutline->WriteString(_T("\" target=text>"));
-		// Œ©o‚µ‘‚«‚İ
+		// è¦‹å‡ºã—æ›¸ãè¾¼ã¿
 		foutline->WriteString(itemStr);
 		foutline->WriteString(_T("</a>\n"));
 	}
 	
-	// Texto—Í
+	// Textå‡ºåŠ›
 	DWORD key = tree().GetItemData(hItem);
 	if (m_exportOption.textOption == 0) {
 		GetDocument()->writeTextHtml(key, ftext);
@@ -2100,7 +2100,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 		CString fName = m_exportOption.htmlOutDir + _T("\\text\\") 
 			+ m_exportOption.prfTextEverynode + keystr + _T(".html");
 		if (!tf.Open(fName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			MessageBox(fName + _T(" : ì¬‚É¸”s‚µ‚Ü‚µ‚½"));
+			MessageBox(fName + _T(" : ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ"));
 			return;
 		}
 		writeHtmlHeader(tf);
@@ -2121,7 +2121,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 		htmlOutTree(hRoot, hchildItem, foutline, ftext);
 	} else {
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
-		if (hnextItem == NULL) {    // Ÿ‚ÉŒZ’í‚ª‚¢‚È‚¢
+		if (hnextItem == NULL) {    // æ¬¡ã«å…„å¼ŸãŒã„ãªã„
 			HTREEITEM hi = hItem;
 			HTREEITEM hParent = hItem;
 			while (tree().GetParentItem(hParent) != hRoot) {
@@ -2135,10 +2135,10 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 					return;
 				}
 				hi = hParent;
-			}                                   // ŒZ’í‚Ì‚¢‚ée‚Ü‚Å–ß‚é
+			}                                   // å…„å¼Ÿã®ã„ã‚‹è¦ªã¾ã§æˆ»ã‚‹
 		} else {
 			htmlOutTree(hRoot, hnextItem, foutline, ftext);
-		}                                       // ŒZ’í‚ÉˆÚ“®
+		}                                       // å…„å¼Ÿã«ç§»å‹•
 	}
 }
 
@@ -2184,12 +2184,12 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOut
 		f->WriteString(_T("\n"));
 	}
 	
-	if (tree().ItemHasChildren(hItem) && m_opTreeOut != 2) {           // q‚Ç‚à‚ÉˆÚ“®
+	if (tree().ItemHasChildren(hItem) && m_opTreeOut != 2) {           // å­ã©ã‚‚ã«ç§»å‹•
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
 		textOutTree(hchildItem, f, ++tab, bOutText);
 	} else {
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);	
-		if (hnextItem == NULL) {    // Ÿ‚ÉŒZ’í‚ª‚¢‚È‚¢
+		if (hnextItem == NULL) {    // æ¬¡ã«å…„å¼ŸãŒã„ãªã„
 			HTREEITEM hi = hItem;
 			HTREEITEM hParent = hItem;
 			while (hParent != tree().GetRootItem()) {
@@ -2201,10 +2201,10 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOut
 					return;
 				}
 				hi = hParent;
-			}                                   // ŒZ’í‚Ì‚¢‚ée‚Ü‚Å–ß‚é
+			}                                   // å…„å¼Ÿã®ã„ã‚‹è¦ªã¾ã§æˆ»ã‚‹
 		} else {
 			textOutTree(hnextItem, f, tab, bOutText);
-		}                                       // ŒZ’í‚ÉˆÚ“®
+		}                                       // å…„å¼Ÿã«ç§»å‹•
 	}
 }
 
@@ -2233,8 +2233,8 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 {
 	COnProcDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
-	prcdlg.m_ProcName.SetWindowText(_T("ƒCƒ“ƒ|[ƒg’†"));
-	prcdlg.m_ProgProc.SetStep(1);              // ƒvƒƒOƒŒƒXƒo[‚Ì‰Šúİ’è
+	prcdlg.m_ProcName.SetWindowText(_T("ã‚¤ãƒ³ãƒãƒ¼ãƒˆä¸­"));
+	prcdlg.m_ProgProc.SetStep(1);              // ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼ã®åˆæœŸè¨­å®š
 	prcdlg.m_ProgProc.SetRange(0, lines.size() - 1);
 	
 	CSize mvSz(30, 30);
@@ -2245,8 +2245,8 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		int level = countLineIndentLevel(lines[i], levelChar);
 		if (level > curLevel && level - curLevel > 1 && nodeCreated) {
-			CString mes; mes.Format(_T("%ds–Ú : %s"), i + 1, lines[i]);
-			MessageBox(mes, _T("ƒCƒ“ƒ|[ƒgƒGƒ‰[:ŠK‘w‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñ"), MB_ICONSTOP);
+			CString mes; mes.Format(_T("%dè¡Œç›® : %s"), i + 1, lines[i]);
+			MessageBox(mes, _T("ã‚¤ãƒ³ãƒãƒ¼ãƒˆã‚¨ãƒ©ãƒ¼:éšå±¤ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“"), MB_ICONSTOP);
 			return false;
 		}
 		if (level == 0) {
@@ -2275,10 +2275,10 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 			label = line.TrimLeft(_T("\t."));
 			curLevel = level;
 			if (label == _T("")) {
-				label = _T("<–¼Ì–¢İ’è>");
+				label = _T("<åç§°æœªè¨­å®š>");
 			}
 			mvSz.cx += 20; mvSz.cy += 30;
-			prcdlg.m_ProgProc.StepIt();  // ƒvƒƒOƒŒƒXƒo[‚ğXV
+			prcdlg.m_ProgProc.StepIt();  // ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼ã‚’æ›´æ–°
 		}
 	}
 	
@@ -2319,14 +2319,14 @@ bool OutlineView::ImportXML(const CString &inPath)
 
 void OutlineView::OnEditFind() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_pSrchDlg->ShowWindow(SW_SHOWNORMAL);
 	m_pSrchDlg->SetFocus();
 }
 
 void OutlineView::OnUpdateEditFind(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -2347,13 +2347,13 @@ void OutlineView::OnDestroy()
 {
 	CTreeView::OnDestroy();
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_pSrchDlg->DestroyWindow();
 }
 
 LRESULT OutlineView::OnListUpNodes(UINT wParam, LONG lParam)
 {
-	// ƒŠƒXƒgƒAƒbƒv—p‚Ìƒf[ƒ^‚ğnodeSrchDlg‚Éó‚¯“n‚·
+	// ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—ç”¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’nodeSrchDlgã«å—ã‘æ¸¡ã™
 	if (m_pSrchDlg->m_labels.size() > 0) return 0;
 	GetDocument()->listUpNodes(m_pSrchDlg->m_srchString, m_pSrchDlg->m_labels,
 		                       m_pSrchDlg->m_bLabel, m_pSrchDlg->m_bText, m_pSrchDlg->m_bLinks,
@@ -2364,7 +2364,7 @@ LRESULT OutlineView::OnListUpNodes(UINT wParam, LONG lParam)
 
 void OutlineView::OnEditReplace() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -2382,7 +2382,7 @@ void OutlineView::clearUndo()
 
 void OutlineView::OnSetFoldup() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	setFoldUpDlg dlg;
 	dlg.m_level = 1;
 	if (dlg.DoModal() != IDOK) return;
@@ -2392,7 +2392,7 @@ void OutlineView::OnSetFoldup()
 
 void OutlineView::OnUpdateSetFoldup(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -2445,7 +2445,7 @@ void OutlineView::doColorSetting()
 
 void OutlineView::OnAddChild2()
 {
-	// TODO : ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO : ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CInpcnDlg dlg;
 	dlg.m_iniPt.x = -1;
 	dlg.m_iniPt.y = -1;
@@ -2477,13 +2477,13 @@ void OutlineView::OnAddChild2()
 
 void OutlineView::OnUpdateAddChild2(CCmdUI *pCmdUI)
 {
-	// TODO : ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO : ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(!tree().ItemHasChildren(tree().GetSelectedItem()));
 }
 
 void OutlineView::OnShowSelectedBranch() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	KeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
@@ -2501,7 +2501,7 @@ void OutlineView::OnShowSelectedBranch()
 
 void OutlineView::OnUpdateShowSelectedBranch(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
@@ -2523,7 +2523,7 @@ int OutlineView::getBranchMode() const
 {
 	int index, selectedIndex;
 	tree().GetItemImage(m_hItemShowRoot, index, selectedIndex);
-	// –ß‚è’lF0:’ÊíA1:‰º‚ÌŠK‘w‚Ì‚İA2:‰º‘S•”
+	// æˆ»ã‚Šå€¤ï¼š0:é€šå¸¸ã€1:ä¸‹ã®éšå±¤ã®ã¿ã€2:ä¸‹å…¨éƒ¨
 	return selectedIndex;
 }
 
@@ -2534,7 +2534,7 @@ void OutlineView::resetShowBranch()
 
 void OutlineView::OnShowSelectedChildren() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	KeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each2(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
@@ -2552,7 +2552,7 @@ void OutlineView::OnShowSelectedChildren()
 
 void OutlineView::OnUpdateShowSelectedChildren(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
@@ -2597,7 +2597,7 @@ void OutlineView::setSubNodeLevels()
 
 void OutlineView::OnDropFirstOrder() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, m_hitemDrop, TVI_FIRST);
 	tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
 	int nImage; tree().GetItemImage(m_hitemDrag, nImage, nImage);
@@ -2620,13 +2620,13 @@ void OutlineView::OnDropFirstOrder()
 
 void OutlineView::OnUpdateDropFirstOrder(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_bItemDragging == true);
 }
 
 void OutlineView::OnDropLevelUp() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	HTREEITEM hParent = tree().GetParentItem(m_hitemDrop);
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, hParent, m_hitemDrop);
 	tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
@@ -2651,18 +2651,18 @@ void OutlineView::OnDropLevelUp()
 
 void OutlineView::OnUpdateDropLevelUp(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_bItemDragging == true && m_hitemDrop != tree().GetRootItem());
 }
 
 void OutlineView::OnCopyTreeToClipboard() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	setSubNodeLevels();
 	CString strData;
 	catTreeLabel(tree().GetSelectedItem(), strData);
 	
-	// ƒNƒŠƒbƒvƒ{[ƒh‚ÉƒRƒs[
+	// ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«ã‚³ãƒ”ãƒ¼
 	if (OpenClipboard()) {
 		EmptyClipboard();
 		HGLOBAL hClipboardData;
@@ -2719,7 +2719,7 @@ void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
 
 void OutlineView::OnUpdateCopyTreeToClipboard(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(tree().ItemHasChildren(tree().GetSelectedItem()));
 }
 
@@ -2771,7 +2771,7 @@ void OutlineView::OnCreateClone()
 		cloneTree(tree().GetChildItem(hSelected), hNew, idm);
 	}
 	GetDocument()->duplicateLinks(idm);
-	// w’è”z‰º‚Ìƒm[ƒh‚ğ‘S•”Œ©‚¹‚éƒ‚[ƒh‚Ìê‡AƒNƒ[ƒ“‚µ‚½ˆê˜A‚Ìƒm[ƒh‚ÆƒŠƒ“ƒN‚ğvisible‚É
+	// æŒ‡å®šé…ä¸‹ã®ãƒãƒ¼ãƒ‰ã‚’å…¨éƒ¨è¦‹ã›ã‚‹ãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã€ã‚¯ãƒ­ãƒ¼ãƒ³ã—ãŸä¸€é€£ã®ãƒãƒ¼ãƒ‰ã¨ãƒªãƒ³ã‚¯ã‚’visibleã«
 	if (GetDocument()->isShowSubBranch()) {
 		KeySet ks;
 		ks.insert(tree().GetItemData(m_hItemShowRoot));
@@ -2780,7 +2780,7 @@ void OutlineView::OnCreateClone()
 		pDoc->setVisibleNodes(ks);
 		pDoc->setShowBranch(tree().GetItemData(m_hItemShowRoot));
 	}
-	// Šù‘¶‚Ìƒm[ƒh‚Æd‚È‚ç‚È‚¢‚æ‚¤‚É‚¸‚ç‚·
+	// æ—¢å­˜ã®ãƒãƒ¼ãƒ‰ã¨é‡ãªã‚‰ãªã„ã‚ˆã†ã«ãšã‚‰ã™
 	tree().SelectItem(hNew);
 }
 
@@ -2816,7 +2816,7 @@ void OutlineView::cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, Id
 
 void OutlineView::OnResetShowSubbranch()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SelectItem(m_hItemShowRoot);
 	resetShowBranch();
 	GetDocument()->resetShowBranch();
@@ -2824,21 +2824,21 @@ void OutlineView::OnResetShowSubbranch()
 
 void OutlineView::OnUpdateResetShowSubbranch(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int mode = getBranchMode();
 	pCmdUI->Enable(mode == 1 || mode == 2);
 }
 
 void OutlineView::OnTreeImageChcek()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SetItemImage(curItem(), OutlineView::check, OutlineView::check);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::check);
 }
 
 void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2849,14 +2849,14 @@ void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageBlue()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SetItemImage(curItem(), OutlineView::blue, OutlineView::blue);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::blue);
 }
 
 void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2867,14 +2867,14 @@ void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageRed()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SetItemImage(curItem(), OutlineView::red, OutlineView::red);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::red);
 }
 
 void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2885,14 +2885,14 @@ void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageYealow()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SetItemImage(curItem(), OutlineView::yellow, OutlineView::yellow);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::yellow);
 }
 
 void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2903,14 +2903,14 @@ void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageCancel()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SetItemImage(curItem(), OutlineView::cancel, OutlineView::cancel);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::cancel);
 }
 
 void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2921,14 +2921,14 @@ void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageQuestion()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SetItemImage(curItem(), OutlineView::question, OutlineView::question);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::question);
 }
 
 void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2939,14 +2939,14 @@ void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageWarning()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SetItemImage(curItem(), OutlineView::warning, OutlineView::warning);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::warning);
 }
 
 void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2957,14 +2957,14 @@ void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageFace()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SetItemImage(curItem(), OutlineView::face, OutlineView::face);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::face);
 }
 
 void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2975,14 +2975,14 @@ void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageIdea()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	tree().SetItemImage(curItem(), OutlineView::idea, OutlineView::idea);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::idea);
 }
 
 void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2993,7 +2993,7 @@ void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
 
 void OutlineView::OnPasteTreeFromClipboard()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString ClipText;
 	if (::IsClipboardFormatAvailable(CF_TEXT)) {
 		if (!OpenClipboard()) {
@@ -3033,7 +3033,7 @@ void OutlineView::OnPasteTreeFromClipboard()
 	nVec addNodes;
 	
 	ImportTextDlg dlg;
-	dlg.m_fileName = _T("<ƒNƒŠƒbƒvƒ{[ƒh‚©‚ç>");
+	dlg.m_fileName = _T("<ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã‹ã‚‰>");
 	dlg.m_charSelection = 1;
 	if (dlg.DoModal() != IDOK) {
 		return;
@@ -3057,24 +3057,24 @@ void OutlineView::OnPasteTreeFromClipboard()
 
 void OutlineView::OnUpdatePasteTreeFromClipboard(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(::IsClipboardFormatAvailable(CF_TEXT));
 }
 
 void OutlineView::OnExportToHtml()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	OutputHTML();
 }
 
 void OutlineView::OnUpdateExportToHtml(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }
 
 void OutlineView::OnExportToText()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	SelExportDlg dlg;
 	dlg.m_bPrintText = TRUE;
 	dlg.m_nTreeOp = m_exportOption.treeOption;
@@ -3091,7 +3091,7 @@ void OutlineView::OnExportToText()
 		}
 	}
 	
-	WCHAR szFilters[] = _T("ƒeƒLƒXƒgƒtƒ@ƒCƒ‹ (*.txt)|*.txt");	
+	WCHAR szFilters[] = _T("ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ« (*.txt)|*.txt");	
 	CFileDialog fdlg(FALSE, _T("txt"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (fdlg.DoModal() != IDOK) return;
 	CString outfileName = fdlg.GetPathName();
@@ -3127,12 +3127,12 @@ void OutlineView::OnExportToText()
 
 void OutlineView::OnUpdateExportToText(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }
 
 void OutlineView::OnExportToXml()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	SelExportDlg dlg;
 	dlg.m_bPrintText = TRUE;
 	dlg.m_nTreeOp = m_exportOption.treeOption;
@@ -3147,19 +3147,19 @@ void OutlineView::OnExportToXml()
 			outfile = label;
 		}
 	}
-	WCHAR szFilters[] = _T("XMLƒtƒ@ƒCƒ‹ (*.xml)|*.xml");	
+	WCHAR szFilters[] = _T("XMLãƒ•ã‚¡ã‚¤ãƒ« (*.xml)|*.xml");	
 	CFileDialog fdlg(FALSE, _T("xml"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (fdlg.DoModal() != IDOK) return;
 	CString outfileName = fdlg.GetPathName();
 	_wsetlocale(LC_ALL, _T("jpn"));
 	
 	if (GetDocument()->saveXML(outfileName)) {
-		MessageBox(_T("I—¹‚µ‚Ü‚µ‚½"), _T("XML‚Ö‚ÌƒGƒNƒXƒ|[ƒg"), MB_OK);
+		MessageBox(_T("çµ‚äº†ã—ã¾ã—ãŸ"), _T("XMLã¸ã®ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆ"), MB_OK);
 	}
 	_wsetlocale(LC_ALL, _T(""));
 }
 
 void OutlineView::OnUpdateExportToXml(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }

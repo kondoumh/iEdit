@@ -1,4 +1,4 @@
-// SelExportDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// SelExportDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// SelExportDlg �_�C�A���O
+// SelExportDlg ダイアログ
 
 
 SelExportDlg::SelExportDlg(CWnd* pParent /*=NULL*/)
@@ -47,11 +47,11 @@ BEGIN_MESSAGE_MAP(SelExportDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// SelExportDlg ���b�Z�[�W �n���h��
+// SelExportDlg メッセージ ハンドラ
 
 void SelExportDlg::OnChkPrintText() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bPrintText = m_chkPrintText.GetCheck();
 }
 
@@ -59,29 +59,29 @@ BOOL SelExportDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	if (!m_bShowChekPrintText) {
 		m_chkPrintText.EnableWindow(FALSE);
 	}
 	
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 void SelExportDlg::OnRdTree1() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	
 }
 
 void SelExportDlg::OnRdTree2() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	
 }
 
 void SelExportDlg::OnRdTree3() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	
 }

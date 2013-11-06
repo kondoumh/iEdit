@@ -1,5 +1,5 @@
-// CG: ‚±‚Ìƒtƒ@ƒCƒ‹‚ÍƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“ ƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’Ç‰Á‚³‚ê‚Ü‚µ‚½B
-// Splash.cpp : ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“ ƒtƒ@ƒCƒ‹
+ï»¿// CG: ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ã‚ˆã£ã¦è¿½åŠ ã•ã‚Œã¾ã—ãŸã€‚
+// Splash.cpp : ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"  // e. g. stdafx.h
@@ -14,7 +14,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-//   ƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“ ƒNƒ‰ƒX
+//   ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ ã‚¯ãƒ©ã‚¹
 
 BOOL CSplashWnd::c_bShowSplashWnd;
 CSplashWnd* CSplashWnd::c_pSplashWnd;
@@ -24,7 +24,7 @@ CSplashWnd::CSplashWnd()
 
 CSplashWnd::~CSplashWnd()
 {
-	// ƒXƒ^ƒeƒBƒbƒN ƒEƒBƒ“ƒhƒE‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒŠƒA‚µ‚Ü‚·B
+	// ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒã‚¤ãƒ³ã‚¿ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
 	ASSERT(c_pSplashWnd == this);
 	c_pSplashWnd = NULL;
 }
@@ -47,7 +47,7 @@ void CSplashWnd::ShowSplashScreen(CWnd* pParentWnd /*= NULL*/)
 	if (!c_bShowSplashWnd || c_pSplashWnd != NULL)
 		return;
 
-	// V‹KƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“‚ğ”z’u‚µ‚ÄƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚Ü‚·B
+	// æ–°è¦ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚’é…ç½®ã—ã¦ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã—ã¾ã™ã€‚
 	c_pSplashWnd = new CSplashWnd;
 	if (!c_pSplashWnd->Create(pParentWnd))
 		delete c_pSplashWnd;
@@ -60,7 +60,7 @@ BOOL CSplashWnd::PreTranslateAppMessage(MSG* pMsg)
 	if (c_pSplashWnd == NULL)
 		return FALSE;
 
-	// ƒL[ƒ{[ƒh‚Ü‚½‚Íƒ}ƒEƒX ƒƒbƒZ[ƒW‚ğæ“¾‚µ‚½ê‡‚ÍAƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“‚ğ”ñ•\¦‚É‚µ‚Ü‚·B
+	// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã¾ãŸã¯ãƒã‚¦ã‚¹ ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã—ãŸå ´åˆã¯ã€ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚’éè¡¨ç¤ºã«ã—ã¾ã™ã€‚
 	if (pMsg->message == WM_KEYDOWN ||
 	    pMsg->message == WM_SYSKEYDOWN ||
 	    pMsg->message == WM_LBUTTONDOWN ||
@@ -71,10 +71,10 @@ BOOL CSplashWnd::PreTranslateAppMessage(MSG* pMsg)
 	    pMsg->message == WM_NCMBUTTONDOWN)
 	{
 		c_pSplashWnd->HideSplashScreen();
-		return TRUE;	// ƒƒbƒZ[ƒW‚Í‚±‚±‚Åƒnƒ“ƒhƒ‹‚³‚ê‚Ü‚µ‚½
+		return TRUE;	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯ã“ã“ã§ãƒãƒ³ãƒ‰ãƒ«ã•ã‚Œã¾ã—ãŸ
 	}
 
-	return FALSE;	// ƒƒbƒZ[ƒW‚Íƒnƒ“ƒhƒ‹‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ
+	return FALSE;	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯ãƒãƒ³ãƒ‰ãƒ«ã•ã‚Œã¦ã„ã¾ã›ã‚“
 }
 
 BOOL CSplashWnd::Create(CWnd* pParentWnd /*= NULL*/)
@@ -92,14 +92,14 @@ BOOL CSplashWnd::Create(CWnd* pParentWnd /*= NULL*/)
 
 void CSplashWnd::HideSplashScreen()
 {
-	// ƒEƒBƒ“ƒhƒE‚ğ”jŠü‚µ‚ÄƒƒCƒ“ƒtƒŒ[ƒ€‚ğXV‚µ‚Ü‚·B
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ç ´æ£„ã—ã¦ãƒ¡ã‚¤ãƒ³ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’æ›´æ–°ã—ã¾ã™ã€‚
 	DestroyWindow();
 	AfxGetMainWnd()->UpdateWindow();
 }
 
 void CSplashWnd::PostNcDestroy()
 {
-	// C++ ƒNƒ‰ƒX‚ğ‰ğ•ú‚µ‚Ü‚·B
+	// C++ ã‚¯ãƒ©ã‚¹ã‚’è§£æ”¾ã—ã¾ã™ã€‚
 	delete this;
 }
 
@@ -108,10 +108,10 @@ int CSplashWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	// ƒEƒBƒ“ƒhƒE‚ğ’†‰›‚É”z’u‚µ‚Ü‚·B
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä¸­å¤®ã«é…ç½®ã—ã¾ã™ã€‚
 	CenterWindow();
 
-	// ƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“‚ğ”jŠü‚·‚é‚½‚ß‚Ìƒ^ƒCƒ}[‚ğİ’è‚µ‚Ü‚·B
+	// ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚’ç ´æ£„ã™ã‚‹ãŸã‚ã®ã‚¿ã‚¤ãƒãƒ¼ã‚’è¨­å®šã—ã¾ã™ã€‚
 	SetTimer(1, 1500, NULL);
 
 	return 0;
@@ -128,7 +128,7 @@ void CSplashWnd::OnPaint()
 	BITMAP bm;
 	m_bitmap.GetBitmap(&bm);
 
-	// ƒCƒ[ƒW‚ğ•`‰æ‚µ‚Ü‚·B
+	// ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’æç”»ã—ã¾ã™ã€‚
 	CBitmap* pOldBitmap = dcImage.SelectObject(&m_bitmap);
 	dc.BitBlt(0, 0, bm.bmWidth, bm.bmHeight, &dcImage, 0, 0, SRCCOPY);
 	dcImage.SelectObject(pOldBitmap);
@@ -136,6 +136,6 @@ void CSplashWnd::OnPaint()
 
 void CSplashWnd::OnTimer(UINT nIDEvent)
 {
-	// ƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“ ƒEƒBƒ“ƒhƒE‚ğ”jŠü‚µ‚Ü‚·B
+	// ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ç ´æ£„ã—ã¾ã™ã€‚
 	HideSplashScreen();
 }

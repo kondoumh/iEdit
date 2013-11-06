@@ -1,4 +1,4 @@
-// ImportTextDlg.cpp : ŽÀ‘•ƒtƒ@ƒCƒ‹
+ï»¿// ImportTextDlg.cpp : å®Ÿè£…ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -6,7 +6,7 @@
 #include "ImportTextDlg.h"
 
 
-// ImportTextDlg ƒ_ƒCƒAƒƒO
+// ImportTextDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 IMPLEMENT_DYNAMIC(ImportTextDlg, CDialog)
 
@@ -36,16 +36,16 @@ BEGIN_MESSAGE_MAP(ImportTextDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// ImportTextDlg ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// ImportTextDlg ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 void ImportTextDlg::OnBnClickedRadio1()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	m_charSelection = 0;
 }
 
 void ImportTextDlg::OnBnClickedRadio2()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	m_charSelection = 1;
 }

@@ -1,4 +1,4 @@
-// PageNode.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// PageNode.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -14,7 +14,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// PageNode �_�C�A���O
+// PageNode ダイアログ
 
 
 PageNode::PageNode(CWnd* pParent /*=NULL*/)
@@ -79,11 +79,11 @@ BEGIN_MESSAGE_MAP(PageNode, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// PageNode ���b�Z�[�W �n���h��
+// PageNode メッセージ ハンドラ
 
 void PageNode::OnCancel() 
 {
-	// TODO: ���̈ʒu�ɓ��ʂȌ㏈����ǉ����Ă��������B
+	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
@@ -92,7 +92,7 @@ BOOL PageNode::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	if (styleLine == PS_DOT) {
 		m_cmbLineStyle.SetCurSel(5);
 	} else if (styleLine == PS_NULL) {
@@ -129,13 +129,13 @@ BOOL PageNode::OnInitDialog()
 	m_ChkDisableNodeResize.SetCheck(m_bDisableNodeResize);
 	m_chkPriorSelectionDragging.SetCheck(m_bPriorSelectionDragging);
 	
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 void PageNode::OnBtnLineColor() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
@@ -143,7 +143,7 @@ void PageNode::OnBtnLineColor()
 
 void PageNode::OnBtnBrs() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorFill);
 	if (dlg.DoModal() != IDOK) return;
 	colorFill = dlg.GetColor();
@@ -151,7 +151,7 @@ void PageNode::OnBtnBrs()
 
 void PageNode::OnBtnFont() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
 	//dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	dlg.m_cf.rgbColors = colorFont;
@@ -161,7 +161,7 @@ void PageNode::OnBtnFont()
 
 void PageNode::OnRadioTline1() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdTLine = 0;
 	m_cmbHoriz.EnableWindow(TRUE);
 	m_cmbVert.EnableWindow(TRUE);
@@ -169,7 +169,7 @@ void PageNode::OnRadioTline1()
 
 void PageNode::OnRadioTline2() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdTLine = 1;
 	m_cmbHoriz.EnableWindow(TRUE);
 	m_cmbVert.EnableWindow(FALSE);
@@ -177,7 +177,7 @@ void PageNode::OnRadioTline2()
 
 void PageNode::OnRadioTline3() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdTLine = 2;	
 	m_cmbHoriz.EnableWindow(FALSE);
 	m_cmbVert.EnableWindow(FALSE);
@@ -185,25 +185,25 @@ void PageNode::OnRadioTline3()
 
 void PageNode::OnRadioShape() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdShape = 0;
 }
 
 void PageNode::OnRadioShape2() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdShape = 1;
 }
 
 void PageNode::OnRadioShape3() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdShape = 2;
 }
 
 void PageNode::OnChkNoBrs() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bNoBrs = m_chkNoBrs.GetCheck();
 	m_BtnBrsColor.EnableWindow(!m_chkNoBrs.GetCheck());
 }
@@ -211,7 +211,7 @@ void PageNode::OnChkNoBrs()
 
 void PageNode::OnSelchangeComboline() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_cmbLineStyle.GetCurSel();
 	if (index == 0 || index == 5 || index == 6) {
 		lineWidth = 0;
@@ -229,19 +229,19 @@ void PageNode::OnSelchangeComboline()
 
 void PageNode::OnSelchangeComboHoriz() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	horiz = m_cmbHoriz.GetCurSel();
 }
 
 void PageNode::OnSelchangeComboVert() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	vert = m_cmbVert.GetCurSel();
 }
 
 void PageNode::OnBnClickedChkSyncOrder()
 {
-	// TODO: �����ɃR���g���[���ʒm�n���h�� �R�[�h��ǉ����܂��B
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bSyncOrder = m_chkSyncOrder.GetCheck();
 	m_btnAscending.EnableWindow(m_bSyncOrder);
 	m_btnDescending.EnableWindow(m_bSyncOrder);
@@ -249,31 +249,31 @@ void PageNode::OnBnClickedChkSyncOrder()
 
 void PageNode::OnBnClickedChkEnableGrouping()
 {
-	// TODO: �����ɃR���g���[���ʒm�n���h�� �R�[�h��ǉ����܂��B
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bEnableGroup = m_chkEnableGroup.GetCheck();
 }
 
 void PageNode::OnBnClickedRadioAscending()
 {
-	// TODO: �����ɃR���g���[���ʒm�n���h�� �R�[�h��ǉ����܂��B
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_orderDirection = 0;
 }
 
 void PageNode::OnBnClickedRadioDescending()
 {
-	// TODO: �����ɃR���g���[���ʒm�n���h�� �R�[�h��ǉ����܂��B
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_orderDirection = 1;
 }
 
 void PageNode::OnBnClickedDisableNodeResize()
 {
-	// TODO: �����ɃR���g���[���ʒm�n���h�� �R�[�h��ǉ����܂��B
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bDisableNodeResize = m_ChkDisableNodeResize.GetCheck();
 }
 
 void PageNode::OnBnClickedBtnSetMargin()
 {
-	// TODO: �����ɃR���g���[���ʒm�n���h�� �R�[�h��ǉ����܂��B
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	SetMarginDlg dlg;
 	dlg.m_nLeft = margins.l;
 	dlg.m_nRight = margins.r;
@@ -289,6 +289,6 @@ void PageNode::OnBnClickedBtnSetMargin()
 
 void PageNode::OnBnClickedPriorSelectionDragging()
 {
-	// TODO: �����ɃR���g���[���ʒm�n���h���[ �R�[�h��ǉ����܂��B
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 	m_bPriorSelectionDragging = m_chkPriorSelectionDragging.GetCheck();
 }

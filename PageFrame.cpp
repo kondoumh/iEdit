@@ -1,4 +1,4 @@
-// PageFrame.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// PageFrame.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -14,7 +14,7 @@ static char THIS_FILE[] = __FILE__;
 #define REGS_FRAME _T("Frame Options")
 
 /////////////////////////////////////////////////////////////////////////////
-// PageFrame �_�C�A���O
+// PageFrame ダイアログ
 
 
 PageFrame::PageFrame(CWnd* pParent /*=NULL*/)
@@ -59,11 +59,11 @@ BEGIN_MESSAGE_MAP(PageFrame, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// PageFrame ���b�Z�[�W �n���h��
+// PageFrame メッセージ ハンドラ
 
 void PageFrame::OnCancel() 
 {
-	// TODO: ���̈ʒu�ɓ��ʂȌ㏈����ǉ����Ă��������B
+	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
@@ -94,21 +94,21 @@ void PageFrame::updateFont(LOGFONT* plf, CFont& font)
 
 void PageFrame::OnChkSaveBarState() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSaveBarState = m_ChkSaveBarState.GetCheck();
 }
 
 void PageFrame::OnChkSaveFrame() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSaveFrame = m_chkSaveFrame.GetCheck();
 }
 
 void PageFrame::OnPaint() 
 {
-	CPaintDC dc(this); // �`��p�̃f�o�C�X �R���e�L�X�g
+	CPaintDC dc(this); // 描画用のデバイス コンテキスト
 	
-	// TODO: ���̈ʒu�Ƀ��b�Z�[�W �n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	drawOLPreView(&dc);
 	drawLNPreView(&dc);
 	drawTextPreView(&dc);
@@ -153,7 +153,7 @@ void PageFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgCol
 	font.GetLogFont(&lf);
 	CString sSample;
 	if (lf.lfCharSet == SHIFTJIS_CHARSET) {
-		sSample = _T("A �� ��");
+		sSample = _T("A あ 亜");
 	} else {
 		sSample = _T("AaBbYyZz");
 	}
@@ -181,7 +181,7 @@ void PageFrame::drawNWPreView(CDC *pDC)
 
 void PageFrame::OnBtnFclrOl() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorOLFor);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorOLFor = dlg.GetColor();
@@ -190,7 +190,7 @@ void PageFrame::OnBtnFclrOl()
 
 void PageFrame::OnBtnBclrOl() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorOLBG);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorOLBG = dlg.GetColor();
@@ -199,7 +199,7 @@ void PageFrame::OnBtnBclrOl()
 
 void PageFrame::OnBtnFclrLn() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorLNFor);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorLNFor = dlg.GetColor();
@@ -208,7 +208,7 @@ void PageFrame::OnBtnFclrLn()
 
 void PageFrame::OnBtnBclrLn() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorLNBG);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorLNBG = dlg.GetColor();
@@ -217,7 +217,7 @@ void PageFrame::OnBtnBclrLn()
 
 void PageFrame::OnBtnFclrTx() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorEditFor);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorEditFor = dlg.GetColor();
@@ -226,7 +226,7 @@ void PageFrame::OnBtnFclrTx()
 
 void PageFrame::OnBtnBclrTx() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorEditBG);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorEditBG = dlg.GetColor();
@@ -235,7 +235,7 @@ void PageFrame::OnBtnBclrTx()
 
 void PageFrame::OnBtnBclrNw() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorNWBG);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorNWBG = dlg.GetColor();
@@ -244,7 +244,7 @@ void PageFrame::OnBtnBclrNw()
 
 void PageFrame::OnBtnInsertmark() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorInsrtMrk);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorInsrtMrk = dlg.GetColor();

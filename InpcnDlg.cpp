@@ -1,4 +1,4 @@
-// InpcnDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// InpcnDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -14,7 +14,7 @@ static char THIS_FILE[] = __FILE__;
 #define WM_SETCHARDATA WM_USER + 12
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcnDlg �_�C�A���O
+// CInpcnDlg ダイアログ
 
 
 CInpcnDlg::CInpcnDlg(CWnd* pParent /*=NULL*/)
@@ -44,7 +44,7 @@ BEGIN_MESSAGE_MAP(CInpcnDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcnDlg ���b�Z�[�W �n���h��
+// CInpcnDlg メッセージ ハンドラ
 
 BOOL CInpcnDlg::OnInitDialog() 
 {
@@ -54,21 +54,21 @@ BOOL CInpcnDlg::OnInitDialog()
 		MoveWindow(m_iniPt.x, m_iniPt.y, iniRect.Width(), iniRect.Height(), TRUE);
 	}
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	if (m_strcn == _T("")) {
-		m_editName.SetWindowText(_T("�V�����m�[�h"));
-	} else if (m_strcn == _T("�m�[�h")) {
-		m_editName.SetWindowText(_T("�m�[�h"));
+		m_editName.SetWindowText(_T("新しいノード"));
+	} else if (m_strcn == _T("ノード")) {
+		m_editName.SetWindowText(_T("ノード"));
 	} else {
 		PostMessage(WM_SETCHARDATA, 0);
 	}
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 void CInpcnDlg::OnClose() 
 {
-	// TODO: ���̈ʒu�Ƀ��b�Z�[�W �n���h���p�̃R�[�h��ǉ����邩�܂��̓f�t�H���g�̏������Ăяo���Ă�������
+	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	MoveWindow(iniRect.left, iniRect.top, iniRect.Width(), iniRect.Height(), TRUE);
 	CDialog::OnClose();
 }

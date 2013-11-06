@@ -1,4 +1,4 @@
-// iNode.cpp: iNode ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+ï»¿// iNode.cpp: iNode ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,7 @@ static char THIS_FILE[]=__FILE__;
 #define REGS_NODE _T("Node Properties")
 
 //////////////////////////////////////////////////////////////////////
-// \’z/Á–Å
+// æ§‹ç¯‰/æ¶ˆæ»…
 //////////////////////////////////////////////////////////////////////
 
 iNode::iNode()
@@ -259,7 +259,7 @@ void iNode::adjustFont(bool bForceResize)
 	CSize sz = getNodeTextSize();
 	LONG hmargin = sz.cy*4/7;
 	LONG wmargin = sz.cy;
-	//if (lstrcmp(lf_.lfFaceName,"ƒƒCƒŠƒI") == 0) {
+	//if (lstrcmp(lf_.lfFaceName,"ãƒ¡ã‚¤ãƒªã‚ª") == 0) {
 	//	hmargin = sz.cy*4/5;
 	//}
 	if (!bfillcolor && styleLine == PS_NULL) {
@@ -308,15 +308,15 @@ void iNode::enhanceLineOriented(const CSize& sz)
 	int lineCount, maxLength;
 	getInnerLineInfo(name_, lineCount, maxLength);
 	int width = (int)((double)sz.cx*(((double)maxLength))/((double)(name_.GetLength())))
-		+ sz.cy + margin_l_ + margin_r_; // 1•¶š•¶—]•ª‚Éƒ}[ƒWƒ“‚ğ‚Â‚¯‚½
+		+ sz.cy + margin_l_ + margin_r_; // 1æ–‡å­—æ–‡ä½™åˆ†ã«ãƒãƒ¼ã‚¸ãƒ³ã‚’ã¤ã‘ãŸ
 	int height = sz.cy*(lineCount - 1) + margin_t_;
 	bound_.right = bound_.left + width;
 	bound_.bottom = bound_.top + height;
 }
 
-// •ŒÅ’è‚Ås‚ğLk‚³‚¹‚é‚±‚Æ‚ğl‚¦‚Äì‚è‚©‚¯‚½‚ªADrawText ‚ª
-// •¡”s‚ÌÜ‚è•Ô‚µ‚É‘Î‰‚µ‚Ä‚È‚¢‚Ì‚ÅAˆÓ–¡‚ª‚È‚¢‚±‚Æ‚ª•ª‚©‚Á‚½
-// 1s1sDrawText‚·‚ê‚Îo—ˆ‚»‚¤‚¾‚ªBB
+// å¹…å›ºå®šã§è¡Œã‚’ä¼¸ç¸®ã•ã›ã‚‹ã“ã¨ã‚’è€ƒãˆã¦ä½œã‚Šã‹ã‘ãŸãŒã€DrawText ãŒ
+// è¤‡æ•°è¡Œã®æŠ˜ã‚Šè¿”ã—ã«å¯¾å¿œã—ã¦ãªã„ã®ã§ã€æ„å‘³ãŒãªã„ã“ã¨ãŒåˆ†ã‹ã£ãŸ
+// 1è¡Œ1è¡ŒDrawTextã™ã‚Œã°å‡ºæ¥ãã†ã ãŒã€‚ã€‚
 //void iNode::fitFixedWidth()
 //{
 //	int lineCount = 0;
@@ -435,12 +435,12 @@ bool iNode::isDragging() const
 	return dragging_;
 }
 
-// iNodeDrawer ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// iNodeDrawer ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 void iNodeDrawer::draw(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 {
-	int oldBkMode = pDC->SetBkMode(TRANSPARENT); // DC‚Ì”wŒiF“§–¾
+	int oldBkMode = pDC->SetBkMode(TRANSPARENT); // DCã®èƒŒæ™¯è‰²é€æ˜
 	
 	if (node.isFilled()) {
 		fillBound(node, pDC);
@@ -452,14 +452,14 @@ void iNodeDrawer::draw(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 		drawDraggingTracker(node, pDC);
 	}
 	
-	pDC->SetBkMode(oldBkMode); // DC‚Ì”wŒiƒŠƒXƒgƒA
+	pDC->SetBkMode(oldBkMode); // DCã®èƒŒæ™¯ãƒªã‚¹ãƒˆã‚¢
 }
 
 void iNodeDrawer::drawDraggingTracker(const iNode& node, CDC* pDC)
 {
 	CPen penLine;
-	penLine.CreatePen(PS_SOLID, 10, RGB(127, 127, 255)); // ƒyƒ“ì¬
-	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DC‚Ìƒyƒ“•ÏX
+	penLine.CreatePen(PS_SOLID, 10, RGB(127, 127, 255)); // ãƒšãƒ³ä½œæˆ
+	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCã®ãƒšãƒ³å¤‰æ›´
 	
 	CRect bound = node.getBound();
 	pDC->MoveTo(bound.TopLeft());
@@ -468,8 +468,8 @@ void iNodeDrawer::drawDraggingTracker(const iNode& node, CDC* pDC)
 	pDC->LineTo(bound.left, bound.bottom);
 	pDC->LineTo(bound.TopLeft());
 	
-	pDC->SelectObject(pOldPen);  // DC‚Ìƒyƒ“ƒŠƒXƒgƒA
-	penLine.DeleteObject();          // ƒyƒ“ŠJ•ú
+	pDC->SelectObject(pOldPen);  // DCã®ãƒšãƒ³ãƒªã‚¹ãƒˆã‚¢
+	penLine.DeleteObject();          // ãƒšãƒ³é–‹æ”¾
 }
 
 void iNodeDrawer::adjustTextArea(const iNode &node)
@@ -483,38 +483,38 @@ void iNodeDrawer::adjustTextArea(const iNode &node)
 
 void iNodeDrawer::fillBound(const iNode & node, CDC *pDC)
 {
-	CBrush brush(node.getBrsColor());	// ƒuƒ‰ƒVì¬
-	CBrush* brsOld = pDC->SelectObject(&brush);  // DC‚Ìƒuƒ‰ƒV•ÏX
+	CBrush brush(node.getBrsColor());	// ãƒ–ãƒ©ã‚·ä½œæˆ
+	CBrush* brsOld = pDC->SelectObject(&brush);  // DCã®ãƒ–ãƒ©ã‚·å¤‰æ›´
 	
-	fillBoundSpecific(node, pDC, &brush); // ƒTƒuƒNƒ‰ƒX‚Åˆ—
+	fillBoundSpecific(node, pDC, &brush); // ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§å‡¦ç†
 	
-	pDC->SelectObject(brsOld);             // DC‚Ìƒuƒ‰ƒVƒŠƒXƒgƒA
-	brush.DeleteObject();	                  // ƒuƒ‰ƒVŠJ•ú
+	pDC->SelectObject(brsOld);             // DCã®ãƒ–ãƒ©ã‚·ãƒªã‚¹ãƒˆã‚¢
+	brush.DeleteObject();	                  // ãƒ–ãƒ©ã‚·é–‹æ”¾
 }
 
 void iNodeDrawer::drawShape(const iNode &node, CDC *pDC)
 {
 	CPen penLine;
 	penLine.CreatePen(node.getLineStyle(),
-		node.getLineWidth(), node.getLineColor()); // ƒyƒ“ì¬
-	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DC‚Ìƒyƒ“•ÏX
+		node.getLineWidth(), node.getLineColor()); // ãƒšãƒ³ä½œæˆ
+	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCã®ãƒšãƒ³å¤‰æ›´
 	
-	drawShapeSpecific(node, pDC, &penLine); // ƒTƒuƒNƒ‰ƒX‚Åˆ— ƒƒ^ƒtƒ@ƒCƒ‹‚Í‚±‚±‚ÅÄ¶
+	drawShapeSpecific(node, pDC, &penLine); // ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§å‡¦ç† ãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã¯ã“ã“ã§å†ç”Ÿ
 	
-	pDC->SelectObject(pOldPen);  // DC‚Ìƒyƒ“ƒŠƒXƒgƒA
-	penLine.DeleteObject();          // ƒyƒ“ŠJ•ú
+	pDC->SelectObject(pOldPen);  // DCã®ãƒšãƒ³ãƒªã‚¹ãƒˆã‚¢
+	penLine.DeleteObject();          // ãƒšãƒ³é–‹æ”¾
 }
 
 void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 {
-	// ƒtƒHƒ“ƒgì¬
+	// ãƒ•ã‚©ãƒ³ãƒˆä½œæˆ
 	LOGFONT lf = node.getFontInfo();
 	CFont font;
 	font.CreateFont(lf.lfHeight, lf.lfWidth, 0, 0, lf.lfWeight, lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet,
 		             OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, lf.lfFaceName);
 
 	
-	// ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒg•ÏX
+	// ãƒ‡ãƒã‚¤ã‚¹ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã®ãƒ•ã‚©ãƒ³ãƒˆå¤‰æ›´
 	CFont* pOldFont = pDC->SelectObject(&font);
 	COLORREF preColor = pDC->SetTextColor(node.getFontColor());
 	
@@ -640,7 +640,7 @@ void iNodeDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush* brush)
 
 }
 
-// iNodeRectDrawer ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// iNodeRectDrawer ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 void iNodeRectDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
@@ -660,15 +660,15 @@ void iNodeRectDrawer::drawShapeSpecific(const iNode &node, CDC *pDC, const CPen 
 	pDC->LineTo(bound.TopLeft());
 }
 
-// iNodeRoundRectDrawer ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// iNodeRoundRectDrawer ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 void iNodeRoundRectDrawer::drawShape(const iNode &node, CDC *pDC)
 {
 	CPen penLine;
 	penLine.CreatePen(node.getLineStyle(),
-		node.getLineWidth(), node.getLineColor()); // ƒyƒ“ì¬
-	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DC‚Ìƒyƒ“•ÏX
+		node.getLineWidth(), node.getLineColor()); // ãƒšãƒ³ä½œæˆ
+	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCã®ãƒšãƒ³å¤‰æ›´
 	
 	CBrush* pBrsOld;
 	HGDIOBJ hGdiObj;
@@ -688,8 +688,8 @@ void iNodeRoundRectDrawer::drawShape(const iNode &node, CDC *pDC)
 		SelectObject(pDC->m_hDC, hGdiObj);
 	}
 	
-	pDC->SelectObject(pOldPen);  // DC‚Ìƒyƒ“ƒŠƒXƒgƒA
-	penLine.DeleteObject();          // ƒyƒ“ŠJ•ú
+	pDC->SelectObject(pOldPen);  // DCã®ãƒšãƒ³ãƒªã‚¹ãƒˆã‚¢
+	penLine.DeleteObject();          // ãƒšãƒ³é–‹æ”¾
 }
 
 void iNodeRoundRectDrawer::adjustTextArea(const iNode &node)
@@ -714,7 +714,7 @@ void iNodeRoundRectDrawer::adjustTextArea(const iNode &node)
 	}
 }
 
-// iNodeArcDrawer ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// iNodeArcDrawer ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -761,7 +761,7 @@ void iNodeArcDrawer::adjustTextArea(const iNode &node)
 	}
 }
 
-// iNodeMetafileDrawer ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// iNodeMetafileDrawer ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 void iNodeMetafileDrawer::drawShape(const iNode &node, CDC *pDC)
@@ -775,14 +775,14 @@ void iNodeMetafileDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush 
 }
 
 
-// iNodeMMNodeDrawer ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// iNodeMMNodeDrawer ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 void iNodeMMNodeDrawer::drawShapeSpecific(const iNode &node, CDC* pDC, const CPen *pen)
 {
 	pDC->MoveTo(node.getBound().left, node.getBound().bottom);
 	pDC->LineTo(node.getBound().right, node.getBound().bottom);
 }
 
-// iNodes ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// iNodes ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -819,7 +819,7 @@ void iNodes::initSelection()
 		const_niterator it = begin();
 		for ( ; it != end(); it++) {
 			if ((*it).second.getTreeState() & TVIS_SELECTED) {
-				// TVIS_EXPANDED‚ÆŠÔˆá‚¦‚Ä‚½
+				// TVIS_EXPANDEDã¨é–“é•ãˆã¦ãŸ
 				selKey_ = (*it).second.getKey();
 				curParent_ = (*it).second.getParent();
 				break;

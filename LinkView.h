@@ -1,14 +1,14 @@
-#if !defined(AFX_LINKVIEW_H__96DFF9CC_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
+ï»¿#if !defined(AFX_LINKVIEW_H__96DFF9CC_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
 #define AFX_LINKVIEW_H__96DFF9CC_1881_11D3_808A_00A0C9B72FDD__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// LinkView.h : ƒwƒbƒ_[ ƒtƒ@ƒCƒ‹
+// LinkView.h : ãƒ˜ãƒƒãƒ€ãƒ¼ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkView ƒrƒ…[
+// LinkView ãƒ“ãƒ¥ãƒ¼
 class iEditDoc;
 
 typedef stack<DWORD> keyStack;
@@ -16,21 +16,21 @@ typedef stack<DWORD> keyStack;
 class LinkView : public CListView
 {
 protected:
-	LinkView();           // “®“I¶¬‚Ég—p‚³‚ê‚éƒvƒƒeƒNƒg ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	LinkView();           // å‹•çš„ç”Ÿæˆã«ä½¿ç”¨ã•ã‚Œã‚‹ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆ ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	DECLARE_DYNCREATE(LinkView)
 
-// ƒAƒgƒŠƒrƒ…[ƒg
+// ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆ
 public:
 
-// ƒIƒyƒŒ[ƒVƒ‡ƒ“
+// ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	int m_preWidth;
 	void setViewFont();
 	void jumpBack();
 	iEditDoc* GetDocument();
 
-// ƒI[ƒo[ƒ‰ƒCƒh
-	// ClassWizard ‚Í‰¼‘zŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh‚ğ¶¬‚µ‚Ü‚·B
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+	// ClassWizard ã¯ä»®æƒ³é–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 
 	//{{AFX_VIRTUAL(LinkView)
 	public:
@@ -40,12 +40,12 @@ public:
 	virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
 	virtual BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
 	protected:
-	virtual void OnDraw(CDC* pDC);      // ‚±‚Ìƒrƒ…[‚ğ•`‰æ‚·‚é‚½‚ß‚ÉƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ü‚µ‚½B
+	virtual void OnDraw(CDC* pDC);      // ã“ã®ãƒ“ãƒ¥ãƒ¼ã‚’æç”»ã™ã‚‹ãŸã‚ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¾ã—ãŸã€‚
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 protected:
 	virtual ~LinkView();
 #ifdef _DEBUG
@@ -53,7 +53,7 @@ protected:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	// ¶¬‚³‚ê‚½ƒƒbƒZ[ƒW ƒ}ƒbƒvŠÖ”
+	// ç”Ÿæˆã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒƒãƒ—é–¢æ•°
 protected:
 	void reflesh();
 	void setSelection(int index);
@@ -114,6 +114,6 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ ‚Í‘Os‚Ì’¼‘O‚É’Ç‰Á‚ÌéŒ¾‚ğ‘}“ü‚µ‚Ü‚·B
+// Microsoft Visual C++ ã¯å‰è¡Œã®ç›´å‰ã«è¿½åŠ ã®å®£è¨€ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚
 
 #endif // !defined(AFX_LINKVIEW_H__96DFF9CC_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

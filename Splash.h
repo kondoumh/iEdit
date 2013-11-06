@@ -1,36 +1,36 @@
-// CG: ‚±‚Ìƒtƒ@ƒCƒ‹‚ÍƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“ ƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’Ç‰Á‚³‚ê‚Ü‚µ‚½B
+ï»¿// CG: ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ã‚ˆã£ã¦è¿½åŠ ã•ã‚Œã¾ã—ãŸã€‚
 
 #ifndef _SPLASH_SCRN_
 #define _SPLASH_SCRN_
 
-// Splash.h : ƒwƒbƒ_[ ƒtƒ@ƒCƒ‹
+// Splash.h : ãƒ˜ãƒƒãƒ€ãƒ¼ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 /////////////////////////////////////////////////////////////////////////////
-//   ƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“ ƒNƒ‰ƒX
+//   ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ ã‚¯ãƒ©ã‚¹
 
 class CSplashWnd : public CWnd
 {
-// \’z
+// æ§‹ç¯‰
 protected:
 	CSplashWnd();
 
-// ƒAƒgƒŠƒrƒ…[ƒg:
+// ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆ:
 public:
 	CBitmap m_bitmap;
 
-// ƒIƒyƒŒ[ƒVƒ‡ƒ“
+// ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	static void EnableSplashScreen(BOOL bEnable = TRUE);
 	static void ShowSplashScreen(CWnd* pParentWnd = NULL);
 	static BOOL PreTranslateAppMessage(MSG* pMsg);
 
-// ƒI[ƒo[ƒ‰ƒCƒh
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSplashWnd)
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	~CSplashWnd();
 	virtual void PostNcDestroy();
@@ -41,7 +41,7 @@ protected:
 	static BOOL c_bShowSplashWnd;
 	static CSplashWnd* c_pSplashWnd;
 
-// ¶¬‚³‚ê‚½ƒƒbƒZ[ƒW ƒ}ƒbƒvŠÖ”
+// ç”Ÿæˆã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒƒãƒ—é–¢æ•°
 protected:
 	//{{AFX_MSG(CSplashWnd)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

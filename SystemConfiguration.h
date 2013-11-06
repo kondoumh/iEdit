@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <map>
 
 using namespace std;
@@ -8,15 +8,15 @@ typedef map<int, CString> Dictionary;
 class SystemConfiguration
 {
 private:
-	CString m_ConfigurationName; // ƒVƒXƒeƒ€\¬‚Ì•¶š—ñ•\Œ»‚ğ•Û
-	Dictionary m_VersionNames;   // OS‚Ìƒo[ƒWƒ‡ƒ“—pƒfƒBƒNƒVƒ‡ƒiƒŠ[
-	Dictionary m_ProductNames;   // OS‚Ìƒvƒƒ_ƒNƒg–¼—pƒfƒBƒNƒVƒ‡ƒiƒŠ[
+	CString m_ConfigurationName; // ã‚·ã‚¹ãƒ†ãƒ æ§‹æˆã®æ–‡å­—åˆ—è¡¨ç¾ã‚’ä¿æŒ
+	Dictionary m_VersionNames;   // OSã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç”¨ãƒ‡ã‚£ã‚¯ã‚·ãƒ§ãƒŠãƒªãƒ¼
+	Dictionary m_ProductNames;   // OSã®ãƒ—ãƒ­ãƒ€ã‚¯ãƒˆåç”¨ãƒ‡ã‚£ã‚¯ã‚·ãƒ§ãƒŠãƒªãƒ¼
 	
 public:
 	SystemConfiguration(void);
 	~SystemConfiguration(void);
 	
-	// OS‚Ìƒo[ƒWƒ‡ƒ“‚Ìenum
+	// OSã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã®enum
 	enum Versions {
 		Unknown,
 		UnKnown2000,
@@ -33,15 +33,15 @@ public:
 		Windows7,
 		Windows8
 	};
-	// OS‚Ìƒvƒƒ_ƒNƒgƒ^ƒCƒv‚Ìenum
+	// OSã®ãƒ—ãƒ­ãƒ€ã‚¯ãƒˆã‚¿ã‚¤ãƒ—ã®enum
 	enum ProductTypes {UnknownProduct, Home, Professional, Server};
-	/// OS‚ÌƒvƒƒZƒbƒT[ƒ^ƒCƒv‚Ìenum
+	/// OSã®ãƒ—ãƒ­ã‚»ãƒƒã‚µãƒ¼ã‚¿ã‚¤ãƒ—ã®enum
 	enum ProcessorTypes {x32, x64};
 	
-	int m_OsVersion; //  OS‚Ìƒo[ƒWƒ‡ƒ“‚Ìenum’l‚ğŠi”[
-	int m_OsProduct; // OS‚Ìƒvƒƒ_ƒNƒgƒ^ƒCƒv‚Ìenum’l‚ğŠi”[
-	int m_OsProssesorEdition; // OS‚ÌƒvƒƒZƒbƒT[ƒ^ƒCƒv‚Ìenum’l‚ğŠi”[
-	CString m_ServicePackName; // OS‚ÌƒT[ƒrƒXƒpƒbƒN–¼‚ğŠi”[
+	int m_OsVersion; //  OSã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã®enumå€¤ã‚’æ ¼ç´
+	int m_OsProduct; // OSã®ãƒ—ãƒ­ãƒ€ã‚¯ãƒˆã‚¿ã‚¤ãƒ—ã®enumå€¤ã‚’æ ¼ç´
+	int m_OsProssesorEdition; // OSã®ãƒ—ãƒ­ã‚»ãƒƒã‚µãƒ¼ã‚¿ã‚¤ãƒ—ã®enumå€¤ã‚’æ ¼ç´
+	CString m_ServicePackName; // OSã®ã‚µãƒ¼ãƒ“ã‚¹ãƒ‘ãƒƒã‚¯åã‚’æ ¼ç´
 	CString GetConfigurationName() const;
 	bool isMeiryoEnabled();
 	bool isMeiryoUiEnabled();

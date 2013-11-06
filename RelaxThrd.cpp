@@ -1,4 +1,4 @@
-// RelaxThrd.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// RelaxThrd.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -49,7 +49,7 @@ CRelaxThrd::~CRelaxThrd()
 
 BOOL CRelaxThrd::InitInstance()
 {
-	// TODO: ���̈ʒu�ɃX���b�h�P�ʂ̏������R�[�h��ǉ����Ă��������B
+	// TODO: この位置にスレッド単位の初期化コードを追加してください。
 	// thread setup
 	m_brush.Attach(m_hBrush);
 	m_brush2.Attach(m_hBrush2);
@@ -68,18 +68,18 @@ BOOL CRelaxThrd::InitInstance()
 
 int CRelaxThrd::ExitInstance()
 {
-	// TODO: ���̈ʒu�ɃX���b�h�P�ʂ̏������R�[�h��ǉ����Ă��������B
+	// TODO: この位置にスレッド単位の初期化コードを追加してください。
 	return CWinThread::ExitInstance();
 }
 
 BEGIN_MESSAGE_MAP(CRelaxThrd, CWinThread)
 	//{{AFX_MSG_MAP(CRelaxThrd)
-		// ���� - ClassWizard �͂��̈ʒu�Ƀ}�b�s���O�p�̃}�N����ǉ����܂��B
+		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加します。
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CRelaxThrd ���b�Z�[�W �n���h��
+// CRelaxThrd メッセージ ハンドラ
 
 CRelaxThrd::CRelaxThrd()
 {
@@ -151,7 +151,7 @@ void CRelaxThrd::SingleStep()
 		double y = max(-5, min(5, (*it1).dy));
 		CRect rc = (*it1).oldBound;
 		rc.OffsetRect((int)x, (int)y);
-		// �̈�̃`�F�b�N
+		// 領域のチェック
 		if (rc.left < 0) {
 			rc.right = (*it1).oldBound.Width();
 			rc.left = 0;

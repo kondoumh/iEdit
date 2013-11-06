@@ -1,4 +1,4 @@
-// setFoldUpDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// setFoldUpDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// setFoldUpDlg �_�C�A���O
+// setFoldUpDlg ダイアログ
 
 
 setFoldUpDlg::setFoldUpDlg(CWnd* pParent /*=NULL*/)
@@ -41,14 +41,14 @@ BEGIN_MESSAGE_MAP(setFoldUpDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// setFoldUpDlg ���b�Z�[�W �n���h��
+// setFoldUpDlg メッセージ ハンドラ
 
 BOOL setFoldUpDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	m_spin.SetRange(1, 10000);
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }

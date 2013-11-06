@@ -1,4 +1,4 @@
-// nodeSrchDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// nodeSrchDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// nodeSrchDlg �_�C�A���O
+// nodeSrchDlg ダイアログ
 
 
 nodeSrchDlg::nodeSrchDlg(CWnd* pParent /*=NULL*/)
@@ -65,11 +65,11 @@ BEGIN_MESSAGE_MAP(nodeSrchDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// nodeSrchDlg ���b�Z�[�W �n���h��
+// nodeSrchDlg メッセージ ハンドラ
 
 BOOL nodeSrchDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
 {
-	// TODO: ���̈ʒu�ɌŗL�̏�����ǉ����邩�A�܂��͊�{�N���X���Ăяo���Ă�������
+	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	m_pParent = pParentWnd;
 	
 	return CDialog::Create(IDD, pParentWnd);
@@ -77,14 +77,14 @@ BOOL nodeSrchDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dw
 
 void nodeSrchDlg::OnOk() 
 {
-	// TODO: ���̈ʒu�ɃR�}���h �n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	return;
 //	m_pParent->PostMessage(WM_CLOSESRCHWINDOW, IDOK);
 }
 
 void nodeSrchDlg::OnCancel() 
 {
-	// TODO: ���̈ʒu�ɓ��ʂȌ㏈����ǉ����Ă��������B
+	// TODO: この位置に特別な後処理を追加してください。
 	m_pParent->PostMessage(WM_CLOSESRCHWINDOW, IDCANCEL);
 	m_pParent->SetFocus();
 	CDialog::OnCancel();
@@ -92,7 +92,7 @@ void nodeSrchDlg::OnCancel()
 
 void nodeSrchDlg::OnStart() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetWindowText(m_srchString);
 	if (m_srchString == _T("")) return;
 	m_btnStart.EnableWindow(FALSE);
@@ -104,7 +104,7 @@ void nodeSrchDlg::OnStart()
 
 void nodeSrchDlg::OnBtngo() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	srchNode();
 }
 
@@ -112,25 +112,25 @@ void nodeSrchDlg::srchNode()
 {
 	int index = m_lcResult.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	if (index == -1) return;
-	m_pParent->PostMessage(WM_SRCHNODE, m_labels[index].key/* �m�[�hID*/);
+	m_pParent->PostMessage(WM_SRCHNODE, m_labels[index].key/* ノードID*/);
 	m_pParent->SetFocus();
 }
 
 void nodeSrchDlg::OnChklabel() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bLabel = m_chLabel.GetCheck();
 }
 
 void nodeSrchDlg::OnChklinks() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bLinks = m_ckLiinks.GetCheck();
 }
 
 void nodeSrchDlg::OnChktext() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bText = m_ckText.GetCheck();
 }
 
@@ -138,9 +138,9 @@ BOOL nodeSrchDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
-	m_lcResult.InsertColumn(0, _T("����"));
-	m_lcResult.InsertColumn(1, _T("���"));
+	// TODO: この位置に初期化の補足処理を追加してください
+	m_lcResult.InsertColumn(0, _T("項目"));
+	m_lcResult.InsertColumn(1, _T("種別"));
 	CRect rc; m_lcResult.GetClientRect(&rc);
 	m_lcResult.SetColumnWidth(0, rc.Width() - 70);
 	m_lcResult.SetColumnWidth(1, 70);
@@ -157,8 +157,8 @@ BOOL nodeSrchDlg::OnInitDialog()
 	int cy = rc.Height() - crc.Height();
 	m_lcResult.GetWindowRect(m_iniLCRect);
 	m_iniLCRect.OffsetRect(-rc.left, -rc.top - cy);
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 void nodeSrchDlg::displayResult()
@@ -184,7 +184,7 @@ void nodeSrchDlg::displayResult()
 
 void nodeSrchDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	srchNode();
 	
 	*pResult = 0;
@@ -193,7 +193,7 @@ void nodeSrchDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 void nodeSrchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	
 	if (pDispInfo->item.mask & LVIF_TEXT) {
 		int index = (int)pDispInfo->item.lParam;
@@ -221,7 +221,7 @@ void nodeSrchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 
 void nodeSrchDlg::OnChkupper() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bUpper = m_ckUpper.GetCheck();
 }
 
@@ -229,7 +229,7 @@ void nodeSrchDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
 	
-	// TODO: ���̈ʒu�Ƀ��b�Z�[�W �n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	CRect rc;
 	GetClientRect(rc);
 	CRect newrc(20, m_iniLCRect.top, rc.right-15, rc.bottom - 15);
@@ -241,7 +241,7 @@ void nodeSrchDlg::OnSize(UINT nType, int cx, int cy)
 
 void nodeSrchDlg::OnEditchangeCombo() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetWindowText(m_srchString);
 	m_lcResult.DeleteAllItems();
 	if (m_srchString == _T("")) return;
@@ -253,7 +253,7 @@ void nodeSrchDlg::OnEditchangeCombo()
 
 void nodeSrchDlg::OnSelchangeCombo() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetLBText(m_combSrch.GetCurSel(), m_srchString);
 	m_lcResult.DeleteAllItems();
 	if (m_srchString == _T("")) return;

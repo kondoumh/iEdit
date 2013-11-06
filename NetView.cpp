@@ -1,4 +1,4 @@
-// NetView.cpp : ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“ ƒtƒ@ƒCƒ‹
+ï»¿// NetView.cpp : ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -49,7 +49,7 @@ NetView::NetView()
 	m_hLabelCsr = AfxGetApp()->LoadCursor(IDC_LABELONLY);
 	m_bLayouting = false;
 	m_pShapesDlg = NULL;
-	m_fZoomScale = 1.0f; // 0.0f‚æ‚è‚æ‚¢‚ñ‚¶‚áH
+	m_fZoomScale = 1.0f; // 0.0fã‚ˆã‚Šã‚ˆã„ã‚“ã˜ã‚ƒï¼Ÿ
 	m_fZoomScalePrev = 1.0f;
 	m_bAplyForm = false;
 	
@@ -207,7 +207,7 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_COMMAND(ID_SET_LINK_ARROW_DOUBLE, OnSetLinkArrowDouble)
 	ON_UPDATE_COMMAND_UI(ID_SET_LINK_ARROW_DOUBLE, OnUpdateSetLinkArrowDouble)
 	//}}AFX_MSG_MAP
-	// •W€ˆóüƒRƒ}ƒ“ƒh
+	// æ¨™æº–å°åˆ·ã‚³ãƒãƒ³ãƒ‰
 	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, &OnTtnNeedText)
 	ON_COMMAND(ID_FILE_PRINT, CScrollView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CScrollView::OnFilePrint)
@@ -291,7 +291,7 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// NetView •`‰æ
+// NetView æç”»
 
 void NetView::OnInitialUpdate()
 {
@@ -328,7 +328,7 @@ void NetView::OnDraw(CDC* pDC)
 	if (m_bLayouting) return;
 	iEditDoc* pDoc = GetDocument();
 	
-	// TODO: ‚±‚ÌˆÊ’u‚É•`‰æ—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«æç”»ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 	bool bDrwAll = false;
 	pDoc->drawNodes(pDC, bDrwAll);
@@ -357,16 +357,16 @@ void NetView::OnDraw(CDC* pDC)
 
 BOOL NetView::OnEraseBkgnd(CDC* pDC) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
-	// ƒuƒ‰ƒV‚ğg‚¢‚½‚¢”wŒiF‚Éİ’è‚·‚éB
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
+	// ãƒ–ãƒ©ã‚·ã‚’ä½¿ã„ãŸã„èƒŒæ™¯è‰²ã«è¨­å®šã™ã‚‹ã€‚
 	
 	if (!m_bLayouting) {
 		CBrush backBrush(m_bkColor);
 	
-		// ŒÃ‚¢ƒuƒ‰ƒV‚ğ•Û‘¶‚·‚éB
+		// å¤ã„ãƒ–ãƒ©ã‚·ã‚’ä¿å­˜ã™ã‚‹ã€‚
 		CBrush* pOldBrush = pDC->SelectObject(&backBrush);
 		CRect rect;
-		pDC->GetClipBox(&rect);     // ‘ÎÛ—Ìˆæ‚ğÁ‹B
+		pDC->GetClipBox(&rect);     // å¯¾è±¡é ˜åŸŸã‚’æ¶ˆå»ã€‚
 		
 		pDC->PatBlt(rect.left, rect.top, rect.Width(), 
 		rect.Height(), PATCOPY);
@@ -476,7 +476,7 @@ void NetView::drawAlterLinkTo(CDC *pDC)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// NetView f’f
+// NetView è¨ºæ–­
 
 #ifdef _DEBUG
 void NetView::AssertValid() const
@@ -491,11 +491,11 @@ void NetView::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// NetView ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// NetView ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 void NetView::OnContextMenu(CWnd* pWnd, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bLayouting) {
 		return;
 	}
@@ -549,7 +549,7 @@ void NetView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 BOOL NetView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (m_bGrasp) {
 		if (m_bDragView) {
 			::SetCursor(m_hHandClose);
@@ -617,19 +617,19 @@ iEditDoc* NetView::GetDocument()
 void NetView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	///////////////////////////////////////////////////
-	// TODO: ¶ƒ{ƒ^ƒ“‰Ÿ‰ºˆ—
+	// TODO: å·¦ãƒœã‚¿ãƒ³æŠ¼ä¸‹æ™‚å‡¦ç†
 	//////////////////////////////////////////////////
-	if (m_bLayouting) { // ©“®ƒŒƒCƒAƒEƒg’†‚È‚ç~‚ß‚ÄƒŠƒ^[ƒ“
+	if (m_bLayouting) { // è‡ªå‹•ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆä¸­ãªã‚‰æ­¢ã‚ã¦ãƒªã‚¿ãƒ¼ãƒ³
 		stopLayouting();
 		return;
 	}
 	
 	CPoint logPt = point; ViewDPtoLP(&logPt);
 	
-	preparePastePoint(logPt); // ƒm[ƒh‚Ìƒy[ƒXƒgæ‚ğ—pˆÓ‚µ‚Ä‚¨‚­
-	m_ptScreen = point + GetScrollPosition(); // ƒXƒNƒŠ[ƒ“À•W‚à•Û‚µ‚Ä‚¨‚­
+	preparePastePoint(logPt); // ãƒãƒ¼ãƒ‰ã®ãƒšãƒ¼ã‚¹ãƒˆå…ˆã‚’ç”¨æ„ã—ã¦ãŠã
+	m_ptScreen = point + GetScrollPosition(); // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã‚‚ä¿æŒã—ã¦ãŠã
 	
-	if (m_bGrasp) {     // ƒnƒ“ƒhƒ‚[ƒh‚Ìˆ—
+	if (m_bGrasp) {     // ãƒãƒ³ãƒ‰ãƒ¢ãƒ¼ãƒ‰ã®å‡¦ç†
 		m_ptPrePos = point;
 		return;
 	}
@@ -644,14 +644,14 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 	
-	if (isAddingNode()) { // ƒm[ƒh’Ç‰Á‚Ìˆ—
+	if (isAddingNode()) { // ãƒãƒ¼ãƒ‰è¿½åŠ ã®å‡¦ç†
 		CPoint spt(point);
 		ClientToScreen(&spt);
 		addNode(logPt, spt);
 		return;
 	}
 	
-	if (isAddingLink()) { // ƒŠƒ“ƒN’Ç‰ÁŠJn‚Ìˆ—
+	if (isAddingLink()) { // ãƒªãƒ³ã‚¯è¿½åŠ é–‹å§‹ã®å‡¦ç†
 		CRect r;
 		if (GetDocument()->hitTest(logPt, r, false)) {
 			m_ptPrePos = point;
@@ -660,11 +660,11 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 	
-	// ˆğ‚Ã‚éƒ‚[ƒhŠJn
+	// èŠ‹ã¥ã‚‹ãƒ¢ãƒ¼ãƒ‰é–‹å§‹
 	if (nFlags & MK_CONTROL) {
 		CRect r;
 		if (GetDocument()->hitTest(logPt, r, false)) {
-			// ƒm[ƒh‚Ì‹éŒ`“à‚ÌƒIƒtƒZƒbƒg‚ğŒvZ
+			// ãƒãƒ¼ãƒ‰ã®çŸ©å½¢å†…ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’è¨ˆç®—
 			CPoint selTopLeft = GetDocument()->getSelectedNodeRect().TopLeft();
 			m_dragOffset = selTopLeft - logPt;
 			
@@ -677,18 +677,18 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	// ƒzƒC[ƒ‹ƒ{ƒ^ƒ“‚Ì‘ã‘ÖƒAƒNƒVƒ‡ƒ“
+	// ãƒ›ã‚¤ãƒ¼ãƒ«ãƒœã‚¿ãƒ³ã®ä»£æ›¿ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
 	if (nFlags & MK_SHIFT) {
 		m_addMode = NetView::link0;
 		startLink(logPt);
 		return;
 	}
 
-	// ƒŠƒ“ƒN•ªŠ„‘}“üƒAƒNƒVƒ‡ƒ“ŠJn
+	// ãƒªãƒ³ã‚¯åˆ†å‰²æŒ¿å…¥ã‚¢ã‚¯ã‚·ãƒ§ãƒ³é–‹å§‹
 	if (GetAsyncKeyState(VK_MENU) & 0x8000) {
 		CRect r;
 		if (GetDocument()->hitTest(logPt, r, false)) {
-			// ƒm[ƒh‚Ì‹éŒ`“à‚ÌƒIƒtƒZƒbƒg‚ğŒvZ
+			// ãƒãƒ¼ãƒ‰ã®çŸ©å½¢å†…ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’è¨ˆç®—
 			CPoint selTopLeft = GetDocument()->getSelectedNodeRect().TopLeft();
 			m_dragOffset = selTopLeft - logPt;
 			
@@ -701,7 +701,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	// •¡”‘I‘ğ’†‚Éƒgƒ‰ƒbƒJ‚ğ‘I‘ğ‚µ‚½ ¨ •¡”ƒgƒ‰ƒbƒNˆ—
+	// è¤‡æ•°é¸æŠä¸­ã«ãƒˆãƒ©ãƒƒã‚«ã‚’é¸æŠã—ãŸ â†’ è¤‡æ•°ãƒˆãƒ©ãƒƒã‚¯å‡¦ç†
 	if (m_selectStatus == NetView::multi) {
 		if (m_selectRect.PtInRect(logPt)) {
 			CWindowDC dc(this);
@@ -711,7 +711,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 	
-	// ’P“Æ‘I‘ğ’†‚Éƒgƒ‰ƒbƒJ‚ğ‘I‘ğ‚µ‚½ ¨ ’P“Æƒgƒ‰ƒbƒNˆ—
+	// å˜ç‹¬é¸æŠä¸­ã«ãƒˆãƒ©ãƒƒã‚«ã‚’é¸æŠã—ãŸ â†’ å˜ç‹¬ãƒˆãƒ©ãƒƒã‚¯å‡¦ç†
 	if (m_selectStatus == NetView::single) {
 		CRect selectRect = m_selectRect;
 		m_testRect = m_selectRect;
@@ -734,10 +734,10 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 	
-	// ‘I‘ğ‚ªXV‚³‚ê‚½ê‡
+	// é¸æŠãŒæ›´æ–°ã•ã‚ŒãŸå ´åˆ
 	doUpdateSelection(logPt);
 	
-	// ‘I‘ğXVŒã‚Ìƒgƒ‰ƒbƒNˆ—‹y‚Ñ‘I‘ğ—pƒ‰ƒo[ƒoƒ“ƒh‚Ìˆ—
+	// é¸æŠæ›´æ–°å¾Œã®ãƒˆãƒ©ãƒƒã‚¯å‡¦ç†åŠã³é¸æŠç”¨ãƒ©ãƒãƒ¼ãƒãƒ³ãƒ‰ã®å‡¦ç†
 	doPostSelection(logPt, nFlags & MK_SHIFT);
 	
 	CScrollView::OnLButtonDown(nFlags, point);
@@ -772,13 +772,13 @@ void NetView::preparePastePoint(const CPoint &point)
 
 }
 
-// ‘I‘ğ‚ªXV‚³‚ê‚éê‡‚Ìˆ—
+// é¸æŠãŒæ›´æ–°ã•ã‚Œã‚‹å ´åˆã®å‡¦ç†
 void NetView::doUpdateSelection(const CPoint &logPt)
 {
 	CRect old = m_selectRect; adjustRedrawBound(old);
 	CRect r;
 	if (GetDocument()->hitTestLinks(logPt, false)) {
-		// ƒŠƒ“ƒN‚Ì‘I‘ğ‚ªXV‚³‚ê‚½
+		// ãƒªãƒ³ã‚¯ã®é¸æŠãŒæ›´æ–°ã•ã‚ŒãŸ
 		m_selectStatus = NetView::link;
 		GetDocument()->getSelectedLinkPts(m_linkStart, m_linkEnd, false);
 		m_selectRect = GetDocument()->getSelectedLinkBound(false);
@@ -786,7 +786,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		InvalidateRect(nw);
 		InvalidateRect(old);
 	} else if (GetDocument()->hitTestLinksFrom(logPt, false)) {
-		// ƒŠƒ“ƒN‚ÌƒŠƒ“ƒNŒ³‚ğ‘I‘ğ‚µ‚½
+		// ãƒªãƒ³ã‚¯ã®ãƒªãƒ³ã‚¯å…ƒã‚’é¸æŠã—ãŸ
 		m_selectStatus = NetView::linkTermFrom;
 		m_selectRect = GetDocument()->getSelectedLinkBound(false);
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
@@ -794,7 +794,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		InvalidateRect(old);
 		startAlterFrom(logPt);
 	} else if (GetDocument()->hitTestLinksTo(logPt, false)) {
-		// ƒŠƒ“ƒN‚ÌƒŠƒ“ƒNæ‚ğ‘I‘ğ‚µ‚½
+		// ãƒªãƒ³ã‚¯ã®ãƒªãƒ³ã‚¯å…ˆã‚’é¸æŠã—ãŸ
 		m_selectStatus = NetView::linkTermTo;
 		m_selectRect = GetDocument()->getSelectedLinkBound(false);
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
@@ -802,14 +802,14 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		InvalidateRect(old);
 		startAlterTo(logPt);
 	} else if (GetDocument()->hitTest(logPt, r, false)) {
-		// ƒm[ƒh‚Ì‘I‘ğ‚ªXV‚³‚ê‚½
+		// ãƒãƒ¼ãƒ‰ã®é¸æŠãŒæ›´æ–°ã•ã‚ŒãŸ
 		m_selectStatus = NetView::single;
 		m_selectRect = r;
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
 		InvalidateRect(nw);
 		InvalidateRect(old);
 	} else {
-		// ‘I‘ğ‚ª‰ğœ‚³‚ê‚½
+		// é¸æŠãŒè§£é™¤ã•ã‚ŒãŸ
 		CRect old = m_selectRect; adjustRedrawBound(old);
 		m_selectStatus = NetView::none;
 		m_selectRect = CRect(0, 0, 0, 0);
@@ -817,19 +817,19 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 	}
 }
 
-// ‘I‘ğ‚ªXV‚³‚ê‚½Œã‚Ìˆ— --ƒgƒ‰ƒbƒNˆ—‚Æƒ‰ƒo[ƒoƒ“ƒhˆ—
+// é¸æŠãŒæ›´æ–°ã•ã‚ŒãŸå¾Œã®å‡¦ç† --ãƒˆãƒ©ãƒƒã‚¯å‡¦ç†ã¨ãƒ©ãƒãƒ¼ãƒãƒ³ãƒ‰å‡¦ç†
 void NetView::doPostSelection(const CPoint &logPt, BOOL shiftPressed)
 {
 	CPoint logicalPt = logPt;
 	CPoint point = logPt;
 	ViewLPtoDP(&point);
 	if (m_selectStatus == NetView::single) {
-		// ’P“Æ‘I‘ğ‚Ìê‡ ¨ ƒgƒ‰ƒbƒNˆ—‚É‚·‚®“ü‚é
+		// å˜ç‹¬é¸æŠã®å ´åˆ â†’ ãƒˆãƒ©ãƒƒã‚¯å‡¦ç†ã«ã™ãå…¥ã‚‹
 		CWindowDC dc(this);
 		OnPrepareDC(&dc);
 		trackSingle(logicalPt, point, &dc, shiftPressed);
 	} else if (m_selectStatus == NetView::none) {
-		// ‰½‚à‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í ‘I‘ğ—pƒ‰ƒo[ƒoƒ“ƒh‚Ìˆ—
+		// ä½•ã‚‚é¸æŠã•ã‚Œã¦ã„ãªã„å ´åˆã¯ é¸æŠç”¨ãƒ©ãƒãƒ¼ãƒãƒ³ãƒ‰ã®å‡¦ç†
 		CRectTracker tracker;
 		m_selectStatus = NetView::none;
 		tracker.TrackRubberBand(this, point);
@@ -845,7 +845,7 @@ void NetView::doPostSelection(const CPoint &logPt, BOOL shiftPressed)
 			m_selectRect = selRect;
 			if (selcnt > 1) {
 				m_selectStatus = NetView::multi;
-				GetDocument()->selectLinksInBound(trackerRect, false);// ŠÜ‚Ü‚ê‚élink‚à‘I‘ğ‚·‚é
+				GetDocument()->selectLinksInBound(trackerRect, false);// å«ã¾ã‚Œã‚‹linkã‚‚é¸æŠã™ã‚‹
 				m_selectRect |= GetDocument()->getSelectedLinkBound(false);
 			} else if (selcnt == 1) {
 				m_selectStatus = NetView::single;
@@ -940,7 +940,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 		int moveY = m_selectRect.top - org.top;
 		GetDocument()->moveSelectedLink(CSize(moveX, moveY));
 		CRect rdnw = GetDocument()->getRelatedBound(false); adjustRedrawBound(rdnw);
-		// getRelatedBoundAnd‚É•ÏX
+		// getRelatedBoundAndã«å¤‰æ›´
 		CRect rc;
 		if (!rc.IntersectRect(old, rdnw)) {
 			InvalidateRect(old);
@@ -964,7 +964,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 
 void NetView::OnAddLink0() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_addMode == NetView::link0) {
 		m_addMode = NetView::normal;
 	} else {
@@ -974,18 +974,18 @@ void NetView::OnAddLink0()
 
 void NetView::OnUpdateAddLink0(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::link0);
 }
 
 void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	stopLayouting();
 	adjustScrollArea();
 	
-	int prevSelectStatus = m_selectStatus; // –‘O‚Ì‘I‘ğó‘Ô•Û
+	int prevSelectStatus = m_selectStatus; // äº‹å‰ã®é¸æŠçŠ¶æ…‹ä¿æŒ
 	
 	m_selectStatus = NetView::none;
 	
@@ -1042,7 +1042,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		m_selectStatus = NetView::link;
 			InvalidateRect(oldBound);
 			
-			// Ä•`‰æ—Ìˆæ‚ÌŒvZƒƒWƒbƒN‚ğì‚Á‚Ä‚İ‚½
+			// å†æç”»é ˜åŸŸã®è¨ˆç®—ãƒ­ã‚¸ãƒƒã‚¯ã‚’ä½œã£ã¦ã¿ãŸ
 			nwBound = GetDocument()->getSelectedLinkBound(false);
 			nwBound.left = (int)(nwBound.left*m_fZoomScale);
 			nwBound.top = (int)(nwBound.top*m_fZoomScale);
@@ -1087,7 +1087,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 			break;
 		}
 		Invalidate();
-		SendMessage(WM_SIZE); // ‚±‚¤‚Å‚à‚µ‚È‚¢‚Æ”½‰f‚µ‚Ä‚­‚ê‚È‚¢Bb’è“I‚É
+		SendMessage(WM_SIZE); // ã“ã†ã§ã‚‚ã—ãªã„ã¨åæ˜ ã—ã¦ãã‚Œãªã„ã€‚æš«å®šçš„ã«
 		break;
 	case iHint::nodeLabelChanged:
 	case iHint::nodeStyleChanged:
@@ -1134,7 +1134,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		CRect viewPort; GetClientRect(&viewPort);
 		CPoint pos = GetScrollPosition();
 		
-		CRect selRect; // ‘I‘ğ‹éŒ`‚ÌŒ©‚¦‚Ì‘å‚«‚³Ši”[—p
+		CRect selRect; // é¸æŠçŸ©å½¢ã®è¦‹ãˆã®å¤§ãã•æ ¼ç´ç”¨
 		selRect.left = (LONG)(((double)m_selectRect.left)*m_fZoomScale);
 		selRect.top = (LONG)(((double)m_selectRect.top)*m_fZoomScale);
 		selRect.right = (LONG)(((double)m_selectRect.right)*m_fZoomScale);
@@ -1143,7 +1143,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		viewPort.OffsetRect(pos.x, pos.y);
 		if (!viewPort.IntersectRect(viewPort, selRect)) {
 			ScrollToPosition(CPoint(selRect.TopLeft()));
-			SendMessage(WM_SIZE); // ‚±‚¤‚Å‚à‚µ‚È‚¢‚Æ”½‰f‚µ‚Ä‚­‚ê‚È‚¢Bb’è“I‚É
+			SendMessage(WM_SIZE); // ã“ã†ã§ã‚‚ã—ãªã„ã¨åæ˜ ã—ã¦ãã‚Œãªã„ã€‚æš«å®šçš„ã«
 			Invalidate();
 		}
 		break;
@@ -1185,12 +1185,12 @@ void NetView::startAlterTo(const CPoint &pt)
 
 void NetView::OnMouseMove(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	CPoint logPt = point;
 	ViewDPtoLP(&logPt);
 	
 	/////////////////////
-	// ƒc[ƒ‹ƒ`ƒbƒv•\¦—p
+	// ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—è¡¨ç¤ºç”¨
 	/////////////////////
 	if (m_addMode == normal && !m_bLayouting && m_selectStatus != NetView::multi
 		 && !m_bDragRelax) {
@@ -1214,7 +1214,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	
 	
 	/////////////////////
-	// View ‚ÌGraspScroll
+	// View ã®GraspScroll
 	/////////////////////
 	if (m_bGrasp) {
 		m_bDragView = (nFlags & MK_LBUTTON);
@@ -1239,7 +1239,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	
 	/////////////////////
-	// ˆğ– ˆ—
+	// èŠ‹è”“å‡¦ç†
 	/////////////////////
 	if (nFlags & MK_CONTROL && m_bDragRelax) {
 		GetDocument()->relaxSingleStep(logPt, m_dragOffset);
@@ -1250,7 +1250,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	
 	///////////////////////////////
-	// ƒŠƒ“ƒN•ªŠ„‘}“üƒAƒNƒVƒ‡ƒ“
+	// ãƒªãƒ³ã‚¯åˆ†å‰²æŒ¿å…¥ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
 	///////////////////////////////
 	if (GetAsyncKeyState(VK_MENU) & 0x8000 && m_bLinkAction) {
 		CRect rc = GetDocument()->getSelectedNodeRect();
@@ -1287,7 +1287,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	
 	/////////////////////
-	// link ‚Ì Curve
+	// link ã® Curve
 	/////////////////////
 	if (!m_bStartAdd && m_selectStatus == NetView::link && nFlags & MK_LBUTTON) {
 		m_linkPath = logPt;
@@ -1306,7 +1306,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	
 	//////////////////////
-	//  ƒŠƒ“ƒN‚Ì•t‚¯‘Ö‚¦
+	//  ãƒªãƒ³ã‚¯ã®ä»˜ã‘æ›¿ãˆ
 	//////////////////////
 	if (m_bAlteringLinkFrom && m_selectStatus == NetView::linkTermFrom && nFlags & MK_LBUTTON) {
 		m_ptAlteringAnker = logPt;
@@ -1335,7 +1335,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	
 	///////////////////
-	// link ‚Ì’Ç‰Á
+	// link ã®è¿½åŠ 
 	///////////////////
 	if (isAddingLink()) {
 		if (!nFlags & MK_LBUTTON) {
@@ -1360,10 +1360,10 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 void NetView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
 	////////////////////////////////////////
-	// TODO: Mouse‚Ì¶ƒ{ƒ^ƒ“ƒŠƒŠ[ƒX‚Ìˆ—
+	// TODO: Mouseã®å·¦ãƒœã‚¿ãƒ³ãƒªãƒªãƒ¼ã‚¹æ™‚ã®å‡¦ç†
 	////////////////////////////////////////
 	
-	if (m_bGrasp) { // ƒnƒ“ƒhƒ‚[ƒh‚Ì‰ğœ
+	if (m_bGrasp) { // ãƒãƒ³ãƒ‰ãƒ¢ãƒ¼ãƒ‰ã®è§£é™¤
 		m_bDragView = false;
 		return;
 	}
@@ -1371,19 +1371,19 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	CPoint logPt = point;
 	ViewDPtoLP(&logPt);
 	
-	// ˆğ– ƒ‚[ƒh‚Ì‰ğœ
+	// èŠ‹è”“ãƒ¢ãƒ¼ãƒ‰ã®è§£é™¤
 	if (m_bDragRelax) {
 		cancelDragRelax();
 		return;
 	}
 	
-	// ƒzƒC[ƒ‹ƒ{ƒ^ƒ“‚Ì‘ã‘Ö
+	// ãƒ›ã‚¤ãƒ¼ãƒ«ãƒœã‚¿ãƒ³ã®ä»£æ›¿
 	if (nFlags & MK_SHIFT) {
 		PointedLinkEndPosition(point);
 		return;
 	}
 
-	// ƒŠƒ“ƒN•ªŠ„‘}“üƒAƒNƒVƒ‡ƒ“‚Ìˆ—
+	// ãƒªãƒ³ã‚¯åˆ†å‰²æŒ¿å…¥ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®å‡¦ç†
 	if (m_bLinkAction) {
 		GetDocument()->setSelectedNodeDragging(false);
 		if (m_nodeKeyDrop != -1) {
@@ -1397,7 +1397,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		return;
 	}
 	
-	// ƒŠƒ“ƒNŒ³‚Ì’£‘Ö‚¦
+	// ãƒªãƒ³ã‚¯å…ƒã®å¼µæ›¿ãˆ
 	if (m_bAlteringLinkFrom) {
 		m_bAlteringLinkFrom = false;
 		CSize sz = m_alterLinkStartPt - logPt;
@@ -1419,7 +1419,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		return;
 	}
 	
-	// ƒŠƒ“ƒNæ‚Ì’£‘Ö‚¦
+	// ãƒªãƒ³ã‚¯å…ˆã®å¼µæ›¿ãˆ
 	if (m_bAlteringLinkTo) {
 		m_bAlteringLinkTo = false;
 		CSize sz = m_alterLinkStartPt - logPt;
@@ -1441,7 +1441,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		return;
 	}
 	
-	// ƒŠƒ“ƒN‚ğ‹È‚°‚½
+	// ãƒªãƒ³ã‚¯ã‚’æ›²ã’ãŸ
 	if (!m_bStartAdd) {
 		if (m_bLinkCurving && m_selectStatus == NetView::link) {
 			m_bLinkCurving = false;
@@ -1458,7 +1458,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		return;
 	}
 	
-	// ƒŠƒ“ƒN‚ğ’Ç‰Á‚µI‚í‚Á‚½(ƒm[ƒhã‚Åƒ}ƒEƒX‚ğƒŠƒŠ[ƒX‚µ‚½‚©)
+	// ãƒªãƒ³ã‚¯ã‚’è¿½åŠ ã—çµ‚ã‚ã£ãŸ(ãƒãƒ¼ãƒ‰ä¸Šã§ãƒã‚¦ã‚¹ã‚’ãƒªãƒªãƒ¼ã‚¹ã—ãŸã‹)
 	if (m_ptPrePos == point) return;
 	bool linked = false;
 	switch (m_addMode) {
@@ -1484,7 +1484,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 
 void NetView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (m_bLayouting) return;
 	CPoint logPt = point;
 	ViewDPtoLP(&logPt);
@@ -1536,14 +1536,14 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 
 void NetView::OnSetNodeFont() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	LOGFONT lf;
 	memset(&lf, 0, sizeof(LOGFONT));
 
 	CString defaultFont = _T("MS UI Gothic");
 	SystemConfiguration sc;
 	if (sc.isMeiryoEnabled()) {
-		defaultFont = _T("ƒƒCƒŠƒI");
+		defaultFont = _T("ãƒ¡ã‚¤ãƒªã‚ª");
 	}
 	
 	::lstrcpy(lf.lfFaceName, defaultFont);
@@ -1584,13 +1584,13 @@ void NetView::OnSetNodeFont()
 
 void NetView::OnUpdateSetNodeFont(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void NetView::OnSetNodeLineColor() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1612,13 +1612,13 @@ void NetView::OnSetNodeLineColor()
 
 void NetView::OnUpdateSetNodeLineColor(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void NetView::OnSetLineNull() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeLineWidth(0);
 	GetDocument()->setSelectedNodeLineStyle(PS_NULL);
@@ -1626,7 +1626,7 @@ void NetView::OnSetLineNull()
 
 void NetView::OnUpdateSetLineNull(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_NULL &&
 			         GetDocument()->getSelectedNodeLineWidth() == 0;
@@ -1636,7 +1636,7 @@ void NetView::OnUpdateSetLineNull(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid0() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1660,7 +1660,7 @@ void NetView::OnSetLineSolid0()
 
 void NetView::OnUpdateSetLineSolid0(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 0;
@@ -1674,7 +1674,7 @@ void NetView::OnUpdateSetLineSolid0(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid1() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1698,7 +1698,7 @@ void NetView::OnSetLineSolid1()
 
 void NetView::OnUpdateSetLineSolid1(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 2;
@@ -1712,7 +1712,7 @@ void NetView::OnUpdateSetLineSolid1(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid2() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1736,7 +1736,7 @@ void NetView::OnSetLineSolid2()
 
 void NetView::OnUpdateSetLineSolid2(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 3;
@@ -1750,7 +1750,7 @@ void NetView::OnUpdateSetLineSolid2(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid3() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1774,7 +1774,7 @@ void NetView::OnSetLineSolid3()
 
 void NetView::OnUpdateSetLineSolid3(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 4;
@@ -1788,7 +1788,7 @@ void NetView::OnUpdateSetLineSolid3(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid4() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1812,7 +1812,7 @@ void NetView::OnSetLineSolid4()
 
 void NetView::OnUpdateSetLineSolid4(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 5;
@@ -1826,7 +1826,7 @@ void NetView::OnUpdateSetLineSolid4(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineDot() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1850,7 +1850,7 @@ void NetView::OnSetLineDot()
 
 void NetView::OnUpdateSetLineDot(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_DOT &&
 			         GetDocument()->getSelectedNodeLineWidth() == 0;
@@ -1864,33 +1864,33 @@ void NetView::OnUpdateSetLineDot(CCmdUI* pCmdUI)
 
 void NetView::OnSetMultiLine() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->setSelectedNodeMultiLine(true);
 }
 
 void NetView::OnUpdateSetMultiLine(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->SetCheck(GetDocument()->isSelectedNodeMultiLine() && m_selectStatus == NetView::single);
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
 void NetView::OnSetSingleLine() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->setSelectedNodeMultiLine(false);
 }
 
 void NetView::OnUpdateSetSingleLine(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->SetCheck(!GetDocument()->isSelectedNodeMultiLine() && m_selectStatus == NetView::single);
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAddRect() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_addMode != NetView::rect) {
 		m_addMode = NetView::rect;
 	} else if (m_addMode == NetView::rect) {
@@ -1900,14 +1900,14 @@ void NetView::OnAddRect()
 
 void NetView::OnUpdateAddRect(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::rect);
 }
 
 void NetView::OnAddRoundRect() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_addMode != NetView::rRect) {
 		m_addMode = NetView::rRect;
 	} else if (m_addMode == NetView::rRect) {
@@ -1917,14 +1917,14 @@ void NetView::OnAddRoundRect()
 
 void NetView::OnUpdateAddRoundRect(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::rRect);
 }
 
 void NetView::OnAddArc() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_addMode != NetView::arc) {
 		m_addMode = NetView::arc;
 	} else if (m_addMode == NetView::arc) {
@@ -1934,7 +1934,7 @@ void NetView::OnAddArc()
 
 void NetView::OnUpdateAddArc(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::arc);
 }
@@ -1973,7 +1973,7 @@ void NetView::addNode(const CPoint &logPt, const CPoint& screenPt, const CString
 
 void NetView::OnAddLink1() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_addMode == NetView::link1) {
 		m_addMode = NetView::normal;
 	} else {
@@ -1983,14 +1983,14 @@ void NetView::OnAddLink1()
 
 void NetView::OnUpdateAddLink1(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::link1);	
 }
 
 void NetView::OnAddLink2() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_addMode == NetView::link2) {
 		m_addMode = NetView::normal;
 	} else {
@@ -2000,14 +2000,14 @@ void NetView::OnAddLink2()
 
 void NetView::OnUpdateAddLink2(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::link2);
 }
 
 void NetView::OnSetLinkInfo() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	setLinkInfo();
 }
 
@@ -2041,13 +2041,13 @@ void NetView::setLinkInfo()
 
 void NetView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_selectStatus == NetView::link);
 }
 
 void NetView::OnDelete() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->disableUndo();
 	if (m_selectStatus == NetView::single) {
 		bool bDrwAll = false;
@@ -2055,8 +2055,8 @@ void NetView::OnDelete()
 		GetDocument()->deleteSelectedNode();
 		InvalidateRect(old);
 	} else if (m_selectStatus == NetView::link) {
-		CString s = '<' + GetDocument()->getSelectedLinkLabel() + _T(">\n" + "íœ‚µ‚Ü‚·‚©");
-		if (MessageBox(s, _T("ƒŠƒ“ƒN‚Ìíœ"), MB_YESNO) != IDYES) return;
+		CString s = '<' + GetDocument()->getSelectedLinkLabel() + _T(">\n" + "å‰Šé™¤ã—ã¾ã™ã‹");
+		if (MessageBox(s, _T("ãƒªãƒ³ã‚¯ã®å‰Šé™¤"), MB_YESNO) != IDYES) return;
 		GetDocument()->deleteSelectedLink();
 	} else if (m_selectStatus == NetView::multi) {
 		deleteSelectedNodes();
@@ -2064,12 +2064,12 @@ void NetView::OnDelete()
 }
 
 void NetView::deleteSelectedNodes() {
-	if (MessageBox(_T("‘I‘ğ‚µ‚½ƒm[ƒh‚¨‚æ‚Ñ”z‰º‚Ìƒm[ƒh‚ª‚·‚×‚Äíœ‚³‚ê‚Ü‚·"),_T("ƒm[ƒh‚Ìíœ"), MB_YESNO) != IDYES) return;
+	if (MessageBox(_T("é¸æŠã—ãŸãƒãƒ¼ãƒ‰ãŠã‚ˆã³é…ä¸‹ã®ãƒãƒ¼ãƒ‰ãŒã™ã¹ã¦å‰Šé™¤ã•ã‚Œã¾ã™"),_T("ãƒãƒ¼ãƒ‰ã®å‰Šé™¤"), MB_YESNO) != IDYES) return;
 	if (GetDocument()->isShowSubBranch()) {
-		CString mes = _T("u") + GetDocument()->getSubBranchRootLabel() + _T("v");
-		mes += _T("”z‰º‚Ìƒm[ƒh‚ğ‚·‚×‚Ä•\¦‚·‚éƒ‚[ƒh‚Å‚·B");
-		mes += _T("‘I‘ğ‚µ‚½ƒm[ƒhˆÈŠO‚É‚à•\¦‚³‚ê‚Ä‚¢‚éƒm[ƒh‚ªíœ‚³‚ê‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B\n‘±s‚µ‚Ü‚·‚©?");
-		if (MessageBox(mes, _T("‘I‘ğ”ÍˆÍ‚Ìƒm[ƒh‚ğíœ"), MB_YESNO) != IDYES) return;
+		CString mes = _T("ã€Œ") + GetDocument()->getSubBranchRootLabel() + _T("ã€");
+		mes += _T("é…ä¸‹ã®ãƒãƒ¼ãƒ‰ã‚’ã™ã¹ã¦è¡¨ç¤ºã™ã‚‹ãƒ¢ãƒ¼ãƒ‰ã§ã™ã€‚");
+		mes += _T("é¸æŠã—ãŸãƒãƒ¼ãƒ‰ä»¥å¤–ã«ã‚‚è¡¨ç¤ºã•ã‚Œã¦ã„ã‚‹ãƒãƒ¼ãƒ‰ãŒå‰Šé™¤ã•ã‚Œã‚‹å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚\nç¶šè¡Œã—ã¾ã™ã‹?");
+		if (MessageBox(mes, _T("é¸æŠç¯„å›²ã®ãƒãƒ¼ãƒ‰ã‚’å‰Šé™¤"), MB_YESNO) != IDYES) return;
 	}
 	GetDocument()->deleteSelectedNodes();
 	Invalidate();
@@ -2077,7 +2077,7 @@ void NetView::deleteSelectedNodes() {
 
 void NetView::OnUpdateDelete(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(
 		m_selectStatus == NetView::single &&  GetDocument()->canDeleteNode() ||
 		m_selectStatus == NetView::multi ||
@@ -2086,15 +2086,15 @@ void NetView::OnUpdateDelete(CCmdUI* pCmdUI)
 
 void NetView::OnAutoLayout() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bLayouting) {
 		stopLayouting();
 		return;
 	}
 	
 	if (!m_bLayouting) {
-	//	int ret = MessageBox("©“®ƒŒƒCƒAƒEƒg‚ğŠJn‚µ‚Ü‚·‚©H\n‚ ‚ç‚©‚¶‚ß•¶‘‚ğ•Û‘¶‚µ‚Ä‚¨‚­‚±‚Æ‚ğ‚¨Š©‚ß‚µ‚Ü‚·",
-	//		"©“®ƒŒƒCƒAƒEƒg‚ÌŠJn", MB_OKCANCEL);
+	//	int ret = MessageBox("è‡ªå‹•ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’é–‹å§‹ã—ã¾ã™ã‹ï¼Ÿ\nã‚ã‚‰ã‹ã˜ã‚æ–‡æ›¸ã‚’ä¿å­˜ã—ã¦ãŠãã“ã¨ã‚’ãŠå‹§ã‚ã—ã¾ã™",
+	//		"è‡ªå‹•ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®é–‹å§‹", MB_OKCANCEL);
 	//	if (ret	== IDCANCEL) return;
 		m_bLayouting = true;
 		CSize sz(GetDocument()->getMaxPt().x, GetDocument()->getMaxPt().y);
@@ -2132,7 +2132,7 @@ void NetView::OnAutoLayout()
 
 void NetView::OnUpdateAutoLayout(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	pCmdUI->Enable(GetDocument()->linkExist(bDrwAll) && m_addMode == NetView::normal && !m_bGrasp);
 	pCmdUI->SetCheck(m_bLayouting);
@@ -2160,13 +2160,13 @@ void NetView::adjustRedrawBound(CRect &rc)
 
 void NetView::OnSetNodeProp() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	setNodeProp();
 }
 
 void NetView::OnUpdateSetNodeProp(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
@@ -2297,13 +2297,13 @@ void NetView::setNodeProp()
 
 void NetView::OnGraspMode() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_bGrasp = !m_bGrasp;
 }
 
 void NetView::OnUpdateGraspMode(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CPoint maxPt;
 	maxPt = GetDocument()->getMaxPt();
 	CRect rc; CScrollView::GetWindowRect(&rc);
@@ -2318,7 +2318,7 @@ void NetView::OnSize(UINT nType, int cx, int cy)
 {
 	CScrollView::OnSize(nType, cx, cy);
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_bGrasp) {
 		m_bGrasp = false;
 	}
@@ -2326,7 +2326,7 @@ void NetView::OnSize(UINT nType, int cx, int cy)
 
 void NetView::OnLButtonDblClk(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (m_bZooming) {
 		CPoint logPt = point; ViewDPtoLP(&logPt);
 		ZoomIn(&logPt, 0.1f);
@@ -2360,7 +2360,7 @@ void NetView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 void NetView::OnLinkStraight() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	CPoint pt(0, 0);
 	GetDocument()->setSelectedLinkCurve(pt, false, bDrwAll);
@@ -2368,7 +2368,7 @@ void NetView::OnLinkStraight()
 
 void NetView::OnUpdateLinkStraight(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	pCmdUI->Enable(GetDocument()->isSelectedLinkCurved(bDrwAll) && !GetDocument()->isSelectedLinkSelf());
 }
@@ -2443,7 +2443,7 @@ void NetView::copyMFtoClpbrd()
 	}
 	
 	// ------------------------------
-	// ƒNƒŠƒbƒvƒ{[ƒh‚Éƒf[ƒ^‚ğƒZƒbƒg
+	// ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«ãƒ‡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆ
 	// ------------------------------
 	if (hmetafile == NULL) return;
 	setEMF2Clpbrd(hmetafile);
@@ -2451,7 +2451,7 @@ void NetView::copyMFtoClpbrd()
 
 void NetView::OnNoBrush() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->backUpUndoNodes();
 
 	if (GetDocument()->isSelectedNodeFilled()) {
@@ -2463,14 +2463,14 @@ void NetView::OnNoBrush()
 
 void NetView::OnUpdateNoBrush(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_selectStatus == NetView::single);
 	pCmdUI->SetCheck(!GetDocument()->isSelectedNodeFilled() && m_selectStatus == NetView::single);
 }
 
 void NetView::OnSetNodeBrush() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_selectStatus == NetView::single || m_selectStatus == NetView::multi) {
 		CColorDialog dlg(GetDocument()->getSelectedNodeBrsColor());
 		if (dlg.DoModal() != IDOK) return;
@@ -2481,13 +2481,13 @@ void NetView::OnSetNodeBrush()
 
 void NetView::OnUpdateSetNodeBrush(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void NetView::OnEditCopy() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (!m_selectRect.IsRectEmpty()) {
 		GetDocument()->setSelectedNodeCopyOrg();
 	}
@@ -2497,13 +2497,13 @@ void NetView::OnEditCopy()
 
 void NetView::OnUpdateEditCopy(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnEditPaste() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (!GetDocument()->canCopyNode() && 
 		(::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		 ::IsClipboardFormatAvailable(CF_METAFILEPICT) || 
@@ -2553,7 +2553,7 @@ void NetView::OnEditPaste()
 			delete pMfDC;
 		}
 		GetDocument()->disableUndo();
-		GetDocument()->addNodeMF(_T("}Œ`"), ptDrop, iNode::MetaFile, hm);
+		GetDocument()->addNodeMF(_T("å›³å½¢"), ptDrop, iNode::MetaFile, hm);
 		if (!EmptyClipboard()) {
 			AfxMessageBox(_T("Cannot empty the Clipboard"));
 			return;
@@ -2569,7 +2569,7 @@ void NetView::OnEditPaste()
 	}
 	m_ptPaste = CPoint(0, 0);
 	
-	// ƒm[ƒhƒCƒ[ƒW‚ÌÁ‹
+	// ãƒãƒ¼ãƒ‰ã‚¤ãƒ¡ãƒ¼ã‚¸ã®æ¶ˆå»
 	if (!(::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		 ::IsClipboardFormatAvailable(CF_METAFILEPICT) ||
 		 ::IsClipboardFormatAvailable(CF_DIB)) ||
@@ -2587,7 +2587,7 @@ void NetView::OnEditPaste()
 
 void NetView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(GetDocument()->canCopyNode() || 
 		::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		::IsClipboardFormatAvailable(CF_METAFILEPICT)  ||
@@ -2598,49 +2598,49 @@ void NetView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 void NetView::OnSetNodeRect() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeShape(iNode::rectangle);
 }
 
 void NetView::OnUpdateSetNodeRect(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int shape = GetDocument()->getSelectedNodeShape();
 	pCmdUI->Enable(shape!= iNode::rectangle && shape != iNode::MetaFile);
 }
 
 void NetView::OnSetNodeRoundRect() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeShape(iNode::roundRect);
 }
 
 void NetView::OnUpdateSetNodeRoundRect(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int shape = GetDocument()->getSelectedNodeShape();
 	pCmdUI->Enable(shape!= iNode::roundRect && shape != iNode::MetaFile);
 }
 
 void NetView::OnSetNodeArc() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeShape(iNode::arc);
 }
 
 void NetView::OnUpdateSetNodeArc(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int shape = GetDocument()->getSelectedNodeShape();
 	pCmdUI->Enable(shape!= iNode::arc && shape != iNode::MetaFile);
 }
 
 void NetView::OnFixNode() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	BOOL fix = GetDocument()->isSelectedNodeFixed();
 	if (fix) {
 		GetDocument()->setSelectedNodeFixed(FALSE);
@@ -2651,7 +2651,7 @@ void NetView::OnFixNode()
 
 void NetView::OnUpdateFixNode(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->SetCheck(GetDocument()->isSelectedNodeFixed());
 }
 
@@ -2717,7 +2717,7 @@ void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void NetView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (m_bLayouting) {
 		return;
 	}
@@ -2827,13 +2827,13 @@ void NetView::cursorMove(int dx, int dy)
 
 void NetView::OnNormalCursor() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_addMode = NetView::normal;
 }
 
 void NetView::OnUpdateNormalCursor(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->SetCheck(m_addMode == NetView::normal && !m_bGrasp && !m_bZooming);
 }
 
@@ -2842,7 +2842,7 @@ int NetView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CScrollView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìì¬—pƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®ä½œæˆç”¨ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_pDC = new CClientDC(this);
 	m_bAccel = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Accel Move"), TRUE);
 	m_pShapesDlg = new shapesDlg;
@@ -2869,7 +2869,7 @@ void NetView::OnDestroy()
 {
 	CScrollView::OnDestroy();
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	KillRelaxThrd();
 	m_pDC = NULL;
 	m_pShapesDlg->DestroyWindow();
@@ -2879,7 +2879,7 @@ void NetView::OnDestroy()
 
 void NetView::OnPrint(CDC* pDC, CPrintInfo* pInfo) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	pDC->SetMapMode(MM_ISOTROPIC);
 	CPoint pt = GetDocument()->getMaxPt();
 	CRect pr = pInfo->m_rectDraw;
@@ -2903,7 +2903,7 @@ void NetView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 
 BOOL NetView::OnPreparePrinting(CPrintInfo* pInfo) 
 {
-	// TODO: ˆóüƒ_ƒCƒAƒƒO ƒ{ƒbƒNƒX‚ğ•\¦‚·‚é‚½‚ß‚É DoPreparePrinting ‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: å°åˆ·ãƒ€ã‚¤ã‚¢ãƒ­ã‚° ãƒœãƒƒã‚¯ã‚¹ã‚’è¡¨ç¤ºã™ã‚‹ãŸã‚ã« DoPreparePrinting ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	return DoPreparePrinting(pInfo);
 	
 //	return CScrollView::OnPreparePrinting(pInfo);
@@ -2911,19 +2911,19 @@ BOOL NetView::OnPreparePrinting(CPrintInfo* pInfo)
 
 void NetView::OnUpdateFilePrint(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnUpdateFilePrintPreview(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnRandomize() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	CRect rc; GetClientRect(rc);
 	GetDocument()->disableUndo();
@@ -2937,7 +2937,7 @@ void NetView::OnRandomize()
 
 void NetView::OnUpdateRandomize(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting);
 }
 
@@ -2951,12 +2951,12 @@ void NetView::adjustScrollArea()
 	
 	SetScrollSizes(MM_ANISOTROPIC, sizeTotal);
 	UpdateViewport(NULL);
-	SendMessage(WM_SIZE); // update‚É•K—v
+	SendMessage(WM_SIZE); // updateæ™‚ã«å¿…è¦
 }
 
 void NetView::OnEditSelectAll() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	selectAll();
 }
 
@@ -2984,33 +2984,33 @@ void NetView::selectAll()
 
 void NetView::OnUpdateEditSelectAll(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && m_addMode == NetView::normal);
 }
 
 void NetView::OnRefreshNetView() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->setConnectPoint();
 	Invalidate();
 }
 
 void NetView::OnUpdateRefreshNetView(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnShowNodeShapes() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_pShapesDlg->ShowWindow(SW_SHOWNORMAL);
 	m_pShapesDlg->SetFocus();
 }
 
 void NetView::OnUpdateShowNodeShapes(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -3023,7 +3023,7 @@ LRESULT NetView::OnAddMetaFileID(UINT wParam, LONG lParam)
 	
 	GetDocument()->disableUndo();
 	if (m_selectStatus == NetView::none) {
-		GetDocument()->addNodeMF(_T("}Œ`"), CPoint(rand()%150, rand()%150), iNode::MetaFile, pApp->m_hMetaFiles[(int)wParam]);
+		GetDocument()->addNodeMF(_T("å›³å½¢"), CPoint(rand()%150, rand()%150), iNode::MetaFile, pApp->m_hMetaFiles[(int)wParam]);
 	} else if (m_selectStatus == NetView::single) {
 		GetDocument()->backUpUndoNodes();
 		GetDocument()->setSelectedNodeShape(iNode::MetaFile, (int)wParam);
@@ -3039,7 +3039,7 @@ LRESULT NetView::OnHideShapesDlg(UINT wParam, LONG lParam)
 
 void NetView::OnEditReplace() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
@@ -3055,14 +3055,14 @@ LRESULT NetView::OnRegNodeMetaFile(UINT wParam, LONG lParam)
 	if (GetDocument()->getSelectedNodeShape()  == iNode::MetaFile) {
 		m_pShapesDlg->regNodeShape(GetDocument()->getSelectedNodeMetaFile());
 	} else {
-		AfxMessageBox(_T("ƒVƒFƒCƒv‚Å‚Í‚ ‚è‚Ü‚¹‚ñ"));
+		AfxMessageBox(_T("ã‚·ã‚§ã‚¤ãƒ—ã§ã¯ã‚ã‚Šã¾ã›ã‚“"));
 	}
 	return 0;
 }
 
 void NetView::OnCopyToClipbrd() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CPoint p1(0, 0);
 	CPoint p2 = GetDocument()->getMaxPt();
 	
@@ -3079,22 +3079,22 @@ void NetView::OnCopyToClipbrd()
 	HENHMETAFILE hmetafile = pMfDC->CloseEnhanced();
 	delete pMfDC;
 	
-	// ƒNƒŠƒbƒvƒ{[ƒh‚Éƒf[ƒ^‚ğƒZƒbƒg
+	// ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«ãƒ‡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆ
 	setEMF2Clpbrd(hmetafile);
 }
 
 void NetView::OnUpdateCopyToClipbrd(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnEditUndo() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 	
-	// ƒrƒ…[ƒ|[ƒg’²®‚É–â‘è‚ ‚è
+	// ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆèª¿æ•´ã«å•é¡Œã‚ã‚Š
 	
 	GetDocument()->resumeUndoNodes();
 	GetDocument()->resumeUndoLinks();
@@ -3110,55 +3110,55 @@ void NetView::OnEditUndo()
 
 void NetView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && GetDocument()->canResumeUndo());
 }
 
 void NetView::OnAdjustTop() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	adjustNodesEnd(_T("top"));
 }
 
 void NetView::OnUpdateAdjustTop(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAdjustBottom() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	adjustNodesEnd(_T("bottom"));
 }
 
 void NetView::OnUpdateAdjustBottom(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAdjustLeft() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	adjustNodesEnd(_T("left"));
 }
 
 void NetView::OnUpdateAdjustLeft(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAdjustRight() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	adjustNodesEnd(_T("right"));
 }
 
 void NetView::OnUpdateAdjustRight(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
@@ -3188,37 +3188,37 @@ void NetView::adjustNodesEnd(const CString& side)
 
 void NetView::OnSameHeight() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	sameNodesSize(_T("height"));
 }
 
 void NetView::OnUpdateSameHeight(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnSameRect() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	sameNodesSize(_T("rect"));
 }
 
 void NetView::OnUpdateSameRect(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnSameWidth() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	sameNodesSize(_T("width"));
 }
 
 void NetView::OnUpdateSameWidth(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
@@ -3248,7 +3248,7 @@ void NetView::sameNodesSize(const CString &strSize)
 
 void NetView::OnReverseLinkDirection() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoLinks();
 	GetDocument()->setSelectedLinkReverse(bDrwAll);
@@ -3256,13 +3256,13 @@ void NetView::OnReverseLinkDirection()
 
 void NetView::OnUpdateReverseLinkDirection(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void NetView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	pDC->SetMapMode(m_nMapMode);
 	pDC->SetWindowExt(m_totalLog);  //Set up the logical window
 	
@@ -3310,7 +3310,7 @@ void NetView::SetScrollSizes(int nMapMode, SIZE sizeTotal, const SIZE &sizePage,
 	m_szOrigPageDev  = sizePage;
 	m_szOrigLineDev  = sizeLine;
 	if (isScaleChanged()) {
-		ReCalcBars(); // –ˆ‰ñ‘SÄ•`‰æ‚É‚È‚Á‚Ä‚µ‚Ü‚¤‚Ì‚ÅğŒ•t‚«
+		ReCalcBars(); // æ¯å›å…¨å†æç”»ã«ãªã£ã¦ã—ã¾ã†ã®ã§æ¡ä»¶ä»˜ã
 	}
 //	CScrollView::SetScrollSizes(nMapMode, sizeTotal, sizePage, sizeLine);
 }
@@ -3448,7 +3448,7 @@ bool NetView::isScaleChanged() const
 
 BOOL NetView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (m_bZooming || nFlags & MK_CONTROL) {
 		CPoint logPt = pt; ViewDPtoLP(&logPt);
 		if (zDelta < 0) {
@@ -3474,19 +3474,19 @@ void NetView::CenterOnLogicalPoint(CPoint ptCenter)
 
 void NetView::OnUpdateZoomMode(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->SetCheck(m_bZooming);
 }
 
 void NetView::OnZoomMode() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_bZooming = !m_bZooming;
 }
 
 void NetView::OnRButtonDblClk(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (m_bZooming) {
 		CPoint logPt = point; ViewDPtoLP(&logPt);
 		ZoomOut(&logPt);
@@ -3496,7 +3496,7 @@ void NetView::OnRButtonDblClk(UINT nFlags, CPoint point)
 
 void NetView::OnSelchangeDropdown() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CComboBox* pComboZoom = pFrame->getZoomComboBox();
 	int index = pComboZoom->GetCurSel();
@@ -3542,7 +3542,7 @@ void NetView::OnSelchangeDropdown()
 	SetZoomLevel(zoomScale);
 	UpdateViewport(NULL);
 	
-	if (zoomScale = 1.0f) { // “™”{‚Ì‚¾‚¯“Æ©‚ÉƒXƒNƒ[ƒ‹ƒo[‚ğÄ•`‰æ
+	if (zoomScale = 1.0f) { // ç­‰å€ã®æ™‚ã ã‘ç‹¬è‡ªã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ã‚’å†æç”»
 		ReCalcBars();
 		UpdateBars();
 		Invalidate();
@@ -3561,7 +3561,7 @@ void NetView::doColorSetting()
 
 void NetView::OnExportSvg() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString path = GetDocument()->GetPathName();
 	CString outfile;
 	if (path == _T("")) {
@@ -3581,19 +3581,19 @@ void NetView::OnExportSvg()
 		outfile = title;
 	}
 	
-	WCHAR szFilters[] = _T("SVGƒtƒ@ƒCƒ‹ (*.svg)|*.svg");
+	WCHAR szFilters[] = _T("SVGãƒ•ã‚¡ã‚¤ãƒ« (*.svg)|*.svg");
 	CFileDialog dlg(FALSE, _T("svg"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
 	
 	bool bDrwAll = false;
 	GetDocument()->exportSVG(bDrwAll, outfileName);
-	MessageBox(_T("I—¹‚µ‚Ü‚µ‚½"), _T("SVGo—Í"));
+	MessageBox(_T("çµ‚äº†ã—ã¾ã—ãŸ"), _T("SVGå‡ºåŠ›"));
 }
 
 void NetView::OnUpdateExportSvg(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 }
 
@@ -3602,7 +3602,7 @@ void NetView::setMFSize()
 	m_mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rWidth"), 0)/10.0;
 	m_mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rHeight"), 0)/10.0;
 	
-	if (m_mfWidth != 0 && m_mfHeight != 0) return; // ƒŒƒWƒXƒgƒŠ‚Ì’l‚ğÌ—p
+	if (m_mfWidth != 0 && m_mfHeight != 0) return; // ãƒ¬ã‚¸ã‚¹ãƒˆãƒªã®å€¤ã‚’æ¡ç”¨
 	
 	CSize szMF = MfSizer::getMFSize();
 	m_mfWidth = ((double)szMF.cx)/10.0;
@@ -3611,7 +3611,7 @@ void NetView::setMFSize()
 
 BOOL NetView::PreTranslateMessage(MSG* pMsg) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	m_toolTip.RelayEvent(pMsg);
 	return CScrollView::PreTranslateMessage(pMsg);
 }
@@ -3636,7 +3636,7 @@ void NetView::prepareDragRelax()
 {
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
-	// ˜A½ƒm[ƒh‚¾‚¯‚ğ“®‚©‚·‚½‚ß‚ÌƒtƒBƒ‹ƒ^ˆ—
+	// é€£é–ãƒãƒ¼ãƒ‰ã ã‘ã‚’å‹•ã‹ã™ãŸã‚ã®ãƒ•ã‚£ãƒ«ã‚¿å‡¦ç†
 	GetDocument()->listupChainNodes();
 	GetDocument()->calcEdges();
 }
@@ -3665,7 +3665,7 @@ void NetView::OnMButtonDown(UINT nFlags, CPoint point)
 
 void NetView::OnMButtonUp(UINT nFlags, CPoint point)
 {
-	// ƒŠƒ“ƒN‚Ì’Ç‰Á(ƒm[ƒhã‚Åƒ}ƒEƒX‚ğƒŠƒŠ[ƒX)
+	// ãƒªãƒ³ã‚¯ã®è¿½åŠ (ãƒãƒ¼ãƒ‰ä¸Šã§ãƒã‚¦ã‚¹ã‚’ãƒªãƒªãƒ¼ã‚¹)
 	if (!m_bStartAdd) {
 		CScrollView::OnRButtonUp(nFlags, point);
 		return;
@@ -3700,7 +3700,7 @@ void NetView::PointedLinkEndPosition(CPoint point)
 
 void NetView::OnInsertChild() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->disableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
 	CRect nwRect = GetDocument()->addNodeWithLink(shape, GetDocument()->getSelectedNodeKey());
@@ -3711,13 +3711,13 @@ void NetView::OnInsertChild()
 
 void NetView::OnUpdateInsertChild(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_selectStatus == NetView::single);
 }
 
 void NetView::OnInsertSibling() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	GetDocument()->disableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
 	CRect nwRect = GetDocument()->addNodeWithLink2(shape, GetDocument()->getSelectedNodeKey());
@@ -3728,12 +3728,12 @@ void NetView::OnInsertSibling()
 
 void NetView::OnUpdateInsertSibling(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_selectStatus == NetView::single);
 }
 
-// •`‰æÏ‚İƒƒ^ƒtƒ@ƒCƒ‹‚ğƒNƒŠƒbƒvƒ{[ƒh‚ÉƒZƒbƒg‚·‚é
-// ƒƒ^ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Ìdelete‚Í‚±‚Ìƒƒ\ƒbƒh“à‚Ås‚¤
+// æç”»æ¸ˆã¿ãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«ã‚»ãƒƒãƒˆã™ã‚‹
+// ãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ãƒãƒ³ãƒ‰ãƒ«ã®deleteã¯ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰å†…ã§è¡Œã†
 void NetView::setEMF2Clpbrd(HENHMETAFILE emf)
 {
 	if (!OpenClipboard()) {
@@ -3756,7 +3756,7 @@ void NetView::setEMF2Clpbrd(HENHMETAFILE emf)
 
 void NetView::OnAddNodesFromCfText() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString ClipText;
 	if (::IsClipboardFormatAvailable(CF_TEXT)) {
 		if (!OpenClipboard()) {
@@ -3803,13 +3803,13 @@ void NetView::OnAddNodesFromCfText()
 
 void NetView::OnUpdateAddNodesFromCfText(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(::IsClipboardFormatAvailable(CF_TEXT));
 }
 
 void NetView::OnSetLinkArrowNone() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -3818,7 +3818,7 @@ void NetView::OnSetLinkArrowNone()
 
 void NetView::OnUpdateSetLinkArrowNone(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::line);
@@ -3826,7 +3826,7 @@ void NetView::OnUpdateSetLinkArrowNone(CCmdUI* pCmdUI)
 
 void NetView::OnSetLinkArrowSingle() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -3835,7 +3835,7 @@ void NetView::OnSetLinkArrowSingle()
 
 void NetView::OnUpdateSetLinkArrowSingle(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::arrow);
@@ -3843,7 +3843,7 @@ void NetView::OnUpdateSetLinkArrowSingle(CCmdUI* pCmdUI)
 
 void NetView::OnSetLinkArrowDouble() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -3852,7 +3852,7 @@ void NetView::OnSetLinkArrowDouble()
 
 void NetView::OnUpdateSetLinkArrowDouble(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_selectStatus == NetView::link && 
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::arrow2);
@@ -3862,7 +3862,7 @@ void NetView::OnUpdateSetLinkArrowDouble(CCmdUI* pCmdUI)
 
 void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	HIMC hime = ::ImmGetContext(m_hWnd);
 	BOOL bImeOn = ::ImmGetOpenStatus(hime);
 	::ImmReleaseContext(m_hWnd, hime);
@@ -3877,7 +3877,7 @@ void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 			CPoint spt(m_ptScreen);
 			ClientToScreen(&spt);
 			spt -= GetScrollPosition();
-			// TODO:ƒŠƒtƒ@ƒNƒ^ƒŠƒ“ƒO
+			// TODO:ãƒªãƒ•ã‚¡ã‚¯ã‚¿ãƒªãƒ³ã‚°
 			int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
 			switch (shape) {
 				case iNode::rectangle:
@@ -3900,7 +3900,7 @@ void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void NetView::OnAddlinkednodeArc()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->disableUndo();
 	CRect nwRect = GetDocument()->addNodeWithLink(iNode::arc, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
@@ -3910,12 +3910,12 @@ void NetView::OnAddlinkednodeArc()
 
 void NetView::OnUpdateAddlinkednodeArc(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }
 
 void NetView::OnAddlinkednodeRect()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->disableUndo();
 	CRect nwRect = GetDocument()->addNodeWithLink(iNode::rectangle, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
@@ -3926,12 +3926,12 @@ void NetView::OnAddlinkednodeRect()
 
 void NetView::OnUpdateAddlinkednodeRect(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }
 
 void NetView::OnAddlinkednodeRndrect()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->disableUndo();
 	CRect nwRect = GetDocument()->addNodeWithLink(iNode::roundRect, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
@@ -3941,7 +3941,7 @@ void NetView::OnAddlinkednodeRndrect()
 
 void NetView::OnUpdateAddlinkednodeRndrect(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }
 
 void NetView::procRenameDialog(const CRect& nodeBound)
@@ -3965,7 +3965,7 @@ void NetView::procRenameDialog(const CRect& nodeBound)
 
 void NetView::OnAddLabelOnly()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	if (m_addMode != NetView::label) {
 		m_addMode = NetView::label;
 	} else if (m_addMode == NetView::label) {
@@ -3975,27 +3975,27 @@ void NetView::OnAddLabelOnly()
 
 void NetView::OnUpdateAddLabelOnly(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::label);
 }
 
 void NetView::OnFontEnlarge()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->resizeSelectedNodeFont(true);
 	GetDocument()->resizeSelectedLinkFont(true);
 }
 
 void NetView::OnUpdateFontEnlarge(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnFontEnsmall()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->resizeSelectedNodeFont(false);
 	GetDocument()->resizeSelectedLinkFont(false);
 }
@@ -4003,13 +4003,13 @@ void NetView::OnFontEnsmall()
 
 void NetView::OnUpdateFontEnsmall(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnSetLinkDependSingle()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4018,7 +4018,7 @@ void NetView::OnSetLinkDependSingle()
 
 void NetView::OnUpdateSetLinkDependSingle(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::link && 
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::depend);
@@ -4026,7 +4026,7 @@ void NetView::OnUpdateSetLinkDependSingle(CCmdUI *pCmdUI)
 
 void NetView::OnSetLinkDependDouble()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4035,7 +4035,7 @@ void NetView::OnSetLinkDependDouble()
 
 void NetView::OnUpdateSetLinkDependDouble(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::link && 
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::depend2);
@@ -4043,7 +4043,7 @@ void NetView::OnUpdateSetLinkDependDouble(CCmdUI *pCmdUI)
 
 void NetView::OnSetLinkInherit()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4053,7 +4053,7 @@ void NetView::OnSetLinkInherit()
 
 void NetView::OnUpdateSetLinkInherit(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::link && 
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::inherit);
@@ -4061,7 +4061,7 @@ void NetView::OnUpdateSetLinkInherit(CCmdUI *pCmdUI)
 
 void NetView::OnSetLinkAgregat()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4070,7 +4070,7 @@ void NetView::OnSetLinkAgregat()
 
 void NetView::OnUpdateSetLinkAgregat(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::aggregat);
@@ -4078,7 +4078,7 @@ void NetView::OnUpdateSetLinkAgregat(CCmdUI *pCmdUI)
 
 void NetView::OnSetLinkComposit()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4087,7 +4087,7 @@ void NetView::OnSetLinkComposit()
 
 void NetView::OnUpdateSetLinkComposit(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::composit);
@@ -4130,35 +4130,35 @@ void NetView::changeSelectedLineWidth()
 
 void NetView::OnDrawOrderInfo()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->setDrawOrderInfo(!GetDocument()->isDrawOrderInfo());
 	Invalidate();
 }
 
 void NetView::OnUpdateDrawOrderInfo(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(((CiEditApp*)AfxGetApp())->m_rgsNode.bSyncOrder);
 	pCmdUI->SetCheck(GetDocument()->isDrawOrderInfo());
 }
 
 void NetView::OnSetNodeMm()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeShape(iNode::MindMapNode);
 }
 
 void NetView::OnUpdateSetNodeMm(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int shape = GetDocument()->getSelectedNodeShape();
 	pCmdUI->Enable(shape!= iNode::MindMapNode && shape != iNode::MetaFile);
 }
 
 void NetView::OnValignTop()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_bc) stNew = iNode::s_tc;
@@ -4173,7 +4173,7 @@ void NetView::OnValignTop()
 
 void NetView::OnUpdateValignTop(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tc && st != iNode::s_tl && st != iNode::s_tr &&
@@ -4182,7 +4182,7 @@ void NetView::OnUpdateValignTop(CCmdUI *pCmdUI)
 
 void NetView::OnAlignBottom()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tc) stNew = iNode::s_bc;
@@ -4197,7 +4197,7 @@ void NetView::OnAlignBottom()
 
 void NetView::OnUpdateAlignBottom(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_bc && st != iNode::s_bl && st != iNode::s_br &&
@@ -4206,7 +4206,7 @@ void NetView::OnUpdateAlignBottom(CCmdUI *pCmdUI)
 
 void NetView::OnHalignRight()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tc) stNew = iNode::s_tr;
@@ -4223,7 +4223,7 @@ void NetView::OnHalignRight()
 
 void NetView::OnUpdateHalignRight(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tr && st != iNode::s_cr && st != iNode::s_br && st != iNode::m_r);
@@ -4232,7 +4232,7 @@ void NetView::OnUpdateHalignRight(CCmdUI *pCmdUI)
 
 void NetView::OnHalignLeft()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tc) stNew = iNode::s_tl;
@@ -4249,7 +4249,7 @@ void NetView::OnHalignLeft()
 
 void NetView::OnUpdateHalignLeft(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tl && st != iNode::s_cl && st != iNode::s_bl && st != iNode::m_l);
@@ -4257,7 +4257,7 @@ void NetView::OnUpdateHalignLeft(CCmdUI *pCmdUI)
 
 void NetView::OnValignCenter()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_bc) stNew = iNode::s_cc;
@@ -4272,7 +4272,7 @@ void NetView::OnValignCenter()
 
 void NetView::OnUpdateValignCenter(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_cc && st != iNode::s_cl && st != iNode::s_cr &&
@@ -4281,7 +4281,7 @@ void NetView::OnUpdateValignCenter(CCmdUI *pCmdUI)
 
 void NetView::OnHalignCenter()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tr) stNew = iNode::s_tc;
@@ -4298,7 +4298,7 @@ void NetView::OnHalignCenter()
 
 void NetView::OnUpdateHalignCenter(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tc && st != iNode::s_cc && st != iNode::s_bc && st != iNode::m_c);
@@ -4306,20 +4306,20 @@ void NetView::OnUpdateHalignCenter(CCmdUI *pCmdUI)
 
 void NetView::OnBtnNodeFillColor()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 }
 
 void NetView::OnUpdateBtnNodeFillColor(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
 void NetView::OnBtnLineColor()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
 	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
@@ -4328,20 +4328,20 @@ void NetView::OnBtnLineColor()
 
 void NetView::OnUpdateBtnLineColor(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnBtnTextColor()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeFontColor(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 }
 
 void NetView::OnUpdateBtnTextColor(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
@@ -4365,31 +4365,31 @@ void NetView::changeSelectedLineColor()
 }
 void NetView::OnBtnLinkArrow()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	changeSelectedLinkArrow();
 }
 
 void NetView::OnUpdateBtnLinkArrow(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 //	pCmdUI->Enable(m_selectStatus == NetView::link);
 }
 
 void NetView::OnBtnLinkLineStyle()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	this->changeSelectedLineWidth();
 }
 
 void NetView::OnUpdateBtnLinkLineStyle(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 //	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnSaveFormat()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	if (m_selectStatus == NetView::single) {
 		GetDocument()->saveSelectedNodeFormat();
 		m_bFormCopied = TRUE;
@@ -4401,20 +4401,20 @@ void NetView::OnSaveFormat()
 
 void NetView::OnUpdateSaveFormat(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::link);
 }
 
 void NetView::OnAplyFormat()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 //	GetDocument()->applyFormatToSelectedNode();
 	m_bAplyForm = !m_bAplyForm;
 }
 
 void NetView::OnUpdateAplyFormat(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_bFormCopied);
 	pCmdUI->SetCheck(m_bAplyForm);
 }
@@ -4431,47 +4431,47 @@ void NetView::aplyFormat(CPoint& pt)
 
 void NetView::OnGrpOlCoupled()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	m_bGrpOlCoupled = !m_bGrpOlCoupled;
 }
 
 void NetView::OnUpdateGrpOlCoupled(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(GetDocument()->isShowSubBranch());
 	pCmdUI->SetCheck(m_bGrpOlCoupled);
 }
 
 void NetView::OnDeleteSelectedNodes()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	deleteSelectedNodes();
 }
 
 void NetView::OnUpdateDeleteSelectedNodes(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::multi);
 }
 
 void NetView::OnDeleteSelectedLinks()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
-	if (MessageBox(_T("‘I‘ğ”ÍˆÍ‚É‚ ‚éƒŠƒ“ƒN‚ğíœ‚µ‚Ü‚·‚©?"),
-		_T("‘I‘ğ”ÍˆÍ‚ÌƒŠƒ“ƒN‚ğíœ"), MB_YESNO) != IDYES) return;
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
+	if (MessageBox(_T("é¸æŠç¯„å›²ã«ã‚ã‚‹ãƒªãƒ³ã‚¯ã‚’å‰Šé™¤ã—ã¾ã™ã‹?"),
+		_T("é¸æŠç¯„å›²ã®ãƒªãƒ³ã‚¯ã‚’å‰Šé™¤"), MB_YESNO) != IDYES) return;
 	GetDocument()->deleteLinksInBound(m_selectRect);
 }
 
 void NetView::OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CRect rc = GetDocument()->getSelectedLinkBound();
 	pCmdUI->Enable(m_selectStatus == NetView::multi && !rc.IsRectEmpty());
 }
 
 void NetView::OnSetLinkAngled()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	const iLink* pLink = GetDocument()->getSelectedLink();
 	if (pLink == NULL) return;
 	GetDocument()->setSelectedLinkAngled(!pLink->isAngled());
@@ -4479,7 +4479,7 @@ void NetView::OnSetLinkAngled()
 
 void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	const iLink* pLink = GetDocument()->getSelectedLink();
 	pCmdUI->Enable(!GetDocument()->isOldBinary() && pLink != NULL && pLink->isCurved());
 	pCmdUI->SetCheck(pLink != NULL && pLink->isAngled());
@@ -4487,7 +4487,7 @@ void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
 
 void NetView::OnExportEmf()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString path = GetDocument()->GetPathName();
 	CString outfile;
 	if (path == _T("")) {
@@ -4507,7 +4507,7 @@ void NetView::OnExportEmf()
 		outfile = title;
 	}
 	
-	WCHAR szFilters[] = _T("EMFƒtƒ@ƒCƒ‹ (*.emf)|*.emf");
+	WCHAR szFilters[] = _T("EMFãƒ•ã‚¡ã‚¤ãƒ« (*.emf)|*.emf");
 	CFileDialog dlg(FALSE, _T("emf"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
@@ -4531,13 +4531,13 @@ void NetView::OnExportEmf()
 
 void NetView::OnUpdateExportEmf(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 }
 
 void NetView::OnExportPng()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString path = GetDocument()->GetPathName();
 	CString outfile;
 	if (path == _T("")) {
@@ -4557,7 +4557,7 @@ void NetView::OnExportPng()
 		outfile = title;
 	}
 	
-	WCHAR szFilters[] = _T("PNGƒtƒ@ƒCƒ‹ (*.png)|*.png");
+	WCHAR szFilters[] = _T("PNGãƒ•ã‚¡ã‚¤ãƒ« (*.png)|*.png");
 	CFileDialog dlg(FALSE, _T("png"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
@@ -4566,13 +4566,13 @@ void NetView::OnExportPng()
 
 void NetView::OnUpdateExportPng(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 }
 
 void NetView::OnSetMargin()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	SetMarginDlg dlg;
 	int l, r, t, b;
 	if (m_selectStatus == NetView::single) {
@@ -4592,7 +4592,7 @@ void NetView::OnSetMargin()
 
 void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(
 		!GetDocument()->isOldBinary() &&
 		(m_selectStatus == NetView::single || m_selectStatus == NetView::multi));
@@ -4600,19 +4600,19 @@ void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
 
 void NetView::OnResizeTofit()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDocument()->fitSetlectedNodeSize();
 }
 
 void NetView::OnUpdateResizeTofit(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
 void NetView::OnReplaceMetafile()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CPoint ptDrop = GetDocument()->getSelectedNodeRect().TopLeft();
 	
 	if (!OpenClipboard()) {
@@ -4659,7 +4659,7 @@ void NetView::OnReplaceMetafile()
 
 void NetView::OnUpdateReplaceMetafile(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	BOOL canAvailable = ::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		::IsClipboardFormatAvailable(CF_DIB) ||
 		::IsClipboardFormatAvailable(CF_BITMAP);

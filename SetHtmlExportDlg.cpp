@@ -1,4 +1,4 @@
-// SetHtmlExportDlg.cpp : ŽÀ‘•ƒtƒ@ƒCƒ‹
+ï»¿// SetHtmlExportDlg.cpp : å®Ÿè£…ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -7,7 +7,7 @@
 #include "Utilities.h"
 
 
-// SetHtmlExportDlg ƒ_ƒCƒAƒƒO
+// SetHtmlExportDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 IMPLEMENT_DYNAMIC(SetHtmlExportDlg, CDialog)
 
@@ -67,7 +67,7 @@ END_MESSAGE_MAP()
 BOOL SetHtmlExportDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	// TODO:  ‚±‚±‚É‰Šú‰»‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO:  ã“ã“ã«åˆæœŸåŒ–ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	setPathIndex();
 	setPathOutline();
 	if (m_xvRdNav == 0) {
@@ -88,14 +88,14 @@ BOOL SetHtmlExportDlg::OnInitDialog()
 		setPathTextSingle();
 	}
 	return TRUE;  // return TRUE unless you set the focus to a control
-	// —áŠO : OCX ƒvƒƒpƒeƒB ƒy[ƒW‚Í•K‚¸ FALSE ‚ð•Ô‚µ‚Ü‚·B
+	// ä¾‹å¤– : OCX ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ãƒšãƒ¼ã‚¸ã¯å¿…ãš FALSE ã‚’è¿”ã—ã¾ã™ã€‚
 }
 
-// SetHtmlExportDlg ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// SetHtmlExportDlg ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 void SetHtmlExportDlg::OnBnClickedRdNavOutline()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(TRUE);
 	SetRdImageEnable(FALSE);
 }
@@ -119,41 +119,41 @@ void SetHtmlExportDlg::SetEdPrfTextEverynodeEnable(BOOL bEnable)
 
 void SetHtmlExportDlg::OnBnClickedRdNavNetwork()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(FALSE);
 	SetRdImageEnable(TRUE);
 }
 
 void SetHtmlExportDlg::OnBnClickedRdNavBoth()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(TRUE);
 	SetRdImageEnable(TRUE);
 }
 
 void SetHtmlExportDlg::OnBnClickedRdTextEverynode()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	SetEdPrfTextEverynodeEnable(TRUE);
 	SetEdPrfTextSingleEnable(FALSE);
 }
 
 void SetHtmlExportDlg::OnBnClickedRdTextSingle()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	SetEdPrfTextEverynodeEnable(FALSE);
 	SetEdPrfTextSingleEnable(TRUE);
 }
 
 void SetHtmlExportDlg::OnBnClickedBtnSetPrfByFname()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(m_sDocTitle);
 }
 
 void SetHtmlExportDlg::OnEnChangeEdPrfIndex()
 {
-	// TODO:  ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO:  ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 	setPathIndex();
 }
 
@@ -182,7 +182,7 @@ void SetHtmlExportDlg::setPathIndex()
 
 void SetHtmlExportDlg::OnEnChangeEdPrfToc()
 {
-	// TODO:  ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO:  ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 	setPathOutline();
 }
 
@@ -202,7 +202,7 @@ void SetHtmlExportDlg::setPathOutline()
 
 void SetHtmlExportDlg::OnEnChangeEdPrfNet()
 {
-	// TODO:  ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO:  ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 	setPathNetwork();
 }
 
@@ -226,7 +226,7 @@ void SetHtmlExportDlg::setPathNetwork()
 
 void SetHtmlExportDlg::OnEnChangeEdPrfTextSingle()
 {
-	// TODO:  ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO:  ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 	setPathTextSingle();
 }
 
@@ -246,7 +246,7 @@ void SetHtmlExportDlg::setPathTextSingle()
 
 void SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode()
 {
-	// TODO:  ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO:  ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TEXT_EVERYNODE)->GetWindowText(s);
 	CString prf = s.Trim();
@@ -262,14 +262,14 @@ void SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode()
 
 void SetHtmlExportDlg::OnBnClickedBtnSetPrfByRoot()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
 		Utilities::getSafeFileName(m_NameOfRoot));
 }
 
 void SetHtmlExportDlg::OnBnClickedBtnSetPrfByVisibleRoot()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
 		Utilities::getSafeFileName(m_NameOfVisibleRoot));
 }

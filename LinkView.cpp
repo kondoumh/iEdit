@@ -1,4 +1,4 @@
-// LinkView.cpp : ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“ ƒtƒ@ƒCƒ‹
+ï»¿// LinkView.cpp : ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -100,16 +100,16 @@ BEGIN_MESSAGE_MAP(LinkView, CListView)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkView •`‰æ
+// LinkView æç”»
 
 void LinkView::OnDraw(CDC* pDC)
 {
 	CDocument* pDoc = GetDocument();
-	// TODO: ‚±‚ÌˆÊ’u‚É•`‰æ—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«æç”»ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkView f’f
+// LinkView è¨ºæ–­
 
 #ifdef _DEBUG
 void LinkView::AssertValid() const
@@ -124,13 +124,13 @@ void LinkView::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkView ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// LinkView ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 BOOL LinkView::PreCreateWindow(CREATESTRUCT& cs) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	cs.style &= ~LVS_TYPEMASK;
-	// •¡”‘I‘ğ‚ğƒTƒ|[ƒg‚·‚é‚É‚ÍALVS_SINGLSEL‚ğ‚Í‚¸‚·
+	// è¤‡æ•°é¸æŠã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹ã«ã¯ã€LVS_SINGLSELã‚’ã¯ãšã™
 	cs.style |= LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_EDITLABELS /*| LVS_NOSORTHEADER*/;
 	return CListView::PreCreateWindow(cs);
 }
@@ -139,7 +139,7 @@ void LinkView::OnInitialUpdate()
 {
 	CListView::OnInitialUpdate();
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	doColorSetting();
 	
 	m_preKey = GetDocument()->getSelectedNodeKey();
@@ -157,7 +157,7 @@ void LinkView::OnInitialUpdate()
 
 void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	iHint* ph = NULL;
 	if (pHint != NULL) {
 		ph = reinterpret_cast<iHint*>(pHint);
@@ -215,10 +215,10 @@ int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CListView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìì¬—pƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®ä½œæˆç”¨ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_oleDropTarget.Register(this);
-	GetListCtrl().InsertColumn(0, _T("ƒŠƒ“ƒN–¼"), LVCFMT_LEFT, 100); 
-	GetListCtrl().InsertColumn(1, _T("ƒŠƒ“ƒNæ"), LVCFMT_LEFT, 100);
+	GetListCtrl().InsertColumn(0, _T("ãƒªãƒ³ã‚¯å"), LVCFMT_LEFT, 100); 
+	GetListCtrl().InsertColumn(1, _T("ãƒªãƒ³ã‚¯å…ˆ"), LVCFMT_LEFT, 100);
 	m_imageList.Create(IDB_LINKS, 16, 1, RGB(255, 0, 255));	
 	GetListCtrl().SetImageList(&m_imageList, LVSIL_SMALL);
 	setViewFont();
@@ -227,7 +227,7 @@ int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void LinkView::OnSize(UINT nType, int cx, int cy) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (cx != m_preWidth) {
 		CHeaderCtrl* pHeader = GetListCtrl().GetHeaderCtrl();
 		CRect r;
@@ -250,7 +250,7 @@ iEditDoc* LinkView::GetDocument()
 void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 	if (pDispInfo->item.mask & LVIF_TEXT) {
 		int index = (int)pDispInfo->item.lParam;
@@ -285,40 +285,40 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 void LinkView::OnJumpTo() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	jumpTo();
 }
 
 void LinkView::OnUpdateJumpTo(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 ? 1: 0);
 }
 
 void LinkView::OnJumpBack() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	jumpBack();
 }
 
 void LinkView::OnUpdateJumpBack(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(kstack.size() > 0 ? 1 : 0);
 }
 
 void LinkView::OnDelete() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	if (index == -1) return;
 	if (!items_[index].isFromLink()) return;
 	
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
-		CString s = '<' + items_[index].comment + _T(">\níœ‚µ‚Ü‚·‚©?");
-		if (MessageBox(s, _T("ƒŠƒ“ƒN‚Ìíœ"), MB_YESNO) != IDYES) return;
+		CString s = '<' + items_[index].comment + _T(">\nå‰Šé™¤ã—ã¾ã™ã‹?");
+		if (MessageBox(s, _T("ãƒªãƒ³ã‚¯ã®å‰Šé™¤"), MB_YESNO) != IDYES) return;
 		GetDocument()->deleteSpecifidLink(items_[index]);
 	} else {
 		pEdit->SendMessage(WM_KEYDOWN, VK_DELETE, VK_DELETE);
@@ -327,14 +327,14 @@ void LinkView::OnDelete()
 
 void LinkView::OnUpdateDelete(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
 void LinkView::OnSetLinkInfo() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	setLinkInfo();
 }
 
@@ -396,14 +396,14 @@ void LinkView::setLinkInfo()
 
 void LinkView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
 void LinkView::OnLButtonDblClk(UINT nFlags, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	jumpTo();
 	CListView::OnLButtonDblClk(nFlags, point);
 }
@@ -430,8 +430,8 @@ void LinkView::jumpTo()
 		
 		CString sdrive(drive);
 		if (sdrive == _T("")) {
-			// ƒhƒ‰ƒCƒuƒŒƒ^[‚ª–³‚¢ê‡A•ÒW’†‚Ìieditƒtƒ@ƒCƒ‹‚Æ‚Ì
-			// ‘Š‘ÎˆÊ’u‚ÆŒ©‚È‚µ‚ÄAƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚ğ‚İ‚é
+			// ãƒ‰ãƒ©ã‚¤ãƒ–ãƒ¬ã‚¿ãƒ¼ãŒç„¡ã„å ´åˆã€ç·¨é›†ä¸­ã®ieditãƒ•ã‚¡ã‚¤ãƒ«ã¨ã®
+			// ç›¸å¯¾ä½ç½®ã¨è¦‹ãªã—ã¦ã€ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã‚’è©¦ã¿ã‚‹
 			CString ieditFilePath = GetDocument()->GetPathName();
 			WCHAR drive2[_MAX_DRIVE];
 			WCHAR dir2[_MAX_DIR];
@@ -470,7 +470,7 @@ void LinkView::jumpBack()
 
 void LinkView::OnContextMenu(CWnd* pWnd, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CListCtrl& List = GetListCtrl();
 	int index = List.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	
@@ -493,14 +493,14 @@ void LinkView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void LinkView::OnReturn(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	jumpTo();
 	*pResult = 0;
 }
 
 void LinkView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if (nChar == VK_BACK) {
 		jumpBack();
 	}
@@ -524,7 +524,7 @@ void LinkView::notifySelLink()
 
 void LinkView::OnEditCut() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		notifySelLink();
@@ -537,14 +537,14 @@ void LinkView::OnEditCut()
 
 void LinkView::OnUpdateEditCut(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
 void LinkView::OnEditCopy() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		notifySelLink();
@@ -556,14 +556,14 @@ void LinkView::OnEditCopy()
 
 void LinkView::OnUpdateEditCopy(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
 void LinkView::OnEditPaste() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		GetDocument()->addSetLinkOrg();
@@ -574,7 +574,7 @@ void LinkView::OnEditPaste()
 
 void LinkView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	pCmdUI->Enable(GetDocument()->canCopyLink() || pEdit != NULL);
 }
@@ -582,7 +582,7 @@ void LinkView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 void LinkView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
 	if (index != curSel && index != -1) {
 		curSel = index;
@@ -621,7 +621,7 @@ void LinkView::setViewFont()
 void LinkView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (pNMListView->iSubItem == 0) {
 		sortBy = 0;
 	} else {
@@ -636,14 +636,14 @@ void LinkView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 
 void LinkView::OnEditLabel() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetListCtrl().EditLabel(index);
 }
 
 void LinkView::OnUpdateEditLabel(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
@@ -652,7 +652,7 @@ void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString editString = pDispInfo->item.pszText;
 	if (editString == _T("")) return;
 	
@@ -661,7 +661,7 @@ void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 	listitem i = items_[index];
 	
 	if (!i.isFromLink()) {
-		MessageBox(_T("‚±‚ÌƒŠƒ“ƒN‚ğ•ÒW‚·‚é‚É‚ÍƒŠƒ“ƒNŒ³‚Ìƒm[ƒh‚ğ‘I‘ğ‚µ‚Ä‰º‚³‚¢"));
+		MessageBox(_T("ã“ã®ãƒªãƒ³ã‚¯ã‚’ç·¨é›†ã™ã‚‹ã«ã¯ãƒªãƒ³ã‚¯å…ƒã®ãƒãƒ¼ãƒ‰ã‚’é¸æŠã—ã¦ä¸‹ã•ã„"));
 		return;
 	}
 	i.comment = editString;
@@ -673,56 +673,56 @@ void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 
 void LinkView::OnEditReplace() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void LinkView::OnEditUndo() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void LinkView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 DROPEFFECT LinkView::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	
 	return CListView::OnDragEnter(pDataObject, dwKeyState, point);
 }
 
 void LinkView::OnDragLeave() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	
 	CListView::OnDragLeave();
 }
 
 DROPEFFECT LinkView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	
 	// check for force link
 	DROPEFFECT de = DROPEFFECT_NONE;
 	if ( (dwKeyState & (MK_CONTROL|MK_SHIFT)) == (MK_CONTROL|MK_SHIFT) ) {
 		de = DROPEFFECT_LINK;
 	}
-	// ƒRƒs[
+	// ã‚³ãƒ”ãƒ¼
 	else if ( (dwKeyState & MK_CONTROL) == MK_CONTROL ) {
 		de = DROPEFFECT_COPY;
 	}
-	// ˆÚ“®
+	// ç§»å‹•
 	else if ( (dwKeyState & MK_SHIFT) == MK_SHIFT ) {
 		de = DROPEFFECT_MOVE;
 	}
-	// ƒfƒtƒHƒ‹ƒg‚ÍƒRƒs[
+	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ã‚³ãƒ”ãƒ¼
 	else {
-		// pDataObject‚ğQuery‚µ‚ÄACOPY/MOVE‚ğØ‚è•ª‚¯‚é‚Ì‚à‹g
+		// pDataObjectã‚’Queryã—ã¦ã€COPY/MOVEã‚’åˆ‡ã‚Šåˆ†ã‘ã‚‹ã®ã‚‚å‰
 		de = DROPEFFECT_COPY;
 	}
 	return de;
@@ -732,10 +732,10 @@ DROPEFFECT LinkView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, C
 
 BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	
 	if (pDataObject->IsDataAvailable(CF_TEXT)){
-		// IE‚ÌƒAƒhƒŒƒXƒo[‚©‚ç‚Ìƒhƒ‰ƒbƒO•ƒhƒƒbƒv
+		// IEã®ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒãƒ¼ã‹ã‚‰ã®ãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—
 		
 		HGLOBAL hmem = pDataObject->GetGlobalData(CF_TEXT);
 		CMemFile sf((BYTE*) ::GlobalLock(hmem), ::GlobalSize(hmem));
@@ -745,7 +745,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		sf.Read(str, ::GlobalSize(hmem));
 		::GlobalUnlock(hmem);
 		if (isURLStr(str)) {
-			GetDocument()->addURLLink(str, _T("URLƒŠƒ“ƒN"));
+			GetDocument()->addURLLink(str, _T("URLãƒªãƒ³ã‚¯"));
 		}
 		return TRUE;
 	}
@@ -868,7 +868,7 @@ void LinkView::setSelection(int index)
 
 void LinkView::OnLinkMoveUp()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetDocument()->swapLinkOrder(items_[index-1].key, items_[index].key);
 	reflesh();
@@ -877,14 +877,14 @@ void LinkView::OnLinkMoveUp()
 
 void LinkView::OnUpdateLinkMoveUp(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index > 0);
 }
 
 void LinkView::OnLinkMoveDown()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetDocument()->swapLinkOrder(items_[index].key, items_[index+1].key);
 	reflesh();
@@ -893,7 +893,7 @@ void LinkView::OnLinkMoveDown()
 
 void LinkView::OnUpdateLinkMoveDown(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	unsigned int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && index < items_.size() - 1);
 }

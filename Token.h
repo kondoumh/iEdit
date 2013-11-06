@@ -1,4 +1,4 @@
-// Token.h: interface for the CToken class.
+﻿// Token.h: interface for the CToken class.
 //
 //
 //	MFC Simple CString Tokenizer (Version 1)

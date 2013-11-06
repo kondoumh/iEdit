@@ -1,4 +1,4 @@
-// iEdit.cpp : ƒAƒvƒŠƒP[ƒVƒ‡ƒ“—pƒNƒ‰ƒX‚Ì‹@”\’è‹`‚ðs‚¢‚Ü‚·B
+ï»¿// iEdit.cpp : ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã‚¯ãƒ©ã‚¹ã®æ©Ÿèƒ½å®šç¾©ã‚’è¡Œã„ã¾ã™ã€‚
 //
 
 #include "stdafx.h"
@@ -47,21 +47,21 @@ void showLastErrorMessage()
 
 BEGIN_MESSAGE_MAP(CiEditApp, CWinApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
-	// •W€‚Ìƒtƒ@ƒCƒ‹Šî–{ƒhƒLƒ…ƒƒ“ƒg ƒRƒ}ƒ“ƒh
+	// æ¨™æº–ã®ãƒ•ã‚¡ã‚¤ãƒ«åŸºæœ¬ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ ã‚³ãƒžãƒ³ãƒ‰
 	ON_COMMAND(ID_FILE_OPEN, CiEditApp::OnFileOpen)
 	ON_COMMAND(ID_FILE_NEW, CiEditApp::OnFileNew)
-	// •W€‚ÌˆóüƒZƒbƒgƒAƒbƒv ƒRƒ}ƒ“ƒh
+	// æ¨™æº–ã®å°åˆ·ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ— ã‚³ãƒžãƒ³ãƒ‰
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
 	ON_COMMAND(ID_FILETYPE_REG_DEL, &CiEditApp::OnFiletypeRegDel)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CiEditApp ƒNƒ‰ƒX‚Ì\’z
+// CiEditApp ã‚¯ãƒ©ã‚¹ã®æ§‹ç¯‰
 
 CiEditApp::CiEditApp()
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É\’z—pƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
-	// ‚±‚±‚É InitInstance ’†‚Ìd—v‚È‰Šú‰»ˆ—‚ð‚·‚×‚Ä‹Lq‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã®ä½ç½®ã«æ§‹ç¯‰ç”¨ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
+	// ã“ã“ã« InitInstance ä¸­ã®é‡è¦ãªåˆæœŸåŒ–å‡¦ç†ã‚’ã™ã¹ã¦è¨˜è¿°ã—ã¦ãã ã•ã„ã€‚
 	m_curLinkLineStyle = CiEditApp::LS_R0;
 	m_curLinkArrow = CiEditApp::LA_NONE;
 	m_colorOutlineViewBg = RGB(238, 255, 255);
@@ -74,16 +74,16 @@ CiEditApp::CiEditApp()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// —Bˆê‚Ì CiEditApp ƒIƒuƒWƒFƒNƒg
+// å”¯ä¸€ã® CiEditApp ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 
 CiEditApp theApp;
 
 /////////////////////////////////////////////////////////////////////////////
-// CiEditApp ƒNƒ‰ƒX‚Ì‰Šú‰»
+// CiEditApp ã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–
 
 BOOL CiEditApp::InitInstance()
 {
-	// CG: ˆÈ‰º‚ÌƒuƒƒbƒN‚ÍƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“ ƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’Ç‰Á‚³‚ê‚Ü‚µ‚½
+	// CG: ä»¥ä¸‹ã®ãƒ–ãƒ­ãƒƒã‚¯ã¯ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ã‚ˆã£ã¦è¿½åŠ ã•ã‚Œã¾ã—ãŸ
 	
 	{
 
@@ -98,32 +98,32 @@ BOOL CiEditApp::InitInstance()
 	}
 	AfxEnableControlContainer();
 	
-	// •W€“I‚È‰Šú‰»ˆ—
-	// ‚à‚µ‚±‚ê‚ç‚Ì‹@”\‚ðŽg—p‚¹‚¸AŽÀsƒtƒ@ƒCƒ‹‚ÌƒTƒCƒY‚ð¬‚³‚­
-	// ‚µ‚½‚¯‚ê‚ÎˆÈ‰º‚Ì“Á’è‚Ì‰Šú‰»ƒ‹[ƒ`ƒ“‚Ì’†‚©‚ç•s•K—v‚È‚à‚Ì
-	// ‚ðíœ‚µ‚Ä‚­‚¾‚³‚¢B
+	// æ¨™æº–çš„ãªåˆæœŸåŒ–å‡¦ç†
+	// ã‚‚ã—ã“ã‚Œã‚‰ã®æ©Ÿèƒ½ã‚’ä½¿ç”¨ã›ãšã€å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚µã‚¤ã‚ºã‚’å°ã•ã
+	// ã—ãŸã‘ã‚Œã°ä»¥ä¸‹ã®ç‰¹å®šã®åˆæœŸåŒ–ãƒ«ãƒ¼ãƒãƒ³ã®ä¸­ã‹ã‚‰ä¸å¿…è¦ãªã‚‚ã®
+	// ã‚’å‰Šé™¤ã—ã¦ãã ã•ã„ã€‚
 
-/* ‚±‚Ì‹Lq‚ÍMFC 7.0‚É‚¨‚¢‚Ä‚Í•s—v‚Ì‚æ‚¤‚¾
+/* ã“ã®è¨˜è¿°ã¯MFC 7.0ã«ãŠã„ã¦ã¯ä¸è¦ã®ã‚ˆã†ã 
 #ifdef _AFXDLL
-	Enable3dControls();		// ‹¤—L DLL ‚Ì’†‚Å MFC ‚ðŽg—p‚·‚éê‡‚É‚Í‚±‚±‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
+	Enable3dControls();		// å…±æœ‰ DLL ã®ä¸­ã§ MFC ã‚’ä½¿ç”¨ã™ã‚‹å ´åˆã«ã¯ã“ã“ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
 #else
-	Enable3dControlsStatic();	// MFC ‚ÆÃ“I‚ÉƒŠƒ“ƒN‚µ‚Ä‚¢‚éê‡‚É‚Í‚±‚±‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
+	Enable3dControlsStatic();	// MFC ã¨é™çš„ã«ãƒªãƒ³ã‚¯ã—ã¦ã„ã‚‹å ´åˆã«ã¯ã“ã“ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
 #endif
 */	
-	// Ý’è‚ª•Û‘¶‚³‚ê‚é‰º‚ÌƒŒƒWƒXƒgƒŠ ƒL[‚ð•ÏX‚µ‚Ü‚·B
-	// TODO: ‚±‚Ì•¶Žš—ñ‚ðA‰ïŽÐ–¼‚Ü‚½‚ÍŠ‘®‚È‚Ç“KØ‚È‚à‚Ì‚É
-	// •ÏX‚µ‚Ä‚­‚¾‚³‚¢B
+	// è¨­å®šãŒä¿å­˜ã•ã‚Œã‚‹ä¸‹ã®ãƒ¬ã‚¸ã‚¹ãƒˆãƒª ã‚­ãƒ¼ã‚’å¤‰æ›´ã—ã¾ã™ã€‚
+	// TODO: ã“ã®æ–‡å­—åˆ—ã‚’ã€ä¼šç¤¾åã¾ãŸã¯æ‰€å±žãªã©é©åˆ‡ãªã‚‚ã®ã«
+	// å¤‰æ›´ã—ã¦ãã ã•ã„ã€‚
 	SetRegistryKey(REGS_ROOT);
 	
-	LoadStdProfileSettings(9);  // •W€‚Ì INI ƒtƒ@ƒCƒ‹‚ÌƒIƒvƒVƒ‡ƒ“‚ðƒ[ÄÞ‚µ‚Ü‚· (MRU ‚ðŠÜ‚Þ)
+	LoadStdProfileSettings(9);  // æ¨™æº–ã® INI ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’ãƒ­ãƒ¼ï¾„ï¾žã—ã¾ã™ (MRU ã‚’å«ã‚€)
 	
 	getNodeProfile();
 	getLinkProfile();
 	getOtherProfile();
 	getOptionsProfile();
 	m_bShapeModified = false;
-	// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“—p‚ÌƒhƒLƒ…ƒƒ“ƒg ƒeƒ“ƒvƒŒ[ƒg‚ð“o˜^‚µ‚Ü‚·BƒhƒLƒ…ƒƒ“ƒg ƒeƒ“ƒvƒŒ[ƒg
-	//  ‚ÍƒhƒLƒ…ƒƒ“ƒgAƒtƒŒ[ƒ€ ƒEƒBƒ“ƒhƒE‚Æƒrƒ…[‚ðŒ‹‡‚·‚é‚½‚ß‚É‹@”\‚µ‚Ü‚·B
+	// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã®ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’ç™»éŒ²ã—ã¾ã™ã€‚ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+	//  ã¯ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã€ãƒ•ãƒ¬ãƒ¼ãƒ  ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¨ãƒ“ãƒ¥ãƒ¼ã‚’çµåˆã™ã‚‹ãŸã‚ã«æ©Ÿèƒ½ã—ã¾ã™ã€‚
 	
 	// Initialize static members of CGDIThread
 	InitializeCriticalSection(&CRelaxThrd::m_csGDILock);
@@ -146,20 +146,20 @@ BOOL CiEditApp::InitInstance()
 		AddDocTemplate(m_pDocTemplate2);
 	}
 	
-	// ƒƒCƒ“ MDI ƒtƒŒ[ƒ€ ƒEƒBƒ“ƒhƒE‚ðì¬
+	// ãƒ¡ã‚¤ãƒ³ MDI ãƒ•ãƒ¬ãƒ¼ãƒ  ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆ
 	CMainFrame* pMainFrame = new CMainFrame;
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME))
 		return FALSE;
 	m_pMainWnd = pMainFrame;
 	
-	// OLE‚Ì‰Šú‰»
+	// OLEã®åˆæœŸåŒ–
 	AfxOleInit();
 	
-	// ƒhƒ‰ƒbƒO/ƒhƒƒbƒv ‚ÌƒI[ƒvƒ“‚ð‹–‰Â‚µ‚Ü‚·
+	// ãƒ‰ãƒ©ãƒƒã‚°/ãƒ‰ãƒ­ãƒƒãƒ— ã®ã‚ªãƒ¼ãƒ—ãƒ³ã‚’è¨±å¯ã—ã¾ã™
 	m_pMainWnd->DragAcceptFiles();
 	
 	if (m_rgsOptions.registFiletype) {
-		// DDE Execute open ‚ðŽg—p‰Â”\‚É‚µ‚Ü‚·B
+		// DDE Execute open ã‚’ä½¿ç”¨å¯èƒ½ã«ã—ã¾ã™ã€‚
 		HKEY hkResult;
 		if (::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Classes"), &hkResult) == ERROR_SUCCESS) {
 			RegOverridePredefKey(HKEY_CLASSES_ROOT, hkResult);
@@ -169,20 +169,20 @@ BOOL CiEditApp::InitInstance()
 		}
 	}
 	
-	// DDEAfile open ‚È‚Ç•W€‚ÌƒVƒFƒ‹ ƒRƒ}ƒ“ƒh‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ð‰ðÍ‚µ‚Ü‚·B
+	// DDEã€file open ãªã©æ¨™æº–ã®ã‚·ã‚§ãƒ« ã‚³ãƒžãƒ³ãƒ‰ã®ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚’è§£æžã—ã¾ã™ã€‚
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 	
-	// ‹N“®Žž‚ÉMDIÁ¬²ÙÄÞ³¨ÝÄÞ³‚ð•\Ž¦‚³‚¹‚È‚¢
+	// èµ·å‹•æ™‚ã«MDIï¾ï½¬ï½²ï¾™ï¾„ï¾žï½³ï½¨ï¾ï¾„ï¾žï½³ã‚’è¡¨ç¤ºã•ã›ãªã„
 	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew) {
 		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 	}
 	
-	// ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ÅƒfƒBƒXƒpƒbƒ` ƒRƒ}ƒ“ƒh‚ðŽw’è‚µ‚Ü‚·B
+	// ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã§ãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒ ã‚³ãƒžãƒ³ãƒ‰ã‚’æŒ‡å®šã—ã¾ã™ã€‚
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 	
-	// ƒƒCƒ“ ƒEƒBƒ“ƒhƒE‚ª‰Šú‰»‚³‚ê‚½‚Ì‚ÅA•\Ž¦‚ÆXV‚ðs‚¢‚Ü‚·B
+	// ãƒ¡ã‚¤ãƒ³ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒåˆæœŸåŒ–ã•ã‚ŒãŸã®ã§ã€è¡¨ç¤ºã¨æ›´æ–°ã‚’è¡Œã„ã¾ã™ã€‚
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
 
@@ -191,25 +191,25 @@ BOOL CiEditApp::InitInstance()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒo[ƒWƒ‡ƒ“î•ñ‚ÅŽg‚í‚ê‚é CAboutDlg ƒ_ƒCƒAƒƒO
+// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã§ä½¿ã‚ã‚Œã‚‹ CAboutDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 class CAboutDlg : public CDialog
 {
 public:
 	CAboutDlg();
 
-// ƒ_ƒCƒAƒƒO ƒf[ƒ^
+// ãƒ€ã‚¤ã‚¢ãƒ­ã‚° ãƒ‡ãƒ¼ã‚¿
 	//{{AFX_DATA(CAboutDlg)
 	enum { IDD = IDD_ABOUTBOX };
 	//}}AFX_DATA
 
-	// ClassWizard ‰¼‘zŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh‚ð¶¬‚µ‚Ü‚·B
+	// ClassWizard ä»®æƒ³é–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	//{{AFX_VIRTUAL(CAboutDlg)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ‚ÌƒTƒ|[ƒg
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ã®ã‚µãƒãƒ¼ãƒˆ
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 protected:
 	//{{AFX_MSG(CAboutDlg)
 	//}}AFX_MSG
@@ -248,7 +248,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	ON_STN_CLICKED(IDC_WEBSITE, &CAboutDlg::OnStnClickedWebsite)
 END_MESSAGE_MAP()
 
-// ƒ_ƒCƒAƒƒO‚ðŽÀs‚·‚é‚½‚ß‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ ƒRƒ}ƒ“ƒh
+// ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ ã‚³ãƒžãƒ³ãƒ‰
 void CiEditApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
@@ -256,11 +256,11 @@ void CiEditApp::OnAppAbout()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CiEditApp ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// CiEditApp ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 BOOL CiEditApp::PreTranslateMessage(MSG* pMsg)
 {
-	// CG: ˆÈ‰º‚ÌƒuƒƒbƒN‚ÍƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“ ƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’Ç‰Á‚³‚ê‚Ü‚µ‚½
+	// CG: ä»¥ä¸‹ã®ãƒ–ãƒ­ãƒƒã‚¯ã¯ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ã‚ˆã£ã¦è¿½åŠ ã•ã‚Œã¾ã—ãŸ
 	if (CSplashWnd::PreTranslateAppMessage(pMsg))
 		return TRUE;
 
@@ -272,7 +272,7 @@ void CiEditApp::getNodeProfile()
 	SystemConfiguration sc;
 	CString defaultFontName = _T("MS UI Gothic");
 	if (sc.isMeiryoEnabled()) {
-		defaultFontName = _T("ƒƒCƒŠƒI");
+		defaultFontName = _T("ãƒ¡ã‚¤ãƒªã‚ª");
 	}
 	m_rgsNode.colorFill = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Fill Color"), RGB(255, 255, 255));
 	m_rgsNode.colorLine = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Line Color"), RGB(0, 0, 0));
@@ -309,7 +309,7 @@ void CiEditApp::getLinkProfile()
 	SystemConfiguration sc;
 	CString defaultFontName = _T("MS UI Gothic");
 	if (sc.isMeiryoEnabled()) {
-		defaultFontName = _T("ƒƒCƒŠƒI");
+		defaultFontName = _T("ãƒ¡ã‚¤ãƒªã‚ª");
 	}
 	m_rgsLink.colorLine = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Color"), RGB(0, 0, 0));
 	m_rgsLink.lineWidth = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Width"), 0);
@@ -335,7 +335,7 @@ void CiEditApp::getOptionsProfile()
 
 int CiEditApp::ExitInstance() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ð’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	DeleteCriticalSection(&CRelaxThrd::m_csGDILock);
 	CloseHandle(CRelaxThrd::m_hAnotherDead);
 	
@@ -427,8 +427,8 @@ void CiEditApp::notifyViewSetting()
 
 void CiEditApp::OnFileOpen() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
-	CString szFilter = _T("iEditƒtƒ@ƒCƒ‹(*.iedx)|*.iedx|iEditƒtƒ@ƒCƒ‹(‹Œ)(*.ied)|*.ied|XMLƒtƒ@ƒCƒ‹(*.xml)|*.xml||");
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
+	CString szFilter = _T("iEditãƒ•ã‚¡ã‚¤ãƒ«(*.iedx)|*.iedx|iEditãƒ•ã‚¡ã‚¤ãƒ«(æ—§)(*.ied)|*.ied|XMLãƒ•ã‚¡ã‚¤ãƒ«(*.xml)|*.xml||");
 	CFileDialog cfDlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
 		OFN_FILEMUSTEXIST | OFN_EXPLORER, szFilter, AfxGetMainWnd());
 	if (cfDlg.DoModal() == IDOK) {
@@ -439,7 +439,7 @@ void CiEditApp::OnFileOpen()
 
 void CiEditApp::OnFileNew()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	m_pDocTemplate->OpenDocumentFile(NULL);
 }
 
@@ -460,7 +460,7 @@ HBRUSH CAboutDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	//HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	//// TODO:  ‚±‚±‚Å DC ‚Ì‘®«‚ð•ÏX‚µ‚Ä‚­‚¾‚³‚¢B
+	//// TODO:  ã“ã“ã§ DC ã®å±žæ€§ã‚’å¤‰æ›´ã—ã¦ãã ã•ã„ã€‚
 
 	switch(nCtlColor){
 	case CTLCOLOR_DLG:
@@ -484,7 +484,7 @@ BOOL CAboutDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO:  ‚±‚±‚É‰Šú‰»‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO:  ã“ã“ã«åˆæœŸåŒ–ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_brsDlg.CreateSolidBrush(RGB(255,255,255));
 	GetDlgItem(IDC_WEBSITE)->ModifyStyle(0, SS_NOTIFY);
 	HFONT hFont = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
@@ -493,12 +493,12 @@ BOOL CAboutDlg::OnInitDialog()
 	m_webSiteFont.CreateFontIndirect(&m_logFont);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	// —áŠO : OCX ƒvƒƒpƒeƒB ƒy[ƒW‚Í•K‚¸ FALSE ‚ð•Ô‚µ‚Ü‚·B
+	// ä¾‹å¤– : OCX ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ãƒšãƒ¼ã‚¸ã¯å¿…ãš FALSE ã‚’è¿”ã—ã¾ã™ã€‚
 }
 
 BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ðŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	if (pWnd->GetDlgCtrlID() == IDC_WEBSITE) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		return TRUE;
@@ -509,7 +509,7 @@ BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 void CAboutDlg::OnStnClickedWebsite()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	ShellExecute(m_hWnd, _T("open"), _T("http://kondoumh.com/software/iedit.html"), NULL, _T(""), SW_SHOW);
 	EndDialog(MB_OK);
 }
@@ -517,7 +517,7 @@ void CAboutDlg::OnStnClickedWebsite()
 
 void CiEditApp::OnFiletypeRegDel()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	FiletypeSettingDlg dlg;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	BOOL bRegist = pApp->m_rgsOptions.registFiletype;

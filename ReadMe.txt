@@ -1,128 +1,128 @@
+﻿========================================================================
+       MICROSOFT FOUNDATION CLASS ライブラリ : iEdit
 ========================================================================
-       MICROSOFT FOUNDATION CLASS ���C�u���� : iEdit
-========================================================================
-mac mini�Ƀ��|�W�g�����ڍs���܂����B
+mac miniにリポジトリを移行しました。
 
 
-#define _AFX_NO_TRACKER_RESOURCES ����������
+#define _AFX_NO_TRACKER_RESOURCES を消すこと
 
-AppWizard ���������� iEdit �ɂ́AMicrosoft Foundation Class �̊�{�I��
-�g������������Ă��܂��B�A�v���P�[�V�����쐬�̂ЂȌ^�Ƃ��Ă��g�����������B
+AppWizard が生成した iEdit には、Microsoft Foundation Class の基本的な
+使い方が示されています。アプリケーション作成のひな型としてお使いください。
 
-���̃t�@�C���ɂ� iEdit ���\�����Ă���e�t�@�C���̊T�v�������܂܂�Ă��܂��B
+このファイルには iEdit を構成している各ファイルの概要説明が含まれています。
 
 iEdit.dsp
-    ���̃t�@�C�� (�v���W�F�N�g �t�@�C��) �̓v���W�F�N�g ���x���̏����܂݁A
-    �V���O�� �v���W�F�N�g�܂��̓T�u �v���W�F�N�g�̃r���h�Ɏg�p����܂��B����
-    ���[�U�[�ƃv���W�F�N�g �t�@�C�� (.dsp) �����L�ł��܂����A���C�N �t�@�C��
-    �̓��[�J���ɃG�N�X�|�[�g���Ă��������B
+    このファイル (プロジェクト ファイル) はプロジェクト レベルの情報を含み、
+    シングル プロジェクトまたはサブ プロジェクトのビルドに使用されます。他の
+    ユーザーとプロジェクト ファイル (.dsp) を共有できますが、メイク ファイル
+    はローカルにエクスポートしてください。
 
 iEdit.h
-    ���̃t�@�C���̓A�v���P�[�V�����̒��S�ƂȂ�C���N���[�h�t�@�C���ł��B����
-    �t�@�C���͑��̃v���W�F�N�g�̌ŗL�̃C���N���[�h�t�@�C���iResource.h  ����
-    �݂܂��j ���C���N���[�h���A�܂� CiEditApp �A�v���P�[�V�����N���X���
-    �����܂��B
+    このファイルはアプリケーションの中心となるインクルードファイルです。この
+    ファイルは他のプロジェクトの固有のインクルードファイル（Resource.h  も含
+    みます） をインクルードし、また CiEditApp アプリケーションクラスを宣
+    言します。
 
 iEdit.cpp
-    ���̃t�@�C���� CiEditApp �A�v���P�[�V�����N���X���܂ރA�v���P�[�V����
-    �̒��S�ƂȂ�\�[�X�t�@�C���ł��B
+    このファイルは CiEditApp アプリケーションクラスを含むアプリケーション
+    の中心となるソースファイルです。
 
 iEdit.rc
-    ���̃t�@�C���̓v���O�������g�p���� Microsoft Windows �̃��\�[�X��񋓂���
-    ���B���̃t�@�C���� RES �T�u�f�B���N�g���ɕۑ�����Ă���A�C�R���A�r�b�g�}
-    �b�v�A�J�[�\�����܂݂܂��B���̃t�@�C���� Microsoft Visual C++ �Œ���
-    �ҏW�\�ł��B
+    このファイルはプログラムが使用する Microsoft Windows のリソースを列挙しま
+    す。このファイルは RES サブディレクトリに保存されているアイコン、ビットマ
+    ップ、カーソルを含みます。このファイルは Microsoft Visual C++ で直接
+    編集可能です。
 
 iEdit.clw
-    ���̃t�@�C���� ClassWizard  �������̃N���X�̕ҏW��N���X��V�K�쐬�����
-    ���Ɏg�����������Ă��܂��B�܂����̃t�@�C���́AClassWizard �ɂ�郁�b�Z
-    �[�W �}�b�v��_�C�A���O �f�[�^ �}�b�v�̕ҏW�␶���A�v���g�^�C�v �����o��
-    ���̐����ɕK�v�ȏ��������Ă��܂��B
+    このファイルは ClassWizard  が既存のクラスの編集やクラスを新規作成すると
+    きに使う情報を持っています。またこのファイルは、ClassWizard によるメッセ
+    ージ マップやダイアログ データ マップの編集や生成、プロトタイプ メンバ関
+    数の生成に必要な情報も持っています。
 
 res\iEdit.ico
-    ���̃t�@�C���́A�A�v���P�[�V�����̃A�C�R���Ƃ��Ďg�p�����A�C�R���t�@�C
-    ���ł��B���̃A�C�R���̓��\�[�X �t�@�C�� iEdit.rc �ɂ���ăC���N���[�h
-    ����܂��B
+    このファイルは、アプリケーションのアイコンとして使用されるアイコンファイ
+    ルです。このアイコンはリソース ファイル iEdit.rc によってインクルード
+    されます。
 
 res\iEdit.rc2
-    ���̃t�@�C���� Microsoft Visual C++ �ɂ���ĕҏW����Ȃ����\�[�X���܂�ł���
-    ���B���̃t�@�C���Ƀ��\�[�X �G�f�B�^�ŕҏW����Ȃ����ׂẴ��\�[�X���L�q
-    ���Ă��������B
+    このファイルは Microsoft Visual C++ によって編集されないリソースを含んでいま
+    す。このファイルにリソース エディタで編集されないすべてのリソースを記述
+    してください。
 
 iEdit.reg
-    ���̃��W�X�g�� �t�@�C���̓t���[�����[�N�̐ݒ�@���Љ�邽�߂̃T���v��
-    �t�@�C���ł��B
-    �A�v���P�[�V�����ƈꏏ�Ɏg�p���邩�A�܂��͍폜���ăf�t�H���g�̓o�^ 
-     RegisterShellFileTypes ���g�p���܂��B
+    このレジストリ ファイルはフレームワークの設定法を紹介するためのサンプル
+    ファイルです。
+    アプリケーションと一緒に使用するか、または削除してデフォルトの登録 
+     RegisterShellFileTypes を使用します。
 
 
 
 /////////////////////////////////////////////////////////////////////////////
 
-���C�� �t���[�� �E�B���h�E:
+メイン フレーム ウィンドウ:
 
 MainFrm.h, MainFrm.cpp
-    �����̃t�@�C���̓t���[�� �N���X CMainFrame ���܂݂܂��B
-    �t���[�� �N���X CMainFrame �� CMDIFrameWnd �N���X����h�����AMDI ��
-    �t���[���𐧌䂵�܂��B
+    これらのファイルはフレーム クラス CMainFrame を含みます。
+    フレーム クラス CMainFrame は CMDIFrameWnd クラスから派生し、MDI の
+    フレームを制御します。
 
 res\Toolbar.bmp
-    ���̃r�b�g�}�b�v �t�@�C���̓c�[���o�[�̃C���[�W�Ƃ��Ďg���܂��B �c�[���o
-    �[��X�e�[�^�X�o�[�̏����ݒ�� CMainFrame �N���X�ɂ���č\�z�����
-    ���B�c�[���o�[�̃{�^���R���g���[����ǉ����������ɂ̓c�[���o�[�̃r�b�g�}�b�v��
-    ���\�[�X�G�f�B�^�ŕҏW���AiEdit.rc �t�@�C������ IDR_MAINFRAME TOOLBAR �z���
-    �ύX���Ă��������B
+    このビットマップ ファイルはツールバーのイメージとして使います。 ツールバ
+    ーやステータスバーの初期設定は CMainFrame クラスによって構築されま
+    す。ツールバーのボタンコントロールを追加したい時にはツールバーのビットマップを
+    リソースエディタで編集し、iEdit.rc ファイル内の IDR_MAINFRAME TOOLBAR 配列を
+    変更してください。
 /////////////////////////////////////////////////////////////////////////////
 
-�`���C���h �t���[�� �E�B���h�E:
+チャイルド フレーム ウィンドウ:
 
 ChildFrm.h, ChildFrm.cpp
-    �����̃t�@�C���� CChildFrame �N���X�̒�`�ƃC���v�������e�[�V�������s���܂��B
-	���̃N���X�� MDI �A�v���P�[�V�����̎q�E�B���h�E���T�|�[�g���邽�߂̂��̂ł��B
+    これらのファイルは CChildFrame クラスの定義とインプリメンテーションを行います。
+	このクラスは MDI アプリケーションの子ウィンドウをサポートするためのものです。
 
 /////////////////////////////////////////////////////////////////////////////
 
-AppWizard �� 1 �̃h�L�������g�^�C�v�� 1 �̃r���[���쐬���܂��B
+AppWizard は 1 つのドキュメントタイプと 1 つのビューを作成します。
 
-iEditDoc.h, iEditDoc.cpp - �h�L�������g
-    �����̃t�@�C���� iEditDoc �N���X���܂݂܂��B���ʂȃh�L�������g �f
-    �[�^��t����������AiEditDoc::Serialize ���g�����t�@�C���̃Z�[�u��
-    ���[�h�@�\���C���v�������g�������Ƃ��͂��̃t�@�C����ҏW���Ă��������B
+iEditDoc.h, iEditDoc.cpp - ドキュメント
+    これらのファイルは iEditDoc クラスを含みます。特別なドキュメント デ
+    ータを付け加えたり、iEditDoc::Serialize を使ったファイルのセーブや
+    ロード機能をインプリメントしたいときはこのファイルを編集してください。
 
-OutLineView.h, OutLineView.cpp - �r���[
-    �����̃t�@�C���� OutlineView �N���X���܂݂܂��B
-    OutlineView �I�u�W�F�N�g�� iEditDoc �I�u�W�F�N�g��\�����邽�߂�
-    �g���܂��B
+OutLineView.h, OutLineView.cpp - ビュー
+    これらのファイルは OutlineView クラスを含みます。
+    OutlineView オブジェクトは iEditDoc オブジェクトを表示するために
+    使います。
 res\iEditDoc.ico
-    ���̃t�@�C���� iEditDoc �N���X�� MDI �q�E�B���h�E�p�A�C�R���Ƃ��Ďg
-    ����A�C�R���t�@�C���ł��B���̃A�C�R���̓��\�[�X�t�@�C�� iEdit.rc
-    �ɂ���ăC���N���[�h����܂��B
+    このファイルは iEditDoc クラスの MDI 子ウィンドウ用アイコンとして使
+    われるアイコンファイルです。このアイコンはリソースファイル iEdit.rc
+    によってインクルードされます。
 
 
 /////////////////////////////////////////////////////////////////////////////
-���̑��̕W���t�@�C��:
+その他の標準ファイル:
 
 StdAfx.h, StdAfx.cpp
-    �����̃t�@�C���̓v���R���p�C���σw�b�_�[ �t�@�C�� (PCH) iEdit.pch 
-    ��v���R���p�C���ό^�t�@�C�� StdAfx.obj ���\�z���邽�߂Ɏg����t�@�C���ł��B
+    これらのファイルはプリコンパイル済ヘッダー ファイル (PCH) iEdit.pch 
+    やプリコンパイル済型ファイル StdAfx.obj を構築するために使われるファイルです。
 
 Resource.h
-    ���̃t�@�C���͐V�K���\�[�X ID ���`����W���w�b�_�[ �t�@�C���ł��B
-    Microsoft Visual C++ �͂��̃t�@�C����ǂݍ��ݍX�V���܂��B
+    このファイルは新規リソース ID を定義する標準ヘッダー ファイルです。
+    Microsoft Visual C++ はこのファイルを読み込み更新します。
 
 /////////////////////////////////////////////////////////////////////////////
-���̑��̒���:
+その他の注意:
 
-"TODO:" �Ŏn�܂�R�����g�́A�\�[�X�R�[�h�̒ǉ���J�X�^�}�C�Y�̕K�v�ȏꏊ����
-���܂��B
+"TODO:" で始まるコメントは、ソースコードの追加やカスタマイズの必要な場所を示
+します。
 
-�A�v���P�[�V�����ŋ��L DLL ���� MFC ���g�p����ꍇ��A�A�v���P�[�V������
-�I�y���[�e�B���O �V�X�e���Ō��ݎg�p���Ă��錾��ȊO�̌�����g�p���Ă���ꍇ�́A
-Microsoft Visual C++ CD-ROM ����A���[�J���C�Y���ꂽ���\�[�X�ɑΉ�����
-MFC42XXX.DLL �� system �܂��� system32 �f�B���N�g���ɃR�s�[���āA�t�@�C������ 
-MFC42LOC.DLL �ɂ���K�v������܂��B("XXX" �͌���̏ȗ��`�������܂��B�Ⴆ�΁A
-MFC42JPN.DLL �͓��{��ɖ|�󂳂ꂽ���\�[�X���܂݂܂��B)
-���̂悤�ɂ��Ȃ������ꍇ�ɂ́A�A�v���P�[�V�������̂������� UI �v�f�̓I�y
-���[�e�B���O �V�X�e���̌���̂܂܎c��܂��B
+アプリケーションで共有 DLL 内で MFC を使用する場合や、アプリケーションが
+オペレーティング システムで現在使用している言語以外の言語を使用している場合は、
+Microsoft Visual C++ CD-ROM から、ローカライズされたリソースに対応する
+MFC42XXX.DLL を system または system32 ディレクトリにコピーして、ファイル名を 
+MFC42LOC.DLL にする必要があります。("XXX" は言語の省略形を現します。例えば、
+MFC42JPN.DLL は日本語に翻訳されたリソースを含みます。)
+このようにしなかった場合には、アプリケーション内のいくつかの UI 要素はオペ
+レーティング システムの言語のまま残ります。
 
 /////////////////////////////////////////////////////////////////////////////

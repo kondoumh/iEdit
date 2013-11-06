@@ -1,21 +1,21 @@
-#pragma once
+Ôªø#pragma once
 
 
-// ImportTextDlg É_ÉCÉAÉçÉO
+// ImportTextDlg „ÉÄ„Ç§„Ç¢„É≠„Ç∞
 
 class ImportTextDlg : public CDialog
 {
 	DECLARE_DYNAMIC(ImportTextDlg)
 
 public:
-	ImportTextDlg(CWnd* pParent = NULL);   // ïWèÄÉRÉìÉXÉgÉâÉNÉ^
+	ImportTextDlg(CWnd* pParent = NULL);   // Ê®ôÊ∫ñ„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 	virtual ~ImportTextDlg();
 
-// É_ÉCÉAÉçÉO ÉfÅ[É^
+// „ÉÄ„Ç§„Ç¢„É≠„Ç∞ „Éá„Éº„Çø
 	enum { IDD = IDD_IMPORT_TEXT };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ÉTÉ|Å[Ég
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV „Çµ„Éù„Éº„Éà
 
 	DECLARE_MESSAGE_MAP()
 public:

@@ -1,4 +1,4 @@
-// iEditDoc.cpp : iEditDoc ƒNƒ‰ƒX‚Ì“®ì‚Ì’è‹`‚ğs‚¢‚Ü‚·B
+ï»¿// iEditDoc.cpp : iEditDoc ã‚¯ãƒ©ã‚¹ã®å‹•ä½œã®å®šç¾©ã‚’è¡Œã„ã¾ã™ã€‚
 //
 
 #include "stdafx.h"
@@ -25,7 +25,7 @@ static char THIS_FILE[] = __FILE__;
 #define CHECKHR(x) {hr = x; if (FAILED(hr)) goto CleanUp;}
 #define SAFERELEASE(p) {if (p) {(p)->Release(); p = NULL;}}
 
-/// iNode ‚ÌPredicate(ƒL[‚Æ“™‚µ‚¢‚©‚Ç‚¤‚©)
+/// iNode ã®Predicate(ã‚­ãƒ¼ã¨ç­‰ã—ã„ã‹ã©ã†ã‹)
 class iNode_eq : public unary_function<iNode, bool>
 {
 	DWORD key_;
@@ -35,10 +35,10 @@ public:
 };
 
 
-/// iLink ‚ÌPredicate ƒŠƒ“ƒN‚Ì“¹˜A‚êíœ”»’è
+/// iLink ã®Predicate ãƒªãƒ³ã‚¯ã®é“é€£ã‚Œå‰Šé™¤åˆ¤å®š
 class iLink_eq : public unary_function<iLink, bool>
 {
-	DWORD key_;  // íœ‚³‚ê‚énode‚ÌƒL[
+	DWORD key_;  // å‰Šé™¤ã•ã‚Œã‚‹nodeã®ã‚­ãƒ¼
 public:
 	explicit iLink_eq(DWORD key) : key_(key) { }
 	bool operator()(const iLink& l) const {
@@ -46,10 +46,10 @@ public:
 	}
 };
 
-/// iLink ‚ÌƒL[‚ª“¯ˆê‚©‚ğ”»’è
+/// iLink ã®ã‚­ãƒ¼ãŒåŒä¸€ã‹ã‚’åˆ¤å®š
 class iLink_eqkey : public unary_function<iLink, bool>
 {
-	DWORD key_;  // íœ‚³‚ê‚énode‚ÌƒL[
+	DWORD key_;  // å‰Šé™¤ã•ã‚Œã‚‹nodeã®ã‚­ãƒ¼
 public:
 	explicit iLink_eqkey(DWORD key) : key_(key) { }
 	bool operator()(const iLink& l) const {
@@ -57,7 +57,7 @@ public:
 	}
 };
 
-/// iLink ‚ÌPredicate ƒŠƒ“ƒN‚ª‹éŒ`“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è
+/// iLink ã®Predicate ãƒªãƒ³ã‚¯ãŒçŸ©å½¢å†…ã«ã‚ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®š
 class iLink_inBound : public unary_function<iLink, CRect>
 {
 	CRect bound_;
@@ -84,11 +84,11 @@ BEGIN_MESSAGE_MAP(iEditDoc, CDocument)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// iEditDoc ƒNƒ‰ƒX‚Ì\’z/Á–Å
+// iEditDoc ã‚¯ãƒ©ã‚¹ã®æ§‹ç¯‰/æ¶ˆæ»…
 
 iEditDoc::iEditDoc()
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É‚P“x‚¾‚¯ŒÄ‚Î‚ê‚é\’z—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã®ä½ç½®ã«ï¼‘åº¦ã ã‘å‘¼ã°ã‚Œã‚‹æ§‹ç¯‰ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 	m_bShowBranch = false;
 	m_initialBranchMode = 0;
 	m_bOldBinary = false;
@@ -105,8 +105,8 @@ BOOL iEditDoc::OnNewDocument()
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
-	// TODO: ‚±‚ÌˆÊ’u‚ÉÄ‰Šú‰»ˆ—‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
-	// (SDI ƒhƒLƒ…ƒƒ“ƒg‚Í‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ğÄ—˜—p‚µ‚Ü‚·B)
+	// TODO: ã“ã®ä½ç½®ã«å†åˆæœŸåŒ–å‡¦ç†ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
+	// (SDI ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã¯ã“ã®ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’å†åˆ©ç”¨ã—ã¾ã™ã€‚)
 	InitDocument();
 	return TRUE;
 }
@@ -114,45 +114,45 @@ BOOL iEditDoc::OnNewDocument()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// iEditDoc ƒVƒŠƒAƒ‰ƒCƒ[[ƒVƒ‡ƒ“
+// iEditDoc ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚¼ãƒ¼ã‚·ãƒ§ãƒ³
 
 void iEditDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
  	{
- 		// TODO: ‚±‚ÌˆÊ’u‚É•Û‘¶—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+ 		// TODO: ã“ã®ä½ç½®ã«ä¿å­˜ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 		if (!m_bSerializeXML) {
 			if (m_bOldBinary) {
-				saveOrderByTree(ar); // ƒm[ƒh‚Ì•Û‘¶
-				// ƒŠƒ“ƒN‚Ì•Û‘¶
+				saveOrderByTree(ar); // ãƒãƒ¼ãƒ‰ã®ä¿å­˜
+				// ãƒªãƒ³ã‚¯ã®ä¿å­˜
 				ar << links_.size();
 				literator li = links_.begin();
 				for ( ; li != links_.end(); li++) {
 					(*li).Serialize(ar);
 				}
 			} else {
-			 	const int SERIAL_VERSION = 5; // ƒVƒŠƒAƒ‹‰»ƒo[ƒWƒ‡ƒ“”Ô†
+			 	const int SERIAL_VERSION = 5; // ã‚·ãƒªã‚¢ãƒ«åŒ–ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·
 				ar << SERIAL_VERSION;
-				saveOrderByTreeEx(ar, SERIAL_VERSION); // ƒm[ƒh‚Ì•Û‘¶
-				// ƒŠƒ“ƒN‚Ì•Û‘¶
+				saveOrderByTreeEx(ar, SERIAL_VERSION); // ãƒãƒ¼ãƒ‰ã®ä¿å­˜
+				// ãƒªãƒ³ã‚¯ã®ä¿å­˜
 				ar << links_.size(); 
 				literator li = links_.begin();
 				for ( ; li != links_.end(); li++) {
 					(*li).SerializeEx(ar, SERIAL_VERSION);
 				}
-				// OutlineViewó‘Ô‚Ì‘‚«‚İ
+				// OutlineViewçŠ¶æ…‹ã®æ›¸ãè¾¼ã¿
 				saveTreeState(ar, SERIAL_VERSION);
 			}
 		}
  	}
  	else
  	{
- 		// TODO: ‚±‚ÌˆÊ’u‚É“Ç‚İ‚İ—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+ 		// TODO: ã“ã®ä½ç½®ã«èª­ã¿è¾¼ã¿ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 		if (m_bSerializeXML) {
 			loadFromXML(ar.GetFile()->GetFilePath());
 		} else {
 			if (m_bOldBinary) {
-				// ƒm[ƒh‚Ì“Ç‚İ‚İ
+				// ãƒãƒ¼ãƒ‰ã®èª­ã¿è¾¼ã¿
 				ar >> lastKey;
  				unsigned int count;
  				ar >> count;
@@ -162,7 +162,7 @@ void iEditDoc::Serialize(CArchive& ar)
 					nodes_[n.getKey()] = n;
 					sv.push_back(n.getKey());
  				}
-				// ƒŠƒ“ƒN‚Ì“Ç‚İ‚İ
+				// ãƒªãƒ³ã‚¯ã®èª­ã¿è¾¼ã¿
 				ar >> count;
 				lastLinkKey = 0;
 				for (unsigned int i = 0; i < count; i++) {
@@ -172,7 +172,7 @@ void iEditDoc::Serialize(CArchive& ar)
 					links_.push_back(l);
 				}
 			} else {
-				// ƒm[ƒh‚Ì“Ç‚İ‚İ
+				// ãƒãƒ¼ãƒ‰ã®èª­ã¿è¾¼ã¿
 				int version;
 				ar >> version;
 				m_serialVersion = version;
@@ -185,7 +185,7 @@ void iEditDoc::Serialize(CArchive& ar)
 					nodes_[n.getKey()] = n;
 					sv.push_back(n.getKey());
  				}
-				// ƒŠƒ“ƒN‚Ì“Ç‚İ‚İ
+				// ãƒªãƒ³ã‚¯ã®èª­ã¿è¾¼ã¿
 				ar >> count;
 				lastLinkKey = 0;
 				for (unsigned int i = 0; i < count; i++) {
@@ -194,7 +194,7 @@ void iEditDoc::Serialize(CArchive& ar)
 					l.setKey(lastLinkKey++);
 					links_.push_back(l);
 				}
-				// OutlineViewó‘Ô‚Ì“Ç‚İ‚İ
+				// OutlineViewçŠ¶æ…‹ã®èª­ã¿è¾¼ã¿
 				loadTreeState(ar, version);
 			}
 		}
@@ -205,7 +205,7 @@ void iEditDoc::saveOrderByTree(CArchive& ar)
 {
 	OutlineView* pView = getOutlineView();
 	Labels ls;
-	pView->treeToSequence0(ls);  // ƒVƒŠƒAƒ‰ƒCƒYê—pƒV[ƒPƒ“ƒXæ“¾
+	pView->treeToSequence0(ls);  // ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºå°‚ç”¨ã‚·ãƒ¼ã‚±ãƒ³ã‚¹å–å¾—
 	ar << lastKey;
 	ar << ls.size();
 	for (unsigned int i = 0; i < ls.size(); i++) {
@@ -221,7 +221,7 @@ void iEditDoc::saveOrderByTreeEx(CArchive &ar, int version)
 {
 	OutlineView* pView = getOutlineView();
 	Labels ls;
-	pView->treeToSequence0(ls);  // ƒVƒŠƒAƒ‰ƒCƒYê—pƒV[ƒPƒ“ƒXæ“¾
+	pView->treeToSequence0(ls);  // ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºå°‚ç”¨ã‚·ãƒ¼ã‚±ãƒ³ã‚¹å–å¾—
 	ar << lastKey;
 	ar << ls.size();
 	for (unsigned int i = 0; i < ls.size(); i++) {
@@ -255,7 +255,7 @@ void iEditDoc::loadTreeState(CArchive &ar, int version)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// iEditDoc ƒNƒ‰ƒX‚Ìf’f
+// iEditDoc ã‚¯ãƒ©ã‚¹ã®è¨ºæ–­
 
 #ifdef _DEBUG
 void iEditDoc::AssertValid() const
@@ -270,7 +270,7 @@ void iEditDoc::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// iEditDoc ƒRƒ}ƒ“ƒh
+// iEditDoc ã‚³ãƒãƒ³ãƒ‰
 
 DWORD iEditDoc::getBranchRootKey() const
 {
@@ -299,7 +299,7 @@ void iEditDoc::copyNodeLabels(Labels &v)
 	sv.resize(0);
 }
 
-// OutlineView‚Å‚Ìƒm[ƒh’Ç‰Á—pƒƒ\ƒbƒh
+// OutlineViewã§ã®ãƒãƒ¼ãƒ‰è¿½åŠ ç”¨ãƒ¡ã‚½ãƒƒãƒ‰
 void iEditDoc::addNode(const label &l, DWORD inheritKey, bool bInherit)
 {
 	const_niterator it = nodes_.findNode(inheritKey);
@@ -335,7 +335,7 @@ void iEditDoc::addNode(const label &l, DWORD inheritKey, bool bInherit)
 	UpdateAllViews(NULL, (LPARAM)l.key, &hint);
 }
 
-// OutlineView‚ÌƒCƒ“ƒ|[ƒgƒeƒLƒXƒgƒtƒ@ƒCƒ‹ê—p‚Éì‚Á‚Ä‚é
+// OutlineViewã®ã‚¤ãƒ³ãƒãƒ¼ãƒˆãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å°‚ç”¨ã«ä½œã£ã¦ã‚‹
 void iEditDoc::addNode2(const iNode &n)
 {
 	nodes_[n.getKey()] = n;
@@ -373,7 +373,7 @@ void iEditDoc::setKeyNodeParent(DWORD key, DWORD parent)
 void iEditDoc::deleteKeyItem(DWORD key)
 {
 	DWORD parent = nodes_.getCurParent();
-	// ˆÈ‰º‚Ìs‚ÍAƒƒ^ƒtƒ@ƒCƒ‹‚ÌÄ•`‰æ•s‹ï‡‚Ì‚½‚ß”p~iNode_eq‚Ì’†‚ÅiNode‚ÌQÆ‚ğg‚¤‚Ì‚ªŒ´ˆöH
+	// ä»¥ä¸‹ã®è¡Œã¯ã€ãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã®å†æç”»ä¸å…·åˆã®ãŸã‚å»ƒæ­¢iNode_eqã®ä¸­ã§iNodeã®å‚ç…§ã‚’ä½¿ã†ã®ãŒåŸå› ï¼Ÿ
 //	nodes_.erase(remove_if(nodes_.begin(), nodes_.end(), iNode_eq(key)), nodes_.end());
 	
 	niterator it = nodes_.findNodeW(key);
@@ -406,7 +406,7 @@ BOOL iEditDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	CString extent = ext;
 	extent.MakeLower();
 	if (extent != _T(".iedx") && extent != _T(".ied") && extent != _T(".xml")) {
-		AfxMessageBox(_T("iEditƒtƒ@ƒCƒ‹‚Å‚Í‚ ‚è‚Ü‚¹‚ñ"));
+		AfxMessageBox(_T("iEditãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“"));
 		return FALSE;
 	}
 	m_bSerializeXML = false;
@@ -433,7 +433,7 @@ BOOL iEditDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 BOOL iEditDoc::OnSaveDocument(LPCTSTR lpszPathName) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ğ’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	WCHAR drive[_MAX_DRIVE];
 	WCHAR dir[_MAX_DIR];
 	WCHAR fileName[_MAX_FNAME];
@@ -468,7 +468,7 @@ void iEditDoc::InitDocument()
 {
 	if (nodes_.size() == 0) {
 		lastKey = 0;
-		iNode i(_T("å‘è")); i.setKey(0); i.setParent(0);
+		iNode i(_T("ä¸»é¡Œ")); i.setKey(0); i.setParent(0);
 		i.moveBound(CSize(10, 10));
 		CString title = getTitleFromOpenPath();
 		if (getTitleFromOpenPath() != _T("")) {
@@ -520,7 +520,7 @@ void iEditDoc::selChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 	
 	serialVec svec = getOutlineView()->getDrawOrder(bShowSubBranch);
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.orderDirection == 1) {
-		// ~‡‚Å‚Ì•`‰æƒIƒvƒVƒ‡ƒ“‚Ìê‡‚Í”½“]‚·‚é
+		// é™é †ã§ã®æç”»ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®å ´åˆã¯åè»¢ã™ã‚‹
 		std::reverse(svec.begin(), svec.end());
 	}
 	nodes_.setDrawOrder(svec);
@@ -560,7 +560,7 @@ void iEditDoc::setCurNodeText(CString &s, int scrollPos)
 		(*it).second.setText(s);
 		(*it).second.setScrollPos(scrollPos);
 	}
-	// Undo ˆ—‚Ì‚½‚ß‚ÌƒƒbƒZ[ƒW‚ğ”ò‚Î‚·•û‚ª—Ç‚¢B
+	// Undo å‡¦ç†ã®ãŸã‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é£›ã°ã™æ–¹ãŒè‰¯ã„ã€‚
 }
 
 void iEditDoc::drawNodes(CDC *pDC, bool bDrwAll)
@@ -588,7 +588,7 @@ void iEditDoc::moveSelectedNode(const CSize &sz)
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
-	// Undo ˆ—‚Ì‚½‚ß‚É•Ê‚ÌƒƒbƒZ[ƒW‚ğ‘—‚Á‚½•û‚ª—Ç‚¢
+	// Undo å‡¦ç†ã®ãŸã‚ã«åˆ¥ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã£ãŸæ–¹ãŒè‰¯ã„
 //	iHint hint; hint.event = iHint::nodeStyleChanged;
 //	DWORD key = nodes_.getSelKey();
 //	UpdateAllViews(NULL, (LPARAM)key, &hint);
@@ -686,9 +686,9 @@ const CPoint& iEditDoc::getMaxPt() const
 	return m_maxPt;
 }
 
-// TODO:‚±‚Ìƒƒ\ƒbƒh‚ÍƒpƒuƒŠƒbƒN‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚ÉˆÃ–Ù‚Ì‚¤‚¿‚ÉŒÄ‚Î‚ê‚Ä‚é‚Æ
-// v‚í‚ê‚ª‚¿‚¾‚ªAÀÛ‚Í“KØ‚Èƒ^ƒCƒ~ƒ“ƒO‚ÅŒÄ‚Ño‚³‚ê‚È‚¢‚Æ‚¢‚¯‚È‚¢BŒÄ‚Ño‚µ–Y‚ê
-// ‚ª‚ ‚é‚ÆÄ•`‰æ—Ìˆæ‚ÌŒvZ‚ª‚¨‚©‚µ‚­‚È‚éB
+// TODO:ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ãƒ‘ãƒ–ãƒªãƒƒã‚¯ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã°ã‚ŒãŸã¨ãã«æš—é»™ã®ã†ã¡ã«å‘¼ã°ã‚Œã¦ã‚‹ã¨
+// æ€ã‚ã‚ŒãŒã¡ã ãŒã€å®Ÿéš›ã¯é©åˆ‡ãªã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§å‘¼ã³å‡ºã•ã‚Œãªã„ã¨ã„ã‘ãªã„ã€‚å‘¼ã³å‡ºã—å¿˜ã‚Œ
+// ãŒã‚ã‚‹ã¨å†æç”»é ˜åŸŸã®è¨ˆç®—ãŒãŠã‹ã—ããªã‚‹ã€‚
 void iEditDoc::calcMaxPt(CPoint &pt)
 {
 	KeySet ks;
@@ -697,7 +697,7 @@ void iEditDoc::calcMaxPt(CPoint &pt)
 	for ( ; it != nodes_.end(); it++) {
 		if (!(*it).second.isVisible()/* && !m_bShowAll*/) {
 			continue;
-		} // ‚±‚ÌˆÊ’u‚ÅƒtƒBƒ‹ƒ^‚ğ‚©‚¯‚é‚×‚«‚¾‚æ‚ËB‚±‚ê‚ªA‘I‘ğ—Ìˆæ‚ÌƒoƒO‚ÌŒ´ˆöH
+		} // ã“ã®ä½ç½®ã§ãƒ•ã‚£ãƒ«ã‚¿ã‚’ã‹ã‘ã‚‹ã¹ãã ã‚ˆã­ã€‚ã“ã‚ŒãŒã€é¸æŠé ˜åŸŸã®ãƒã‚°ã®åŸå› ï¼Ÿ
 		ks.insert((*it).second.getKey());
 		
 		if ((*it).second.getBound().BottomRight().x > pt.x) {
@@ -769,7 +769,7 @@ bool iEditDoc::setEndLink(const CPoint &pt, int ArrowType, bool bDrwAll, bool bA
 
 bool iEditDoc::setAlterLinkFrom(const CPoint &pt, bool bDrwAll)
 {
-	iNode* pNode = nodes_.hitTest(pt, bDrwAll); // ƒŠƒ“ƒNŒ³‚ğÄ‘I‘ğ
+	iNode* pNode = nodes_.hitTest(pt, bDrwAll); // ãƒªãƒ³ã‚¯å…ƒã‚’å†é¸æŠ
 	if (pNode != NULL) {
 		backUpUndoLinks();
 		links_.setSelectedNodeLinkFrom(pNode->getKey(), pNode->getBound());
@@ -783,7 +783,7 @@ bool iEditDoc::setAlterLinkFrom(const CPoint &pt, bool bDrwAll)
 
 bool iEditDoc::setAlterLinkTo(const CPoint &pt, bool bDrwAll)
 {
-	iNode* pNode = nodes_.hitTest2(pt, bDrwAll); // Ä‘I‘ğ‚È‚µ
+	iNode* pNode = nodes_.hitTest2(pt, bDrwAll); // å†é¸æŠãªã—
 	if (pNode != NULL) {
 		backUpUndoLinks();
 		links_.setSelectedNodeLinkTo(pNode->getKey(), pNode->getBound());
@@ -943,7 +943,7 @@ CRect iEditDoc::getSelectedNodeRect() const
 }
 
 ////////////////////////////////////////////////////////////////////////////
-// treeview ‚Å’Ç‰Á‚³‚ê‚½ƒm[ƒh‚É‘Î‚µA“K“–‚ÈÀ•W’l‚ğ—^‚¦‚é‚½‚ß‚Ìê—pŠÖ”
+// treeview ã§è¿½åŠ ã•ã‚ŒãŸãƒãƒ¼ãƒ‰ã«å¯¾ã—ã€é©å½“ãªåº§æ¨™å€¤ã‚’ä¸ãˆã‚‹ãŸã‚ã®å°‚ç”¨é–¢æ•°
 ////////////////////////////////////////////////////////////////////////////
 CRect iEditDoc::getRecentNodeRect()
 {
@@ -964,7 +964,7 @@ CRect iEditDoc::getRecentNodeRect()
 	return rc;
 }
 
-// ƒNƒŠƒbƒvƒ{[ƒg‚©‚ç‚Ìƒm[ƒhˆêŠ‡ì¬‚Ì‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚¾‚¯ƒVƒOƒlƒ`ƒƒ‚ğ•Ï‚¦‚Ü‚µ‚½B
+// ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒˆã‹ã‚‰ã®ãƒãƒ¼ãƒ‰ä¸€æ‹¬ä½œæˆã®ãŸã‚ã«ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã ã‘ã‚·ã‚°ãƒãƒãƒ£ã‚’å¤‰ãˆã¾ã—ãŸã€‚
 void iEditDoc::addNodeRect(const CString &name, const CPoint &pt, bool bSetMultiLineProcess, bool bNoBound)
 {
 	addNodeInternal(name, pt, iNode::rectangle, bSetMultiLineProcess, bNoBound);
@@ -1006,7 +1006,7 @@ void iEditDoc::addNodeInternal(const CString &name, const CPoint &pt, int nodeTy
 	SetModifiedFlag();
 	iHint hint;
 	
-	// OutlineView‚Å‚ÌƒCƒxƒ“ƒgˆ——p‚É”ò‚Î‚µ‚Ä‚é arc‚Ærect‚ğ•ª‚¯‚éˆÓ–¡‚Í‚È‚¢‚æ‚¤‚¾B
+	// OutlineViewã§ã®ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†ç”¨ã«é£›ã°ã—ã¦ã‚‹ arcã¨rectã‚’åˆ†ã‘ã‚‹æ„å‘³ã¯ãªã„ã‚ˆã†ã ã€‚
 	hint.event = iHint::rectAdd;
 	if (nodeType == iNode::arc) {
 		hint.event = iHint::arcAdd;
@@ -1139,17 +1139,17 @@ void iEditDoc::setSelectedLinkInfo(const CString &sComment, int arrowType, bool 
 
 void iEditDoc::selectLinksInBound(const CRect &r, bool drwAll)
 {
-	// HINT: ƒm[ƒh‚ª‘I‘ğ‚³‚ê‚Ä‚é‚©‚Ì”»’f‚ª•K—v‚È‚Ì‚ÅAiEditDoc‚ÅÀ‘•‚·‚×‚«
-	// ¡‚Ì‚Æ‚±‚ëcanDraw‚ªtrue‚¾‚Æ‘I‘ğ‚·‚é
+	// HINT: ãƒãƒ¼ãƒ‰ãŒé¸æŠã•ã‚Œã¦ã‚‹ã‹ã®åˆ¤æ–­ãŒå¿…è¦ãªã®ã§ã€iEditDocã§å®Ÿè£…ã™ã¹ã
+	// ä»Šã®ã¨ã“ã‚canDrawãŒtrueã ã¨é¸æŠã™ã‚‹
 	links_.selectLinksInBound(r);
 }
 
 int iEditDoc::getSelectedLinkWidth(bool drwAll) const
 {
-	// links ‚â nodes‚Ídoc‚Ìprivateƒƒ“ƒo‚È‚Ì‚¾‚©‚ç—v‘f‚ÉŠÖ‚·‚é‰‰Z‚Í
-	// doc‚Å‚â‚Á‚Ä‚à‚©‚Ü‚í‚È‚¢‚Æ‚±‚ÌŠÖ”‚ğ‘‚¢‚Ä‚¢‚Ä‹C‚Ã‚¢‚½B
-	// •ûj•ÏX‚µ‚æ‚¤‚Æv‚Á‚½‚ªAinline‚Å“¯‚¶ƒƒ\ƒbƒh–¼‚ğg—p‚µ‚Ä‚¢‚é
-	// ‚ÆƒŠƒ“ƒJ‚ª‚¤‚Ü‚­‚¢‚©‚È‚¢‚Ì‚Å‚â‚Í‚è...
+	// links ã‚„ nodesã¯docã®privateãƒ¡ãƒ³ãƒãªã®ã ã‹ã‚‰è¦ç´ ã«é–¢ã™ã‚‹æ¼”ç®—ã¯
+	// docã§ã‚„ã£ã¦ã‚‚ã‹ã¾ã‚ãªã„ã¨ã“ã®é–¢æ•°ã‚’æ›¸ã„ã¦ã„ã¦æ°—ã¥ã„ãŸã€‚
+	// æ–¹é‡å¤‰æ›´ã—ã‚ˆã†ã¨æ€ã£ãŸãŒã€inlineã§åŒã˜ãƒ¡ã‚½ãƒƒãƒ‰åã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹
+	// ã¨ãƒªãƒ³ã‚«ãŒã†ã¾ãã„ã‹ãªã„ã®ã§ã‚„ã¯ã‚Š...
 	return links_.getSelectedLinkWidth();
 }
 
@@ -1459,7 +1459,7 @@ void iEditDoc::setSpecifiedLinkInfo(const listitem &iOld, const listitem &iNew)
 void iEditDoc::setNodeRelax(CRelaxThrd *r, bool bDrwAll)
 {
 	////////////////////////////////////////////////
-	// ©“®ƒŒƒCƒAƒEƒgƒAƒ‹ƒSƒŠƒYƒ€—p‚Ìedgeƒf[ƒ^İ’è
+	// è‡ªå‹•ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ç”¨ã®edgeãƒ‡ãƒ¼ã‚¿è¨­å®š
 	////////////////////////////////////////////////
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 
@@ -1486,7 +1486,7 @@ void iEditDoc::setNodeRelax(CRelaxThrd *r, bool bDrwAll)
 			sz.cy = (rFrom.Height() + rTo.Height())/2;
 			
 			////////////////////////
-			// ƒAƒCƒRƒ“ŠÔ‚Ì‹——£İ’è
+			// ã‚¢ã‚¤ã‚³ãƒ³é–“ã®è·é›¢è¨­å®š
 			////////////////////////
 			double rate;
 			if (pApp->m_rgsLink.bSetStrength) {
@@ -1501,9 +1501,9 @@ void iEditDoc::setNodeRelax(CRelaxThrd *r, bool bDrwAll)
 			e.len = sqrt((double)(sz.cx*sz.cx + sz.cy*sz.cy))*5/4*rate; 
 			
 			///////////////////
-			// edges ‚Ö‚Ì“o˜^
+			// edges ã¸ã®ç™»éŒ²
 			///////////////////
-			bool already = false; // “o˜^‚³‚ê‚Ä‚¢‚éedge‚Æ‚Ìd•¡‚ğƒ`ƒFƒbƒN
+			bool already = false; // ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹edgeã¨ã®é‡è¤‡ã‚’ãƒã‚§ãƒƒã‚¯
 			for (unsigned int i = 0; i < r->edges.size(); i++) {
 				if (r->edges[i].from == e.from && r->edges[i].to == e.to  ||
 					r->edges[i].from == e.to && r->edges[i].to == e.from) {
@@ -1515,7 +1515,7 @@ void iEditDoc::setNodeRelax(CRelaxThrd *r, bool bDrwAll)
 				r->edges.push_back(e);
 			}
 			//////////////////
-			// bounds ‚Ö‚Ì“o˜^
+			// bounds ã¸ã®ç™»éŒ²
 			//////////////////
 			iBound b;
 			b.key = e.from;
@@ -1572,7 +1572,7 @@ CRect iEditDoc::getSelectedLinkBound(bool drwAll) const
 
 CRect iEditDoc::getRelatedBound(bool drwAll) const
 {
-	// TODO:branchƒ‚[ƒh‚Ì‚Ìˆ—
+	// TODO:branchãƒ¢ãƒ¼ãƒ‰ã®æ™‚ã®å‡¦ç†
 	CRect rc(CRect(0, 0, 0, 0));
 	
 	const_niterator it = nodes_.begin();
@@ -1947,7 +1947,7 @@ void iEditDoc::setResultRelax(Bounds &bounds)
 	SetModifiedFlag();
 }
 
-// ‚±‚Ìloadƒƒ\ƒbƒh‚ÍƒCƒ“ƒ|[ƒg—p
+// ã“ã®loadãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚¤ãƒ³ãƒãƒ¼ãƒˆç”¨
 bool iEditDoc::loadXML(const CString &filename, bool replace)
 {
 	MSXML2::IXMLDOMDocument		*pDoc        = NULL;
@@ -1967,7 +1967,7 @@ bool iEditDoc::loadXML(const CString &filename, bool replace)
 	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
 							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if(!pDoc) {
-		AfxMessageBox(_T("XML ƒhƒLƒ…ƒƒ“ƒg‚ğƒp[ƒX‚Å‚«‚Ü‚¹‚ñB"));
+		AfxMessageBox(_T("XML ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ãƒ‘ãƒ¼ã‚¹ã§ãã¾ã›ã‚“ã€‚"));
 		return false;
 	}
     pDoc->put_async(VARIANT_FALSE);
@@ -2003,7 +2003,7 @@ bool iEditDoc::loadXML(const CString &filename, bool replace)
 			element->get_nodeName(&s);
 			CString elems(s);
 			if (elems != _T("iEditDoc")) {
-				AfxMessageBox(_T("‚±‚ê‚ÍiEdit—p‚ÌXMLƒtƒ@ƒCƒ‹‚Å‚Í‚ ‚è‚Ü‚¹‚ñ"));
+				AfxMessageBox(_T("ã“ã‚Œã¯iEditç”¨ã®XMLãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“"));
 				return false;
 			}
 		}
@@ -2037,7 +2037,7 @@ bool iEditDoc::loadXML(const CString &filename, bool replace)
 	return false;
 }
 
-// ‚±‚ÌLoadƒƒ\ƒbƒh‚ÍƒVƒŠƒAƒ‰ƒCƒY—p
+// ã“ã®Loadãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºç”¨
 bool iEditDoc::loadFromXML(const CString &filename)
 {
 	MSXML2::IXMLDOMDocument		*pDoc        = NULL;
@@ -2057,7 +2057,7 @@ bool iEditDoc::loadFromXML(const CString &filename)
 	hr = CoCreateInstance (MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, 
 							MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if(!pDoc) {
-		AfxMessageBox(_T("XML ƒhƒLƒ…ƒƒ“ƒg‚ğƒp[ƒX‚Å‚«‚Ü‚¹‚ñB"));
+		AfxMessageBox(_T("XML ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ãƒ‘ãƒ¼ã‚¹ã§ãã¾ã›ã‚“ã€‚"));
 		return false;
 	}
     pDoc->put_async(VARIANT_FALSE);
@@ -2093,7 +2093,7 @@ bool iEditDoc::loadFromXML(const CString &filename)
 			element->get_nodeName(&s);
 			CString elems(s);
 			if (elems != _T("iEditDoc")) {
-				AfxMessageBox(_T("‚±‚ê‚ÍiEdit—p‚ÌXMLƒtƒ@ƒCƒ‹‚Å‚Í‚ ‚è‚Ü‚¹‚ñ"));
+				AfxMessageBox(_T("ã“ã‚Œã¯iEditç”¨ã®XMLãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“"));
 				return false;
 			}
 		}
@@ -2110,8 +2110,8 @@ bool iEditDoc::loadFromXML(const CString &filename)
 		bool ret = DomTree2Nodes3(element);
 		
 		if (nodesImport.size() > 0 && nodesImport[0].getKey() != 0) {
-			CString mes = _T("•”•ª“I‚ÉƒGƒNƒXƒ|[ƒg‚µ‚½ƒf[ƒ^‚ğ’¼ÚŠJ‚­‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB\n";
-			mes += _T("ƒCƒ“ƒ|[ƒg‹@”\‚ğg—p‚µ‚Äæ‚è‚ñ‚Å‚­‚¾‚³‚¢B");
+			CString mes = _T("éƒ¨åˆ†çš„ã«ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’ç›´æ¥é–‹ãã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚\n";
+			mes += _T("ã‚¤ãƒ³ãƒãƒ¼ãƒˆæ©Ÿèƒ½ã‚’ä½¿ç”¨ã—ã¦å–ã‚Šè¾¼ã‚“ã§ãã ã•ã„ã€‚");
 			AfxMessageBox(mes));
 			return false;
 		}
@@ -2147,7 +2147,7 @@ bool iEditDoc::loadFromXML(const CString &filename)
 }
 
 
-// ƒCƒ“ƒ|[ƒg
+// ã‚¤ãƒ³ãƒãƒ¼ãƒˆæ™‚
 bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 {
 	MSXML2::IXMLDOMNodeList	*childs    = NULL;
@@ -2271,7 +2271,7 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 	return true;
 }
 
-// ƒVƒŠƒAƒ‰ƒCƒY—p
+// ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºç”¨
 bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 {
 	MSXML2::IXMLDOMNodeList	*childs    = NULL;
@@ -2663,7 +2663,7 @@ CPoint iEditDoc::tags2pathPt(MSXML2::IXMLDOMNode *pNode)
 	return pt;
 }
 
-// ƒGƒNƒXƒ|[ƒg‚ÌXMLo—ÍŠÖ”
+// ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆæ™‚ã®XMLå‡ºåŠ›é–¢æ•°
 bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 {
 	FILE* fp;
@@ -2721,7 +2721,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		f.WriteString(procCR(text));
 		f.WriteString(_T("\n\t\t</text>\n"));
 		
-		// ƒ‰ƒxƒ‹‚ÌƒAƒ‰ƒCƒƒ“ƒg
+		// ãƒ©ãƒ™ãƒ«ã®ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
 		f.WriteString(_T("\t\t<labelAlign>"));
 		int align = (*it).second.getTextStyle(); CString salign;
 		switch (align) {
@@ -2742,7 +2742,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		f.WriteString(salign);
 		f.WriteString(_T("</labelAlign>\n"));
 		
-		// Œ`
+		// å½¢
 		f.WriteString(_T("\t\t<shape>"));
 		int shape = (*it).second.getNodeShape();
 		if (shape == iNode::rectangle) {
@@ -2760,7 +2760,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		}
 		f.WriteString(_T("</shape>\n"));
 		
-		// ˆÊ’u
+		// ä½ç½®
 		CString spt;
 		CRect bound = (*it).second.getBound();
 		
@@ -2788,7 +2788,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		
 		
 		CString sc;
-		// F(“h‚è‚Â‚Ô‚µ)
+		// è‰²(å¡—ã‚Šã¤ã¶ã—)
 		if ((*it).second.isFilled()) {
 			f.WriteString(_T("\t\t<ForColor>\n"));
 			COLORREF fc = (*it).second.getBrsColor();
@@ -2813,7 +2813,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 			f.WriteString(_T("\t\t</ForColor>\n"));
 		}
 		
-		// ü‚ÌƒXƒ^ƒCƒ‹
+		// ç·šã®ã‚¹ã‚¿ã‚¤ãƒ«
 		f.WriteString(_T("\t\t<nodeLine>\n"));
 		f.WriteString(_T("\t\t\t<nodeLineStyle>"));
 		if ((*it).second.getLineStyle() == PS_NULL) {
@@ -2837,7 +2837,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		}
 		f.WriteString(_T("\t\t</nodeLine>\n"));
 		
-		// F(ü)
+		// è‰²(ç·š)
 		if ((*it).second.getLineStyle() != PS_NULL) {
 			f.WriteString(_T("\t\t<nodeLineColor>\n"));
 			COLORREF lc = (*it).second.getLineColor();
@@ -2998,7 +2998,7 @@ void iEditDoc::addImportData(bool brepRoot)
 		}
 	}
 	
-	// ƒm[ƒh‚ğ’u‚«Š·‚¦‚éˆ—‚ğ‚±‚±‚É‘‚­
+	// ãƒãƒ¼ãƒ‰ã‚’ç½®ãæ›ãˆã‚‹å‡¦ç†ã‚’ã“ã“ã«æ›¸ã
 	if (brepRoot) {
 		DWORD sel = nodes_.getSelKey();
 		DWORD start = nodesImport[0].getKey();
@@ -3022,10 +3022,10 @@ void iEditDoc::addImportData(bool brepRoot)
 		(*it).second.setBound(nodesImport[0].getBound());
 	}
 	
-	// node‚ÌŠi”[
+	// nodeã®æ ¼ç´
 	sv.clear();
 	sv.resize(0);
-	for (int k = 0; sv.size() < nodesImport.size() && k < 100; k++) { // 100ƒ‹[ƒv‚Ü‚Å
+	for (int k = 0; sv.size() < nodesImport.size() && k < 100; k++) { // 100ãƒ«ãƒ¼ãƒ—ã¾ã§
 		if (brepRoot) {
 			i = 1;
 		} else {
@@ -3046,7 +3046,7 @@ void iEditDoc::addImportData(bool brepRoot)
 		}
 	}
 	
-	// link‚ÌŠi”[
+	// linkã®æ ¼ç´
 	for (i = 0; i < linksImport.size(); i++) {
 		if (linksImport[i].getKeyFrom() != -1 && linksImport[i].getKeyTo() != -1) {
 			linksImport[i].setKey(lastLinkKey++);
@@ -3092,7 +3092,7 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 	const_niterator it = nodes_.findNode(key);
 	
 	CString nameStr = Utilities::removeCR((*it).second.getName());
-	// ƒŠƒ“ƒNƒ^ƒO‚Ì¶¬
+	// ãƒªãƒ³ã‚¯ã‚¿ã‚°ã®ç”Ÿæˆ
 	f->WriteString(_T("<a id="));
 	f->WriteString(_T("\""));
 	CString keystr;
@@ -3100,13 +3100,13 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 	f->WriteString(keystr);
 	f->WriteString(_T("\" />\n"));
 	
-	// “à—e‘‚«‚İ
+	// å†…å®¹æ›¸ãè¾¼ã¿
 	f->WriteString(_T("<h1>") + nameStr + _T("</h1>\n"));
 	f->WriteString(_T("<div class=\"text\">\n"));
 	f->WriteString(procWikiNotation((*it).second.getText()));
 	f->WriteString(_T("</div>\n"));
 	
-	// ƒŠƒ“ƒN‚Ì‘‚«‚İ
+	// ãƒªãƒ³ã‚¯ã®æ›¸ãè¾¼ã¿
 	f->WriteString(_T("<div class=\"links\">\n"));
 	const_literator li = links_.begin();
 	CString sLink(_T("<ul>\n"));
@@ -3130,7 +3130,7 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
 					}
 					sLink += _T("\">");
-					sLink += _T("£") + Utilities::removeCR((*itTo).second.getName());
+					sLink += _T("â–²") + Utilities::removeCR((*itTo).second.getName());
 					if ((*li).getName() != _T("")) {
 						sLink += _T("(") + (*li).getName() + _T(")");
 					}
@@ -3150,7 +3150,7 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
 					}
 					sLink += _T("\">");
-					sLink += _T("¤") + Utilities::removeCR((*itFrom).second.getName());
+					sLink += _T("â–½") + Utilities::removeCR((*itFrom).second.getName());
 					if ((*li).getName() != "") {
 						sLink += _T("(") + (*li).getName() + ")";
 					}
@@ -3172,7 +3172,7 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 				ZeroMemory(ext, _MAX_EXT);
 				_wsplitpath_s((const wchar_t *)url, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 				CString sDrive(drive);
-				if (sDrive != "") { // ƒtƒ‹ƒpƒX‚Ì‚¾‚¯"file:///" ‚Â‚¯‚Æ‚¯‚Î‚¢‚¢‚ç‚µ‚¢
+				if (sDrive != "") { // ãƒ•ãƒ«ãƒ‘ã‚¹ã®æ™‚ã ã‘"file:///" ã¤ã‘ã¨ã‘ã°ã„ã„ã‚‰ã—ã„
 					url = _T("file:///") + url;
 				}
 			}
@@ -3205,7 +3205,7 @@ CString iEditDoc::procWikiNotation(const CString &text)
 	const std::tr1::wregex l3(_T("^---\\s([^-].*)"));
 	const std::tr1::wregex uri(_T("^.*(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+).*$"));
 	std::tr1::match_results<std::wstring::const_iterator> result;
-	// TODO:wstringg‚¤‚æ‚¤‚É‚µ‚Ä‚İ‚½‚ªAˆ—‚ª“®‚­‚©ŒŸØ
+	// TODO:wstringä½¿ã†ã‚ˆã†ã«ã—ã¦ã¿ãŸãŒã€å‡¦ç†ãŒå‹•ãã‹æ¤œè¨¼
 	vector<CString> lines = Utilities::getLines(text);
 	int level = 0;
 	int prevLevel = 0;
@@ -3267,7 +3267,7 @@ CString iEditDoc::procWikiNotation(const CString &text)
 	return rtnStr;
 }
 
-// ƒCƒ“ƒ‰ƒCƒ“‚ÌURL‚ğŒŸo‚·‚é ¡‚Ì‚Æ‚±‚ëÅ‰‚Ì1ŒÂ‚Ì‚İ
+// ã‚¤ãƒ³ãƒ©ã‚¤ãƒ³ã®URLã‚’æ¤œå‡ºã™ã‚‹ ä»Šã®ã¨ã“ã‚æœ€åˆã®1å€‹ã®ã¿
 CString iEditDoc::makeInlineUrlLink(const CString &line)
 {
 	const std::tr1::wregex uri(_T("^(.*)(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)(.*)$"));
@@ -3709,7 +3709,7 @@ bool iEditDoc::isCurKeyInBranch() const
 
 void iEditDoc::OnFileSaveAs() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CString fullPath = GetPathName();
 	CString fileName;
 	
@@ -3728,8 +3728,8 @@ void iEditDoc::OnFileSaveAs()
 	if (driveName == _T("")) {
 		const_niterator it = nodes_.find(0);
 		CString rootLabel = (*it).second.getName();
-		if (rootLabel != _T("å‘è")) {
-			// TODO:ƒtƒ@ƒCƒ‹–¼‚Æ‚µ‚Ä•s³‚È•¶š‚Ìœ‹
+		if (rootLabel != _T("ä¸»é¡Œ")) {
+			// TODO:ãƒ•ã‚¡ã‚¤ãƒ«åã¨ã—ã¦ä¸æ­£ãªæ–‡å­—ã®é™¤å»
 			CString safeFileName = Utilities::getSafeFileName(rootLabel);
 			if (safeFileName == "") {
 				fileName = GetTitle();
@@ -3741,9 +3741,9 @@ void iEditDoc::OnFileSaveAs()
 		}
 	}
 	
-	CString szFilter = _T("iEditƒtƒ@ƒCƒ‹(*.iedx)|*.iedx|iEditƒtƒ@ƒCƒ‹(‹Œ)(*.ied)|*.ied|XMLƒtƒ@ƒCƒ‹(*.xml)|*xml||");
+	CString szFilter = _T("iEditãƒ•ã‚¡ã‚¤ãƒ«(*.iedx)|*.iedx|iEditãƒ•ã‚¡ã‚¤ãƒ«(æ—§)(*.ied)|*.ied|XMLãƒ•ã‚¡ã‚¤ãƒ«(*.xml)|*xml||");
 	if (!((CiEditApp*)AfxGetApp())->m_rgsOptions.registOldFiletype) {
-		szFilter = _T("iEditƒtƒ@ƒCƒ‹(*.iedx)|*.iedx|XMLƒtƒ@ƒCƒ‹(*.xml)|*xml||");
+		szFilter = _T("iEditãƒ•ã‚¡ã‚¤ãƒ«(*.iedx)|*.iedx|XMLãƒ•ã‚¡ã‚¤ãƒ«(*.xml)|*xml||");
 	}
 	CFileDialog cfDlg(FALSE, NULL, fileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
 		OFN_FILEMUSTEXIST | OFN_EXPLORER, szFilter, AfxGetMainWnd());
@@ -3779,7 +3779,7 @@ void iEditDoc::OnFileSaveAs()
 
 void iEditDoc::OnFileSave()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString fullPath = GetPathName();
 	CString driveName;
 	CString dirName;
@@ -3810,7 +3810,7 @@ void iEditDoc::OnFileSave()
 
 void iEditDoc::OnUpdateFileSave(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }
 
 CRect iEditDoc::restoreDeleteBound() const
@@ -3833,8 +3833,8 @@ void iEditDoc::setNodeLevel(const DWORD key, const int nLevel)
 }
 
 
-// ˆğ– ‚É•K—v‚Èƒm[ƒhŠÔ‹——£‚ğŒvZ‚·‚é
-// iNode‚ÌBoundPre‚à‰Šú‰»‚·‚é‘½‹@”\ƒƒ\ƒbƒh©ƒ_ƒ
+// èŠ‹è”“ã«å¿…è¦ãªãƒãƒ¼ãƒ‰é–“è·é›¢ã‚’è¨ˆç®—ã™ã‚‹
+// iNodeã®BoundPreã‚‚åˆæœŸåŒ–ã™ã‚‹å¤šæ©Ÿèƒ½ãƒ¡ã‚½ãƒƒãƒ‰â†ãƒ€ãƒ¡
 void iEditDoc::calcEdges()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
@@ -3842,7 +3842,7 @@ void iEditDoc::calcEdges()
 	literator li = links_.begin();
 	for ( ; li != links_.end(); li++) {
 		if ((*li).getArrowStyle() != iLink::other) {
-			// ‹——£ŒvZ
+			// è·é›¢è¨ˆç®—
 			if ((*li).getKeyFrom() == (*li).getKeyTo()) continue;
 			if (!(*li).canDraw() || !(*li).isInChain()) {
 				(*li).setLen(-1.0);
@@ -3862,7 +3862,7 @@ void iEditDoc::calcEdges()
 				rate *= (((double)pApp->m_rgsLink.strength)/10.0);
 				(*li).setLen(sqrt((double)(sz.cx*sz.cx + sz.cy*sz.cy))*5/4*rate);
 			}
-			// preBound‚Ì’l‚ğ‰Šú‰»
+			// preBoundã®å€¤ã‚’åˆæœŸåŒ–
 			if (!(*li).isInChain()) continue;
 			niterator itFrom = nodes_.findNodeW((*li).getKeyFrom());
 			(*itFrom).second.setBoundPre((*itFrom).second.getBound());
@@ -3879,7 +3879,7 @@ void iEditDoc::calcEdges()
 
 void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 {
-	// ƒhƒ‰ƒbƒO’†‚Ìƒm[ƒh‚ÌˆÊ’u‚ğ•ÏX
+	// ãƒ‰ãƒ©ãƒƒã‚°ä¸­ã®ãƒãƒ¼ãƒ‰ã®ä½ç½®ã‚’å¤‰æ›´
 	niterator ni = nodes_.begin();
 	for ( ; ni != nodes_.end(); ni++) {
 		if ((*ni).second.isSelected()) {
@@ -3907,7 +3907,7 @@ void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 		}
 	}
 	
-	////// ‚Î‚Ëƒ‚ƒfƒ‹ˆ—
+	////// ã°ã­ãƒ¢ãƒ‡ãƒ«å‡¦ç†
 	literator li = links_.begin();
 	for ( ; li != links_.end(); li++) {
 		if ((*li).getArrowStyle() == iLink::other || 
@@ -3984,7 +3984,7 @@ void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 		double y = max(-5, min(5, (*nit).second.dy));
 		CRect rc = (*nit).second.getBoundPre();
 		rc.OffsetRect((int)x, (int)y);
-		// —Ìˆæ‚Ìƒ`ƒFƒbƒN
+		// é ˜åŸŸã®ãƒã‚§ãƒƒã‚¯
 		if (rc.left < 0) {
 			rc.right = (*nit).second.getBoundPre().Width();
 			rc.left = 0;
@@ -4009,10 +4009,10 @@ void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 	setConnectPoint2();
 }
 
-/// ˆğ‚Ã‚é®‚ÉŠÖ˜Aƒm[ƒhEƒŠƒ“ƒN‚Éƒtƒ‰ƒO‚ğ—§‚Ä‚é
+/// èŠ‹ã¥ã‚‹å¼ã«é–¢é€£ãƒãƒ¼ãƒ‰ãƒ»ãƒªãƒ³ã‚¯ã«ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 void iEditDoc::listupChainNodes(bool bResetLinkCurve)
 {
-	// ’¼‘O‚Ü‚Å‚Ìƒtƒ‰ƒO‚ğƒNƒŠƒA
+	// ç›´å‰ã¾ã§ã®ãƒ•ãƒ©ã‚°ã‚’ã‚¯ãƒªã‚¢
 	niterator nit = nodes_.begin();
 	for ( ; nit != nodes_.end(); nit++) {
 		(*nit).second.setInChain(false);
@@ -4022,10 +4022,10 @@ void iEditDoc::listupChainNodes(bool bResetLinkCurve)
 		(*linit).setInChain(false);
 	}
 	
-	// links_‚©‚çˆğ‚Ã‚éŒŸõ
-	KeySet nodeChain; // V‚µ‚¢ˆğ—p
-	KeySet nodeChainChecked; // Œ@‚Á‚½ˆğ—p
-	nodeChain.insert(getSelectedNodeKey()); // select‚³‚ê‚Ä‚¢‚éˆğ
+	// links_ã‹ã‚‰èŠ‹ã¥ã‚‹æ¤œç´¢
+	KeySet nodeChain; // æ–°ã—ã„èŠ‹ç”¨
+	KeySet nodeChainChecked; // æ˜ã£ãŸèŠ‹ç”¨
+	nodeChain.insert(getSelectedNodeKey()); // selectã•ã‚Œã¦ã„ã‚‹èŠ‹
 	unsigned int sizePre = nodeChain.size();
 	for ( ; ; ) {
 		KeySet::iterator ki = nodeChain.begin();
@@ -4080,7 +4080,7 @@ CRect iEditDoc::getChaindNodesBound() const
 	return rc;
 }
 
-// ˆğ‚Ã‚éƒ‚[ƒh—p
+// èŠ‹ã¥ã‚‹ãƒ¢ãƒ¼ãƒ‰ç”¨
 void iEditDoc::setConnectPoint2()
 {
 	literator li = links_.begin();
@@ -4128,9 +4128,9 @@ const CRect iEditDoc::addNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 	iNode nwNode;
 	if (bMindmap) {
 	CPoint ptTarget = (*it).second.getBound().CenterPoint() + CPoint(100, -100);
-		nwNode = insertNode(nodeType, _T("ƒm[ƒh"), ptTarget);
+		nwNode = insertNode(nodeType, _T("ãƒãƒ¼ãƒ‰"), ptTarget);
 	} else {
-		nwNode = insertNode(nodeType, _T("ƒm[ƒh"), pt);
+		nwNode = insertNode(nodeType, _T("ãƒãƒ¼ãƒ‰"), pt);
 	}
 	
 	DWORD newKey = nwNode.getKey();
@@ -4155,11 +4155,11 @@ const CRect iEditDoc::addNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 	if (bMindmap) {
 		listupChainNodes(false);
 		calcEdges();
-		nodes_.fixNodesReversibly(newKey); // V‚µ‚¢ƒm[ƒhˆÈŠO‚ğŒÅ’è
+		nodes_.fixNodesReversibly(newKey); // æ–°ã—ã„ãƒãƒ¼ãƒ‰ä»¥å¤–ã‚’å›ºå®š
 		for (int i = 0; i < 100; i++) {
 			relaxSingleStep2();
 		}
-		nodes_.restoreNodesFixState(newKey); // Fixó‘Ô‚ğƒŠƒXƒgƒA
+		nodes_.restoreNodesFixState(newKey); // FixçŠ¶æ…‹ã‚’ãƒªã‚¹ãƒˆã‚¢
 	}
 	
 	selChanged(nwNode.getKey(), true, isShowSubBranch());
@@ -4185,7 +4185,7 @@ const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 	CPoint ptTarget = ptSibling;
 	CPoint ptOffset = ptSibling - ptRoot;
 	
-	// root‚Æsibling‚ÌˆÊ’uŠÖŒW‚É‚æ‚Á‚ÄA‰Šú‚ÌoŒ»ˆÊ’u‚ğ•Ï‚¦‚é
+	// rootã¨siblingã®ä½ç½®é–¢ä¿‚ã«ã‚ˆã£ã¦ã€åˆæœŸã®å‡ºç¾ä½ç½®ã‚’å¤‰ãˆã‚‹
 	if (ptOffset.x >= 0 && ptOffset.y >= 0) {
 		ptTarget += CPoint(-50, 50);
 	} else if (ptOffset.x < 0 && ptOffset.y >= 0) {
@@ -4196,7 +4196,7 @@ const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 		ptTarget += CPoint(50, 50);
 	}
 	
-	iNode nwNode = insertNode(nodeType, _T("ƒm[ƒh"), ptTarget);
+	iNode nwNode = insertNode(nodeType, _T("ãƒãƒ¼ãƒ‰"), ptTarget);
 	DWORD newKey = nwNode.getKey();
 	
 	selChanged(nwNode.getKey(), true, isShowSubBranch());
@@ -4230,8 +4230,8 @@ const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 	return (*nit).second.getBound();
 }
 
-// ACTION : addNodeXX‚ğˆêŒ³‰»‚·‚éƒƒ\ƒbƒh(¡ŒãƒŠƒtƒ@ƒNƒ^ƒŠƒ“ƒO)
-// Notify‚ğƒIƒvƒVƒ‡ƒiƒ‹‚É‚·‚é‚©HH
+// ACTION : addNodeXXã‚’ä¸€å…ƒåŒ–ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰(ä»Šå¾Œãƒªãƒ•ã‚¡ã‚¯ã‚¿ãƒªãƒ³ã‚°)
+// Notifyã‚’ã‚ªãƒ—ã‚·ãƒ§ãƒŠãƒ«ã«ã™ã‚‹ã‹ï¼Ÿï¼Ÿ
 const iNode& iEditDoc::insertNode(const int nodeType, const CString &name, const CPoint &pt)
 {
 	iNode n(name);
@@ -4251,7 +4251,7 @@ const iNode& iEditDoc::insertNode(const int nodeType, const CString &name, const
 
 void iEditDoc::relaxSingleStep2()
 {
-	////// ‚Î‚Ëƒ‚ƒfƒ‹ˆ—
+	////// ã°ã­ãƒ¢ãƒ‡ãƒ«å‡¦ç†
 	literator li = links_.begin();
 	for ( ; li != links_.end(); li++) {
 		if ((*li).getArrowStyle() == iLink::other || 
@@ -4327,7 +4327,7 @@ void iEditDoc::relaxSingleStep2()
 		double y = max(-5, min(5, (*nit).second.dy));
 		CRect rc = (*nit).second.getBoundPre();
 		rc.OffsetRect((int)x, (int)y);
-		// —Ìˆæ‚Ìƒ`ƒFƒbƒN
+		// é ˜åŸŸã®ãƒã‚§ãƒƒã‚¯
 		if (rc.left < 0) {
 			rc.right = (*nit).second.getBoundPre().Width();
 			rc.left = 0;
@@ -4361,7 +4361,7 @@ int iEditDoc::getKeyNodeLevelNumber(DWORD key)
 	return -1;
 }
 
-// ƒTƒCƒŒƒ“ƒg‚ÈHitTest
+// ã‚µã‚¤ãƒ¬ãƒ³ãƒˆãªHitTest
 bool iEditDoc::hitTest2(const CPoint& pt)
 {
 	iNode* pNode = nodes_.hitTest2(pt, false);
@@ -4473,7 +4473,7 @@ void iEditDoc::resizeSelectedLinkFont(bool bEnLarge)
 	UpdateAllViews(NULL, (LPARAM)(nodes_.getSelKey()), &hint);
 }
 
-// ƒXƒ^ƒCƒ‹•ÏX‚Ì‚ÉŒÄ‚Ño‚µ‚Ä‚¢‚é‚ªEEH
+// ã‚¹ã‚¿ã‚¤ãƒ«å¤‰æ›´ã®æ™‚ã«å‘¼ã³å‡ºã—ã¦ã„ã‚‹ãŒãƒ»ãƒ»ï¼Ÿ
 void iEditDoc::setConnectPoint3()
 {
 	literator li = links_.begin();

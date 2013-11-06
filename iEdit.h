@@ -1,4 +1,4 @@
-// iEdit.h : IEDIT ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ ƒwƒbƒ_[ ƒtƒ@ƒCƒ‹
+ï»¿// iEdit.h : IEDIT ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ¡ã‚¤ãƒ³ ãƒ˜ãƒƒãƒ€ãƒ¼ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #if !defined(AFX_IEDIT_H__96DFF9B7_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
@@ -12,9 +12,9 @@
 	#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"       // ƒƒCƒ“ ƒVƒ“ƒ{ƒ‹
+#include "resource.h"       // ãƒ¡ã‚¤ãƒ³ ã‚·ãƒ³ãƒœãƒ«
 
-// ƒŒƒWƒXƒgƒŠî•ñŠi”[—p•Ï”
+// ãƒ¬ã‚¸ã‚¹ãƒˆãƒªæƒ…å ±æ ¼ç´ç”¨å¤‰æ•°
 struct rgsNode {
 	LOGFONT lf;
 	int styleText;
@@ -25,8 +25,8 @@ struct rgsNode {
 	COLORREF colorLine;
 	COLORREF colorFont;
 	BOOL bFillColor;
-	BOOL bInheritParent;    // eƒm[ƒh‚Ì‘®«‚ğŒp³
-	BOOL bInheritSibling;   // ŒZ’íƒm[ƒh‚Ì‘®«‚ğŒp³
+	BOOL bInheritParent;    // è¦ªãƒãƒ¼ãƒ‰ã®å±æ€§ã‚’ç¶™æ‰¿
+	BOOL bInheritSibling;   // å…„å¼Ÿãƒãƒ¼ãƒ‰ã®å±æ€§ã‚’ç¶™æ‰¿
 	BOOL bSyncOrder;
 	int  orderDirection;
 	BOOL bEnableGroup;
@@ -66,7 +66,7 @@ void showLastErrorMessage();
 
 /////////////////////////////////////////////////////////////////////////////
 // CiEditApp:
-// ‚±‚ÌƒNƒ‰ƒX‚Ì“®ì‚Ì’è‹`‚ÉŠÖ‚µ‚Ä‚Í iEdit.cpp ƒtƒ@ƒCƒ‹‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B
+// ã“ã®ã‚¯ãƒ©ã‚¹ã®å‹•ä½œã®å®šç¾©ã«é–¢ã—ã¦ã¯ iEdit.cpp ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‚ç…§ã—ã¦ãã ã•ã„ã€‚
 //
 
 class CiEditApp : public CWinApp
@@ -102,7 +102,7 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	CiEditApp();
 	
-	// ƒŠƒ“ƒNü‚Ìí—Ş
+	// ãƒªãƒ³ã‚¯ç·šã®ç¨®é¡
 	enum {
 		LS_R0,
 		LS_DOT,
@@ -111,7 +111,7 @@ public:
 		LS_R3,
 		LS_R4
 	};
-	// ƒŠƒ“ƒN–îˆó‚Ì‚Â‚«•û‚Ìí—Ş
+	// ãƒªãƒ³ã‚¯çŸ¢å°ã®ã¤ãæ–¹ã®ç¨®é¡
 	enum {
 		LA_NONE,
 		LA_SINGLE,
@@ -123,15 +123,15 @@ public:
 		LA_COMPOSIT
 	};
 
-// ƒI[ƒo[ƒ‰ƒCƒh
-	// ClassWizard ‚Í‰¼‘zŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh‚ğ¶¬‚µ‚Ü‚·B
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+	// ClassWizard ã¯ä»®æƒ³é–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	//{{AFX_VIRTUAL(CiEditApp)
 	public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 	afx_msg void OnAppAbout();
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileNew();
@@ -149,6 +149,6 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ ‚Í‘Os‚Ì’¼‘O‚É’Ç‰Á‚ÌéŒ¾‚ğ‘}“ü‚µ‚Ü‚·B
+// Microsoft Visual C++ ã¯å‰è¡Œã®ç›´å‰ã«è¿½åŠ ã®å®£è¨€ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚
 
 #endif // !defined(AFX_IEDIT_H__96DFF9B7_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

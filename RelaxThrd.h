@@ -1,10 +1,10 @@
-#if !defined(AFX_RELAXTHRD_H__DDFD7BE1_98CB_11D3_B42D_00A0C9B72FDD__INCLUDED_)
+ï»¿#if !defined(AFX_RELAXTHRD_H__DDFD7BE1_98CB_11D3_B42D_00A0C9B72FDD__INCLUDED_)
 #define AFX_RELAXTHRD_H__DDFD7BE1_98CB_11D3_B42D_00A0C9B72FDD__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// RelaxThrd.h : ƒwƒbƒ_[ ƒtƒ@ƒCƒ‹
+// RelaxThrd.h : ãƒ˜ãƒƒãƒ€ãƒ¼ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 struct iBound {
@@ -34,14 +34,14 @@ typedef set<iBound, iBound_less> Bounds;
 typedef vector<iEdge> Edges;
 
 /////////////////////////////////////////////////////////////////////////////
-// CRelaxThrd ƒXƒŒƒbƒh
+// CRelaxThrd ã‚¹ãƒ¬ãƒƒãƒ‰
 
 class CRelaxThrd : public CWinThread
 {
 	DECLARE_DYNAMIC(CRelaxThrd)
 protected:
 
-// ƒAƒgƒŠƒrƒ…[ƒg
+// ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆ
 public:
 	static CRITICAL_SECTION m_csGDILock;
 	static HANDLE m_hAnotherDead;
@@ -49,7 +49,7 @@ public:
 	HANDLE m_hEventDead;
 	Bounds bounds;
 	Edges edges;
-// ƒIƒyƒŒ[ƒVƒ‡ƒ“
+// ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	virtual void Delete();
 	void KillThread();
@@ -57,21 +57,21 @@ public:
 	CRelaxThrd();
 	virtual ~CRelaxThrd();
 
-// ƒI[ƒo[ƒ‰ƒCƒh
-	// ClassWizard ‚Í‰¼‘zŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh‚ğ¶¬‚µ‚Ü‚·B
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+	// ClassWizard ã¯ä»®æƒ³é–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	//{{AFX_VIRTUAL(CRelaxThrd)
 	public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 protected:
 	void SingleStep();
 
-	// ¶¬‚³‚ê‚½ƒƒbƒZ[ƒW ƒ}ƒbƒvŠÖ”
+	// ç”Ÿæˆã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒƒãƒ—é–¢æ•°
 	//{{AFX_MSG(CRelaxThrd)
-		// ƒƒ‚ - ClassWizard ‚Í‚±‚ÌˆÊ’u‚Éƒƒ“ƒoŠÖ”‚ğ’Ç‰Á‚Ü‚½‚Ííœ‚µ‚Ü‚·B
+		// ãƒ¡ãƒ¢ - ClassWizard ã¯ã“ã®ä½ç½®ã«ãƒ¡ãƒ³ãƒé–¢æ•°ã‚’è¿½åŠ ã¾ãŸã¯å‰Šé™¤ã—ã¾ã™ã€‚
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
@@ -92,6 +92,6 @@ private:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ ‚Í‘Os‚Ì’¼‘O‚É’Ç‰Á‚ÌéŒ¾‚ğ‘}“ü‚µ‚Ü‚·B
+// Microsoft Visual C++ ã¯å‰è¡Œã®ç›´å‰ã«è¿½åŠ ã®å®£è¨€ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚
 
 #endif // !defined(AFX_RELAXTHRD_H__DDFD7BE1_98CB_11D3_B42D_00A0C9B72FDD__INCLUDED_)

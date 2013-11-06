@@ -1,4 +1,4 @@
-// iLink.h: iLink ƒNƒ‰ƒX‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
+ï»¿// iLink.h: iLink ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -84,22 +84,22 @@ public:
 	void drawComment(CDC* pDC, bool clipbrd=false);
 	iLink();
 	virtual ~iLink();
-	// –îˆó‚Ìí—Ş
+	// çŸ¢å°ã®ç¨®é¡
 	enum {
-		// •W€
-		line,       //   „Ÿ„Ÿ –îˆó‚È‚µ
-		arrow,      //   „Ÿ„Ÿ¥ ˆê•ûŒü
-		arrow2,     // £„Ÿ„Ÿ¥ ‘o•ûŒü
+		// æ¨™æº–
+		line,       //   â”€â”€ çŸ¢å°ãªã—
+		arrow,      //   â”€â”€â–¼ ä¸€æ–¹å‘
+		arrow2,     // â–²â”€â”€â–¼ åŒæ–¹å‘
 		other,
-		// UMLƒ‰ƒCƒN‚ÈI’[ƒXƒ^ƒCƒ‹BŠî–{“I‚Éˆê•ûŒü
-		depend,     //   „Ÿ„Ÿ„  ˆË‘¶ ˆê•ûŒü
-		depend2,    // ƒ„Ÿ„Ÿ„  ˆË‘¶ ‘o•ûŒü
-		inherit,    // -|>    ’†”²‚«
-		aggregat,   // || -<> ’†”²‚«
-		composit    // || -<> F•t
+		// UMLãƒ©ã‚¤ã‚¯ãªçµ‚ç«¯ã‚¹ã‚¿ã‚¤ãƒ«ã€‚åŸºæœ¬çš„ã«ä¸€æ–¹å‘
+		depend,     //   â”€â”€ï¼  ä¾å­˜ ä¸€æ–¹å‘
+		depend2,    // ï¼œâ”€â”€ï¼  ä¾å­˜ åŒæ–¹å‘
+		inherit,    // -|>    ä¸­æŠœã
+		aggregat,   // || -<> ä¸­æŠœã
+		composit    // || -<> è‰²ä»˜
 	};
 	
-	enum {upright, upleft, downleft, downright}; // ©ŒÈQÆü‚ÌˆÊ’u
+	enum {upright, upleft, downleft, downright}; // è‡ªå·±å‚ç…§ç·šã®ä½ç½®
 
 private:
 	void initCopy(const iLink& l);
@@ -109,8 +109,8 @@ private:
 	int selfPos;
 	CRect selfRect;
 	CRgn m_rgn;
-	bool curved_;  // ‹È‚ª‚Á‚Ä‚é
-	bool angled_;  // ‹È‚°•û‚ªŠp’£‚Á‚Ä‚é(Default‚Ífalse)
+	bool curved_;  // æ›²ãŒã£ã¦ã‚‹
+	bool angled_;  // æ›²ã’æ–¹ãŒè§’å¼µã£ã¦ã‚‹(Defaultã¯false)
 	bool selected_;
 	CFont font_;
 	LOGFONT lf_;
@@ -120,7 +120,7 @@ private:
 	int styleLine;
 	int styleArrow;
 	CString name_;
-	CString path_;    // URL File‚È‚Ç‚Ö‚ÌƒŠƒ“ƒNŠi”[—p
+	CString path_;    // URL Fileãªã©ã¸ã®ãƒªãƒ³ã‚¯æ ¼ç´ç”¨
 	bool drwFlag;
 	bool deleted_;
 	DWORD keyTo;
@@ -131,7 +131,7 @@ private:
 	CPoint ptPath;
 	CRect rcTo;
 	CRect rcFrom;
-	double len_;        // ‚Î‚Ëƒ‚ƒfƒ‹—pƒŠƒ“ƒN’·(’¼ü‹——£)
+	double len_;        // ã°ã­ãƒ¢ãƒ‡ãƒ«ç”¨ãƒªãƒ³ã‚¯é•·(ç›´ç·šè·é›¢)
 	bool bChain_;
 	bool dropTarget_;
 protected:
@@ -402,7 +402,7 @@ inline void iLink::setDropTarget(bool dropTarget)
 	dropTarget_ = dropTarget;
 }
 
-// iLinks : iLink ‚ÌƒRƒŒƒNƒVƒ‡ƒ“
+// iLinks : iLink ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
 // 
 /////////////////////////////////////////////////////////////////////
 typedef list<iLink> lContena;

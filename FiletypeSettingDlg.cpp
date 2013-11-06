@@ -1,4 +1,4 @@
-// FiletypeSettingDlg.cpp : ŽÀ‘•ƒtƒ@ƒCƒ‹
+ï»¿// FiletypeSettingDlg.cpp : å®Ÿè£…ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 
 
-// FiletypeSettingDlg ƒ_ƒCƒAƒƒO
+// FiletypeSettingDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 IMPLEMENT_DYNAMIC(FiletypeSettingDlg, CDialog)
 
@@ -37,33 +37,33 @@ BEGIN_MESSAGE_MAP(FiletypeSettingDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// FiletypeSettingDlg ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰[
+// FiletypeSettingDlg ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ãƒ¼
 
 
 BOOL FiletypeSettingDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO:  ‚±‚±‚É‰Šú‰»‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO:  ã“ã“ã«åˆæœŸåŒ–ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_registFileType == 0) {
 		GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(FALSE);
 	} else {
 		GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(TRUE);
 	}
 	return TRUE;  // return TRUE unless you set the focus to a control
-	// —áŠO : OCX ƒvƒƒpƒeƒB ƒy[ƒW‚Í•K‚¸ FALSE ‚ð•Ô‚µ‚Ü‚·B
+	// ä¾‹å¤– : OCX ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ãƒšãƒ¼ã‚¸ã¯å¿…ãš FALSE ã‚’è¿”ã—ã¾ã™ã€‚
 }
 
 
 void FiletypeSettingDlg::OnBnClickedRdNotRegist()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(FALSE);
 }
 
 
 void FiletypeSettingDlg::OnBnClickedRdRegist()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(TRUE);
 }

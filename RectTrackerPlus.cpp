@@ -1,4 +1,4 @@
-// RectTrackerPlus.cpp : ŽÀ‘•ƒtƒ@ƒCƒ‹
+ï»¿// RectTrackerPlus.cpp : å®Ÿè£…ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"

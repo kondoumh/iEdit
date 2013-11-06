@@ -1,4 +1,4 @@
-// LinkInfo2Dlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// LinkInfo2Dlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfo2Dlg �_�C�A���O
+// LinkInfo2Dlg ダイアログ
 
 
 LinkInfo2Dlg::LinkInfo2Dlg(CWnd* pParent /*=NULL*/)
@@ -41,12 +41,12 @@ BEGIN_MESSAGE_MAP(LinkInfo2Dlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfo2Dlg ���b�Z�[�W �n���h��
+// LinkInfo2Dlg メッセージ ハンドラ
 
 void LinkInfo2Dlg::OnBrowse() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
-	WCHAR szFilters[] = _T("�S�Ẵt�@�C�� (*.*)|*.*|");
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
+	WCHAR szFilters[] = _T("全てのファイル (*.*)|*.*|");
 	CFileDialog dlg(TRUE, _T("*.*"), NULL, OFN_HIDEREADONLY, szFilters, NULL);
 	if (dlg.DoModal() != IDOK) return;
 	m_edit.SetSel(0, -1);
@@ -55,11 +55,11 @@ void LinkInfo2Dlg::OnBrowse()
 
 void LinkInfo2Dlg::OnOK() 
 {
-	// TODO: ���̈ʒu�ɂ��̑��̌��ؗp�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strPath);
 	m_Comment.GetWindowText(strComment);
 	if (strPath == _T("")) {
-		MessageBox(_T("�t�@�C�����܂��́AURL����͂��Ă�������"));
+		MessageBox(_T("ファイル名または、URLを入力してください"));
 		return;
 	}
 	CDialog::OnOK();
@@ -68,10 +68,10 @@ void LinkInfo2Dlg::OnOK()
 BOOL LinkInfo2Dlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	m_Org.SetWindowText(strOrg);
 	m_Comment.ReplaceSel(strComment);
 	m_edit.ReplaceSel(strPath);
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }

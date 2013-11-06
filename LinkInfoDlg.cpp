@@ -1,4 +1,4 @@
-// LinkInfoDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// LinkInfoDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfoDlg �_�C�A���O
+// LinkInfoDlg ダイアログ
 
 
 LinkInfoDlg::LinkInfoDlg(CWnd* pParent /*=NULL*/)
@@ -47,13 +47,13 @@ BEGIN_MESSAGE_MAP(LinkInfoDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfoDlg ���b�Z�[�W �n���h��
+// LinkInfoDlg メッセージ ハンドラ
 
 BOOL LinkInfoDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	m_LabelFrom.SetWindowText(strFrom);
 	m_LabelTo.SetWindowText(strTo);
 	switch (styleArrow) {
@@ -92,13 +92,13 @@ BOOL LinkInfoDlg::OnInitDialog()
 			m_cmbLineStyle.SetCurSel(lineWidth - 1);
 		}
 	}
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 void LinkInfoDlg::OnSelchangeCombo() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	switch (m_combo.GetCurSel()) {
 	case 0:
 		styleArrow = iLink::line;
@@ -129,7 +129,7 @@ void LinkInfoDlg::OnSelchangeCombo()
 
 void LinkInfoDlg::OnOK() 
 {
-	// TODO: ���̈ʒu�ɂ��̑��̌��ؗp�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strComment);
 	CDialog::OnOK();
 }
@@ -137,7 +137,7 @@ void LinkInfoDlg::OnOK()
 
 void LinkInfoDlg::OnBtnColor() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
@@ -145,7 +145,7 @@ void LinkInfoDlg::OnBtnColor()
 
 void LinkInfoDlg::OnBtnFont() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
 	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
@@ -153,7 +153,7 @@ void LinkInfoDlg::OnBtnFont()
 
 void LinkInfoDlg::OnSelchangeCmbLine() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_cmbLineStyle.GetCurSel();
 	if (index == 0 || index == 5) {
 		lineWidth = 0;

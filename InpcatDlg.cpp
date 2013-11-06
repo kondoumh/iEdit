@@ -1,4 +1,4 @@
-// InpcatDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// InpcatDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcatDlg �_�C�A���O
+// CInpcatDlg ダイアログ
 
 
 CInpcatDlg::CInpcatDlg(CWnd* pParent /*=NULL*/)
@@ -41,25 +41,25 @@ BEGIN_MESSAGE_MAP(CInpcatDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcatDlg ���b�Z�[�W �n���h��
+// CInpcatDlg メッセージ ハンドラ
 
 BOOL CInpcatDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	m_edit.SetSel(0, -1);
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 void CInpcatDlg::OnChangeEdit1() 
 {
-	// TODO: ���ꂪ RICHEDIT �R���g���[���̏ꍇ�A�R���g���[���́A lParam �}�X�N
-	// ���ł̘_���a�� ENM_CHANGE �t���O�t���� CRichEditCrtl().SetEventMask()
-	// ���b�Z�[�W���R���g���[���֑��邽�߂� CDialog::OnInitDialog() �֐����I�[�o�[
-	// ���C�h���Ȃ����肱�̒ʒm�𑗂�܂���B
+	// TODO: これが RICHEDIT コントロールの場合、コントロールは、 lParam マスク
+	// 内での論理和の ENM_CHANGE フラグ付きで CRichEditCrtl().SetEventMask()
+	// メッセージをコントロールへ送るために CDialog::OnInitDialog() 関数をオーバー
+	// ライドしない限りこの通知を送りません。
 	
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_edit.GetWindowText(m_strName);
 }

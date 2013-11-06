@@ -1,21 +1,21 @@
-#pragma once
+ï»¿#pragma once
 
 
-// FiletypeSettingDlg ƒ_ƒCƒAƒƒO
+// FiletypeSettingDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 class FiletypeSettingDlg : public CDialog
 {
 	DECLARE_DYNAMIC(FiletypeSettingDlg)
 
 public:
-	FiletypeSettingDlg(CWnd* pParent = NULL);   // •W€ƒRƒ“ƒXƒgƒ‰ƒNƒ^[
+	FiletypeSettingDlg(CWnd* pParent = NULL);   // æ¨™æº–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ¼
 	virtual ~FiletypeSettingDlg();
 
-// ƒ_ƒCƒAƒƒO ƒf[ƒ^
+// ãƒ€ã‚¤ã‚¢ãƒ­ã‚° ãƒ‡ãƒ¼ã‚¿
 	enum { IDD = IDD_SHELL_FILETYPE_SETTING };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ƒTƒ|[ƒg
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ã‚µãƒãƒ¼ãƒˆ
 
 	DECLARE_MESSAGE_MAP()
 public:

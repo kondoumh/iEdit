@@ -1,4 +1,4 @@
-// SelFileDropDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// SelFileDropDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// SelFileDropDlg �_�C�A���O
+// SelFileDropDlg ダイアログ
 
 
 SelFileDropDlg::SelFileDropDlg(CWnd* pParent /*=NULL*/)
@@ -35,9 +35,9 @@ void SelFileDropDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(SelFileDropDlg, CDialog)
 	//{{AFX_MSG_MAP(SelFileDropDlg)
-		// ���� - ClassWizard �͂��̈ʒu�Ƀ}�b�s���O�p�̃}�N����ǉ��܂��͍폜���܂��B
+		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// SelFileDropDlg ���b�Z�[�W �n���h��
+// SelFileDropDlg メッセージ ハンドラ

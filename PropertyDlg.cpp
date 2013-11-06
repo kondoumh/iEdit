@@ -1,4 +1,4 @@
-// PropertyDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// PropertyDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -25,14 +25,14 @@ static char THIS_FILE[] = __FILE__;
 #define REGS_OTHER _T("Settings")
 
 /////////////////////////////////////////////////////////////////////////////
-// CPropertyDlg �_�C�A���O
+// CPropertyDlg ダイアログ
 
 
 CPropertyDlg::CPropertyDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CPropertyDlg::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(CPropertyDlg)
-		// ���� - ClassWizard �͂��̈ʒu�Ƀ}�b�s���O�p�̃}�N����ǉ��܂��͍폜���܂��B
+		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_DATA_INIT
 }
 
@@ -52,27 +52,27 @@ BEGIN_MESSAGE_MAP(CPropertyDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CPropertyDlg ���b�Z�[�W �n���h��
+// CPropertyDlg メッセージ ハンドラ
 
 BOOL CPropertyDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	
-	// �^�u�V�[�g�Ƀ^�u��ǉ�
+	// タブシートにタブを追加
 	TC_ITEM item;
 	item.mask = TCIF_TEXT;
-	item.pszText = _T("�t���[��");
+	item.pszText = _T("フレーム");
 	m_tabSeet.InsertItem(0,&item);
-	item.pszText = _T("�m�[�h");
+	item.pszText = _T("ノード");
 	m_tabSeet.InsertItem(1,&item);
-	item.pszText = _T("�����N");
+	item.pszText = _T("リンク");
 	m_tabSeet.InsertItem(2,&item);
-	item.pszText = _T("���̑�");
+	item.pszText = _T("その他");
 	m_tabSeet.InsertItem(3,&item);
 
-	// �^�u�V�[�g�Ƀy�[�W��ǉ�
+	// タブシートにページを追加
 	m_tabSeet.addPage(pFrame = new PageFrame);
 	m_tabSeet.addPage(pNode = new PageNode);
 	m_tabSeet.addPage(pLink = new PageLink);
@@ -83,18 +83,18 @@ BOOL CPropertyDlg::OnInitDialog()
 	initPageLink();
 	initPageOther();
 	
-	// �^�u�V�[�g�J�n!
+	// タブシート開始!
 	m_tabSeet.beginService();
 	
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 void CPropertyDlg::OnOK() 
 {
-	// TODO: ���̈ʒu�ɂ��̑��̌��ؗp�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にその他の検証用のコードを追加してください
 	
-	// ���W�X�g���ւ̐ݒ�l��������
+	// レジストリへの設定値書き込み
 	writePageFrame();
 	writePageNode();
 	writePageLink();
@@ -106,7 +106,7 @@ void CPropertyDlg::OnOK()
 
 void CPropertyDlg::OnCancel() 
 {
-	// TODO: ���̈ʒu�ɓ��ʂȌ㏈����ǉ����Ă��������B
+	// TODO: この位置に特別な後処理を追加してください。
 	m_tabSeet.endService(true);
 	CDialog::OnCancel();
 }
@@ -258,7 +258,7 @@ void CPropertyDlg::writePageNode()
 	pApp->WriteProfileInt(REGS_NODE, _T("Margin Bottom"), pNode->margins.b);
 	pApp->WriteProfileInt(REGS_NODE, _T("Prior Selected Node Dragging"), pNode->m_bPriorSelectionDragging);
 	
-	pApp->getNodeProfile(); // �A�v���P�[�V�����I�u�W�F�N�g�̍Đݒ�
+	pApp->getNodeProfile(); // アプリケーションオブジェクトの再設定
 }
 
 void CPropertyDlg::writePageLink()

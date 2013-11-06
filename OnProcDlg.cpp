@@ -1,4 +1,4 @@
-// OnProcDlg.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// OnProcDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// COnProcDlg �_�C�A���O
+// COnProcDlg ダイアログ
 
 
 COnProcDlg::COnProcDlg(CWnd* pParent /*=NULL*/)
@@ -35,9 +35,9 @@ void COnProcDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(COnProcDlg, CDialog)
 	//{{AFX_MSG_MAP(COnProcDlg)
-		// ���� - ClassWizard �͂��̈ʒu�Ƀ}�b�s���O�p�̃}�N����ǉ��܂��͍폜���܂��B
+		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// COnProcDlg ���b�Z�[�W �n���h��
+// COnProcDlg メッセージ ハンドラ

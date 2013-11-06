@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Utilities.h"
 #include <shlwapi.h>
 
@@ -65,33 +65,33 @@ vector<CString> Utilities::getLines(const CString &text)
 bool Utilities::isDependChar(int nByte)
 {
 	/*
-	QlF
-	// Machintosh‹@íˆË‘¶•¶šƒR[ƒh(0x8540`0x889E)
+	å‚è€ƒï¼š
+	// Machintoshæ©Ÿç¨®ä¾å­˜æ–‡å­—ã‚³ãƒ¼ãƒ‰(0x8540ï½0x889E)
 	if ((nByte >= 0x8540) && (nByte <= 0x886F))
 	return TRUE;
 
-	// MachintoshŠOš‹y‚Ñc‘g—p(0xEAA5`0xFCFC)
+	// Machintoshå¤–å­—åŠã³ç¸¦çµ„ç”¨(0xEAA5ï½0xFCFC)
 	if ((nByte >= 0xEAA5) && (nByte <= 0xFCFC))
 	return TRUE;
 	*/
 
-	// ”¼ŠpƒJƒi
+	// åŠè§’ã‚«ãƒŠ
 	//if ((0xA1 <= nByte) && (nByte <= 0xDF))
 	//	return true;
 
-	// 13‹æ‚Ì“Áê•¶š‚Ì’Šo 83•¶š
+	// 13åŒºã®ç‰¹æ®Šæ–‡å­—ã®æŠ½å‡º 83æ–‡å­—
 	if ((nByte >= 0x8740) && (nByte <= 0x879C))
 		return true;
 
-	// NEC‘I’èIBMŠg’£•¶š(‹æ“_ƒR[ƒh89‹æ`92‹æ) 374•¶š
+	// NECé¸å®šIBMæ‹¡å¼µæ–‡å­—(åŒºç‚¹ã‚³ãƒ¼ãƒ‰89åŒºï½92åŒº) 374æ–‡å­—
 	if ((nByte >= 0xED40) && (nByte <= 0xEEFC))
 		return true;
 
-	// IBMŠg’£•¶š(‹æ“_ƒR[ƒh(Š·Z)‚Å115‹æ`119‹æ‚Ì’Šo) 388•¶š
+	// IBMæ‹¡å¼µæ–‡å­—(åŒºç‚¹ã‚³ãƒ¼ãƒ‰(æ›ç®—)ã§115åŒºï½119åŒºã®æŠ½å‡º) 388æ–‡å­—
 	if ((nByte >= 0xFA40) && (nByte <= 0xFC4B))
 		return true;
 
-	// ŠOš”ÍˆÍ
+	// å¤–å­—ç¯„å›²
 	if ((nByte >= 0xF040) && (nByte <= 0xF9FC))
 		return true;
 
@@ -100,22 +100,22 @@ bool Utilities::isDependChar(int nByte)
 
 CString Utilities::removeDependChar(LPCTSTR moji)
 {
-	CString strChkMoji;  // ŒŸØ‘ÎÛ‚Ì•¶š—ñ
+	CString strChkMoji;  // æ¤œè¨¼å¯¾è±¡ã®æ–‡å­—åˆ—
 	strChkMoji.Format(_T("%s"), moji);
 	INT nLen = strChkMoji.GetLength();
-	INT nByte; // •¶šƒR[ƒh 
+	INT nByte; // æ–‡å­—ã‚³ãƒ¼ãƒ‰ 
 	CString strOKWords;
 	strOKWords.Empty();
 
 	for (int nPos = 0; nPos < nLen; nPos++) {
 		TBYTE p_ch =
 			static_cast<TBYTE>(strChkMoji.GetAt(nPos));
-		// ƒ}ƒ‹ƒ`ƒoƒCƒg”»’è
+		// ãƒãƒ«ãƒãƒã‚¤ãƒˆåˆ¤å®š
 		if (((0x81 <= p_ch) && (p_ch <= 0x9F)) || ((0xE0 <= p_ch) && (p_ch <= 0xFC))) {
 			TBYTE p_ch1 = (TBYTE)strChkMoji.GetAt(nPos);
 			TBYTE p_ch2 = (TBYTE)strChkMoji.GetAt(nPos + 1);
 			nByte = (p_ch1 << 8) | (p_ch2);
-			// ‹@íˆË‘¶•¶š or Shift-JIS‚Å‚È‚¢ê‡
+			// æ©Ÿç¨®ä¾å­˜æ–‡å­— or Shift-JISã§ãªã„å ´åˆ
 			if (isDependChar(nByte) || (p_ch > 0xef) ) {
 				++nPos;
 				strOKWords += _T("?");
@@ -126,9 +126,9 @@ CString Utilities::removeDependChar(LPCTSTR moji)
 			++nPos;
 		}
 		else {
-			// ”¼Šp•¶š
+			// åŠè§’æ–‡å­—
 			nByte = (TBYTE)strChkMoji.GetAt(nPos);
-			// ”¼Šp•¶š‚Ì‹@íˆË‘¶ƒ`ƒFƒbƒN
+			// åŠè§’æ–‡å­—ã®æ©Ÿç¨®ä¾å­˜ãƒã‚§ãƒƒã‚¯
 			if (isDependChar(nByte)) {
 				strOKWords += _T("?");
 				continue;

@@ -1,6 +1,6 @@
-// stdafx.h : �W���̃V�X�e�� �C���N���[�h �t�@�C���A
-//            �܂��͎Q�Ɖ񐔂������A�����܂�ύX����Ȃ�
-//            �v���W�F�N�g��p�̃C���N���[�h �t�@�C�����L�q���܂��B
+﻿// stdafx.h : 標準のシステム インクルード ファイル、
+//            または参照回数が多く、かつあまり変更されない
+//            プロジェクト専用のインクルード ファイルを記述します。
 //
 
 #if !defined(AFX_STDAFX_H__96DFF9B9_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
@@ -10,38 +10,38 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#define VC_EXTRALEAN		// Windows �w�b�_�[����w�ǎg�p����Ȃ��X�^�b�t�����O���܂��B
+#define VC_EXTRALEAN		// Windows ヘッダーから殆ど使用されないスタッフを除外します。
 
 
-#ifndef WINVER				// Windows XP �ȍ~�̃o�[�W�����ɌŗL�̋@�\�̎g�p�������܂��B
-#define WINVER 0x0501		// ����� Windows �̑��̃o�[�W���������ɓK�؂Ȓl�ɕύX���Ă��������B
+#ifndef WINVER				// Windows XP 以降のバージョンに固有の機能の使用を許可します。
+#define WINVER 0x0501		// これを Windows の他のバージョン向けに適切な値に変更してください。
 #endif
 
-#ifndef _WIN32_WINNT		// Windows XP �ȍ~�̃o�[�W�����ɌŗL�̋@�\�̎g�p�������܂��B                   
-#define _WIN32_WINNT 0x0501	// ����� Windows �̑��̃o�[�W���������ɓK�؂Ȓl�ɕύX���Ă��������B
+#ifndef _WIN32_WINNT		// Windows XP 以降のバージョンに固有の機能の使用を許可します。                   
+#define _WIN32_WINNT 0x0501	// これを Windows の他のバージョン向けに適切な値に変更してください。
 #endif						
 
-#ifndef _WIN32_WINDOWS		// Windows 98 �ȍ~�̃o�[�W�����ɌŗL�̋@�\�̎g�p�������܂��B
-#define _WIN32_WINDOWS 0x0410 // ����� Windows Me �܂��͂���ȍ~�̃o�[�W���������ɓK�؂Ȓl�ɕύX���Ă��������B
+#ifndef _WIN32_WINDOWS		// Windows 98 以降のバージョンに固有の機能の使用を許可します。
+#define _WIN32_WINDOWS 0x0410 // これを Windows Me またはそれ以降のバージョン向けに適切な値に変更してください。
 #endif
 
-#ifndef _WIN32_IE			// IE 6.0 �ȍ~�̃o�[�W�����ɌŗL�̋@�\�̎g�p�������܂��B
-#define _WIN32_IE 0x0600	// ����� IE �̑��̃o�[�W���������ɓK�؂Ȓl�ɕύX���Ă��������B
+#ifndef _WIN32_IE			// IE 6.0 以降のバージョンに固有の機能の使用を許可します。
+#define _WIN32_IE 0x0600	// これを IE の他のバージョン向けに適切な値に変更してください。
 #endif
 
-#include <afxwin.h>         // MFC �̃R�A����ѕW���R���|�[�l���g
-#include <afxext.h>         // MFC �̊g������
+#include <afxwin.h>         // MFC のコアおよび標準コンポーネント
+#include <afxext.h>         // MFC の拡張部分
 #include <afxcview.h>
-#include <afxdisp.h>        // MFC �̃I�[�g���[�V���� �N���X
+#include <afxdisp.h>        // MFC のオートメーション クラス
 
 #ifndef _AFX_NO_OLE_SUPPORT
-#include <afxdtctl.h>		// MFC �� Internet Explorer 4 �R���� �R���g���[�� �T�|�[�g
+#include <afxdtctl.h>		// MFC の Internet Explorer 4 コモン コントロール サポート
 #endif
 #ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>			// MFC �� Windows �R���� �R���g���[�� �T�|�[�g
+#include <afxcmn.h>			// MFC の Windows コモン コントロール サポート
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-#include <afxole.h>         // OLE�T�|�[�g LinkView��D��D�@�\�Ŏd�l
+#include <afxole.h>         // OLEサポート LinkViewのDｎD機能で仕様
 
 #import "MSXML3.DLL" named_guids
 using namespace MSXML2;
@@ -108,6 +108,6 @@ typedef map<DWORD, DWORD> IdMap;
 #define DEBUG_WRITE ((CiEditApp*)AfxGetApp())->DebugWriteLine
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ �͑O�s�̒��O�ɒǉ��̐錾��}�����܂��B
+// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_STDAFX_H__96DFF9B9_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

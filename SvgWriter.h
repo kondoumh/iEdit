@@ -1,4 +1,4 @@
-// SvgWriter.h: SvgWriter ƒNƒ‰ƒX‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
+ï»¿// SvgWriter.h: SvgWriter ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -42,7 +42,7 @@ protected:
 	MSXML2::IXMLDOMElementPtr createNodeElement(const iNode& node, MSXML2::IXMLDOMDocumentPtr pDoc);
 	void rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg);
 	CString createNodeStyleAtrb(const iNode& node);
-	// ƒŠƒ“ƒNƒ‰ƒxƒ‹‚ÌÀ•WŒvZ
+	// ãƒªãƒ³ã‚¯ãƒ©ãƒ™ãƒ«ã®åº§æ¨™è¨ˆç®—
 	CPoint calcLinkLabelOrg(const iLink& link);
 	CString createTextStyle(const LOGFONT& lf, COLORREF fontColor);
 };

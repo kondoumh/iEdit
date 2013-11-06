@@ -1,4 +1,4 @@
-// iNode.h: iNode ƒNƒ‰ƒX‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
+ï»¿// iNode.h: iNode ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -93,7 +93,7 @@ public:
 	iNode();
 	virtual ~iNode();
 	
-	// •¶š—ñƒAƒ‰ƒCƒƒ“ƒg(12í—Ş)
+	// æ–‡å­—åˆ—ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ(12ç¨®é¡)
 	enum {
 		s_cc,
 		s_cl,
@@ -110,16 +110,16 @@ public:
 		notext
 	};
 	
-	// •`‰æ}Œ`
+	// æç”»å›³å½¢
 	enum {
-		// •W€
+		// æ¨™æº–
 		rectangle,
 		arc,
 		roundRect,
 		MetaFile,
 		// MindMap
 		MindMapNode,
-		// UML—p
+		// UMLç”¨
 		classIcon,
 		paramClassIcon,
 		interfaceIcon,
@@ -142,9 +142,9 @@ private:
 	int margin_t_;
 	int margin_b_;
 	int treeIconId_;
-	unsigned int drawOrder_; // •`‰æ‡˜‚ğ•Û
-	bool bChain_;  // ˆğ‚Ã‚é
-	CRect boundPre_; // AutoLayout—p‚ÉEE
+	unsigned int drawOrder_; // æç”»é †åºã‚’ä¿æŒ
+	bool bChain_;  // èŠ‹ã¥ã‚‹
+	CRect boundPre_; // AutoLayoutç”¨ã«ãƒ»ãƒ»
 	int nLevel_;
 	HENHMETAFILE hMF_;
 	BOOL fixed_;
@@ -478,7 +478,7 @@ inline void iNode::setDelete()
 	deleted_ = true;
 }
 
-// iNodeDrawer ƒm[ƒh•`‰æƒx[ƒXƒNƒ‰ƒX
+// iNodeDrawer ãƒãƒ¼ãƒ‰æç”»ãƒ™ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹
 ////////////////////////////////////////////////////////////////
 class iNodeDrawer {
 
@@ -497,7 +497,7 @@ protected:
 };
 
 
-// iNodeRectDrawer ‹éŒ`ƒm[ƒh•`‰æƒNƒ‰ƒX
+// iNodeRectDrawer çŸ©å½¢ãƒãƒ¼ãƒ‰æç”»ã‚¯ãƒ©ã‚¹
 ////////////////////////////////////////////////////////////////
 class iNodeRectDrawer : public iNodeDrawer {
 protected:
@@ -505,7 +505,7 @@ protected:
 	void fillBoundSpecific(const iNode& node, CDC* pDC, CBrush* brush);
 };
 
-// iNodeRoundRectDrawer ŠpŠÛ‹éŒ`ƒm[ƒh•`‰æƒNƒ‰ƒX
+// iNodeRoundRectDrawer è§’ä¸¸çŸ©å½¢ãƒãƒ¼ãƒ‰æç”»ã‚¯ãƒ©ã‚¹
 ////////////////////////////////////////////////////////////////
 class iNodeRoundRectDrawer : public iNodeDrawer {
 protected:
@@ -515,7 +515,7 @@ private:
 	int m_r;
 };
 
-// iNodeArcDrawer ‘È‰~ƒm[ƒh•`‰æƒNƒ‰ƒX
+// iNodeArcDrawer æ¥•å††ãƒãƒ¼ãƒ‰æç”»ã‚¯ãƒ©ã‚¹
 ////////////////////////////////////////////////////////////////
 class iNodeArcDrawer : public iNodeDrawer {
 protected:
@@ -524,7 +524,7 @@ protected:
 	void adjustTextArea(const iNode& node);
 };
 
-// iNodeMetafileDrawer ƒƒ^ƒtƒ@ƒCƒ‹ƒm[ƒh•`‰æƒNƒ‰ƒX
+// iNodeMetafileDrawer ãƒ¡ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ãƒãƒ¼ãƒ‰æç”»ã‚¯ãƒ©ã‚¹
 ////////////////////////////////////////////////////////////////
 class iNodeMetafileDrawer : public iNodeDrawer {
 
@@ -533,7 +533,7 @@ protected:
 	void drawShape(const iNode& node, CDC* pDC);
 };
 
-// MindMapŒ`®ƒm[ƒh•`‰æƒNƒ‰ƒX
+// MindMapå½¢å¼ãƒãƒ¼ãƒ‰æç”»ã‚¯ãƒ©ã‚¹
 ////////////////////////////////////////////////////////////////
 class iNodeMMNodeDrawer : public iNodeDrawer {
 	void drawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
@@ -597,8 +597,8 @@ public:
 	void setSelKey(DWORD key);
 	DWORD getSelKey() const;
 private:
-	vector<iNode*> nodesDraw_; // •`‰æ—pƒm[ƒh”z—ñ
-	serialVec svec_; // •`‰æ‡˜î•ñ
+	vector<iNode*> nodesDraw_; // æç”»ç”¨ãƒãƒ¼ãƒ‰é…åˆ—
+	serialVec svec_; // æç”»é †åºæƒ…å ±
 	iNodeDrawer* getNodeDrawer(const iNode& node);
 	DWORD curParent_;
 	DWORD selKey_;

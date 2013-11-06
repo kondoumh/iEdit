@@ -1,21 +1,21 @@
-#pragma once
+Ôªø#pragma once
 
 
-// SetHtmlExportDlg É_ÉCÉAÉçÉO
+// SetHtmlExportDlg „ÉÄ„Ç§„Ç¢„É≠„Ç∞
 
 class SetHtmlExportDlg : public CDialog
 {
 	DECLARE_DYNAMIC(SetHtmlExportDlg)
 
 public:
-	SetHtmlExportDlg(CWnd* pParent = NULL);   // ïWèÄÉRÉìÉXÉgÉâÉNÉ^
+	SetHtmlExportDlg(CWnd* pParent = NULL);   // Ê®ôÊ∫ñ„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 	virtual ~SetHtmlExportDlg();
 
-// É_ÉCÉAÉçÉO ÉfÅ[É^
+// „ÉÄ„Ç§„Ç¢„É≠„Ç∞ „Éá„Éº„Çø
 	enum { IDD = IDD_SET_HTML_EXPORT };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ÉTÉ|Å[Ég
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV „Çµ„Éù„Éº„Éà
 
 	DECLARE_MESSAGE_MAP()
 public:

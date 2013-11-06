@@ -1,18 +1,18 @@
-#if !defined(AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_)
+ï»¿#if !defined(AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_)
 #define AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// PageFrame.h : ƒwƒbƒ_[ ƒtƒ@ƒCƒ‹
+// PageFrame.h : ãƒ˜ãƒƒãƒ€ãƒ¼ ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// PageFrame ƒ_ƒCƒAƒƒO
+// PageFrame ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 class PageFrame : public CDialog
 {
-// ƒRƒ“ƒXƒgƒ‰ƒNƒVƒ‡ƒ“
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚·ãƒ§ãƒ³
 public:
 	CFont fntText;
 	CFont fntLink;
@@ -28,9 +28,9 @@ public:
 	LOGFONT lfText;
 	LOGFONT lfLink;
 	LOGFONT lfOutline;
-	PageFrame(CWnd* pParent = NULL);   // •W€‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	PageFrame(CWnd* pParent = NULL);   // æ¨™æº–ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 
-// ƒ_ƒCƒAƒƒO ƒf[ƒ^
+// ãƒ€ã‚¤ã‚¢ãƒ­ã‚° ãƒ‡ãƒ¼ã‚¿
 	//{{AFX_DATA(PageFrame)
 	enum { IDD = IDD_PG_FRAME };
 	CButton	m_ChkSaveBarState;
@@ -40,21 +40,21 @@ public:
 	//}}AFX_DATA
 
 
-// ƒI[ƒo[ƒ‰ƒCƒh
-	// ClassWizard ‚Í‰¼‘zŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh‚ğ¶¬‚µ‚Ü‚·B
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+	// ClassWizard ã¯ä»®æƒ³é–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 	//{{AFX_VIRTUAL(PageFrame)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ƒTƒ|[ƒg
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ã‚µãƒãƒ¼ãƒˆ
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 protected:
 	void drawNWPreView(CDC* pDC);
 	void drawLNPreView(CDC* pDC);
 	void drawOLPreView(CDC* pDC);
 	void drawTextPreView(CDC* pDC);
 
-	// ¶¬‚³‚ê‚½ƒƒbƒZ[ƒW ƒ}ƒbƒvŠÖ”
+	// ç”Ÿæˆã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒƒãƒ—é–¢æ•°
 	//{{AFX_MSG(PageFrame)
 	virtual void OnCancel();
 	afx_msg void OnBtnLink();
@@ -79,6 +79,6 @@ private:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ ‚Í‘Os‚Ì’¼‘O‚É’Ç‰Á‚ÌéŒ¾‚ğ‘}“ü‚µ‚Ü‚·B
+// Microsoft Visual C++ ã¯å‰è¡Œã®ç›´å‰ã«è¿½åŠ ã®å®£è¨€ã‚’æŒ¿å…¥ã—ã¾ã™ã€‚
 
 #endif // !defined(AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_)

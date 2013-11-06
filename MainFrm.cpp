@@ -1,4 +1,4 @@
-// MainFrm.cpp : CMainFrame ƒNƒ‰ƒX‚Ì“®ì‚Ì’è‹`‚ðs‚¢‚Ü‚·B
+ï»¿// MainFrm.cpp : CMainFrame ã‚¯ãƒ©ã‚¹ã®å‹•ä½œã®å®šç¾©ã‚’è¡Œã„ã¾ã™ã€‚
 //
 
 #include "stdafx.h"
@@ -82,7 +82,7 @@ END_MESSAGE_MAP()
 
 static UINT indicators[] =
 {
-	ID_SEPARATOR,           // ƒXƒe[ƒ^ƒX ƒ‰ƒCƒ“ ƒCƒ“ƒWƒP[ƒ^
+	ID_SEPARATOR,           // ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ ãƒ©ã‚¤ãƒ³ ã‚¤ãƒ³ã‚¸ã‚±ãƒ¼ã‚¿
 	ID_INDICATOR_KANA,
 	ID_INDICATOR_CAPS,
 	ID_INDICATOR_NUM,
@@ -90,11 +90,11 @@ static UINT indicators[] =
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// CMainFrame ƒNƒ‰ƒX‚Ì\’z/Á–Å
+// CMainFrame ã‚¯ãƒ©ã‚¹ã®æ§‹ç¯‰/æ¶ˆæ»…
 
 CMainFrame::CMainFrame()
 {
-	// TODO: ‚±‚ÌˆÊ’u‚Éƒƒ“ƒo‚Ì‰Šú‰»ˆ—ƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒ³ãƒã®åˆæœŸåŒ–å‡¦ç†ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„ã€‚
 	m_pDebugPrintDlg = NULL;
 }
 
@@ -117,7 +117,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
 		TRACE0(_T("Failed to create toolbar\n"));
-		return -1;      // ì¬‚ÉŽ¸”s
+		return -1;      // ä½œæˆã«å¤±æ•—
 	}
 	
 	if (!m_wndFormPalette.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
@@ -125,7 +125,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		!m_wndFormPalette.LoadToolBar(IDR_FORM_PALLETE))
 	{
 		TRACE0(_T("Failed to create form pallete\n"));
-		return -1;      // ì¬‚ÉŽ¸”s
+		return -1;      // ä½œæˆã«å¤±æ•—
 	}
 	
 	////////////// StatusBar
@@ -134,43 +134,43 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		  sizeof(indicators)/sizeof(UINT)))
 	{
 		TRACE0(_T("Failed to create status bar\n"));
-		return -1;      // ì¬‚ÉŽ¸”s
+		return -1;      // ä½œæˆã«å¤±æ•—
 	}
 	
-	/////// ƒhƒƒbƒvƒ_ƒEƒ“ƒXƒ^ƒCƒ‹ƒ{ƒ^ƒ“‚ÌÝ’è
+	/////// ãƒ‰ãƒ­ãƒƒãƒ—ãƒ€ã‚¦ãƒ³ã‚¹ã‚¿ã‚¤ãƒ«ãƒœã‚¿ãƒ³ã®è¨­å®š
 	m_wndToolBar.GetToolBarCtrl().SetExtendedStyle(TBSTYLE_EX_DRAWDDARROWS);
 	TBBUTTONINFO tbButtonInfo;
 	tbButtonInfo.dwMask= TBIF_STYLE;
 	tbButtonInfo.cbSize= sizeof(TBBUTTONINFO);
-	// ƒŠƒ“ƒNü‚ÌŽí—Þ
+	// ãƒªãƒ³ã‚¯ç·šã®ç¨®é¡ž
 	m_wndToolBar.GetToolBarCtrl().GetButtonInfo(ID_BTN_LINK_LINE_STYLE, &tbButtonInfo);
 	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
 	m_wndToolBar.GetToolBarCtrl().SetButtonInfo(ID_BTN_LINK_LINE_STYLE, &tbButtonInfo);
-	// ƒŠƒ“ƒN–îˆó‚Ì‚Â‚«•û
+	// ãƒªãƒ³ã‚¯çŸ¢å°ã®ã¤ãæ–¹
 	m_wndToolBar.GetToolBarCtrl().GetButtonInfo(ID_BTN_LINK_ARROW, &tbButtonInfo);
 	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
 	m_wndToolBar.GetToolBarCtrl().SetButtonInfo(ID_BTN_LINK_ARROW, &tbButtonInfo);
 	
-	m_wndToolBar.SetWindowText(_T("•ÒW"));
+	m_wndToolBar.SetWindowText(_T("ç·¨é›†"));
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
-	// ƒY[ƒ€•ÏX—pƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì’Ç‰Á
+	// ã‚ºãƒ¼ãƒ å¤‰æ›´ç”¨ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã®è¿½åŠ 
 	addComboZoom();
 	
 	m_wndFormPalette.GetToolBarCtrl().SetExtendedStyle(TBSTYLE_EX_DRAWDDARROWS);
-	// ƒm[ƒhFƒ{ƒ^ƒ“
+	// ãƒŽãƒ¼ãƒ‰è‰²ãƒœã‚¿ãƒ³
 	m_wndFormPalette.GetToolBarCtrl().GetButtonInfo(ID_BTN_NODE_FILL_COLOR, &tbButtonInfo);
 	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
 	m_wndFormPalette.GetToolBarCtrl().SetButtonInfo(ID_BTN_NODE_FILL_COLOR, &tbButtonInfo);
-	// ƒ‰ƒCƒ“Fƒ{ƒ^ƒ“
+	// ãƒ©ã‚¤ãƒ³è‰²ãƒœã‚¿ãƒ³
 	m_wndFormPalette.GetToolBarCtrl().GetButtonInfo(ID_BTN_LINE_COLOR, &tbButtonInfo);
 	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
 	m_wndFormPalette.GetToolBarCtrl().SetButtonInfo(ID_BTN_LINE_COLOR, &tbButtonInfo);
-	// •¶ŽšFƒ{ƒ^ƒ“
+	// æ–‡å­—è‰²ãƒœã‚¿ãƒ³
 	m_wndFormPalette.GetToolBarCtrl().GetButtonInfo(ID_BTN_TEXT_COLOR, &tbButtonInfo);
 	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
 	m_wndFormPalette.GetToolBarCtrl().SetButtonInfo(ID_BTN_TEXT_COLOR, &tbButtonInfo);
 
-	m_wndFormPalette.SetWindowText(_T("‘Ž®"));
+	m_wndFormPalette.SetWindowText(_T("æ›¸å¼"));
 	m_wndFormPalette.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
@@ -182,7 +182,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		LoadBarState(_T("BarSettings"));
 	}
 	
-	// CG: ˆÈ‰º‚ÌƒuƒƒbƒN‚ÍƒXƒvƒ‰ƒbƒVƒ… ƒXƒNƒŠ[ƒ“ ƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’Ç‰Á‚³‚ê‚Ü‚µ‚½
+	// CG: ä»¥ä¸‹ã®ãƒ–ãƒ­ãƒƒã‚¯ã¯ã‚¹ãƒ—ãƒ©ãƒƒã‚·ãƒ¥ ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ã‚ˆã£ã¦è¿½åŠ ã•ã‚Œã¾ã—ãŸ
 	CSplashWnd::ShowSplashScreen(this);
 	
 	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
@@ -190,7 +190,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		loadFramePosition();
 	}	
 	
-	// ƒƒ“ƒo[‰Šú‰»
+	// ãƒ¡ãƒ³ãƒãƒ¼åˆæœŸåŒ–
 	m_pSetAlphaDlg = NULL;
 	m_tbPlDwnImage.Create(IDB_TB_PLDWN, 16, 5, RGB(255, 0, 255));
 	
@@ -202,7 +202,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CMainFrame ƒNƒ‰ƒX‚Ìf’f
+// CMainFrame ã‚¯ãƒ©ã‚¹ã®è¨ºæ–­
 
 #ifdef _DEBUG
 void CMainFrame::AssertValid() const
@@ -218,12 +218,12 @@ void CMainFrame::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// CMainFrame ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// CMainFrame ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 
 void CMainFrame::OnSetProperties() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	CPropertyDlg dlg;
 	if (dlg.DoModal() == IDOK) {
 		CiEditApp* pApp = (CiEditApp*)AfxGetApp();
@@ -233,13 +233,13 @@ void CMainFrame::OnSetProperties()
 
 void CMainFrame::OnUpdateSetProperties(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	
 }
 
 void CMainFrame::OnClose() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 	if (saveBar) {
 		SaveBarState(_T("BarSettings"));
@@ -255,7 +255,7 @@ void CMainFrame::OnClose()
 
 void CMainFrame::OnDropFiles(HDROP hDropInfo) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚·‚é‚©‚Ü‚½‚ÍƒfƒtƒHƒ‹ƒg‚Ìˆ—‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã¾ãŸã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	WCHAR fileName[MAX_PATH];
 	DragQueryFile(hDropInfo, 0, fileName, MAX_PATH);
 	
@@ -273,7 +273,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 	CString extent = ext;
 	extent.MakeLower();
 	if (extent != _T(".iedx") && extent != _T(".ied") && extent != _T(".xml")) {
-		AfxMessageBox(_T("iEditƒtƒ@ƒCƒ‹‚Å‚Í‚ ‚è‚Ü‚¹‚ñ"));
+		AfxMessageBox(_T("iEditãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“"));
 		return;
 	}
 	
@@ -315,7 +315,7 @@ void CMainFrame::addComboZoom()
 	DWORD dwStyle = CBS_DROPDOWNLIST;
 	dwStyle |= WS_CHILD|WS_VISIBLE;
 	m_comboZoom.Create(dwStyle,rcCombo,&m_wndToolBar, ID_DROPDOWN);
-	m_fntComboZoom.CreatePointFont(100,_T("‚l‚r ƒSƒVƒbƒN"));
+	m_fntComboZoom.CreatePointFont(100,_T("ï¼­ï¼³ ã‚´ã‚·ãƒƒã‚¯"));
 	m_comboZoom.SetFont(&m_fntComboZoom);
 	m_wndToolBar.SetButtonInfo(IDX_TB_ZOOMCOMBO, ID_DROPDOWN, TBBS_SEPARATOR,75);
 	m_wndToolBar.GetItemRect(IDX_TB_ZOOMCOMBO, &rcCombo);
@@ -331,7 +331,7 @@ void CMainFrame::addComboZoom()
 	m_comboZoom.AddString(_T("150%"));
 	m_comboZoom.AddString(_T("200%"));
 	m_comboZoom.AddString(_T("300%"));
-	m_comboZoom.AddString(_T("‘S‘Ì•\Ž¦"));
+	m_comboZoom.AddString(_T("å…¨ä½“è¡¨ç¤º"));
 	
 	m_comboZoom.SetCurSel(4);
 }
@@ -356,11 +356,11 @@ void CMainFrame::JointCBLine(CFrameWnd *pFrameWnd, CControlBar *pBar, CControlBa
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉŒÅ—L‚Ìˆ—‚ð’Ç‰Á‚·‚é‚©A‚Ü‚½‚ÍŠî–{ƒNƒ‰ƒX‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«å›ºæœ‰ã®å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã¾ãŸã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„
 	if( !CMDIFrameWnd::PreCreateWindow(cs) )
 		return FALSE;
-	// TODO: ‚±‚ÌˆÊ’u‚Å CREATESTRUCT cs ‚ðC³‚µ‚Ä Window ƒNƒ‰ƒX‚Ü‚½‚ÍƒXƒ^ƒCƒ‹‚ð
-	//  C³‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã®ä½ç½®ã§ CREATESTRUCT cs ã‚’ä¿®æ­£ã—ã¦ Window ã‚¯ãƒ©ã‚¹ã¾ãŸã¯ã‚¹ã‚¿ã‚¤ãƒ«ã‚’
+	//  ä¿®æ­£ã—ã¦ãã ã•ã„ã€‚
 	OSVERSIONINFO vinfo;
 	vinfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 	::GetVersionEx(&vinfo);
@@ -380,7 +380,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 
 void CMainFrame::OnAdjustAlpha() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_pSetAlphaDlg = new SetAlphaDlg;
 	m_pSetAlphaDlg->m_nLevel = m_nAlphaValue;
 	m_pSetAlphaDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_ALPHASLIDE);
@@ -391,7 +391,7 @@ void CMainFrame::OnAdjustAlpha()
 
 void CMainFrame::OnUpdateAdjustAlpha(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_bTransparent);
 }
 
@@ -399,7 +399,7 @@ void CMainFrame::OnDestroy()
 {
 	CMDIFrameWnd::OnDestroy();
 	
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	if (m_pSetAlphaDlg != NULL) {
 		if (m_nAlphaValue > 255) {
 			m_nAlphaValue = 255;
@@ -429,7 +429,7 @@ void CMainFrame::MakeWindowTransparent()
 
 void CMainFrame::OnTransparentMode() 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_bTransparent = !m_bTransparent;
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Transparent Mode"), m_bTransparent);
 	if (m_bTransparent) {
@@ -442,7 +442,7 @@ void CMainFrame::OnTransparentMode()
 
 void CMainFrame::OnUpdateTransparentMode(CCmdUI* pCmdUI) 
 {
-	// TODO: ‚±‚ÌˆÊ’u‚É command update UI ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ð’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO: ã“ã®ä½ç½®ã« command update UI ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	pCmdUI->Enable(m_bCanBeTransparent);
 	pCmdUI->SetCheck(m_bTransparent && m_bCanBeTransparent);
 }
@@ -450,7 +450,7 @@ void CMainFrame::OnUpdateTransparentMode(CCmdUI* pCmdUI)
 
 BOOL CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
-	// TODO: ‚±‚±‚É“Á’è‚ÈƒR[ƒh‚ð’Ç‰Á‚·‚é‚©A‚à‚µ‚­‚ÍŠî–{ƒNƒ‰ƒX‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã“ã«ç‰¹å®šãªã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã‚‚ã—ãã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
 	LPNMHDR lpNMHDR = (LPNMHDR)lParam;
 	LPNMTOOLBAR lpNMTOOLBAR = (LPNMTOOLBAR)lParam;
 	if (lpNMHDR->code == TBN_DROPDOWN) {
@@ -499,7 +499,7 @@ BOOL CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 
 void CMainFrame::OnMnuLsR0()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R0;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage .ExtractIcon(0));
 	m_wndToolBar.Invalidate();
@@ -508,13 +508,13 @@ void CMainFrame::OnMnuLsR0()
 
 void CMainFrame::OnUpdateMnuLsR0(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R0);
 }
 
 void CMainFrame::OnMnuLsDot()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_DOT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(1));
 	m_wndToolBar.Invalidate();
@@ -523,13 +523,13 @@ void CMainFrame::OnMnuLsDot()
 
 void CMainFrame::OnUpdateMnuLsDot(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_DOT);
 }
 
 void CMainFrame::OnMnuLsR1()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R1;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(2));
 	m_wndToolBar.Invalidate();
@@ -538,13 +538,13 @@ void CMainFrame::OnMnuLsR1()
 
 void CMainFrame::OnUpdateMnuLsR1(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R1);
 }
 
 void CMainFrame::OnMnuLsR2()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R2;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(3));
 	m_wndToolBar.Invalidate();
@@ -553,13 +553,13 @@ void CMainFrame::OnMnuLsR2()
 
 void CMainFrame::OnUpdateMnuLsR2(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R2);
 }
 
 void CMainFrame::OnMnuLsR3()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R3;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(4));
 	m_wndToolBar.Invalidate();
@@ -568,13 +568,13 @@ void CMainFrame::OnMnuLsR3()
 
 void CMainFrame::OnUpdateMnuLsR3(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R3);
 }
 
 void CMainFrame::OnMnuLsR4()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R4;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(5));
 	m_wndToolBar.Invalidate();
@@ -583,13 +583,13 @@ void CMainFrame::OnMnuLsR4()
 
 void CMainFrame::OnUpdateMnuLsR4(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R4);
 }
 
 void CMainFrame::OnLinkArrowNone()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_NONE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(6));
 	m_wndToolBar.Invalidate();
@@ -598,13 +598,13 @@ void CMainFrame::OnLinkArrowNone()
 
 void CMainFrame::OnUpdateLinkArrowNone(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_NONE);
 }
 
 void CMainFrame::OnLinkArrowSingle()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_SINGLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(7));
 	m_wndToolBar.Invalidate();
@@ -620,14 +620,14 @@ void CMainFrame::OnLinkArrowSingle()
 
 void CMainFrame::OnUpdateLinkArrowSingle(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_SINGLE);
 }
 
 
 void CMainFrame::OnLinkArrowDouble()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_DOUBLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(8));
 	m_wndToolBar.Invalidate();
@@ -636,13 +636,13 @@ void CMainFrame::OnLinkArrowDouble()
 
 void CMainFrame::OnUpdateLinkArrowDouble(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_DOUBLE);
 }
 
 void CMainFrame::OnLinkDependSingle()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_DEPEND_SINGLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(9));
 	m_wndToolBar.Invalidate();
@@ -651,13 +651,13 @@ void CMainFrame::OnLinkDependSingle()
 
 void CMainFrame::OnUpdateLinkDependSingle(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_DEPEND_SINGLE);
 }
 
 void CMainFrame::OnLinkDependDouble()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_DEPEND_DOUBLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(10));
 	m_wndToolBar.Invalidate();
@@ -666,13 +666,13 @@ void CMainFrame::OnLinkDependDouble()
 
 void CMainFrame::OnUpdateLinkDependDouble(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_DEPEND_DOUBLE);
 }
 
 void CMainFrame::OnLinkArrowInherit()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_INHERIT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(11));
 	m_wndToolBar.Invalidate();
@@ -681,13 +681,13 @@ void CMainFrame::OnLinkArrowInherit()
 
 void CMainFrame::OnUpdateLinkArrowInherit(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_INHERIT);
 }
 
 void CMainFrame::OnLinkArrowAgregat()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_AGGREGAT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(12));
 	m_wndToolBar.Invalidate();
@@ -696,13 +696,13 @@ void CMainFrame::OnLinkArrowAgregat()
 
 void CMainFrame::OnUpdateLinkArrowAgregat(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_AGGREGAT);
 }
 
 void CMainFrame::OnLinkArrowComposit()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_COMPOSIT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(13));
 	m_wndToolBar.Invalidate();
@@ -711,19 +711,19 @@ void CMainFrame::OnLinkArrowComposit()
 
 void CMainFrame::OnUpdateLinkArrowComposit(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_COMPOSIT);
 }
 
 void CMainFrame::OnViewFormBar()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	ShowControlBar(&m_wndFormPalette, !m_wndFormPalette.IsWindowVisible(), FALSE);
 }
 
 void CMainFrame::OnUpdateViewFormBar(CCmdUI *pCmdUI)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒhXV UI ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰æ›´æ–° UI ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	pCmdUI->SetCheck(m_wndFormPalette.IsWindowVisible());
 }
 
@@ -745,7 +745,7 @@ void CMainFrame::createBrushedBitmap(CBitmap* pBitmap, COLORREF rgb)
 
 void CMainFrame::OnSelectNodeColor()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CColorDialog dlg(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 	if (dlg.DoModal() != IDOK) return;
 	((CiEditApp*)AfxGetApp())->m_colorNodeBtn = dlg.GetColor();
@@ -759,7 +759,7 @@ void CMainFrame::OnSelectNodeColor()
 
 void CMainFrame::OnSelectLineColor()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CColorDialog dlg(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 	if (dlg.DoModal() != IDOK) return;
 	((CiEditApp*)AfxGetApp())->m_colorLineBtn = dlg.GetColor();
@@ -773,7 +773,7 @@ void CMainFrame::OnSelectLineColor()
 
 void CMainFrame::OnSelectFontColor()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ð’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒžãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CColorDialog dlg(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 	if (dlg.DoModal() != IDOK) return;
 	((CiEditApp*)AfxGetApp())->m_colorFontBtn = dlg.GetColor();

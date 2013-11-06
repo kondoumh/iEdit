@@ -1,9 +1,9 @@
-#include "StdAfx.h"
+ï»¿#include "StdAfx.h"
 #include "SystemConfiguration.h"
 
 typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
 
-/// ŠÂ‹«ƒ`ƒFƒbƒN‚ğs‚¢‚Ü‚·B
+/// ç’°å¢ƒãƒã‚§ãƒƒã‚¯ã‚’è¡Œã„ã¾ã™ã€‚
 SystemConfiguration::SystemConfiguration(void)
 {
 	m_OsVersion = SystemConfiguration::Unknown;
@@ -23,7 +23,7 @@ SystemConfiguration::~SystemConfiguration(void)
 {
 }
 
-/// OS‚Ìƒo[ƒWƒ‡ƒ“‚âƒvƒƒ_ƒNƒgî•ñ‚ğæ“¾‚µ‚Ü‚·B
+/// OSã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚„ãƒ—ãƒ­ãƒ€ã‚¯ãƒˆæƒ…å ±ã‚’å–å¾—ã—ã¾ã™ã€‚
 void SystemConfiguration::CheckEnvironment()
 {
 	CString osVersionName;
@@ -35,7 +35,7 @@ void SystemConfiguration::CheckEnvironment()
 		return;
 	}
 
-	if (osVerInfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) // 9xŒnOS
+	if (osVerInfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) // 9xç³»OS
 	{
 		if (osVerInfo.dwMajorVersion == 4)
 		{
@@ -55,7 +55,7 @@ void SystemConfiguration::CheckEnvironment()
 		return;
 	}
 	
-	if (osVerInfo.dwPlatformId == VER_PLATFORM_WIN32_NT) // NTŒnOS
+	if (osVerInfo.dwPlatformId == VER_PLATFORM_WIN32_NT) // NTç³»OS
 	{
 		if (osVerInfo.dwMajorVersion < 5)
 		{
@@ -151,7 +151,7 @@ void SystemConfiguration::CheckEnvironment()
 	}
 }
 
-/// OS‚Ìƒo[ƒWƒ‡ƒ“–¼—pƒfƒBƒNƒVƒ‡ƒiƒŠ[‚ğì¬‚·‚éƒwƒ‹ƒp[ƒƒ\ƒbƒh‚Å‚·B
+/// OSã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³åç”¨ãƒ‡ã‚£ã‚¯ã‚·ãƒ§ãƒŠãƒªãƒ¼ã‚’ä½œæˆã™ã‚‹ãƒ˜ãƒ«ãƒ‘ãƒ¼ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚
 void SystemConfiguration::CreateNameDictionaries()
 {
 	m_VersionNames[SystemConfiguration::Unknown] = _T("");
@@ -174,7 +174,7 @@ void SystemConfiguration::CreateNameDictionaries()
 	m_ProductNames[SystemConfiguration::Professional] = _T("Professional Edition");
 }
 
-/// ƒVƒXƒeƒ€\¬‚Ì•¶š—ñ•\Œ»‚ğ•Ô‚µ‚Ü‚·B
+/// ã‚·ã‚¹ãƒ†ãƒ æ§‹æˆã®æ–‡å­—åˆ—è¡¨ç¾ã‚’è¿”ã—ã¾ã™ã€‚
 CString SystemConfiguration::GetConfigurationName() const
 {
 	CString name;
@@ -199,7 +199,7 @@ CString SystemConfiguration::GetConfigurationName() const
 
 	if (m_OsProssesorEdition == SystemConfiguration::x64)
 	{
-		name += _T(" 64bit”Å");
+		name += _T(" 64bitç‰ˆ");
 	}
 	return name;
 }

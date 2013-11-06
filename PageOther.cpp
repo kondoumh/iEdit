@@ -1,4 +1,4 @@
-// PageOther.cpp : �C���v�������e�[�V���� �t�@�C��
+﻿// PageOther.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -16,7 +16,7 @@ static char THIS_FILE[] = __FILE__;
 #define REGS_OTHER _T("Settings")
 
 /////////////////////////////////////////////////////////////////////////////
-// PageOther �_�C�A���O
+// PageOther ダイアログ
 
 
 PageOther::PageOther(CWnd* pParent /*=NULL*/)
@@ -82,11 +82,11 @@ BEGIN_MESSAGE_MAP(PageOther, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// PageOther ���b�Z�[�W �n���h��
+// PageOther メッセージ ハンドラ
 
 void PageOther::OnCancel() 
 {
-	// TODO: ���̈ʒu�ɓ��ʂȌ㏈����ǉ����Ă��������B
+	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
@@ -95,58 +95,58 @@ BOOL PageOther::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: ���̈ʒu�ɏ������̕⑫������ǉ����Ă�������
+	// TODO: この位置に初期化の補足処理を追加してください
 	m_edStylesheet.EnableWindow(m_bSetStylesheet);
 	
-	return TRUE;  // �R���g���[���Ƀt�H�[�J�X��ݒ肵�Ȃ��Ƃ��A�߂�l�� TRUE �ƂȂ�܂�
-	              // ��O: OCX �v���p�e�B �y�[�W�̖߂�l�� FALSE �ƂȂ�܂�
+	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
+	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 void PageOther::OnRdTab1() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_tabSelect = 0;
 }
 
 void PageOther::OnRdTab2() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_tabSelect = 1;
 }
 
 void PageOther::OnRdTab3() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_tabSelect = 2;
 }
 
 void PageOther::OnChkShowHs() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bShowHS = m_chkShowHS.GetCheck();
 }
 
 void PageOther::OnChkInheritParent() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bInheritParent = m_chkInheritParent.GetCheck();
 }
 
 void PageOther::OnChkInheritSibling() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bInheritSibling = m_chkInheritSibling.GetCheck();
 }
 
 void PageOther::OnChkAccel() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bAccelmove = m_chkAccelMove.GetCheck();
 }
 
 void PageOther::OnBtnSetmfsize() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	SetMFSizeDlg dlg;
 	double mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rWidth"), 0)/10.0;
 	double mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rHeight"), 0)/10.0;
@@ -164,43 +164,43 @@ void PageOther::OnBtnSetmfsize()
 	if (dlg.DoModal() == IDOK) {
 		AfxGetApp()->WriteProfileInt(REGS_OTHER, _T("MF rWidth"), (int)(dlg.m_rx*10));
 		AfxGetApp()->WriteProfileInt(REGS_OTHER, _T("MF rHeight"), (int)(dlg.m_ry*10));
-		MessageBox(_T("���̐ݒ�͍ċN����ɔ��f����܂�"));
+		MessageBox(_T("この設定は再起動後に反映されます"));
 	}
 }
 
 void PageOther::OnChkDrwUndrln() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bDrawUnderLine = m_chkDrawUnderLine.GetCheck();
 }
 
 void PageOther::OnChkSetStylesheet() 
 {
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSetStylesheet = m_chkStylesheet.GetCheck();
 	m_edStylesheet.EnableWindow(m_bSetStylesheet);
 }
 
 void PageOther::OnChangeEditStylesheet() 
 {
-	// TODO: ���ꂪ RICHEDIT �R���g���[���̏ꍇ�A�R���g���[���́A lParam �}�X�N
-	// ���ł̘_���a�� ENM_CHANGE �t���O�t���� CRichEditCrtl().SetEventMask()
-	// ���b�Z�[�W���R���g���[���֑��邽�߂� CDialog::OnInitDialog() �֐����I�[�o�[
-	// ���C�h���Ȃ����肱�̒ʒm�𑗂�܂���B
+	// TODO: これが RICHEDIT コントロールの場合、コントロールは、 lParam マスク
+	// 内での論理和の ENM_CHANGE フラグ付きで CRichEditCrtl().SetEventMask()
+	// メッセージをコントロールへ送るために CDialog::OnInitDialog() 関数をオーバー
+	// ライドしない限りこの通知を送りません。
 	
-	// TODO: ���̈ʒu�ɃR���g���[���ʒm�n���h���p�̃R�[�h��ǉ����Ă�������
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_edStylesheet.GetWindowText(m_strStylesheet);
 	
 }
 
 void PageOther::OnBnClickedChkPostAction()
 {
-	// TODO: �����ɃR���g���[���ʒm�n���h�� �R�[�h��ǉ����܂��B
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bOpenFilesAfterExport = m_chkOpenFilesAfterExport.GetCheck();
 }
 
 void PageOther::OnBnClickedChkExportFilelink()
 {
-	// TODO: �����ɃR���g���[���ʒm�n���h�� �R�[�h��ǉ����܂��B
+	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bOutputFileLinksOnExport = m_chkOutputFileLinksOnExport.GetCheck();
 }
