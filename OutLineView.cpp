@@ -1746,8 +1746,8 @@ void OutlineView::OnImportData()
 		}
 		TextLevelCharNum = dlg.m_charSelection;
 	} else if (extent == _T(".xml")) {
-		caption = "XMLファイルのインポート";
-		CString mes = infileName + "をインポートしますか";
+		caption = _T("XMLファイルのインポート");
+		CString mes = infileName + _T(" をインポートしますか");
 		if (MessageBox(mes, caption, MB_YESNO) != IDYES) {
 			return;
 		}
