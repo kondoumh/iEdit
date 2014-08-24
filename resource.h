@@ -1,6 +1,6 @@
-Ôªø//{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by iEdit.rc
+//{{NO_DEPENDENCIES}}
+// Microsoft Visual C++ Ç≈ê∂ê¨Ç≥ÇÍÇΩÉCÉìÉNÉãÅ[Éh ÉtÉ@ÉCÉãÅB
+// iEdit.rc Ç≈égóp
 //
 #define IDD_ABOUTBOX                    100
 #define IDD_INPCN                       102

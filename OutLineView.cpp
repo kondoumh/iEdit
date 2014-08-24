@@ -3108,10 +3108,8 @@ void OutlineView::OnExportToText()
 	} else {
 		f.WriteString(_T("."));
 		f.WriteString(Utilities::removeCR(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
-		f.WriteString(tree().GetItemText(tree().GetSelectedItem()) + _T("\n"));
 		if (dlg.m_bPrintText) {
 			f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
-			f.WriteString(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem())));
 			f.WriteString(_T("\n"));
 		}
 		if (tree().ItemHasChildren(tree().GetSelectedItem())) {
