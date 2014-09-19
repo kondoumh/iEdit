@@ -1,22 +1,22 @@
-#pragma once
+Ôªø#pragma once
 #include "afxwin.h"
 
 
-// SetTextExportDlg É_ÉCÉAÉçÉO
+// SetTextExportDlg „ÉÄ„Ç§„Ç¢„É≠„Ç∞
 
 class SetTextExportDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(SetTextExportDlg)
 
 public:
-	SetTextExportDlg(CWnd* pParent = NULL);   // ïWèÄÉRÉìÉXÉgÉâÉNÉ^Å[
+	SetTextExportDlg(CWnd* pParent = NULL);   // Ê®ôÊ∫ñ„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø„Éº
 	virtual ~SetTextExportDlg();
 
-// É_ÉCÉAÉçÉO ÉfÅ[É^
+// „ÉÄ„Ç§„Ç¢„É≠„Ç∞ „Éá„Éº„Çø
 	enum { IDD = IDD_SET_TEXT_EXPORT };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ÉTÉ|Å[Ég
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV „Çµ„Éù„Éº„Éà
 
 	DECLARE_MESSAGE_MAP()
 public:

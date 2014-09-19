@@ -1,4 +1,4 @@
-// SetTextExportDlg.cpp : À‘•ƒtƒ@ƒCƒ‹
+ï»¿// SetTextExportDlg.cpp : å®Ÿè£…ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 
 
-// SetTextExportDlg ƒ_ƒCƒAƒƒO
+// SetTextExportDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 IMPLEMENT_DYNAMIC(SetTextExportDlg, CDialogEx)
 
@@ -46,7 +46,7 @@ BEGIN_MESSAGE_MAP(SetTextExportDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// SetTextExportDlg ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰[
+// SetTextExportDlg ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ãƒ¼
 
 
 BOOL SetTextExportDlg::OnInitDialog()
