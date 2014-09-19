@@ -64,6 +64,7 @@ using namespace MSXML2;
 #include <functional>
 #include <set>
 #include <stack>
+#include <afxcontrolbars.h>
 using namespace std;
 
 struct listitem {

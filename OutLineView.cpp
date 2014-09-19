@@ -18,6 +18,7 @@
 #include "InpcnDlg.h"
 #include "Token.h"
 #include "SetHtmlExportDlg.h"
+#include "SetTextExportDlg.h"
 #include "Utilities.h"
 #include "SystemConfiguration.h"
 #include <shlobj.h>
@@ -306,12 +307,8 @@ OutlineView::OutlineView()
 	m_hParentPreMove = NULL;
 	m_hSiblingPreMove = NULL;
 	m_bNodeSel = false;
-	m_exportOption.treeOption = 0;
-	m_exportOption.htmlOutOption = 0;
-	m_exportOption.textOption = 0;
-	m_exportOption.imgOption = 0;
-	m_exportOption.navOption = 0;
-	m_exportOption.htmlOutDir = _T("");
+	m_exportOption = { 0, 0, 0, 0, 0, _T("") };
+	m_textExportOption = {0, 0, 0, FALSE, FALSE};
 }
 
 OutlineView::~OutlineView()
@@ -1090,7 +1087,7 @@ void OutlineView::OnUpdateDelete(CCmdUI* pCmdUI)
 {
 	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(curItem() != tree().GetRootItem() && !m_bLabelEditting ||
-		           m_bLabelEditting);
+				   m_bLabelEditting);
 }
 
 void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -1365,7 +1362,7 @@ void OutlineView::OnLButtonDown(UINT nFlags, CPoint point)
 		if (dlg.DoModal() == IDOK) {
 			// iEditDocのリンク追加処理
 			GetDocument()->setNewLinkInfo(tree().GetItemData(curItem()), tree().GetItemData(hitTestInfo.hItem),
-				                          dlg.strComment, dlg.styleArrow);
+										  dlg.strComment, dlg.styleArrow);
 		}
 		m_bAddingLink = false;
 		return;
@@ -1644,7 +1641,7 @@ void OutlineView::OnMouseMove(UINT nFlags, CPoint point)
 			tree().SetInsertMark(NULL);
 			tree().SelectDropTarget(hitTestInfo.hItem);
 		} else if (hitTestInfo.flags & TVHT_ONITEMINDENT ||
-			        hitTestInfo.flags & TVHT_ONITEMBUTTON ||
+					hitTestInfo.flags & TVHT_ONITEMBUTTON ||
 					hitTestInfo.flags & TVHT_ONITEMICON ||
 					hitTestInfo.flags & TVHT_ONITEMRIGHT) {
 			m_nDropStatus = OutlineView::drop_sibling; // sibling
@@ -1656,7 +1653,7 @@ void OutlineView::OnMouseMove(UINT nFlags, CPoint point)
 			tree().SetInsertMark(NULL);
 			tree().SelectDropTarget(NULL);
 		} else if (hitTestInfo.flags & TVHT_ABOVE ||
-			        hitTestInfo.flags & TVHT_BELOW ||
+					hitTestInfo.flags & TVHT_BELOW ||
 					hitTestInfo.flags & TVHT_TOLEFT ||
 					hitTestInfo.flags & TVHT_TORIGHT) {
 			m_nDropStatus = OutlineView::drop_none;
@@ -1858,7 +1855,7 @@ void OutlineView::OutputHTML()
 	CString outdir;
 	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
 	if (pList == NULL) return;
-    if (::SHGetPathFromIDList(pList, szBuff)) {
+	if (::SHGetPathFromIDList(pList, szBuff)) {
 		//szBuffに選択したフォルダ名が入る
 		outdir = CString(szBuff);
 	} else {
@@ -2164,7 +2161,7 @@ void OutlineView::writeTextStyle(CStdioFile &f, bool single)
 	f.WriteString(_T("</style>\n"));
 }
 
-void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, BOOL bOutText)
+void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, bool bOutText)
 {
 	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_opTreeOut != 0) {
 		return;
@@ -2356,7 +2353,7 @@ LRESULT OutlineView::OnListUpNodes(UINT wParam, LONG lParam)
 	// リストアップ用のデータをnodeSrchDlgに受け渡す
 	if (m_pSrchDlg->m_labels.size() > 0) return 0;
 	GetDocument()->listUpNodes(m_pSrchDlg->m_srchString, m_pSrchDlg->m_labels,
-		                       m_pSrchDlg->m_bLabel, m_pSrchDlg->m_bText, m_pSrchDlg->m_bLinks,
+							   m_pSrchDlg->m_bLabel, m_pSrchDlg->m_bText, m_pSrchDlg->m_bLinks,
 							   m_pSrchDlg->m_bUpper);
 	m_pSrchDlg->displayResult();
 	return 0;
@@ -3075,16 +3072,21 @@ void OutlineView::OnUpdateExportToHtml(CCmdUI *pCmdUI)
 void OutlineView::OnExportToText()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
-	SelExportDlg dlg;
-	dlg.m_bPrintText = TRUE;
-	dlg.m_nTreeOp = m_exportOption.treeOption;
-	dlg.m_bShowChekPrintText = true;
+	SetTextExportDlg dlg;
+	dlg.m_rdTreeOption = m_textExportOption.treeOption;
+	dlg.m_rdFormatOption = m_textExportOption.formatOption;
+	dlg.m_rdChapterNumberOption = m_textExportOption.chapterNumberOption;
+	dlg.m_excludeLabelFromFileName = m_textExportOption.excludeLabelFromFileName;
+	dlg.m_excludeLabelFromContent = m_textExportOption.excludeLabelFromContent;
 	if (dlg.DoModal() != IDOK) return;
-	m_opTreeOut = dlg.m_nTreeOp;
-	m_exportOption.treeOption = dlg.m_nTreeOp;
-	
+	m_textExportOption.treeOption = dlg.m_rdTreeOption;
+	m_textExportOption.formatOption = dlg.m_rdFormatOption;
+	m_textExportOption.chapterNumberOption = dlg.m_rdChapterNumberOption;
+	m_textExportOption.excludeLabelFromFileName = dlg.m_excludeLabelFromFileName;
+	m_textExportOption.excludeLabelFromContent = dlg.m_excludeLabelFromContent;
+
 	CString outfile = GetDocument()->getTitleFromPath();	
-	if (dlg.m_nTreeOp != 0) {
+	if (dlg.m_rdTreeOption != 0) {
 		CString label = Utilities::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
 		if (label != _T("")) {
 			outfile = label;
@@ -3102,18 +3104,19 @@ void OutlineView::OnExportToText()
 		return;
 	}
 	CStdioFile f(fp);
+	bool textOut = dlg.m_rdFormatOption != 1;
 	_wsetlocale(LC_ALL, _T("jpn"));
 	if (m_opTreeOut == 0) {
-		textOutTree(tree().GetRootItem(), &f, 0, dlg.m_bPrintText);
+		textOutTree(tree().GetRootItem(), &f, 0, textOut);
 	} else {
 		f.WriteString(_T("."));
 		f.WriteString(Utilities::removeCR(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
-		if (dlg.m_bPrintText) {
+		if (textOut) {
 			f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
 			f.WriteString(_T("\n"));
 		}
 		if (tree().ItemHasChildren(tree().GetSelectedItem())) {
-			textOutTree(tree().GetChildItem(tree().GetSelectedItem()), &f, 1, dlg.m_bPrintText);
+			textOutTree(tree().GetChildItem(tree().GetSelectedItem()), &f, 1, textOut);
 		}
 	}
 	_wsetlocale(LC_ALL, _T(""));
@@ -3132,7 +3135,6 @@ void OutlineView::OnExportToXml()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
 	SelExportDlg dlg;
-	dlg.m_bPrintText = TRUE;
 	dlg.m_nTreeOp = m_exportOption.treeOption;
 	if (dlg.DoModal() != IDOK) return;
 	m_opTreeOut = dlg.m_nTreeOp;

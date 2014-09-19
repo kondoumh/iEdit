@@ -63,6 +63,7 @@
 #define IDD_SET_HTML_EXPORT             211
 #define IDD_DEBUG_WINDOW                212
 #define IDD_SHELL_FILETYPE_SETTING      214
+#define IDD_SET_TEXT_EXPORT             215
 #define IDC_LINKFROM                    1001
 #define IDC_LINKTO                      1002
 #define IDC_COMBO                       1003
@@ -97,10 +98,12 @@
 #define IDC_RD_TAB3                     1012
 #define IDC_RD_TREE3                    1012
 #define IDC_RD_NAV_OUTLINE              1012
+#define IDC_EXPORT_SELECTED_CHILDREN    1012
 #define IDC_RADIO4                      1013
 #define IDC_RADIO_LINE2                 1013
 #define IDC_RADIO_TLINE2                1013
 #define IDC_RD_NAV_NETWORK              1013
+#define IDC_CHPTER_NUMBER_WZ            1013
 #define IDC_BUTTON1                     1014
 #define IDC_BTN_LINE_COLOR              1014
 #define IDC_BTN_OUTLINE                 1014
@@ -196,10 +199,12 @@
 #define IDC_CHKTEXT                     1072
 #define IDC_CHK_DRW_UNDRLN              1072
 #define IDC_CHK_ENABLE_GROUPING         1072
+#define IDC_FILE_NAME_EXCLUDE_LABEL     1072
 #define IDC_CHECK3                      1073
 #define IDC_CHKLINKS                    1073
 #define IDC_CHK_SET_STYLESHEET          1073
 #define IDC_DISABLE_NODE_RESIZE         1073
+#define IDC_EXCLUDE_LABEL_FROM_TEXT     1073
 #define IDC_LIST                        1074
 #define IDC_CHK_CR                      1076
 #define IDC_CHK_ACCEL                   1077
@@ -238,6 +243,7 @@
 #define IDC_ED_LEFT                     1103
 #define IDC_RADIO5                      1104
 #define IDC_RD_NAV_BOTH                 1104
+#define IDC_MARKDOWN                    1104
 #define IDC_RD_IMG_SVG                  1105
 #define IDC_RD_IMG_PNG                  1106
 #define IDC_ED_PRF_INDEX                1107
@@ -262,6 +268,15 @@
 #define IDC_PRIOR_SELECTION_DRAGGING    1127
 #define IDC_RD_NOT_REGIST               1127
 #define IDC_RD_REGIST                   1128
+#define IDC_ORG_MODE                    1129
+#define IDC_CHAPTER_NUMBER_HYPHEN       1130
+#define IDC_RADIO8                      1131
+#define IDC_CHAPTER_NUMBER_PERIOD       1131
+#define IDC_FILE_EVERY_NODE             1132
+#define IDC_NODE_ONLY                   1133
+#define IDC_NODE_TEXT                   1136
+#define IDC_EXPORT_ALL                  1137
+#define IDC_EXPORT_SELECTED_ALL         1138
 #define ID_ADD_CHILD                    32771
 #define ID_ADD_SIBLING                  32772
 #define ID_FOR_EACH_TEST                32773
@@ -516,9 +531,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        215
+#define _APS_NEXT_RESOURCE_VALUE        216
 #define _APS_NEXT_COMMAND_VALUE         33090
-#define _APS_NEXT_CONTROL_VALUE         1129
+#define _APS_NEXT_CONTROL_VALUE         1139
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

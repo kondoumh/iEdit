@@ -90,6 +90,8 @@ public:
 	const CString& getName() const;
 	void setTreeState(UINT state);
 	UINT getTreeState() const;
+	void setChapterNumber(const CString& chapterNumber);
+	const CString& getChapterNumber();
 	iNode();
 	virtual ~iNode();
 	
@@ -170,6 +172,7 @@ private:
 	DWORD key_;
 	bool deleted_;
 	bool dragging_;
+	CString chapterNumber_; // 章番号 transient な属性
 protected:
 	void adjustFont(bool bForceResize=false);
 	CSize getNodeTextSize();
@@ -476,6 +479,16 @@ inline bool iNode::isDeleted() const
 inline void iNode::setDelete()
 {
 	deleted_ = true;
+}
+
+inline void iNode::setChapterNumber(const CString& chapterNumber)
+{
+	chapterNumber_ = chapterNumber;
+}
+
+inline const CString& iNode::getChapterNumber()
+{
+	return chapterNumber_;
 }
 
 // iNodeDrawer ノード描画ベースクラス

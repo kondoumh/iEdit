@@ -15,13 +15,10 @@ class SelExportDlg : public CDialog
 // コンストラクション
 public:
 	SelExportDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
-	bool m_bShowChekPrintText;
 	
 // ダイアログ データ
 	//{{AFX_DATA(SelExportDlg)
 	enum { IDD = IDD_SELEXPORT };
-	CButton	m_chkPrintText;
-	BOOL	m_bPrintText;
 	int		m_nTreeOp;
 	//}}AFX_DATA
 
@@ -38,11 +35,6 @@ protected:
 
 	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(SelExportDlg)
-	afx_msg void OnChkPrintText();
-	virtual BOOL OnInitDialog();
-	afx_msg void OnRdTree1();
-	afx_msg void OnRdTree2();
-	afx_msg void OnRdTree3();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

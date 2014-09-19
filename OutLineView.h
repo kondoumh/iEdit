@@ -74,7 +74,7 @@ protected:
 	bool ImportText(const CString& inPath, nVec& addNodes, const char LevelChar);
 	bool levelToNode(const vector<CString>& lines, nVec& addNodes, const char levelChar='.');
 	int countLineIndentLevel(const CString& line, const char levelChar) const;
-	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab, BOOL bOutText=TRUE);
+	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab, bool bOutText=true);
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
 	void treeAddBranch(const DWORD rootKey);
 	void treeAddBranch2(const DWORD rootKey, nVec& addNodes);
@@ -168,6 +168,13 @@ private:
 		CString pathTextSingle;
 		CString htmlOutDir;
 	} m_exportOption;
+	struct TextExportOption {
+		int treeOption;
+		int formatOption;
+		int chapterNumberOption;
+		BOOL excludeLabelFromFileName;
+		BOOL excludeLabelFromContent;
+	} m_textExportOption;
 	void moveNodes(DWORD keyTarget, DWORD keyMove);
 	void catTreeLabel(HTREEITEM hItem, CString& text);
 	enum {drop_none, drop_child, drop_sibling};
