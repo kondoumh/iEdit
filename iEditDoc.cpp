@@ -370,6 +370,22 @@ void iEditDoc::setKeyNodeParent(DWORD key, DWORD parent)
 	UpdateAllViews(NULL);
 }
 
+CString iEditDoc::getKeyNodeChapterNumber(DWORD key) {
+	const_niterator it = nodes_.findNode(key);
+	if (it != nodes_.end()) {
+		return (*it).second.getChapterNumber();
+	}
+	return _T("");
+}
+
+void iEditDoc::setKeyNodeChapterNumber(DWORD key, const CString& chapterNumber) {
+	niterator it = nodes_.findNodeW(key);
+	if (it != nodes_.end()) {
+		(*it).second.setChapterNumber(chapterNumber);
+	}
+	// transient 属性なので、DirtyFlag 立てたりビュー再描画したりは不要。
+}
+
 void iEditDoc::deleteKeyItem(DWORD key)
 {
 	DWORD parent = nodes_.getCurParent();

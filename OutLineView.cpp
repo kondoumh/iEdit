@@ -2163,14 +2163,26 @@ void OutlineView::writeTextStyle(CStdioFile &f, bool single)
 
 void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, bool bOutText)
 {
-	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_opTreeOut != 0) {
+	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_textExportOption.treeOption != 0) {
 		return;
 	}
-	
-	f->WriteString(_T("."));
-	for (int i = 0; i < tab; i++) {
+
+	if (m_textExportOption.chapterNumberOption == 0) {
 		f->WriteString(_T("."));
+		for (int i = 0; i < tab; i++) {
+			f->WriteString(_T("."));
+		}
 	}
+	else {
+		CString chapNum = GetDocument()->getKeyNodeChapterNumber(tree().GetItemData(hItem));
+		if (chapNum.GetLength() > 0) {
+			if (m_textExportOption.formatOption != 1) {
+				f->WriteString(_T("\n"));
+			}
+			f->WriteString(chapNum + _T(" "));
+		}
+	}
+
 	CString label = Utilities::removeDependChar(tree().GetItemText(hItem));
 	label = Utilities::removeCR(label);
 	f->WriteString(label + _T("\n"));
@@ -2181,7 +2193,7 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, bool bOut
 		f->WriteString(_T("\n"));
 	}
 	
-	if (tree().ItemHasChildren(hItem) && m_opTreeOut != 2) {           // 子どもに移動
+	if (tree().ItemHasChildren(hItem) && m_textExportOption.treeOption != 2) {           // 子どもに移動
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
 		textOutTree(hchildItem, f, ++tab, bOutText);
 	} else {
@@ -3085,6 +3097,10 @@ void OutlineView::OnExportToText()
 	m_textExportOption.excludeLabelFromFileName = dlg.m_excludeLabelFromFileName;
 	m_textExportOption.excludeLabelFromContent = dlg.m_excludeLabelFromContent;
 
+	if (m_textExportOption.chapterNumberOption != 0) {
+		setChapterNumbers();
+	}
+
 	CString outfile = GetDocument()->getTitleFromPath();	
 	if (dlg.m_rdTreeOption != 0) {
 		CString label = Utilities::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
@@ -3106,10 +3122,12 @@ void OutlineView::OnExportToText()
 	CStdioFile f(fp);
 	bool textOut = dlg.m_rdFormatOption != 1;
 	_wsetlocale(LC_ALL, _T("jpn"));
-	if (m_opTreeOut == 0) {
+	if (dlg.m_rdTreeOption == 0) {
 		textOutTree(tree().GetRootItem(), &f, 0, textOut);
 	} else {
-		f.WriteString(_T("."));
+		if (dlg.m_rdChapterNumberOption == 0) {
+			f.WriteString(_T("."));
+		}
 		f.WriteString(Utilities::removeCR(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
 		if (textOut) {
 			f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
@@ -3123,6 +3141,70 @@ void OutlineView::OnExportToText()
 	f.Close();
 	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExport) {
 		ShellExecute(m_hWnd, _T("open"), outfileName, NULL, NULL, SW_SHOW);
+	}
+}
+
+void OutlineView::setChapterNumbers() {
+	char separator = '-';
+	if (m_textExportOption.chapterNumberOption == 2) {
+		separator = '.';
+	}
+	vector<int> numbers;
+	HTREEITEM hItem = tree().GetRootItem();
+	if (m_textExportOption.treeOption != 0) {
+		hItem = tree().GetSelectedItem();
+	}
+	setChapterNumber(numbers, separator, hItem);
+}
+
+void OutlineView::setChapterNumber(vector<int>& numbers, const char separator, HTREEITEM hItem) {
+
+	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_textExportOption.treeOption != 0) {
+		return;
+	}
+
+	if (hItem != tree().GetRootItem() && m_textExportOption.treeOption != 0 && hItem != tree().GetSelectedItem()) {
+		if (tree().GetPrevSiblingItem(hItem) != NULL) {
+			numbers.back()++;
+		}
+	}
+	CString chapNum;
+	vector<int>::iterator it = numbers.begin();
+	for (; it != numbers.end(); it++)
+	{
+		CString s;
+		s.Format(_T("%d%c"), (*it), separator);
+		chapNum += s;
+	}
+	chapNum = chapNum.TrimRight(separator);
+	GetDocument()->setKeyNodeChapterNumber(tree().GetItemData(hItem), chapNum);
+
+	if (tree().ItemHasChildren(hItem) && m_textExportOption.treeOption != 2) {
+		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
+		numbers.push_back(1);
+		setChapterNumber(numbers, separator, hchildItem);
+	}
+	else {
+		HTREEITEM hNextItem = tree().GetNextItem(hItem, TVGN_NEXT);
+		if (hNextItem == NULL) {
+			HTREEITEM hi = hItem;
+			HTREEITEM hParent = hItem;
+			while (hParent != tree().GetRootItem()) {
+				hParent = tree().GetParentItem(hi);
+				HTREEITEM hNextParent;
+				if (numbers.size() != 0) {
+					numbers.pop_back();
+				}
+				if ((hNextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
+					setChapterNumber(numbers, separator, hNextParent);
+					return;
+				}
+				hi = hParent;
+			}
+		}
+		else {
+			setChapterNumber(numbers, separator, hNextItem);
+		}
 	}
 }
 

@@ -255,6 +255,8 @@ public:
 	void deleteKeyItem(DWORD key);
 	void setKeyNodeParent(DWORD key, DWORD parent);
 	bool setKeyNodeName(DWORD key, const CString& name);
+	CString getKeyNodeChapterNumber(DWORD key);
+	void setKeyNodeChapterNumber(DWORD key, const CString& chapterNumber);
 	DWORD getUniqKey();
 	void addNode(const label& l, DWORD inheritKey = 0, bool bInherit = false);
 	void copyNodeLabels(Labels& v);

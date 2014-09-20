@@ -91,7 +91,7 @@ public:
 	void setTreeState(UINT state);
 	UINT getTreeState() const;
 	void setChapterNumber(const CString& chapterNumber);
-	const CString& getChapterNumber();
+	const CString& getChapterNumber() const;
 	iNode();
 	virtual ~iNode();
 	
@@ -486,7 +486,7 @@ inline void iNode::setChapterNumber(const CString& chapterNumber)
 	chapterNumber_ = chapterNumber;
 }
 
-inline const CString& iNode::getChapterNumber()
+inline const CString& iNode::getChapterNumber() const
 {
 	return chapterNumber_;
 }

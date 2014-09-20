@@ -81,6 +81,8 @@ protected:
 	void deleteNode();
 	void deleteKeyNode(DWORD key, DWORD parentKey);
 	void copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent);
+	void setChapterNumbers();
+	void setChapterNumber(vector<int>& numbers, const char separator, HTREEITEM hItem);
 	HTREEITEM findKeyItem(DWORD key, HTREEITEM item);
 	CTreeCtrl& tree() const;
 	HTREEITEM curItem() const;
