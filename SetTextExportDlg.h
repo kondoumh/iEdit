@@ -29,6 +29,7 @@ public:
 	virtual BOOL OnInitDialog();
 private:
 	void EnableContentFileOption(BOOL enable);
+	void EnableChapterNumberOption(BOOL enable);
 public:
 	afx_msg void OnBnClickedNodeText();
 	afx_msg void OnBnClickedNodeOnly();

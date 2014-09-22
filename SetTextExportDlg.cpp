@@ -67,32 +67,50 @@ void SetTextExportDlg::EnableContentFileOption(BOOL enable)
 	GetDlgItem(IDC_EXCLUDE_LABEL_FROM_TEXT)->EnableWindow(enable);
 }
 
+void SetTextExportDlg::EnableChapterNumberOption(BOOL enable)
+{
+	GetDlgItem(IDC_CHPTER_NUMBER_WZ)->EnableWindow(enable);
+	GetDlgItem(IDC_CHAPTER_NUMBER_HYPHEN)->EnableWindow(enable);
+	GetDlgItem(IDC_CHAPTER_NUMBER_PERIOD)->EnableWindow(enable);
+}
 
 void SetTextExportDlg::OnBnClickedNodeText()
 {
 	EnableContentFileOption(FALSE);
+	EnableChapterNumberOption(TRUE);
+	GetDlgItem(IDC_CHPTER_NUMBER_WZ)->EnableWindow(TRUE);
 }
 
 
 void SetTextExportDlg::OnBnClickedNodeOnly()
 {
 	EnableContentFileOption(FALSE);
+	EnableChapterNumberOption(TRUE);
 }
 
 
 void SetTextExportDlg::OnBnClickedFileEveryNode()
 {
 	EnableContentFileOption(TRUE);
+	EnableChapterNumberOption(TRUE);
+	UpdateData();
+	if (m_rdChapterNumberOption == 0) {
+		m_rdChapterNumberOption = 1;
+		UpdateData(FALSE);
+	}
+	GetDlgItem(IDC_CHPTER_NUMBER_WZ)->EnableWindow(FALSE);
 }
 
 
 void SetTextExportDlg::OnBnClickedMarkdown()
 {
 	EnableContentFileOption(FALSE);
+	EnableChapterNumberOption(FALSE);
 }
 
 
 void SetTextExportDlg::OnBnClickedOrgMode()
 {
 	EnableContentFileOption(FALSE);
+	EnableChapterNumberOption(FALSE);
 }
