@@ -3163,10 +3163,8 @@ void OutlineView::setChapterNumber(vector<int>& numbers, const char separator, H
 		return;
 	}
 
-	if (hItem != tree().GetRootItem() && m_textExportOption.treeOption != 0 && hItem != tree().GetSelectedItem()) {
-		if (tree().GetPrevSiblingItem(hItem) != NULL) {
-			numbers.back()++;
-		}
+	if (tree().GetPrevSiblingItem(hItem) != NULL && numbers.size() > 0) {
+		numbers.back()++;
 	}
 	CString chapNum;
 	vector<int>::iterator it = numbers.begin();
