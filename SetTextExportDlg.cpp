@@ -79,6 +79,7 @@ void SetTextExportDlg::OnBnClickedNodeText()
 	EnableContentFileOption(FALSE);
 	EnableChapterNumberOption(TRUE);
 	GetDlgItem(IDC_CHPTER_NUMBER_WZ)->EnableWindow(TRUE);
+	GetDlgItem(IDC_EXPORT_SELECTED_CHILDREN)->EnableWindow(TRUE);
 }
 
 
@@ -86,6 +87,7 @@ void SetTextExportDlg::OnBnClickedNodeOnly()
 {
 	EnableContentFileOption(FALSE);
 	EnableChapterNumberOption(TRUE);
+	GetDlgItem(IDC_EXPORT_SELECTED_CHILDREN)->EnableWindow(TRUE);
 }
 
 
@@ -98,7 +100,12 @@ void SetTextExportDlg::OnBnClickedFileEveryNode()
 		m_rdChapterNumberOption = 1;
 		UpdateData(FALSE);
 	}
+	if (m_rdTreeOption == 2) {
+		m_rdTreeOption = 1;
+		UpdateData(FALSE);
+	}
 	GetDlgItem(IDC_CHPTER_NUMBER_WZ)->EnableWindow(FALSE);
+	GetDlgItem(IDC_EXPORT_SELECTED_CHILDREN)->EnableWindow(FALSE);
 }
 
 
@@ -106,6 +113,7 @@ void SetTextExportDlg::OnBnClickedMarkdown()
 {
 	EnableContentFileOption(FALSE);
 	EnableChapterNumberOption(FALSE);
+	GetDlgItem(IDC_EXPORT_SELECTED_CHILDREN)->EnableWindow(FALSE);
 }
 
 
@@ -113,4 +121,5 @@ void SetTextExportDlg::OnBnClickedOrgMode()
 {
 	EnableContentFileOption(FALSE);
 	EnableChapterNumberOption(FALSE);
+	GetDlgItem(IDC_EXPORT_SELECTED_CHILDREN)->EnableWindow(FALSE);
 }

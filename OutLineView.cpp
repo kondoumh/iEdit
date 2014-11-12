@@ -2161,7 +2161,7 @@ void OutlineView::writeTextStyle(CStdioFile &f, bool single)
 	f.WriteString(_T("</style>\n"));
 }
 
-void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, bool bOutText)
+void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab)
 {
 	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_textExportOption.treeOption != 0) {
 		return;
@@ -2187,7 +2187,7 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, bool bOut
 	label = Utilities::removeCR(label);
 	f->WriteString(label + _T("\n"));
 	
-	if (bOutText) {
+	if (m_textExportOption.formatOption != 1) {
 		CString text = Utilities::removeDependChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
 		f->WriteString(GetDocument()->procCR(text));
 		f->WriteString(_T("\n"));
@@ -2195,7 +2195,7 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, bool bOut
 	
 	if (tree().ItemHasChildren(hItem) && m_textExportOption.treeOption != 2) {           // 子どもに移動
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
-		textOutTree(hchildItem, f, ++tab, bOutText);
+		textOutTree(hchildItem, f, ++tab);
 	} else {
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);	
 		if (hnextItem == NULL) {    // 次に兄弟がいない
@@ -2206,13 +2206,13 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab, bool bOut
 				HTREEITEM hnextParent;
 				--tab;
 				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
-					textOutTree(hnextParent, f, tab, bOutText);
+					textOutTree(hnextParent, f, tab);
 					return;
 				}
 				hi = hParent;
 			}                                   // 兄弟のいる親まで戻る
 		} else {
-			textOutTree(hnextItem, f, tab, bOutText);
+			textOutTree(hnextItem, f, tab);
 		}                                       // 兄弟に移動
 	}
 }
@@ -3109,39 +3109,132 @@ void OutlineView::OnExportToText()
 		}
 	}
 	
-	WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt");	
-	CFileDialog fdlg(FALSE, _T("txt"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
-	if (fdlg.DoModal() != IDOK) return;
-	CString outfileName = fdlg.GetPathName();
+	if (m_textExportOption.formatOption != 2) {
+		WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt");
+		CFileDialog fdlg(FALSE, _T("txt"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+		if (fdlg.DoModal() != IDOK) return;
+		CString outfileName = fdlg.GetPathName();
+
+		FILE* fp;
+		if (_tfopen_s(&fp, outfileName, _T("w, ccs=UTF-8")) != 0) {
+			AfxMessageBox(_T("coud not open file. ") + outfileName);
+			return;
+		}
+		CStdioFile f(fp);
+		_wsetlocale(LC_ALL, _T("jpn"));
+		if (dlg.m_rdTreeOption == 0) {
+			textOutTree(tree().GetRootItem(), &f, 0);
+		}
+		else {
+			if (dlg.m_rdChapterNumberOption == 0) {
+				f.WriteString(_T("."));
+			}
+			f.WriteString(Utilities::removeCR(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
+			if (dlg.m_rdFormatOption != 1) {
+				f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
+				f.WriteString(_T("\n"));
+			}
+			if (tree().ItemHasChildren(tree().GetSelectedItem())) {
+				textOutTree(tree().GetChildItem(tree().GetSelectedItem()), &f, 1);
+			}
+		}
+		_wsetlocale(LC_ALL, _T(""));
+		f.Close();
+		if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExport) {
+			ShellExecute(m_hWnd, _T("open"), outfileName, NULL, NULL, SW_SHOW);
+		}
+	}
+	else {
+		TCHAR szBuff[MAX_PATH];
+		BROWSEINFO bi;
+		bi.hwndOwner = m_hWnd;
+
+		bi.pidlRoot = NULL;
+		bi.pszDisplayName = szBuff;
+		bi.lpszTitle = _T("テキスト出力先フォルダー選択");
+
+		bi.ulFlags = BIF_RETURNONLYFSDIRS;
+		bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
+		bi.lParam = (LPARAM)m_exportOption.htmlOutDir.GetBuffer();
+		bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
+		bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
+		bi.iImage = 0;
+		CString folder = AfxGetApp()->GetProfileString(_T("Settings"), _T("HTML OutputDir"), _T(""));
+		bi.lParam = (LPARAM)folder.GetBuffer(folder.GetLength());
+
+		LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
+		if (pList == NULL) return;
+		if (::SHGetPathFromIDList(pList, szBuff)) {
+			m_textExportOption.outDir = CString(szBuff);
+		}
+		else {
+			MessageBox(_T("出力先フォルダーを指定して下さい"));
+			return;
+		}
+		if (dlg.m_rdTreeOption == 0) {
+			textOutTreeByNode(tree().GetRootItem());
+		}
+		else {
+			textOutTreeByNode(tree().GetSelectedItem());
+		}
+		MessageBox(m_textExportOption.outDir + _T("に出力しました。"));
+	}
+}
+
+void OutlineView::textOutTreeByNode(HTREEITEM hItem)
+{
+	if (tree().GetPrevSiblingItem(hItem) == tree().GetSelectedItem() && m_textExportOption.treeOption != 0) {
+		return;
+	}
+
+	CString chapNum = GetDocument()->getKeyNodeChapterNumber(tree().GetItemData(hItem));
+	CString label = chapNum + " " + Utilities::getSafeFileName(Utilities::removeDependChar(tree().GetItemText(hItem)));
+	label = Utilities::removeCR(label);
+	CString text = Utilities::removeDependChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
+	createNodeTextFile(label, text);
+
+	if (tree().ItemHasChildren(hItem)) {
+		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
+		textOutTreeByNode(hchildItem);
+	}
+	else {
+		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
+		if (hnextItem == NULL) {    // 次に兄弟がいない
+			HTREEITEM hi = hItem;
+			HTREEITEM hParent = hItem;
+			while (hParent != tree().GetRootItem()) {
+				hParent = tree().GetParentItem(hi);
+				HTREEITEM hnextParent;
+				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
+					textOutTreeByNode(hnextParent);
+					return;
+				}
+				hi = hParent;
+			}                                   // 兄弟のいる親まで戻る
+		}
+		else {
+			textOutTreeByNode(hnextItem);
+		}                                       // 兄弟に移動
+	}
+}
+
+void OutlineView::createNodeTextFile(const CString& title, const CString& text) {
 	
+	CString path = m_textExportOption.outDir + _T("\\") + title + _T(".txt");
 	FILE* fp;
-	if (_tfopen_s(&fp, outfileName, _T("w, ccs=UTF-8")) != 0) {
-		AfxMessageBox(_T("coud not open file. ") + outfileName);
+	if (_tfopen_s(&fp, path, _T("w, ccs=UTF-8")) != 0) {
+		AfxMessageBox(_T("coud not open file. ") + path);
 		return;
 	}
 	CStdioFile f(fp);
-	bool textOut = dlg.m_rdFormatOption != 1;
 	_wsetlocale(LC_ALL, _T("jpn"));
-	if (dlg.m_rdTreeOption == 0) {
-		textOutTree(tree().GetRootItem(), &f, 0, textOut);
-	} else {
-		if (dlg.m_rdChapterNumberOption == 0) {
-			f.WriteString(_T("."));
-		}
-		f.WriteString(Utilities::removeCR(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
-		if (textOut) {
-			f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
-			f.WriteString(_T("\n"));
-		}
-		if (tree().ItemHasChildren(tree().GetSelectedItem())) {
-			textOutTree(tree().GetChildItem(tree().GetSelectedItem()), &f, 1, textOut);
-		}
+	if (!m_textExportOption.excludeLabelFromContent) {
+		f.WriteString(title);
+		f.WriteString(_T("\n\n"));
 	}
+	f.WriteString(text);
 	_wsetlocale(LC_ALL, _T(""));
 	f.Close();
-	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExport) {
-		ShellExecute(m_hWnd, _T("open"), outfileName, NULL, NULL, SW_SHOW);
-	}
 }
 
 void OutlineView::setChapterNumbers() {

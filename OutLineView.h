@@ -74,7 +74,8 @@ protected:
 	bool ImportText(const CString& inPath, nVec& addNodes, const char LevelChar);
 	bool levelToNode(const vector<CString>& lines, nVec& addNodes, const char levelChar='.');
 	int countLineIndentLevel(const CString& line, const char levelChar) const;
-	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab, bool bOutText=true);
+	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab);
+	void textOutTreeByNode(HTREEITEM hItem);
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
 	void treeAddBranch(const DWORD rootKey);
 	void treeAddBranch2(const DWORD rootKey, nVec& addNodes);
@@ -88,6 +89,7 @@ protected:
 	HTREEITEM curItem() const;
 	void treeConstruct();
 	void treeConstruct2();
+	void createNodeTextFile(const CString& title, const CString& text);
 	//{{AFX_MSG(OutlineView)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
@@ -176,6 +178,7 @@ private:
 		int chapterNumberOption;
 		BOOL excludeLabelFromFileName;
 		BOOL excludeLabelFromContent;
+		CString outDir;
 	} m_textExportOption;
 	void moveNodes(DWORD keyTarget, DWORD keyMove);
 	void catTreeLabel(HTREEITEM hItem, CString& text);
