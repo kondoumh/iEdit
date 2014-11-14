@@ -2167,11 +2167,19 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab)
 		return;
 	}
 
-	if (m_textExportOption.chapterNumberOption == 0) {
-		f->WriteString(_T("."));
+	CString indentChar = _T(".");
+	if (m_textExportOption.formatOption == 3) {
+		indentChar = _T("#");
+	}
+	else if (m_textExportOption.formatOption == 4) {
+		indentChar = _T("*");
+	}
+	if (m_textExportOption.chapterNumberOption == 0 || m_textExportOption.formatOption == 3 || m_textExportOption.formatOption == 4) {
+		f->WriteString(indentChar);
 		for (int i = 0; i < tab; i++) {
-			f->WriteString(_T("."));
+			f->WriteString(indentChar);
 		}
+		f->WriteString(_T(" "));
 	}
 	else {
 		CString chapNum = GetDocument()->getKeyNodeChapterNumber(tree().GetItemData(hItem));
