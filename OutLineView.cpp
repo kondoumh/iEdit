@@ -3118,8 +3118,17 @@ void OutlineView::OnExportToText()
 	}
 	
 	if (m_textExportOption.formatOption != 2) {
-		WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt");
-		CFileDialog fdlg(FALSE, _T("txt"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+		CString ext = _T("txt");
+		CString filters = _T("テキストファイル (*.txt)|*.txt");
+		if (m_textExportOption.formatOption == 3) {
+			ext = _T("md");
+			filters = _T("Marddown ファイル (*.md)|*.md");
+		}
+		else if (m_textExportOption.formatOption == 4) {
+			ext = _T("org");
+			filters = _T("OrgMode ファイル (*.org)|*.org");
+		}
+		CFileDialog fdlg(FALSE, ext, outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, filters, this);
 		if (fdlg.DoModal() != IDOK) return;
 		CString outfileName = fdlg.GetPathName();
 
@@ -3148,8 +3157,11 @@ void OutlineView::OnExportToText()
 		}
 		_wsetlocale(LC_ALL, _T(""));
 		f.Close();
-		if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExport) {
+		if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExport && ext == _T("txt")) {
 			ShellExecute(m_hWnd, _T("open"), outfileName, NULL, NULL, SW_SHOW);
+		}
+		else {
+			MessageBox(outfileName + _T(" に出力しました。"));
 		}
 	}
 	else {
