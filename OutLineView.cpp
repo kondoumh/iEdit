@@ -2092,14 +2092,14 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 	if (m_exportOption.textOption == 0) {
 		GetDocument()->writeTextHtml(key, ftext);
 	} else {
-		CStdioFile tf;
-		CFileException e;
 		CString fName = m_exportOption.htmlOutDir + _T("\\text\\") 
 			+ m_exportOption.prfTextEverynode + keystr + _T(".html");
-		if (!tf.Open(fName, CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+		FILE* pRf;
+		if (_tfopen_s(&pRf, fName, _T("w, ccs=UTF-8")) != 0) {
 			MessageBox(fName + _T(" : 作成に失敗しました"));
 			return;
 		}
+		CStdioFile tf(pRf);
 		writeHtmlHeader(tf);
 		writeTextStyle(tf, false);
 		tf.WriteString(_T("</head>\n<body>\n"));
