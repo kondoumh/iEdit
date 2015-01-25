@@ -1955,6 +1955,7 @@ void OutlineView::OutputHTML()
 		olf.WriteString(_T(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n"));
 		olf.WriteString(_T(" li {font-size: 95%; padding: 0px;}\n"));
 		olf.WriteString(_T("</style>\n"));
+		olf.WriteString(_T("<title>Outline</title>\n"));
 		olf.WriteString(_T("</head>\n"));
 		olf.WriteString(_T("<body>\n<h1>"));
 		olf.WriteString(_T("<a href="));
@@ -1966,7 +1967,7 @@ void OutlineView::OutputHTML()
 		olf.WriteString(_T("\" target=text>"));
 		CString rootStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
 		olf.WriteString(rootStr);
-		olf.WriteString(_T("</a></h3>\n"));
+		olf.WriteString(_T("</a></h1>\n"));
 		olf.WriteString(_T("<ul>\n"));
 	}
 	CString arName = outdir + _T("\\") + m_exportOption.pathTextSingle;
@@ -2003,7 +2004,7 @@ void OutlineView::OutputHTML()
 	}
 	
 	if (eDlg.m_xvRdNav != 1) {
-		olf.WriteString(_T("</body>\n</html>\n"));
+		olf.WriteString(_T("</ul>\n</body>\n</html>\n"));
 		olf.Close();
 		if (m_exportOption.textOption == 0) {
 			tf.WriteString(_T("</body>\n</html>\n"));
@@ -2084,7 +2085,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 		foutline->WriteString(_T("\" target=text>"));
 		// 見出し書き込み
 		foutline->WriteString(itemStr);
-		foutline->WriteString(_T("</a>\n"));
+		foutline->WriteString(_T("</a>"));
 	}
 	
 	// Text出力
@@ -2112,11 +2113,13 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 		m_exportOption.htmlOutOption == 1 && GetDocument()->isShowSubBranch();
 	if (tree().ItemHasChildren(hItem) && nested) {
 		if (m_exportOption.navOption != 1) {
-			foutline->WriteString(_T("<ul>\n"));
+			foutline->WriteString(_T("\n<ul>\n"));
 		}
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
 		htmlOutTree(hRoot, hchildItem, foutline, ftext);
-	} else {
+	}
+	else {
+		foutline->WriteString(_T("</li>\n"));
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {    // 次に兄弟がいない
 			HTREEITEM hi = hItem;
@@ -2125,7 +2128,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 				hParent = tree().GetParentItem(hi);
 				HTREEITEM hnextParent;
 				if (m_exportOption.navOption != 1) {
-					foutline->WriteString(_T("\n</ul>\n"));
+					foutline->WriteString(_T("</ul></li>\n"));
 				}
 				if ((hnextParent = tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
 					htmlOutTree(hRoot, hnextParent, foutline, ftext);
@@ -2141,9 +2144,9 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 
 void OutlineView::writeHtmlHeader(CStdioFile &f)
 {
-	f.WriteString(_T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n")); 
-	f.WriteString(_T("<html>\n<head>\n"));
-	f.WriteString(_T("<meta http-equiv=\"content-Type\" content=\"text/html; charset=UTF-8\" />\n"));
+	f.WriteString(_T("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n")); 
+	f.WriteString(_T("<html lang=\"ja\">\n<head>\n"));
+	f.WriteString(_T("<meta http-equiv=\"content-Type\" content=\"text/html; charset=UTF-8\">\n"));
 }
 
 void OutlineView::writeTextStyle(CStdioFile &f, bool single)
