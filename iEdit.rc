@@ -974,7 +974,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iEditのバージョン情報"
 FONT 9, "MS UI Gothic", 400, 0, 0x80
 BEGIN
-    LTEXT           "iEdit 2.20 Copyright (C) 1999 KONDO Masahiro (kondoumh)",IDC_ST_VERSION,6,7,180,10,SS_NOPREFIX
+    LTEXT           "iEdit 2.21 Copyright (C) 1999 KONDO Masahiro (kondoumh)",IDC_ST_VERSION,6,7,180,10,SS_NOPREFIX
     DEFPUSHBUTTON   "OK",IDOK,152,137,50,14,WS_GROUP
     CONTROL         IDB_LOGO,IDC_STATIC,"Static",SS_BITMAP,7,16,195,114
     LTEXT           "iEdit Website (kondoumh.com)",IDC_WEBSITE,7,134,88,8
@@ -1446,8 +1446,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,2,0,0
- PRODUCTVERSION 2,2,0,0
+ FILEVERSION 2,2,1,0
+ PRODUCTVERSION 2,2,1,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1465,12 +1465,12 @@ BEGIN
             VALUE "Comments", "A tool for idea processing and visualization"
             VALUE "CompanyName", "kondoumh"
             VALUE "FileDescription", "アイデアプロセッサ iEdit"
-            VALUE "FileVersion", "2.2.0.0"
+            VALUE "FileVersion", "2.2.1.0"
             VALUE "InternalName", "iEdit"
             VALUE "LegalCopyright", "Copyright (C) 1999 kondoumh"
             VALUE "OriginalFilename", "iEdit.exe"
             VALUE "ProductName", "iEdit"
-            VALUE "ProductVersion", "2.2.0.0"
+            VALUE "ProductVersion", "2.2.1.0"
         END
     END
     BLOCK "VarFileInfo"
