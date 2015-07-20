@@ -1,4 +1,5 @@
-﻿#if !defined(AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_)
+﻿#include "afxwin.h"
+#if !defined(AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_)
 #define AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_
 
 #if _MSC_VER > 1000
@@ -76,6 +77,8 @@ protected:
 private:
 	void updateFont(LOGFONT* plf, CFont& font);
 	void drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor);
+	float m_scaleX;
+	float m_scaleY;
 };
 
 //{{AFX_INSERT_LOCATION}}

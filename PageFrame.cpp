@@ -109,6 +109,12 @@ void PageFrame::OnPaint()
 	CPaintDC dc(this); // 描画用のデバイス コンテキスト
 	
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
+	m_scaleX = GetDeviceCaps(dc, LOGPIXELSX) / 96.0f;
+	m_scaleY = GetDeviceCaps(dc, LOGPIXELSY) / 96.0f;
+
+	//CString mes; mes.Format(_T("%f, %f"), m_scaleX, m_scaleY);
+	//DEBUG_WRITE(mes);
+
 	drawOLPreView(&dc);
 	drawLNPreView(&dc);
 	drawTextPreView(&dc);
@@ -117,19 +123,31 @@ void PageFrame::OnPaint()
 
 void PageFrame::drawOLPreView(CDC *pDC)
 {
-	CRect rc(200, 28, 310, 78);
+	CRect rc(
+		(int)((float)200 * m_scaleX),
+		(int)((float)28 * m_scaleY), 
+		(int)((float)305 * m_scaleX),
+		(int)((float)78 * m_scaleY));
 	drawFontPreview(pDC, rc, fntOutline, m_colorOLBG, m_colorOLFor);
 }
 
 void PageFrame::drawLNPreView(CDC *pDC)
 {
-	CRect rc(200, 103, 310, 153);
+	CRect rc(
+		(int)((float)200 * m_scaleX),
+		(int)((float)103 * m_scaleY),
+		(int)((float)305 * m_scaleX),
+		(int)((float)153 * m_scaleY));
 	drawFontPreview(pDC, rc, fntLink, m_colorLNBG, m_colorLNFor);
 }
 
 void PageFrame::drawTextPreView(CDC *pDC)
 {
-	CRect rc(200, 180, 310, 230);
+	CRect rc(
+		(int)((float)200 * m_scaleX),
+		(int)((float)180 * m_scaleY),
+		(int)((float)305 * m_scaleX),
+		(int)((float)230 * m_scaleY));
 	drawFontPreview(pDC, rc, fntText, m_colorEditBG, m_colorEditFor);
 }
 
@@ -165,8 +183,11 @@ void PageFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgCol
 
 void PageFrame::drawNWPreView(CDC *pDC)
 {
-	CRect rc(200, 255, 310, 280);
-	
+	CRect rc(
+		(int)((float)200 * m_scaleX),
+		(int)((float)255 * m_scaleY),
+		(int)((float)305 * m_scaleX),
+		(int)((float)280 * m_scaleY));
 	CBrush brs(m_colorNWBG);
 	CBrush* brsOld = pDC->SelectObject(&brs);
 	pDC->FillRect(rc, &brs);
