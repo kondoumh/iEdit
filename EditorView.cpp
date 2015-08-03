@@ -238,7 +238,13 @@ void EditorView::setViewFont()
 	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 CharSet"), SHIFTJIS_CHARSET);
 	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Weight"), FW_NORMAL);
 	
-	m_font.CreateFontIndirect(&lf);
+	CClientDC dc(this);
+	int nPoint = -MulDiv(lf.lfHeight, 72, GetDeviceCaps(dc, LOGPIXELSY))*10;
+	//CString mes; mes.Format(_T("nPoint %d"), nPoint);
+	//DEBUG_WRITE(mes);
+	lf.lfHeight = nPoint;
+	lf.lfWidth = 0;
+	m_font.CreatePointFontIndirect(&lf, &dc);
 	SetFont(&m_font, TRUE);
 	
 	initSizeChar();

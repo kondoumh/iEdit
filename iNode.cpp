@@ -509,11 +509,22 @@ void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 {
 	// フォント作成
 	LOGFONT lf = node.getFontInfo();
-	CFont font;
-	font.CreateFont(lf.lfHeight, lf.lfWidth, 0, 0, lf.lfWeight, lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet,
-		             OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, lf.lfFaceName);
-
 	
+	// int scale = pDC->GetDeviceCaps(LOGPIXELSY) / 96;
+	int nPoint = -MulDiv(lf.lfHeight, 72, pDC->GetDeviceCaps(LOGPIXELSY)) * 10;
+
+	lf.lfHeight = nPoint;
+	lf.lfWidth = 0;
+	lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
+	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+	lf.lfQuality = CLEARTYPE_NATURAL_QUALITY;
+	lf.lfPitchAndFamily = DEFAULT_PITCH;
+
+	CFont font;
+	//font.CreateFont(lf.lfHeight, lf.lfWidth, 0, 0, lf.lfWeight, lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet,
+	//	             OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, lf.lfFaceName);
+	font.CreatePointFontIndirect(&lf, pDC);
+
 	// デバイスコンテキストのフォント変更
 	CFont* pOldFont = pDC->SelectObject(&font);
 	COLORREF preColor = pDC->SetTextColor(node.getFontColor());
