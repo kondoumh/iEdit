@@ -348,7 +348,6 @@
     <None Include="res\rect.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="iEdit.reg" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\bitmap1.bmp">
@@ -381,8 +380,5 @@
     <Image Include="res\tree.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

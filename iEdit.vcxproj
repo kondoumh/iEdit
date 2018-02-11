@@ -267,7 +267,6 @@
     <None Include="res\pointer_.cur" />
     <None Include="res\ptr_move.cur" />
     <None Include="res\rect.cur" />
-    <None Include="iEdit.reg" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\bitmap1.bmp" />
@@ -280,9 +279,6 @@
     <Image Include="res\logo.bmp" />
     <Image Include="res\Toolbar.bmp" />
     <Image Include="res\tree.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
