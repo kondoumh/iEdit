@@ -65,8 +65,11 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\iEdit.ico"
+
 IDR_IEDITTYPE           ICON                    "res\\iEditDoc.ico"
+
 IDR_IEDITTYPE_OLD       ICON                    "res\\iEditDoc_old.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -74,11 +77,17 @@ IDR_IEDITTYPE_OLD       ICON                    "res\\iEditDoc_old.ico"
 //
 
 IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+
 IDB_LOGO                BITMAP                  "res\\logo.bmp"
+
 IDB_LINKS               BITMAP                  "res\\links.bmp"
+
 IDB_TREE                BITMAP                  "res\\tree.bmp"
+
 IDB_TB_PLDWN            BITMAP                  "res\\bitmap1.bmp"
+
 IDR_FORM_PALLETE        BITMAP                  "res\\bmp_tb_form.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -974,7 +983,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "iEditのバージョン情報"
 FONT 9, "MS UI Gothic", 400, 0, 0x80
 BEGIN
-    LTEXT           "iEdit 2.21 Copyright (C) 1999 KONDO Masahiro (kondoumh)",IDC_ST_VERSION,6,7,180,10,SS_NOPREFIX
+    LTEXT           "iEdit 2.30 Copyright (C) 1999 KONDO Masahiro (kondoumh)",IDC_ST_VERSION,6,7,180,10,SS_NOPREFIX
     DEFPUSHBUTTON   "OK",IDOK,152,137,50,14,WS_GROUP
     CONTROL         IDB_LOGO,IDC_STATIC,"Static",SS_BITMAP,7,16,195,114
     LTEXT           "iEdit Website (kondoumh.com)",IDC_WEBSITE,7,134,88,8
@@ -1446,8 +1455,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,2,1,0
- PRODUCTVERSION 2,2,1,0
+ FILEVERSION 2,3,0,0
+ PRODUCTVERSION 2,3,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1465,12 +1474,12 @@ BEGIN
             VALUE "Comments", "A tool for idea processing and visualization"
             VALUE "CompanyName", "kondoumh"
             VALUE "FileDescription", "アイデアプロセッサ iEdit"
-            VALUE "FileVersion", "2.2.1.0"
+            VALUE "FileVersion", "2.3.0.0"
             VALUE "InternalName", "iEdit"
             VALUE "LegalCopyright", "Copyright (C) 1999 kondoumh"
             VALUE "OriginalFilename", "iEdit.exe"
             VALUE "ProductName", "iEdit"
-            VALUE "ProductVersion", "2.2.1.0"
+            VALUE "ProductVersion", "2.3.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1706,18 +1715,31 @@ END
 //
 
 IDC_LINK                CURSOR                  "res\\link.cur"
+
 IDC_RECT                CURSOR                  "res\\rect.cur"
+
 IDC_ARC                 CURSOR                  "res\\arc.cur"
+
 IDC_LINKTREE            CURSOR                  "res\\linktree.cur"
+
 IDC_HAND_OPEN           CURSOR                  "res\\cursor1.cur"
+
 IDC_HAND_CLOSE          CURSOR                  "res\\hand_clo.cur"
+
 IDC_LAYOUT              CURSOR                  "res\\cur00001.cur"
+
 IDC_RRECT               CURSOR                  "res\\cur00002.cur"
+
 IDC_ZOOM                CURSOR                  "res\\cur00003.cur"
+
 IDC_POINTER_COPY        CURSOR                  "res\\pointer_.cur"
+
 IDC_POINTER_MOVE        CURSOR                  "res\\cursor2.cur"
+
 IDC_LABELONLY           CURSOR                  "res\\cur00004.cur"
+
 IDC_APLY_FORM           CURSOR                  "res\\cur00005.cur"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1838,6 +1860,17 @@ BEGIN
 0xaa84, 0xaa84, 0x9120, 0x00be, 
     IDC_CMB_LINE, 0x403, 10, 0
 0x2d2d, 0x2d2d, 0x9320, 0x905f, 0x00fc, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
     0
 END
 
