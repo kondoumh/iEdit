@@ -31,7 +31,9 @@ public:
 		WindowsVista,
 		Windows2008,
 		Windows7,
-		Windows8
+		Windows8,
+		Windows8_1,
+		Windows10
 	};
 	// OSのプロダクトタイプのenum
 	enum ProductTypes {UnknownProduct, Home, Professional, Server};

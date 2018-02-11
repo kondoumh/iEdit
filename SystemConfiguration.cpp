@@ -12,11 +12,6 @@ SystemConfiguration::SystemConfiguration(void)
 	
 	CreateNameDictionaries();
 	CheckEnvironment();
-	//m_OsVersion = SystemConfiguration::Windows2000;
-	//m_OsVersion = SystemConfiguration::Windows98;
-	//m_ProductNames.clear();
-	//m_ServicePackName = _T("Service Pack 1");//_T("");
-	//m_OsProssesorEdition = x64;
 }
 
 SystemConfiguration::~SystemConfiguration(void)
@@ -30,7 +25,7 @@ void SystemConfiguration::CheckEnvironment()
 	OSVERSIONINFO  osVerInfo;
 	ZeroMemory(&osVerInfo, sizeof(OSVERSIONINFO));
 	osVerInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	if (!GetVersionEx(&osVerInfo))
+	if (!GetVersionEx((OSVERSIONINFO*)&osVerInfo))
 	{
 		return;
 	}
@@ -81,7 +76,6 @@ void SystemConfiguration::CheckEnvironment()
 				m_OsVersion = SystemConfiguration::UnKnown2000;
 				return;
 			}
-			
 			if (osVerInfoEx.dwMajorVersion == 5)
 			{
 				switch (osVerInfoEx.dwMinorVersion)
@@ -143,10 +137,19 @@ void SystemConfiguration::CheckEnvironment()
 				} else if (osVerInfoEx.dwMinorVersion == 2) {
 					m_OsVersion = SystemConfiguration::Windows8;
 				}
+				else if (osVerInfoEx.dwMinorVersion == 3) {
+					m_OsVersion = SystemConfiguration::Windows8_1;
+				}
 				if (osVerInfoEx.szCSDVersion != _T("")) {
 					m_ServicePackName = CString(osVerInfoEx.szCSDVersion);
 				}
 			}
+			else if (osVerInfoEx.dwMajorVersion == 10) {
+				
+				m_OsVersion = SystemConfiguration::Windows10;
+			}
+			CString m; m.Format(_T("%d + %d : %s\n"), osVerInfoEx.dwMajorVersion, osVerInfoEx.dwMinorVersion, m_VersionNames[m_OsVersion]);
+			OutputDebugString(m);
 		}
 	}
 }
@@ -167,7 +170,10 @@ void SystemConfiguration::CreateNameDictionaries()
 	m_VersionNames[SystemConfiguration::WindowsVista] = _T("Windows Vista");
 	m_VersionNames[SystemConfiguration::Windows2008] = _T("Windows Server 2008");
 	m_VersionNames[SystemConfiguration::Windows7] = _T("Windows 7");
-	
+	m_VersionNames[SystemConfiguration::Windows8] = _T("Windows 8");
+	m_VersionNames[SystemConfiguration::Windows8_1] = _T("Windows 8.1");
+	m_VersionNames[SystemConfiguration::Windows10] = _T("Windows 10");
+
 	m_ProductNames[SystemConfiguration::UnknownProduct] = _T("");
 	m_ProductNames[SystemConfiguration::Home] = _T("Home Edition");
 	m_ProductNames[SystemConfiguration::Server] = _T("Server");
@@ -209,11 +215,15 @@ bool SystemConfiguration::isMeiryoEnabled()
 	return m_OsVersion == SystemConfiguration::WindowsVista ||
 		m_OsVersion == SystemConfiguration::Windows2008 ||
 		m_OsVersion == SystemConfiguration::Windows7 ||
-		m_OsVersion == SystemConfiguration::Windows8;
+		m_OsVersion == SystemConfiguration::Windows8 ||
+		m_OsVersion == SystemConfiguration::Windows8_1 ||
+		m_OsVersion == SystemConfiguration::Windows10;
 }
 
 bool SystemConfiguration::isMeiryoUiEnabled()
 {
 	return m_OsVersion == SystemConfiguration::Windows7 ||
-		m_OsVersion == SystemConfiguration::Windows8;
+		m_OsVersion == SystemConfiguration::Windows8 ||
+		m_OsVersion == SystemConfiguration::Windows8_1 ||
+		m_OsVersion == SystemConfiguration::Windows10;
 }

@@ -14,7 +14,7 @@
     <ProjectGuid>{5866D741-D8CA-419D-98ED-FA8E77B98626}</ProjectGuid>
     <RootNamespace>iEdit</RootNamespace>
     <Keyword>MFCProj</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -145,6 +145,7 @@
     </Bscmake>
     <Manifest>
       <EnableDpiAwareness>false</EnableDpiAwareness>
+      <AdditionalManifestFiles>manifest.xml %(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
