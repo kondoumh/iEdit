@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "nodePropDlg.h"
+#include "NodePropDlg.h"
 #include "iNode.h"
 #include "SetMarginDlg.h"
 

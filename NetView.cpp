@@ -7,7 +7,7 @@
 #include "iEditDoc.h"
 #include "InpcnDlg.h"
 #include "LinkInfoDlg.h"
-#include "nodePropDlg.h"
+#include "NodePropDlg.h"
 #include "OnProcDlg.h"
 #include "RelaxThrd.h"
 #include "shapesDlg.h"

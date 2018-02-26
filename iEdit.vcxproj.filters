@@ -63,9 +63,6 @@
     <ClCompile Include="NetView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="nodePropDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="nodeSrchDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,6 +147,9 @@
     <ClCompile Include="SetTextExportDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NodePropDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc">
@@ -203,9 +203,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NetView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="nodePropDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="nodeSrchDlg.h">
@@ -293,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SetTextExportDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NodePropDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

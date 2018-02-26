@@ -513,7 +513,7 @@
 				>
 			</File>
 			<File
-				RelativePath="nodePropDlg.cpp"
+				RelativePath="NodePropDlg.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1068,7 +1068,7 @@
 				>
 			</File>
 			<File
-				RelativePath="nodePropDlg.h"
+				RelativePath="NodePropDlg.h"
 				>
 			</File>
 			<File
