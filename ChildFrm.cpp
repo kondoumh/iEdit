@@ -13,7 +13,7 @@
 #include "LinkView.h"
 
 #include "PropertyDlg.h"
-#include "nodeSrchDlg.h"
+#include "NodeSearchDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

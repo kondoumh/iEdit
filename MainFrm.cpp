@@ -8,7 +8,7 @@
 #include "Splash.h"
 
 #include "PropertyDlg.h"
-#include "nodeSrchDlg.h"
+#include "NodeSearchDlg.h"
 #include "SetAlphaDlg.h"
 #include "ChildFrm.h"
 

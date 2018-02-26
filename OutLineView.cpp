@@ -13,7 +13,7 @@
 #include "SelExportDlg.h"
 #include "ImportTextDlg.h"
 
-#include "nodeSrchDlg.h"
+#include "NodeSearchDlg.h"
 #include "setFoldUpDlg.h"
 #include "InpcnDlg.h"
 #include "Token.h"

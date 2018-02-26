@@ -166,7 +166,7 @@
     <ClCompile Include="MfSizer.cpp" />
     <ClCompile Include="NetView.cpp" />
     <ClCompile Include="NodePropDlg.cpp" />
-    <ClCompile Include="nodeSrchDlg.cpp" />
+    <ClCompile Include="NodeSearchDlg.cpp" />
     <ClCompile Include="OnProcDlg.cpp" />
     <ClCompile Include="OutLineView.cpp" />
     <ClCompile Include="PageFrame.cpp" />
@@ -219,7 +219,7 @@
     <ClInclude Include="MfSizer.h" />
     <ClInclude Include="NetView.h" />
     <ClInclude Include="NodePropDlg.h" />
-    <ClInclude Include="nodeSrchDlg.h" />
+    <ClInclude Include="NodeSearchDlg.h" />
     <ClInclude Include="OnProcDlg.h" />
     <ClInclude Include="OutLineView.h" />
     <ClInclude Include="PageFrame.h" />
