@@ -1,4 +1,4 @@
-﻿// nodePropDlg.cpp : インプリメンテーション ファイル
+﻿// NodePropDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -14,13 +14,13 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// nodePropDlg ダイアログ
+// NodePropDlg ダイアログ
 
 
-nodePropDlg::nodePropDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(nodePropDlg::IDD, pParent)
+NodePropDlg::NodePropDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(NodePropDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(nodePropDlg)
+	//{{AFX_DATA_INIT(NodePropDlg)
 	m_shape = -1;
 	m_TLine = -1;
 	m_bNoBrush = FALSE;
@@ -29,10 +29,10 @@ nodePropDlg::nodePropDlg(CWnd* pParent /*=NULL*/)
 }
 
 
-void nodePropDlg::DoDataExchange(CDataExchange* pDX)
+void NodePropDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(nodePropDlg)
+	//{{AFX_DATA_MAP(NodePropDlg)
 	DDX_Control(pDX, IDC_COMBO_HORIZ, m_cmbHoriz);
 	DDX_Control(pDX, IDC_COMBO_VERT, m_cmbVert);
 	DDX_Control(pDX, IDC_CHK_NO_BRS, m_chkBoxNoBrs);
@@ -46,8 +46,8 @@ void nodePropDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(nodePropDlg, CDialog)
-	//{{AFX_MSG_MAP(nodePropDlg)
+BEGIN_MESSAGE_MAP(NodePropDlg, CDialog)
+	//{{AFX_MSG_MAP(NodePropDlg)
 	ON_CBN_SELCHANGE(IDC_COMBOLINE, OnSelchangeComboline)
 	ON_BN_CLICKED(IDC_BTN_LINE_COLOR, OnBtnLineColor)
 	ON_BN_CLICKED(IDC_BTN_BRS, OnBtnBrs)
@@ -62,13 +62,13 @@ BEGIN_MESSAGE_MAP(nodePropDlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO_VERT, OnSelchangeComboVert)
 	ON_BN_CLICKED(IDC_RADIO_SHAPE3, OnRadioShape3)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDC_BTN_SET_MARGIN, &nodePropDlg::OnBnClickedBtnSetMargin)
+	ON_BN_CLICKED(IDC_BTN_SET_MARGIN, &NodePropDlg::OnBnClickedBtnSetMargin)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// nodePropDlg メッセージ ハンドラ
+// NodePropDlg メッセージ ハンドラ
 
-void nodePropDlg::OnSelchangeComboline() 
+void NodePropDlg::OnSelchangeComboline() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_CombTLine.GetCurSel();
@@ -86,7 +86,7 @@ void nodePropDlg::OnSelchangeComboline()
 	}
 }
 
-void nodePropDlg::OnBtnLineColor() 
+void NodePropDlg::OnBtnLineColor() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
@@ -94,7 +94,7 @@ void nodePropDlg::OnBtnLineColor()
 	colorLine = dlg.GetColor();
 }
 
-void nodePropDlg::OnBtnBrs() 
+void NodePropDlg::OnBtnBrs() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorFill);
@@ -102,7 +102,7 @@ void nodePropDlg::OnBtnBrs()
 	colorFill = dlg.GetColor();
 }
 
-void nodePropDlg::OnBtnFont() 
+void NodePropDlg::OnBtnFont() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
@@ -111,7 +111,7 @@ void nodePropDlg::OnBtnFont()
 	colorFont = dlg.m_cf.rgbColors;
 }
 
-BOOL nodePropDlg::OnInitDialog() 
+BOOL NodePropDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -157,7 +157,7 @@ BOOL nodePropDlg::OnInitDialog()
 }
 
 
-void nodePropDlg::OnRadioTline1() 
+void NodePropDlg::OnRadioTline1() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_editLabel.ModifyStyle(ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL, ES_AUTOHSCROLL);
@@ -167,7 +167,7 @@ void nodePropDlg::OnRadioTline1()
 	m_cmbVert.EnableWindow(TRUE);
 }
 
-void nodePropDlg::OnRadioTline2() 
+void NodePropDlg::OnRadioTline2() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_editLabel.ModifyStyle( ES_AUTOHSCROLL, ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL);
@@ -177,7 +177,7 @@ void nodePropDlg::OnRadioTline2()
 	m_cmbVert.EnableWindow(FALSE);
 }
 
-void nodePropDlg::OnRadioTline3() 
+void NodePropDlg::OnRadioTline3() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_editLabel.ModifyStyle(ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL, ES_AUTOHSCROLL);
@@ -187,50 +187,50 @@ void nodePropDlg::OnRadioTline3()
 	m_cmbVert.EnableWindow(FALSE);
 }
 
-void nodePropDlg::OnRadioShape() 
+void NodePropDlg::OnRadioShape() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_shape = 0;
 }
 
-void nodePropDlg::OnRadioShape2() 
+void NodePropDlg::OnRadioShape2() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_shape = 1;
 }
 
-void nodePropDlg::OnRadioShape3() 
+void NodePropDlg::OnRadioShape3() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_shape = 2;
 }
 
-void nodePropDlg::OnOK() 
+void NodePropDlg::OnOK() 
 {
 	// TODO: この位置にその他の検証用のコードを追加してください
 	m_editLabel.GetWindowText(m_strLabel);
 	CDialog::OnOK();
 }
 
-void nodePropDlg::OnChkNoBrs() 
+void NodePropDlg::OnChkNoBrs() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_BtnBrsColor.EnableWindow(!m_chkBoxNoBrs.GetCheck());
 }
 
-void nodePropDlg::OnSelchangeComboHoriz() 
+void NodePropDlg::OnSelchangeComboHoriz() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	horiz = m_cmbHoriz.GetCurSel();
 }
 
-void nodePropDlg::OnSelchangeComboVert() 
+void NodePropDlg::OnSelchangeComboVert() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	vert = m_cmbVert.GetCurSel();
 }
 
-void nodePropDlg::OnBnClickedBtnSetMargin()
+void NodePropDlg::OnBnClickedBtnSetMargin()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	SetMarginDlg dlg;

@@ -2172,7 +2172,7 @@ void NetView::OnUpdateSetNodeProp(CCmdUI* pCmdUI)
 
 void NetView::setNodeProp()
 {
-	nodePropDlg dlg;
+	NodePropDlg dlg;
 	dlg.colorLine = GetDocument()->getSelectedNodeLineColor();
 	dlg.colorFill = GetDocument()->getSelectedNodeBrsColor();
 	dlg.colorFont = GetDocument()->getSelectedNodeFontColor();

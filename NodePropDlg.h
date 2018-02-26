@@ -4,13 +4,13 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// nodePropDlg.h : ヘッダー ファイル
+// NodePropDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// nodePropDlg ダイアログ
+// NodePropDlg ダイアログ
 
-class nodePropDlg : public CDialog
+class NodePropDlg : public CDialog
 {
 // コンストラクション
 public:
@@ -33,10 +33,10 @@ public:
 	COLORREF colorFont;
 	LOGFONT lf;
 	CString m_strLabel;
-	nodePropDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	NodePropDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(nodePropDlg)
+	//{{AFX_DATA(NodePropDlg)
 	enum { IDD = IDD_PRPNODE };
 	CComboBox	m_cmbHoriz;
 	CComboBox	m_cmbVert;
@@ -52,7 +52,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(nodePropDlg)
+	//{{AFX_VIRTUAL(NodePropDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -61,7 +61,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(nodePropDlg)
+	//{{AFX_MSG(NodePropDlg)
 	afx_msg void OnSelchangeComboline();
 	afx_msg void OnBtnLineColor();
 	afx_msg void OnBtnBrs();
