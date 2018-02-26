@@ -4,7 +4,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// nodeSrchDlg.h : ヘッダー ファイル
+// NodeSearchDlg.h : ヘッダー ファイル
 //
 
 #define WM_CLOSESRCHWINDOW WM_USER + 7
@@ -12,19 +12,19 @@
 #define WM_LISTUPNODES WM_USER + 9
 
 /////////////////////////////////////////////////////////////////////////////
-// nodeSrchDlg ダイアログ
+// NodeSearchDlg ダイアログ
 
-class nodeSrchDlg : public CDialog
+class NodeSearchDlg : public CDialog
 {
 // コンストラクション
 public:
 	void displayResult();
 	Labels m_labels;
 	CString m_srchString;
-	nodeSrchDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	NodeSearchDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(nodeSrchDlg)
+	//{{AFX_DATA(NodeSearchDlg)
 	enum { IDD = IDD_NODESRCH };
 	CButton	m_ckUpper;
 	CButton	m_btnGo;
@@ -43,7 +43,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(nodeSrchDlg)
+	//{{AFX_VIRTUAL(NodeSearchDlg)
 	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 	protected:
@@ -55,7 +55,7 @@ protected:
 	void srchNode();
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(nodeSrchDlg)
+	//{{AFX_MSG(NodeSearchDlg)
 	afx_msg void OnOk();
 	virtual void OnCancel();
 	afx_msg void OnStart();

@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-class nodeSrchDlg;
+class NodeSearchDlg;
 
 class OutlineView : public CTreeView
 {
@@ -191,7 +191,7 @@ private:
 	HTREEITEM m_hItemMoved;
 	HTREEITEM m_hParentPreMove;
 	HTREEITEM m_hSiblingPreMove;
-	nodeSrchDlg* m_pSrchDlg;
+	NodeSearchDlg* m_pSrchDlg;
 	int m_opTreeOut;
 	bool m_bAddingChild;
 	CImageList m_imgList;

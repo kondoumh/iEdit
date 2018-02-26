@@ -1,4 +1,4 @@
-﻿// nodeSrchDlg.cpp : インプリメンテーション ファイル
+﻿// NodeSearchDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,13 +12,13 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// nodeSrchDlg ダイアログ
+// NodeSearchDlg ダイアログ
 
 
-nodeSrchDlg::nodeSrchDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(nodeSrchDlg::IDD, pParent)
+NodeSearchDlg::NodeSearchDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(NodeSearchDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(nodeSrchDlg)
+	//{{AFX_DATA_INIT(NodeSearchDlg)
 	m_bLabel = FALSE;
 	m_bLinks = FALSE;
 	m_bText = FALSE;
@@ -27,10 +27,10 @@ nodeSrchDlg::nodeSrchDlg(CWnd* pParent /*=NULL*/)
 }
 
 
-void nodeSrchDlg::DoDataExchange(CDataExchange* pDX)
+void NodeSearchDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(nodeSrchDlg)
+	//{{AFX_DATA_MAP(NodeSearchDlg)
 	DDX_Control(pDX, IDC_CHKUPPER, m_ckUpper);
 	DDX_Control(pDX, IDC_BTNGO, m_btnGo);
 	DDX_Control(pDX, IDC_START, m_btnStart);
@@ -47,8 +47,8 @@ void nodeSrchDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(nodeSrchDlg, CDialog)
-	//{{AFX_MSG_MAP(nodeSrchDlg)
+BEGIN_MESSAGE_MAP(NodeSearchDlg, CDialog)
+	//{{AFX_MSG_MAP(NodeSearchDlg)
 	ON_COMMAND(IDOK, OnOk)
 	ON_BN_CLICKED(IDC_START, OnStart)
 	ON_BN_CLICKED(IDC_BTNGO, OnBtngo)
@@ -65,9 +65,9 @@ BEGIN_MESSAGE_MAP(nodeSrchDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// nodeSrchDlg メッセージ ハンドラ
+// NodeSearchDlg メッセージ ハンドラ
 
-BOOL nodeSrchDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
+BOOL NodeSearchDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
 {
 	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	m_pParent = pParentWnd;
@@ -75,14 +75,14 @@ BOOL nodeSrchDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dw
 	return CDialog::Create(IDD, pParentWnd);
 }
 
-void nodeSrchDlg::OnOk() 
+void NodeSearchDlg::OnOk() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	return;
 //	m_pParent->PostMessage(WM_CLOSESRCHWINDOW, IDOK);
 }
 
-void nodeSrchDlg::OnCancel() 
+void NodeSearchDlg::OnCancel() 
 {
 	// TODO: この位置に特別な後処理を追加してください。
 	m_pParent->PostMessage(WM_CLOSESRCHWINDOW, IDCANCEL);
@@ -90,7 +90,7 @@ void nodeSrchDlg::OnCancel()
 	CDialog::OnCancel();
 }
 
-void nodeSrchDlg::OnStart() 
+void NodeSearchDlg::OnStart() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetWindowText(m_srchString);
@@ -102,13 +102,13 @@ void nodeSrchDlg::OnStart()
 	m_pParent->PostMessage(WM_LISTUPNODES, 0);
 }
 
-void nodeSrchDlg::OnBtngo() 
+void NodeSearchDlg::OnBtngo() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	srchNode();
 }
 
-void nodeSrchDlg::srchNode()
+void NodeSearchDlg::srchNode()
 {
 	int index = m_lcResult.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	if (index == -1) return;
@@ -116,25 +116,25 @@ void nodeSrchDlg::srchNode()
 	m_pParent->SetFocus();
 }
 
-void nodeSrchDlg::OnChklabel() 
+void NodeSearchDlg::OnChklabel() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bLabel = m_chLabel.GetCheck();
 }
 
-void nodeSrchDlg::OnChklinks() 
+void NodeSearchDlg::OnChklinks() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bLinks = m_ckLiinks.GetCheck();
 }
 
-void nodeSrchDlg::OnChktext() 
+void NodeSearchDlg::OnChktext() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bText = m_ckText.GetCheck();
 }
 
-BOOL nodeSrchDlg::OnInitDialog() 
+BOOL NodeSearchDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -161,7 +161,7 @@ BOOL nodeSrchDlg::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-void nodeSrchDlg::displayResult()
+void NodeSearchDlg::displayResult()
 {
 	m_lcResult.DeleteAllItems( );
 	for (unsigned int i = 0; i < m_labels.size(); i++) {
@@ -182,7 +182,7 @@ void nodeSrchDlg::displayResult()
 	}
 }
 
-void nodeSrchDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
+void NodeSearchDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	srchNode();
@@ -190,7 +190,7 @@ void nodeSrchDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void nodeSrchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult) 
+void NodeSearchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
@@ -219,13 +219,13 @@ void nodeSrchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void nodeSrchDlg::OnChkupper() 
+void NodeSearchDlg::OnChkupper() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bUpper = m_ckUpper.GetCheck();
 }
 
-void nodeSrchDlg::OnSize(UINT nType, int cx, int cy) 
+void NodeSearchDlg::OnSize(UINT nType, int cx, int cy) 
 {
 	CDialog::OnSize(nType, cx, cy);
 	
@@ -239,7 +239,7 @@ void nodeSrchDlg::OnSize(UINT nType, int cx, int cy)
 	m_lcResult.SetColumnWidth(1, 70);
 }
 
-void nodeSrchDlg::OnEditchangeCombo() 
+void NodeSearchDlg::OnEditchangeCombo() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetWindowText(m_srchString);
@@ -251,7 +251,7 @@ void nodeSrchDlg::OnEditchangeCombo()
 	m_pParent->PostMessage(WM_LISTUPNODES, 0);
 }
 
-void nodeSrchDlg::OnSelchangeCombo() 
+void NodeSearchDlg::OnSelchangeCombo() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetLBText(m_combSrch.GetCurSel(), m_srchString);

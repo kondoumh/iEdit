@@ -425,7 +425,7 @@ int OutlineView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_imgList.Add(&images, RGB(255, 0, 255));
 	tree().SetImageList(&m_imgList, TVSIL_NORMAL);
 	setViewFont();
-	m_pSrchDlg = new nodeSrchDlg;
+	m_pSrchDlg = new NodeSearchDlg;
 	m_pSrchDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_NODESRCH);
 	m_hCsrCopy = AfxGetApp()->LoadCursor(IDC_POINTER_COPY);
 	m_hCsrMove = AfxGetApp()->LoadCursor(IDC_POINTER_MOVE);
@@ -2373,7 +2373,7 @@ void OutlineView::OnDestroy()
 
 LRESULT OutlineView::OnListUpNodes(UINT wParam, LONG lParam)
 {
-	// リストアップ用のデータをnodeSrchDlgに受け渡す
+	// リストアップ用のデータをNodeSearchDlgに受け渡す
 	if (m_pSrchDlg->m_labels.size() > 0) return 0;
 	GetDocument()->listUpNodes(m_pSrchDlg->m_srchString, m_pSrchDlg->m_labels,
 							   m_pSrchDlg->m_bLabel, m_pSrchDlg->m_bText, m_pSrchDlg->m_bLinks,
