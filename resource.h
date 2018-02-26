@@ -61,7 +61,6 @@
 #define IDD_IMPORT_TEXT                 208
 #define IDD_SETMARGIN                   210
 #define IDD_SET_HTML_EXPORT             211
-#define IDD_DEBUG_WINDOW                212
 #define IDD_SHELL_FILETYPE_SETTING      214
 #define IDD_SET_TEXT_EXPORT             215
 #define IDC_LINKFROM                    1001
@@ -114,7 +113,6 @@
 #define IDC_BTN_SETMFSIZE               1014
 #define IDC_BTN_UP                      1014
 #define IDC_BTN_SET_PRF_BY_FNAME        1014
-#define IDC_BTN_CLEAR                   1014
 #define IDC_BUTTON2                     1015
 #define IDC_BTN_COLOR                   1015
 #define IDC_BTN_LINK                    1015
@@ -123,7 +121,6 @@
 #define IDC_BTN_R                       1015
 #define IDC_BTN_DOWN                    1015
 #define IDC_BTN_SET_MARGIN              1015
-#define IDC_BTN_COPY                    1015
 #define IDC_RD_TREE4                    1015
 #define IDC_BTN_SET_PRF_BY_ROOT         1015
 #define IDC_COMBO3                      1016
@@ -260,7 +257,6 @@
 #define IDC_LB_NET                      1118
 #define IDC_LB_TEXT_EVERYNODE           1119
 #define IDC_LB_TEXT_SINGLE              1120
-#define IDC_EDIT_PRINT                  1121
 #define IDC_ST_VERSION                  1122
 #define IDC_WEBSITE                     1123
 #define IDC_CHK_POST_ACTION             1125

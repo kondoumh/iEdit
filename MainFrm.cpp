@@ -10,7 +10,6 @@
 #include "PropertyDlg.h"
 #include "nodeSrchDlg.h"
 #include "SetAlphaDlg.h"
-#include "DebugPrintDlg.h"
 #include "ChildFrm.h"
 
 #ifdef _DEBUG
@@ -784,21 +783,6 @@ void CMainFrame::OnSelectFontColor()
 	bmpImage.DeleteObject();
 	((CChildFrame*)MDIGetActive())->changeSelectedFontColor();
 }
-
-void CMainFrame::ShowDebugMessage(const CString &message)
-{
-	if (m_pDebugPrintDlg == NULL) {
-		m_pDebugPrintDlg = new DebugPrintDlg();
-		m_pDebugPrintDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_DEBUG_WINDOW);
-		m_pDebugPrintDlg->ShowWindow(SW_SHOWNORMAL);
-		CRect rc;
-		m_pDebugPrintDlg->GetWindowRect(rc);
-		rc.MoveToXY(1100, 500);
-		m_pDebugPrintDlg->MoveWindow(rc);
-	}
-	m_pDebugPrintDlg->m_edConsole.ReplaceSel(message + _T("\r\n"));
-}
-
 
 void CMainFrame::OnAppHelp()
 {

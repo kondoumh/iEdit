@@ -24,8 +24,6 @@ public:
 
 // オペレーション
 public:
-	void ShowDebugMessage(const CString& message);
-
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(CMainFrame)

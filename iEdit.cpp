@@ -451,11 +451,6 @@ void CiEditApp::getOtherProfile()
 	m_rgsOther.bOutputFileLinksOnExport = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Output Filelinks On Export"), FALSE);
 }
 
-void CiEditApp::DebugWriteLine(const CString &message)
-{
-	((CMainFrame*)m_pMainWnd)->ShowDebugMessage(message);
-}
-
 HBRUSH CAboutDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	//HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);

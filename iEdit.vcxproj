@@ -150,7 +150,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ChildFrm.cpp" />
-    <ClCompile Include="DebugPrintDlg.cpp" />
     <ClCompile Include="EditorView.cpp" />
     <ClCompile Include="FiletypeSettingDlg.cpp" />
     <ClCompile Include="iEdit.cpp" />
@@ -204,7 +203,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChildFrm.h" />
-    <ClInclude Include="DebugPrintDlg.h" />
     <ClInclude Include="EditorView.h" />
     <ClInclude Include="FiletypeSettingDlg.h" />
     <ClInclude Include="iEdit.h" />
