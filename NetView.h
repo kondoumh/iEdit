@@ -11,7 +11,7 @@
 // NetView ビュー
 class iEditDoc;
 class CRelaxThrd;
-class shapesDlg;
+class ShapesDlg;
 
 typedef stack<CRelaxThrd*> RelaxStack;
 
@@ -263,7 +263,7 @@ private:
 	COLORREF m_bkColor;
 	BOOL m_bAccel;
 	int m_cntUp, m_cntDown, m_cntRight, m_cntLeft;
-	shapesDlg* m_pShapesDlg;
+	ShapesDlg* m_pShapesDlg;
 	CClientDC* m_pDC;
 	RelaxStack m_relaxStack;
 	CPoint m_ptNew;

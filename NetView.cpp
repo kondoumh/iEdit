@@ -2845,7 +2845,7 @@ int NetView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO: この位置に固有の作成用コードを追加してください
 	m_pDC = new CClientDC(this);
 	m_bAccel = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Accel Move"), TRUE);
-	m_pShapesDlg = new shapesDlg;
+	m_pShapesDlg = new ShapesDlg;
 	m_pShapesDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_SHAPES);	
 	doColorSetting();
 	setMFSize();

@@ -4,7 +4,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// shapesDlg.h : ヘッダー ファイル
+// ShapesDlg.h : ヘッダー ファイル
 //
 
 #define WM_CLOSESHAPEWINDOW WM_USER + 5
@@ -12,17 +12,17 @@
 #define WM_GETSHAPE WM_USER + 10
 
 /////////////////////////////////////////////////////////////////////////////
-// shapesDlg ダイアログ
+// ShapesDlg ダイアログ
 
-class shapesDlg : public CDialog
+class ShapesDlg : public CDialog
 {
 // コンストラクション
 public:
-	shapesDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	ShapesDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 	void regNodeShape(HENHMETAFILE hMF);
 
 // ダイアログ データ
-	//{{AFX_DATA(shapesDlg)
+	//{{AFX_DATA(ShapesDlg)
 	enum { IDD = IDD_SHAPES };
 	CButton	m_btnGet;
 	CButton	m_btnDrop;
@@ -36,7 +36,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(shapesDlg)
+	//{{AFX_VIRTUAL(ShapesDlg)
 	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 	protected:
@@ -50,7 +50,7 @@ protected:
 	void editCatName();
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(shapesDlg)
+	//{{AFX_MSG(ShapesDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBtnDrop();
 	virtual void OnOK();
