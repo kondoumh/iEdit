@@ -186,7 +186,7 @@
     <ClCompile Include="SetMFSizeDlg.cpp" />
     <ClCompile Include="SetTextExportDlg.cpp" />
     <ClCompile Include="ShapeInsertDlg.cpp" />
-    <ClCompile Include="shapesDlg.cpp" />
+    <ClCompile Include="ShapesDlg.cpp" />
     <ClCompile Include="Splash.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -240,7 +240,7 @@
     <ClInclude Include="SetMFSizeDlg.h" />
     <ClInclude Include="SetTextExportDlg.h" />
     <ClInclude Include="ShapeInsertDlg.h" />
-    <ClInclude Include="shapesDlg.h" />
+    <ClInclude Include="ShapesDlg.h" />
     <ClInclude Include="Splash.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="SvgWriter.h" />

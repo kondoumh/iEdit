@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "shapesDlg.h"
+#include "ShapesDlg.h"
 #include "InpcatDlg.h"
 #include "ShapeInsertDlg.h"
 
