@@ -219,7 +219,7 @@ void shapesDlg::OnNewShape()
 		AfxMessageBox(_T("登録する場所を選択してください"));
 		return;
 	}
-	shapeInsDlg dlg;
+	ShapeInsertDlg dlg;
 	if (dlg.DoModal() != IDOK) return;
 	if (dlg.m_strPath == _T("")) return;
 	HENHMETAFILE hm = ::GetEnhMetaFile(dlg.m_strPath);
