@@ -4,20 +4,20 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// setFoldUpDlg.h : ヘッダー ファイル
+// FoldingSettingsDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// setFoldUpDlg ダイアログ
+// FoldingSettingsDlg ダイアログ
 
-class setFoldUpDlg : public CDialog
+class FoldingSettingsDlg : public CDialog
 {
 // コンストラクション
 public:
-	setFoldUpDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	FoldingSettingsDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(setFoldUpDlg)
+	//{{AFX_DATA(FoldingSettingsDlg)
 	enum { IDD = IDD_SETFOLDUP };
 	CSpinButtonCtrl	m_spin;
 	int		m_level;
@@ -26,7 +26,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(setFoldUpDlg)
+	//{{AFX_VIRTUAL(FoldingSettingsDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -35,7 +35,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(setFoldUpDlg)
+	//{{AFX_MSG(FoldingSettingsDlg)
 	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

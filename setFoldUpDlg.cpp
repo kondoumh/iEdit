@@ -1,4 +1,4 @@
-﻿// setFoldUpDlg.cpp : インプリメンテーション ファイル
+﻿// FoldingSettingsDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,22 +12,22 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// setFoldUpDlg ダイアログ
+// FoldingSettingsDlg ダイアログ
 
 
-setFoldUpDlg::setFoldUpDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(setFoldUpDlg::IDD, pParent)
+FoldingSettingsDlg::FoldingSettingsDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(FoldingSettingsDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(setFoldUpDlg)
+	//{{AFX_DATA_INIT(FoldingSettingsDlg)
 	m_level = 0;
 	//}}AFX_DATA_INIT
 }
 
 
-void setFoldUpDlg::DoDataExchange(CDataExchange* pDX)
+void FoldingSettingsDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(setFoldUpDlg)
+	//{{AFX_DATA_MAP(FoldingSettingsDlg)
 	DDX_Control(pDX, IDC_SPIN_LEVEL, m_spin);
 	DDX_Text(pDX, IDC_EDITLEVEL, m_level);
 	DDV_MinMaxInt(pDX, m_level, 1, 100000);
@@ -35,15 +35,15 @@ void setFoldUpDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(setFoldUpDlg, CDialog)
-	//{{AFX_MSG_MAP(setFoldUpDlg)
+BEGIN_MESSAGE_MAP(FoldingSettingsDlg, CDialog)
+	//{{AFX_MSG_MAP(FoldingSettingsDlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// setFoldUpDlg メッセージ ハンドラ
+// FoldingSettingsDlg メッセージ ハンドラ
 
-BOOL setFoldUpDlg::OnInitDialog() 
+BOOL FoldingSettingsDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	

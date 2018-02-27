@@ -2403,7 +2403,7 @@ void OutlineView::clearUndo()
 void OutlineView::OnSetFoldup() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	setFoldUpDlg dlg;
+	FoldingSettingsDlg dlg;
 	dlg.m_level = 1;
 	if (dlg.DoModal() != IDOK) return;
 	foldUpTree(tree().GetRootItem(), 0, dlg.m_level-1);
