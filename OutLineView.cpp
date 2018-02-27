@@ -14,7 +14,7 @@
 #include "ImportTextDlg.h"
 
 #include "NodeSearchDlg.h"
-#include "setFoldUpDlg.h"
+#include "FoldingSettingsDlg.h"
 #include "InpcnDlg.h"
 #include "Token.h"
 #include "SetHtmlExportDlg.h"

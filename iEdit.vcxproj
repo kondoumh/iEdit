@@ -152,6 +152,7 @@
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="EditorView.cpp" />
     <ClCompile Include="FiletypeSettingDlg.cpp" />
+    <ClCompile Include="FoldingSettingsDlg.cpp" />
     <ClCompile Include="iEdit.cpp" />
     <ClCompile Include="iEditDoc.cpp" />
     <ClCompile Include="iLink.cpp" />
@@ -180,7 +181,6 @@
     <ClCompile Include="SelFileDropDlg.cpp" />
     <ClCompile Include="SelImportDlg.cpp" />
     <ClCompile Include="SetAlphaDlg.cpp" />
-    <ClCompile Include="setFoldUpDlg.cpp" />
     <ClCompile Include="SetHtmlExportDlg.cpp" />
     <ClCompile Include="SetMarginDlg.cpp" />
     <ClCompile Include="SetMFSizeDlg.cpp" />
@@ -205,6 +205,7 @@
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="EditorView.h" />
     <ClInclude Include="FiletypeSettingDlg.h" />
+    <ClInclude Include="FoldingSettingsDlg.h" />
     <ClInclude Include="iEdit.h" />
     <ClInclude Include="iEditDoc.h" />
     <ClInclude Include="iLink.h" />
@@ -234,7 +235,6 @@
     <ClInclude Include="SelFileDropDlg.h" />
     <ClInclude Include="SelImportDlg.h" />
     <ClInclude Include="SetAlphaDlg.h" />
-    <ClInclude Include="setFoldUpDlg.h" />
     <ClInclude Include="SetHtmlExportDlg.h" />
     <ClInclude Include="SetMarginDlg.h" />
     <ClInclude Include="SetMFSizeDlg.h" />
