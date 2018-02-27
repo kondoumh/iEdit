@@ -5,7 +5,7 @@
 #include "iEdit.h"
 #include "shapesDlg.h"
 #include "InpcatDlg.h"
-#include "shapeInsDlg.h"
+#include "ShapeInsertDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

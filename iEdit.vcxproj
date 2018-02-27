@@ -185,7 +185,7 @@
     <ClCompile Include="SetMarginDlg.cpp" />
     <ClCompile Include="SetMFSizeDlg.cpp" />
     <ClCompile Include="SetTextExportDlg.cpp" />
-    <ClCompile Include="shapeInsDlg.cpp" />
+    <ClCompile Include="ShapeInsertDlg.cpp" />
     <ClCompile Include="shapesDlg.cpp" />
     <ClCompile Include="Splash.cpp" />
     <ClCompile Include="StdAfx.cpp">
@@ -239,7 +239,7 @@
     <ClInclude Include="SetMarginDlg.h" />
     <ClInclude Include="SetMFSizeDlg.h" />
     <ClInclude Include="SetTextExportDlg.h" />
-    <ClInclude Include="shapeInsDlg.h" />
+    <ClInclude Include="ShapeInsertDlg.h" />
     <ClInclude Include="shapesDlg.h" />
     <ClInclude Include="Splash.h" />
     <ClInclude Include="StdAfx.h" />

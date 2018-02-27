@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "shapeInsDlg.h"
+#include "ShapeInsertDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
