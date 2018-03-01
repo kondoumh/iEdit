@@ -144,10 +144,10 @@
     <ClCompile Include="FoldingSettingsDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XmlExportDlg.cpp">
+    <ClCompile Include="ExportTextDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExportTextDlg.cpp">
+    <ClCompile Include="ExportXmlDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -289,10 +289,10 @@
     <ClInclude Include="FoldingSettingsDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XmlExportDlg.h">
+    <ClInclude Include="ExportTextDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExportTextDlg.h">
+    <ClInclude Include="ExportXmlDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

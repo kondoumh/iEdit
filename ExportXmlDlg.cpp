@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "XmlExportDlg.h"
+#include "ExportXmlDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

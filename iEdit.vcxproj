@@ -152,6 +152,7 @@
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="EditorView.cpp" />
     <ClCompile Include="ExportTextDlg.cpp" />
+    <ClCompile Include="ExportXmlDlg.cpp" />
     <ClCompile Include="FiletypeSettingDlg.cpp" />
     <ClCompile Include="FoldingSettingsDlg.cpp" />
     <ClCompile Include="iEdit.cpp" />
@@ -196,7 +197,6 @@
     <ClCompile Include="TabSeet.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Utilities.cpp" />
-    <ClCompile Include="XmlExportDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc" />
@@ -205,6 +205,7 @@
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="EditorView.h" />
     <ClInclude Include="ExportTextDlg.h" />
+    <ClInclude Include="ExportXmlDlg.h" />
     <ClInclude Include="FiletypeSettingDlg.h" />
     <ClInclude Include="FoldingSettingsDlg.h" />
     <ClInclude Include="iEdit.h" />
@@ -247,7 +248,6 @@
     <ClInclude Include="TabSeet.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Utilities.h" />
-    <ClInclude Include="XmlExportDlg.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\arc.cur" />
