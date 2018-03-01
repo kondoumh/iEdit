@@ -1,4 +1,4 @@
-﻿// XmlExportDlg.cpp : インプリメンテーション ファイル
+﻿// ExportXmlDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,28 +12,28 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// XmlExportDlg ダイアログ
+// ExportXmlDlg ダイアログ
 
 
-XmlExportDlg::XmlExportDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(XmlExportDlg::IDD, pParent)
+ExportXmlDlg::ExportXmlDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(ExportXmlDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(XmlExportDlg)
+	//{{AFX_DATA_INIT(ExportXmlDlg)
 	m_nTreeOp = -1;
 	//}}AFX_DATA_INIT
 }
 
 
-void XmlExportDlg::DoDataExchange(CDataExchange* pDX)
+void ExportXmlDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(XmlExportDlg)
+	//{{AFX_DATA_MAP(ExportXmlDlg)
 	DDX_Radio(pDX, IDC_RD_TREE, m_nTreeOp);
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(XmlExportDlg, CDialog)
-	//{{AFX_MSG_MAP(XmlExportDlg)
+BEGIN_MESSAGE_MAP(ExportXmlDlg, CDialog)
+	//{{AFX_MSG_MAP(ExportXmlDlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
