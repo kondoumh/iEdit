@@ -10,7 +10,7 @@
 #include "LinkInfo2Dlg.h"
 #include "OnProcDlg.h"
 #include "SelImportDlg.h"
-#include "SelExportDlg.h"
+#include "XmlExportDlg.h"
 #include "ImportTextDlg.h"
 
 #include "NodeSearchDlg.h"
