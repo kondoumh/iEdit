@@ -99,9 +99,6 @@
     <ClCompile Include="SetAlphaDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SetHtmlExportDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SetMarginDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -148,6 +145,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExportXmlDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExportHtmlDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -244,9 +244,6 @@
     <ClInclude Include="SetAlphaDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SetHtmlExportDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SetMarginDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -293,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ExportXmlDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExportHtmlDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

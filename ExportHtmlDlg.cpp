@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "SetHtmlExportDlg.h"
+#include "ExportHtmlDlg.h"
 #include "Utilities.h"
 
 

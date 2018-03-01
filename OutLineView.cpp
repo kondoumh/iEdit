@@ -17,7 +17,7 @@
 #include "FoldingSettingsDlg.h"
 #include "InpcnDlg.h"
 #include "Token.h"
-#include "SetHtmlExportDlg.h"
+#include "ExportHtmlDlg.h"
 #include "ExportTextDlg.h"
 #include "Utilities.h"
 #include "SystemConfiguration.h"
