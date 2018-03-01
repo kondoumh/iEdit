@@ -1,4 +1,4 @@
-﻿// SetTextExportDlg.cpp : 実装ファイル
+﻿// ExportTextDlg.cpp : 実装ファイル
 //
 
 #include "stdafx.h"
@@ -7,12 +7,12 @@
 #include "afxdialogex.h"
 
 
-// SetTextExportDlg ダイアログ
+// ExportTextDlg ダイアログ
 
-IMPLEMENT_DYNAMIC(SetTextExportDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(ExportTextDlg, CDialogEx)
 
-SetTextExportDlg::SetTextExportDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(SetTextExportDlg::IDD, pParent)
+ExportTextDlg::ExportTextDlg(CWnd* pParent /*=NULL*/)
+	: CDialogEx(ExportTextDlg::IDD, pParent)
 	, m_rdTreeOption(0)
 	, m_rdFormatOption(0)
 	, m_rdChapterNumberOption(0)
@@ -22,11 +22,11 @@ SetTextExportDlg::SetTextExportDlg(CWnd* pParent /*=NULL*/)
 
 }
 
-SetTextExportDlg::~SetTextExportDlg()
+ExportTextDlg::~ExportTextDlg()
 {
 }
 
-void SetTextExportDlg::DoDataExchange(CDataExchange* pDX)
+void ExportTextDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Radio(pDX, IDC_EXPORT_ALL, m_rdTreeOption);
@@ -37,19 +37,19 @@ void SetTextExportDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(SetTextExportDlg, CDialogEx)
-	ON_BN_CLICKED(IDC_NODE_TEXT, &SetTextExportDlg::OnBnClickedNodeText)
-	ON_BN_CLICKED(IDC_NODE_ONLY, &SetTextExportDlg::OnBnClickedNodeOnly)
-	ON_BN_CLICKED(IDC_FILE_EVERY_NODE, &SetTextExportDlg::OnBnClickedFileEveryNode)
-	ON_BN_CLICKED(IDC_MARKDOWN, &SetTextExportDlg::OnBnClickedMarkdown)
-	ON_BN_CLICKED(IDC_ORG_MODE, &SetTextExportDlg::OnBnClickedOrgMode)
+BEGIN_MESSAGE_MAP(ExportTextDlg, CDialogEx)
+	ON_BN_CLICKED(IDC_NODE_TEXT, &ExportTextDlg::OnBnClickedNodeText)
+	ON_BN_CLICKED(IDC_NODE_ONLY, &ExportTextDlg::OnBnClickedNodeOnly)
+	ON_BN_CLICKED(IDC_FILE_EVERY_NODE, &ExportTextDlg::OnBnClickedFileEveryNode)
+	ON_BN_CLICKED(IDC_MARKDOWN, &ExportTextDlg::OnBnClickedMarkdown)
+	ON_BN_CLICKED(IDC_ORG_MODE, &ExportTextDlg::OnBnClickedOrgMode)
 END_MESSAGE_MAP()
 
 
-// SetTextExportDlg メッセージ ハンドラー
+// ExportTextDlg メッセージ ハンドラー
 
 
-BOOL SetTextExportDlg::OnInitDialog()
+BOOL ExportTextDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 	
@@ -61,20 +61,20 @@ BOOL SetTextExportDlg::OnInitDialog()
 }
 
 
-void SetTextExportDlg::EnableContentFileOption(BOOL enable)
+void ExportTextDlg::EnableContentFileOption(BOOL enable)
 {
 	GetDlgItem(IDC_FILE_NAME_EXCLUDE_LABEL)->EnableWindow(enable);
 	GetDlgItem(IDC_EXCLUDE_LABEL_FROM_TEXT)->EnableWindow(enable);
 }
 
-void SetTextExportDlg::EnableChapterNumberOption(BOOL enable)
+void ExportTextDlg::EnableChapterNumberOption(BOOL enable)
 {
 	GetDlgItem(IDC_CHPTER_NUMBER_WZ)->EnableWindow(enable);
 	GetDlgItem(IDC_CHAPTER_NUMBER_HYPHEN)->EnableWindow(enable);
 	GetDlgItem(IDC_CHAPTER_NUMBER_PERIOD)->EnableWindow(enable);
 }
 
-void SetTextExportDlg::OnBnClickedNodeText()
+void ExportTextDlg::OnBnClickedNodeText()
 {
 	EnableContentFileOption(FALSE);
 	EnableChapterNumberOption(TRUE);
@@ -83,7 +83,7 @@ void SetTextExportDlg::OnBnClickedNodeText()
 }
 
 
-void SetTextExportDlg::OnBnClickedNodeOnly()
+void ExportTextDlg::OnBnClickedNodeOnly()
 {
 	EnableContentFileOption(FALSE);
 	EnableChapterNumberOption(TRUE);
@@ -91,7 +91,7 @@ void SetTextExportDlg::OnBnClickedNodeOnly()
 }
 
 
-void SetTextExportDlg::OnBnClickedFileEveryNode()
+void ExportTextDlg::OnBnClickedFileEveryNode()
 {
 	EnableContentFileOption(TRUE);
 	EnableChapterNumberOption(TRUE);
@@ -109,7 +109,7 @@ void SetTextExportDlg::OnBnClickedFileEveryNode()
 }
 
 
-void SetTextExportDlg::OnBnClickedMarkdown()
+void ExportTextDlg::OnBnClickedMarkdown()
 {
 	EnableContentFileOption(FALSE);
 	EnableChapterNumberOption(FALSE);
@@ -117,7 +117,7 @@ void SetTextExportDlg::OnBnClickedMarkdown()
 }
 
 
-void SetTextExportDlg::OnBnClickedOrgMode()
+void ExportTextDlg::OnBnClickedOrgMode()
 {
 	EnableContentFileOption(FALSE);
 	EnableChapterNumberOption(FALSE);

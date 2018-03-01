@@ -3095,7 +3095,7 @@ void OutlineView::OnUpdateExportToHtml(CCmdUI *pCmdUI)
 void OutlineView::OnExportToText()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
-	SetTextExportDlg dlg;
+	ExportTextDlg dlg;
 	dlg.m_rdTreeOption = m_textExportOption.treeOption;
 	dlg.m_rdFormatOption = m_textExportOption.formatOption;
 	dlg.m_rdChapterNumberOption = m_textExportOption.chapterNumberOption;

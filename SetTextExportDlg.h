@@ -2,15 +2,15 @@
 #include "afxwin.h"
 
 
-// SetTextExportDlg ダイアログ
+// ExportTextDlg ダイアログ
 
-class SetTextExportDlg : public CDialogEx
+class ExportTextDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(SetTextExportDlg)
+	DECLARE_DYNAMIC(ExportTextDlg)
 
 public:
-	SetTextExportDlg(CWnd* pParent = NULL);   // 標準コンストラクター
-	virtual ~SetTextExportDlg();
+	ExportTextDlg(CWnd* pParent = NULL);   // 標準コンストラクター
+	virtual ~ExportTextDlg();
 
 // ダイアログ データ
 	enum { IDD = IDD_SET_TEXT_EXPORT };
