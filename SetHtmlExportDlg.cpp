@@ -1,4 +1,4 @@
-﻿// SetHtmlExportDlg.cpp : 実装ファイル
+﻿// ExportHtmlDlg.cpp : 実装ファイル
 //
 
 #include "stdafx.h"
@@ -7,12 +7,12 @@
 #include "Utilities.h"
 
 
-// SetHtmlExportDlg ダイアログ
+// ExportHtmlDlg ダイアログ
 
-IMPLEMENT_DYNAMIC(SetHtmlExportDlg, CDialog)
+IMPLEMENT_DYNAMIC(ExportHtmlDlg, CDialog)
 
-SetHtmlExportDlg::SetHtmlExportDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(SetHtmlExportDlg::IDD, pParent)
+ExportHtmlDlg::ExportHtmlDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(ExportHtmlDlg::IDD, pParent)
 	, m_xvRdNav(0)
 	, m_xvRdImg(0)
 	, m_xvRdText(0)
@@ -28,11 +28,11 @@ SetHtmlExportDlg::SetHtmlExportDlg(CWnd* pParent /*=NULL*/)
 
 }
 
-SetHtmlExportDlg::~SetHtmlExportDlg()
+ExportHtmlDlg::~ExportHtmlDlg()
 {
 }
 
-void SetHtmlExportDlg::DoDataExchange(CDataExchange* pDX)
+void ExportHtmlDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Radio(pDX, IDC_RD_NAV_OUTLINE, m_xvRdNav);
@@ -47,24 +47,24 @@ void SetHtmlExportDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(SetHtmlExportDlg, CDialog)
-	ON_BN_CLICKED(IDC_RD_NAV_OUTLINE, &SetHtmlExportDlg::OnBnClickedRdNavOutline)
-	ON_BN_CLICKED(IDC_RD_NAV_NETWORK, &SetHtmlExportDlg::OnBnClickedRdNavNetwork)
-	ON_BN_CLICKED(IDC_RD_NAV_BOTH, &SetHtmlExportDlg::OnBnClickedRdNavBoth)
-	ON_BN_CLICKED(IDC_RD_TEXT_EVERYNODE, &SetHtmlExportDlg::OnBnClickedRdTextEverynode)
-	ON_BN_CLICKED(IDC_RD_TEXT_SINGLE, &SetHtmlExportDlg::OnBnClickedRdTextSingle)
-	ON_BN_CLICKED(IDC_BTN_SET_PRF_BY_FNAME, &SetHtmlExportDlg::OnBnClickedBtnSetPrfByFname)
-	ON_EN_CHANGE(IDC_ED_PRF_TOC, &SetHtmlExportDlg::OnEnChangeEdPrfToc)
-	ON_EN_CHANGE(IDC_ED_PRF_INDEX, &SetHtmlExportDlg::OnEnChangeEdPrfIndex)
-	ON_EN_CHANGE(IDC_ED_PRF_NET, &SetHtmlExportDlg::OnEnChangeEdPrfNet)
-	ON_EN_CHANGE(IDC_ED_PRF_TEXT_SINGLE, &SetHtmlExportDlg::OnEnChangeEdPrfTextSingle)
-	ON_EN_CHANGE(IDC_ED_PRF_TEXT_EVERYNODE, &SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode)
-	ON_BN_CLICKED(IDC_BTN_SET_PRF_BY_ROOT, &SetHtmlExportDlg::OnBnClickedBtnSetPrfByRoot)
-	ON_BN_CLICKED(IDC_BTN_SET_PRF_BY_VISIBLE_ROOT, &SetHtmlExportDlg::OnBnClickedBtnSetPrfByVisibleRoot)
+BEGIN_MESSAGE_MAP(ExportHtmlDlg, CDialog)
+	ON_BN_CLICKED(IDC_RD_NAV_OUTLINE, &ExportHtmlDlg::OnBnClickedRdNavOutline)
+	ON_BN_CLICKED(IDC_RD_NAV_NETWORK, &ExportHtmlDlg::OnBnClickedRdNavNetwork)
+	ON_BN_CLICKED(IDC_RD_NAV_BOTH, &ExportHtmlDlg::OnBnClickedRdNavBoth)
+	ON_BN_CLICKED(IDC_RD_TEXT_EVERYNODE, &ExportHtmlDlg::OnBnClickedRdTextEverynode)
+	ON_BN_CLICKED(IDC_RD_TEXT_SINGLE, &ExportHtmlDlg::OnBnClickedRdTextSingle)
+	ON_BN_CLICKED(IDC_BTN_SET_PRF_BY_FNAME, &ExportHtmlDlg::OnBnClickedBtnSetPrfByFname)
+	ON_EN_CHANGE(IDC_ED_PRF_TOC, &ExportHtmlDlg::OnEnChangeEdPrfToc)
+	ON_EN_CHANGE(IDC_ED_PRF_INDEX, &ExportHtmlDlg::OnEnChangeEdPrfIndex)
+	ON_EN_CHANGE(IDC_ED_PRF_NET, &ExportHtmlDlg::OnEnChangeEdPrfNet)
+	ON_EN_CHANGE(IDC_ED_PRF_TEXT_SINGLE, &ExportHtmlDlg::OnEnChangeEdPrfTextSingle)
+	ON_EN_CHANGE(IDC_ED_PRF_TEXT_EVERYNODE, &ExportHtmlDlg::OnEnChangeEdPrfTextEverynode)
+	ON_BN_CLICKED(IDC_BTN_SET_PRF_BY_ROOT, &ExportHtmlDlg::OnBnClickedBtnSetPrfByRoot)
+	ON_BN_CLICKED(IDC_BTN_SET_PRF_BY_VISIBLE_ROOT, &ExportHtmlDlg::OnBnClickedBtnSetPrfByVisibleRoot)
 END_MESSAGE_MAP()
 
 
-BOOL SetHtmlExportDlg::OnInitDialog()
+BOOL ExportHtmlDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	// TODO:  ここに初期化を追加してください
@@ -91,73 +91,73 @@ BOOL SetHtmlExportDlg::OnInitDialog()
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }
 
-// SetHtmlExportDlg メッセージ ハンドラ
+// ExportHtmlDlg メッセージ ハンドラ
 
-void SetHtmlExportDlg::OnBnClickedRdNavOutline()
+void ExportHtmlDlg::OnBnClickedRdNavOutline()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(TRUE);
 	SetRdImageEnable(FALSE);
 }
 
-void SetHtmlExportDlg::SetRdImageEnable(BOOL bEnable)
+void ExportHtmlDlg::SetRdImageEnable(BOOL bEnable)
 {
 	GetDlgItem(IDC_RD_IMG_SVG)->EnableWindow(bEnable);
 	GetDlgItem(IDC_RD_IMG_PNG)->EnableWindow(bEnable);
 	GetDlgItem(IDC_ED_PRF_NET)->EnableWindow(bEnable);
 }
 
-void SetHtmlExportDlg::SetEdPrfTextSingleEnable(BOOL bEnable)
+void ExportHtmlDlg::SetEdPrfTextSingleEnable(BOOL bEnable)
 {
 	GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->EnableWindow(bEnable);
 }
 
-void SetHtmlExportDlg::SetEdPrfTextEverynodeEnable(BOOL bEnable)
+void ExportHtmlDlg::SetEdPrfTextEverynodeEnable(BOOL bEnable)
 {
 	GetDlgItem(IDC_ED_PRF_TEXT_EVERYNODE)->EnableWindow(bEnable);
 }
 
-void SetHtmlExportDlg::OnBnClickedRdNavNetwork()
+void ExportHtmlDlg::OnBnClickedRdNavNetwork()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(FALSE);
 	SetRdImageEnable(TRUE);
 }
 
-void SetHtmlExportDlg::OnBnClickedRdNavBoth()
+void ExportHtmlDlg::OnBnClickedRdNavBoth()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(TRUE);
 	SetRdImageEnable(TRUE);
 }
 
-void SetHtmlExportDlg::OnBnClickedRdTextEverynode()
+void ExportHtmlDlg::OnBnClickedRdTextEverynode()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	SetEdPrfTextEverynodeEnable(TRUE);
 	SetEdPrfTextSingleEnable(FALSE);
 }
 
-void SetHtmlExportDlg::OnBnClickedRdTextSingle()
+void ExportHtmlDlg::OnBnClickedRdTextSingle()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	SetEdPrfTextEverynodeEnable(FALSE);
 	SetEdPrfTextSingleEnable(TRUE);
 }
 
-void SetHtmlExportDlg::OnBnClickedBtnSetPrfByFname()
+void ExportHtmlDlg::OnBnClickedBtnSetPrfByFname()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(m_sDocTitle);
 }
 
-void SetHtmlExportDlg::OnEnChangeEdPrfIndex()
+void ExportHtmlDlg::OnEnChangeEdPrfIndex()
 {
 	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	setPathIndex();
 }
 
-void SetHtmlExportDlg::setPathIndex()
+void ExportHtmlDlg::setPathIndex()
 {
 	CString s;
 	GetDlgItem(IDC_ED_PRF_INDEX)->GetWindowText(s);
@@ -180,13 +180,13 @@ void SetHtmlExportDlg::setPathIndex()
 	GetDlgItem(IDC_LB_INDEX)->SetWindowText(m_pathIndex);
 }
 
-void SetHtmlExportDlg::OnEnChangeEdPrfToc()
+void ExportHtmlDlg::OnEnChangeEdPrfToc()
 {
 	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	setPathOutline();
 }
 
-void SetHtmlExportDlg::setPathOutline()
+void ExportHtmlDlg::setPathOutline()
 {
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TOC)->GetWindowText(s);
@@ -200,13 +200,13 @@ void SetHtmlExportDlg::setPathOutline()
 	GetDlgItem(IDC_LB_TOC)->SetWindowText(m_pathOutline);
 }
 
-void SetHtmlExportDlg::OnEnChangeEdPrfNet()
+void ExportHtmlDlg::OnEnChangeEdPrfNet()
 {
 	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	setPathNetwork();
 }
 
-void SetHtmlExportDlg::setPathNetwork()
+void ExportHtmlDlg::setPathNetwork()
 {
 	CString s;
 	GetDlgItem(IDC_ED_PRF_NET)->GetWindowText(s);
@@ -224,13 +224,13 @@ void SetHtmlExportDlg::setPathNetwork()
 	GetDlgItem(IDC_LB_NET)->SetWindowText(m_pathNetwork);
 }
 
-void SetHtmlExportDlg::OnEnChangeEdPrfTextSingle()
+void ExportHtmlDlg::OnEnChangeEdPrfTextSingle()
 {
 	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	setPathTextSingle();
 }
 
-void SetHtmlExportDlg::setPathTextSingle()
+void ExportHtmlDlg::setPathTextSingle()
 {
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->GetWindowText(s);
@@ -244,7 +244,7 @@ void SetHtmlExportDlg::setPathTextSingle()
 	GetDlgItem(IDC_LB_TEXT_SINGLE)->SetWindowText(m_pathTextSingle);
 }
 
-void SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode()
+void ExportHtmlDlg::OnEnChangeEdPrfTextEverynode()
 {
 	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	CString s;
@@ -260,14 +260,14 @@ void SetHtmlExportDlg::OnEnChangeEdPrfTextEverynode()
 		m_xvEdPrfTextEverynode + _T("1.html, ") + m_xvEdPrfTextEverynode + _T("2.html, ..."));
 }
 
-void SetHtmlExportDlg::OnBnClickedBtnSetPrfByRoot()
+void ExportHtmlDlg::OnBnClickedBtnSetPrfByRoot()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
 		Utilities::getSafeFileName(m_NameOfRoot));
 }
 
-void SetHtmlExportDlg::OnBnClickedBtnSetPrfByVisibleRoot()
+void ExportHtmlDlg::OnBnClickedBtnSetPrfByVisibleRoot()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(

@@ -1799,7 +1799,7 @@ void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI)
 
 void OutlineView::OutputHTML()
 {
-	SetHtmlExportDlg eDlg;
+	ExportHtmlDlg eDlg;
 	eDlg.m_xvRdTree = m_exportOption.htmlOutOption;
 	eDlg.m_xvRdNav = m_exportOption.navOption;
 	eDlg.m_xvRdImg = m_exportOption.imgOption;

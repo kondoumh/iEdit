@@ -1,15 +1,15 @@
 ﻿#pragma once
 
 
-// SetHtmlExportDlg ダイアログ
+// ExportHtmlDlg ダイアログ
 
-class SetHtmlExportDlg : public CDialog
+class ExportHtmlDlg : public CDialog
 {
-	DECLARE_DYNAMIC(SetHtmlExportDlg)
+	DECLARE_DYNAMIC(ExportHtmlDlg)
 
 public:
-	SetHtmlExportDlg(CWnd* pParent = NULL);   // 標準コンストラクタ
-	virtual ~SetHtmlExportDlg();
+	ExportHtmlDlg(CWnd* pParent = NULL);   // 標準コンストラクタ
+	virtual ~ExportHtmlDlg();
 
 // ダイアログ データ
 	enum { IDD = IDD_SET_HTML_EXPORT };
