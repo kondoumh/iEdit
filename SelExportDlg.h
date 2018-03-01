@@ -4,20 +4,20 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// SelExportDlg.h : ヘッダー ファイル
+// XmlExportDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// SelExportDlg ダイアログ
+// XmlExportDlg ダイアログ
 
-class SelExportDlg : public CDialog
+class XmlExportDlg : public CDialog
 {
 // コンストラクション
 public:
-	SelExportDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	XmlExportDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 	
 // ダイアログ データ
-	//{{AFX_DATA(SelExportDlg)
+	//{{AFX_DATA(XmlExportDlg)
 	enum { IDD = IDD_SELEXPORT };
 	int		m_nTreeOp;
 	//}}AFX_DATA
@@ -25,7 +25,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(SelExportDlg)
+	//{{AFX_VIRTUAL(XmlExportDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -34,7 +34,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(SelExportDlg)
+	//{{AFX_MSG(XmlExportDlg)
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

@@ -3330,7 +3330,7 @@ void OutlineView::OnUpdateExportToText(CCmdUI *pCmdUI)
 void OutlineView::OnExportToXml()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
-	SelExportDlg dlg;
+	XmlExportDlg dlg;
 	dlg.m_nTreeOp = m_exportOption.treeOption;
 	if (dlg.DoModal() != IDOK) return;
 	m_opTreeOut = dlg.m_nTreeOp;
