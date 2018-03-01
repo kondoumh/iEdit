@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="EditorView.cpp" />
+    <ClCompile Include="ExportTextDlg.cpp" />
     <ClCompile Include="FiletypeSettingDlg.cpp" />
     <ClCompile Include="FoldingSettingsDlg.cpp" />
     <ClCompile Include="iEdit.cpp" />
@@ -183,7 +184,6 @@
     <ClCompile Include="SetHtmlExportDlg.cpp" />
     <ClCompile Include="SetMarginDlg.cpp" />
     <ClCompile Include="SetMFSizeDlg.cpp" />
-    <ClCompile Include="SetTextExportDlg.cpp" />
     <ClCompile Include="ShapeInsertDlg.cpp" />
     <ClCompile Include="ShapesDlg.cpp" />
     <ClCompile Include="Splash.cpp" />
@@ -204,6 +204,7 @@
   <ItemGroup>
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="EditorView.h" />
+    <ClInclude Include="ExportTextDlg.h" />
     <ClInclude Include="FiletypeSettingDlg.h" />
     <ClInclude Include="FoldingSettingsDlg.h" />
     <ClInclude Include="iEdit.h" />
@@ -237,7 +238,6 @@
     <ClInclude Include="SetHtmlExportDlg.h" />
     <ClInclude Include="SetMarginDlg.h" />
     <ClInclude Include="SetMFSizeDlg.h" />
-    <ClInclude Include="SetTextExportDlg.h" />
     <ClInclude Include="ShapeInsertDlg.h" />
     <ClInclude Include="ShapesDlg.h" />
     <ClInclude Include="Splash.h" />

@@ -18,7 +18,7 @@
 #include "InpcnDlg.h"
 #include "Token.h"
 #include "SetHtmlExportDlg.h"
-#include "SetTextExportDlg.h"
+#include "ExportTextDlg.h"
 #include "Utilities.h"
 #include "SystemConfiguration.h"
 #include <shlobj.h>

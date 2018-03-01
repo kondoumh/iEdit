@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "SetTextExportDlg.h"
+#include "ExportTextDlg.h"
 #include "afxdialogex.h"
 
 
