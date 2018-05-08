@@ -93,8 +93,6 @@ static UINT indicators[] =
 
 CMainFrame::CMainFrame()
 {
-	// TODO: この位置にメンバの初期化処理コードを追加してください。
-	m_pDebugPrintDlg = NULL;
 }
 
 CMainFrame::~CMainFrame()
