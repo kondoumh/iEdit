@@ -1,4 +1,4 @@
-$ReleaseDir = "..\Release"
+$ReleaseDir = "..\src\Release"
 $ReleaseModule = "$ReleaseDir\iEdit.exe";
 $DocDir = "..\doc"
 
