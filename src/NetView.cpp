@@ -10,7 +10,7 @@
 #include "NodePropDlg.h"
 #include "ProceedingDlg.h"
 #include "RelaxThrd.h"
-#include "ShapesDlg.h"
+#include "ShapesManagementDlg.h"
 #include "MainFrm.h"
 #include "MfSizer.h"
 #include "Token.h"
