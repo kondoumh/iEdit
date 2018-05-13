@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "SetMFSizeDlg.h"
+#include "MetafileSettingsDlg.h"
 #include "MfSizer.h"
 
 #ifdef _DEBUG
