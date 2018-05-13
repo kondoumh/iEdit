@@ -171,12 +171,12 @@
     <ClCompile Include="NetView.cpp" />
     <ClCompile Include="NodePropDlg.cpp" />
     <ClCompile Include="NodeSearchDlg.cpp" />
-    <ClCompile Include="OnProcDlg.cpp" />
     <ClCompile Include="OutLineView.cpp" />
     <ClCompile Include="PageFrame.cpp" />
     <ClCompile Include="PageLink.cpp" />
     <ClCompile Include="PageNode.cpp" />
     <ClCompile Include="PageOther.cpp" />
+    <ClCompile Include="ProceedingDlg.cpp" />
     <ClCompile Include="PropertyDlg.cpp" />
     <ClCompile Include="RectTrackerPlus.cpp" />
     <ClCompile Include="RelaxThrd.cpp" />
@@ -224,12 +224,12 @@
     <ClInclude Include="NetView.h" />
     <ClInclude Include="NodePropDlg.h" />
     <ClInclude Include="NodeSearchDlg.h" />
-    <ClInclude Include="OnProcDlg.h" />
     <ClInclude Include="OutLineView.h" />
     <ClInclude Include="PageFrame.h" />
     <ClInclude Include="PageLink.h" />
     <ClInclude Include="PageNode.h" />
     <ClInclude Include="PageOther.h" />
+    <ClInclude Include="ProceedingDlg.h" />
     <ClInclude Include="PropertyDlg.h" />
     <ClInclude Include="RectTrackerPlus.h" />
     <ClInclude Include="RelaxThrd.h" />

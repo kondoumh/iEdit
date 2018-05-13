@@ -8,7 +8,7 @@
 #include "OutLineView.h"
 #include "LinkInfoDlg.h"
 #include "LinkInfo2Dlg.h"
-#include "OnProcDlg.h"
+#include "ProceedingDlg.h"
 #include "SelImportDlg.h"
 #include "ExportXmlDlg.h"
 #include "ImportTextDlg.h"

@@ -57,9 +57,6 @@
     <ClCompile Include="NetView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OnProcDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OutLineView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,6 +147,9 @@
     <ClCompile Include="EditShapeCategoryDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProceedingDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc">
@@ -197,9 +197,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NetView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OnProcDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OutLineView.h">
@@ -293,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EditShapeCategoryDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProceedingDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

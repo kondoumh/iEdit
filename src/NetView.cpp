@@ -8,7 +8,7 @@
 #include "CreateNodeDlg.h"
 #include "LinkInfoDlg.h"
 #include "NodePropDlg.h"
-#include "OnProcDlg.h"
+#include "ProceedingDlg.h"
 #include "RelaxThrd.h"
 #include "ShapesDlg.h"
 #include "MainFrm.h"

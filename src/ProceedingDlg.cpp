@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "OnProcDlg.h"
+#include "ProceedingDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
