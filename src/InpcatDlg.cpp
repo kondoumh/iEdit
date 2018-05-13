@@ -12,38 +12,38 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcatDlg ダイアログ
+// EditShapeCategoryDlg ダイアログ
 
 
-CInpcatDlg::CInpcatDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CInpcatDlg::IDD, pParent)
+EditShapeCategoryDlg::EditShapeCategoryDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(EditShapeCategoryDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CInpcatDlg)
+	//{{AFX_DATA_INIT(EditShapeCategoryDlg)
 	m_strName = _T("");
 	//}}AFX_DATA_INIT
 }
 
 
-void CInpcatDlg::DoDataExchange(CDataExchange* pDX)
+void EditShapeCategoryDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CInpcatDlg)
+	//{{AFX_DATA_MAP(EditShapeCategoryDlg)
 	DDX_Control(pDX, IDC_EDIT1, m_edit);
 	DDX_Text(pDX, IDC_EDIT1, m_strName);
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(CInpcatDlg, CDialog)
-	//{{AFX_MSG_MAP(CInpcatDlg)
+BEGIN_MESSAGE_MAP(EditShapeCategoryDlg, CDialog)
+	//{{AFX_MSG_MAP(EditShapeCategoryDlg)
 	ON_EN_CHANGE(IDC_EDIT1, OnChangeEdit1)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcatDlg メッセージ ハンドラ
+// EditShapeCategoryDlg メッセージ ハンドラ
 
-BOOL CInpcatDlg::OnInitDialog() 
+BOOL EditShapeCategoryDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -53,7 +53,7 @@ BOOL CInpcatDlg::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-void CInpcatDlg::OnChangeEdit1() 
+void EditShapeCategoryDlg::OnChangeEdit1() 
 {
 	// TODO: これが RICHEDIT コントロールの場合、コントロールは、 lParam マスク
 	// 内での論理和の ENM_CHANGE フラグ付きで CRichEditCrtl().SetEventMask()

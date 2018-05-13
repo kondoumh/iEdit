@@ -196,7 +196,7 @@ void ShapesDlg::OnEditCatName()
 
 void ShapesDlg::editCatName()
 {
-	CInpcatDlg dlg;
+	EditShapeCategoryDlg dlg;
 	CString s; m_catListBox.GetText(m_catListBox.GetCurSel(), s);
 	dlg.m_strName = s;
 	int index = m_catListBox.GetCurSel();

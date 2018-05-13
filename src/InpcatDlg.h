@@ -8,16 +8,16 @@
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcatDlg ダイアログ
+// EditShapeCategoryDlg ダイアログ
 
-class CInpcatDlg : public CDialog
+class EditShapeCategoryDlg : public CDialog
 {
 // コンストラクション
 public:
-	CInpcatDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	EditShapeCategoryDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(CInpcatDlg)
+	//{{AFX_DATA(EditShapeCategoryDlg)
 	enum { IDD = IDD_SHPCATDLG };
 	CEdit	m_edit;
 	CString	m_strName;
@@ -26,7 +26,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(CInpcatDlg)
+	//{{AFX_VIRTUAL(EditShapeCategoryDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -35,7 +35,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(CInpcatDlg)
+	//{{AFX_MSG(EditShapeCategoryDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnChangeEdit1();
 	//}}AFX_MSG
