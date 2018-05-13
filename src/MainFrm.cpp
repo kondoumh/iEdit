@@ -221,7 +221,7 @@ void CMainFrame::Dump(CDumpContext& dc) const
 void CMainFrame::OnSetProperties() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	CPropertyDlg dlg;
+	OptionSettingsDlg dlg;
 	if (dlg.DoModal() == IDOK) {
 		CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 		pApp->notifyViewSetting();

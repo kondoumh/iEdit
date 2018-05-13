@@ -134,7 +134,7 @@ BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 /*void CChildFrame::OnSetProperties() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	CPropertyDlg dlg;
+	OptionSettingsDlg dlg;
 	if (dlg.DoModal() != IDOK) return;
 	
 	// 各ビューの取得

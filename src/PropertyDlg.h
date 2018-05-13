@@ -10,21 +10,21 @@
 #include "TabSeet.h"
 
 /////////////////////////////////////////////////////////////////////////////
-// CPropertyDlg ダイアログ
+// OptionSettingsDlg ダイアログ
 class PageFrame;
 class PageNode;
 class PageLink;
 class PageOther;
 
-class CPropertyDlg : public CDialog
+class OptionSettingsDlg : public CDialog
 {
 // コンストラクション
 public:
 	void initPageOther();
-	CPropertyDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	OptionSettingsDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(CPropertyDlg)
+	//{{AFX_DATA(OptionSettingsDlg)
 	enum { IDD = IDD_PROPERTIES };
 	CTabSeet	m_tabSeet;
 	//}}AFX_DATA
@@ -32,7 +32,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(CPropertyDlg)
+	//{{AFX_VIRTUAL(OptionSettingsDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -48,7 +48,7 @@ protected:
 	void initPageNode();
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(CPropertyDlg)
+	//{{AFX_MSG(OptionSettingsDlg)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	virtual void OnCancel();

@@ -25,36 +25,36 @@ static char THIS_FILE[] = __FILE__;
 #define REGS_OTHER _T("Settings")
 
 /////////////////////////////////////////////////////////////////////////////
-// CPropertyDlg ダイアログ
+// OptionSettingsDlg ダイアログ
 
 
-CPropertyDlg::CPropertyDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CPropertyDlg::IDD, pParent)
+OptionSettingsDlg::OptionSettingsDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(OptionSettingsDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CPropertyDlg)
+	//{{AFX_DATA_INIT(OptionSettingsDlg)
 		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_DATA_INIT
 }
 
 
-void CPropertyDlg::DoDataExchange(CDataExchange* pDX)
+void OptionSettingsDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CPropertyDlg)
+	//{{AFX_DATA_MAP(OptionSettingsDlg)
 	DDX_Control(pDX, IDC_TAB, m_tabSeet);
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(CPropertyDlg, CDialog)
-	//{{AFX_MSG_MAP(CPropertyDlg)
+BEGIN_MESSAGE_MAP(OptionSettingsDlg, CDialog)
+	//{{AFX_MSG_MAP(OptionSettingsDlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CPropertyDlg メッセージ ハンドラ
+// OptionSettingsDlg メッセージ ハンドラ
 
-BOOL CPropertyDlg::OnInitDialog() 
+BOOL OptionSettingsDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -90,7 +90,7 @@ BOOL CPropertyDlg::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-void CPropertyDlg::OnOK() 
+void OptionSettingsDlg::OnOK() 
 {
 	// TODO: この位置にその他の検証用のコードを追加してください
 	
@@ -104,14 +104,14 @@ void CPropertyDlg::OnOK()
 	CDialog::OnOK();
 }
 
-void CPropertyDlg::OnCancel() 
+void OptionSettingsDlg::OnCancel() 
 {
 	// TODO: この位置に特別な後処理を追加してください。
 	m_tabSeet.endService(true);
 	CDialog::OnCancel();
 }
 
-void CPropertyDlg::initPageNode()
+void OptionSettingsDlg::initPageNode()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pNode->colorFill = pApp->m_rgsNode.colorFill;
@@ -176,7 +176,7 @@ void CPropertyDlg::initPageNode()
 	pNode->m_bPriorSelectionDragging = pApp->m_rgsNode.bPriorSelectionDragging;
 }
 
-void CPropertyDlg::initPageLink()
+void OptionSettingsDlg::initPageLink()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pLink->colorLine = pApp->m_rgsLink.colorLine;
@@ -189,7 +189,7 @@ void CPropertyDlg::initPageLink()
 	::lstrcpy(pLink->lf.lfFaceName, pApp->m_rgsLink.lf.lfFaceName);
 }
 
-void CPropertyDlg::writePageNode()
+void OptionSettingsDlg::writePageNode()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->WriteProfileInt(REGS_NODE, _T("Fill Color"), pNode->colorFill);
@@ -261,7 +261,7 @@ void CPropertyDlg::writePageNode()
 	pApp->getNodeProfile(); // アプリケーションオブジェクトの再設定
 }
 
-void CPropertyDlg::writePageLink()
+void OptionSettingsDlg::writePageLink()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->WriteProfileInt(REGS_LINK, _T("Line Color"), pLink->colorLine);
@@ -283,7 +283,7 @@ void CPropertyDlg::writePageLink()
 }
 
 
-void CPropertyDlg::initPageOther()
+void OptionSettingsDlg::initPageOther()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pOther->m_bShowHS = pApp->GetProfileInt(REGS_OTHER, _T("Show HScroll"), FALSE);
@@ -299,7 +299,7 @@ void CPropertyDlg::initPageOther()
 	pOther->m_strStylesheet = pApp->GetProfileString(REGS_OTHER, _T("XML StyleSheet Name"), _T("iedit.xsl"));
 }
 
-void CPropertyDlg::writePageOther()
+void OptionSettingsDlg::writePageOther()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->WriteProfileInt(REGS_OTHER, _T("Show HScroll"), pOther->m_bShowHS);
@@ -322,7 +322,7 @@ void CPropertyDlg::writePageOther()
 	pApp->m_rgsOther.bOutputFileLinksOnExport = pOther->m_bOutputFileLinksOnExport;
 }
 
-void CPropertyDlg::initPageFrame()
+void OptionSettingsDlg::initPageFrame()
 {
 	SystemConfiguration sc;
 	CString defaultFontName = _T("MS UI Gothic");
@@ -389,7 +389,7 @@ void CPropertyDlg::initPageFrame()
 	pFrame->m_bSaveBarState = app->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 }
 
-void CPropertyDlg::writePageFrame()
+void OptionSettingsDlg::writePageFrame()
 {
 	// OullineView Font
 	AfxGetApp()->WriteProfileString(REGS_FRAME, _T("Font1 Name"), pFrame->lfOutline.lfFaceName);
