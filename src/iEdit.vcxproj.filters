@@ -39,9 +39,6 @@
     <ClCompile Include="iNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InpcatDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LinkInfo2Dlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,6 +147,9 @@
     <ClCompile Include="CreateNodeDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EditShapeCategoryDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc">
@@ -179,9 +179,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="iNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InpcatDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LinkInfo2Dlg.h">
@@ -293,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CreateNodeDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditShapeCategoryDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

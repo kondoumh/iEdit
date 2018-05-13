@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "iEdit.h"
 #include "ShapesDlg.h"
-#include "InpcatDlg.h"
+#include "EditShapeCategoryDlg.h"
 #include "ShapeInsertDlg.h"
 
 #ifdef _DEBUG
