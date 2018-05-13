@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "iEdit.h"
 #include "iLink.h"
-#include "LinkInfoDlg.h"
+#include "LinkPropertiesDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

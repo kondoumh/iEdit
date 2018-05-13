@@ -6,7 +6,7 @@
 
 #include "iEditDoc.h"
 #include "OutLineView.h"
-#include "LinkInfoDlg.h"
+#include "LinkPropertiesDlg.h"
 #include "LinkInfo2Dlg.h"
 #include "ProceedingDlg.h"
 #include "ImportXmlDlg.h"

@@ -6,7 +6,7 @@
 #include "NetView.h"
 #include "iEditDoc.h"
 #include "CreateNodeDlg.h"
-#include "LinkInfoDlg.h"
+#include "LinkPropertiesDlg.h"
 #include "NodePropDlg.h"
 #include "ProceedingDlg.h"
 #include "RelaxThrd.h"

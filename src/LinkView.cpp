@@ -5,7 +5,7 @@
 #include "iEdit.h"
 #include "LinkView.h"
 #include "iEditDoc.h"
-#include "LinkInfoDlg.h"
+#include "LinkPropertiesDlg.h"
 #include "LinkInfo2Dlg.h"
 #include "FileDropActionDlg.h"
 #include "SystemConfiguration.h"
