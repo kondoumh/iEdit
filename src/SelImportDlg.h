@@ -4,20 +4,20 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// SelImportDlg.h : ヘッダー ファイル
+// ImportXmlDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// SelImportDlg ダイアログ
+// ImportXmlDlg ダイアログ
 
-class SelImportDlg : public CDialog
+class ImportXmlDlg : public CDialog
 {
 // コンストラクション
 public:
-	SelImportDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	ImportXmlDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(SelImportDlg)
+	//{{AFX_DATA(ImportXmlDlg)
 	enum { IDD = IDD_SELIMPORT };
 	int		m_importMode;
 	//}}AFX_DATA
@@ -25,7 +25,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(SelImportDlg)
+	//{{AFX_VIRTUAL(ImportXmlDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -34,7 +34,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(SelImportDlg)
+	//{{AFX_MSG(ImportXmlDlg)
 	afx_msg void OnRdRep();
 	afx_msg void OnRdSub();
 	//}}AFX_MSG

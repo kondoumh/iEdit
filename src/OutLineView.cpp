@@ -2330,7 +2330,7 @@ int OutlineView::countLineIndentLevel(const CString& line, const char levelChar)
 bool OutlineView::ImportXML(const CString &inPath)
 {
 	CWaitCursor wc;
-	SelImportDlg dlg;
+	ImportXmlDlg dlg;
 	dlg.m_importMode = 0;
 	if (dlg.DoModal() != IDOK) return true;
 	bool rep = (dlg.m_importMode == 0);
