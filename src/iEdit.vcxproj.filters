@@ -78,9 +78,6 @@
     <ClCompile Include="SelFileDropDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SelImportDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SetAlphaDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -148,6 +145,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FiletypeSettingsDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportXmlDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -223,9 +223,6 @@
     <ClInclude Include="SelFileDropDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SelImportDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SetAlphaDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -293,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FiletypeSettingsDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportXmlDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

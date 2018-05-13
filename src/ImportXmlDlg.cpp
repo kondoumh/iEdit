@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "SelImportDlg.h"
+#include "ImportXmlDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

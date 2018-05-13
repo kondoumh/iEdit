@@ -9,7 +9,7 @@
 #include "LinkInfoDlg.h"
 #include "LinkInfo2Dlg.h"
 #include "ProceedingDlg.h"
-#include "SelImportDlg.h"
+#include "ImportXmlDlg.h"
 #include "ExportXmlDlg.h"
 #include "ImportTextDlg.h"
 

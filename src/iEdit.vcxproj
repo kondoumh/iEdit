@@ -162,6 +162,7 @@
     <ClCompile Include="iEditDoc.cpp" />
     <ClCompile Include="iLink.cpp" />
     <ClCompile Include="ImportTextDlg.cpp" />
+    <ClCompile Include="ImportXmlDlg.cpp" />
     <ClCompile Include="iNode.cpp" />
     <ClCompile Include="LinkInfo2Dlg.cpp" />
     <ClCompile Include="LinkInfoDlg.cpp" />
@@ -181,7 +182,6 @@
     <ClCompile Include="RectTrackerPlus.cpp" />
     <ClCompile Include="RelaxThrd.cpp" />
     <ClCompile Include="SelFileDropDlg.cpp" />
-    <ClCompile Include="SelImportDlg.cpp" />
     <ClCompile Include="SetAlphaDlg.cpp" />
     <ClCompile Include="SetMarginDlg.cpp" />
     <ClCompile Include="SetMFSizeDlg.cpp" />
@@ -215,6 +215,7 @@
     <ClInclude Include="iEditDoc.h" />
     <ClInclude Include="iLink.h" />
     <ClInclude Include="ImportTextDlg.h" />
+    <ClInclude Include="ImportXmlDlg.h" />
     <ClInclude Include="iNode.h" />
     <ClInclude Include="LinkInfo2Dlg.h" />
     <ClInclude Include="LinkInfoDlg.h" />
@@ -235,7 +236,6 @@
     <ClInclude Include="RelaxThrd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SelFileDropDlg.h" />
-    <ClInclude Include="SelImportDlg.h" />
     <ClInclude Include="SetAlphaDlg.h" />
     <ClInclude Include="SetMarginDlg.h" />
     <ClInclude Include="SetMFSizeDlg.h" />
