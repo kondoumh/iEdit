@@ -15,7 +15,7 @@
 
 #include "NodeSearchDlg.h"
 #include "FoldingSettingsDlg.h"
-#include "InpcnDlg.h"
+#include "CreateNodeDlg.h"
 #include "Token.h"
 #include "ExportHtmlDlg.h"
 #include "ExportTextDlg.h"

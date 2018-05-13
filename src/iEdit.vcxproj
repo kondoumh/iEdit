@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="CreateNodeDlg.cpp" />
     <ClCompile Include="EditorView.cpp" />
     <ClCompile Include="ExportHtmlDlg.cpp" />
     <ClCompile Include="ExportTextDlg.cpp" />
@@ -162,7 +163,6 @@
     <ClCompile Include="ImportTextDlg.cpp" />
     <ClCompile Include="iNode.cpp" />
     <ClCompile Include="InpcatDlg.cpp" />
-    <ClCompile Include="InpcnDlg.cpp" />
     <ClCompile Include="LinkInfo2Dlg.cpp" />
     <ClCompile Include="LinkInfoDlg.cpp" />
     <ClCompile Include="LinkView.cpp" />
@@ -203,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="CreateNodeDlg.h" />
     <ClInclude Include="EditorView.h" />
     <ClInclude Include="ExportHtmlDlg.h" />
     <ClInclude Include="ExportTextDlg.h" />
@@ -215,7 +216,6 @@
     <ClInclude Include="ImportTextDlg.h" />
     <ClInclude Include="iNode.h" />
     <ClInclude Include="InpcatDlg.h" />
-    <ClInclude Include="InpcnDlg.h" />
     <ClInclude Include="LinkInfo2Dlg.h" />
     <ClInclude Include="LinkInfoDlg.h" />
     <ClInclude Include="LinkView.h" />

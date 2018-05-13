@@ -5,7 +5,7 @@
 #include "iEdit.h"
 #include "NetView.h"
 #include "iEditDoc.h"
-#include "InpcnDlg.h"
+#include "CreateNodeDlg.h"
 #include "LinkInfoDlg.h"
 #include "NodePropDlg.h"
 #include "OnProcDlg.h"
