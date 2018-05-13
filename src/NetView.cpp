@@ -7,7 +7,7 @@
 #include "iEditDoc.h"
 #include "CreateNodeDlg.h"
 #include "LinkPropertiesDlg.h"
-#include "NodePropDlg.h"
+#include "NodePropertiesDlg.h"
 #include "ProceedingDlg.h"
 #include "RelaxThrd.h"
 #include "ShapesManagementDlg.h"
