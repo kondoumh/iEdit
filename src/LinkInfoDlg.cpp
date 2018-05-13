@@ -1,4 +1,4 @@
-﻿// LinkInfoDlg.cpp : インプリメンテーション ファイル
+﻿// LinkPropertiesDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -13,21 +13,21 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfoDlg ダイアログ
+// LinkPropertiesDlg ダイアログ
 
 
-LinkInfoDlg::LinkInfoDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(LinkInfoDlg::IDD, pParent)
+LinkPropertiesDlg::LinkPropertiesDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(LinkPropertiesDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(LinkInfoDlg)
+	//{{AFX_DATA_INIT(LinkPropertiesDlg)
 	//}}AFX_DATA_INIT
 }
 
 
-void LinkInfoDlg::DoDataExchange(CDataExchange* pDX)
+void LinkPropertiesDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(LinkInfoDlg)
+	//{{AFX_DATA_MAP(LinkPropertiesDlg)
 	DDX_Control(pDX, IDC_CMB_LINE, m_cmbLineStyle);
 	DDX_Control(pDX, IDC_LINKTO, m_LabelTo);
 	DDX_Control(pDX, IDC_LINKFROM, m_LabelFrom);
@@ -37,8 +37,8 @@ void LinkInfoDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(LinkInfoDlg, CDialog)
-	//{{AFX_MSG_MAP(LinkInfoDlg)
+BEGIN_MESSAGE_MAP(LinkPropertiesDlg, CDialog)
+	//{{AFX_MSG_MAP(LinkPropertiesDlg)
 	ON_CBN_SELCHANGE(IDC_COMBO, OnSelchangeCombo)
 	ON_BN_CLICKED(IDC_BTN_COLOR, OnBtnColor)
 	ON_BN_CLICKED(IDC_BTN_FONT, OnBtnFont)
@@ -47,9 +47,9 @@ BEGIN_MESSAGE_MAP(LinkInfoDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfoDlg メッセージ ハンドラ
+// LinkPropertiesDlg メッセージ ハンドラ
 
-BOOL LinkInfoDlg::OnInitDialog() 
+BOOL LinkPropertiesDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -96,7 +96,7 @@ BOOL LinkInfoDlg::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-void LinkInfoDlg::OnSelchangeCombo() 
+void LinkPropertiesDlg::OnSelchangeCombo() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	switch (m_combo.GetCurSel()) {
@@ -127,7 +127,7 @@ void LinkInfoDlg::OnSelchangeCombo()
 	}
 }
 
-void LinkInfoDlg::OnOK() 
+void LinkPropertiesDlg::OnOK() 
 {
 	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strComment);
@@ -135,7 +135,7 @@ void LinkInfoDlg::OnOK()
 }
 
 
-void LinkInfoDlg::OnBtnColor() 
+void LinkPropertiesDlg::OnBtnColor() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
@@ -143,7 +143,7 @@ void LinkInfoDlg::OnBtnColor()
 	colorLine = dlg.GetColor();
 }
 
-void LinkInfoDlg::OnBtnFont() 
+void LinkPropertiesDlg::OnBtnFont() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
@@ -151,7 +151,7 @@ void LinkInfoDlg::OnBtnFont()
 	if (dlg.DoModal() != IDOK) return;
 }
 
-void LinkInfoDlg::OnSelchangeCmbLine() 
+void LinkPropertiesDlg::OnSelchangeCmbLine() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_cmbLineStyle.GetCurSel();

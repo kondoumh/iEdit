@@ -1355,7 +1355,7 @@ void OutlineView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 	if (m_bAddingLink) {
-		LinkInfoDlg dlg;
+		LinkPropertiesDlg dlg;
 		dlg.strFrom = tree().GetItemText(curItem());
 		dlg.strTo = tree().GetItemText(hitTestInfo.hItem);
 		dlg.styleArrow = 0;

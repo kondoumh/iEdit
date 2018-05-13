@@ -2018,7 +2018,7 @@ void NetView::setLinkInfo()
 	CString sFrom, sTo, comment;
 	int arrowType = 0;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, comment, arrowType, bDrwAll);
-	LinkInfoDlg dlg;
+	LinkPropertiesDlg dlg;
 	dlg.strFrom = sFrom;
 	dlg.strTo = sTo;
 	dlg.strComment = comment;

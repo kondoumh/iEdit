@@ -344,7 +344,7 @@ void LinkView::setLinkInfo()
 	int type = items_[index].linkType;
 	listitem i = items_[index];
 	if (type == listitem::linkSL || type == listitem::linkDL) {
-		LinkInfoDlg dlg;
+		LinkPropertiesDlg dlg;
 		dlg.strComment = i.comment;
 		dlg.strFrom = GetDocument()->getSelectedNodeLabel();
 		dlg.strTo = i.sTo;

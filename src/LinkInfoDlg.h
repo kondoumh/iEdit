@@ -4,13 +4,13 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// LinkInfoDlg.h : ヘッダー ファイル
+// LinkPropertiesDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfoDlg ダイアログ
+// LinkPropertiesDlg ダイアログ
 
-class LinkInfoDlg : public CDialog
+class LinkPropertiesDlg : public CDialog
 {
 // コンストラクション
 public:
@@ -22,10 +22,10 @@ public:
 	CString strTo;
 	CString strFrom;
 	CString strComment;
-	LinkInfoDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	LinkPropertiesDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(LinkInfoDlg)
+	//{{AFX_DATA(LinkPropertiesDlg)
 	enum { IDD = IDD_LINKINFO };
 	CComboBox	m_cmbLineStyle;
 	CStatic	m_LabelTo;
@@ -37,7 +37,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(LinkInfoDlg)
+	//{{AFX_VIRTUAL(LinkPropertiesDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -46,7 +46,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(LinkInfoDlg)
+	//{{AFX_MSG(LinkPropertiesDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSelchangeCombo();
 	virtual void OnOK();
