@@ -4,20 +4,20 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// SelFileDropDlg.h : ヘッダー ファイル
+// FileDropActionDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// SelFileDropDlg ダイアログ
+// FileDropActionDlg ダイアログ
 
-class SelFileDropDlg : public CDialog
+class FileDropActionDlg : public CDialog
 {
 // コンストラクション
 public:
-	SelFileDropDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	FileDropActionDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(SelFileDropDlg)
+	//{{AFX_DATA(FileDropActionDlg)
 	enum { IDD = IDD_SELFILEDROP };
 	int		m_nDropProc;
 	//}}AFX_DATA
@@ -25,7 +25,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(SelFileDropDlg)
+	//{{AFX_VIRTUAL(FileDropActionDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -34,7 +34,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(SelFileDropDlg)
+	//{{AFX_MSG(FileDropActionDlg)
 		// メモ: ClassWizard はこの位置にメンバ関数を追加します。
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

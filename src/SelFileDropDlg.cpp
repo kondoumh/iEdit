@@ -1,4 +1,4 @@
-﻿// SelFileDropDlg.cpp : インプリメンテーション ファイル
+﻿// FileDropActionDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,32 +12,32 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// SelFileDropDlg ダイアログ
+// FileDropActionDlg ダイアログ
 
 
-SelFileDropDlg::SelFileDropDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(SelFileDropDlg::IDD, pParent)
+FileDropActionDlg::FileDropActionDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(FileDropActionDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(SelFileDropDlg)
+	//{{AFX_DATA_INIT(FileDropActionDlg)
 	m_nDropProc = -1;
 	//}}AFX_DATA_INIT
 }
 
 
-void SelFileDropDlg::DoDataExchange(CDataExchange* pDX)
+void FileDropActionDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(SelFileDropDlg)
+	//{{AFX_DATA_MAP(FileDropActionDlg)
 	DDX_Radio(pDX, IDC_RD_LINK, m_nDropProc);
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(SelFileDropDlg, CDialog)
-	//{{AFX_MSG_MAP(SelFileDropDlg)
+BEGIN_MESSAGE_MAP(FileDropActionDlg, CDialog)
+	//{{AFX_MSG_MAP(FileDropActionDlg)
 		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// SelFileDropDlg メッセージ ハンドラ
+// FileDropActionDlg メッセージ ハンドラ

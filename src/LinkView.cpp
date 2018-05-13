@@ -777,7 +777,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 			GetDocument()->addURLLink(url, CString(fname));
 			continue;
 		} else if (extention == _T(".ied") || extention == _T(".iedx")) {
-			SelFileDropDlg dlg;
+			FileDropActionDlg dlg;
 			dlg.m_nDropProc = 0;
 			if (dlg.DoModal() != IDOK) return TRUE;
 			if (dlg.m_nDropProc == 1) {
