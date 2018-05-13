@@ -4573,7 +4573,7 @@ void NetView::OnUpdateExportPng(CCmdUI *pCmdUI)
 void NetView::OnSetMargin()
 {
 	// TODO: ここにコマンド ハンドラ コードを追加します。
-	SetMarginDlg dlg;
+	NodeMarginSettingsDlg dlg;
 	int l, r, t, b;
 	if (m_selectStatus == NetView::single) {
 		GetDocument()->getSelectedNodeMargin(l, r, t, b);

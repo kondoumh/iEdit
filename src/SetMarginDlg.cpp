@@ -1,4 +1,4 @@
-﻿// SetMarginDlg.cpp : 実装ファイル
+﻿// NodeMarginSettingsDlg.cpp : 実装ファイル
 //
 
 #include "stdafx.h"
@@ -6,12 +6,12 @@
 #include "SetMarginDlg.h"
 
 
-// SetMarginDlg ダイアログ
+// NodeMarginSettingsDlg ダイアログ
 
-IMPLEMENT_DYNAMIC(SetMarginDlg, CDialog)
+IMPLEMENT_DYNAMIC(NodeMarginSettingsDlg, CDialog)
 
-SetMarginDlg::SetMarginDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(SetMarginDlg::IDD, pParent)
+NodeMarginSettingsDlg::NodeMarginSettingsDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(NodeMarginSettingsDlg::IDD, pParent)
 	, m_nLeft(0)
 	, m_nRight(0)
 	, m_nTop(0)
@@ -20,11 +20,11 @@ SetMarginDlg::SetMarginDlg(CWnd* pParent /*=NULL*/)
 
 }
 
-SetMarginDlg::~SetMarginDlg()
+NodeMarginSettingsDlg::~NodeMarginSettingsDlg()
 {
 }
 
-void SetMarginDlg::DoDataExchange(CDataExchange* pDX)
+void NodeMarginSettingsDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_SPIN_LEFT, m_spinLeft);
@@ -34,18 +34,18 @@ void SetMarginDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(SetMarginDlg, CDialog)
-	ON_EN_CHANGE(IDC_ED_LEFT, &SetMarginDlg::OnEnChangeEdLeft)
-	ON_EN_CHANGE(IDC_ED_RIGHT, &SetMarginDlg::OnEnChangeEdRight)
-	ON_EN_CHANGE(IDC_ED_TOP, &SetMarginDlg::OnEnChangeEdTop)
-	ON_EN_CHANGE(IDC_ED_BOTTOM, &SetMarginDlg::OnEnChangeEdBottom)
-	ON_BN_CLICKED(IDOK, &SetMarginDlg::OnBnClickedOk)
+BEGIN_MESSAGE_MAP(NodeMarginSettingsDlg, CDialog)
+	ON_EN_CHANGE(IDC_ED_LEFT, &NodeMarginSettingsDlg::OnEnChangeEdLeft)
+	ON_EN_CHANGE(IDC_ED_RIGHT, &NodeMarginSettingsDlg::OnEnChangeEdRight)
+	ON_EN_CHANGE(IDC_ED_TOP, &NodeMarginSettingsDlg::OnEnChangeEdTop)
+	ON_EN_CHANGE(IDC_ED_BOTTOM, &NodeMarginSettingsDlg::OnEnChangeEdBottom)
+	ON_BN_CLICKED(IDOK, &NodeMarginSettingsDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
-// SetMarginDlg メッセージ ハンドラ
+// NodeMarginSettingsDlg メッセージ ハンドラ
 
-BOOL SetMarginDlg::OnInitDialog()
+BOOL NodeMarginSettingsDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
@@ -63,27 +63,27 @@ BOOL SetMarginDlg::OnInitDialog()
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }
 
-void SetMarginDlg::OnEnChangeEdLeft()
+void NodeMarginSettingsDlg::OnEnChangeEdLeft()
 {
 	if (GetDlgItemInt(IDC_ED_LEFT) > 50) m_spinLeft.SetPos32(50);
 }
 
-void SetMarginDlg::OnEnChangeEdRight()
+void NodeMarginSettingsDlg::OnEnChangeEdRight()
 {
 	if (GetDlgItemInt(IDC_ED_RIGHT) > 50) m_spinRight.SetPos32(50);
 }
 
-void SetMarginDlg::OnEnChangeEdTop()
+void NodeMarginSettingsDlg::OnEnChangeEdTop()
 {
 	if (GetDlgItemInt(IDC_ED_TOP) > 50) m_spinTop.SetPos32(50);
 }
 
-void SetMarginDlg::OnEnChangeEdBottom()
+void NodeMarginSettingsDlg::OnEnChangeEdBottom()
 {
 	if (GetDlgItemInt(IDC_ED_BOTTOM) > 50) m_spinBottom.SetPos32(50);
 }
 
-void SetMarginDlg::OnBnClickedOk()
+void NodeMarginSettingsDlg::OnBnClickedOk()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_nLeft = m_spinLeft.GetPos32();

@@ -3,15 +3,15 @@
 #include "afxwin.h"
 
 
-// SetMarginDlg ダイアログ
+// NodeMarginSettingsDlg ダイアログ
 
-class SetMarginDlg : public CDialog
+class NodeMarginSettingsDlg : public CDialog
 {
-	DECLARE_DYNAMIC(SetMarginDlg)
+	DECLARE_DYNAMIC(NodeMarginSettingsDlg)
 
 public:
-	SetMarginDlg(CWnd* pParent = NULL);   // 標準コンストラクタ
-	virtual ~SetMarginDlg();
+	NodeMarginSettingsDlg(CWnd* pParent = NULL);   // 標準コンストラクタ
+	virtual ~NodeMarginSettingsDlg();
 
 // ダイアログ データ
 	enum { IDD = IDD_SETMARGIN };

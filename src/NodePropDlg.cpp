@@ -233,7 +233,7 @@ void NodePropDlg::OnSelchangeComboVert()
 void NodePropDlg::OnBnClickedBtnSetMargin()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	SetMarginDlg dlg;
+	NodeMarginSettingsDlg dlg;
 	dlg.m_nLeft = margins.l;
 	dlg.m_nRight = margins.r;
 	dlg.m_nTop = margins.t;
