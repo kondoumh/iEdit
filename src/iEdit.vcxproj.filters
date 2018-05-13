@@ -21,9 +21,6 @@
     <ClCompile Include="EditorView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FiletypeSettingDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="iEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,6 +147,9 @@
     <ClCompile Include="OptionSettingsDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FiletypeSettingsDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc">
@@ -161,9 +161,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EditorView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FiletypeSettingDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="iEdit.h">
@@ -293,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OptionSettingsDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FiletypeSettingsDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -156,7 +156,7 @@
     <ClCompile Include="ExportHtmlDlg.cpp" />
     <ClCompile Include="ExportTextDlg.cpp" />
     <ClCompile Include="ExportXmlDlg.cpp" />
-    <ClCompile Include="FiletypeSettingDlg.cpp" />
+    <ClCompile Include="FiletypeSettingsDlg.cpp" />
     <ClCompile Include="FoldingSettingsDlg.cpp" />
     <ClCompile Include="iEdit.cpp" />
     <ClCompile Include="iEditDoc.cpp" />
@@ -209,7 +209,7 @@
     <ClInclude Include="ExportHtmlDlg.h" />
     <ClInclude Include="ExportTextDlg.h" />
     <ClInclude Include="ExportXmlDlg.h" />
-    <ClInclude Include="FiletypeSettingDlg.h" />
+    <ClInclude Include="FiletypeSettingsDlg.h" />
     <ClInclude Include="FoldingSettingsDlg.h" />
     <ClInclude Include="iEdit.h" />
     <ClInclude Include="iEditDoc.h" />

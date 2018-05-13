@@ -1,15 +1,15 @@
 ﻿#pragma once
 
 
-// FiletypeSettingDlg ダイアログ
+// FiletypeSettingsDlg ダイアログ
 
-class FiletypeSettingDlg : public CDialog
+class FiletypeSettingsDlg : public CDialog
 {
-	DECLARE_DYNAMIC(FiletypeSettingDlg)
+	DECLARE_DYNAMIC(FiletypeSettingsDlg)
 
 public:
-	FiletypeSettingDlg(CWnd* pParent = NULL);   // 標準コンストラクター
-	virtual ~FiletypeSettingDlg();
+	FiletypeSettingsDlg(CWnd* pParent = NULL);   // 標準コンストラクター
+	virtual ~FiletypeSettingsDlg();
 
 // ダイアログ データ
 	enum { IDD = IDD_SHELL_FILETYPE_SETTING };

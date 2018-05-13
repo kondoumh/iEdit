@@ -13,7 +13,7 @@
 #include "RelaxThrd.h"
 #include "afxwin.h"
 
-#include "FiletypeSettingDlg.h"
+#include "FiletypeSettingsDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

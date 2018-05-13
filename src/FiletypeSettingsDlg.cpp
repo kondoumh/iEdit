@@ -1,29 +1,29 @@
-﻿// FiletypeSettingDlg.cpp : 実装ファイル
+﻿// FiletypeSettingsDlg.cpp : 実装ファイル
 //
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "FiletypeSettingDlg.h"
+#include "FiletypeSettingsDlg.h"
 #include "afxdialogex.h"
 
 
-// FiletypeSettingDlg ダイアログ
+// FiletypeSettingsDlg ダイアログ
 
-IMPLEMENT_DYNAMIC(FiletypeSettingDlg, CDialog)
+IMPLEMENT_DYNAMIC(FiletypeSettingsDlg, CDialog)
 
-FiletypeSettingDlg::FiletypeSettingDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(FiletypeSettingDlg::IDD, pParent)
+FiletypeSettingsDlg::FiletypeSettingsDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(FiletypeSettingsDlg::IDD, pParent)
 	, m_registFileType(0)
 	, m_bRegistOldtype(FALSE)
 {
 	
 }
 
-FiletypeSettingDlg::~FiletypeSettingDlg()
+FiletypeSettingsDlg::~FiletypeSettingsDlg()
 {
 }
 
-void FiletypeSettingDlg::DoDataExchange(CDataExchange* pDX)
+void FiletypeSettingsDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Radio(pDX, IDC_RD_NOT_REGIST, m_registFileType);
@@ -31,16 +31,16 @@ void FiletypeSettingDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(FiletypeSettingDlg, CDialog)
-	ON_BN_CLICKED(IDC_RD_NOT_REGIST, &FiletypeSettingDlg::OnBnClickedRdNotRegist)
-	ON_BN_CLICKED(IDC_RD_REGIST, &FiletypeSettingDlg::OnBnClickedRdRegist)
+BEGIN_MESSAGE_MAP(FiletypeSettingsDlg, CDialog)
+	ON_BN_CLICKED(IDC_RD_NOT_REGIST, &FiletypeSettingsDlg::OnBnClickedRdNotRegist)
+	ON_BN_CLICKED(IDC_RD_REGIST, &FiletypeSettingsDlg::OnBnClickedRdRegist)
 END_MESSAGE_MAP()
 
 
-// FiletypeSettingDlg メッセージ ハンドラー
+// FiletypeSettingsDlg メッセージ ハンドラー
 
 
-BOOL FiletypeSettingDlg::OnInitDialog()
+BOOL FiletypeSettingsDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
@@ -55,14 +55,14 @@ BOOL FiletypeSettingDlg::OnInitDialog()
 }
 
 
-void FiletypeSettingDlg::OnBnClickedRdNotRegist()
+void FiletypeSettingsDlg::OnBnClickedRdNotRegist()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 	GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(FALSE);
 }
 
 
-void FiletypeSettingDlg::OnBnClickedRdRegist()
+void FiletypeSettingsDlg::OnBnClickedRdRegist()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 	GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(TRUE);
