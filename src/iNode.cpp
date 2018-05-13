@@ -1132,7 +1132,7 @@ CString iNodes::createClickableMapString(const CString& fileName, bool singleTex
 			href.Format(_T("text/") + fileName + _T("%d.html"), (*it)->getKey());
 		}
 		mapString += _T("<area shape=\"rect\" coords=\"") + coordsValue 
-			+ _T("\" href=\"") + href + _T("\" target=\"text\" alt=\"") + Utilities::removeCR((*it)->getName()) + _T("\" />\n");
+			+ _T("\" href=\"") + href + _T("\" target=\"text\" alt=\"") + StringUtil::removeCR((*it)->getName()) + _T("\" />\n");
 	}
 	return mapString;
 }

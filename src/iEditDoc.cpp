@@ -3107,7 +3107,7 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 {
 	const_niterator it = nodes_.findNode(key);
 	
-	CString nameStr = Utilities::removeCR((*it).second.getName());
+	CString nameStr = StringUtil::removeCR((*it).second.getName());
 	// リンクタグの生成
 	f->WriteString(_T("<a id="));
 	f->WriteString(_T("\""));
@@ -3146,7 +3146,7 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
 					}
 					sLink += _T("\">");
-					sLink += _T("▲") + Utilities::removeCR((*itTo).second.getName());
+					sLink += _T("▲") + StringUtil::removeCR((*itTo).second.getName());
 					if ((*li).getName() != _T("")) {
 						sLink += _T("(") + (*li).getName() + _T(")");
 					}
@@ -3166,7 +3166,7 @@ void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const 
 						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
 					}
 					sLink += _T("\">");
-					sLink += _T("▽") + Utilities::removeCR((*itFrom).second.getName());
+					sLink += _T("▽") + StringUtil::removeCR((*itFrom).second.getName());
 					if ((*li).getName() != "") {
 						sLink += _T("(") + (*li).getName() + ")";
 					}
@@ -3222,7 +3222,7 @@ CString iEditDoc::procWikiNotation(const CString &text)
 	const std::tr1::wregex uri(_T("^.*(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+).*$"));
 	std::tr1::match_results<std::wstring::const_iterator> result;
 	// TODO:wstring使うようにしてみたが、処理が動くか検証
-	vector<CString> lines = Utilities::getLines(text);
+	vector<CString> lines = StringUtil::getLines(text);
 	int level = 0;
 	int prevLevel = 0;
 	CString rtnStr;
@@ -3746,7 +3746,7 @@ void iEditDoc::OnFileSaveAs()
 		CString rootLabel = (*it).second.getName();
 		if (rootLabel != _T("主題")) {
 			// TODO:ファイル名として不正な文字の除去
-			CString safeFileName = Utilities::getSafeFileName(rootLabel);
+			CString safeFileName = StringUtil::getSafeFileName(rootLabel);
 			if (safeFileName == "") {
 				fileName = GetTitle();
 			} else {

@@ -2,15 +2,15 @@
 #include "Utilities.h"
 #include <shlwapi.h>
 
-Utilities::Utilities(void)
+StringUtil::StringUtil(void)
 {
 }
 
-Utilities::~Utilities(void)
+StringUtil::~StringUtil(void)
 {
 }
 
-CString Utilities::getSafeFileName(const CString& str)
+CString StringUtil::getSafeFileName(const CString& str)
 {
 	CString rs;
 	for (int i = 0; i < str.GetLength(); i++) {
@@ -29,7 +29,7 @@ CString Utilities::getSafeFileName(const CString& str)
 	return rs;
 }
 
-CString Utilities::removeCR(const CString &str)
+CString StringUtil::removeCR(const CString &str)
 {
 	CString toStr;
 	for (int i = 0; i < str.GetLength(); i++) {
@@ -44,7 +44,7 @@ CString Utilities::removeCR(const CString &str)
 	return toStr;
 }
 
-vector<CString> Utilities::getLines(const CString &text)
+vector<CString> StringUtil::getLines(const CString &text)
 {
 	vector<CString> lines;
 	CString line;
@@ -62,7 +62,7 @@ vector<CString> Utilities::getLines(const CString &text)
 	return lines;
 }
 
-bool Utilities::isDependChar(int nByte)
+bool StringUtil::isDependChar(int nByte)
 {
 	/*
 	参考：
@@ -98,7 +98,7 @@ bool Utilities::isDependChar(int nByte)
 	return false;
 }
 
-CString Utilities::removeDependChar(LPCTSTR moji)
+CString StringUtil::removeDependChar(LPCTSTR moji)
 {
 	CString strChkMoji;  // 検証対象の文字列
 	strChkMoji.Format(_T("%s"), moji);

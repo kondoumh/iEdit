@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-class Utilities
+class StringUtil
 {
 public:
-	Utilities(void);
-	~Utilities(void);
+	StringUtil(void);
+	~StringUtil(void);
 	static CString getSafeFileName(const CString& str);
 	static CString removeCR(const CString &str);
 	static vector<CString> getLines(const CString& text);

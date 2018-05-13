@@ -1965,7 +1965,7 @@ void OutlineView::OutputHTML()
 			olf.WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
 		}
 		olf.WriteString(_T("\" target=text>"));
-		CString rootStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
+		CString rootStr = StringUtil::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
 		olf.WriteString(rootStr);
 		olf.WriteString(_T("</a></h1>\n"));
 		olf.WriteString(_T("<ul>\n"));
@@ -2074,7 +2074,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 	// アウトライン書き込み
 	if (m_exportOption.navOption != 1) {
 		foutline->WriteString(_T("<li>"));
-		CString itemStr = Utilities::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
+		CString itemStr = StringUtil::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
 		foutline->WriteString(_T("<a href="));
 		if (m_exportOption.textOption == 0) {
 			foutline->WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#"));
@@ -2194,12 +2194,12 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab)
 		}
 	}
 
-	CString label = Utilities::removeDependChar(tree().GetItemText(hItem));
-	label = Utilities::removeCR(label);
+	CString label = StringUtil::removeDependChar(tree().GetItemText(hItem));
+	label = StringUtil::removeCR(label);
 	f->WriteString(label + _T("\n"));
 	
 	if (m_textExportOption.formatOption != 1) {
-		CString text = Utilities::removeDependChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
+		CString text = StringUtil::removeDependChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
 		f->WriteString(GetDocument()->procCR(text));
 		f->WriteString(_T("\n"));
 	}
@@ -2711,7 +2711,7 @@ void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
 			text += _T("\t");
 		}
 		CString label = GetDocument()->getKeyNodeLabel(key);
-		text += Utilities::removeCR(label);
+		text += StringUtil::removeCR(label);
 		text += _T("\r\n");
 	}
 	if (tree().ItemHasChildren(hItem)) {
@@ -3114,7 +3114,7 @@ void OutlineView::OnExportToText()
 
 	CString outfile = GetDocument()->getTitleFromPath();	
 	if (dlg.m_rdTreeOption != 0) {
-		CString label = Utilities::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
+		CString label = StringUtil::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
 		if (label != _T("")) {
 			outfile = label;
 		}
@@ -3149,7 +3149,7 @@ void OutlineView::OnExportToText()
 			if (dlg.m_rdChapterNumberOption == 0) {
 				f.WriteString(_T("."));
 			}
-			f.WriteString(Utilities::removeCR(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
+			f.WriteString(StringUtil::removeCR(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
 			if (dlg.m_rdFormatOption != 1) {
 				f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
 				f.WriteString(_T("\n"));
@@ -3211,9 +3211,9 @@ void OutlineView::textOutTreeByNode(HTREEITEM hItem)
 	}
 
 	CString chapNum = GetDocument()->getKeyNodeChapterNumber(tree().GetItemData(hItem));
-	CString label = chapNum + " " + Utilities::getSafeFileName(Utilities::removeDependChar(tree().GetItemText(hItem)));
-	label = Utilities::removeCR(label);
-	CString text = Utilities::removeDependChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
+	CString label = chapNum + " " + StringUtil::getSafeFileName(StringUtil::removeDependChar(tree().GetItemText(hItem)));
+	label = StringUtil::removeCR(label);
+	CString text = StringUtil::removeDependChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
 	createNodeTextFile(label, text);
 
 	if (tree().ItemHasChildren(hItem)) {
@@ -3338,7 +3338,7 @@ void OutlineView::OnExportToXml()
 	
 	CString outfile = GetDocument()->getTitleFromPath();
 	if (dlg.m_nTreeOp != 0) {
-		CString label = Utilities::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
+		CString label = StringUtil::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
 		if (label != _T("")) {
 			outfile = label;
 		}

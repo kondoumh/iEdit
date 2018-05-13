@@ -171,7 +171,7 @@ void ExportHtmlDlg::setPathIndex()
 		GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->SetWindowText(s);
 	}
 	CString prf = s.Trim();
-	prf = Utilities::getSafeFileName(prf);
+	prf = StringUtil::getSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathIndex = _T("index.html");
 	} else {
@@ -191,7 +191,7 @@ void ExportHtmlDlg::setPathOutline()
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TOC)->GetWindowText(s);
 	CString prf = s.Trim();
-	prf = Utilities::getSafeFileName(prf);
+	prf = StringUtil::getSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathOutline = _T("outline.html");
 	} else {
@@ -211,7 +211,7 @@ void ExportHtmlDlg::setPathNetwork()
 	CString s;
 	GetDlgItem(IDC_ED_PRF_NET)->GetWindowText(s);
 	CString prf = s.Trim();
-	prf = Utilities::getSafeFileName(prf);
+	prf = StringUtil::getSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathNetwork = _T("network.html");
 		m_pathSvg = _T("network.svg");
@@ -235,7 +235,7 @@ void ExportHtmlDlg::setPathTextSingle()
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->GetWindowText(s);
 	CString prf = s.Trim();
-	prf = Utilities::getSafeFileName(prf);
+	prf = StringUtil::getSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathTextSingle = _T("text.html");
 	} else {
@@ -250,7 +250,7 @@ void ExportHtmlDlg::OnEnChangeEdPrfTextEverynode()
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TEXT_EVERYNODE)->GetWindowText(s);
 	CString prf = s.Trim();
-	prf = Utilities::getSafeFileName(prf);
+	prf = StringUtil::getSafeFileName(prf);
 	if (prf == "") {
 		m_xvEdPrfTextEverynode = _T("");
 	} else {
@@ -264,12 +264,12 @@ void ExportHtmlDlg::OnBnClickedBtnSetPrfByRoot()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
-		Utilities::getSafeFileName(m_NameOfRoot));
+		StringUtil::getSafeFileName(m_NameOfRoot));
 }
 
 void ExportHtmlDlg::OnBnClickedBtnSetPrfByVisibleRoot()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
-		Utilities::getSafeFileName(m_NameOfVisibleRoot));
+		StringUtil::getSafeFileName(m_NameOfVisibleRoot));
 }
