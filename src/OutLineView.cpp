@@ -2466,7 +2466,7 @@ void OutlineView::doColorSetting()
 void OutlineView::OnAddChild2()
 {
 	// TODO : ここにコマンド ハンドラ コードを追加します。
-	CInpcnDlg dlg;
+	CreateNodeDlg dlg;
 	dlg.m_iniPt.x = -1;
 	dlg.m_iniPt.y = -1;
 	if (dlg.DoModal() != IDOK) return;

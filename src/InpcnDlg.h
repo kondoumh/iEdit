@@ -8,18 +8,18 @@
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcnDlg ダイアログ
+// CreateNodeDlg ダイアログ
 
-class CInpcnDlg : public CDialog
+class CreateNodeDlg : public CDialog
 {
 // コンストラクション
 public:
 	CRect iniRect;
 	CPoint m_iniPt;
-	CInpcnDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	CreateNodeDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(CInpcnDlg)
+	//{{AFX_DATA(CreateNodeDlg)
 	enum { IDD = IDD_INPCN };
 	CEdit	m_editName;
 	CString	m_strcn;
@@ -28,7 +28,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(CInpcnDlg)
+	//{{AFX_VIRTUAL(CreateNodeDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -38,7 +38,7 @@ protected:
 	LRESULT afx_msg OnSetCharData(UINT wParam, LONG lParam);
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(CInpcnDlg)
+	//{{AFX_MSG(CreateNodeDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnClose();
 	//}}AFX_MSG

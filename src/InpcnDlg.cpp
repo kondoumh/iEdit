@@ -14,39 +14,39 @@ static char THIS_FILE[] = __FILE__;
 #define WM_SETCHARDATA WM_USER + 12
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcnDlg ダイアログ
+// CreateNodeDlg ダイアログ
 
 
-CInpcnDlg::CInpcnDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CInpcnDlg::IDD, pParent)
+CreateNodeDlg::CreateNodeDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(CreateNodeDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CInpcnDlg)
+	//{{AFX_DATA_INIT(CreateNodeDlg)
 	m_strcn = _T("");
 	//}}AFX_DATA_INIT
 }
 
 
-void CInpcnDlg::DoDataExchange(CDataExchange* pDX)
+void CreateNodeDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CInpcnDlg)
+	//{{AFX_DATA_MAP(CreateNodeDlg)
 	DDX_Control(pDX, IDC_EDIT1, m_editName);
 	DDX_Text(pDX, IDC_EDIT1, m_strcn);
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(CInpcnDlg, CDialog)
-	//{{AFX_MSG_MAP(CInpcnDlg)
+BEGIN_MESSAGE_MAP(CreateNodeDlg, CDialog)
+	//{{AFX_MSG_MAP(CreateNodeDlg)
 	ON_WM_CLOSE()
 	//}}AFX_MSG_MAP
 	ON_MESSAGE(WM_SETCHARDATA, OnSetCharData)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CInpcnDlg メッセージ ハンドラ
+// CreateNodeDlg メッセージ ハンドラ
 
-BOOL CInpcnDlg::OnInitDialog() 
+BOOL CreateNodeDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	GetWindowRect(&iniRect);
@@ -66,14 +66,14 @@ BOOL CInpcnDlg::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-void CInpcnDlg::OnClose() 
+void CreateNodeDlg::OnClose() 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	MoveWindow(iniRect.left, iniRect.top, iniRect.Width(), iniRect.Height(), TRUE);
 	CDialog::OnClose();
 }
 
-LRESULT CInpcnDlg::OnSetCharData(UINT wParam, LONG lParam)
+LRESULT CreateNodeDlg::OnSetCharData(UINT wParam, LONG lParam)
 {
 	m_editName.ReplaceSel(m_strcn);
 	return 0;

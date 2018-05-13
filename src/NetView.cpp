@@ -1941,7 +1941,7 @@ void NetView::OnUpdateAddArc(CCmdUI* pCmdUI)
 
 void NetView::addNode(const CPoint &logPt, const CPoint& screenPt, const CString& s)
 {
-	CInpcnDlg dlg;
+	CreateNodeDlg dlg;
 	CPoint curPt = GetScrollPosition();
 	
 	dlg.m_iniPt.x = screenPt.x;
@@ -3949,7 +3949,7 @@ void NetView::procRenameDialog(const CRect& nodeBound)
 	GetDocument()->recalcArea();
 	adjustScrollArea();
 	Invalidate();
-	CInpcnDlg dlg;
+	CreateNodeDlg dlg;
 	
 	CPoint spt(nodeBound.CenterPoint());
 	ViewLPtoDP(&spt, 1);
