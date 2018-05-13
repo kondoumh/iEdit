@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "iEdit.h"
 #include "ExportHtmlDlg.h"
-#include "Utilities.h"
+#include "StringUtil.h"
 
 
 // ExportHtmlDlg ダイアログ

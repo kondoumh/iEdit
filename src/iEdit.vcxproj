@@ -191,11 +191,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StringUtil.cpp" />
     <ClCompile Include="SvgWriter.cpp" />
     <ClCompile Include="SystemConfiguration.cpp" />
     <ClCompile Include="TabSeet.cpp" />
     <ClCompile Include="Token.cpp" />
-    <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="WndTransparencySettingsDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -242,11 +242,11 @@
     <ClInclude Include="ShapesManagementDlg.h" />
     <ClInclude Include="Splash.h" />
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="StringUtil.h" />
     <ClInclude Include="SvgWriter.h" />
     <ClInclude Include="SystemConfiguration.h" />
     <ClInclude Include="TabSeet.h" />
     <ClInclude Include="Token.h" />
-    <ClInclude Include="Utilities.h" />
     <ClInclude Include="WndTransparencySettingsDlg.h" />
   </ItemGroup>
   <ItemGroup>

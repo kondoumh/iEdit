@@ -19,7 +19,7 @@
 #include "Token.h"
 #include "ExportHtmlDlg.h"
 #include "ExportTextDlg.h"
-#include "Utilities.h"
+#include "StringUtil.h"
 #include "SystemConfiguration.h"
 #include <shlobj.h>
 #include <locale>

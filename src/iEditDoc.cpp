@@ -11,7 +11,7 @@
 
 #include "SvgWriter.h"
 #include <shlwapi.h>
-#include "Utilities.h"
+#include "StringUtil.h"
 #include <atlimage.h>
 #include <regex>
 #include <locale>

@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "Utilities.h"
+#include "StringUtil.h"
 #include <shlwapi.h>
 
 StringUtil::StringUtil(void)

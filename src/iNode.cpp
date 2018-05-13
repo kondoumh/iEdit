@@ -7,7 +7,7 @@
 #include "iNode.h"
 #include "Token.h"
 #include "iEdit.h"
-#include "Utilities.h"
+#include "StringUtil.h"
 #include <algorithm>
 
 #ifdef _DEBUG
