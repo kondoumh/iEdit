@@ -1,4 +1,4 @@
-﻿// SetAlphaDlg.cpp : インプリメンテーション ファイル
+﻿// WndTransparencySettingsDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,45 +12,45 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// SetAlphaDlg ダイアログ
+// WndTransparencySettingsDlg ダイアログ
 
 
-SetAlphaDlg::SetAlphaDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(SetAlphaDlg::IDD, pParent)
+WndTransparencySettingsDlg::WndTransparencySettingsDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(WndTransparencySettingsDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(SetAlphaDlg)
+	//{{AFX_DATA_INIT(WndTransparencySettingsDlg)
 		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_DATA_INIT
 }
 
 
-void SetAlphaDlg::DoDataExchange(CDataExchange* pDX)
+void WndTransparencySettingsDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(SetAlphaDlg)
+	//{{AFX_DATA_MAP(WndTransparencySettingsDlg)
 	DDX_Control(pDX, IDC_LB_LEVEL, m_lbLevel);
 	DDX_Control(pDX, IDC_SLIDER_ALPHA, m_sldrAlpha);
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(SetAlphaDlg, CDialog)
-	//{{AFX_MSG_MAP(SetAlphaDlg)
+BEGIN_MESSAGE_MAP(WndTransparencySettingsDlg, CDialog)
+	//{{AFX_MSG_MAP(WndTransparencySettingsDlg)
 	ON_WM_HSCROLL()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// SetAlphaDlg メッセージ ハンドラ
+// WndTransparencySettingsDlg メッセージ ハンドラ
 
-BOOL SetAlphaDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
+BOOL WndTransparencySettingsDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
 {
 	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	m_pParent = pParentWnd;
 	return CDialog::Create(IDD, pParentWnd);
 }
 
-BOOL SetAlphaDlg::OnInitDialog() 
+BOOL WndTransparencySettingsDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -63,7 +63,7 @@ BOOL SetAlphaDlg::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-void SetAlphaDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+void WndTransparencySettingsDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CString s; s.Format(_T("%d"), m_sldrAlpha.GetPos());

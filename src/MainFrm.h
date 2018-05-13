@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-class SetAlphaDlg;
+class WndTransparencySettingsDlg;
 typedef DWORD (WINAPI *FWINLAYER)(HWND hwnd,DWORD crKey,BYTE bAlpha,DWORD dwFlags);
 
 class CMainFrame : public CMDIFrameWnd
@@ -69,7 +69,7 @@ private:
 	BOOL m_bCanBeTransparent;
 	BOOL m_bTransparent;
 	long m_nAlphaValue;
-	SetAlphaDlg* m_pSetAlphaDlg;
+	WndTransparencySettingsDlg* m_pSetAlphaDlg;
 	CComboBox m_comboZoom;
 	CFont m_fntComboZoom;
 	void saveFramePosition();

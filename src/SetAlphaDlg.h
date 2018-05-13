@@ -4,23 +4,23 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// SetAlphaDlg.h : ヘッダー ファイル
+// WndTransparencySettingsDlg.h : ヘッダー ファイル
 //
 
 #define WM_SLIDEALPHA WM_USER + 11
 
 /////////////////////////////////////////////////////////////////////////////
-// SetAlphaDlg ダイアログ
+// WndTransparencySettingsDlg ダイアログ
 
-class SetAlphaDlg : public CDialog
+class WndTransparencySettingsDlg : public CDialog
 {
 // コンストラクション
 public:
 	long m_nLevel;
-	SetAlphaDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	WndTransparencySettingsDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(SetAlphaDlg)
+	//{{AFX_DATA(WndTransparencySettingsDlg)
 	enum { IDD = IDD_ALPHASLIDE };
 	CStatic	m_lbLevel;
 	CSliderCtrl	m_sldrAlpha;
@@ -29,7 +29,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(SetAlphaDlg)
+	//{{AFX_VIRTUAL(WndTransparencySettingsDlg)
 	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 	protected:
@@ -40,7 +40,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(SetAlphaDlg)
+	//{{AFX_MSG(WndTransparencySettingsDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	//}}AFX_MSG

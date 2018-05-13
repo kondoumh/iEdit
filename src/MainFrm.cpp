@@ -378,7 +378,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 void CMainFrame::OnAdjustAlpha() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	m_pSetAlphaDlg = new SetAlphaDlg;
+	m_pSetAlphaDlg = new WndTransparencySettingsDlg;
 	m_pSetAlphaDlg->m_nLevel = m_nAlphaValue;
 	m_pSetAlphaDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_ALPHASLIDE);
 	m_pSetAlphaDlg->ShowWindow(SW_SHOWNORMAL);
