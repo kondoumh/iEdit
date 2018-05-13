@@ -5,7 +5,7 @@
 #include "iEdit.h"
 #include "NodePropDlg.h"
 #include "iNode.h"
-#include "SetMarginDlg.h"
+#include "NodeMarginSettingsDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

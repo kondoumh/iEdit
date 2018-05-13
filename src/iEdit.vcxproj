@@ -171,6 +171,7 @@
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MfSizer.cpp" />
     <ClCompile Include="NetView.cpp" />
+    <ClCompile Include="NodeMarginSettingsDlg.cpp" />
     <ClCompile Include="NodePropDlg.cpp" />
     <ClCompile Include="NodeSearchDlg.cpp" />
     <ClCompile Include="OptionSettingsDlg.cpp" />
@@ -182,7 +183,6 @@
     <ClCompile Include="ProceedingDlg.cpp" />
     <ClCompile Include="RectTrackerPlus.cpp" />
     <ClCompile Include="RelaxThrd.cpp" />
-    <ClCompile Include="SetMarginDlg.cpp" />
     <ClCompile Include="SetMFSizeDlg.cpp" />
     <ClCompile Include="ShapeInsertDlg.cpp" />
     <ClCompile Include="ShapesDlg.cpp" />
@@ -224,6 +224,7 @@
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MfSizer.h" />
     <ClInclude Include="NetView.h" />
+    <ClInclude Include="NodeMarginSettingsDlg.h" />
     <ClInclude Include="NodePropDlg.h" />
     <ClInclude Include="NodeSearchDlg.h" />
     <ClInclude Include="OptionSettingsDlg.h" />
@@ -236,7 +237,6 @@
     <ClInclude Include="RectTrackerPlus.h" />
     <ClInclude Include="RelaxThrd.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SetMarginDlg.h" />
     <ClInclude Include="SetMFSizeDlg.h" />
     <ClInclude Include="ShapeInsertDlg.h" />
     <ClInclude Include="ShapesDlg.h" />

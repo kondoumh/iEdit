@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "SetMarginDlg.h"
+#include "NodeMarginSettingsDlg.h"
 
 
 // NodeMarginSettingsDlg ダイアログ

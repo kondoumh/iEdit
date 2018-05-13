@@ -16,7 +16,7 @@
 #include "Token.h"
 #include "imm.h"
 #include "RectTrackerPlus.h"
-#include "SetMarginDlg.h"
+#include "NodeMarginSettingsDlg.h"
 #include "SystemConfiguration.h"
 
 #ifdef _DEBUG
