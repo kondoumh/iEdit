@@ -533,7 +533,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 	
 	int loop = ls.size();
 	ASSERT(loop >= 0);
-	COnProcDlg prcdlg;
+	ProceedingDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
 	prcdlg.m_ProcName.SetWindowText(_T("登録中"));
 	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
@@ -579,7 +579,7 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 	int loop = addNodes.size() - 1;
 	if (loop <= 0) return;
 	
-	COnProcDlg prcdlg;
+	ProceedingDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
 	prcdlg.m_ProcName.SetWindowText(_T("登録中"));
 	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
@@ -2251,7 +2251,7 @@ bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char l
 
 bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, const char levelChar)
 {
-	COnProcDlg prcdlg;
+	ProceedingDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
 	prcdlg.m_ProcName.SetWindowText(_T("インポート中"));
 	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定

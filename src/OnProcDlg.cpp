@@ -12,32 +12,32 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// COnProcDlg ダイアログ
+// ProceedingDlg ダイアログ
 
 
-COnProcDlg::COnProcDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(COnProcDlg::IDD, pParent)
+ProceedingDlg::ProceedingDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(ProceedingDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(COnProcDlg)
+	//{{AFX_DATA_INIT(ProceedingDlg)
 	//}}AFX_DATA_INIT
 }
 
 
-void COnProcDlg::DoDataExchange(CDataExchange* pDX)
+void ProceedingDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(COnProcDlg)
+	//{{AFX_DATA_MAP(ProceedingDlg)
 	DDX_Control(pDX, IDC_PROC_NAME, m_ProcName);
 	DDX_Control(pDX, IDC_PROGPROC, m_ProgProc);
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(COnProcDlg, CDialog)
-	//{{AFX_MSG_MAP(COnProcDlg)
+BEGIN_MESSAGE_MAP(ProceedingDlg, CDialog)
+	//{{AFX_MSG_MAP(ProceedingDlg)
 		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// COnProcDlg メッセージ ハンドラ
+// ProceedingDlg メッセージ ハンドラ
