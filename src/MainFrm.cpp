@@ -7,7 +7,7 @@
 #include "MainFrm.h"
 #include "Splash.h"
 
-#include "PropertyDlg.h"
+#include "OptionSettingsDlg.h"
 #include "NodeSearchDlg.h"
 #include "SetAlphaDlg.h"
 #include "ChildFrm.h"

@@ -72,9 +72,6 @@
     <ClCompile Include="PageOther.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PropertyDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RectTrackerPlus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,6 +147,9 @@
     <ClCompile Include="ProceedingDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OptionSettingsDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc">
@@ -212,9 +212,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PageOther.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertyDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RectTrackerPlus.h">
@@ -293,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ProceedingDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionSettingsDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

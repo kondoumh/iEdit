@@ -513,7 +513,7 @@ void CAboutDlg::OnStnClickedWebsite()
 void CiEditApp::OnFiletypeRegDel()
 {
 	// TODO: ここにコマンド ハンドラー コードを追加します。
-	FiletypeSettingDlg dlg;
+	FiletypeSettingsDlg dlg;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	BOOL bRegist = pApp->m_rgsOptions.registFiletype;
 	dlg.m_registFileType = bRegist ? 1 : 0;

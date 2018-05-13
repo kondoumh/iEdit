@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "PropertyDlg.h"
+#include "OptionSettingsDlg.h"
 
 #include "PageFrame.h"
 #include "PageNode.h"

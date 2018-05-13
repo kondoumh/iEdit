@@ -12,7 +12,7 @@
 #include "NetView.h"
 #include "LinkView.h"
 
-#include "PropertyDlg.h"
+#include "OptionSettingsDlg.h"
 #include "NodeSearchDlg.h"
 
 #ifdef _DEBUG
