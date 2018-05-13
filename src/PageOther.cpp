@@ -147,7 +147,7 @@ void PageOther::OnChkAccel()
 void PageOther::OnBtnSetmfsize() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	SetMFSizeDlg dlg;
+	MetafileSettingsDlg dlg;
 	double mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rWidth"), 0)/10.0;
 	double mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rHeight"), 0)/10.0;
 	

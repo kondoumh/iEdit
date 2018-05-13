@@ -4,22 +4,22 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// SetMFSizeDlg.h : ヘッダー ファイル
+// MetafileSettingsDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// SetMFSizeDlg ダイアログ
+// MetafileSettingsDlg ダイアログ
 
-class SetMFSizeDlg : public CDialog
+class MetafileSettingsDlg : public CDialog
 {
 // コンストラクション
 public:
-	SetMFSizeDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	MetafileSettingsDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 	double m_ry;
 	double m_rx;
 
 // ダイアログ データ
-	//{{AFX_DATA(SetMFSizeDlg)
+	//{{AFX_DATA(MetafileSettingsDlg)
 	enum { IDD = IDD_MFSIZE };
 	CStatic	m_stInfo;
 	CStatic	m_stMF;
@@ -28,7 +28,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(SetMFSizeDlg)
+	//{{AFX_VIRTUAL(MetafileSettingsDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -39,7 +39,7 @@ protected:
 	HENHMETAFILE createMF();
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(SetMFSizeDlg)
+	//{{AFX_MSG(MetafileSettingsDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBtnLeft();
 	afx_msg void OnBtnRight();

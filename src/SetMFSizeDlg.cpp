@@ -1,4 +1,4 @@
-﻿// SetMFSizeDlg.cpp : インプリメンテーション ファイル
+﻿// MetafileSettingsDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -13,29 +13,29 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// SetMFSizeDlg ダイアログ
+// MetafileSettingsDlg ダイアログ
 
 
-SetMFSizeDlg::SetMFSizeDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(SetMFSizeDlg::IDD, pParent)
+MetafileSettingsDlg::MetafileSettingsDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(MetafileSettingsDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(SetMFSizeDlg)
+	//{{AFX_DATA_INIT(MetafileSettingsDlg)
 	//}}AFX_DATA_INIT
 }
 
 
-void SetMFSizeDlg::DoDataExchange(CDataExchange* pDX)
+void MetafileSettingsDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(SetMFSizeDlg)
+	//{{AFX_DATA_MAP(MetafileSettingsDlg)
 	DDX_Control(pDX, IDC_ST_INFO, m_stInfo);
 	DDX_Control(pDX, IDC_MF, m_stMF);
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(SetMFSizeDlg, CDialog)
-	//{{AFX_MSG_MAP(SetMFSizeDlg)
+BEGIN_MESSAGE_MAP(MetafileSettingsDlg, CDialog)
+	//{{AFX_MSG_MAP(MetafileSettingsDlg)
 	ON_BN_CLICKED(IDC_BTN_LEFT, OnBtnLeft)
 	ON_BN_CLICKED(IDC_BTN_RIGHT, OnBtnRight)
 	ON_BN_CLICKED(IDC_BTN_DOWN, OnBtnDown)
@@ -45,9 +45,9 @@ BEGIN_MESSAGE_MAP(SetMFSizeDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// SetMFSizeDlg メッセージ ハンドラ
+// MetafileSettingsDlg メッセージ ハンドラ
 
-BOOL SetMFSizeDlg::OnInitDialog() 
+BOOL MetafileSettingsDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -58,7 +58,7 @@ BOOL SetMFSizeDlg::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-HENHMETAFILE SetMFSizeDlg::createMF()
+HENHMETAFILE MetafileSettingsDlg::createMF()
 {
 	CMetaFileDC mfDC;
 	CRect rc(0, 0, (int)(100*m_rx) , (int)(100*m_ry));
@@ -69,14 +69,14 @@ HENHMETAFILE SetMFSizeDlg::createMF()
 	return mfDC.CloseEnhanced();
 }
 
-void SetMFSizeDlg::showSizeInfo()
+void MetafileSettingsDlg::showSizeInfo()
 {
 	CString info;
 	info.Format(_T("幅 : %.01f  高さ : %.01f"), m_rx, m_ry);
 	m_stInfo.SetWindowText(info);
 }
 
-void SetMFSizeDlg::OnBtnLeft() 
+void MetafileSettingsDlg::OnBtnLeft() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rx -= 0.1;
@@ -87,7 +87,7 @@ void SetMFSizeDlg::OnBtnLeft()
 	showSizeInfo();
 }
 
-void SetMFSizeDlg::OnBtnRight() 
+void MetafileSettingsDlg::OnBtnRight() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rx += 0.1;
@@ -95,7 +95,7 @@ void SetMFSizeDlg::OnBtnRight()
 	showSizeInfo();
 }
 
-void SetMFSizeDlg::OnBtnDown() 
+void MetafileSettingsDlg::OnBtnDown() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_ry -= 0.1;
@@ -106,7 +106,7 @@ void SetMFSizeDlg::OnBtnDown()
 	showSizeInfo();
 }
 
-void SetMFSizeDlg::OnBtnUp() 
+void MetafileSettingsDlg::OnBtnUp() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_ry += 0.1;
@@ -114,7 +114,7 @@ void SetMFSizeDlg::OnBtnUp()
 	showSizeInfo();
 }
 
-void SetMFSizeDlg::OnBnClickedBtnReset()
+void MetafileSettingsDlg::OnBnClickedBtnReset()
 {
 	// TODO : ここにコントロール通知ハンドラ コードを追加します。
 	CSize szMF = MfSizer::getMFSize();
