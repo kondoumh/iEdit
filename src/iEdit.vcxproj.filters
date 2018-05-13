@@ -105,9 +105,6 @@
     <ClCompile Include="NodeSearchDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShapeInsertDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FoldingSettingsDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -148,6 +145,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShapesManagementDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeRegistrationDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -250,9 +250,6 @@
     <ClInclude Include="NodeSearchDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeInsertDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FoldingSettingsDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -293,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShapesManagementDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeRegistrationDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

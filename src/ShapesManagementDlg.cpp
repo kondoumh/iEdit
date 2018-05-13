@@ -5,7 +5,7 @@
 #include "iEdit.h"
 #include "ShapesManagementDlg.h"
 #include "EditShapeCategoryDlg.h"
-#include "ShapeInsertDlg.h"
+#include "ShapeRegistrationDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
