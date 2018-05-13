@@ -6,7 +6,7 @@
 #include "LinkView.h"
 #include "iEditDoc.h"
 #include "LinkPropertiesDlg.h"
-#include "LinkInfo2Dlg.h"
+#include "LinkForPathDlg.h"
 #include "FileDropActionDlg.h"
 #include "SystemConfiguration.h"
 #include <algorithm>

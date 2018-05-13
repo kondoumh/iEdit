@@ -165,7 +165,7 @@
     <ClCompile Include="ImportTextDlg.cpp" />
     <ClCompile Include="ImportXmlDlg.cpp" />
     <ClCompile Include="iNode.cpp" />
-    <ClCompile Include="LinkInfo2Dlg.cpp" />
+    <ClCompile Include="LinkForPathDlg.cpp" />
     <ClCompile Include="LinkPropertiesDlg.cpp" />
     <ClCompile Include="LinkView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
@@ -218,7 +218,7 @@
     <ClInclude Include="ImportTextDlg.h" />
     <ClInclude Include="ImportXmlDlg.h" />
     <ClInclude Include="iNode.h" />
-    <ClInclude Include="LinkInfo2Dlg.h" />
+    <ClInclude Include="LinkForPathDlg.h" />
     <ClInclude Include="LinkPropertiesDlg.h" />
     <ClInclude Include="LinkView.h" />
     <ClInclude Include="MainFrm.h" />

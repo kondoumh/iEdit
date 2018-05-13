@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "LinkInfo2Dlg.h"
+#include "LinkForPathDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
