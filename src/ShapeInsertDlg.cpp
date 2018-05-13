@@ -1,4 +1,4 @@
-﻿// ShapeInsertDlg.cpp : インプリメンテーション ファイル
+﻿// ShapeRegistrationDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,22 +12,22 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// ShapeInsertDlg ダイアログ
+// ShapeRegistrationDlg ダイアログ
 
 
-ShapeInsertDlg::ShapeInsertDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(ShapeInsertDlg::IDD, pParent)
+ShapeRegistrationDlg::ShapeRegistrationDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(ShapeRegistrationDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(ShapeInsertDlg)
+	//{{AFX_DATA_INIT(ShapeRegistrationDlg)
 	m_strPath = _T("");
 	//}}AFX_DATA_INIT
 }
 
 
-void ShapeInsertDlg::DoDataExchange(CDataExchange* pDX)
+void ShapeRegistrationDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(ShapeInsertDlg)
+	//{{AFX_DATA_MAP(ShapeRegistrationDlg)
 	DDX_Control(pDX, IDC_EDPATH, m_edPath);
 	DDX_Control(pDX, IDC_SHAPE, m_iShape);
 	DDX_Control(pDX, IDC_BTN_BROWSE, m_BtnBrowse);
@@ -36,16 +36,16 @@ void ShapeInsertDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(ShapeInsertDlg, CDialog)
-	//{{AFX_MSG_MAP(ShapeInsertDlg)
+BEGIN_MESSAGE_MAP(ShapeRegistrationDlg, CDialog)
+	//{{AFX_MSG_MAP(ShapeRegistrationDlg)
 	ON_BN_CLICKED(IDC_BTN_BROWSE, OnBtnBrowse)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// ShapeInsertDlg メッセージ ハンドラ
+// ShapeRegistrationDlg メッセージ ハンドラ
 
-void ShapeInsertDlg::OnBtnBrowse() 
+void ShapeRegistrationDlg::OnBtnBrowse() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CString empath;
@@ -65,7 +65,7 @@ void ShapeInsertDlg::OnBtnBrowse()
 	}
 }
 
-void ShapeInsertDlg::OnOK() 
+void ShapeRegistrationDlg::OnOK() 
 {
 	// TODO: この位置にその他の検証用のコードを追加してください
 	if (m_strPath == _T("")) {

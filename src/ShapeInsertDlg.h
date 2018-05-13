@@ -4,20 +4,20 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// ShapeInsertDlg.h : ヘッダー ファイル
+// ShapeRegistrationDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// ShapeInsertDlg ダイアログ
+// ShapeRegistrationDlg ダイアログ
 
-class ShapeInsertDlg : public CDialog
+class ShapeRegistrationDlg : public CDialog
 {
 // コンストラクション
 public:
-	ShapeInsertDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	ShapeRegistrationDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(ShapeInsertDlg)
+	//{{AFX_DATA(ShapeRegistrationDlg)
 	enum { IDD = IDD_SHAPEINS };
 	CEdit	m_edPath;
 	CStatic	m_iShape;
@@ -28,7 +28,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(ShapeInsertDlg)
+	//{{AFX_VIRTUAL(ShapeRegistrationDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -37,7 +37,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(ShapeInsertDlg)
+	//{{AFX_MSG(ShapeRegistrationDlg)
 	afx_msg void OnBtnBrowse();
 	virtual void OnOK();
 	//}}AFX_MSG
