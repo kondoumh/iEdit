@@ -9,7 +9,7 @@
 
 #include "OptionSettingsDlg.h"
 #include "NodeSearchDlg.h"
-#include "SetAlphaDlg.h"
+#include "WndTransparencySettingsDlg.h"
 #include "ChildFrm.h"
 
 #ifdef _DEBUG

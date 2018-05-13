@@ -182,7 +182,6 @@
     <ClCompile Include="ProceedingDlg.cpp" />
     <ClCompile Include="RectTrackerPlus.cpp" />
     <ClCompile Include="RelaxThrd.cpp" />
-    <ClCompile Include="SetAlphaDlg.cpp" />
     <ClCompile Include="SetMarginDlg.cpp" />
     <ClCompile Include="SetMFSizeDlg.cpp" />
     <ClCompile Include="ShapeInsertDlg.cpp" />
@@ -197,6 +196,7 @@
     <ClCompile Include="TabSeet.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="WndTransparencySettingsDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc" />
@@ -236,7 +236,6 @@
     <ClInclude Include="RectTrackerPlus.h" />
     <ClInclude Include="RelaxThrd.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SetAlphaDlg.h" />
     <ClInclude Include="SetMarginDlg.h" />
     <ClInclude Include="SetMFSizeDlg.h" />
     <ClInclude Include="ShapeInsertDlg.h" />
@@ -248,6 +247,7 @@
     <ClInclude Include="TabSeet.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Utilities.h" />
+    <ClInclude Include="WndTransparencySettingsDlg.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\arc.cur" />

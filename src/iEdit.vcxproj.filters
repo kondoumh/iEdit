@@ -75,9 +75,6 @@
     <ClCompile Include="RelaxThrd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SetAlphaDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SetMarginDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,6 +147,9 @@
     <ClCompile Include="FileDropActionDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WndTransparencySettingsDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc">
@@ -218,9 +218,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SetAlphaDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SetMarginDlg.h">
@@ -293,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileDropActionDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WndTransparencySettingsDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
