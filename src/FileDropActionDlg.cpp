@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "SelFileDropDlg.h"
+#include "FileDropActionDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

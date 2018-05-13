@@ -7,7 +7,7 @@
 #include "iEditDoc.h"
 #include "LinkInfoDlg.h"
 #include "LinkInfo2Dlg.h"
-#include "SelFileDropDlg.h"
+#include "FileDropActionDlg.h"
 #include "SystemConfiguration.h"
 #include <algorithm>
 
