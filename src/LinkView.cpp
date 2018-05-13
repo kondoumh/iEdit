@@ -370,7 +370,7 @@ void LinkView::setLinkInfo()
 		GetDocument()->setSpecifiedLinkInfo(items_[index], i);
 	} else if (type == listitem::FileName || type == listitem::WebURL ||
 		type == listitem::linkFolder || type == listitem::iedFile) {
-		LinkInfo2Dlg dlg;
+		LinkForPathDlg dlg;
 		dlg.strComment = i.comment;
 		dlg.strOrg = GetDocument()->getSelectedNodeLabel();
 		dlg.strPath = i.path;

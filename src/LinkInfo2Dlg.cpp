@@ -1,4 +1,4 @@
-﻿// LinkInfo2Dlg.cpp : インプリメンテーション ファイル
+﻿// LinkForPathDlg.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,21 +12,21 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfo2Dlg ダイアログ
+// LinkForPathDlg ダイアログ
 
 
-LinkInfo2Dlg::LinkInfo2Dlg(CWnd* pParent /*=NULL*/)
-	: CDialog(LinkInfo2Dlg::IDD, pParent)
+LinkForPathDlg::LinkForPathDlg(CWnd* pParent /*=NULL*/)
+	: CDialog(LinkForPathDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(LinkInfo2Dlg)
+	//{{AFX_DATA_INIT(LinkForPathDlg)
 	//}}AFX_DATA_INIT
 }
 
 
-void LinkInfo2Dlg::DoDataExchange(CDataExchange* pDX)
+void LinkForPathDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(LinkInfo2Dlg)
+	//{{AFX_DATA_MAP(LinkForPathDlg)
 	DDX_Control(pDX, IDC_EDIT2, m_Comment);
 	DDX_Control(pDX, IDC_EDIT1, m_edit);
 	DDX_Control(pDX, IDC_ORG, m_Org);
@@ -34,16 +34,16 @@ void LinkInfo2Dlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(LinkInfo2Dlg, CDialog)
-	//{{AFX_MSG_MAP(LinkInfo2Dlg)
+BEGIN_MESSAGE_MAP(LinkForPathDlg, CDialog)
+	//{{AFX_MSG_MAP(LinkForPathDlg)
 	ON_BN_CLICKED(IDC_BROWSE, OnBrowse)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfo2Dlg メッセージ ハンドラ
+// LinkForPathDlg メッセージ ハンドラ
 
-void LinkInfo2Dlg::OnBrowse() 
+void LinkForPathDlg::OnBrowse() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	WCHAR szFilters[] = _T("全てのファイル (*.*)|*.*|");
@@ -53,7 +53,7 @@ void LinkInfo2Dlg::OnBrowse()
 	m_edit.ReplaceSel(dlg.GetPathName());
 }
 
-void LinkInfo2Dlg::OnOK() 
+void LinkForPathDlg::OnOK() 
 {
 	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strPath);
@@ -65,7 +65,7 @@ void LinkInfo2Dlg::OnOK()
 	CDialog::OnOK();
 }
 
-BOOL LinkInfo2Dlg::OnInitDialog() 
+BOOL LinkForPathDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	// TODO: この位置に初期化の補足処理を追加してください

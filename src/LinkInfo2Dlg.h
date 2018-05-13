@@ -4,23 +4,23 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// LinkInfo2Dlg.h : ヘッダー ファイル
+// LinkForPathDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkInfo2Dlg ダイアログ
+// LinkForPathDlg ダイアログ
 
-class LinkInfo2Dlg : public CDialog
+class LinkForPathDlg : public CDialog
 {
 // コンストラクション
 public:
 	CString strComment;
 	CString strPath;
 	CString strOrg;
-	LinkInfo2Dlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	LinkForPathDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(LinkInfo2Dlg)
+	//{{AFX_DATA(LinkForPathDlg)
 	enum { IDD = IDD_LINKINFO2 };
 	CEdit	m_Comment;
 	CEdit	m_edit;
@@ -30,7 +30,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(LinkInfo2Dlg)
+	//{{AFX_VIRTUAL(LinkForPathDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -39,7 +39,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(LinkInfo2Dlg)
+	//{{AFX_MSG(LinkForPathDlg)
 	afx_msg void OnBrowse();
 	virtual void OnOK();
 	virtual BOOL OnInitDialog();

@@ -1425,7 +1425,7 @@ void OutlineView::deleteKeyNode(DWORD key, DWORD parentKey)
 void OutlineView::OnAddUrl() 
 {
 	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	LinkInfo2Dlg dlg;
+	LinkForPathDlg dlg;
 	dlg.strOrg = tree().GetItemText(curItem());
 	if (dlg.DoModal() != IDOK) return;
 	GetDocument()->disableUndo();
