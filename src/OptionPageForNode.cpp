@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "PageNode.h"
+#include "OptionPageForNode.h"
 #include "iNode.h"
 #include "NodeMarginSettingsDlg.h"
 

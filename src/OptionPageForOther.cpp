@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "PageOther.h"
+#include "OptionPageForOther.h"
 #include "MetafileSettingsDlg.h"
 #include "MfSizer.h"
 

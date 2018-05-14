@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
-#include "PageLink.h"
+#include "OptionPageForLink.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

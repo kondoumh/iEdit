@@ -51,18 +51,6 @@
     <ClCompile Include="OutLineView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PageFrame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PageLink.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PageNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PageOther.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RectTrackerPlus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,6 +138,18 @@
     <ClCompile Include="NodePropertiesDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OptionPageForFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionPageForLink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionPageForNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionPageForOther.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc">
@@ -191,18 +191,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OutLineView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PageFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PageLink.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PageNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PageOther.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RectTrackerPlus.h">
@@ -293,6 +281,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NodePropertiesDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionPageForFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionPageForLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionPageForNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionPageForOther.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
