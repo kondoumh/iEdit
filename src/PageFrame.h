@@ -4,13 +4,13 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// PageFrame.h : ヘッダー ファイル
+// OptionPageForFrame.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// PageFrame ダイアログ
+// OptionPageForFrame ダイアログ
 
-class PageFrame : public CDialog
+class OptionPageForFrame : public CDialog
 {
 // コンストラクション
 public:
@@ -28,10 +28,10 @@ public:
 	LOGFONT lfText;
 	LOGFONT lfLink;
 	LOGFONT lfOutline;
-	PageFrame(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	OptionPageForFrame(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(PageFrame)
+	//{{AFX_DATA(OptionPageForFrame)
 	enum { IDD = IDD_PG_FRAME };
 	CButton	m_ChkSaveBarState;
 	CButton	m_chkSaveFrame;
@@ -42,7 +42,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(PageFrame)
+	//{{AFX_VIRTUAL(OptionPageForFrame)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -55,7 +55,7 @@ protected:
 	void drawTextPreView(CDC* pDC);
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(PageFrame)
+	//{{AFX_MSG(OptionPageForFrame)
 	virtual void OnCancel();
 	afx_msg void OnBtnLink();
 	afx_msg void OnBtnOutline();

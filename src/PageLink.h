@@ -4,13 +4,13 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// PageLink.h : ヘッダー ファイル
+// OptionPageForLink.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// PageLink ダイアログ
+// OptionPageForLink ダイアログ
 
-class PageLink : public CDialog
+class OptionPageForLink : public CDialog
 {
 // コンストラクション
 public:
@@ -19,10 +19,10 @@ public:
 	int styleLine;
 	COLORREF colorLine;
 	LOGFONT lf;
-	PageLink(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	OptionPageForLink(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(PageLink)
+	//{{AFX_DATA(OptionPageForLink)
 	enum { IDD = IDD_PG_LINK };
 	CStatic	m_strn;
 	CSliderCtrl	m_Slider;
@@ -34,7 +34,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(PageLink)
+	//{{AFX_VIRTUAL(OptionPageForLink)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -43,7 +43,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(PageLink)
+	//{{AFX_MSG(OptionPageForLink)
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBtnColor();

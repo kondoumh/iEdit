@@ -1,4 +1,4 @@
-﻿// PageNode.cpp : インプリメンテーション ファイル
+﻿// OptionPageForNode.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -14,15 +14,15 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// PageNode ダイアログ
+// OptionPageForNode ダイアログ
 
 
-PageNode::PageNode(CWnd* pParent /*=NULL*/)
-	: CDialog(PageNode::IDD, pParent)
+OptionPageForNode::OptionPageForNode(CWnd* pParent /*=NULL*/)
+	: CDialog(OptionPageForNode::IDD, pParent)
 	, m_rdAscending(0)
 	, m_rdDescending(0)
 {
-	//{{AFX_DATA_INIT(PageNode)
+	//{{AFX_DATA_INIT(OptionPageForNode)
 	m_rdTLine = -1;
 	m_rdShape = -1;
 	m_bNoBrs = FALSE;
@@ -30,10 +30,10 @@ PageNode::PageNode(CWnd* pParent /*=NULL*/)
 }
 
 
-void PageNode::DoDataExchange(CDataExchange* pDX)
+void OptionPageForNode::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(PageNode)
+	//{{AFX_DATA_MAP(OptionPageForNode)
 	DDX_Control(pDX, IDC_COMBO_VERT, m_cmbVert);
 	DDX_Control(pDX, IDC_COMBO_HORIZ, m_cmbHoriz);
 	DDX_Control(pDX, IDC_CHK_NO_BRS, m_chkNoBrs);
@@ -53,8 +53,8 @@ void PageNode::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(PageNode, CDialog)
-	//{{AFX_MSG_MAP(PageNode)
+BEGIN_MESSAGE_MAP(OptionPageForNode, CDialog)
+	//{{AFX_MSG_MAP(OptionPageForNode)
 	ON_BN_CLICKED(IDC_BTN_LINE_COLOR, OnBtnLineColor)
 	ON_BN_CLICKED(IDC_BTN_BRS, OnBtnBrs)
 	ON_BN_CLICKED(IDC_BTN_FONT, OnBtnFont)
@@ -68,27 +68,27 @@ BEGIN_MESSAGE_MAP(PageNode, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO_HORIZ, OnSelchangeComboHoriz)
 	ON_CBN_SELCHANGE(IDC_COMBO_VERT, OnSelchangeComboVert)
 	ON_BN_CLICKED(IDC_RADIO_SHAPE3, OnRadioShape3)
-	ON_BN_CLICKED(IDC_CHK_SYNC_ORDER, &PageNode::OnBnClickedChkSyncOrder)
-	ON_BN_CLICKED(IDC_CHK_ENABLE_GROUPING, &PageNode::OnBnClickedChkEnableGrouping)
-	ON_BN_CLICKED(IDC_RADIO_ASCENDING, &PageNode::OnBnClickedRadioAscending)
-	ON_BN_CLICKED(IDC_RADIO_DESCENDING, &PageNode::OnBnClickedRadioDescending)
-	ON_BN_CLICKED(IDC_DISABLE_NODE_RESIZE, &PageNode::OnBnClickedDisableNodeResize)
-	ON_BN_CLICKED(IDC_BTN_SET_MARGIN, &PageNode::OnBnClickedBtnSetMargin)
-	ON_BN_CLICKED(IDC_PRIOR_SELECTION_DRAGGING, &PageNode::OnBnClickedPriorSelectionDragging)
+	ON_BN_CLICKED(IDC_CHK_SYNC_ORDER, &OptionPageForNode::OnBnClickedChkSyncOrder)
+	ON_BN_CLICKED(IDC_CHK_ENABLE_GROUPING, &OptionPageForNode::OnBnClickedChkEnableGrouping)
+	ON_BN_CLICKED(IDC_RADIO_ASCENDING, &OptionPageForNode::OnBnClickedRadioAscending)
+	ON_BN_CLICKED(IDC_RADIO_DESCENDING, &OptionPageForNode::OnBnClickedRadioDescending)
+	ON_BN_CLICKED(IDC_DISABLE_NODE_RESIZE, &OptionPageForNode::OnBnClickedDisableNodeResize)
+	ON_BN_CLICKED(IDC_BTN_SET_MARGIN, &OptionPageForNode::OnBnClickedBtnSetMargin)
+	ON_BN_CLICKED(IDC_PRIOR_SELECTION_DRAGGING, &OptionPageForNode::OnBnClickedPriorSelectionDragging)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// PageNode メッセージ ハンドラ
+// OptionPageForNode メッセージ ハンドラ
 
-void PageNode::OnCancel() 
+void OptionPageForNode::OnCancel() 
 {
 	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
 
-BOOL PageNode::OnInitDialog() 
+BOOL OptionPageForNode::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -133,7 +133,7 @@ BOOL PageNode::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-void PageNode::OnBtnLineColor() 
+void OptionPageForNode::OnBtnLineColor() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
@@ -141,7 +141,7 @@ void PageNode::OnBtnLineColor()
 	colorLine = dlg.GetColor();
 }
 
-void PageNode::OnBtnBrs() 
+void OptionPageForNode::OnBtnBrs() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorFill);
@@ -149,7 +149,7 @@ void PageNode::OnBtnBrs()
 	colorFill = dlg.GetColor();
 }
 
-void PageNode::OnBtnFont() 
+void OptionPageForNode::OnBtnFont() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
@@ -159,7 +159,7 @@ void PageNode::OnBtnFont()
 	colorFont = dlg.m_cf.rgbColors;
 }
 
-void PageNode::OnRadioTline1() 
+void OptionPageForNode::OnRadioTline1() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdTLine = 0;
@@ -167,7 +167,7 @@ void PageNode::OnRadioTline1()
 	m_cmbVert.EnableWindow(TRUE);
 }
 
-void PageNode::OnRadioTline2() 
+void OptionPageForNode::OnRadioTline2() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdTLine = 1;
@@ -175,7 +175,7 @@ void PageNode::OnRadioTline2()
 	m_cmbVert.EnableWindow(FALSE);
 }
 
-void PageNode::OnRadioTline3() 
+void OptionPageForNode::OnRadioTline3() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdTLine = 2;	
@@ -183,25 +183,25 @@ void PageNode::OnRadioTline3()
 	m_cmbVert.EnableWindow(FALSE);
 }
 
-void PageNode::OnRadioShape() 
+void OptionPageForNode::OnRadioShape() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdShape = 0;
 }
 
-void PageNode::OnRadioShape2() 
+void OptionPageForNode::OnRadioShape2() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdShape = 1;
 }
 
-void PageNode::OnRadioShape3() 
+void OptionPageForNode::OnRadioShape3() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdShape = 2;
 }
 
-void PageNode::OnChkNoBrs() 
+void OptionPageForNode::OnChkNoBrs() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bNoBrs = m_chkNoBrs.GetCheck();
@@ -209,7 +209,7 @@ void PageNode::OnChkNoBrs()
 }
 
 
-void PageNode::OnSelchangeComboline() 
+void OptionPageForNode::OnSelchangeComboline() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_cmbLineStyle.GetCurSel();
@@ -227,19 +227,19 @@ void PageNode::OnSelchangeComboline()
 	}
 }
 
-void PageNode::OnSelchangeComboHoriz() 
+void OptionPageForNode::OnSelchangeComboHoriz() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	horiz = m_cmbHoriz.GetCurSel();
 }
 
-void PageNode::OnSelchangeComboVert() 
+void OptionPageForNode::OnSelchangeComboVert() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	vert = m_cmbVert.GetCurSel();
 }
 
-void PageNode::OnBnClickedChkSyncOrder()
+void OptionPageForNode::OnBnClickedChkSyncOrder()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bSyncOrder = m_chkSyncOrder.GetCheck();
@@ -247,31 +247,31 @@ void PageNode::OnBnClickedChkSyncOrder()
 	m_btnDescending.EnableWindow(m_bSyncOrder);
 }
 
-void PageNode::OnBnClickedChkEnableGrouping()
+void OptionPageForNode::OnBnClickedChkEnableGrouping()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bEnableGroup = m_chkEnableGroup.GetCheck();
 }
 
-void PageNode::OnBnClickedRadioAscending()
+void OptionPageForNode::OnBnClickedRadioAscending()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_orderDirection = 0;
 }
 
-void PageNode::OnBnClickedRadioDescending()
+void OptionPageForNode::OnBnClickedRadioDescending()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_orderDirection = 1;
 }
 
-void PageNode::OnBnClickedDisableNodeResize()
+void OptionPageForNode::OnBnClickedDisableNodeResize()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bDisableNodeResize = m_ChkDisableNodeResize.GetCheck();
 }
 
-void PageNode::OnBnClickedBtnSetMargin()
+void OptionPageForNode::OnBnClickedBtnSetMargin()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	NodeMarginSettingsDlg dlg;
@@ -287,7 +287,7 @@ void PageNode::OnBnClickedBtnSetMargin()
 }
 
 
-void PageNode::OnBnClickedPriorSelectionDragging()
+void OptionPageForNode::OnBnClickedPriorSelectionDragging()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 	m_bPriorSelectionDragging = m_chkPriorSelectionDragging.GetCheck();

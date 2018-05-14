@@ -11,10 +11,10 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // OptionSettingsDlg ダイアログ
-class PageFrame;
-class PageNode;
-class PageLink;
-class PageOther;
+class OptionPageForFrame;
+class OptionPageForNode;
+class OptionPageForLink;
+class OptionPageForOther;
 
 class OptionSettingsDlg : public CDialog
 {
@@ -55,10 +55,10 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
-	PageNode* pNode;
-	PageLink* pLink;
-	PageFrame* pFrame;
-	PageOther* pOther;
+	OptionPageForNode* pNode;
+	OptionPageForLink* pLink;
+	OptionPageForFrame* pFrame;
+	OptionPageForOther* pOther;
 };
 
 //{{AFX_INSERT_LOCATION}}

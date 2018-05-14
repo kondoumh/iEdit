@@ -73,10 +73,10 @@ BOOL OptionSettingsDlg::OnInitDialog()
 	m_tabSeet.InsertItem(3,&item);
 
 	// タブシートにページを追加
-	m_tabSeet.addPage(pFrame = new PageFrame);
-	m_tabSeet.addPage(pNode = new PageNode);
-	m_tabSeet.addPage(pLink = new PageLink);
-	m_tabSeet.addPage(pOther = new PageOther);
+	m_tabSeet.addPage(pFrame = new OptionPageForFrame);
+	m_tabSeet.addPage(pNode = new OptionPageForNode);
+	m_tabSeet.addPage(pLink = new OptionPageForLink);
+	m_tabSeet.addPage(pOther = new OptionPageForOther);
 	
 	initPageFrame();
 	initPageNode();

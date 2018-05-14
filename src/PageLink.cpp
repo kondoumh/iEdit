@@ -1,4 +1,4 @@
-﻿// PageLink.cpp : インプリメンテーション ファイル
+﻿// OptionPageForLink.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -12,22 +12,22 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// PageLink ダイアログ
+// OptionPageForLink ダイアログ
 
 
-PageLink::PageLink(CWnd* pParent /*=NULL*/)
-	: CDialog(PageLink::IDD, pParent)
+OptionPageForLink::OptionPageForLink(CWnd* pParent /*=NULL*/)
+	: CDialog(OptionPageForLink::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(PageLink)
+	//{{AFX_DATA_INIT(OptionPageForLink)
 	m_bSetStrength = FALSE;
 	//}}AFX_DATA_INIT
 }
 
 
-void PageLink::DoDataExchange(CDataExchange* pDX)
+void OptionPageForLink::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(PageLink)
+	//{{AFX_DATA_MAP(OptionPageForLink)
 	DDX_Control(pDX, IDC_STRN, m_strn);
 	DDX_Control(pDX, IDC_SLID, m_Slider);
 	DDX_Control(pDX, IDC_CHK_STRENGTH, m_chkSetStreangth);
@@ -37,8 +37,8 @@ void PageLink::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(PageLink, CDialog)
-	//{{AFX_MSG_MAP(PageLink)
+BEGIN_MESSAGE_MAP(OptionPageForLink, CDialog)
+	//{{AFX_MSG_MAP(OptionPageForLink)
 	ON_BN_CLICKED(IDC_BTN_COLOR, OnBtnColor)
 	ON_BN_CLICKED(IDC_BTN_FONT, OnBtnFont)
 	ON_CBN_SELCHANGE(IDC_CMB_LINE, OnSelchangeCmbLine)
@@ -49,16 +49,16 @@ BEGIN_MESSAGE_MAP(PageLink, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// PageLink メッセージ ハンドラ
+// OptionPageForLink メッセージ ハンドラ
 
-void PageLink::OnCancel() 
+void OptionPageForLink::OnCancel() 
 {
 	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
 
-BOOL PageLink::OnInitDialog() 
+BOOL OptionPageForLink::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -87,7 +87,7 @@ BOOL PageLink::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-void PageLink::OnBtnColor() 
+void OptionPageForLink::OnBtnColor() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
@@ -95,7 +95,7 @@ void PageLink::OnBtnColor()
 	colorLine = dlg.GetColor();
 }
 
-void PageLink::OnBtnFont() 
+void OptionPageForLink::OnBtnFont() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
@@ -103,7 +103,7 @@ void PageLink::OnBtnFont()
 	if (dlg.DoModal() != IDOK) return;
 }
 
-void PageLink::OnSelchangeCmbLine() 
+void OptionPageForLink::OnSelchangeCmbLine() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_cmbLine.GetCurSel();
@@ -120,13 +120,13 @@ void PageLink::OnSelchangeCmbLine()
 
 }
 
-void PageLink::OnChkStrength() 
+void OptionPageForLink::OnChkStrength() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSetStrength = m_chkSetStreangth.GetCheck();
 }
 
-void PageLink::OnReleasedcaptureSlid(NMHDR* pNMHDR, LRESULT* pResult) 
+void OptionPageForLink::OnReleasedcaptureSlid(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CString mes;
@@ -136,7 +136,7 @@ void PageLink::OnReleasedcaptureSlid(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void PageLink::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+void OptionPageForLink::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
 {
 	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CString mes;

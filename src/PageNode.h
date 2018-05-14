@@ -5,13 +5,13 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// PageNode.h : ヘッダー ファイル
+// OptionPageForNode.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// PageNode ダイアログ
+// OptionPageForNode ダイアログ
 
-class PageNode : public CDialog
+class OptionPageForNode : public CDialog
 {
 // コンストラクション
 public:
@@ -29,10 +29,10 @@ public:
 	COLORREF colorLine;
 	COLORREF colorFont;
 	LOGFONT lf;
-	PageNode(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	OptionPageForNode(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(PageNode)
+	//{{AFX_DATA(OptionPageForNode)
 	enum { IDD = IDD_PG_NODE };
 	CComboBox	m_cmbVert;
 	CComboBox	m_cmbHoriz;
@@ -47,7 +47,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(PageNode)
+	//{{AFX_VIRTUAL(OptionPageForNode)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -56,7 +56,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(PageNode)
+	//{{AFX_MSG(OptionPageForNode)
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBtnLineColor();

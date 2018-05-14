@@ -1,4 +1,4 @@
-﻿// PageOther.cpp : インプリメンテーション ファイル
+﻿// OptionPageForOther.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -16,13 +16,13 @@ static char THIS_FILE[] = __FILE__;
 #define REGS_OTHER _T("Settings")
 
 /////////////////////////////////////////////////////////////////////////////
-// PageOther ダイアログ
+// OptionPageForOther ダイアログ
 
 
-PageOther::PageOther(CWnd* pParent /*=NULL*/)
-	: CDialog(PageOther::IDD, pParent)
+OptionPageForOther::OptionPageForOther(CWnd* pParent /*=NULL*/)
+	: CDialog(OptionPageForOther::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(PageOther)
+	//{{AFX_DATA_INIT(OptionPageForOther)
 	m_tabSelect = -1;
 	m_bShowHS = FALSE;
 	m_bInheritParent = FALSE;
@@ -36,10 +36,10 @@ PageOther::PageOther(CWnd* pParent /*=NULL*/)
 }
 
 
-void PageOther::DoDataExchange(CDataExchange* pDX)
+void OptionPageForOther::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(PageOther)
+	//{{AFX_DATA_MAP(OptionPageForOther)
 	DDX_Control(pDX, IDC_CHK_SET_STYLESHEET, m_chkStylesheet);
 	DDX_Control(pDX, IDC_EDIT_STYLESHEET, m_edStylesheet);
 	DDX_Control(pDX, IDC_CHK_DRW_UNDRLN, m_chkDrawUnderLine);
@@ -63,8 +63,8 @@ void PageOther::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(PageOther, CDialog)
-	//{{AFX_MSG_MAP(PageOther)
+BEGIN_MESSAGE_MAP(OptionPageForOther, CDialog)
+	//{{AFX_MSG_MAP(OptionPageForOther)
 	ON_BN_CLICKED(IDC_RD_TAB1, OnRdTab1)
 	ON_BN_CLICKED(IDC_RD_TAB2, OnRdTab2)
 	ON_BN_CLICKED(IDC_RD_TAB3, OnRdTab3)
@@ -77,21 +77,21 @@ BEGIN_MESSAGE_MAP(PageOther, CDialog)
 	ON_BN_CLICKED(IDC_CHK_SET_STYLESHEET, OnChkSetStylesheet)
 	ON_EN_CHANGE(IDC_EDIT_STYLESHEET, OnChangeEditStylesheet)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDC_CHK_POST_ACTION, &PageOther::OnBnClickedChkPostAction)
-	ON_BN_CLICKED(IDC_CHK_EXPORT_FILELINK, &PageOther::OnBnClickedChkExportFilelink)
+	ON_BN_CLICKED(IDC_CHK_POST_ACTION, &OptionPageForOther::OnBnClickedChkPostAction)
+	ON_BN_CLICKED(IDC_CHK_EXPORT_FILELINK, &OptionPageForOther::OnBnClickedChkExportFilelink)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// PageOther メッセージ ハンドラ
+// OptionPageForOther メッセージ ハンドラ
 
-void PageOther::OnCancel() 
+void OptionPageForOther::OnCancel() 
 {
 	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
 
-BOOL PageOther::OnInitDialog() 
+BOOL OptionPageForOther::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -102,49 +102,49 @@ BOOL PageOther::OnInitDialog()
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
-void PageOther::OnRdTab1() 
+void OptionPageForOther::OnRdTab1() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_tabSelect = 0;
 }
 
-void PageOther::OnRdTab2() 
+void OptionPageForOther::OnRdTab2() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_tabSelect = 1;
 }
 
-void PageOther::OnRdTab3() 
+void OptionPageForOther::OnRdTab3() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_tabSelect = 2;
 }
 
-void PageOther::OnChkShowHs() 
+void OptionPageForOther::OnChkShowHs() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bShowHS = m_chkShowHS.GetCheck();
 }
 
-void PageOther::OnChkInheritParent() 
+void OptionPageForOther::OnChkInheritParent() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bInheritParent = m_chkInheritParent.GetCheck();
 }
 
-void PageOther::OnChkInheritSibling() 
+void OptionPageForOther::OnChkInheritSibling() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bInheritSibling = m_chkInheritSibling.GetCheck();
 }
 
-void PageOther::OnChkAccel() 
+void OptionPageForOther::OnChkAccel() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bAccelmove = m_chkAccelMove.GetCheck();
 }
 
-void PageOther::OnBtnSetmfsize() 
+void OptionPageForOther::OnBtnSetmfsize() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	MetafileSettingsDlg dlg;
@@ -168,20 +168,20 @@ void PageOther::OnBtnSetmfsize()
 	}
 }
 
-void PageOther::OnChkDrwUndrln() 
+void OptionPageForOther::OnChkDrwUndrln() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bDrawUnderLine = m_chkDrawUnderLine.GetCheck();
 }
 
-void PageOther::OnChkSetStylesheet() 
+void OptionPageForOther::OnChkSetStylesheet() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSetStylesheet = m_chkStylesheet.GetCheck();
 	m_edStylesheet.EnableWindow(m_bSetStylesheet);
 }
 
-void PageOther::OnChangeEditStylesheet() 
+void OptionPageForOther::OnChangeEditStylesheet() 
 {
 	// TODO: これが RICHEDIT コントロールの場合、コントロールは、 lParam マスク
 	// 内での論理和の ENM_CHANGE フラグ付きで CRichEditCrtl().SetEventMask()
@@ -193,13 +193,13 @@ void PageOther::OnChangeEditStylesheet()
 	
 }
 
-void PageOther::OnBnClickedChkPostAction()
+void OptionPageForOther::OnBnClickedChkPostAction()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bOpenFilesAfterExport = m_chkOpenFilesAfterExport.GetCheck();
 }
 
-void PageOther::OnBnClickedChkExportFilelink()
+void OptionPageForOther::OnBnClickedChkExportFilelink()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bOutputFileLinksOnExport = m_chkOutputFileLinksOnExport.GetCheck();

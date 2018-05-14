@@ -4,20 +4,20 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// PageOther.h : ヘッダー ファイル
+// OptionPageForOther.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// PageOther ダイアログ
+// OptionPageForOther ダイアログ
 
-class PageOther : public CDialog
+class OptionPageForOther : public CDialog
 {
 // コンストラクション
 public:
-	PageOther(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	OptionPageForOther(CWnd* pParent = NULL);   // 標準のコンストラクタ
 
 // ダイアログ データ
-	//{{AFX_DATA(PageOther)
+	//{{AFX_DATA(OptionPageForOther)
 	enum { IDD = IDD_PG_OTHER };
 	CButton	m_chkStylesheet;
 	CEdit	m_edStylesheet;
@@ -43,7 +43,7 @@ public:
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(PageOther)
+	//{{AFX_VIRTUAL(OptionPageForOther)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
@@ -52,7 +52,7 @@ public:
 protected:
 
 	// 生成されたメッセージ マップ関数
-	//{{AFX_MSG(PageOther)
+	//{{AFX_MSG(OptionPageForOther)
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnRdTab1();

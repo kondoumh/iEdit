@@ -1,4 +1,4 @@
-﻿// PageFrame.cpp : インプリメンテーション ファイル
+﻿// OptionPageForFrame.cpp : インプリメンテーション ファイル
 //
 
 #include "stdafx.h"
@@ -14,23 +14,23 @@ static char THIS_FILE[] = __FILE__;
 #define REGS_FRAME _T("Frame Options")
 
 /////////////////////////////////////////////////////////////////////////////
-// PageFrame ダイアログ
+// OptionPageForFrame ダイアログ
 
 
-PageFrame::PageFrame(CWnd* pParent /*=NULL*/)
-	: CDialog(PageFrame::IDD, pParent)
+OptionPageForFrame::OptionPageForFrame(CWnd* pParent /*=NULL*/)
+	: CDialog(OptionPageForFrame::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(PageFrame)
+	//{{AFX_DATA_INIT(OptionPageForFrame)
 	m_bSaveFrame = FALSE;
 	m_bSaveBarState = FALSE;
 	//}}AFX_DATA_INIT
 }
 
 
-void PageFrame::DoDataExchange(CDataExchange* pDX)
+void OptionPageForFrame::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(PageFrame)
+	//{{AFX_DATA_MAP(OptionPageForFrame)
 	DDX_Control(pDX, IDC_CHK_SAVE_BAR_STATE, m_ChkSaveBarState);
 	DDX_Control(pDX, IDC_CHK_SAVE_FRAME, m_chkSaveFrame);
 	DDX_Check(pDX, IDC_CHK_SAVE_FRAME, m_bSaveFrame);
@@ -39,8 +39,8 @@ void PageFrame::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(PageFrame, CDialog)
-	//{{AFX_MSG_MAP(PageFrame)
+BEGIN_MESSAGE_MAP(OptionPageForFrame, CDialog)
+	//{{AFX_MSG_MAP(OptionPageForFrame)
 	ON_BN_CLICKED(IDC_BTN_LINK, OnBtnLink)
 	ON_BN_CLICKED(IDC_BTN_OUTLINE, OnBtnOutline)
 	ON_BN_CLICKED(IDC_BTN_TEXT, OnBtnText)
@@ -59,31 +59,31 @@ BEGIN_MESSAGE_MAP(PageFrame, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// PageFrame メッセージ ハンドラ
+// OptionPageForFrame メッセージ ハンドラ
 
-void PageFrame::OnCancel() 
+void OptionPageForFrame::OnCancel() 
 {
 	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
 
-void PageFrame::OnBtnLink() 
+void OptionPageForFrame::OnBtnLink() 
 {
 	updateFont(&lfLink, fntLink);
 }
 
-void PageFrame::OnBtnOutline() 
+void OptionPageForFrame::OnBtnOutline() 
 {
 	updateFont(&lfOutline, fntOutline);
 }
 
-void PageFrame::OnBtnText() 
+void OptionPageForFrame::OnBtnText() 
 {
 	updateFont(&lfText, fntText);
 }
 
-void PageFrame::updateFont(LOGFONT* plf, CFont& font)
+void OptionPageForFrame::updateFont(LOGFONT* plf, CFont& font)
 {
 	CFontDialog dlg(plf);
 	//dlg.m_cf.Flags |= CF_SELECTSCRIPT;
@@ -92,19 +92,19 @@ void PageFrame::updateFont(LOGFONT* plf, CFont& font)
 	Invalidate();
 }
 
-void PageFrame::OnChkSaveBarState() 
+void OptionPageForFrame::OnChkSaveBarState() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSaveBarState = m_ChkSaveBarState.GetCheck();
 }
 
-void PageFrame::OnChkSaveFrame() 
+void OptionPageForFrame::OnChkSaveFrame() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSaveFrame = m_chkSaveFrame.GetCheck();
 }
 
-void PageFrame::OnPaint() 
+void OptionPageForFrame::OnPaint() 
 {
 	CPaintDC dc(this); // 描画用のデバイス コンテキスト
 	
@@ -115,25 +115,25 @@ void PageFrame::OnPaint()
 	drawNWPreView(&dc);
 }
 
-void PageFrame::drawOLPreView(CDC *pDC)
+void OptionPageForFrame::drawOLPreView(CDC *pDC)
 {
 	CRect rc(200, 28, 310, 78);
 	drawFontPreview(pDC, rc, fntOutline, m_colorOLBG, m_colorOLFor);
 }
 
-void PageFrame::drawLNPreView(CDC *pDC)
+void OptionPageForFrame::drawLNPreView(CDC *pDC)
 {
 	CRect rc(200, 103, 310, 153);
 	drawFontPreview(pDC, rc, fntLink, m_colorLNBG, m_colorLNFor);
 }
 
-void PageFrame::drawTextPreView(CDC *pDC)
+void OptionPageForFrame::drawTextPreView(CDC *pDC)
 {
 	CRect rc(200, 180, 310, 230);
 	drawFontPreview(pDC, rc, fntText, m_colorEditBG, m_colorEditFor);
 }
 
-void PageFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor) {
+void OptionPageForFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor) {
 	
 	CBrush brs(bgColor);
 	CBrush* brsOld = pDC->SelectObject(&brs);
@@ -163,7 +163,7 @@ void PageFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgCol
 	pDC->SetBkMode(oldBkMode);
 }
 
-void PageFrame::drawNWPreView(CDC *pDC)
+void OptionPageForFrame::drawNWPreView(CDC *pDC)
 {
 	CRect rc(200, 255, 310, 280);
 	
@@ -179,7 +179,7 @@ void PageFrame::drawNWPreView(CDC *pDC)
 	pDC->LineTo(rc.TopLeft());
 }
 
-void PageFrame::OnBtnFclrOl() 
+void OptionPageForFrame::OnBtnFclrOl() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorOLFor);
@@ -188,7 +188,7 @@ void PageFrame::OnBtnFclrOl()
 	Invalidate();
 }
 
-void PageFrame::OnBtnBclrOl() 
+void OptionPageForFrame::OnBtnBclrOl() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorOLBG);
@@ -197,7 +197,7 @@ void PageFrame::OnBtnBclrOl()
 	Invalidate();
 }
 
-void PageFrame::OnBtnFclrLn() 
+void OptionPageForFrame::OnBtnFclrLn() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorLNFor);
@@ -206,7 +206,7 @@ void PageFrame::OnBtnFclrLn()
 	Invalidate();
 }
 
-void PageFrame::OnBtnBclrLn() 
+void OptionPageForFrame::OnBtnBclrLn() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorLNBG);
@@ -215,7 +215,7 @@ void PageFrame::OnBtnBclrLn()
 	Invalidate();
 }
 
-void PageFrame::OnBtnFclrTx() 
+void OptionPageForFrame::OnBtnFclrTx() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorEditFor);
@@ -224,7 +224,7 @@ void PageFrame::OnBtnFclrTx()
 	Invalidate();
 }
 
-void PageFrame::OnBtnBclrTx() 
+void OptionPageForFrame::OnBtnBclrTx() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorEditBG);
@@ -233,7 +233,7 @@ void PageFrame::OnBtnBclrTx()
 	Invalidate();
 }
 
-void PageFrame::OnBtnBclrNw() 
+void OptionPageForFrame::OnBtnBclrNw() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorNWBG);
@@ -242,7 +242,7 @@ void PageFrame::OnBtnBclrNw()
 	Invalidate();
 }
 
-void PageFrame::OnBtnInsertmark() 
+void OptionPageForFrame::OnBtnInsertmark() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorInsrtMrk);
