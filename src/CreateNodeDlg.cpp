@@ -1,7 +1,4 @@
-﻿// InpcnDlg.cpp : インプリメンテーション ファイル
-//
-
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "iEdit.h"
 #include "CreateNodeDlg.h"
 
@@ -54,7 +51,6 @@ BOOL CreateNodeDlg::OnInitDialog()
 		MoveWindow(m_iniPt.x, m_iniPt.y, iniRect.Width(), iniRect.Height(), TRUE);
 	}
 	
-	// TODO: この位置に初期化の補足処理を追加してください
 	if (m_strcn == _T("")) {
 		m_editName.SetWindowText(_T("新しいノード"));
 	} else if (m_strcn == _T("ノード")) {
@@ -62,13 +58,11 @@ BOOL CreateNodeDlg::OnInitDialog()
 	} else {
 		PostMessage(WM_SETCHARDATA, 0);
 	}
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 void CreateNodeDlg::OnClose() 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	MoveWindow(iniRect.left, iniRect.top, iniRect.Width(), iniRect.Height(), TRUE);
 	CDialog::OnClose();
 }
