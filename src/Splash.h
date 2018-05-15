@@ -1,6 +1,4 @@
-﻿// CG: このファイルはスプラッシュ スクリーン コンポーネントによって追加されました。
-
-#ifndef _SPLASH_SCRN_
+﻿#ifndef _SPLASH_SCRN_
 #define _SPLASH_SCRN_
 
 // Splash.h : ヘッダー ファイル

@@ -1,8 +1,4 @@
-﻿// CG: このファイルはスプラッシュ スクリーン コンポーネントによって追加されました。
-// Splash.cpp : インプリメンテーション ファイル
-//
-
-#include "stdafx.h"  // e. g. stdafx.h
+﻿#include "stdafx.h"  // e. g. stdafx.h
 #include "resource.h"  // e.g. resource.h
 
 #include "Splash.h"  // e.g. splash.h
