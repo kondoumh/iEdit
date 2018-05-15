@@ -60,8 +60,7 @@ END_MESSAGE_MAP()
 
 CiEditApp::CiEditApp()
 {
-	// TODO: この位置に構築用コードを追加してください。
-	// ここに InitInstance 中の重要な初期化処理をすべて記述してください。
+	// InitInstance 中の重要な初期化処理を記述。
 	m_curLinkLineStyle = CiEditApp::LS_R0;
 	m_curLinkArrow = CiEditApp::LA_NONE;
 	m_colorOutlineViewBg = RGB(238, 255, 255);
@@ -83,36 +82,14 @@ CiEditApp theApp;
 
 BOOL CiEditApp::InitInstance()
 {
-	// CG: 以下のブロックはスプラッシュ スクリーン コンポーネントによって追加されました
-	
 	{
-
 		CCommandLineInfo cmdInfo;
-
 		ParseCommandLine(cmdInfo);
-
-
-
 		CSplashWnd::EnableSplashScreen(cmdInfo.m_bShowSplash);
 
 	}
 	AfxEnableControlContainer();
 	
-	// 標準的な初期化処理
-	// もしこれらの機能を使用せず、実行ファイルのサイズを小さく
-	// したければ以下の特定の初期化ルーチンの中から不必要なもの
-	// を削除してください。
-
-/* この記述はMFC 7.0においては不要のようだ
-#ifdef _AFXDLL
-	Enable3dControls();		// 共有 DLL の中で MFC を使用する場合にはここを呼び出してください。
-#else
-	Enable3dControlsStatic();	// MFC と静的にリンクしている場合にはここを呼び出してください。
-#endif
-*/	
-	// 設定が保存される下のレジストリ キーを変更します。
-	// TODO: この文字列を、会社名または所属など適切なものに
-	// 変更してください。
 	SetRegistryKey(REGS_ROOT);
 	
 	LoadStdProfileSettings(9);  // 標準の INI ファイルのオプションをローﾄﾞします (MRU を含む)
@@ -122,6 +99,7 @@ BOOL CiEditApp::InitInstance()
 	getOtherProfile();
 	getOptionsProfile();
 	m_bShapeModified = false;
+
 	// アプリケーション用のドキュメント テンプレートを登録します。ドキュメント テンプレート
 	//  はドキュメント、フレーム ウィンドウとビューを結合するために機能します。
 	
@@ -155,11 +133,11 @@ BOOL CiEditApp::InitInstance()
 	// OLEの初期化
 	AfxOleInit();
 	
-	// ドラッグ/ドロップ のオープンを許可します
+	// ドラッグ/ドロップ のオープンを許可
 	m_pMainWnd->DragAcceptFiles();
 	
 	if (m_rgsOptions.registFiletype) {
-		// DDE Execute open を使用可能にします。
+		// DDE Execute open を使用可能に
 		HKEY hkResult;
 		if (::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Classes"), &hkResult) == ERROR_SUCCESS) {
 			RegOverridePredefKey(HKEY_CLASSES_ROOT, hkResult);
@@ -169,20 +147,20 @@ BOOL CiEditApp::InitInstance()
 		}
 	}
 	
-	// DDE、file open など標準のシェル コマンドのコマンドラインを解析します。
+	// DDE、file open など標準のシェル コマンドのコマンドラインを解析
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 	
-	// 起動時にMDIﾁｬｲﾙﾄﾞｳｨﾝﾄﾞｳを表示させない
+	// 起動時に MDI Child Window を表示させない
 	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew) {
 		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 	}
 	
-	// コマンドラインでディスパッチ コマンドを指定します。
+	// コマンドラインでディスパッチ コマンドを指定
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 	
-	// メイン ウィンドウが初期化されたので、表示と更新を行います。
+	// メインウィンドウが初期化後の表示と更新
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
 
@@ -335,7 +313,6 @@ void CiEditApp::getOptionsProfile()
 
 int CiEditApp::ExitInstance() 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	DeleteCriticalSection(&CRelaxThrd::m_csGDILock);
 	CloseHandle(CRelaxThrd::m_hAnotherDead);
 	
@@ -427,7 +404,6 @@ void CiEditApp::notifyViewSetting()
 
 void CiEditApp::OnFileOpen() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString szFilter = _T("iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied|XMLファイル(*.xml)|*.xml||");
 	CFileDialog cfDlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
 		OFN_FILEMUSTEXIST | OFN_EXPLORER, szFilter, AfxGetMainWnd());
@@ -439,7 +415,6 @@ void CiEditApp::OnFileOpen()
 
 void CiEditApp::OnFileNew()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	m_pDocTemplate->OpenDocumentFile(NULL);
 }
 
@@ -453,10 +428,6 @@ void CiEditApp::getOtherProfile()
 
 HBRUSH CAboutDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
-	//HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
-
-	//// TODO:  ここで DC の属性を変更してください。
-
 	switch(nCtlColor){
 	case CTLCOLOR_DLG:
 		return (HBRUSH) m_brsDlg;
@@ -479,7 +450,6 @@ BOOL CAboutDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO:  ここに初期化を追加してください
 	m_brsDlg.CreateSolidBrush(RGB(255,255,255));
 	GetDlgItem(IDC_WEBSITE)->ModifyStyle(0, SS_NOTIFY);
 	HFONT hFont = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
@@ -488,12 +458,10 @@ BOOL CAboutDlg::OnInitDialog()
 	m_webSiteFont.CreateFontIndirect(&m_logFont);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }
 
 BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	// TODO: ここにメッセージ ハンドラ コードを追加するか、既定の処理を呼び出します。
 	if (pWnd->GetDlgCtrlID() == IDC_WEBSITE) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		return TRUE;
@@ -504,7 +472,6 @@ BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 void CAboutDlg::OnStnClickedWebsite()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	ShellExecute(m_hWnd, _T("open"), _T("http://kondoumh.com/software/iedit.html"), NULL, _T(""), SW_SHOW);
 	EndDialog(MB_OK);
 }
@@ -512,7 +479,6 @@ void CAboutDlg::OnStnClickedWebsite()
 
 void CiEditApp::OnFiletypeRegDel()
 {
-	// TODO: ここにコマンド ハンドラー コードを追加します。
 	FiletypeSettingsDlg dlg;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	BOOL bRegist = pApp->m_rgsOptions.registFiletype;
