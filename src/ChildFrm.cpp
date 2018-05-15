@@ -44,7 +44,6 @@ END_MESSAGE_MAP()
 
 CChildFrame::CChildFrame()
 {
-	// TODO: メンバ初期化コードをこの位置に追加してください。
 }
 
 CChildFrame::~CChildFrame()
@@ -53,8 +52,6 @@ CChildFrame::~CChildFrame()
 
 BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: この位置で CREATESTRUCT cs の設定を行って、Window クラスまたは
-	//       スタイルを変更してください。
 	cs.style |= WS_CHILD | WS_VISIBLE |WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
 	
 	if( !CMDIChildWnd::PreCreateWindow(cs) )
@@ -86,7 +83,6 @@ void CChildFrame::Dump(CDumpContext& dc) const
 
 BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	long cxLeft = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Width"), lpcs->cx*1/3);
 	long cyTree = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Height"), lpcs->cy*2/3);
 	long cyNet = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Net Height"), lpcs->cy*1/2);
@@ -111,7 +107,6 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 
 BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	if (CMDIChildWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
 		return TRUE;
 	}
@@ -131,34 +126,10 @@ BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 	return FALSE;
 }
 
-/*void CChildFrame::OnSetProperties() 
-{
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	OptionSettingsDlg dlg;
-	if (dlg.DoModal() != IDOK) return;
-	
-	// 各ビューの取得
-	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
-	POSITION pos = pDoc->GetFirstViewPosition();
-	OutlineView* pOutlineView = (OutlineView*)pDoc->GetNextView(pos);
-	LinkView* pLinkView = (LinkView*)pDoc->GetNextView(pos);
-	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
-	EditorView* pEditorView = (EditorView*)pDoc->GetNextView(pos);
-	
-	// 各ビューの再設定
-	pOutlineView->setViewFont();
-	pLinkView->setViewFont();
-	pEditorView->setViewFont();
-	
-	pEditorView->setTabStop();
-}*/
-
-
 void CChildFrame::OnDestroy() 
 {
 	CMDIChildWnd::OnDestroy();
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	CMDIFrameWnd* pFrame = GetMDIFrame();
 	WINDOWPLACEMENT wndplm;
 	pFrame->GetWindowPlacement(&wndplm);
@@ -184,13 +155,11 @@ void CChildFrame::OnDestroy()
 
 void CChildFrame::OnClose() 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CMDIChildWnd::OnClose();
 }
 
 void CChildFrame::OnChangeViewFocus() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
 	
 	POSITION pos = pDoc->GetFirstViewPosition();
@@ -213,15 +182,12 @@ void CChildFrame::OnChangeViewFocus()
 
 void CChildFrame::OnUpdateChangeViewFocus(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void CChildFrame::OnMDIActivate(BOOL bActivate, CWnd* pActivateWnd, CWnd* pDeactivateWnd) 
 {
 	CMDIChildWnd::OnMDIActivate(bActivate, pActivateWnd, pDeactivateWnd);
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	if (!bActivate) {
 		CView* pView = GetActiveView();
 		if (pView == NULL) return;
