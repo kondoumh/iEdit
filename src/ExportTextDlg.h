@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "afxwin.h"
 
-
 // ExportTextDlg ダイアログ
 
 class ExportTextDlg : public CDialogEx
@@ -9,14 +8,13 @@ class ExportTextDlg : public CDialogEx
 	DECLARE_DYNAMIC(ExportTextDlg)
 
 public:
-	ExportTextDlg(CWnd* pParent = NULL);   // 標準コンストラクター
+	ExportTextDlg(CWnd* pParent = NULL);
 	virtual ~ExportTextDlg();
 
-// ダイアログ データ
 	enum { IDD = IDD_SET_TEXT_EXPORT };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:

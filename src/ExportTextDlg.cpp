@@ -6,7 +6,6 @@
 #include "ExportTextDlg.h"
 #include "afxdialogex.h"
 
-
 // ExportTextDlg ダイアログ
 
 IMPLEMENT_DYNAMIC(ExportTextDlg, CDialogEx)
@@ -36,7 +35,6 @@ void ExportTextDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_EXCLUDE_LABEL_FROM_TEXT, m_excludeLabelFromContent);
 }
 
-
 BEGIN_MESSAGE_MAP(ExportTextDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_NODE_TEXT, &ExportTextDlg::OnBnClickedNodeText)
 	ON_BN_CLICKED(IDC_NODE_ONLY, &ExportTextDlg::OnBnClickedNodeOnly)
@@ -44,9 +42,6 @@ BEGIN_MESSAGE_MAP(ExportTextDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_MARKDOWN, &ExportTextDlg::OnBnClickedMarkdown)
 	ON_BN_CLICKED(IDC_ORG_MODE, &ExportTextDlg::OnBnClickedOrgMode)
 END_MESSAGE_MAP()
-
-
-// ExportTextDlg メッセージ ハンドラー
 
 
 BOOL ExportTextDlg::OnInitDialog()
@@ -57,9 +52,8 @@ BOOL ExportTextDlg::OnInitDialog()
 		EnableContentFileOption(FALSE);
 	}
 
-	return TRUE;  // return TRUE unless you set the focus to a control
+	return TRUE;
 }
-
 
 void ExportTextDlg::EnableContentFileOption(BOOL enable)
 {
