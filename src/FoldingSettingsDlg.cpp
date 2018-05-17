@@ -34,21 +34,15 @@ void FoldingSettingsDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(FoldingSettingsDlg, CDialog)
 	//{{AFX_MSG_MAP(FoldingSettingsDlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// FoldingSettingsDlg メッセージ ハンドラ
-
 BOOL FoldingSettingsDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: この位置に初期化の補足処理を追加してください
 	m_spin.SetRange(1, 10000);
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }

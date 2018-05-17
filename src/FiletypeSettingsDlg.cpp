@@ -6,7 +6,6 @@
 #include "FiletypeSettingsDlg.h"
 #include "afxdialogex.h"
 
-
 // FiletypeSettingsDlg ダイアログ
 
 IMPLEMENT_DYNAMIC(FiletypeSettingsDlg, CDialog)
@@ -37,33 +36,26 @@ BEGIN_MESSAGE_MAP(FiletypeSettingsDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// FiletypeSettingsDlg メッセージ ハンドラー
-
-
 BOOL FiletypeSettingsDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO:  ここに初期化を追加してください
 	if (m_registFileType == 0) {
 		GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(FALSE);
 	} else {
 		GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(TRUE);
 	}
-	return TRUE;  // return TRUE unless you set the focus to a control
-	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
+	return TRUE;
 }
 
 
 void FiletypeSettingsDlg::OnBnClickedRdNotRegist()
 {
-	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 	GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(FALSE);
 }
 
 
 void FiletypeSettingsDlg::OnBnClickedRdRegist()
 {
-	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 	GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(TRUE);
 }
