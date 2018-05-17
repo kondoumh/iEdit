@@ -6,7 +6,6 @@
 #include "ExportHtmlDlg.h"
 #include "StringUtil.h"
 
-
 // ExportHtmlDlg ダイアログ
 
 IMPLEMENT_DYNAMIC(ExportHtmlDlg, CDialog)
@@ -67,7 +66,6 @@ END_MESSAGE_MAP()
 BOOL ExportHtmlDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	// TODO:  ここに初期化を追加してください
 	setPathIndex();
 	setPathOutline();
 	if (m_xvRdNav == 0) {
@@ -87,15 +85,11 @@ BOOL ExportHtmlDlg::OnInitDialog()
 		SetEdPrfTextSingleEnable(TRUE);
 		setPathTextSingle();
 	}
-	return TRUE;  // return TRUE unless you set the focus to a control
-	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
+	return TRUE;
 }
-
-// ExportHtmlDlg メッセージ ハンドラ
 
 void ExportHtmlDlg::OnBnClickedRdNavOutline()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(TRUE);
 	SetRdImageEnable(FALSE);
 }
@@ -119,41 +113,35 @@ void ExportHtmlDlg::SetEdPrfTextEverynodeEnable(BOOL bEnable)
 
 void ExportHtmlDlg::OnBnClickedRdNavNetwork()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(FALSE);
 	SetRdImageEnable(TRUE);
 }
 
 void ExportHtmlDlg::OnBnClickedRdNavBoth()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(TRUE);
 	SetRdImageEnable(TRUE);
 }
 
 void ExportHtmlDlg::OnBnClickedRdTextEverynode()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	SetEdPrfTextEverynodeEnable(TRUE);
 	SetEdPrfTextSingleEnable(FALSE);
 }
 
 void ExportHtmlDlg::OnBnClickedRdTextSingle()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	SetEdPrfTextEverynodeEnable(FALSE);
 	SetEdPrfTextSingleEnable(TRUE);
 }
 
 void ExportHtmlDlg::OnBnClickedBtnSetPrfByFname()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(m_sDocTitle);
 }
 
 void ExportHtmlDlg::OnEnChangeEdPrfIndex()
 {
-	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	setPathIndex();
 }
 
@@ -182,7 +170,6 @@ void ExportHtmlDlg::setPathIndex()
 
 void ExportHtmlDlg::OnEnChangeEdPrfToc()
 {
-	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	setPathOutline();
 }
 
@@ -202,7 +189,6 @@ void ExportHtmlDlg::setPathOutline()
 
 void ExportHtmlDlg::OnEnChangeEdPrfNet()
 {
-	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	setPathNetwork();
 }
 
@@ -226,7 +212,6 @@ void ExportHtmlDlg::setPathNetwork()
 
 void ExportHtmlDlg::OnEnChangeEdPrfTextSingle()
 {
-	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	setPathTextSingle();
 }
 
@@ -246,7 +231,6 @@ void ExportHtmlDlg::setPathTextSingle()
 
 void ExportHtmlDlg::OnEnChangeEdPrfTextEverynode()
 {
-	// TODO:  ここにコントロール通知ハンドラ コードを追加してください。
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TEXT_EVERYNODE)->GetWindowText(s);
 	CString prf = s.Trim();
@@ -262,14 +246,12 @@ void ExportHtmlDlg::OnEnChangeEdPrfTextEverynode()
 
 void ExportHtmlDlg::OnBnClickedBtnSetPrfByRoot()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
 		StringUtil::getSafeFileName(m_NameOfRoot));
 }
 
 void ExportHtmlDlg::OnBnClickedBtnSetPrfByVisibleRoot()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
 		StringUtil::getSafeFileName(m_NameOfVisibleRoot));
 }

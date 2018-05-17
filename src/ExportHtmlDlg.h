@@ -1,6 +1,4 @@
 ﻿#pragma once
-
-
 // ExportHtmlDlg ダイアログ
 
 class ExportHtmlDlg : public CDialog
@@ -8,14 +6,13 @@ class ExportHtmlDlg : public CDialog
 	DECLARE_DYNAMIC(ExportHtmlDlg)
 
 public:
-	ExportHtmlDlg(CWnd* pParent = NULL);   // 標準コンストラクタ
+	ExportHtmlDlg(CWnd* pParent = NULL);
 	virtual ~ExportHtmlDlg();
 
-// ダイアログ データ
 	enum { IDD = IDD_SET_HTML_EXPORT };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:
