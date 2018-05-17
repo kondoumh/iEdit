@@ -4,7 +4,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// InpcatDlg.h : ヘッダー ファイル
+// EditShapeCategoryDlg.h : ヘッダー ファイル
 //
 
 /////////////////////////////////////////////////////////////////////////////
@@ -12,11 +12,9 @@
 
 class EditShapeCategoryDlg : public CDialog
 {
-// コンストラクション
 public:
-	EditShapeCategoryDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	EditShapeCategoryDlg(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(EditShapeCategoryDlg)
 	enum { IDD = IDD_SHPCATDLG };
 	CEdit	m_edit;
@@ -24,17 +22,14 @@ public:
 	//}}AFX_DATA
 
 
-// オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(EditShapeCategoryDlg)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(EditShapeCategoryDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnChangeEdit1();
@@ -43,6 +38,5 @@ protected:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_INPCATDLG_H__2ACE9F19_2A02_11D4_AE6A_00A0C9B72FDD__INCLUDED_)
