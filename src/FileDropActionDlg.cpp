@@ -14,7 +14,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // FileDropActionDlg ダイアログ
 
-
 FileDropActionDlg::FileDropActionDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(FileDropActionDlg::IDD, pParent)
 {
@@ -35,9 +34,5 @@ void FileDropActionDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(FileDropActionDlg, CDialog)
 	//{{AFX_MSG_MAP(FileDropActionDlg)
-		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// FileDropActionDlg メッセージ ハンドラ

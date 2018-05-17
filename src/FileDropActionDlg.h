@@ -12,28 +12,22 @@
 
 class FileDropActionDlg : public CDialog
 {
-// コンストラクション
 public:
-	FileDropActionDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	FileDropActionDlg(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(FileDropActionDlg)
 	enum { IDD = IDD_SELFILEDROP };
 	int		m_nDropProc;
 	//}}AFX_DATA
 
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
+protected:
 	//{{AFX_VIRTUAL(FileDropActionDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(FileDropActionDlg)
 		// メモ: ClassWizard はこの位置にメンバ関数を追加します。
 	//}}AFX_MSG
@@ -41,6 +35,5 @@ protected:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_SELFILEDROPDLG_H__B17C7D51_E20B_11D5_9ACE_00105A6E744E__INCLUDED_)
