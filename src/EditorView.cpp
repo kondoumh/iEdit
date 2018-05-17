@@ -563,25 +563,14 @@ void EditorView::OnLButtonDown(UINT nFlags, CPoint point)
 void EditorView::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	Default();
-	if (nFlags & MK_LBUTTON)
-	{
-	int nLine = GetCaretLine();
-//	if (m_nCaretLine != nLine)
-	{
+	if (nFlags & MK_LBUTTON) {
+		int nLine = GetCaretLine();
 		CRect rect;
 		GetLineRect(m_nCaretLine, rect);
 		InvalidateRect(rect, FALSE);
 		UpdateWindow();
 		m_nCaretLine = nLine;
-	}
-/*	else
-	{
-		CRect rect;
-		GetLineRect(m_nCaretLine, rect);
-		InvalidateRect(rect, FALSE);
-		UpdateWindow();
-		m_nCaretLine = nLine;
-}*/ }	
+	}	
 }
 
 void EditorView::OnChange() 
