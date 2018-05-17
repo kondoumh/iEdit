@@ -2255,7 +2255,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 	prcdlg.Create(IDD_ONPROC);
 	prcdlg.m_ProcName.SetWindowText(_T("インポート中"));
 	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
-	prcdlg.m_ProgProc.SetRange(0, lines.size() - 1);
+	prcdlg.m_ProgProc.SetRange(0, (short)(lines.size() - 1));
 	
 	CSize mvSz(30, 30);
 	CString label;
