@@ -96,7 +96,6 @@ void EditorView::Dump(CDumpContext& dc) const
 
 BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	BOOL shwHScroll = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Show HScroll"), FALSE);
 	cs.style |= WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL;
 	if (shwHScroll) {
@@ -108,7 +107,6 @@ BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs)
 void EditorView::OnInitialUpdate() 
 {
 	CEditView::OnInitialUpdate();
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	CString t = GetDocument()->getSelectedNodeText();
 	GetEditCtrl().SetWindowText(t);
 	m_preKey = GetDocument()->getSelectedNodeKey();
@@ -118,13 +116,11 @@ void EditorView::OnInitialUpdate()
 
 void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	DWORD curKey = 	GetDocument()->getSelectedNodeKey();
 	m_bPreUpdateReplace = false;
 	if (curKey != m_preKey) {
 		m_bPreUpdateReplace = true;
-		//CString s; s.Format(_T("pre:%d cur:%d"), curKey, m_preKey);DEBUG_WRITE(s);
-		m_nCaretLine = GetCaretLine(); // テスト
+		m_nCaretLine = GetCaretLine();
 		m_preKey = curKey;
 		CString t = GetDocument()->getSelectedNodeText();
 		GetEditCtrl().SetWindowText(t);
@@ -153,7 +149,6 @@ int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CEditView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	CiEditApp* app = (CiEditApp*)AfxGetApp();
-	// TODO: この位置に固有の作成用コードを追加してください
 	m_bkColor = app->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), app->m_colorTextViewBg);
 	m_textColor = app->GetProfileInt(REGS_FRAME, _T("Edit forColor"), app->m_colorTextViewFg);
 	m_hBrsBack.CreateSolidBrush(m_bkColor);
@@ -179,7 +174,6 @@ void EditorView::initSizeChar()
 
 void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 	
@@ -192,15 +186,12 @@ void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void EditorView::OnDelete() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetEditCtrl().SendMessage(WM_KEYDOWN, VK_DELETE, VK_DELETE);
 	GetDocument()->SetModifiedFlag();
 }
 
 void EditorView::OnUpdateDelete(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void EditorView::setTabStop()
@@ -246,13 +237,10 @@ void EditorView::setViewFont()
 
 void EditorView::OnEditLabel() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	
 }
 
 void EditorView::OnEditCut() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetEditCtrl().Cut();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
@@ -260,7 +248,6 @@ void EditorView::OnEditCut()
 
 void EditorView::OnUpdateEditCut(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
 	pCmdUI->Enable(start < end);
@@ -268,7 +255,6 @@ void EditorView::OnUpdateEditCut(CCmdUI* pCmdUI)
 
 void EditorView::OnEditPaste() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetEditCtrl().Paste();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
@@ -276,7 +262,6 @@ void EditorView::OnEditPaste()
 
 void EditorView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	if (!::OpenClipboard(m_hWnd)) {
 		pCmdUI->Enable(FALSE);
 		return;
@@ -288,7 +273,6 @@ void EditorView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 void EditorView::OnEditUndo() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetEditCtrl().Undo();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
@@ -296,13 +280,11 @@ void EditorView::OnEditUndo()
 
 void EditorView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(GetEditCtrl().CanUndo());
 }
 
 void EditorView::OnEditClear() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetEditCtrl().Clear();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
@@ -310,7 +292,6 @@ void EditorView::OnEditClear()
 
 void EditorView::OnUpdateEditClear(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
 	pCmdUI->Enable(start < end);
@@ -318,7 +299,6 @@ void EditorView::OnUpdateEditClear(CCmdUI* pCmdUI)
 
 void EditorView::OnContextMenu(CWnd* pWnd, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	CMenu menu;
 	menu.LoadMenu(IDR_CONTEXT);
 	
@@ -333,7 +313,6 @@ void EditorView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void EditorView::OnEditFind() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString cText; GetEditCtrl().GetWindowText(cText);
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
@@ -349,13 +328,10 @@ void EditorView::OnEditFind()
 
 void EditorView::OnUpdateEditFind(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void EditorView::OnEditReplace() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString cText; GetEditCtrl().GetWindowText(cText);
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
@@ -371,8 +347,6 @@ void EditorView::OnEditReplace()
 
 void EditorView::OnUpdateEditReplace(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void EditorView::OnFindNext(LPCTSTR lpszFind, BOOL bNext, BOOL bCase)
@@ -437,12 +411,10 @@ void EditorView::OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR 
 
 HBRUSH EditorView::CtlColor(CDC* pDC, UINT nCtlColor) 
 {
-	// TODO: この位置で DC のアトリビュートを変更してください
 	pDC->SetBkColor(m_bkColor);
 	pDC->SetTextColor(m_textColor);
 	return m_hBrsBack;
 	
-	// TODO: 親ハンドラを呼び出したくない場合はここでブラシのハンドルとして NULL 以外を返すようにしてください
 	return NULL;
 }
 
@@ -546,19 +518,13 @@ void EditorView::DrawCaretLine(BOOL bInPaint)
 
 void EditorView::OnPaint() 
 {
-//	CPaintDC dc(this); // 描画用のデバイス コンテキスト
-	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	Default();
 	if (m_bDrawUnderLine && m_bCanPaint)
 		DrawCaretLine(TRUE);
-	
-	// 描画用メッセージとして CEditView::OnPaint() を呼び出してはいけません
 }
 
 void EditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	Default();
 	int nLine = GetCaretLine();
 	if (m_nCaretLine == nLine)
@@ -582,27 +548,20 @@ void EditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void EditorView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	Default();
 	if (m_bDrawUnderLine && m_bCanPaint)
 		DrawCaretLine();
-	
-//	CEditView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
 void EditorView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	Default();
 	if (m_bDrawUnderLine && m_bCanPaint)
 		DrawCaretLine();
-	
-//	CEditView::OnLButtonDown(nFlags, point);
 }
 
 void EditorView::OnMouseMove(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	Default();
 	if (nFlags & MK_LBUTTON)
 	{
@@ -623,29 +582,14 @@ void EditorView::OnMouseMove(UINT nFlags, CPoint point)
 		UpdateWindow();
 		m_nCaretLine = nLine;
 }*/ }	
-//	CEditView::OnMouseMove(nFlags, point);
 }
 
 void EditorView::OnChange() 
 {
-	// TODO: これが RICHEDIT コントロールの場合、コントロールは、 lParam マスク
-	// 内での論理和の ENM_CHANGE フラグ付きで CRichEditCrtl().SetEventMask()
-	// メッセージをコントロールへ送るために CEditView::OnInitDialog() 関数をオーバー
-	// ライドしない限りこの通知を送りません。
-	
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	GetDocument()->SetModifiedFlag();
-//	char buf[100];
-//	GetEditCtrl().GetLine(m_nCaretLine, buf);
-//	CString caretLine(buf);
-//	int start = caretLine.Find("http:/");
-//	if (start != -1) {
-//		AfxMessageBox("ハケーン");
-//	}
 }
 
 void EditorView::OnEnVscroll()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	GetDocument()->setSelectedNodeScrollPos(GetEditCtrl().GetFirstVisibleLine());
 }

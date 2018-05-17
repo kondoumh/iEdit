@@ -20,7 +20,6 @@ CSplashWnd::CSplashWnd()
 
 CSplashWnd::~CSplashWnd()
 {
-	// スタティック ウィンドウのポインタをクリアします。
 	ASSERT(c_pSplashWnd == this);
 	c_pSplashWnd = NULL;
 }
@@ -43,7 +42,6 @@ void CSplashWnd::ShowSplashScreen(CWnd* pParentWnd /*= NULL*/)
 	if (!c_bShowSplashWnd || c_pSplashWnd != NULL)
 		return;
 
-	// 新規スプラッシュ スクリーンを配置してウィンドウを作成します。
 	c_pSplashWnd = new CSplashWnd;
 	if (!c_pSplashWnd->Create(pParentWnd))
 		delete c_pSplashWnd;
@@ -56,7 +54,6 @@ BOOL CSplashWnd::PreTranslateAppMessage(MSG* pMsg)
 	if (c_pSplashWnd == NULL)
 		return FALSE;
 
-	// キーボードまたはマウス メッセージを取得した場合は、スプラッシュ スクリーンを非表示にします。
 	if (pMsg->message == WM_KEYDOWN ||
 	    pMsg->message == WM_SYSKEYDOWN ||
 	    pMsg->message == WM_LBUTTONDOWN ||
@@ -67,10 +64,10 @@ BOOL CSplashWnd::PreTranslateAppMessage(MSG* pMsg)
 	    pMsg->message == WM_NCMBUTTONDOWN)
 	{
 		c_pSplashWnd->HideSplashScreen();
-		return TRUE;	// メッセージはここでハンドルされました
+		return TRUE;
 	}
 
-	return FALSE;	// メッセージはハンドルされていません
+	return FALSE;
 }
 
 BOOL CSplashWnd::Create(CWnd* pParentWnd /*= NULL*/)
@@ -88,14 +85,12 @@ BOOL CSplashWnd::Create(CWnd* pParentWnd /*= NULL*/)
 
 void CSplashWnd::HideSplashScreen()
 {
-	// ウィンドウを破棄してメインフレームを更新します。
 	DestroyWindow();
 	AfxGetMainWnd()->UpdateWindow();
 }
 
 void CSplashWnd::PostNcDestroy()
 {
-	// C++ クラスを解放します。
 	delete this;
 }
 
@@ -104,10 +99,8 @@ int CSplashWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	// ウィンドウを中央に配置します。
 	CenterWindow();
 
-	// スプラッシュ スクリーンを破棄するためのタイマーを設定します。
 	SetTimer(1, 1500, NULL);
 
 	return 0;
@@ -124,7 +117,6 @@ void CSplashWnd::OnPaint()
 	BITMAP bm;
 	m_bitmap.GetBitmap(&bm);
 
-	// イメージを描画します。
 	CBitmap* pOldBitmap = dcImage.SelectObject(&m_bitmap);
 	dc.BitBlt(0, 0, bm.bmWidth, bm.bmHeight, &dcImage, 0, 0, SRCCOPY);
 	dcImage.SelectObject(pOldBitmap);
@@ -132,6 +124,5 @@ void CSplashWnd::OnPaint()
 
 void CSplashWnd::OnTimer(UINT nIDEvent)
 {
-	// スプラッシュ スクリーン ウィンドウを破棄します。
 	HideSplashScreen();
 }

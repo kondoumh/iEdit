@@ -34,7 +34,6 @@ END_MESSAGE_MAP()
 
 void CTabSeet::OnSelchange(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	setPage();
 	*pResult = 0;
 }

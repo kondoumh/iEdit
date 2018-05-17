@@ -27,12 +27,9 @@ public:
 // オペレーション
 public:
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(CTabSeet)
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 public:
 	template<class Dialog> 
 	void addPage(Dialog* dialog) { 
@@ -60,6 +57,5 @@ inline bool CTabSeet::setPage() {
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_TABSEET_H__A07C8081_FCC0_11D2_B43A_00A0C9B72F81__INCLUDED_)

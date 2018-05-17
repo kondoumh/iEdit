@@ -17,10 +17,8 @@ protected:
 	EditorView();           // 動的生成に使用されるプロテクト コンストラクタ
 	DECLARE_DYNCREATE(EditorView)
 
-// アトリビュート
 public:
 
-// オペレーション
 public:
 	virtual void OnReplaceAll( LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase);
 	virtual void  OnReplaceSel( LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR lpszReplace);
@@ -29,14 +27,11 @@ public:
 	void setTabStop();
 	iEditDoc* GetDocument();
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
-
 	//{{AFX_VIRTUAL(EditorView)
 	public:
 	virtual void OnInitialUpdate();
 	protected:
-	virtual void OnDraw(CDC* pDC);      // このビューを描画するためにオーバーライドしました。
+	virtual void OnDraw(CDC* pDC);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	//}}AFX_VIRTUAL
@@ -49,7 +44,6 @@ protected:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	// 生成されたメッセージ マップ関数
 protected:
 	void initSizeChar();
 	void DrawCaretLine(BOOL bInPaint = FALSE);
@@ -102,6 +96,5 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_EDITORVIEW_H__96DFF9CB_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

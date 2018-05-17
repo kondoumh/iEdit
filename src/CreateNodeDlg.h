@@ -14,7 +14,7 @@ class CreateNodeDlg : public CDialog
 public:
 	CRect iniRect;
 	CPoint m_iniPt;
-	CreateNodeDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	CreateNodeDlg(CWnd* pParent = NULL);
 
 // ダイアログ データ
 	//{{AFX_DATA(CreateNodeDlg)
@@ -25,10 +25,9 @@ public:
 
 
 // オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(CreateNodeDlg)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
 // インプリメンテーション
@@ -44,6 +43,5 @@ protected:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_INPCNDLG_H__3912E181_B749_11D2_BB6F_F08B54D33F0D__INCLUDED_)
