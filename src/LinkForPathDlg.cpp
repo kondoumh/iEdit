@@ -14,14 +14,12 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // LinkForPathDlg ダイアログ
 
-
 LinkForPathDlg::LinkForPathDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(LinkForPathDlg::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(LinkForPathDlg)
 	//}}AFX_DATA_INIT
 }
-
 
 void LinkForPathDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -32,7 +30,6 @@ void LinkForPathDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_ORG, m_Org);
 	//}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(LinkForPathDlg, CDialog)
 	//{{AFX_MSG_MAP(LinkForPathDlg)
@@ -45,7 +42,6 @@ END_MESSAGE_MAP()
 
 void LinkForPathDlg::OnBrowse() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	WCHAR szFilters[] = _T("全てのファイル (*.*)|*.*|");
 	CFileDialog dlg(TRUE, _T("*.*"), NULL, OFN_HIDEREADONLY, szFilters, NULL);
 	if (dlg.DoModal() != IDOK) return;
@@ -55,7 +51,6 @@ void LinkForPathDlg::OnBrowse()
 
 void LinkForPathDlg::OnOK() 
 {
-	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strPath);
 	m_Comment.GetWindowText(strComment);
 	if (strPath == _T("")) {
@@ -68,10 +63,8 @@ void LinkForPathDlg::OnOK()
 BOOL LinkForPathDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
-	// TODO: この位置に初期化の補足処理を追加してください
 	m_Org.SetWindowText(strOrg);
 	m_Comment.ReplaceSel(strComment);
 	m_edit.ReplaceSel(strPath);
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }

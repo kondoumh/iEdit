@@ -105,7 +105,6 @@ END_MESSAGE_MAP()
 void LinkView::OnDraw(CDC* pDC)
 {
 	CDocument* pDoc = GetDocument();
-	// TODO: この位置に描画用のコードを追加してください
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -128,7 +127,6 @@ void LinkView::Dump(CDumpContext& dc) const
 
 BOOL LinkView::PreCreateWindow(CREATESTRUCT& cs) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	cs.style &= ~LVS_TYPEMASK;
 	// 複数選択をサポートするには、LVS_SINGLSELをはずす
 	cs.style |= LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_EDITLABELS /*| LVS_NOSORTHEADER*/;
@@ -139,7 +137,6 @@ void LinkView::OnInitialUpdate()
 {
 	CListView::OnInitialUpdate();
 	
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	doColorSetting();
 	
 	m_preKey = GetDocument()->getSelectedNodeKey();
@@ -157,7 +154,6 @@ void LinkView::OnInitialUpdate()
 
 void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	iHint* ph = NULL;
 	if (pHint != NULL) {
 		ph = reinterpret_cast<iHint*>(pHint);
@@ -215,7 +211,6 @@ int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CListView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	// TODO: この位置に固有の作成用コードを追加してください
 	m_oleDropTarget.Register(this);
 	GetListCtrl().InsertColumn(0, _T("リンク名"), LVCFMT_LEFT, 100); 
 	GetListCtrl().InsertColumn(1, _T("リンク先"), LVCFMT_LEFT, 100);
@@ -227,7 +222,6 @@ int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void LinkView::OnSize(UINT nType, int cx, int cy) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	if (cx != m_preWidth) {
 		CHeaderCtrl* pHeader = GetListCtrl().GetHeaderCtrl();
 		CRect r;
@@ -250,7 +244,6 @@ iEditDoc* LinkView::GetDocument()
 void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	
 	if (pDispInfo->item.mask & LVIF_TEXT) {
 		int index = (int)pDispInfo->item.lParam;
@@ -285,32 +278,27 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 void LinkView::OnJumpTo() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	jumpTo();
 }
 
 void LinkView::OnUpdateJumpTo(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 ? 1: 0);
 }
 
 void LinkView::OnJumpBack() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	jumpBack();
 }
 
 void LinkView::OnUpdateJumpBack(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(kstack.size() > 0 ? 1 : 0);
 }
 
 void LinkView::OnDelete() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	if (index == -1) return;
 	if (!items_[index].isFromLink()) return;
@@ -327,14 +315,12 @@ void LinkView::OnDelete()
 
 void LinkView::OnUpdateDelete(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
 void LinkView::OnSetLinkInfo() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	setLinkInfo();
 }
 
@@ -396,14 +382,12 @@ void LinkView::setLinkInfo()
 
 void LinkView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
 void LinkView::OnLButtonDblClk(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	jumpTo();
 	CListView::OnLButtonDblClk(nFlags, point);
 }
@@ -470,7 +454,6 @@ void LinkView::jumpBack()
 
 void LinkView::OnContextMenu(CWnd* pWnd, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	CListCtrl& List = GetListCtrl();
 	int index = List.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	
@@ -493,14 +476,12 @@ void LinkView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void LinkView::OnReturn(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	jumpTo();
 	*pResult = 0;
 }
 
 void LinkView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (nChar == VK_BACK) {
 		jumpBack();
 	}
@@ -524,7 +505,6 @@ void LinkView::notifySelLink()
 
 void LinkView::OnEditCut() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		notifySelLink();
@@ -537,14 +517,12 @@ void LinkView::OnEditCut()
 
 void LinkView::OnUpdateEditCut(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
 void LinkView::OnEditCopy() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		notifySelLink();
@@ -556,14 +534,12 @@ void LinkView::OnEditCopy()
 
 void LinkView::OnUpdateEditCopy(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
 void LinkView::OnEditPaste() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		GetDocument()->addSetLinkOrg();
@@ -574,7 +550,6 @@ void LinkView::OnEditPaste()
 
 void LinkView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	pCmdUI->Enable(GetDocument()->canCopyLink() || pEdit != NULL);
 }
@@ -582,7 +557,6 @@ void LinkView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 void LinkView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
 	if (index != curSel && index != -1) {
 		curSel = index;
@@ -621,7 +595,6 @@ void LinkView::setViewFont()
 void LinkView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	if (pNMListView->iSubItem == 0) {
 		sortBy = 0;
 	} else {
@@ -636,14 +609,12 @@ void LinkView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 
 void LinkView::OnEditLabel() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetListCtrl().EditLabel(index);
 }
 
 void LinkView::OnUpdateEditLabel(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
@@ -652,7 +623,6 @@ void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CString editString = pDispInfo->item.pszText;
 	if (editString == _T("")) return;
 	
@@ -673,40 +643,28 @@ void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 
 void LinkView::OnEditReplace() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	
 }
 
 void LinkView::OnEditUndo() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	
 }
 
 void LinkView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 DROPEFFECT LinkView::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
-	
 	return CListView::OnDragEnter(pDataObject, dwKeyState, point);
 }
 
 void LinkView::OnDragLeave() 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
-	
 	CListView::OnDragLeave();
 }
 
 DROPEFFECT LinkView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
-	
 	// check for force link
 	DROPEFFECT de = DROPEFFECT_NONE;
 	if ( (dwKeyState & (MK_CONTROL|MK_SHIFT)) == (MK_CONTROL|MK_SHIFT) ) {
@@ -726,14 +684,10 @@ DROPEFFECT LinkView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, C
 		de = DROPEFFECT_COPY;
 	}
 	return de;
-	
-//	return OnDragOver(pDataObject, dwKeyState, point);
 }
 
 BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
-	
 	if (pDataObject->IsDataAvailable(CF_TEXT)){
 		// IEのアドレスバーからのドラッグ＆ドロップ
 		
@@ -868,7 +822,6 @@ void LinkView::setSelection(int index)
 
 void LinkView::OnLinkMoveUp()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetDocument()->swapLinkOrder(items_[index-1].key, items_[index].key);
 	reflesh();
@@ -877,14 +830,12 @@ void LinkView::OnLinkMoveUp()
 
 void LinkView::OnUpdateLinkMoveUp(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index > 0);
 }
 
 void LinkView::OnLinkMoveDown()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetDocument()->swapLinkOrder(items_[index].key, items_[index+1].key);
 	reflesh();
@@ -893,7 +844,6 @@ void LinkView::OnLinkMoveDown()
 
 void LinkView::OnUpdateLinkMoveDown(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	unsigned int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && index < items_.size() - 1);
 }

@@ -12,7 +12,6 @@
 
 class LinkPropertiesDlg : public CDialog
 {
-// コンストラクション
 public:
 	int lineWidth;
 	int styleLine;
@@ -22,9 +21,8 @@ public:
 	CString strTo;
 	CString strFrom;
 	CString strComment;
-	LinkPropertiesDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	LinkPropertiesDlg(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(LinkPropertiesDlg)
 	enum { IDD = IDD_LINKINFO };
 	CComboBox	m_cmbLineStyle;
@@ -35,17 +33,14 @@ public:
 	//}}AFX_DATA
 
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
+protected:
 	//{{AFX_VIRTUAL(LinkPropertiesDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
 // インプリメンテーション
 protected:
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(LinkPropertiesDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSelchangeCombo();
@@ -58,6 +53,5 @@ protected:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_LINKINFODLG_H__6557B4B6_290A_11D3_80A7_00A0C9B72FDD__INCLUDED_)

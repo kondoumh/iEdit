@@ -47,13 +47,11 @@ BEGIN_MESSAGE_MAP(LinkPropertiesDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkPropertiesDlg メッセージ ハンドラ
 
 BOOL LinkPropertiesDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: この位置に初期化の補足処理を追加してください
 	m_LabelFrom.SetWindowText(strFrom);
 	m_LabelTo.SetWindowText(strTo);
 	switch (styleArrow) {
@@ -92,13 +90,11 @@ BOOL LinkPropertiesDlg::OnInitDialog()
 			m_cmbLineStyle.SetCurSel(lineWidth - 1);
 		}
 	}
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 void LinkPropertiesDlg::OnSelchangeCombo() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	switch (m_combo.GetCurSel()) {
 	case 0:
 		styleArrow = iLink::line;
@@ -129,7 +125,6 @@ void LinkPropertiesDlg::OnSelchangeCombo()
 
 void LinkPropertiesDlg::OnOK() 
 {
-	// TODO: この位置にその他の検証用のコードを追加してください
 	m_edit.GetWindowText(strComment);
 	CDialog::OnOK();
 }
@@ -137,7 +132,6 @@ void LinkPropertiesDlg::OnOK()
 
 void LinkPropertiesDlg::OnBtnColor() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
@@ -145,7 +139,6 @@ void LinkPropertiesDlg::OnBtnColor()
 
 void LinkPropertiesDlg::OnBtnFont() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
 	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
@@ -153,7 +146,6 @@ void LinkPropertiesDlg::OnBtnFont()
 
 void LinkPropertiesDlg::OnSelchangeCmbLine() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_cmbLineStyle.GetCurSel();
 	if (index == 0 || index == 5) {
 		lineWidth = 0;

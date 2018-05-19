@@ -253,15 +253,11 @@ void iNode::setName(const CString &name)
 
 void iNode::adjustFont(bool bForceResize)
 {
-	//DEBUG_WRITE("adjustFont");
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize && !bForceResize) return;
 	if (styleText == iNode::notext) return;
 	CSize sz = getNodeTextSize();
 	LONG hmargin = sz.cy*4/7;
 	LONG wmargin = sz.cy;
-	//if (lstrcmp(lf_.lfFaceName,"メイリオ") == 0) {
-	//	hmargin = sz.cy*4/5;
-	//}
 	if (!bfillcolor && styleLine == PS_NULL) {
 		hmargin /= 2;
 		wmargin /= 2;
@@ -313,32 +309,6 @@ void iNode::enhanceLineOriented(const CSize& sz)
 	bound_.right = bound_.left + width;
 	bound_.bottom = bound_.top + height;
 }
-
-// 幅固定で行を伸縮させることを考えて作りかけたが、DrawText が
-// 複数行の折り返しに対応してないので、意味がないことが分かった
-// 1行1行DrawTextすれば出来そうだが。。
-//void iNode::fitFixedWidth()
-//{
-//	int lineCount = 0;
-//	CToken tok(this->getName()+ _T("\n"));
-//	tok.SetToken(_T("\n"));
-//	CSize fontSz = (int)((double)getNodeTextSize().cx/(double)name_.GetLength());
-//	do {
-//		CString line = tok.GetNextToken();
-//		lineCount++;
-//		int lineWidth = fontSz.cx*line.GetLength();
-//		int formatLine = (int)((double)lineWidth/(double)bound_.Width());
-//		lineCount += formatLine;
-//		CString t; t.Format(_T("w:%d fw:%d len:%d lw:%d, fl:%d"), 
-//			bound_.Width(), fontSz.cx, line.GetLength(), lineWidth, formatLine);
-//		DEBUG_WRITE(t);
-//	} while (tok.MoreTokens());
-//
-//	CString s; s.Format(_T("%d"), lineCount);
-//	DEBUG_WRITE(s);
-//
-//	bound_.bottom = bound_.top + /*fontSz.cy*/10*lineCount /* + margin_t_*/;
-//}
 
 void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
 {
@@ -1086,10 +1056,8 @@ int iNodes::selectNodesInBound(const CRect &bound, CRect &selRect, bool bDrwAll)
 	int cnt=0;
 	for ( ; it != end(); it++) {
 		CRect r = (*it).second.getBound();
-//		if (!bDrwAll) {
-			if (!(*it).second.isVisible()) continue;
-//		}
-		if ((r | bound) == bound /*r.IntersectRect(r, bound)*/) {
+		if (!(*it).second.isVisible()) continue;
+		if ((r | bound) == bound) {
 			(*it).second.selectNode();
 			selRect = (*it).second.getBound();
 			cnt++;
@@ -1100,7 +1068,7 @@ int iNodes::selectNodesInBound(const CRect &bound, CRect &selRect, bool bDrwAll)
 	
 	it = begin();
 	for ( ; it != end(); it++) {
-		if (/*(*it).isVisible() && */(*it).second.isSelected()) {
+		if ((*it).second.isSelected()) {
 			if ((*it).second.getBound().left < selRect.left) selRect.left = (*it).second.getBound().left;
 			if ((*it).second.getBound().right > selRect.right) selRect.right = (*it).second.getBound().right;
 			if ((*it).second.getBound().top < selRect.top) selRect.top = (*it).second.getBound().top;
@@ -1247,7 +1215,7 @@ void iNodes::setSelectedNodeFixed(BOOL f)
 {
 	niterator it = findNodeW(selKey_);
 	if (it != end()) {
-		/*const_cast<iNode&>*/(*it).second.fix(f);
+		(*it).second.fix(f);
 	}
 }
 
@@ -1267,11 +1235,9 @@ CSize iNodes::getMaxNodeSize(bool selection, bool bDrwAll) const
 	
 	const_niterator it = begin();
 	for ( ; it != end(); it++) {
-//		if (!bDrwAll) {
-			if (!(*it).second.isVisible()) {
-				continue;
-			}
-//		}
+		if (!(*it).second.isVisible()) {
+			continue;
+		}
 		if (selection) {
 			if (!(*it).second.isSelected()) {
 				continue;

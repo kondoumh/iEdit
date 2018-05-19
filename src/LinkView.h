@@ -16,24 +16,17 @@ typedef stack<DWORD> keyStack;
 class LinkView : public CListView
 {
 protected:
-	LinkView();           // 動的生成に使用されるプロテクト コンストラクタ
+	LinkView();
 	DECLARE_DYNCREATE(LinkView)
 
-// アトリビュート
-public:
-
-// オペレーション
 public:
 	int m_preWidth;
 	void setViewFont();
 	void jumpBack();
 	iEditDoc* GetDocument();
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
-
+public:
 	//{{AFX_VIRTUAL(LinkView)
-	public:
 	virtual void OnInitialUpdate();
 	virtual DROPEFFECT OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
 	virtual void OnDragLeave();
@@ -45,7 +38,6 @@ public:
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 	virtual ~LinkView();
 #ifdef _DEBUG
@@ -53,7 +45,6 @@ protected:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	// 生成されたメッセージ マップ関数
 protected:
 	void reflesh();
 	void setSelection(int index);
@@ -114,6 +105,5 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_LINKVIEW_H__96DFF9CC_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
