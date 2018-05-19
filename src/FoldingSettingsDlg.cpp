@@ -14,7 +14,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // FoldingSettingsDlg ダイアログ
 
-
 FoldingSettingsDlg::FoldingSettingsDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(FoldingSettingsDlg::IDD, pParent)
 {
@@ -22,7 +21,6 @@ FoldingSettingsDlg::FoldingSettingsDlg(CWnd* pParent /*=NULL*/)
 	m_level = 0;
 	//}}AFX_DATA_INIT
 }
-
 
 void FoldingSettingsDlg::DoDataExchange(CDataExchange* pDX)
 {

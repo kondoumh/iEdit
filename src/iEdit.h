@@ -66,8 +66,6 @@ void showLastErrorMessage();
 
 /////////////////////////////////////////////////////////////////////////////
 // CiEditApp:
-// このクラスの動作の定義に関しては iEdit.cpp ファイルを参照してください。
-//
 
 class CiEditApp : public CWinApp
 {
@@ -123,7 +121,6 @@ public:
 	};
 
 // オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(CiEditApp)
 	public:
 	virtual BOOL InitInstance();
@@ -148,6 +145,5 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_IEDIT_H__96DFF9B7_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

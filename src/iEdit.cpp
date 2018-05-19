@@ -56,7 +56,6 @@ BEGIN_MESSAGE_MAP(CiEditApp, CWinApp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CiEditApp クラスの構築
 
 CiEditApp::CiEditApp()
 {
@@ -78,7 +77,6 @@ CiEditApp::CiEditApp()
 CiEditApp theApp;
 
 /////////////////////////////////////////////////////////////////////////////
-// CiEditApp クラスの初期化
 
 BOOL CiEditApp::InitInstance()
 {
@@ -92,21 +90,16 @@ BOOL CiEditApp::InitInstance()
 	
 	SetRegistryKey(REGS_ROOT);
 	
-	LoadStdProfileSettings(9);  // 標準の INI ファイルのオプションをローﾄﾞします (MRU を含む)
-	
+	LoadStdProfileSettings(9);	
 	getNodeProfile();
 	getLinkProfile();
 	getOtherProfile();
 	getOptionsProfile();
 	m_bShapeModified = false;
-
-	// アプリケーション用のドキュメント テンプレートを登録します。ドキュメント テンプレート
-	//  はドキュメント、フレーム ウィンドウとビューを結合するために機能します。
 	
 	// Initialize static members of CGDIThread
 	InitializeCriticalSection(&CRelaxThrd::m_csGDILock);
 	
-	// CMultiDocTemplate* pDocTemplate;
 	m_pDocTemplate = new CMultiDocTemplate(
 		IDR_IEDITTYPE,
 		RUNTIME_CLASS(iEditDoc),
@@ -114,7 +107,6 @@ BOOL CiEditApp::InitInstance()
 		RUNTIME_CLASS(OutlineView));
 	AddDocTemplate(m_pDocTemplate);
 	
-	// CMultiDocTemplate* pDocTemplate;
 	if (m_rgsOptions.registOldFiletype) {
 		m_pDocTemplate2 = new CMultiDocTemplate(
 			IDR_IEDITTYPE_OLD,
@@ -124,20 +116,16 @@ BOOL CiEditApp::InitInstance()
 		AddDocTemplate(m_pDocTemplate2);
 	}
 	
-	// メイン MDI フレーム ウィンドウを作成
 	CMainFrame* pMainFrame = new CMainFrame;
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME))
 		return FALSE;
 	m_pMainWnd = pMainFrame;
 	
-	// OLEの初期化
 	AfxOleInit();
 	
-	// ドラッグ/ドロップ のオープンを許可
 	m_pMainWnd->DragAcceptFiles();
 	
 	if (m_rgsOptions.registFiletype) {
-		// DDE Execute open を使用可能に
 		HKEY hkResult;
 		if (::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Classes"), &hkResult) == ERROR_SUCCESS) {
 			RegOverridePredefKey(HKEY_CLASSES_ROOT, hkResult);
@@ -147,7 +135,6 @@ BOOL CiEditApp::InitInstance()
 		}
 	}
 	
-	// DDE、file open など標準のシェル コマンドのコマンドラインを解析
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 	
@@ -156,11 +143,9 @@ BOOL CiEditApp::InitInstance()
 		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 	}
 	
-	// コマンドラインでディスパッチ コマンドを指定
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 	
-	// メインウィンドウが初期化後の表示と更新
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
 
@@ -181,13 +166,11 @@ public:
 	enum { IDD = IDD_ABOUTBOX };
 	//}}AFX_DATA
 
-	// ClassWizard 仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(CAboutDlg)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV のサポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 	//{{AFX_MSG(CAboutDlg)
 	//}}AFX_MSG
@@ -219,14 +202,12 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	//{{AFX_MSG_MAP(CAboutDlg)
-//	ON_WM_PAINT()
 	//}}AFX_MSG_MAP
 	ON_WM_CTLCOLOR()
 	ON_WM_SETCURSOR()
 	ON_STN_CLICKED(IDC_WEBSITE, &CAboutDlg::OnStnClickedWebsite)
 END_MESSAGE_MAP()
 
-// ダイアログを実行するためのアプリケーション コマンド
 void CiEditApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
@@ -238,7 +219,6 @@ void CiEditApp::OnAppAbout()
 
 BOOL CiEditApp::PreTranslateMessage(MSG* pMsg)
 {
-	// CG: 以下のブロックはスプラッシュ スクリーン コンポーネントによって追加されました
 	if (CSplashWnd::PreTranslateAppMessage(pMsg))
 		return TRUE;
 

@@ -88,7 +88,6 @@ END_MESSAGE_MAP()
 
 iEditDoc::iEditDoc()
 {
-	// TODO: この位置に１度だけ呼ばれる構築用のコードを追加してください。
 	m_bShowBranch = false;
 	m_initialBranchMode = 0;
 	m_bOldBinary = false;
@@ -105,7 +104,6 @@ BOOL iEditDoc::OnNewDocument()
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
-	// TODO: この位置に再初期化処理を追加してください。
 	// (SDI ドキュメントはこのドキュメントを再利用します。)
 	InitDocument();
 	return TRUE;
@@ -604,10 +602,6 @@ void iEditDoc::moveSelectedNode(const CSize &sz)
 	setConnectPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
-	// Undo 処理のために別のメッセージを送った方が良い
-//	iHint hint; hint.event = iHint::nodeStyleChanged;
-//	DWORD key = nodes_.getSelKey();
-//	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
 void iEditDoc::moveNodesInBound(const CRect& bound,	const CSize move)
@@ -1792,15 +1786,9 @@ BOOL iEditDoc::linkExist(bool drwAll) const
 {
 	const_literator li = links_.begin();
 	for ( ; li != links_.end(); li++) {
-//		if (!drwAll) {
-			if ((*li).canDraw()) {
-				return TRUE;
-			}
-//		} else {
-//			if ((*li).getKeyFrom() != (*li).getKeyTo()) {
-//				return TRUE;
-//			}
-//		}
+		if ((*li).canDraw()) {
+			return TRUE;
+		}
 	}
 	return FALSE;
 }

@@ -23,7 +23,7 @@ public:
 
 	//{{AFX_VIRTUAL(FoldingSettingsDlg)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
 protected:
