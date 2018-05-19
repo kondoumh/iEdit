@@ -92,7 +92,6 @@ IMPLEMENT_SERIAL(iLink, CObject, 0)
 void iLink::drawComment(CDC *pDC, bool clipbrd)
 {
 	CRect rc = getCommentRect();
-//	font_.CreateFontIndirect(&lf_);
 	
 	font_.CreateFont(lf_.lfHeight, lf_.lfWidth, 0, 0, lf_.lfWeight, lf_.lfItalic, lf_.lfUnderline, lf_.lfStrikeOut, lf_.lfCharSet,
 		             OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, lf_.lfFaceName);
@@ -100,9 +99,6 @@ void iLink::drawComment(CDC *pDC, bool clipbrd)
 	
 	CFont* pOldFont = pDC->SelectObject(&font_);
 	COLORREF preColor = pDC->SetTextColor(colorLine);
-//	COLORREF oldColor = pDC->SetBkColor(RGB(128, 0, 255));
-//	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
-//	pDC->DrawText(name_, &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	
 	pDC->TextOut(rc.left, rc.top, name_);
 	
@@ -122,8 +118,6 @@ void iLink::drawComment(CDC *pDC, bool clipbrd)
 	}
 	pDC->SetTextColor(preColor);
 	pDC->SelectObject(pOldFont);
-//	pDC->SetBkColor(oldColor);
-//	pDC->SetBkMode(oldBkMode);
 	font_.DeleteObject();
 }
 

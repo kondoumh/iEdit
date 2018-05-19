@@ -5,7 +5,6 @@
 #include "iEdit.h"
 #include "ImportTextDlg.h"
 
-
 // ImportTextDlg ダイアログ
 
 IMPLEMENT_DYNAMIC(ImportTextDlg, CDialog)
@@ -29,23 +28,17 @@ void ImportTextDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_LBL_FNAME, m_fileName);
 }
 
-
 BEGIN_MESSAGE_MAP(ImportTextDlg, CDialog)
 	ON_BN_CLICKED(IDC_RADIO1, &ImportTextDlg::OnBnClickedRadio1)
 	ON_BN_CLICKED(IDC_RADIO2, &ImportTextDlg::OnBnClickedRadio2)
 END_MESSAGE_MAP()
 
-
-// ImportTextDlg メッセージ ハンドラ
-
 void ImportTextDlg::OnBnClickedRadio1()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_charSelection = 0;
 }
 
 void ImportTextDlg::OnBnClickedRadio2()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_charSelection = 1;
 }

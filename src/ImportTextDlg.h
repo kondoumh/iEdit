@@ -8,14 +8,14 @@ class ImportTextDlg : public CDialog
 	DECLARE_DYNAMIC(ImportTextDlg)
 
 public:
-	ImportTextDlg(CWnd* pParent = NULL);   // 標準コンストラクタ
+	ImportTextDlg(CWnd* pParent = NULL);
 	virtual ~ImportTextDlg();
 
 // ダイアログ データ
 	enum { IDD = IDD_IMPORT_TEXT };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:
