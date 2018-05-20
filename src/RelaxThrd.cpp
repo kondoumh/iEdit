@@ -12,11 +12,8 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// critical section to protect while drawing to the DC
 CRITICAL_SECTION CRelaxThrd::m_csGDILock;
 
-// m_hAnotherDead is used to signal that one or more threads have ended
-//  (it is an auto-reset event; and starts out not signaled)
 HANDLE CRelaxThrd::m_hAnotherDead = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 /////////////////////////////////////////////////////////////////////////////
@@ -49,32 +46,25 @@ CRelaxThrd::~CRelaxThrd()
 
 BOOL CRelaxThrd::InitInstance()
 {
-	// TODO: この位置にスレッド単位の初期化コードを追加してください。
-	// thread setup
 	m_brush.Attach(m_hBrush);
 	m_brush2.Attach(m_hBrush2);
 	m_dc.Attach(m_hDC);
 
-	// loop but check for kill notification
 	while (WaitForSingleObject(m_hEventKill, 0) == WAIT_TIMEOUT)
 		SingleStep();
 
-	// thread cleanup
 	m_dc.Detach();
 
-	// avoid entering standard message loop by returning FALSE
 	return FALSE;
 }
 
 int CRelaxThrd::ExitInstance()
 {
-	// TODO: この位置にスレッド単位の初期化コードを追加してください。
 	return CWinThread::ExitInstance();
 }
 
 BEGIN_MESSAGE_MAP(CRelaxThrd, CWinThread)
 	//{{AFX_MSG_MAP(CRelaxThrd)
-		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加します。
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -88,8 +78,6 @@ CRelaxThrd::CRelaxThrd()
 
 void CRelaxThrd::SingleStep()
 {
-	// Since all threads share the same HDC it is necessary
-	// to block all other threads while we render in the HDC
 	for (unsigned int i = 0; i < edges.size(); i++) {
 		iBound find; find.key = edges[i].from;
 		Bounds::iterator itFrom = bounds.find(find);
@@ -191,13 +179,6 @@ void CRelaxThrd::SingleStep()
 			const_cast<iBound&>(*it).oldBound = const_cast<iBound&>(*it).newBound;
 		}
 	
-		// Win32 optimizes GDI calls by collecting them in a batch
-		// and then thunking the whole batch at once on a per
-		// thread basis.  Since we share an HDC with multiple
-		// threads, we must flush the batch before yielding to
-		// other threads that will adjust the HDC.  To see what
-		// I mean, comment out the GdiFlush() function call and
-		// watch the results.
 		GdiFlush();
 		if (bounds.size() < 30) {
 			Sleep(10);
@@ -209,18 +190,12 @@ void CRelaxThrd::SingleStep()
 
 void CRelaxThrd::KillThread()
 {
-	// Note: this function is called in the context of other threads,
-	//  not the thread itself.
-
-	// reset the m_hEventKill which signals the thread to shutdown
 	VERIFY(SetEvent(m_hEventKill));
 
-	// allow thread to run at higher priority during kill process
 	SetThreadPriority(THREAD_PRIORITY_ABOVE_NORMAL);
 	WaitForSingleObject(m_hEventDead, INFINITE);
 	WaitForSingleObject(m_hThread, INFINITE);
 
-	// now delete CWinThread object since no longer necessary
 	bounds.clear();
 	edges.clear();
 	delete this;
@@ -228,10 +203,8 @@ void CRelaxThrd::KillThread()
 
 void CRelaxThrd::Delete()
 {
-	// calling the base here won't do anything but it is a good habit
 	CWinThread::Delete();
 
-	// acknowledge receipt of kill notification
 	VERIFY(SetEvent(m_hEventDead));
 	VERIFY(SetEvent(m_hAnotherDead));
 }

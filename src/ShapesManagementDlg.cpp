@@ -18,14 +18,12 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // ShapesManagementDlg ダイアログ
 
-
 ShapesManagementDlg::ShapesManagementDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(ShapesManagementDlg::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(ShapesManagementDlg)
 	//}}AFX_DATA_INIT
 }
-
 
 void ShapesManagementDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -40,7 +38,6 @@ void ShapesManagementDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CATLIST, m_catListBox);
 	//}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(ShapesManagementDlg, CDialog)
 	//{{AFX_MSG_MAP(ShapesManagementDlg)
@@ -69,13 +66,11 @@ BEGIN_MESSAGE_MAP(ShapesManagementDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// ShapesManagementDlg メッセージ ハンドラ
 
 BOOL ShapesManagementDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: この位置に初期化の補足処理を追加してください
 	m_bounds[0]  = CRect(137,  22, 167,  52);
 	m_bounds[1]  = CRect(169,  22, 199,  52);
 	m_bounds[2]  = CRect(201,  22, 231,  52);
@@ -115,19 +110,16 @@ BOOL ShapesManagementDlg::OnInitDialog()
 	}
 	m_catListBox.SetCurSel(0);
 	
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 void ShapesManagementDlg::OnBtnDrop() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	updateNetVew();
 }
 
 void ShapesManagementDlg::OnUpdateDiagram() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	updateNetVew();
 }
 
@@ -149,29 +141,23 @@ void ShapesManagementDlg::updateNetVew()
 
 BOOL ShapesManagementDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	m_pParent = pParentWnd;
 	return CDialog::Create(IDD, pParentWnd);
 }
 
 void ShapesManagementDlg::OnOK() 
 {
-	// TODO: この位置にその他の検証用のコードを追加してください
 	return;
-//	m_pParent->PostMessage(WM_CLOSESHAPEWINDOW, IDOK);
-//	CDialog::OnOK();
 }
 
 void ShapesManagementDlg::OnCancel() 
 {
-	// TODO: この位置に特別な後処理を追加してください。
 	m_pParent->PostMessage(WM_CLOSESHAPEWINDOW, IDCANCEL);
 	CDialog::OnCancel();
 }
 
 void ShapesManagementDlg::OnSelchangeCatlist() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	InvalidateRect(m_selRect);
 	m_indexIncat = 0;
 	m_selRect = m_bounds[0];
@@ -184,13 +170,11 @@ void ShapesManagementDlg::OnSelchangeCatlist()
 
 void ShapesManagementDlg::OnDblclkCatlist() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	editCatName();
 }
 
 void ShapesManagementDlg::OnEditCatName() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	editCatName();
 }
 
@@ -214,7 +198,6 @@ void ShapesManagementDlg::editCatName()
 
 void ShapesManagementDlg::OnNewShape() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_selRect == CRect(0, 0, 0, 0)) {
 		AfxMessageBox(_T("登録する場所を選択してください"));
 		return;
@@ -239,7 +222,6 @@ void ShapesManagementDlg::OnNewShape()
 
 void ShapesManagementDlg::OnDeleteShape() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] == NULL) {
@@ -256,9 +238,8 @@ void ShapesManagementDlg::OnDeleteShape()
 
 void ShapesManagementDlg::OnPaint() 
 {
-	CPaintDC dc(this); // 描画用のデバイス コンテキスト
+	CPaintDC dc(this);
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	for (int i = 0; i < 20; i++) {
 		if (pApp->m_hMetaFiles[m_catListBox.GetCurSel()*100+i]) {
@@ -275,13 +256,10 @@ void ShapesManagementDlg::OnPaint()
 	tracker.m_rect = m_selRect;
 	tracker.m_nStyle = CRectTracker::resizeInside;
 	tracker.Draw(&dc);
-	
-	// 描画用メッセージとして CDialog::OnPaint() を呼び出してはいけません
 }
 
 void ShapesManagementDlg::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	for (int i = 0; i < 20; i++) {
 		if (m_bounds[i].PtInRect(point)) {
 			m_indexIncat = i;
@@ -297,7 +275,6 @@ void ShapesManagementDlg::OnLButtonDown(UINT nFlags, CPoint point)
 
 void ShapesManagementDlg::OnLButtonDblClk(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	for (int i = 0; i < 20; i++) {
 		if (m_bounds[i].PtInRect(point)) {
 			m_indexIncat = i;
@@ -310,7 +287,6 @@ void ShapesManagementDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 void ShapesManagementDlg::OnBtnL() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	if (m_indexIncat > 0) {
 		m_indexIncat--;
 		m_oldRect = m_selRect;
@@ -330,7 +306,6 @@ void ShapesManagementDlg::OnBtnL()
 
 void ShapesManagementDlg::OnBtnR() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	if (m_indexIncat < 19) {
 		m_indexIncat++;
 		m_oldRect = m_selRect;
@@ -350,7 +325,6 @@ void ShapesManagementDlg::OnBtnR()
 
 void ShapesManagementDlg::OnBtnLl() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_catListBox.GetCurSel();
 	if (index > 0) {
 		m_catListBox.SetCurSel(index-1);
@@ -360,7 +334,6 @@ void ShapesManagementDlg::OnBtnLl()
 
 void ShapesManagementDlg::OnBtnRr() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_catListBox.GetCurSel();
 	if (index < 9) {
 		m_catListBox.SetCurSel(index+1);
@@ -370,7 +343,6 @@ void ShapesManagementDlg::OnBtnRr()
 
 void ShapesManagementDlg::OnSaveShapeFile() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	WCHAR szFilters[] = _T("シェイプファイル (*.ies)|*.ies||");
 	CFileDialog dlg(FALSE, _T("ies"), _T("shapes.ies"), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
@@ -383,7 +355,6 @@ void ShapesManagementDlg::OnSaveShapeFile()
 
 void ShapesManagementDlg::OnOpenShapeFile() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString infile;
 	WCHAR szFilters[] = _T("シェイプファイル (*.ies)|*.ies||");
 	CFileDialog dlg(TRUE, _T("ies"), infile, OFN_HIDEREADONLY, szFilters, this);
@@ -414,13 +385,11 @@ void ShapesManagementDlg::OnOpenShapeFile()
 
 void ShapesManagementDlg::OnBtnget() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	getFromView();
 }
 
 void ShapesManagementDlg::OnRegistNodeshape() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	getFromView();
 }
 
@@ -450,7 +419,6 @@ void ShapesManagementDlg::regNodeShape(HENHMETAFILE hMF)
 
 void ShapesManagementDlg::OnPasteFromClpbrd() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		 ::IsClipboardFormatAvailable(CF_METAFILEPICT) ||
 		 ::IsClipboardFormatAvailable(CF_DIB) ) {
@@ -475,8 +443,6 @@ void ShapesManagementDlg::OnPasteFromClpbrd()
 
 void ShapesManagementDlg::OnUpdatePasteFromClpbrd(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void ShapesManagementDlg::decideShapef()
@@ -499,7 +465,6 @@ void ShapesManagementDlg::OnDestroy()
 {
 	CDialog::OnDestroy();
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
 	if (mfname != _T("") && pApp->m_bShapeModified) {

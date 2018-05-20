@@ -35,7 +35,6 @@ void ProceedingDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(ProceedingDlg, CDialog)
 	//{{AFX_MSG_MAP(ProceedingDlg)
-		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

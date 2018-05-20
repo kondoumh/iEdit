@@ -15,5 +15,3 @@ public:
 	virtual ~CRectTrackerPlus();
 	virtual void AdjustRect(int nHandle, LPRECT lpRect);
 };
-
-

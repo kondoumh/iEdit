@@ -14,7 +14,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // ShapeRegistrationDlg ダイアログ
 
-
 ShapeRegistrationDlg::ShapeRegistrationDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(ShapeRegistrationDlg::IDD, pParent)
 {
@@ -22,7 +21,6 @@ ShapeRegistrationDlg::ShapeRegistrationDlg(CWnd* pParent /*=NULL*/)
 	m_strPath = _T("");
 	//}}AFX_DATA_INIT
 }
-
 
 void ShapeRegistrationDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -35,7 +33,6 @@ void ShapeRegistrationDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(ShapeRegistrationDlg, CDialog)
 	//{{AFX_MSG_MAP(ShapeRegistrationDlg)
 	ON_BN_CLICKED(IDC_BTN_BROWSE, OnBtnBrowse)
@@ -43,11 +40,9 @@ BEGIN_MESSAGE_MAP(ShapeRegistrationDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// ShapeRegistrationDlg メッセージ ハンドラ
 
 void ShapeRegistrationDlg::OnBtnBrowse() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CString empath;
 	WCHAR szFilters[] = _T("拡張メタファイル (*.emf)|*.emf|全てのファイル (*.*)|*.*||");
 	CFileDialog dlg(TRUE, _T("emf"), empath, OFN_HIDEREADONLY, szFilters, this);
@@ -67,7 +62,6 @@ void ShapeRegistrationDlg::OnBtnBrowse()
 
 void ShapeRegistrationDlg::OnOK() 
 {
-	// TODO: この位置にその他の検証用のコードを追加してください
 	if (m_strPath == _T("")) {
 		AfxMessageBox(_T("メタファイルが指定されていません"));
 		return;
