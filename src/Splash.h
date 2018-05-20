@@ -9,16 +9,11 @@
 
 class CSplashWnd : public CWnd
 {
-// 構築
 protected:
 	CSplashWnd();
 
-// アトリビュート:
 public:
 	CBitmap m_bitmap;
-
-// オペレーション
-public:
 	static void EnableSplashScreen(BOOL bEnable = TRUE);
 	static void ShowSplashScreen(CWnd* pParentWnd = NULL);
 	static BOOL PreTranslateAppMessage(MSG* pMsg);
@@ -45,6 +40,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-
 
 #endif
