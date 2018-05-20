@@ -291,7 +291,6 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// NetView 描画
 
 void NetView::OnInitialUpdate()
 {
@@ -328,8 +327,6 @@ void NetView::OnDraw(CDC* pDC)
 	if (m_bLayouting) return;
 	iEditDoc* pDoc = GetDocument();
 	
-	// TODO: この位置に描画用のコードを追加してください
-	
 	bool bDrwAll = false;
 	pDoc->drawNodes(pDC, bDrwAll);
 	if (!m_bDragRelax) {
@@ -357,9 +354,6 @@ void NetView::OnDraw(CDC* pDC)
 
 BOOL NetView::OnEraseBkgnd(CDC* pDC) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
-	// ブラシを使いたい背景色に設定する。
-	
 	if (!m_bLayouting) {
 		CBrush backBrush(m_bkColor);
 	
@@ -476,7 +470,6 @@ void NetView::drawAlterLinkTo(CDC *pDC)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// NetView 診断
 
 #ifdef _DEBUG
 void NetView::AssertValid() const
@@ -491,11 +484,9 @@ void NetView::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// NetView メッセージ ハンドラ
 
 void NetView::OnContextMenu(CWnd* pWnd, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	if (m_bLayouting) {
 		return;
 	}
@@ -549,7 +540,6 @@ void NetView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 BOOL NetView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (m_bGrasp) {
 		if (m_bDragView) {
 			::SetCursor(m_hHandClose);
@@ -616,9 +606,7 @@ iEditDoc* NetView::GetDocument()
 
 void NetView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-	///////////////////////////////////////////////////
-	// TODO: 左ボタン押下時処理
-	//////////////////////////////////////////////////
+	// 左ボタン押下時処理
 	if (m_bLayouting) { // 自動レイアウト中なら止めてリターン
 		stopLayouting();
 		return;
@@ -718,7 +706,6 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		m_testRect.OffsetRect(CPoint(20, 20));
 		adjustRedrawBound(selectRect);
 		CRectTracker tracker; tracker.m_rect = selectRect;
-	//	tracker.m_rect.OffsetRect(-GetScrollPosition());
 		tracker.m_nStyle = CRectTracker::resizeInside;
 		int trackState = tracker.HitTest(logPt);
 		CClientDC dc(this);
@@ -964,7 +951,6 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 
 void NetView::OnAddLink0() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_addMode == NetView::link0) {
 		m_addMode = NetView::normal;
 	} else {
@@ -974,14 +960,12 @@ void NetView::OnAddLink0()
 
 void NetView::OnUpdateAddLink0(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::link0);
 }
 
 void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	stopLayouting();
 	adjustScrollArea();
 	
@@ -999,7 +983,6 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	
 	CClientDC dc(this);
 	OnPrepareDC(&dc);
-//	CSize sz(1, 1);
 	CRect old, nw;
 	
 	if (GetDocument()->isShowSubBranch() && GetDocument()->isCurKeyInBranch() ||
@@ -1147,7 +1130,6 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 			Invalidate();
 		}
 		break;
-
 	}
 }
 
@@ -1185,7 +1167,6 @@ void NetView::startAlterTo(const CPoint &pt)
 
 void NetView::OnMouseMove(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CPoint logPt = point;
 	ViewDPtoLP(&logPt);
 	
@@ -1211,8 +1192,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 			m_toolTip.Pop();
 		}
 	}
-	
-	
+		
 	/////////////////////
 	// View のGraspScroll
 	/////////////////////
@@ -1359,9 +1339,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 
 void NetView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
-	////////////////////////////////////////
 	// TODO: Mouseの左ボタンリリース時の処理
-	////////////////////////////////////////
 	
 	if (m_bGrasp) { // ハンドモードの解除
 		m_bDragView = false;
@@ -1484,7 +1462,6 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 
 void NetView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (m_bLayouting) return;
 	CPoint logPt = point;
 	ViewDPtoLP(&logPt);
@@ -1536,7 +1513,6 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 
 void NetView::OnSetNodeFont() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	LOGFONT lf;
 	memset(&lf, 0, sizeof(LOGFONT));
 
@@ -1584,13 +1560,10 @@ void NetView::OnSetNodeFont()
 
 void NetView::OnUpdateSetNodeFont(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void NetView::OnSetNodeLineColor() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1612,13 +1585,10 @@ void NetView::OnSetNodeLineColor()
 
 void NetView::OnUpdateSetNodeLineColor(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void NetView::OnSetLineNull() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeLineWidth(0);
 	GetDocument()->setSelectedNodeLineStyle(PS_NULL);
@@ -1626,7 +1596,6 @@ void NetView::OnSetLineNull()
 
 void NetView::OnUpdateSetLineNull(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_NULL &&
 			         GetDocument()->getSelectedNodeLineWidth() == 0;
@@ -1636,7 +1605,6 @@ void NetView::OnUpdateSetLineNull(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid0() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1660,7 +1628,6 @@ void NetView::OnSetLineSolid0()
 
 void NetView::OnUpdateSetLineSolid0(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 0;
@@ -1674,7 +1641,6 @@ void NetView::OnUpdateSetLineSolid0(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid1() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1698,7 +1664,6 @@ void NetView::OnSetLineSolid1()
 
 void NetView::OnUpdateSetLineSolid1(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 2;
@@ -1712,7 +1677,6 @@ void NetView::OnUpdateSetLineSolid1(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid2() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1736,7 +1700,6 @@ void NetView::OnSetLineSolid2()
 
 void NetView::OnUpdateSetLineSolid2(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 3;
@@ -1750,7 +1713,6 @@ void NetView::OnUpdateSetLineSolid2(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid3() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1774,7 +1736,6 @@ void NetView::OnSetLineSolid3()
 
 void NetView::OnUpdateSetLineSolid3(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 4;
@@ -1788,7 +1749,6 @@ void NetView::OnUpdateSetLineSolid3(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineSolid4() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1812,7 +1772,6 @@ void NetView::OnSetLineSolid4()
 
 void NetView::OnUpdateSetLineSolid4(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_SOLID &&
 			         GetDocument()->getSelectedNodeLineWidth() == 5;
@@ -1826,7 +1785,6 @@ void NetView::OnUpdateSetLineSolid4(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineDot() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
@@ -1850,7 +1808,6 @@ void NetView::OnSetLineDot()
 
 void NetView::OnUpdateSetLineDot(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	if (m_selectStatus == NetView::single) {
 		BOOL state = GetDocument()->getSelectedNodeLineStyle() == PS_DOT &&
 			         GetDocument()->getSelectedNodeLineWidth() == 0;
@@ -1864,33 +1821,28 @@ void NetView::OnUpdateSetLineDot(CCmdUI* pCmdUI)
 
 void NetView::OnSetMultiLine() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->setSelectedNodeMultiLine(true);
 }
 
 void NetView::OnUpdateSetMultiLine(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->SetCheck(GetDocument()->isSelectedNodeMultiLine() && m_selectStatus == NetView::single);
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
 void NetView::OnSetSingleLine() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->setSelectedNodeMultiLine(false);
 }
 
 void NetView::OnUpdateSetSingleLine(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->SetCheck(!GetDocument()->isSelectedNodeMultiLine() && m_selectStatus == NetView::single);
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAddRect() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_addMode != NetView::rect) {
 		m_addMode = NetView::rect;
 	} else if (m_addMode == NetView::rect) {
@@ -1900,14 +1852,12 @@ void NetView::OnAddRect()
 
 void NetView::OnUpdateAddRect(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::rect);
 }
 
 void NetView::OnAddRoundRect() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_addMode != NetView::rRect) {
 		m_addMode = NetView::rRect;
 	} else if (m_addMode == NetView::rRect) {
@@ -1917,14 +1867,12 @@ void NetView::OnAddRoundRect()
 
 void NetView::OnUpdateAddRoundRect(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::rRect);
 }
 
 void NetView::OnAddArc() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_addMode != NetView::arc) {
 		m_addMode = NetView::arc;
 	} else if (m_addMode == NetView::arc) {
@@ -1934,7 +1882,6 @@ void NetView::OnAddArc()
 
 void NetView::OnUpdateAddArc(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::arc);
 }
@@ -1973,7 +1920,6 @@ void NetView::addNode(const CPoint &logPt, const CPoint& screenPt, const CString
 
 void NetView::OnAddLink1() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_addMode == NetView::link1) {
 		m_addMode = NetView::normal;
 	} else {
@@ -1983,14 +1929,12 @@ void NetView::OnAddLink1()
 
 void NetView::OnUpdateAddLink1(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::link1);	
 }
 
 void NetView::OnAddLink2() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_addMode == NetView::link2) {
 		m_addMode = NetView::normal;
 	} else {
@@ -2000,14 +1944,12 @@ void NetView::OnAddLink2()
 
 void NetView::OnUpdateAddLink2(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::link2);
 }
 
 void NetView::OnSetLinkInfo() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	setLinkInfo();
 }
 
@@ -2041,13 +1983,11 @@ void NetView::setLinkInfo()
 
 void NetView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_selectStatus == NetView::link);
 }
 
 void NetView::OnDelete() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->disableUndo();
 	if (m_selectStatus == NetView::single) {
 		bool bDrwAll = false;
@@ -2077,7 +2017,6 @@ void NetView::deleteSelectedNodes() {
 
 void NetView::OnUpdateDelete(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(
 		m_selectStatus == NetView::single &&  GetDocument()->canDeleteNode() ||
 		m_selectStatus == NetView::multi ||
@@ -2086,16 +2025,12 @@ void NetView::OnUpdateDelete(CCmdUI* pCmdUI)
 
 void NetView::OnAutoLayout() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bLayouting) {
 		stopLayouting();
 		return;
 	}
 	
 	if (!m_bLayouting) {
-	//	int ret = MessageBox("自動レイアウトを開始しますか？\nあらかじめ文書を保存しておくことをお勧めします",
-	//		"自動レイアウトの開始", MB_OKCANCEL);
-	//	if (ret	== IDCANCEL) return;
 		m_bLayouting = true;
 		CSize sz(GetDocument()->getMaxPt().x, GetDocument()->getMaxPt().y);
 		bool bDrwAll = false;
@@ -2112,27 +2047,16 @@ void NetView::OnAutoLayout()
 			return;
 		}
 		
-		// If you want to make the sample more sprightly, set the thread priority here
-		// a little higher. It has been set at idle priority to keep from bogging down
-		// other apps that may also be running.
 		VERIFY(pRelaxThrd->SetThreadPriority(THREAD_PRIORITY_IDLE));
-		// Now the thread can run wild
 		m_relaxStack.push(pRelaxThrd);
 		Invalidate();
 		
 		pRelaxThrd->ResumeThread();
-		
-	/*	CRelaxThrd* pRelaxThrd 
-			= (CRelaxThrd*)AfxBeginThread(RUNTIME_CLASS(CRelaxThrd), THREAD_PRIORITY_NORMAL,0,CREATE_SUSPENDED);
-		m_relaxStack.push(pRelaxThrd);
-		Invalidate();
-		pRelaxThrd->ResumeThread();*/
 	}
 }
 
 void NetView::OnUpdateAutoLayout(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	pCmdUI->Enable(GetDocument()->linkExist(bDrwAll) && m_addMode == NetView::normal && !m_bGrasp);
 	pCmdUI->SetCheck(m_bLayouting);
@@ -2160,13 +2084,11 @@ void NetView::adjustRedrawBound(CRect &rc)
 
 void NetView::OnSetNodeProp() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	setNodeProp();
 }
 
 void NetView::OnUpdateSetNodeProp(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
@@ -2297,13 +2219,11 @@ void NetView::setNodeProp()
 
 void NetView::OnGraspMode() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_bGrasp = !m_bGrasp;
 }
 
 void NetView::OnUpdateGraspMode(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	CPoint maxPt;
 	maxPt = GetDocument()->getMaxPt();
 	CRect rc; CScrollView::GetWindowRect(&rc);
@@ -2318,7 +2238,6 @@ void NetView::OnSize(UINT nType, int cx, int cy)
 {
 	CScrollView::OnSize(nType, cx, cy);
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	if (m_bGrasp) {
 		m_bGrasp = false;
 	}
@@ -2326,7 +2245,6 @@ void NetView::OnSize(UINT nType, int cx, int cy)
 
 void NetView::OnLButtonDblClk(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (m_bZooming) {
 		CPoint logPt = point; ViewDPtoLP(&logPt);
 		ZoomIn(&logPt, 0.1f);
@@ -2360,7 +2278,6 @@ void NetView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 void NetView::OnLinkStraight() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	CPoint pt(0, 0);
 	GetDocument()->setSelectedLinkCurve(pt, false, bDrwAll);
@@ -2368,7 +2285,6 @@ void NetView::OnLinkStraight()
 
 void NetView::OnUpdateLinkStraight(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	pCmdUI->Enable(GetDocument()->isSelectedLinkCurved(bDrwAll) && !GetDocument()->isSelectedLinkSelf());
 }
@@ -2392,7 +2308,7 @@ void NetView::copyMFtoClpbrd()
 		CRect allR;
 		allR = CRect(CPoint(0, 0), GetDocument()->getMaxPt());
 		int selcnt = GetDocument()->selectNodesInBound(allR, selRect, false);
-		CRect nwBound = allR; // GetDocument()->getRelatedBound(bDrwAll);
+		CRect nwBound = allR;
 		GetDocument()->selectLinksInBound(nwBound, false);
 		selRect |= GetDocument()->getSelectedLinkBound(false);
 		
@@ -2451,7 +2367,6 @@ void NetView::copyMFtoClpbrd()
 
 void NetView::OnNoBrush() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->backUpUndoNodes();
 
 	if (GetDocument()->isSelectedNodeFilled()) {
@@ -2463,14 +2378,12 @@ void NetView::OnNoBrush()
 
 void NetView::OnUpdateNoBrush(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_selectStatus == NetView::single);
 	pCmdUI->SetCheck(!GetDocument()->isSelectedNodeFilled() && m_selectStatus == NetView::single);
 }
 
 void NetView::OnSetNodeBrush() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_selectStatus == NetView::single || m_selectStatus == NetView::multi) {
 		CColorDialog dlg(GetDocument()->getSelectedNodeBrsColor());
 		if (dlg.DoModal() != IDOK) return;
@@ -2481,13 +2394,10 @@ void NetView::OnSetNodeBrush()
 
 void NetView::OnUpdateSetNodeBrush(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void NetView::OnEditCopy() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (!m_selectRect.IsRectEmpty()) {
 		GetDocument()->setSelectedNodeCopyOrg();
 	}
@@ -2497,13 +2407,11 @@ void NetView::OnEditCopy()
 
 void NetView::OnUpdateEditCopy(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnEditPaste() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (!GetDocument()->canCopyNode() && 
 		(::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		 ::IsClipboardFormatAvailable(CF_METAFILEPICT) || 
@@ -2587,7 +2495,6 @@ void NetView::OnEditPaste()
 
 void NetView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(GetDocument()->canCopyNode() || 
 		::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		::IsClipboardFormatAvailable(CF_METAFILEPICT)  ||
@@ -2598,49 +2505,42 @@ void NetView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 void NetView::OnSetNodeRect() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeShape(iNode::rectangle);
 }
 
 void NetView::OnUpdateSetNodeRect(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int shape = GetDocument()->getSelectedNodeShape();
 	pCmdUI->Enable(shape!= iNode::rectangle && shape != iNode::MetaFile);
 }
 
 void NetView::OnSetNodeRoundRect() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeShape(iNode::roundRect);
 }
 
 void NetView::OnUpdateSetNodeRoundRect(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int shape = GetDocument()->getSelectedNodeShape();
 	pCmdUI->Enable(shape!= iNode::roundRect && shape != iNode::MetaFile);
 }
 
 void NetView::OnSetNodeArc() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeShape(iNode::arc);
 }
 
 void NetView::OnUpdateSetNodeArc(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	int shape = GetDocument()->getSelectedNodeShape();
 	pCmdUI->Enable(shape!= iNode::arc && shape != iNode::MetaFile);
 }
 
 void NetView::OnFixNode() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	BOOL fix = GetDocument()->isSelectedNodeFixed();
 	if (fix) {
 		GetDocument()->setSelectedNodeFixed(FALSE);
@@ -2651,7 +2551,6 @@ void NetView::OnFixNode()
 
 void NetView::OnUpdateFixNode(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->SetCheck(GetDocument()->isSelectedNodeFixed());
 }
 
@@ -2717,7 +2616,6 @@ void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void NetView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (m_bLayouting) {
 		return;
 	}
@@ -2827,13 +2725,11 @@ void NetView::cursorMove(int dx, int dy)
 
 void NetView::OnNormalCursor() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_addMode = NetView::normal;
 }
 
 void NetView::OnUpdateNormalCursor(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->SetCheck(m_addMode == NetView::normal && !m_bGrasp && !m_bZooming);
 }
 
@@ -2842,7 +2738,6 @@ int NetView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CScrollView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	// TODO: この位置に固有の作成用コードを追加してください
 	m_pDC = new CClientDC(this);
 	m_bAccel = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Accel Move"), TRUE);
 	m_pShapesDlg = new ShapesManagementDlg;
@@ -2855,12 +2750,10 @@ int NetView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void NetView::KillRelaxThrd()
 {
-	// tell all threads to shutdown
 	while (m_relaxStack.size() != 0) {
 		CRelaxThrd* pThrd = m_relaxStack.top();
 		SetEvent(pThrd->m_hEventKill);
 		Sleep(2);
-	//	delete pThrd;
 		m_relaxStack.pop();
 	}
 }
@@ -2869,26 +2762,20 @@ void NetView::OnDestroy()
 {
 	CScrollView::OnDestroy();
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	KillRelaxThrd();
 	m_pDC = NULL;
 	m_pShapesDlg->DestroyWindow();
 	delete m_pShapesDlg;
-	
 }
 
 void NetView::OnPrint(CDC* pDC, CPrintInfo* pInfo) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	pDC->SetMapMode(MM_ISOTROPIC);
 	CPoint pt = GetDocument()->getMaxPt();
 	CRect pr = pInfo->m_rectDraw;
 	
 	int wx = (int)(pt.x/((pr.Width()/2)/(double)pDC->GetDeviceCaps(LOGPIXELSX)));
 	int wy = (int)(pt.y/((pr.Height()/2)/(double)pDC->GetDeviceCaps(LOGPIXELSY)));
-	
-	
-//	CString test; test.Format("%d %d", wx, wy); MessageBox(test);
 	
 	CSize oldWnExt = pDC->SetWindowExt(wx, wy);
 	pDC->SetViewportExt(CSize(pt.x, pt.y));
@@ -2903,27 +2790,21 @@ void NetView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 
 BOOL NetView::OnPreparePrinting(CPrintInfo* pInfo) 
 {
-	// TODO: 印刷ダイアログ ボックスを表示するために DoPreparePrinting を呼び出してください
 	return DoPreparePrinting(pInfo);
-	
-//	return CScrollView::OnPreparePrinting(pInfo);
 }
 
 void NetView::OnUpdateFilePrint(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnUpdateFilePrintPreview(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnRandomize() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	CRect rc; GetClientRect(rc);
 	GetDocument()->disableUndo();
@@ -2937,13 +2818,11 @@ void NetView::OnRandomize()
 
 void NetView::OnUpdateRandomize(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::adjustScrollArea()
 {
-//	GetDocument()->recalcArea();
 	CPoint maxPt = GetDocument()->getMaxPt();	
 	CSize sizeTotal;
 	sizeTotal.cx = (LONG)(maxPt.x*1.05);
@@ -2956,7 +2835,6 @@ void NetView::adjustScrollArea()
 
 void NetView::OnEditSelectAll() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	selectAll();
 }
 
@@ -2984,34 +2862,28 @@ void NetView::selectAll()
 
 void NetView::OnUpdateEditSelectAll(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && m_addMode == NetView::normal);
 }
 
 void NetView::OnRefreshNetView() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->setConnectPoint();
 	Invalidate();
 }
 
 void NetView::OnUpdateRefreshNetView(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnShowNodeShapes() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_pShapesDlg->ShowWindow(SW_SHOWNORMAL);
 	m_pShapesDlg->SetFocus();
 }
 
-void NetView::OnUpdateShowNodeShapes(CCmdUI* pCmdUI) 
+void NetView::OnUpdateShowNodeShapes(CCmdUI* pCmdUI)
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 LRESULT NetView::OnAddMetaFileID(UINT wParam, LONG lParam)
@@ -3039,8 +2911,6 @@ LRESULT NetView::OnHideShapesDlg(UINT wParam, LONG lParam)
 
 void NetView::OnEditReplace() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	
 }
 
 void NetView::hideModeless()
@@ -3062,7 +2932,6 @@ LRESULT NetView::OnRegNodeMetaFile(UINT wParam, LONG lParam)
 
 void NetView::OnCopyToClipbrd() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CPoint p1(0, 0);
 	CPoint p2 = GetDocument()->getMaxPt();
 	
@@ -3085,15 +2954,11 @@ void NetView::OnCopyToClipbrd()
 
 void NetView::OnUpdateCopyToClipbrd(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting);
 }
 
 void NetView::OnEditUndo() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	
-	
 	// ビューポート調整に問題あり
 	
 	GetDocument()->resumeUndoNodes();
@@ -3110,55 +2975,46 @@ void NetView::OnEditUndo()
 
 void NetView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && GetDocument()->canResumeUndo());
 }
 
 void NetView::OnAdjustTop() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	adjustNodesEnd(_T("top"));
 }
 
 void NetView::OnUpdateAdjustTop(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAdjustBottom() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	adjustNodesEnd(_T("bottom"));
 }
 
 void NetView::OnUpdateAdjustBottom(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAdjustLeft() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	adjustNodesEnd(_T("left"));
 }
 
 void NetView::OnUpdateAdjustLeft(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAdjustRight() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	adjustNodesEnd(_T("right"));
 }
 
 void NetView::OnUpdateAdjustRight(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
@@ -3188,37 +3044,31 @@ void NetView::adjustNodesEnd(const CString& side)
 
 void NetView::OnSameHeight() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	sameNodesSize(_T("height"));
 }
 
 void NetView::OnUpdateSameHeight(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnSameRect() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	sameNodesSize(_T("rect"));
 }
 
 void NetView::OnUpdateSameRect(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
 void NetView::OnSameWidth() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	sameNodesSize(_T("width"));
 }
 
 void NetView::OnUpdateSameWidth(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
 }
 
@@ -3242,13 +3092,12 @@ void NetView::sameNodesSize(const CString &strSize)
 		CRect rd = old | nwrd;
 		InvalidateRect(rd);
 	}
-	
+
 	adjustScrollArea();
 }
 
 void NetView::OnReverseLinkDirection() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoLinks();
 	GetDocument()->setSelectedLinkReverse(bDrwAll);
@@ -3256,55 +3105,42 @@ void NetView::OnReverseLinkDirection()
 
 void NetView::OnUpdateReverseLinkDirection(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void NetView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	pDC->SetMapMode(m_nMapMode);
-	pDC->SetWindowExt(m_totalLog);  //Set up the logical window
-	
-	//Now figure out the origin for the viewport, depends on
-	//This code is from CSCrollView
+	pDC->SetWindowExt(m_totalLog);
+
 	CPoint ptVpOrg;
 	pDC->SetViewportExt(m_totalDev); // in device coordinates
 	
-	// by default shift viewport origin in negative direction of scroll
 	ASSERT(pDC->GetWindowOrg() == CPoint(0,0));
 	ptVpOrg = -GetDeviceScrollPosition();
-	
-	// Set the new viewport origin, call CView for printing behavior
+
 	pDC->SetViewportOrg(ptVpOrg);
 	CView::OnPrepareDC(pDC, pInfo);
-	
-//	CScrollView::OnPrepareDC(pDC, pInfo);
 }
 
 void NetView::SetScrollSizes(int nMapMode, SIZE sizeTotal, const SIZE &sizePage, const SIZE &sizeLine)
 {
-	// Set up the defaults
 	if (sizeTotal.cx == 0 && sizeTotal.cy == 0){
 		sizeTotal.cx = 1;
 		sizeTotal.cy = 1;
 	}
 	
-	m_nMapMode    = MM_ANISOTROPIC; // mandatory for arbitrary scaling
+	m_nMapMode    = MM_ANISOTROPIC;
 	m_totalLog    = sizeTotal;
-	
-	// Setup default Viewport extent to be conversion of Window extent
-	// into device units.
 	
 	//BLOCK for DC
 	{
-	CWindowDC dc(NULL);
-	dc.SetMapMode(m_nMapMode);
+		CWindowDC dc(NULL);
+		dc.SetMapMode(m_nMapMode);
 	
-	// total size
-	m_totalDev = m_totalLog;
-		dc.LPtoDP((LPPOINT)&m_totalDev);
-	} // Release DC here
+		// total size
+		m_totalDev = m_totalLog;
+			dc.LPtoDP((LPPOINT)&m_totalDev);
+	} // Release DC
 	
 	m_szOrigTotalDev = m_totalDev;
 	m_szOrigPageDev  = sizePage;
@@ -3312,7 +3148,6 @@ void NetView::SetScrollSizes(int nMapMode, SIZE sizeTotal, const SIZE &sizePage,
 	if (isScaleChanged()) {
 		ReCalcBars(); // 毎回全再描画になってしまうので条件付き
 	}
-//	CScrollView::SetScrollSizes(nMapMode, sizeTotal, sizePage, sizeLine);
 }
 
 void NetView::SetZoomLevel(double fNewScale)
@@ -3349,34 +3184,27 @@ void NetView::ReCalcBars()
 	{  // BLOCK for DC
 		CWindowDC dc(NULL);
 		dc.SetMapMode(m_nMapMode);
-		
-		// Calculate new device units for scrollbar
-		// Start with original logical units from SetScrollPos
+
 		m_pageDev = m_szOrigPageDev;
 		dc.LPtoDP((LPPOINT)&m_pageDev);
 		m_lineDev = m_szOrigLineDev;
 		dc.LPtoDP((LPPOINT)&m_lineDev);
 	} // Free DC
-	
-	// Make sure of the range
+
 	if (m_pageDev.cy < 0)  m_pageDev.cy = -m_pageDev.cy;
 	if (m_lineDev.cy < 0)  m_lineDev.cy = -m_lineDev.cy;
-	
-	// If none specified - use one tenth, Just like CScrollView
-	  
+
 	if (m_pageDev.cx == 0) m_pageDev.cx = m_totalDev.cx / 10;
 	if (m_pageDev.cy == 0) m_pageDev.cy = m_totalDev.cy / 10;
 	if (m_lineDev.cx == 0) m_lineDev.cx = m_pageDev.cx  / 10;
 	if (m_lineDev.cy == 0) m_lineDev.cy = m_pageDev.cy  / 10;
-	
-	// Now update the scrollbars
+
 	if (m_hWnd != NULL) {
 		if (isScaleChanged()) {
 			UpdateBars();
-			Invalidate(TRUE); // Zoom scale changed, redraw all
+			Invalidate(TRUE);
 		}
 	}
-
 }
 
 CPoint NetView::GetLogicalCenterPoint()
@@ -3429,13 +3257,11 @@ void NetView::UpdateViewport(CPoint *ptNewCenter)
 		ptCenter = GetLogicalCenterPoint();
 	else 
 		ptCenter = *ptNewCenter;
-     
-	// Modify the Viewport extent
+
 	m_totalDev.cx = (int) ((float) m_szOrigTotalDev.cx * m_fZoomScale);
 	m_totalDev.cy = (int) ((float) m_szOrigTotalDev.cy * m_fZoomScale);
 	ReCalcBars();
 	
-	// Set the current center point.
 	if (ptNewCenter != NULL) {
 		CenterOnLogicalPoint(ptCenter);
 	}
@@ -3448,7 +3274,6 @@ bool NetView::isScaleChanged() const
 
 BOOL NetView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (m_bZooming || nFlags & MK_CONTROL) {
 		CPoint logPt = pt; ViewDPtoLP(&logPt);
 		if (zDelta < 0) {
@@ -3474,19 +3299,16 @@ void NetView::CenterOnLogicalPoint(CPoint ptCenter)
 
 void NetView::OnUpdateZoomMode(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->SetCheck(m_bZooming);
 }
 
 void NetView::OnZoomMode() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_bZooming = !m_bZooming;
 }
 
 void NetView::OnRButtonDblClk(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (m_bZooming) {
 		CPoint logPt = point; ViewDPtoLP(&logPt);
 		ZoomOut(&logPt);
@@ -3496,7 +3318,6 @@ void NetView::OnRButtonDblClk(UINT nFlags, CPoint point)
 
 void NetView::OnSelchangeDropdown() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CComboBox* pComboZoom = pFrame->getZoomComboBox();
 	int index = pComboZoom->GetCurSel();
@@ -3561,7 +3382,6 @@ void NetView::doColorSetting()
 
 void NetView::OnExportSvg() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString path = GetDocument()->GetPathName();
 	CString outfile;
 	if (path == _T("")) {
@@ -3593,7 +3413,6 @@ void NetView::OnExportSvg()
 
 void NetView::OnUpdateExportSvg(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 }
 
@@ -3611,7 +3430,6 @@ void NetView::setMFSize()
 
 BOOL NetView::PreTranslateMessage(MSG* pMsg) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	m_toolTip.RelayEvent(pMsg);
 	return CScrollView::PreTranslateMessage(pMsg);
 }
@@ -3700,7 +3518,6 @@ void NetView::PointedLinkEndPosition(CPoint point)
 
 void NetView::OnInsertChild() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->disableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
 	CRect nwRect = GetDocument()->addNodeWithLink(shape, GetDocument()->getSelectedNodeKey());
@@ -3711,13 +3528,11 @@ void NetView::OnInsertChild()
 
 void NetView::OnUpdateInsertChild(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_selectStatus == NetView::single);
 }
 
 void NetView::OnInsertSibling() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->disableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
 	CRect nwRect = GetDocument()->addNodeWithLink2(shape, GetDocument()->getSelectedNodeKey());
@@ -3728,7 +3543,6 @@ void NetView::OnInsertSibling()
 
 void NetView::OnUpdateInsertSibling(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_selectStatus == NetView::single);
 }
 
@@ -3756,7 +3570,6 @@ void NetView::setEMF2Clpbrd(HENHMETAFILE emf)
 
 void NetView::OnAddNodesFromCfText() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString ClipText;
 	if (::IsClipboardFormatAvailable(CF_TEXT)) {
 		if (!OpenClipboard()) {
@@ -3803,13 +3616,11 @@ void NetView::OnAddNodesFromCfText()
 
 void NetView::OnUpdateAddNodesFromCfText(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(::IsClipboardFormatAvailable(CF_TEXT));
 }
 
 void NetView::OnSetLinkArrowNone() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -3818,7 +3629,6 @@ void NetView::OnSetLinkArrowNone()
 
 void NetView::OnUpdateSetLinkArrowNone(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::line);
@@ -3826,7 +3636,6 @@ void NetView::OnUpdateSetLinkArrowNone(CCmdUI* pCmdUI)
 
 void NetView::OnSetLinkArrowSingle() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -3835,7 +3644,6 @@ void NetView::OnSetLinkArrowSingle()
 
 void NetView::OnUpdateSetLinkArrowSingle(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::arrow);
@@ -3843,7 +3651,6 @@ void NetView::OnUpdateSetLinkArrowSingle(CCmdUI* pCmdUI)
 
 void NetView::OnSetLinkArrowDouble() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -3852,7 +3659,6 @@ void NetView::OnSetLinkArrowDouble()
 
 void NetView::OnUpdateSetLinkArrowDouble(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_selectStatus == NetView::link && 
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::arrow2);
@@ -3862,7 +3668,6 @@ void NetView::OnUpdateSetLinkArrowDouble(CCmdUI* pCmdUI)
 
 void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	// TODO: ここにメッセージ ハンドラ コードを追加するか、既定の処理を呼び出します。
 	HIMC hime = ::ImmGetContext(m_hWnd);
 	BOOL bImeOn = ::ImmGetOpenStatus(hime);
 	::ImmReleaseContext(m_hWnd, hime);
@@ -3900,7 +3705,6 @@ void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void NetView::OnAddlinkednodeArc()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->disableUndo();
 	CRect nwRect = GetDocument()->addNodeWithLink(iNode::arc, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
@@ -3910,12 +3714,10 @@ void NetView::OnAddlinkednodeArc()
 
 void NetView::OnUpdateAddlinkednodeArc(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }
 
 void NetView::OnAddlinkednodeRect()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->disableUndo();
 	CRect nwRect = GetDocument()->addNodeWithLink(iNode::rectangle, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
@@ -3926,12 +3728,10 @@ void NetView::OnAddlinkednodeRect()
 
 void NetView::OnUpdateAddlinkednodeRect(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }
 
 void NetView::OnAddlinkednodeRndrect()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->disableUndo();
 	CRect nwRect = GetDocument()->addNodeWithLink(iNode::roundRect, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
@@ -3941,7 +3741,6 @@ void NetView::OnAddlinkednodeRndrect()
 
 void NetView::OnUpdateAddlinkednodeRndrect(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }
 
 void NetView::procRenameDialog(const CRect& nodeBound)
@@ -3965,7 +3764,6 @@ void NetView::procRenameDialog(const CRect& nodeBound)
 
 void NetView::OnAddLabelOnly()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	if (m_addMode != NetView::label) {
 		m_addMode = NetView::label;
 	} else if (m_addMode == NetView::label) {
@@ -3975,27 +3773,23 @@ void NetView::OnAddLabelOnly()
 
 void NetView::OnUpdateAddLabelOnly(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::label);
 }
 
 void NetView::OnFontEnlarge()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->resizeSelectedNodeFont(true);
 	GetDocument()->resizeSelectedLinkFont(true);
 }
 
 void NetView::OnUpdateFontEnlarge(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnFontEnsmall()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->resizeSelectedNodeFont(false);
 	GetDocument()->resizeSelectedLinkFont(false);
 }
@@ -4003,13 +3797,11 @@ void NetView::OnFontEnsmall()
 
 void NetView::OnUpdateFontEnsmall(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnSetLinkDependSingle()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4018,7 +3810,6 @@ void NetView::OnSetLinkDependSingle()
 
 void NetView::OnUpdateSetLinkDependSingle(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::link && 
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::depend);
@@ -4026,7 +3817,6 @@ void NetView::OnUpdateSetLinkDependSingle(CCmdUI *pCmdUI)
 
 void NetView::OnSetLinkDependDouble()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4035,7 +3825,6 @@ void NetView::OnSetLinkDependDouble()
 
 void NetView::OnUpdateSetLinkDependDouble(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::link && 
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::depend2);
@@ -4043,7 +3832,6 @@ void NetView::OnUpdateSetLinkDependDouble(CCmdUI *pCmdUI)
 
 void NetView::OnSetLinkInherit()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4053,7 +3841,6 @@ void NetView::OnSetLinkInherit()
 
 void NetView::OnUpdateSetLinkInherit(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::link && 
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::inherit);
@@ -4061,7 +3848,6 @@ void NetView::OnUpdateSetLinkInherit(CCmdUI *pCmdUI)
 
 void NetView::OnSetLinkAgregat()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4070,7 +3856,6 @@ void NetView::OnSetLinkAgregat()
 
 void NetView::OnUpdateSetLinkAgregat(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::aggregat);
@@ -4078,7 +3863,6 @@ void NetView::OnUpdateSetLinkAgregat(CCmdUI *pCmdUI)
 
 void NetView::OnSetLinkComposit()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString sFrom, sTo, sComment;
 	int arrowType;
 	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
@@ -4087,7 +3871,6 @@ void NetView::OnSetLinkComposit()
 
 void NetView::OnUpdateSetLinkComposit(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
 		GetDocument()->getSelectedLink() != NULL &&
 		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::composit);
@@ -4130,35 +3913,30 @@ void NetView::changeSelectedLineWidth()
 
 void NetView::OnDrawOrderInfo()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->setDrawOrderInfo(!GetDocument()->isDrawOrderInfo());
 	Invalidate();
 }
 
 void NetView::OnUpdateDrawOrderInfo(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(((CiEditApp*)AfxGetApp())->m_rgsNode.bSyncOrder);
 	pCmdUI->SetCheck(GetDocument()->isDrawOrderInfo());
 }
 
 void NetView::OnSetNodeMm()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeShape(iNode::MindMapNode);
 }
 
 void NetView::OnUpdateSetNodeMm(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int shape = GetDocument()->getSelectedNodeShape();
 	pCmdUI->Enable(shape!= iNode::MindMapNode && shape != iNode::MetaFile);
 }
 
 void NetView::OnValignTop()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_bc) stNew = iNode::s_tc;
@@ -4173,7 +3951,6 @@ void NetView::OnValignTop()
 
 void NetView::OnUpdateValignTop(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tc && st != iNode::s_tl && st != iNode::s_tr &&
@@ -4182,7 +3959,6 @@ void NetView::OnUpdateValignTop(CCmdUI *pCmdUI)
 
 void NetView::OnAlignBottom()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tc) stNew = iNode::s_bc;
@@ -4197,7 +3973,6 @@ void NetView::OnAlignBottom()
 
 void NetView::OnUpdateAlignBottom(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_bc && st != iNode::s_bl && st != iNode::s_br &&
@@ -4206,7 +3981,6 @@ void NetView::OnUpdateAlignBottom(CCmdUI *pCmdUI)
 
 void NetView::OnHalignRight()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tc) stNew = iNode::s_tr;
@@ -4223,7 +3997,6 @@ void NetView::OnHalignRight()
 
 void NetView::OnUpdateHalignRight(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tr && st != iNode::s_cr && st != iNode::s_br && st != iNode::m_r);
@@ -4232,7 +4005,6 @@ void NetView::OnUpdateHalignRight(CCmdUI *pCmdUI)
 
 void NetView::OnHalignLeft()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tc) stNew = iNode::s_tl;
@@ -4249,7 +4021,6 @@ void NetView::OnHalignLeft()
 
 void NetView::OnUpdateHalignLeft(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tl && st != iNode::s_cl && st != iNode::s_bl && st != iNode::m_l);
@@ -4257,7 +4028,6 @@ void NetView::OnUpdateHalignLeft(CCmdUI *pCmdUI)
 
 void NetView::OnValignCenter()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_bc) stNew = iNode::s_cc;
@@ -4272,7 +4042,6 @@ void NetView::OnValignCenter()
 
 void NetView::OnUpdateValignCenter(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_cc && st != iNode::s_cl && st != iNode::s_cr &&
@@ -4281,7 +4050,6 @@ void NetView::OnUpdateValignCenter(CCmdUI *pCmdUI)
 
 void NetView::OnHalignCenter()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tr) stNew = iNode::s_tc;
@@ -4298,7 +4066,6 @@ void NetView::OnHalignCenter()
 
 void NetView::OnUpdateHalignCenter(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int st = GetDocument()->getSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tc && st != iNode::s_cc && st != iNode::s_bc && st != iNode::m_c);
@@ -4306,20 +4073,17 @@ void NetView::OnUpdateHalignCenter(CCmdUI *pCmdUI)
 
 void NetView::OnBtnNodeFillColor()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 }
 
 void NetView::OnUpdateBtnNodeFillColor(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
 void NetView::OnBtnLineColor()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
 	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
@@ -4328,20 +4092,17 @@ void NetView::OnBtnLineColor()
 
 void NetView::OnUpdateBtnLineColor(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnBtnTextColor()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->setSelectedNodeFontColor(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 }
 
 void NetView::OnUpdateBtnTextColor(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
@@ -4365,31 +4126,24 @@ void NetView::changeSelectedLineColor()
 }
 void NetView::OnBtnLinkArrow()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	changeSelectedLinkArrow();
 }
 
 void NetView::OnUpdateBtnLinkArrow(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-//	pCmdUI->Enable(m_selectStatus == NetView::link);
 }
 
 void NetView::OnBtnLinkLineStyle()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	this->changeSelectedLineWidth();
 }
 
 void NetView::OnUpdateBtnLinkLineStyle(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
-//	pCmdUI->Enable(m_selectStatus != NetView::none);
 }
 
 void NetView::OnSaveFormat()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	if (m_selectStatus == NetView::single) {
 		GetDocument()->saveSelectedNodeFormat();
 		m_bFormCopied = TRUE;
@@ -4401,20 +4155,16 @@ void NetView::OnSaveFormat()
 
 void NetView::OnUpdateSaveFormat(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::link);
 }
 
 void NetView::OnAplyFormat()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
-//	GetDocument()->applyFormatToSelectedNode();
 	m_bAplyForm = !m_bAplyForm;
 }
 
 void NetView::OnUpdateAplyFormat(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_bFormCopied);
 	pCmdUI->SetCheck(m_bAplyForm);
 }
@@ -4431,32 +4181,27 @@ void NetView::aplyFormat(CPoint& pt)
 
 void NetView::OnGrpOlCoupled()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	m_bGrpOlCoupled = !m_bGrpOlCoupled;
 }
 
 void NetView::OnUpdateGrpOlCoupled(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(GetDocument()->isShowSubBranch());
 	pCmdUI->SetCheck(m_bGrpOlCoupled);
 }
 
 void NetView::OnDeleteSelectedNodes()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	deleteSelectedNodes();
 }
 
 void NetView::OnUpdateDeleteSelectedNodes(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::multi);
 }
 
 void NetView::OnDeleteSelectedLinks()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	if (MessageBox(_T("選択範囲にあるリンクを削除しますか?"),
 		_T("選択範囲のリンクを削除"), MB_YESNO) != IDYES) return;
 	GetDocument()->deleteLinksInBound(m_selectRect);
@@ -4464,14 +4209,12 @@ void NetView::OnDeleteSelectedLinks()
 
 void NetView::OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	CRect rc = GetDocument()->getSelectedLinkBound();
 	pCmdUI->Enable(m_selectStatus == NetView::multi && !rc.IsRectEmpty());
 }
 
 void NetView::OnSetLinkAngled()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	const iLink* pLink = GetDocument()->getSelectedLink();
 	if (pLink == NULL) return;
 	GetDocument()->setSelectedLinkAngled(!pLink->isAngled());
@@ -4479,7 +4222,6 @@ void NetView::OnSetLinkAngled()
 
 void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	const iLink* pLink = GetDocument()->getSelectedLink();
 	pCmdUI->Enable(!GetDocument()->isOldBinary() && pLink != NULL && pLink->isCurved());
 	pCmdUI->SetCheck(pLink != NULL && pLink->isAngled());
@@ -4487,7 +4229,6 @@ void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
 
 void NetView::OnExportEmf()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString path = GetDocument()->GetPathName();
 	CString outfile;
 	if (path == _T("")) {
@@ -4531,13 +4272,11 @@ void NetView::OnExportEmf()
 
 void NetView::OnUpdateExportEmf(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 }
 
 void NetView::OnExportPng()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString path = GetDocument()->GetPathName();
 	CString outfile;
 	if (path == _T("")) {
@@ -4566,13 +4305,11 @@ void NetView::OnExportPng()
 
 void NetView::OnUpdateExportPng(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 }
 
 void NetView::OnSetMargin()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	NodeMarginSettingsDlg dlg;
 	int l, r, t, b;
 	if (m_selectStatus == NetView::single) {
@@ -4592,7 +4329,6 @@ void NetView::OnSetMargin()
 
 void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(
 		!GetDocument()->isOldBinary() &&
 		(m_selectStatus == NetView::single || m_selectStatus == NetView::multi));
@@ -4600,19 +4336,16 @@ void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
 
 void NetView::OnResizeTofit()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	GetDocument()->fitSetlectedNodeSize();
 }
 
 void NetView::OnUpdateResizeTofit(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
 void NetView::OnReplaceMetafile()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CPoint ptDrop = GetDocument()->getSelectedNodeRect().TopLeft();
 	
 	if (!OpenClipboard()) {
@@ -4659,7 +4392,6 @@ void NetView::OnReplaceMetafile()
 
 void NetView::OnUpdateReplaceMetafile(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	BOOL canAvailable = ::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		::IsClipboardFormatAvailable(CF_DIB) ||
 		::IsClipboardFormatAvailable(CF_BITMAP);
@@ -4679,7 +4411,6 @@ BOOL NetView::OnTtnNeedText(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
 
 	if (pTTT->uFlags & TTF_IDISHWND)
 	{
-		// idFrom is actually the HWND of the tool
 		nID = ::GetDlgCtrlID((HWND)nID);
 		if(nID)
 		{

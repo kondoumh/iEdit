@@ -18,7 +18,7 @@ typedef stack<CRelaxThrd*> RelaxStack;
 class NetView : public CScrollView
 {
 protected:
-	NetView();           // 動的生成に使用されるプロテクト コンストラクタ
+	NetView();
 	DECLARE_DYNCREATE(NetView)
 
 public:
@@ -42,15 +42,13 @@ public:
 	enum {none, single, multi, link, linkTermFrom, linkTermTo};
 	enum {normal, rect, rRect, arc, link0, link1, link2, label};
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(NetView)
 	public:
 	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	protected:
-	virtual void OnDraw(CDC* pDC);      // このビューを描画するためにオーバーライドしました。
-	virtual void OnInitialUpdate();     // 構築後、最初の処理。
+	virtual void OnDraw(CDC* pDC);
+	virtual void OnInitialUpdate();
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	virtual void OnPrint(CDC* pDC, CPrintInfo* pInfo);
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
@@ -105,7 +103,6 @@ protected:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(NetView)
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -380,6 +377,5 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_NETVIEW_H__96DFF9CA_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
