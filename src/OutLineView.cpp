@@ -32,7 +32,7 @@ static char THIS_FILE[] = __FILE__;
 
 #define REGS_FRAME _T("Frame Options")
 
-// 関数オブジェクトお試し 関数ポインタ版
+// 関数オブジェクト 関数ポインタ版
 int labelMessage(CTreeCtrl& tree, HTREEITEM item) {
 	CString s = tree.GetItemText(item);
 	AfxMessageBox(s);
@@ -42,8 +42,7 @@ int labelMessage(CTreeCtrl& tree, HTREEITEM item) {
 typedef pointer_to_binary_function<CTreeCtrl&, HTREEITEM, int> OnNode;
 OnNode test(labelMessage);
 
-
-// 関数オブジェクトお試し binary_function 版
+// 関数オブジェクト binary_function 版
 struct treeTest : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	int operator() (const CTreeCtrl& tree, HTREEITEM item) const {
 		CString s = tree.GetItemText(item);
@@ -116,7 +115,6 @@ BinaryFunction treeview_for_each(CTreeCtrl& tree, BinaryFunction function, HTREE
 	return function;
 }
 
-
 template<class BinaryFunction>
 BinaryFunction treeview_for_each2(CTreeCtrl& tree, BinaryFunction function, HTREEITEM item=0)
 {
@@ -131,7 +129,6 @@ BinaryFunction treeview_for_each2(CTreeCtrl& tree, BinaryFunction function, HTRE
 	}
 	return function;
 }
-
 
 ////////////////////////////////////////////////////////////
 //        tree 検索アルゴリズム treeview_find             //
@@ -247,9 +244,6 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_UPDATE_COMMAND_UI(ID_COPY_TREE_TO_CLIPBOARD, OnUpdateCopyTreeToClipboard)
 	//}}AFX_MSG_MAP
 	// 標準印刷コマンド
-//	ON_COMMAND(ID_FILE_PRINT, CTreeView::OnFilePrint)
-//	ON_COMMAND(ID_FILE_PRINT_DIRECT, CTreeView::OnFilePrint)
-//	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CTreeView::OnFilePrintPreview)
 	ON_MESSAGE(WM_LISTUPNODES, OnListUpNodes)
 	ON_MESSAGE(WM_SRCHNODE, OnSearchNode)
 	ON_MESSAGE(WM_CLOSESRCHWINDOW, OnHideSrchDlg)
@@ -292,7 +286,6 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 
 OutlineView::OutlineView()
 {
-	// TODO: この場所に構築用のコードを追加してください。
 	m_bHitR = false;
 	m_bAdding = false;
 	m_bLabelEditting = false;
@@ -317,29 +310,22 @@ OutlineView::~OutlineView()
 
 BOOL OutlineView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: この位置で CREATESTRUCT cs を修正して Window クラスまたはスタイルを
-	//  修正してください。
-	cs.style |= TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS | TVS_EDITLABELS/* | TVS_DISABLEDRAGDROP*/;
+	cs.style |= TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS | TVS_EDITLABELS;
 	return CTreeView::PreCreateWindow(cs);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // OutlineView クラスの描画
-
 void OutlineView::OnDraw(CDC* pDC)
 {
 	iEditDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	// TODO: この場所にネイティブ データ用の描画コードを追加します。
-	
 }
 
 void OutlineView::OnInitialUpdate()
 {
 	CTreeView::OnInitialUpdate();
 	
-	// TODO:  GetTreeCtrl() メンバ関数の呼び出しを通して直接そのリスト コントロールに
-	//  アクセスすることによって TreeView をアイテムで固定できます。
 	if (GetDocument()->isOldBinary() || GetDocument()->getSerialVersion() <= 1) {
 		treeConstruct();
 	} else {
@@ -380,12 +366,10 @@ BOOL OutlineView::OnPreparePrinting(CPrintInfo* pInfo)
 
 void OutlineView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-	// TODO: 印刷前の特別な初期化処理を追加してください。
 }
 
 void OutlineView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-	// TODO: 印刷後の後処理を追加してください。
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -417,7 +401,6 @@ int OutlineView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CTreeView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	// TODO: この位置に固有の作成用コードを追加してください
 	m_imgList.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, 1);
 	CBitmap images;
 	images.LoadBitmap(IDB_TREE);
@@ -472,10 +455,7 @@ void OutlineView::treeConstruct2()
 	tree().SetItemData(hRoot, ls[0].key);
 	tree().SetItemState(hRoot, ls[0].state, TVIS_EXPANDED);
 //	tree().SetItemImage(hRoot, ls[0].treeIconId, ls[0].treeIconId);
-	/* Rootのイメージをシリアル化で再現するとネットワークビューに
-	   何も表示されないので、今はコメントアウト
-	   TODO:原因追及
-	 */
+	// Rootのイメージをシリアル化で再現するとネットワークビューに何も表示されないのでコメントアウト
 	
 	DWORD preKey = 0;
 	HTREEITEM hParent = tree().GetRootItem();
@@ -536,7 +516,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 	ProceedingDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
 	prcdlg.m_ProcName.SetWindowText(_T("登録中"));
-	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
+	prcdlg.m_ProgProc.SetStep(1); // プログレスバーの初期設定
 	prcdlg.m_ProgProc.SetRange(0, loop);
 	
 	HTREEITEM hRoot = findKeyItem(rootKey, tree().GetRootItem());
@@ -554,8 +534,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 		}
 		HTREEITEM hnew = tree().InsertItem(ls[i].name, 0, 0, hPreParent);
 		tree().SetItemData(hnew, ls[i].key);
-	//	tree().SetItemState(hnew, TVIS_EXPANDED, TVIS_EXPANDED);
-		prcdlg.m_ProgProc.StepIt();  // プログレスバーを更新
+		prcdlg.m_ProgProc.StepIt(); // プログレスバーを更新
 	}
 	tree().SelectItem(hsel);
 	tree().Expand(hsel, TVIS_EXPANDED);
@@ -582,7 +561,7 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 	ProceedingDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
 	prcdlg.m_ProcName.SetWindowText(_T("登録中"));
-	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
+	prcdlg.m_ProgProc.SetStep(1); // プログレスバーの初期設定
 	prcdlg.m_ProgProc.SetRange(0, loop);
 	
 	DWORD preKey = rootKey;
@@ -616,7 +595,7 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 		tree().SetItemData(hNew, addNodes[i].getKey());
 		tree().SetItemImage(hNew, 0, 0);
 		
-		prcdlg.m_ProgProc.StepIt();  // プログレスバーを更新
+		prcdlg.m_ProgProc.StepIt(); // プログレスバーを更新
 	}
 	
 	tree().SelectItem(hSel);
@@ -649,7 +628,6 @@ HTREEITEM OutlineView::findKeyItem(DWORD key, HTREEITEM item=NULL)
 
 void OutlineView::OnContextMenu(CWnd* pWnd, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
 	CMenu menu;
@@ -680,7 +658,6 @@ void OutlineView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void OutlineView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
 
@@ -708,7 +685,6 @@ void OutlineView::OnRButtonDown(UINT nFlags, CPoint point)
 // 子ノード追加
 void OutlineView::OnAddChild() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bAdding) return;
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
@@ -726,13 +702,11 @@ void OutlineView::OnAddChild()
 
 void OutlineView::OnUpdateAddChild(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(!m_bAdding);
 }
 
 void OutlineView::OnAddSibling() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bAdding) return;
 	
 	CEdit* pEdit = tree().GetEditControl();
@@ -755,14 +729,12 @@ void OutlineView::OnAddSibling()
 
 void OutlineView::OnUpdateAddSibling(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(curItem() != tree().GetRootItem());
 }
 
 void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int style = GetDocument()->getSelectedNodeTextStyle();
 	bool multiline = GetDocument()->isSelectedNodeMultiLine();
 	CString label = GetDocument()->getSelectedNodeLabel();
@@ -782,7 +754,6 @@ void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bLabelEditting = false;
 	CString editString = pTVDispInfo->item.pszText;
 	
@@ -910,19 +881,15 @@ serialVec OutlineView::getDrawOrder(const bool bShowSubBranch) const
 
 void OutlineView::OnEditLabel() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	tree().EditLabel(curItem());
 }
 
 void OutlineView::OnUpdateEditLabel(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void OutlineView::OnLebelUp() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bAdding) return;
 	HTREEITEM hParent = tree().GetParentItem(curItem());
 	HTREEITEM hGrdParent = tree().GetParentItem(hParent);
@@ -950,13 +917,11 @@ void OutlineView::OnLebelUp()
 
 void OutlineView::OnUpdateLebelUp(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(curItem() != tree().GetRootItem() && tree().GetParentItem(curItem()) != tree().GetRootItem());
 }
 
 void OutlineView::OnLebelDown() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bAdding) return;
 	HTREEITEM hcur = curItem();
 	
@@ -983,13 +948,11 @@ void OutlineView::OnLebelDown()
 
 void OutlineView::OnUpdateLebelDown(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(curItem() != tree().GetRootItem() && tree().GetPrevSiblingItem(curItem()) != NULL);
 }
 
 void OutlineView::OnOrderUp() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bAdding) return;
 	HTREEITEM hcur = curItem();
 	HTREEITEM hpre = tree().GetPrevSiblingItem(curItem());
@@ -1022,13 +985,11 @@ void OutlineView::OnOrderUp()
 
 void OutlineView::OnUpdateOrderUp(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(tree().GetPrevSiblingItem(curItem()) != NULL);
 }
 
 void OutlineView::OnOrderDown() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bAdding) return;
 	HTREEITEM hcur = curItem();
 	
@@ -1053,7 +1014,6 @@ void OutlineView::OnOrderDown()
 
 void OutlineView::OnUpdateOrderDown(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(tree().GetNextSiblingItem(curItem()) != NULL);
 }
 
@@ -1077,7 +1037,6 @@ void OutlineView::copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent)
 
 void OutlineView::OnDelete() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	GetDocument()->disableUndo();
 	clearUndo();
 	deleteNode();
@@ -1085,9 +1044,7 @@ void OutlineView::OnDelete()
 
 void OutlineView::OnUpdateDelete(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	pCmdUI->Enable(curItem() != tree().GetRootItem() && !m_bLabelEditting ||
-				   m_bLabelEditting);
+	pCmdUI->Enable(curItem() != tree().GetRootItem() && !m_bLabelEditting || m_bLabelEditting);
 }
 
 void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -1096,7 +1053,6 @@ void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 	if (pEdit != NULL) return;
 
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	bool bShowBranch = false;
 	int branchMode = getBranchMode();
 	
@@ -1124,7 +1080,6 @@ void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 
 void OutlineView::OnEditUndo() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Undo();
 		return;
@@ -1160,14 +1115,12 @@ void OutlineView::OnEditUndo()
 
 void OutlineView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_bLabelEditting || m_hItemMoved != NULL || GetDocument()->canResumeUndo());
 
 }
 
 void OutlineView::OnEditCut() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Cut();
 	}
@@ -1175,13 +1128,10 @@ void OutlineView::OnEditCut()
 
 void OutlineView::OnUpdateEditCut(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void OutlineView::OnEditCopy() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Copy();
 	} else {
@@ -1191,13 +1141,10 @@ void OutlineView::OnEditCopy()
 
 void OutlineView::OnUpdateEditCopy(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void OutlineView::OnEditPaste() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Paste();
 	} else {
@@ -1208,7 +1155,6 @@ void OutlineView::OnEditPaste()
 
 void OutlineView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	if (!m_bLabelEditting) {
 		pCmdUI->Enable(GetDocument()->canCopyNode());
 	}
@@ -1216,7 +1162,6 @@ void OutlineView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	if (pHint == NULL) return;
 	m_bNodeSel = true;
 	
@@ -1300,13 +1245,11 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 			tree().SelectItem(tree().GetNextItem(hParent, TVGN_CHILD));
 		}
 		break;
-
 	}
 }
 
 void OutlineView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	int branchMode = getBranchMode();
 	if (bActivate) {
 		GetDocument()->selChanged(tree().GetItemData(curItem()), true, branchMode != 0);
@@ -1317,19 +1260,16 @@ void OutlineView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pD
 
 void OutlineView::OnAddLink() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_bAddingLink = !m_bAddingLink;
 }
 
 void OutlineView::OnUpdateAddLink(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->SetCheck(m_bAddingLink);
 }
 
 BOOL OutlineView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (m_bItemDragging) {
 		::SetCursor(m_hCsrMove);
 		return TRUE;
@@ -1343,7 +1283,6 @@ BOOL OutlineView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 void OutlineView::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
 	TV_HITTESTINFO hitTestInfo;
@@ -1405,11 +1344,6 @@ void OutlineView::deleteKeyNode(DWORD key, DWORD parentKey)
 	HTREEITEM hParent = findKeyItem(parentKey);
 	if (hParent == NULL) return;
 	HTREEITEM hDeleteItem = findKeyItem(key, hParent);
-	//if (tree().GetNextSiblingItem(hDeleteItem) == NULL) {
-	//	if (tree().GetPrevSiblingItem(hDeleteItem) != NULL) {
-	//		tree().SelectItem(tree().GetPrevSiblingItem(hDeleteItem));
-	//	}
-	//}
 	if (hDeleteItem == NULL) return;
 	GetDocument()->deleteKeyItem(tree().GetItemData(hDeleteItem));
 	if (tree().ItemHasChildren(hDeleteItem)) {
@@ -1424,7 +1358,6 @@ void OutlineView::deleteKeyNode(DWORD key, DWORD parentKey)
 
 void OutlineView::OnAddUrl() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	LinkForPathDlg dlg;
 	dlg.strOrg = tree().GetItemText(curItem());
 	if (dlg.DoModal() != IDOK) return;
@@ -1448,31 +1381,25 @@ void OutlineView::OnAddUrl()
 
 void OutlineView::OnUpdateAddUrl(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void OutlineView::OnSelectChild() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	tree().SelectItem(tree().GetChildItem(curItem()));
 }
 
 void OutlineView::OnUpdateSelectChild(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
 void OutlineView::OnSelectParent() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	tree().SelectItem(tree().GetParentItem(curItem()));
 }
 
 void OutlineView::OnUpdateSelectParent(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(curItem() != tree().GetRootItem());
 }
 
@@ -1504,20 +1431,17 @@ void OutlineView::setViewFont()
 
 void OutlineView::OnSortChildren() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	tree().SortChildren(curItem());
 }
 
 void OutlineView::OnUpdateSortChildren(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
 void OutlineView::OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bItemDragging = true;
 	
 	CPoint		ptAction;
@@ -1538,7 +1462,6 @@ void OutlineView::OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult)
 
 void OutlineView::OnLButtonUp(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (m_bItemDragging) {
 		tree().SelectDropTarget(NULL);
 		if (m_nDropStatus == OutlineView::drop_child) {
@@ -1559,7 +1482,6 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 				if (tree().ItemHasChildren(m_hitemDrag)) {
 					copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
 				}
-			//	tree().DeleteItem(m_hitemDrag);
 				GetDocument()->disableUndo();
 				m_hItemMoved = hNew; // Undo Info
 				tree().SelectItem(hNew);         // ここで1度選択しておかないと
@@ -1570,7 +1492,6 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 			}
 		} else if (m_nDropStatus == OutlineView::drop_sibling) {
 			if (m_hitemDrag != m_hitemDrop && m_hitemDrop != NULL &&
-			//	tree().GetRootItem() != m_hitemDrop  &&
 				!IsChildNodeOf(m_hitemDrop, m_hitemDrag)) {
 				
 				m_hParentPreMove = tree().GetParentItem(m_hitemDrag);
@@ -1612,14 +1533,12 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 		tree().SetInsertMark(NULL);
 		tree().SelectDropTarget(NULL);
 		m_bItemDragging = false;
-	//	Invalidate();
 	}
 	CTreeView::OnLButtonUp(nFlags, point);
 }
 
 void OutlineView::OnMouseMove(UINT nFlags, CPoint point) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (m_bItemDragging)
 	{
 		if (!nFlags & MK_LBUTTON) {
@@ -1637,7 +1556,6 @@ void OutlineView::OnMouseMove(UINT nFlags, CPoint point)
 		m_nDropStatus = OutlineView::drop_none;
 		if (hitTestInfo.flags & TVHT_ONITEMLABEL) {
 			m_nDropStatus = OutlineView::drop_child;  // child
-		//	tree().SetInsertMarkColor(RGB(127, 0, 0));
 			tree().SetInsertMark(NULL);
 			tree().SelectDropTarget(hitTestInfo.hItem);
 		} else if (hitTestInfo.flags & TVHT_ONITEMINDENT ||
@@ -1645,7 +1563,6 @@ void OutlineView::OnMouseMove(UINT nFlags, CPoint point)
 					hitTestInfo.flags & TVHT_ONITEMICON ||
 					hitTestInfo.flags & TVHT_ONITEMRIGHT) {
 			m_nDropStatus = OutlineView::drop_sibling; // sibling
-		//	tree().SetInsertMarkColor(RGB(0, 0, 0));
 			tree().SelectDropTarget(NULL);
 			tree().SetInsertMark(hitTestInfo.hItem, TRUE);
 		} else if (hitTestInfo.flags &  TVHT_NOWHERE) {
@@ -1681,7 +1598,6 @@ void OutlineView::OnMouseMove(UINT nFlags, CPoint point)
 
 void OutlineView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	if (nChar == VK_ESCAPE) {
 		if (m_bItemDragging) {
 			m_bItemDragging = false;
@@ -1712,7 +1628,6 @@ BOOL OutlineView::IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedPa
 
 void OutlineView::OnImportData() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString txtpath;
 	WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt|xmlファイル (*.xml)|*.xml||");
 	CFileDialog dlg(TRUE, _T("txt"), txtpath, OFN_HIDEREADONLY, szFilters, this);
@@ -1793,8 +1708,6 @@ void OutlineView::OnImportData()
 
 void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void OutlineView::OutputHTML()
@@ -2339,15 +2252,12 @@ bool OutlineView::ImportXML(const CString &inPath)
 
 void OutlineView::OnEditFind() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_pSrchDlg->ShowWindow(SW_SHOWNORMAL);
 	m_pSrchDlg->SetFocus();
 }
 
 void OutlineView::OnUpdateEditFind(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 LRESULT OutlineView::OnHideSrchDlg(UINT wParam, LONG lParam)
@@ -2367,7 +2277,6 @@ void OutlineView::OnDestroy()
 {
 	CTreeView::OnDestroy();
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	m_pSrchDlg->DestroyWindow();
 }
 
@@ -2384,8 +2293,6 @@ LRESULT OutlineView::OnListUpNodes(UINT wParam, LONG lParam)
 
 void OutlineView::OnEditReplace() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
-	
 }
 
 void OutlineView::hideModeless()
@@ -2402,7 +2309,6 @@ void OutlineView::clearUndo()
 
 void OutlineView::OnSetFoldup() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	FoldingSettingsDlg dlg;
 	dlg.m_level = 1;
 	if (dlg.DoModal() != IDOK) return;
@@ -2412,8 +2318,6 @@ void OutlineView::OnSetFoldup()
 
 void OutlineView::OnUpdateSetFoldup(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void OutlineView::foldUpTree(HTREEITEM hItem, int curLevel, int levelSet)
@@ -2465,7 +2369,6 @@ void OutlineView::doColorSetting()
 
 void OutlineView::OnAddChild2()
 {
-	// TODO : ここにコマンド ハンドラ コードを追加します。
 	CreateNodeDlg dlg;
 	dlg.m_iniPt.x = -1;
 	dlg.m_iniPt.y = -1;
@@ -2497,13 +2400,11 @@ void OutlineView::OnAddChild2()
 
 void OutlineView::OnUpdateAddChild2(CCmdUI *pCmdUI)
 {
-	// TODO : ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(!tree().ItemHasChildren(tree().GetSelectedItem()));
 }
 
 void OutlineView::OnShowSelectedBranch() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	KeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
@@ -2521,7 +2422,6 @@ void OutlineView::OnShowSelectedBranch()
 
 void OutlineView::OnUpdateShowSelectedBranch(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
@@ -2554,7 +2454,6 @@ void OutlineView::resetShowBranch()
 
 void OutlineView::OnShowSelectedChildren() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	KeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each2(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
@@ -2572,7 +2471,6 @@ void OutlineView::OnShowSelectedChildren()
 
 void OutlineView::OnUpdateShowSelectedChildren(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
@@ -2617,7 +2515,6 @@ void OutlineView::setSubNodeLevels()
 
 void OutlineView::OnDropFirstOrder() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, m_hitemDrop, TVI_FIRST);
 	tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
 	int nImage; tree().GetItemImage(m_hitemDrag, nImage, nImage);
@@ -2640,13 +2537,11 @@ void OutlineView::OnDropFirstOrder()
 
 void OutlineView::OnUpdateDropFirstOrder(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_bItemDragging == true);
 }
 
 void OutlineView::OnDropLevelUp() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	HTREEITEM hParent = tree().GetParentItem(m_hitemDrop);
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, hParent, m_hitemDrop);
 	tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
@@ -2671,13 +2566,11 @@ void OutlineView::OnDropLevelUp()
 
 void OutlineView::OnUpdateDropLevelUp(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_bItemDragging == true && m_hitemDrop != tree().GetRootItem());
 }
 
 void OutlineView::OnCopyTreeToClipboard() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	setSubNodeLevels();
 	CString strData;
 	catTreeLabel(tree().GetSelectedItem(), strData);
@@ -2739,7 +2632,6 @@ void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
 
 void OutlineView::OnUpdateCopyTreeToClipboard(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(tree().ItemHasChildren(tree().GetSelectedItem()));
 }
 
@@ -2806,7 +2698,6 @@ void OutlineView::OnCreateClone()
 
 void OutlineView::OnUpdateCreateClone(CCmdUI *pCmdUI)
 {
-	// TODO: Add your command update UI handler code here
 	pCmdUI->Enable(tree().GetSelectedItem() != tree().GetRootItem());
 }
 
@@ -2836,7 +2727,6 @@ void OutlineView::cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, Id
 
 void OutlineView::OnResetShowSubbranch()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SelectItem(m_hItemShowRoot);
 	resetShowBranch();
 	GetDocument()->resetShowBranch();
@@ -2844,21 +2734,18 @@ void OutlineView::OnResetShowSubbranch()
 
 void OutlineView::OnUpdateResetShowSubbranch(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int mode = getBranchMode();
 	pCmdUI->Enable(mode == 1 || mode == 2);
 }
 
 void OutlineView::OnTreeImageChcek()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::check, OutlineView::check);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::check);
 }
 
 void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2869,14 +2756,12 @@ void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageBlue()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::blue, OutlineView::blue);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::blue);
 }
 
 void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2887,14 +2772,12 @@ void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageRed()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::red, OutlineView::red);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::red);
 }
 
 void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2905,14 +2788,12 @@ void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageYealow()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::yellow, OutlineView::yellow);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::yellow);
 }
 
 void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2923,14 +2804,12 @@ void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageCancel()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::cancel, OutlineView::cancel);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::cancel);
 }
 
 void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2941,14 +2820,12 @@ void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageQuestion()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::question, OutlineView::question);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::question);
 }
 
 void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2959,14 +2836,12 @@ void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageWarning()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::warning, OutlineView::warning);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::warning);
 }
 
 void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2977,14 +2852,12 @@ void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageFace()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::face, OutlineView::face);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::face);
 }
 
 void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -2995,14 +2868,12 @@ void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
 
 void OutlineView::OnTreeImageIdea()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	tree().SetItemImage(curItem(), OutlineView::idea, OutlineView::idea);
 	GetDocument()->setSelectedNodeTreeIconId(OutlineView::idea);
 }
 
 void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
 	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
@@ -3013,7 +2884,6 @@ void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
 
 void OutlineView::OnPasteTreeFromClipboard()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CString ClipText;
 	if (::IsClipboardFormatAvailable(CF_TEXT)) {
 		if (!OpenClipboard()) {
@@ -3077,24 +2947,20 @@ void OutlineView::OnPasteTreeFromClipboard()
 
 void OutlineView::OnUpdatePasteTreeFromClipboard(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->Enable(::IsClipboardFormatAvailable(CF_TEXT));
 }
 
 void OutlineView::OnExportToHtml()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	OutputHTML();
 }
 
 void OutlineView::OnUpdateExportToHtml(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }
 
 void OutlineView::OnExportToText()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	ExportTextDlg dlg;
 	dlg.m_rdTreeOption = m_textExportOption.treeOption;
 	dlg.m_rdFormatOption = m_textExportOption.formatOption;
@@ -3324,12 +3190,10 @@ void OutlineView::setChapterNumber(vector<int>& numbers, const char separator, H
 
 void OutlineView::OnUpdateExportToText(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }
 
 void OutlineView::OnExportToXml()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	ExportXmlDlg dlg;
 	dlg.m_nTreeOp = m_exportOption.treeOption;
 	if (dlg.DoModal() != IDOK) return;
@@ -3357,5 +3221,4 @@ void OutlineView::OnExportToXml()
 
 void OutlineView::OnUpdateExportToXml(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }

@@ -13,34 +13,27 @@ class NodeSearchDlg;
 
 class OutlineView : public CTreeView
 {
-protected: // シリアライズ機能のみから作成します。
+protected:
 	OutlineView();
 	DECLARE_DYNCREATE(OutlineView)
 
-// アトリビュート
 public:
 	iEditDoc* GetDocument();
 	enum {blue, blueRoot1, blueRoot2, red, yellow, check, cancel, question, warning, face, idea};
 
-// オペレーション
+//{{AFX_VIRTUAL(OutlineView)
 public:
-
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(OutlineView)
-	public:
-	virtual void OnDraw(CDC* pDC);  // このビューを描画する際にオーバーライドされます。
+	virtual void OnDraw(CDC* pDC);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	protected:
-	virtual void OnInitialUpdate(); // 構築後の最初の１度だけ呼び出されます。
+protected:
+	virtual void OnInitialUpdate();
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
-	//}}AFX_VIRTUAL
+//}}AFX_VIRTUAL
 
-// インプリメンテーション
 public:
 	int getBranchMode() const;
 	serialVec getDrawOrder(const bool bShowSubBranch) const;
@@ -55,9 +48,6 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-protected:
-
-// 生成されたメッセージ マップ関数
 protected:
 	void cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, IdMap& idm);
 	void resetShowBranch();
@@ -214,7 +204,6 @@ public:
 	afx_msg void OnAddChild2();
 	afx_msg void OnUpdateAddChild2(CCmdUI *pCmdUI);
 public:
-//	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnCreateClone();
 	afx_msg void OnUpdateCreateClone(CCmdUI *pCmdUI);
 	afx_msg void OnResetShowSubbranch();
@@ -257,7 +246,7 @@ inline HTREEITEM OutlineView::curItem() const
 	return GetTreeCtrl().GetSelectedItem();
 }
 
-#ifndef _DEBUG  // OutLineView.cpp ファイルがデバッグ環境の時使用されます。
+#ifndef _DEBUG
 inline iEditDoc* OutlineView::GetDocument()
    { return (iEditDoc*)m_pDocument; }
 #endif
@@ -265,6 +254,5 @@ inline iEditDoc* OutlineView::GetDocument()
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_OUTLINEVIEW_H__96DFF9C1_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
