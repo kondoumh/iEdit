@@ -109,6 +109,5 @@ typedef map<DWORD, DWORD> IdMap;
 #define DEBUG_WRITE ((CiEditApp*)AfxGetApp())->DebugWriteLine
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_STDAFX_H__96DFF9B9_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

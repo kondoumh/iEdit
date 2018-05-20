@@ -101,8 +101,6 @@ CString CToken::GetNextToken()
 
 }
 
-// MH がここにくっつけたユーティリティ
-
 int CToken::GetIndent(const CString &string)
 {
 	CString res = string.SpanIncluding(_T("\t 　."));

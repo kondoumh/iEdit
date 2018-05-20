@@ -17,9 +17,8 @@ class WndTransparencySettingsDlg : public CDialog
 // コンストラクション
 public:
 	long m_nLevel;
-	WndTransparencySettingsDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	WndTransparencySettingsDlg(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(WndTransparencySettingsDlg)
 	enum { IDD = IDD_ALPHASLIDE };
 	CStatic	m_lbLevel;
@@ -27,19 +26,15 @@ public:
 	//}}AFX_DATA
 
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(WndTransparencySettingsDlg)
 	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(WndTransparencySettingsDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
@@ -50,6 +45,5 @@ private:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_SETALPHADLG_H__B956C603_D213_44F3_8CE3_785ECD40795B__INCLUDED_)

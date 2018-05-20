@@ -12,28 +12,25 @@
 
 class CTabSeet : public CTabCtrl
 {
-  typedef std::pair<CDialog*,UINT> page;
-  std::vector<page> page_;
-  int               curr_;
-  CRect             rect_;
+	typedef std::pair<CDialog*, UINT> page;
+	std::vector<page> page_;
+	int curr_;
+	CRect rect_;
 
-// コンストラクション
 public:
 	CTabSeet();
 
-// アトリビュート
 public:
 
-// オペレーション
 public:
 
 	//{{AFX_VIRTUAL(CTabSeet)
 	//}}AFX_VIRTUAL
 
 public:
-	template<class Dialog> 
-	void addPage(Dialog* dialog) { 
-		page_.push_back(page(dialog,Dialog::IDD)); 
+	template<class Dialog>
+	void addPage(Dialog* dialog) {
+		page_.push_back(page(dialog, Dialog::IDD));
 	}
 	void endService(bool deletePage);
 	void beginService(int start = 0);
@@ -41,7 +38,6 @@ public:
 	bool setPage();
 	virtual ~CTabSeet();
 
-	// 生成されたメッセージ マップ関数
 protected:
 	//{{AFX_MSG(CTabSeet)
 	afx_msg void OnSelchange(NMHDR* pNMHDR, LRESULT* pResult);
@@ -51,7 +47,7 @@ protected:
 };
 
 inline bool CTabSeet::setPage() {
-  return setPage(GetCurSel()); 
+	return setPage(GetCurSel());
 }
 
 /////////////////////////////////////////////////////////////////////////////
