@@ -27,7 +27,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // OptionSettingsDlg ダイアログ
 
-
 OptionSettingsDlg::OptionSettingsDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(OptionSettingsDlg::IDD, pParent)
 {
@@ -35,7 +34,6 @@ OptionSettingsDlg::OptionSettingsDlg(CWnd* pParent /*=NULL*/)
 		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 	//}}AFX_DATA_INIT
 }
-
 
 void OptionSettingsDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -45,20 +43,16 @@ void OptionSettingsDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(OptionSettingsDlg, CDialog)
 	//{{AFX_MSG_MAP(OptionSettingsDlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// OptionSettingsDlg メッセージ ハンドラ
 
 BOOL OptionSettingsDlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
-	
-	// TODO: この位置に初期化の補足処理を追加してください
 	
 	// タブシートにタブを追加
 	TC_ITEM item;
@@ -86,14 +80,11 @@ BOOL OptionSettingsDlg::OnInitDialog()
 	// タブシート開始!
 	m_tabSeet.beginService();
 	
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 void OptionSettingsDlg::OnOK() 
 {
-	// TODO: この位置にその他の検証用のコードを追加してください
-	
 	// レジストリへの設定値書き込み
 	writePageFrame();
 	writePageNode();
@@ -106,7 +97,6 @@ void OptionSettingsDlg::OnOK()
 
 void OptionSettingsDlg::OnCancel() 
 {
-	// TODO: この位置に特別な後処理を追加してください。
 	m_tabSeet.endService(true);
 	CDialog::OnCancel();
 }
@@ -204,8 +194,7 @@ void OptionSettingsDlg::writePageNode()
 		pApp->WriteProfileInt(REGS_NODE, _T("Node Shape"), iNode::roundRect);
 	} else if (pNode->m_rdShape == 2) {
 		pApp->WriteProfileInt(REGS_NODE, _T("Node Shape"), iNode::arc);
-	}
-	
+	}	
 	
 	if (pNode->m_rdTLine == 0) {
 		if (pNode->vert == 0 && pNode->horiz == 0) {
@@ -281,7 +270,6 @@ void OptionSettingsDlg::writePageLink()
 	
 	pApp->getLinkProfile();
 }
-
 
 void OptionSettingsDlg::initPageOther()
 {

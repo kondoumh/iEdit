@@ -12,11 +12,9 @@
 
 class OptionPageForOther : public CDialog
 {
-// コンストラクション
 public:
-	OptionPageForOther(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	OptionPageForOther(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(OptionPageForOther)
 	enum { IDD = IDD_PG_OTHER };
 	CButton	m_chkStylesheet;
@@ -41,17 +39,13 @@ public:
 	//}}AFX_DATA
 
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(OptionPageForOther)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(OptionPageForOther)
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
@@ -74,6 +68,5 @@ public:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_PAGEOTHER_H__023C7320_8088_11D3_B4D3_00A0C9B72FDD__INCLUDED_)

@@ -13,7 +13,6 @@
 
 class OptionPageForNode : public CDialog
 {
-// コンストラクション
 public:
 	struct Margins { int l; int r; int t; int b; } margins;
 	BOOL m_bSyncOrder;
@@ -29,9 +28,8 @@ public:
 	COLORREF colorLine;
 	COLORREF colorFont;
 	LOGFONT lf;
-	OptionPageForNode(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	OptionPageForNode(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(OptionPageForNode)
 	enum { IDD = IDD_PG_NODE };
 	CComboBox	m_cmbVert;
@@ -45,17 +43,13 @@ public:
 	//}}AFX_DATA
 
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(OptionPageForNode)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(OptionPageForNode)
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
@@ -76,20 +70,13 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedChkSyncOrder();
-public:
 	afx_msg void OnBnClickedChkEnableGrouping();
-public:
 	CButton m_chkSyncOrder;
-public:
 	CButton m_chkEnableGroup;
-public:
 	int m_rdAscending;
 	int m_rdDescending;
-public:
 	afx_msg void OnBnClickedRadioAscending();
-public:
 	afx_msg void OnBnClickedRadioDescending();
-public:
 	CButton m_btnAscending;
 	CButton m_btnDescending;
 	CButton m_ChkDisableNodeResize;
@@ -102,6 +89,5 @@ public:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_PAGENODE_H__79C43544_7FE6_11D3_9860_006097789FE5__INCLUDED_)

@@ -16,7 +16,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // OptionPageForNode ダイアログ
 
-
 OptionPageForNode::OptionPageForNode(CWnd* pParent /*=NULL*/)
 	: CDialog(OptionPageForNode::IDD, pParent)
 	, m_rdAscending(0)
@@ -28,7 +27,6 @@ OptionPageForNode::OptionPageForNode(CWnd* pParent /*=NULL*/)
 	m_bNoBrs = FALSE;
 	//}}AFX_DATA_INIT
 }
-
 
 void OptionPageForNode::DoDataExchange(CDataExchange* pDX)
 {
@@ -51,7 +49,6 @@ void OptionPageForNode::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_PRIOR_SELECTION_DRAGGING, m_chkPriorSelectionDragging);
 	//}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(OptionPageForNode, CDialog)
 	//{{AFX_MSG_MAP(OptionPageForNode)
@@ -79,11 +76,9 @@ BEGIN_MESSAGE_MAP(OptionPageForNode, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// OptionPageForNode メッセージ ハンドラ
 
 void OptionPageForNode::OnCancel() 
 {
-	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
@@ -92,7 +87,6 @@ BOOL OptionPageForNode::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: この位置に初期化の補足処理を追加してください
 	if (styleLine == PS_DOT) {
 		m_cmbLineStyle.SetCurSel(5);
 	} else if (styleLine == PS_NULL) {
@@ -129,13 +123,11 @@ BOOL OptionPageForNode::OnInitDialog()
 	m_ChkDisableNodeResize.SetCheck(m_bDisableNodeResize);
 	m_chkPriorSelectionDragging.SetCheck(m_bPriorSelectionDragging);
 	
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 void OptionPageForNode::OnBtnLineColor() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
@@ -143,7 +135,6 @@ void OptionPageForNode::OnBtnLineColor()
 
 void OptionPageForNode::OnBtnBrs() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorFill);
 	if (dlg.DoModal() != IDOK) return;
 	colorFill = dlg.GetColor();
@@ -151,9 +142,7 @@ void OptionPageForNode::OnBtnBrs()
 
 void OptionPageForNode::OnBtnFont() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
-	//dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	dlg.m_cf.rgbColors = colorFont;
 	if (dlg.DoModal() != IDOK) return;
 	colorFont = dlg.m_cf.rgbColors;
@@ -161,7 +150,6 @@ void OptionPageForNode::OnBtnFont()
 
 void OptionPageForNode::OnRadioTline1() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdTLine = 0;
 	m_cmbHoriz.EnableWindow(TRUE);
 	m_cmbVert.EnableWindow(TRUE);
@@ -169,7 +157,6 @@ void OptionPageForNode::OnRadioTline1()
 
 void OptionPageForNode::OnRadioTline2() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdTLine = 1;
 	m_cmbHoriz.EnableWindow(TRUE);
 	m_cmbVert.EnableWindow(FALSE);
@@ -177,7 +164,6 @@ void OptionPageForNode::OnRadioTline2()
 
 void OptionPageForNode::OnRadioTline3() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdTLine = 2;	
 	m_cmbHoriz.EnableWindow(FALSE);
 	m_cmbVert.EnableWindow(FALSE);
@@ -185,25 +171,21 @@ void OptionPageForNode::OnRadioTline3()
 
 void OptionPageForNode::OnRadioShape() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdShape = 0;
 }
 
 void OptionPageForNode::OnRadioShape2() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdShape = 1;
 }
 
 void OptionPageForNode::OnRadioShape3() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rdShape = 2;
 }
 
 void OptionPageForNode::OnChkNoBrs() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bNoBrs = m_chkNoBrs.GetCheck();
 	m_BtnBrsColor.EnableWindow(!m_chkNoBrs.GetCheck());
 }
@@ -211,7 +193,6 @@ void OptionPageForNode::OnChkNoBrs()
 
 void OptionPageForNode::OnSelchangeComboline() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_cmbLineStyle.GetCurSel();
 	if (index == 0 || index == 5 || index == 6) {
 		lineWidth = 0;
@@ -229,19 +210,16 @@ void OptionPageForNode::OnSelchangeComboline()
 
 void OptionPageForNode::OnSelchangeComboHoriz() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	horiz = m_cmbHoriz.GetCurSel();
 }
 
 void OptionPageForNode::OnSelchangeComboVert() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	vert = m_cmbVert.GetCurSel();
 }
 
 void OptionPageForNode::OnBnClickedChkSyncOrder()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bSyncOrder = m_chkSyncOrder.GetCheck();
 	m_btnAscending.EnableWindow(m_bSyncOrder);
 	m_btnDescending.EnableWindow(m_bSyncOrder);
@@ -249,31 +227,26 @@ void OptionPageForNode::OnBnClickedChkSyncOrder()
 
 void OptionPageForNode::OnBnClickedChkEnableGrouping()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bEnableGroup = m_chkEnableGroup.GetCheck();
 }
 
 void OptionPageForNode::OnBnClickedRadioAscending()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_orderDirection = 0;
 }
 
 void OptionPageForNode::OnBnClickedRadioDescending()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_orderDirection = 1;
 }
 
 void OptionPageForNode::OnBnClickedDisableNodeResize()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bDisableNodeResize = m_ChkDisableNodeResize.GetCheck();
 }
 
 void OptionPageForNode::OnBnClickedBtnSetMargin()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	NodeMarginSettingsDlg dlg;
 	dlg.m_nLeft = margins.l;
 	dlg.m_nRight = margins.r;
@@ -289,6 +262,5 @@ void OptionPageForNode::OnBnClickedBtnSetMargin()
 
 void OptionPageForNode::OnBnClickedPriorSelectionDragging()
 {
-	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 	m_bPriorSelectionDragging = m_chkPriorSelectionDragging.GetCheck();
 }

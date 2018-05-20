@@ -12,7 +12,6 @@
 
 class OptionPageForFrame : public CDialog
 {
-// コンストラクション
 public:
 	CFont fntText;
 	CFont fntLink;
@@ -28,9 +27,8 @@ public:
 	LOGFONT lfText;
 	LOGFONT lfLink;
 	LOGFONT lfOutline;
-	OptionPageForFrame(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	OptionPageForFrame(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(OptionPageForFrame)
 	enum { IDD = IDD_PG_FRAME };
 	CButton	m_ChkSaveBarState;
@@ -40,21 +38,17 @@ public:
 	//}}AFX_DATA
 
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(OptionPageForFrame)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 	void drawNWPreView(CDC* pDC);
 	void drawLNPreView(CDC* pDC);
 	void drawOLPreView(CDC* pDC);
 	void drawTextPreView(CDC* pDC);
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(OptionPageForFrame)
 	virtual void OnCancel();
 	afx_msg void OnBtnLink();
@@ -79,6 +73,5 @@ private:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_)

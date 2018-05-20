@@ -18,7 +18,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // OptionPageForOther ダイアログ
 
-
 OptionPageForOther::OptionPageForOther(CWnd* pParent /*=NULL*/)
 	: CDialog(OptionPageForOther::IDD, pParent)
 {
@@ -34,7 +33,6 @@ OptionPageForOther::OptionPageForOther(CWnd* pParent /*=NULL*/)
 	m_strStylesheet = _T("");
 	//}}AFX_DATA_INIT
 }
-
 
 void OptionPageForOther::DoDataExchange(CDataExchange* pDX)
 {
@@ -62,7 +60,6 @@ void OptionPageForOther::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(OptionPageForOther, CDialog)
 	//{{AFX_MSG_MAP(OptionPageForOther)
 	ON_BN_CLICKED(IDC_RD_TAB1, OnRdTab1)
@@ -82,11 +79,9 @@ BEGIN_MESSAGE_MAP(OptionPageForOther, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// OptionPageForOther メッセージ ハンドラ
 
 void OptionPageForOther::OnCancel() 
 {
-	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
@@ -95,58 +90,48 @@ BOOL OptionPageForOther::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: この位置に初期化の補足処理を追加してください
 	m_edStylesheet.EnableWindow(m_bSetStylesheet);
 	
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 void OptionPageForOther::OnRdTab1() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_tabSelect = 0;
 }
 
 void OptionPageForOther::OnRdTab2() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_tabSelect = 1;
 }
 
 void OptionPageForOther::OnRdTab3() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_tabSelect = 2;
 }
 
 void OptionPageForOther::OnChkShowHs() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bShowHS = m_chkShowHS.GetCheck();
 }
 
 void OptionPageForOther::OnChkInheritParent() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bInheritParent = m_chkInheritParent.GetCheck();
 }
 
 void OptionPageForOther::OnChkInheritSibling() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bInheritSibling = m_chkInheritSibling.GetCheck();
 }
 
 void OptionPageForOther::OnChkAccel() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bAccelmove = m_chkAccelMove.GetCheck();
 }
 
 void OptionPageForOther::OnBtnSetmfsize() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	MetafileSettingsDlg dlg;
 	double mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rWidth"), 0)/10.0;
 	double mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rHeight"), 0)/10.0;
@@ -170,37 +155,27 @@ void OptionPageForOther::OnBtnSetmfsize()
 
 void OptionPageForOther::OnChkDrwUndrln() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bDrawUnderLine = m_chkDrawUnderLine.GetCheck();
 }
 
 void OptionPageForOther::OnChkSetStylesheet() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSetStylesheet = m_chkStylesheet.GetCheck();
 	m_edStylesheet.EnableWindow(m_bSetStylesheet);
 }
 
 void OptionPageForOther::OnChangeEditStylesheet() 
 {
-	// TODO: これが RICHEDIT コントロールの場合、コントロールは、 lParam マスク
-	// 内での論理和の ENM_CHANGE フラグ付きで CRichEditCrtl().SetEventMask()
-	// メッセージをコントロールへ送るために CDialog::OnInitDialog() 関数をオーバー
-	// ライドしない限りこの通知を送りません。
-	
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_edStylesheet.GetWindowText(m_strStylesheet);
 	
 }
 
 void OptionPageForOther::OnBnClickedChkPostAction()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bOpenFilesAfterExport = m_chkOpenFilesAfterExport.GetCheck();
 }
 
 void OptionPageForOther::OnBnClickedChkExportFilelink()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_bOutputFileLinksOnExport = m_chkOutputFileLinksOnExport.GetCheck();
 }

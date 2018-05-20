@@ -12,16 +12,14 @@
 
 class OptionPageForLink : public CDialog
 {
-// コンストラクション
 public:
 	int strength;
 	int lineWidth;
 	int styleLine;
 	COLORREF colorLine;
 	LOGFONT lf;
-	OptionPageForLink(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	OptionPageForLink(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(OptionPageForLink)
 	enum { IDD = IDD_PG_LINK };
 	CStatic	m_strn;
@@ -32,17 +30,13 @@ public:
 	//}}AFX_DATA
 
 
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(OptionPageForLink)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(OptionPageForLink)
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
@@ -57,6 +51,5 @@ protected:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_PAGELINK_H__79C43545_7FE6_11D3_9860_006097789FE5__INCLUDED_)

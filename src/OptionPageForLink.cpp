@@ -14,7 +14,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // OptionPageForLink ダイアログ
 
-
 OptionPageForLink::OptionPageForLink(CWnd* pParent /*=NULL*/)
 	: CDialog(OptionPageForLink::IDD, pParent)
 {
@@ -49,11 +48,9 @@ BEGIN_MESSAGE_MAP(OptionPageForLink, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// OptionPageForLink メッセージ ハンドラ
 
 void OptionPageForLink::OnCancel() 
 {
-	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
@@ -62,7 +59,6 @@ BOOL OptionPageForLink::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: この位置に初期化の補足処理を追加してください
 	if (styleLine == PS_DOT) {
 		m_cmbLine.SetCurSel(5);
 	} else {
@@ -83,13 +79,11 @@ BOOL OptionPageForLink::OnInitDialog()
 	mes.Format(_T("%.1f"), (double)m_Slider.GetPos()/10.0);
 	m_strn.SetWindowText(mes);
 	
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 void OptionPageForLink::OnBtnColor() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
@@ -97,15 +91,12 @@ void OptionPageForLink::OnBtnColor()
 
 void OptionPageForLink::OnBtnFont() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
-	// dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
 }
 
 void OptionPageForLink::OnSelchangeCmbLine() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_cmbLine.GetCurSel();
 	if (index == 0 || index == 5) {
 		lineWidth = 0;
@@ -117,18 +108,15 @@ void OptionPageForLink::OnSelchangeCmbLine()
 	} else if (index == 5) {
 		styleLine = PS_DOT;
 	}
-
 }
 
 void OptionPageForLink::OnChkStrength() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSetStrength = m_chkSetStreangth.GetCheck();
 }
 
 void OptionPageForLink::OnReleasedcaptureSlid(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CString mes;
 	strength = m_Slider.GetPos();
 	mes.Format(_T("%.1f"), (double)strength/10.0);
@@ -138,7 +126,6 @@ void OptionPageForLink::OnReleasedcaptureSlid(NMHDR* pNMHDR, LRESULT* pResult)
 
 void OptionPageForLink::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	CString mes;
 	strength = m_Slider.GetPos();
 	mes.Format(_T("%.1f"), (double)strength/10.0);

@@ -16,7 +16,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // OptionPageForFrame ダイアログ
 
-
 OptionPageForFrame::OptionPageForFrame(CWnd* pParent /*=NULL*/)
 	: CDialog(OptionPageForFrame::IDD, pParent)
 {
@@ -25,7 +24,6 @@ OptionPageForFrame::OptionPageForFrame(CWnd* pParent /*=NULL*/)
 	m_bSaveBarState = FALSE;
 	//}}AFX_DATA_INIT
 }
-
 
 void OptionPageForFrame::DoDataExchange(CDataExchange* pDX)
 {
@@ -37,7 +35,6 @@ void OptionPageForFrame::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHK_SAVE_BAR_STATE, m_bSaveBarState);
 	//}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(OptionPageForFrame, CDialog)
 	//{{AFX_MSG_MAP(OptionPageForFrame)
@@ -59,11 +56,9 @@ BEGIN_MESSAGE_MAP(OptionPageForFrame, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// OptionPageForFrame メッセージ ハンドラ
 
 void OptionPageForFrame::OnCancel() 
 {
-	// TODO: この位置に特別な後処理を追加してください。
 	return;
 	CDialog::OnCancel();
 }
@@ -86,7 +81,6 @@ void OptionPageForFrame::OnBtnText()
 void OptionPageForFrame::updateFont(LOGFONT* plf, CFont& font)
 {
 	CFontDialog dlg(plf);
-	//dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
 	font.CreateFontIndirect(plf);
 	Invalidate();
@@ -94,21 +88,18 @@ void OptionPageForFrame::updateFont(LOGFONT* plf, CFont& font)
 
 void OptionPageForFrame::OnChkSaveBarState() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSaveBarState = m_ChkSaveBarState.GetCheck();
 }
 
 void OptionPageForFrame::OnChkSaveFrame() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bSaveFrame = m_chkSaveFrame.GetCheck();
 }
 
 void OptionPageForFrame::OnPaint() 
 {
-	CPaintDC dc(this); // 描画用のデバイス コンテキスト
+	CPaintDC dc(this);
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	drawOLPreView(&dc);
 	drawLNPreView(&dc);
 	drawTextPreView(&dc);
@@ -181,7 +172,6 @@ void OptionPageForFrame::drawNWPreView(CDC *pDC)
 
 void OptionPageForFrame::OnBtnFclrOl() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorOLFor);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorOLFor = dlg.GetColor();
@@ -190,7 +180,6 @@ void OptionPageForFrame::OnBtnFclrOl()
 
 void OptionPageForFrame::OnBtnBclrOl() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorOLBG);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorOLBG = dlg.GetColor();
@@ -199,7 +188,6 @@ void OptionPageForFrame::OnBtnBclrOl()
 
 void OptionPageForFrame::OnBtnFclrLn() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorLNFor);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorLNFor = dlg.GetColor();
@@ -208,7 +196,6 @@ void OptionPageForFrame::OnBtnFclrLn()
 
 void OptionPageForFrame::OnBtnBclrLn() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorLNBG);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorLNBG = dlg.GetColor();
@@ -217,7 +204,6 @@ void OptionPageForFrame::OnBtnBclrLn()
 
 void OptionPageForFrame::OnBtnFclrTx() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorEditFor);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorEditFor = dlg.GetColor();
@@ -226,7 +212,6 @@ void OptionPageForFrame::OnBtnFclrTx()
 
 void OptionPageForFrame::OnBtnBclrTx() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorEditBG);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorEditBG = dlg.GetColor();
@@ -235,7 +220,6 @@ void OptionPageForFrame::OnBtnBclrTx()
 
 void OptionPageForFrame::OnBtnBclrNw() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorNWBG);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorNWBG = dlg.GetColor();
@@ -244,7 +228,6 @@ void OptionPageForFrame::OnBtnBclrNw()
 
 void OptionPageForFrame::OnBtnInsertmark() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(m_colorInsrtMrk);
 	if (dlg.DoModal() != IDOK) return;
 	m_colorInsrtMrk = dlg.GetColor();
