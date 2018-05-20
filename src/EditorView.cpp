@@ -31,7 +31,6 @@ EditorView::~EditorView()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(EditorView, CEditView)
 	//{{AFX_MSG_MAP(EditorView)
 	ON_WM_CREATE()
@@ -68,16 +67,13 @@ BEGIN_MESSAGE_MAP(EditorView, CEditView)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// EditorView 描画
 
 void EditorView::OnDraw(CDC* pDC)
 {
 	CDocument* pDoc = GetDocument();
-	// TODO: この位置に描画用のコードを追加してください
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// EditorView 診断
 
 #ifdef _DEBUG
 void EditorView::AssertValid() const
@@ -92,7 +88,6 @@ void EditorView::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// EditorView メッセージ ハンドラ
 
 BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs) 
 {
@@ -420,14 +415,13 @@ HBRUSH EditorView::CtlColor(CDC* pDC, UINT nCtlColor)
 
 void EditorView::GetLineRect(int nLine, LPRECT lpRect) const
 {
-	if (nLine == 0)		// the first line;
+	if (nLine == 0)
 	{
 		GetEditCtrl().GetRect(lpRect);
 		lpRect->bottom = lpRect->top + m_sizeChar.cy;
 	}
-	else if (nLine == GetEditCtrl().GetLineCount() - 1)		// the last line
+	else if (nLine == GetEditCtrl().GetLineCount() - 1)
 	{
-		// we get previous line's rect, then offset it by one line height.
 		int nLineIndex = GetEditCtrl().LineIndex(nLine - 1);
 		CPoint ptPos = GetEditCtrl().PosFromChar(nLineIndex);
 		GetEditCtrl().GetRect(lpRect);
@@ -435,7 +429,7 @@ void EditorView::GetLineRect(int nLine, LPRECT lpRect) const
 		lpRect->bottom = lpRect->top + m_sizeChar.cy;
 		OffsetRect(lpRect, 0, m_sizeChar.cy);
 	}
-	else	// lines between first and last
+	else
 	{
 		int nLineIndex = GetEditCtrl().LineIndex(nLine);
 		CPoint ptPos = GetEditCtrl().PosFromChar(nLineIndex);
@@ -454,7 +448,6 @@ int EditorView::GetCaretLine() const
 	CPoint ptEnd, ptCaret;
 	ptEnd = GetEditCtrl().PosFromChar(nEnd);
 	ptCaret = GetCaretPos();
-	// the caret position is not always the end of selection
 	if (ptEnd.y == ptCaret.y)
 		return GetEditCtrl().LineFromChar(nEnd);
 	else
@@ -464,8 +457,6 @@ int EditorView::GetCaretLine() const
 void EditorView::DrawCaretLine(BOOL bInPaint)
 {
 	int nLine = GetCaretLine();
-	// for effective we need not redraw when we
-	// just move caret in the same line using arrow keys, simply return.
 	if (nLine == m_nCaretLine && !bInPaint)
 		return;
 
@@ -477,23 +468,18 @@ void EditorView::DrawCaretLine(BOOL bInPaint)
 	int nLineFirst = GetEditCtrl().GetFirstVisibleLine();
 	int nLineLast = GetEditCtrl().LineFromChar(GetEditCtrl().CharFromPos(rectClip.BottomRight()));
 
-	// hide caret, else it will be ugly.
 	HideCaret();
 
 	if (m_nCaretLine >= nLineFirst && m_nCaretLine <= nLineLast)
 	{
-		// in this section we must not make WM_PAINT a loop
-		// so don't let OnPaint() call our DrawCaretLine()
 		m_bCanPaint = FALSE;
 		CRect rect;
 		GetLineRect(m_nCaretLine, rect);
 		InvalidateRect(rect, FALSE);
-		// update immediately
 		UpdateWindow();
 		m_bCanPaint = TRUE;
 	}
 
-	// we change the caret line color by ROP
 	if (nLine >= nLineFirst && nLine <= nLineLast)
 	{
 		CRect rect;
@@ -505,9 +491,7 @@ void EditorView::DrawCaretLine(BOOL bInPaint)
 		CBitmap* pSaveBmp = dcMem.SelectObject(&bmp);
 		CBrush br(RGB(128, 128, 128));
 		dcMem.FillRect(CRect(0, 0, rect.Width(), rect.Height()), &br);
-		// "capture" the line into our memory dc, and "INVERT" it
 		dcMem.BitBlt(0, 0, rect.Width(), rect.Height(), &dc, rect.left, rect.top, SRCINVERT);
-		// blt it back to origin place, but change colors
 		dc.BitBlt(rect.left, rect.top, rect.Width(), rect.Height(), &dcMem, 0, 0, SRCCOPY);
 		dcMem.SelectObject(pSaveBmp);
 	}
@@ -542,8 +526,6 @@ void EditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		UpdateWindow();
 		m_nCaretLine = nLine;
 	}
-	
-//	CEditView::OnChar(nChar, nRepCnt, nFlags);
 }
 
 void EditorView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 

@@ -14,7 +14,7 @@ class iEditDoc;
 class EditorView : public CEditView
 {
 protected:
-	EditorView();           // 動的生成に使用されるプロテクト コンストラクタ
+	EditorView();
 	DECLARE_DYNCREATE(EditorView)
 
 public:
@@ -36,7 +36,6 @@ public:
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 	virtual ~EditorView();
 #ifdef _DEBUG
