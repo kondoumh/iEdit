@@ -1431,7 +1431,9 @@ void OutlineView::setViewFont()
 
 void OutlineView::OnSortChildren() 
 {
-	tree().SortChildren(curItem());
+	if (tree().SortChildren(curItem())) {
+		GetDocument()->SetModifiedFlag();
+	}
 }
 
 void OutlineView::OnUpdateSortChildren(CCmdUI* pCmdUI) 
