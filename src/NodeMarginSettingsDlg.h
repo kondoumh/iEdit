@@ -2,7 +2,6 @@
 #include "afxcmn.h"
 #include "afxwin.h"
 
-
 // NodeMarginSettingsDlg ダイアログ
 
 class NodeMarginSettingsDlg : public CDialog
@@ -10,14 +9,13 @@ class NodeMarginSettingsDlg : public CDialog
 	DECLARE_DYNAMIC(NodeMarginSettingsDlg)
 
 public:
-	NodeMarginSettingsDlg(CWnd* pParent = NULL);   // 標準コンストラクタ
+	NodeMarginSettingsDlg(CWnd* pParent = NULL);
 	virtual ~NodeMarginSettingsDlg();
 
-// ダイアログ データ
 	enum { IDD = IDD_SETMARGIN };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
 public:

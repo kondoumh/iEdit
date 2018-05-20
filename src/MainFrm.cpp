@@ -43,45 +43,45 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_TRANSPARENT_MODE, OnUpdateTransparentMode)
 	//}}AFX_MSG_MAP
 	ON_MESSAGE(WM_SLIDEALPHA, OnSlideAlpha)
-ON_COMMAND(ID_MNU_LS_R0, &CMainFrame::OnMnuLsR0)
-ON_UPDATE_COMMAND_UI(ID_MNU_LS_R0, &CMainFrame::OnUpdateMnuLsR0)
-ON_COMMAND(ID_MNU_LS_DOT, &CMainFrame::OnMnuLsDot)
-ON_UPDATE_COMMAND_UI(ID_MNU_LS_DOT, &CMainFrame::OnUpdateMnuLsDot)
-ON_COMMAND(ID_MNU_LS_R1, &CMainFrame::OnMnuLsR1)
-ON_UPDATE_COMMAND_UI(ID_MNU_LS_R1, &CMainFrame::OnUpdateMnuLsR1)
-ON_COMMAND(ID_MNU_LS_R2, &CMainFrame::OnMnuLsR2)
-ON_UPDATE_COMMAND_UI(ID_MNU_LS_R2, &CMainFrame::OnUpdateMnuLsR2)
-ON_COMMAND(ID_MNU_LS_R3, &CMainFrame::OnMnuLsR3)
-ON_UPDATE_COMMAND_UI(ID_MNU_LS_R3, &CMainFrame::OnUpdateMnuLsR3)
-ON_COMMAND(ID_MNU_LS_R4, &CMainFrame::OnMnuLsR4)
-ON_UPDATE_COMMAND_UI(ID_MNU_LS_R4, &CMainFrame::OnUpdateMnuLsR4)
-ON_COMMAND(ID_LINK_ARROW_NONE, &CMainFrame::OnLinkArrowNone)
-ON_UPDATE_COMMAND_UI(ID_LINK_ARROW_NONE, &CMainFrame::OnUpdateLinkArrowNone)
-ON_COMMAND(ID_LINK_ARROW_SINGLE, &CMainFrame::OnLinkArrowSingle)
-ON_UPDATE_COMMAND_UI(ID_LINK_ARROW_SINGLE, &CMainFrame::OnUpdateLinkArrowSingle)
-ON_COMMAND(ID_LINK_ARROW_DOUBLE, &CMainFrame::OnLinkArrowDouble)
-ON_UPDATE_COMMAND_UI(ID_LINK_ARROW_DOUBLE, &CMainFrame::OnUpdateLinkArrowDouble)
-ON_COMMAND(ID_LINK_DEPEND_SINGLE, &CMainFrame::OnLinkDependSingle)
-ON_UPDATE_COMMAND_UI(ID_LINK_DEPEND_SINGLE, &CMainFrame::OnUpdateLinkDependSingle)
-ON_COMMAND(ID_LINK_DEPEND_DOUBLE, &CMainFrame::OnLinkDependDouble)
-ON_UPDATE_COMMAND_UI(ID_LINK_DEPEND_DOUBLE, &CMainFrame::OnUpdateLinkDependDouble)
-ON_COMMAND(ID_LINK_INHERIT, &CMainFrame::OnLinkArrowInherit)
-ON_UPDATE_COMMAND_UI(ID_LINK_INHERIT, &CMainFrame::OnUpdateLinkArrowInherit)
-ON_COMMAND(ID_LINK_AGREGAT, &CMainFrame::OnLinkArrowAgregat)
-ON_UPDATE_COMMAND_UI(ID_LINK_AGREGAT, &CMainFrame::OnUpdateLinkArrowAgregat)
-ON_COMMAND(ID_LINK_COMPOSIT, &CMainFrame::OnLinkArrowComposit)
-ON_UPDATE_COMMAND_UI(ID_LINK_COMPOSIT, &CMainFrame::OnUpdateLinkArrowComposit)
-ON_COMMAND(ID_VIEW_FORM_BAR, &CMainFrame::OnViewFormBar)
-ON_UPDATE_COMMAND_UI(ID_VIEW_FORM_BAR, &CMainFrame::OnUpdateViewFormBar)
-ON_COMMAND(ID_SELECT_NODE_COLOR, &CMainFrame::OnSelectNodeColor)
-ON_COMMAND(ID_SELECT_LINE_COLOR, &CMainFrame::OnSelectLineColor)
-ON_COMMAND(ID_SELECT_FONT_COLOR, &CMainFrame::OnSelectFontColor)
-ON_COMMAND(ID_APP_HELP, &CMainFrame::OnAppHelp)
+	ON_COMMAND(ID_MNU_LS_R0, &CMainFrame::OnMnuLsR0)
+	ON_UPDATE_COMMAND_UI(ID_MNU_LS_R0, &CMainFrame::OnUpdateMnuLsR0)
+	ON_COMMAND(ID_MNU_LS_DOT, &CMainFrame::OnMnuLsDot)
+	ON_UPDATE_COMMAND_UI(ID_MNU_LS_DOT, &CMainFrame::OnUpdateMnuLsDot)
+	ON_COMMAND(ID_MNU_LS_R1, &CMainFrame::OnMnuLsR1)
+	ON_UPDATE_COMMAND_UI(ID_MNU_LS_R1, &CMainFrame::OnUpdateMnuLsR1)
+	ON_COMMAND(ID_MNU_LS_R2, &CMainFrame::OnMnuLsR2)
+	ON_UPDATE_COMMAND_UI(ID_MNU_LS_R2, &CMainFrame::OnUpdateMnuLsR2)
+	ON_COMMAND(ID_MNU_LS_R3, &CMainFrame::OnMnuLsR3)
+	ON_UPDATE_COMMAND_UI(ID_MNU_LS_R3, &CMainFrame::OnUpdateMnuLsR3)
+	ON_COMMAND(ID_MNU_LS_R4, &CMainFrame::OnMnuLsR4)
+	ON_UPDATE_COMMAND_UI(ID_MNU_LS_R4, &CMainFrame::OnUpdateMnuLsR4)
+	ON_COMMAND(ID_LINK_ARROW_NONE, &CMainFrame::OnLinkArrowNone)
+	ON_UPDATE_COMMAND_UI(ID_LINK_ARROW_NONE, &CMainFrame::OnUpdateLinkArrowNone)
+	ON_COMMAND(ID_LINK_ARROW_SINGLE, &CMainFrame::OnLinkArrowSingle)
+	ON_UPDATE_COMMAND_UI(ID_LINK_ARROW_SINGLE, &CMainFrame::OnUpdateLinkArrowSingle)
+	ON_COMMAND(ID_LINK_ARROW_DOUBLE, &CMainFrame::OnLinkArrowDouble)
+	ON_UPDATE_COMMAND_UI(ID_LINK_ARROW_DOUBLE, &CMainFrame::OnUpdateLinkArrowDouble)
+	ON_COMMAND(ID_LINK_DEPEND_SINGLE, &CMainFrame::OnLinkDependSingle)
+	ON_UPDATE_COMMAND_UI(ID_LINK_DEPEND_SINGLE, &CMainFrame::OnUpdateLinkDependSingle)
+	ON_COMMAND(ID_LINK_DEPEND_DOUBLE, &CMainFrame::OnLinkDependDouble)
+	ON_UPDATE_COMMAND_UI(ID_LINK_DEPEND_DOUBLE, &CMainFrame::OnUpdateLinkDependDouble)
+	ON_COMMAND(ID_LINK_INHERIT, &CMainFrame::OnLinkArrowInherit)
+	ON_UPDATE_COMMAND_UI(ID_LINK_INHERIT, &CMainFrame::OnUpdateLinkArrowInherit)
+	ON_COMMAND(ID_LINK_AGREGAT, &CMainFrame::OnLinkArrowAgregat)
+	ON_UPDATE_COMMAND_UI(ID_LINK_AGREGAT, &CMainFrame::OnUpdateLinkArrowAgregat)
+	ON_COMMAND(ID_LINK_COMPOSIT, &CMainFrame::OnLinkArrowComposit)
+	ON_UPDATE_COMMAND_UI(ID_LINK_COMPOSIT, &CMainFrame::OnUpdateLinkArrowComposit)
+	ON_COMMAND(ID_VIEW_FORM_BAR, &CMainFrame::OnViewFormBar)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_FORM_BAR, &CMainFrame::OnUpdateViewFormBar)
+	ON_COMMAND(ID_SELECT_NODE_COLOR, &CMainFrame::OnSelectNodeColor)
+	ON_COMMAND(ID_SELECT_LINE_COLOR, &CMainFrame::OnSelectLineColor)
+	ON_COMMAND(ID_SELECT_FONT_COLOR, &CMainFrame::OnSelectFontColor)
+	ON_COMMAND(ID_APP_HELP, &CMainFrame::OnAppHelp)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
 {
-	ID_SEPARATOR,           // ステータス ライン インジケータ
+	ID_SEPARATOR,
 	ID_INDICATOR_KANA,
 	ID_INDICATOR_CAPS,
 	ID_INDICATOR_NUM,
@@ -114,7 +114,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
 		TRACE0(_T("Failed to create toolbar\n"));
-		return -1;      // 作成に失敗
+		return -1;
 	}
 	
 	if (!m_wndFormPalette.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
@@ -122,7 +122,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		!m_wndFormPalette.LoadToolBar(IDR_FORM_PALLETE))
 	{
 		TRACE0(_T("Failed to create form pallete\n"));
-		return -1;      // 作成に失敗
+		return -1;
 	}
 	
 	////////////// StatusBar
@@ -131,7 +131,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		  sizeof(indicators)/sizeof(UINT)))
 	{
 		TRACE0(_T("Failed to create status bar\n"));
-		return -1;      // 作成に失敗
+		return -1;
 	}
 	
 	/////// ドロップダウンスタイルボタンの設定
@@ -179,7 +179,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		LoadBarState(_T("BarSettings"));
 	}
 	
-	// CG: 以下のブロックはスプラッシュ スクリーン コンポーネントによって追加されました
 	CSplashWnd::ShowSplashScreen(this);
 	
 	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
@@ -187,7 +186,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		loadFramePosition();
 	}	
 	
-	// メンバー初期化
 	m_pSetAlphaDlg = NULL;
 	m_tbPlDwnImage.Create(IDB_TB_PLDWN, 16, 5, RGB(255, 0, 255));
 	
@@ -220,7 +218,6 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 void CMainFrame::OnSetProperties() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	OptionSettingsDlg dlg;
 	if (dlg.DoModal() == IDOK) {
 		CiEditApp* pApp = (CiEditApp*)AfxGetApp();
@@ -230,13 +227,10 @@ void CMainFrame::OnSetProperties()
 
 void CMainFrame::OnUpdateSetProperties(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
-	
 }
 
 void CMainFrame::OnClose() 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 	if (saveBar) {
 		SaveBarState(_T("BarSettings"));
@@ -252,7 +246,6 @@ void CMainFrame::OnClose()
 
 void CMainFrame::OnDropFiles(HDROP hDropInfo) 
 {
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
 	WCHAR fileName[MAX_PATH];
 	DragQueryFile(hDropInfo, 0, fileName, MAX_PATH);
 	
@@ -353,11 +346,8 @@ void CMainFrame::JointCBLine(CFrameWnd *pFrameWnd, CControlBar *pBar, CControlBa
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	if( !CMDIFrameWnd::PreCreateWindow(cs) )
 		return FALSE;
-	// TODO: この位置で CREATESTRUCT cs を修正して Window クラスまたはスタイルを
-	//  修正してください。
 	OSVERSIONINFO vinfo;
 	vinfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 	::GetVersionEx(&vinfo);
@@ -377,18 +367,15 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 
 void CMainFrame::OnAdjustAlpha() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_pSetAlphaDlg = new WndTransparencySettingsDlg;
 	m_pSetAlphaDlg->m_nLevel = m_nAlphaValue;
 	m_pSetAlphaDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_ALPHASLIDE);
 	m_pSetAlphaDlg->ShowWindow(SW_SHOWNORMAL);
 	m_pSetAlphaDlg->SetFocus();
-
 }
 
 void CMainFrame::OnUpdateAdjustAlpha(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_bTransparent);
 }
 
@@ -396,7 +383,6 @@ void CMainFrame::OnDestroy()
 {
 	CMDIFrameWnd::OnDestroy();
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	if (m_pSetAlphaDlg != NULL) {
 		if (m_nAlphaValue > 255) {
 			m_nAlphaValue = 255;
@@ -426,7 +412,6 @@ void CMainFrame::MakeWindowTransparent()
 
 void CMainFrame::OnTransparentMode() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	m_bTransparent = !m_bTransparent;
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Transparent Mode"), m_bTransparent);
 	if (m_bTransparent) {
@@ -439,7 +424,6 @@ void CMainFrame::OnTransparentMode()
 
 void CMainFrame::OnUpdateTransparentMode(CCmdUI* pCmdUI) 
 {
-	// TODO: この位置に command update UI ハンドラ用のコードを追加してください
 	pCmdUI->Enable(m_bCanBeTransparent);
 	pCmdUI->SetCheck(m_bTransparent && m_bCanBeTransparent);
 }
@@ -447,7 +431,6 @@ void CMainFrame::OnUpdateTransparentMode(CCmdUI* pCmdUI)
 
 BOOL CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
-	// TODO: ここに特定なコードを追加するか、もしくは基本クラスを呼び出してください。
 	LPNMHDR lpNMHDR = (LPNMHDR)lParam;
 	LPNMTOOLBAR lpNMTOOLBAR = (LPNMTOOLBAR)lParam;
 	if (lpNMHDR->code == TBN_DROPDOWN) {
@@ -496,7 +479,6 @@ BOOL CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 
 void CMainFrame::OnMnuLsR0()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R0;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage .ExtractIcon(0));
 	m_wndToolBar.Invalidate();
@@ -505,13 +487,11 @@ void CMainFrame::OnMnuLsR0()
 
 void CMainFrame::OnUpdateMnuLsR0(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R0);
 }
 
 void CMainFrame::OnMnuLsDot()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_DOT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(1));
 	m_wndToolBar.Invalidate();
@@ -520,13 +500,11 @@ void CMainFrame::OnMnuLsDot()
 
 void CMainFrame::OnUpdateMnuLsDot(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_DOT);
 }
 
 void CMainFrame::OnMnuLsR1()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R1;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(2));
 	m_wndToolBar.Invalidate();
@@ -535,13 +513,11 @@ void CMainFrame::OnMnuLsR1()
 
 void CMainFrame::OnUpdateMnuLsR1(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R1);
 }
 
 void CMainFrame::OnMnuLsR2()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R2;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(3));
 	m_wndToolBar.Invalidate();
@@ -550,13 +526,11 @@ void CMainFrame::OnMnuLsR2()
 
 void CMainFrame::OnUpdateMnuLsR2(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R2);
 }
 
 void CMainFrame::OnMnuLsR3()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R3;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(4));
 	m_wndToolBar.Invalidate();
@@ -565,13 +539,11 @@ void CMainFrame::OnMnuLsR3()
 
 void CMainFrame::OnUpdateMnuLsR3(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R3);
 }
 
 void CMainFrame::OnMnuLsR4()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R4;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(5));
 	m_wndToolBar.Invalidate();
@@ -580,13 +552,11 @@ void CMainFrame::OnMnuLsR4()
 
 void CMainFrame::OnUpdateMnuLsR4(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkLineStyle == CiEditApp::LS_R4);
 }
 
 void CMainFrame::OnLinkArrowNone()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_NONE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(6));
 	m_wndToolBar.Invalidate();
@@ -595,36 +565,25 @@ void CMainFrame::OnLinkArrowNone()
 
 void CMainFrame::OnUpdateLinkArrowNone(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_NONE);
 }
 
 void CMainFrame::OnLinkArrowSingle()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_SINGLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(7));
 	m_wndToolBar.Invalidate();
-
-//	m_wndToolBar.GetToolBarCtrl().SetCmdID(IDX_TB_ARROW, ID_SET_LINK_ARROW_SINGLE);
-
-//	TBBUTTONINFO tbi;
-//	m_wndToolBar.GetToolBarCtrl().GetButtonInfo(IDX_TB_ARROW, &tbi);
-//	tbi.idCommand = ID_SET_LINK_ARROW_SINGLE;
-//	m_wndToolBar.GetToolBarCtrl().SetButtonInfo(IDX_TB_ARROW, &tbi);
 	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
 }
 
 void CMainFrame::OnUpdateLinkArrowSingle(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_SINGLE);
 }
 
 
 void CMainFrame::OnLinkArrowDouble()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_DOUBLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(8));
 	m_wndToolBar.Invalidate();
@@ -633,13 +592,11 @@ void CMainFrame::OnLinkArrowDouble()
 
 void CMainFrame::OnUpdateLinkArrowDouble(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_DOUBLE);
 }
 
 void CMainFrame::OnLinkDependSingle()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_DEPEND_SINGLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(9));
 	m_wndToolBar.Invalidate();
@@ -648,13 +605,11 @@ void CMainFrame::OnLinkDependSingle()
 
 void CMainFrame::OnUpdateLinkDependSingle(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_DEPEND_SINGLE);
 }
 
 void CMainFrame::OnLinkDependDouble()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_DEPEND_DOUBLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(10));
 	m_wndToolBar.Invalidate();
@@ -663,13 +618,11 @@ void CMainFrame::OnLinkDependDouble()
 
 void CMainFrame::OnUpdateLinkDependDouble(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_DEPEND_DOUBLE);
 }
 
 void CMainFrame::OnLinkArrowInherit()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_INHERIT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(11));
 	m_wndToolBar.Invalidate();
@@ -678,13 +631,11 @@ void CMainFrame::OnLinkArrowInherit()
 
 void CMainFrame::OnUpdateLinkArrowInherit(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_INHERIT);
 }
 
 void CMainFrame::OnLinkArrowAgregat()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_AGGREGAT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(12));
 	m_wndToolBar.Invalidate();
@@ -693,13 +644,11 @@ void CMainFrame::OnLinkArrowAgregat()
 
 void CMainFrame::OnUpdateLinkArrowAgregat(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_AGGREGAT);
 }
 
 void CMainFrame::OnLinkArrowComposit()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_COMPOSIT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(13));
 	m_wndToolBar.Invalidate();
@@ -708,19 +657,16 @@ void CMainFrame::OnLinkArrowComposit()
 
 void CMainFrame::OnUpdateLinkArrowComposit(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(((CiEditApp*)AfxGetApp())->m_curLinkArrow == CiEditApp::LA_COMPOSIT);
 }
 
 void CMainFrame::OnViewFormBar()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	ShowControlBar(&m_wndFormPalette, !m_wndFormPalette.IsWindowVisible(), FALSE);
 }
 
 void CMainFrame::OnUpdateViewFormBar(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 	pCmdUI->SetCheck(m_wndFormPalette.IsWindowVisible());
 }
 
@@ -742,7 +688,6 @@ void CMainFrame::createBrushedBitmap(CBitmap* pBitmap, COLORREF rgb)
 
 void CMainFrame::OnSelectNodeColor()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CColorDialog dlg(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 	if (dlg.DoModal() != IDOK) return;
 	((CiEditApp*)AfxGetApp())->m_colorNodeBtn = dlg.GetColor();
@@ -756,7 +701,6 @@ void CMainFrame::OnSelectNodeColor()
 
 void CMainFrame::OnSelectLineColor()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CColorDialog dlg(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 	if (dlg.DoModal() != IDOK) return;
 	((CiEditApp*)AfxGetApp())->m_colorLineBtn = dlg.GetColor();
@@ -770,7 +714,6 @@ void CMainFrame::OnSelectLineColor()
 
 void CMainFrame::OnSelectFontColor()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
 	CColorDialog dlg(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 	if (dlg.DoModal() != IDOK) return;
 	((CiEditApp*)AfxGetApp())->m_colorFontBtn = dlg.GetColor();

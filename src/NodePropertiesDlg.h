@@ -12,7 +12,6 @@
 
 class NodePropertiesDlg : public CDialog
 {
-// コンストラクション
 public:
 	struct Margins
 	{
@@ -33,9 +32,8 @@ public:
 	COLORREF colorFont;
 	LOGFONT lf;
 	CString m_strLabel;
-	NodePropertiesDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	NodePropertiesDlg(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(NodePropertiesDlg)
 	enum { IDD = IDD_PRPNODE };
 	CComboBox	m_cmbHoriz;
@@ -50,17 +48,14 @@ public:
 	//}}AFX_DATA
 
 
-// オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(NodePropertiesDlg)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(NodePropertiesDlg)
 	afx_msg void OnSelchangeComboline();
 	afx_msg void OnBtnLineColor();
@@ -84,6 +79,5 @@ public:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_NODEPROPDLG_H__86676B23_35C1_11D3_80BC_00A0C9B72FDD__INCLUDED_)

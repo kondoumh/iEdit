@@ -16,14 +16,12 @@
 
 class NodeSearchDlg : public CDialog
 {
-// コンストラクション
 public:
 	void displayResult();
 	Labels m_labels;
 	CString m_srchString;
-	NodeSearchDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	NodeSearchDlg(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(NodeSearchDlg)
 	enum { IDD = IDD_NODESRCH };
 	CButton	m_ckUpper;
@@ -40,9 +38,6 @@ public:
 	BOOL	m_bUpper;
 	//}}AFX_DATA
 
-
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(NodeSearchDlg)
 	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
@@ -50,11 +45,9 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 	void srchNode();
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(NodeSearchDlg)
 	afx_msg void OnOk();
 	virtual void OnCancel();
@@ -78,6 +71,5 @@ private:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_NODESRCHDLG_H__1D979736_3121_11D4_AE77_00A0C9B72FDD__INCLUDED_)

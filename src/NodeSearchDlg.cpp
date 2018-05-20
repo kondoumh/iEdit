@@ -14,7 +14,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // NodeSearchDlg ダイアログ
 
-
 NodeSearchDlg::NodeSearchDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(NodeSearchDlg::IDD, pParent)
 {
@@ -65,11 +64,9 @@ BEGIN_MESSAGE_MAP(NodeSearchDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// NodeSearchDlg メッセージ ハンドラ
 
 BOOL NodeSearchDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
 	m_pParent = pParentWnd;
 	
 	return CDialog::Create(IDD, pParentWnd);
@@ -77,14 +74,11 @@ BOOL NodeSearchDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD 
 
 void NodeSearchDlg::OnOk() 
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	return;
-//	m_pParent->PostMessage(WM_CLOSESRCHWINDOW, IDOK);
 }
 
 void NodeSearchDlg::OnCancel() 
 {
-	// TODO: この位置に特別な後処理を追加してください。
 	m_pParent->PostMessage(WM_CLOSESRCHWINDOW, IDCANCEL);
 	m_pParent->SetFocus();
 	CDialog::OnCancel();
@@ -92,7 +86,6 @@ void NodeSearchDlg::OnCancel()
 
 void NodeSearchDlg::OnStart() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetWindowText(m_srchString);
 	if (m_srchString == _T("")) return;
 	m_btnStart.EnableWindow(FALSE);
@@ -104,7 +97,6 @@ void NodeSearchDlg::OnStart()
 
 void NodeSearchDlg::OnBtngo() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	srchNode();
 }
 
@@ -118,19 +110,16 @@ void NodeSearchDlg::srchNode()
 
 void NodeSearchDlg::OnChklabel() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bLabel = m_chLabel.GetCheck();
 }
 
 void NodeSearchDlg::OnChklinks() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bLinks = m_ckLiinks.GetCheck();
 }
 
 void NodeSearchDlg::OnChktext() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bText = m_ckText.GetCheck();
 }
 
@@ -138,7 +127,6 @@ BOOL NodeSearchDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: この位置に初期化の補足処理を追加してください
 	m_lcResult.InsertColumn(0, _T("項目"));
 	m_lcResult.InsertColumn(1, _T("種別"));
 	CRect rc; m_lcResult.GetClientRect(&rc);
@@ -157,8 +145,7 @@ BOOL NodeSearchDlg::OnInitDialog()
 	int cy = rc.Height() - crc.Height();
 	m_lcResult.GetWindowRect(m_iniLCRect);
 	m_iniLCRect.OffsetRect(-rc.left, -rc.top - cy);
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 void NodeSearchDlg::displayResult()
@@ -184,7 +171,6 @@ void NodeSearchDlg::displayResult()
 
 void NodeSearchDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	srchNode();
 	
 	*pResult = 0;
@@ -193,7 +179,6 @@ void NodeSearchDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 void NodeSearchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	
 	if (pDispInfo->item.mask & LVIF_TEXT) {
 		int index = (int)pDispInfo->item.lParam;
@@ -221,7 +206,6 @@ void NodeSearchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 
 void NodeSearchDlg::OnChkupper() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_bUpper = m_ckUpper.GetCheck();
 }
 
@@ -229,7 +213,6 @@ void NodeSearchDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
 	
-	// TODO: この位置にメッセージ ハンドラ用のコードを追加してください
 	CRect rc;
 	GetClientRect(rc);
 	CRect newrc(20, m_iniLCRect.top, rc.right-15, rc.bottom - 15);
@@ -241,7 +224,6 @@ void NodeSearchDlg::OnSize(UINT nType, int cx, int cy)
 
 void NodeSearchDlg::OnEditchangeCombo() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetWindowText(m_srchString);
 	m_lcResult.DeleteAllItems();
 	if (m_srchString == _T("")) return;
@@ -253,7 +235,6 @@ void NodeSearchDlg::OnEditchangeCombo()
 
 void NodeSearchDlg::OnSelchangeCombo() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_combSrch.GetLBText(m_combSrch.GetCurSel(), m_srchString);
 	m_lcResult.DeleteAllItems();
 	if (m_srchString == _T("")) return;

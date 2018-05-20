@@ -5,7 +5,6 @@
 #include "iEdit.h"
 #include "NodeMarginSettingsDlg.h"
 
-
 // NodeMarginSettingsDlg ダイアログ
 
 IMPLEMENT_DYNAMIC(NodeMarginSettingsDlg, CDialog)
@@ -43,13 +42,10 @@ BEGIN_MESSAGE_MAP(NodeMarginSettingsDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// NodeMarginSettingsDlg メッセージ ハンドラ
-
 BOOL NodeMarginSettingsDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO:  ここに初期化を追加してください
 	m_spinLeft.SetRange32(0, 50);
 	m_spinLeft.SetPos32(m_nLeft);
 	m_spinRight.SetRange32(0, 50);
@@ -59,8 +55,7 @@ BOOL NodeMarginSettingsDlg::OnInitDialog()
 	m_spinBottom.SetRange32(0, 50);
 	m_spinBottom.SetPos32(m_nBottom);
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
+	return TRUE;
 }
 
 void NodeMarginSettingsDlg::OnEnChangeEdLeft()
@@ -85,7 +80,6 @@ void NodeMarginSettingsDlg::OnEnChangeEdBottom()
 
 void NodeMarginSettingsDlg::OnBnClickedOk()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	m_nLeft = m_spinLeft.GetPos32();
 	m_nRight = m_spinRight.GetPos32();
 	m_nTop = m_spinTop.GetPos32();

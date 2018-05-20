@@ -16,7 +16,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // NodePropertiesDlg ダイアログ
 
-
 NodePropertiesDlg::NodePropertiesDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(NodePropertiesDlg::IDD, pParent)
 {
@@ -27,7 +26,6 @@ NodePropertiesDlg::NodePropertiesDlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	bOldBynary = FALSE;
 }
-
 
 void NodePropertiesDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -44,7 +42,6 @@ void NodePropertiesDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHK_NO_BRS, m_bNoBrush);
 	//}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(NodePropertiesDlg, CDialog)
 	//{{AFX_MSG_MAP(NodePropertiesDlg)
@@ -66,11 +63,9 @@ BEGIN_MESSAGE_MAP(NodePropertiesDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// NodePropertiesDlg メッセージ ハンドラ
 
 void NodePropertiesDlg::OnSelchangeComboline() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	int index = m_CombTLine.GetCurSel();
 	if (index == 0 || index == 5 || index == 6) {
 		lineWidth = 0;
@@ -88,7 +83,6 @@ void NodePropertiesDlg::OnSelchangeComboline()
 
 void NodePropertiesDlg::OnBtnLineColor() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
@@ -96,7 +90,6 @@ void NodePropertiesDlg::OnBtnLineColor()
 
 void NodePropertiesDlg::OnBtnBrs() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CColorDialog dlg(colorFill);
 	if (dlg.DoModal() != IDOK) return;
 	colorFill = dlg.GetColor();
@@ -104,7 +97,6 @@ void NodePropertiesDlg::OnBtnBrs()
 
 void NodePropertiesDlg::OnBtnFont() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	CFontDialog dlg(&lf);
 	dlg.m_cf.rgbColors = colorFont;
 	if (dlg.DoModal() != IDOK) return;
@@ -115,7 +107,6 @@ BOOL NodePropertiesDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	// TODO: この位置に初期化の補足処理を追加してください
 	m_editLabel.ReplaceSel(m_strLabel);
 	if (styleLine == PS_DOT) {
 		m_CombTLine.SetCurSel(5);
@@ -152,14 +143,12 @@ BOOL NodePropertiesDlg::OnInitDialog()
 	if (bOldBynary) {
 		GetDlgItem(IDC_BTN_SET_MARGIN)->EnableWindow(FALSE);
 	}
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 
 void NodePropertiesDlg::OnRadioTline1() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_editLabel.ModifyStyle(ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL, ES_AUTOHSCROLL);
 	m_editLabel.MoveWindow(86,11,263,25);
 	m_TLine = 0;
@@ -169,7 +158,6 @@ void NodePropertiesDlg::OnRadioTline1()
 
 void NodePropertiesDlg::OnRadioTline2() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_editLabel.ModifyStyle( ES_AUTOHSCROLL, ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL);
 	m_editLabel.MoveWindow(86,11,263,65);
 	m_TLine = 1;
@@ -179,7 +167,6 @@ void NodePropertiesDlg::OnRadioTline2()
 
 void NodePropertiesDlg::OnRadioTline3() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_editLabel.ModifyStyle(ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL, ES_AUTOHSCROLL);
 	m_editLabel.MoveWindow(86,11,263,25);
 	m_TLine = 2;
@@ -189,50 +176,42 @@ void NodePropertiesDlg::OnRadioTline3()
 
 void NodePropertiesDlg::OnRadioShape() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_shape = 0;
 }
 
 void NodePropertiesDlg::OnRadioShape2() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_shape = 1;
 }
 
 void NodePropertiesDlg::OnRadioShape3() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_shape = 2;
 }
 
 void NodePropertiesDlg::OnOK() 
 {
-	// TODO: この位置にその他の検証用のコードを追加してください
 	m_editLabel.GetWindowText(m_strLabel);
 	CDialog::OnOK();
 }
 
 void NodePropertiesDlg::OnChkNoBrs() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_BtnBrsColor.EnableWindow(!m_chkBoxNoBrs.GetCheck());
 }
 
 void NodePropertiesDlg::OnSelchangeComboHoriz() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	horiz = m_cmbHoriz.GetCurSel();
 }
 
 void NodePropertiesDlg::OnSelchangeComboVert() 
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	vert = m_cmbVert.GetCurSel();
 }
 
 void NodePropertiesDlg::OnBnClickedBtnSetMargin()
 {
-	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	NodeMarginSettingsDlg dlg;
 	dlg.m_nLeft = margins.l;
 	dlg.m_nRight = margins.r;
