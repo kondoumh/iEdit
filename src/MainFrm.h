@@ -18,19 +18,11 @@ class CMainFrame : public CMDIFrameWnd
 public:
 	CMainFrame();
 
-// アトリビュート
-public:
-
-// オペレーション
-public:
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(CMainFrame)
 	protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 public:
 	CComboBox* getZoomComboBox();
 	void loadFramePosition();
@@ -40,11 +32,10 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-protected:  // コントロール バー用メンバ
+protected:
 	CStatusBar  m_wndStatusBar;
 	CToolBar    m_wndToolBar;
 
-// 生成されたメッセージ マップ関数
 protected:
 	void MakeWindowTransparent();
 	afx_msg LRESULT OnSlideAlpha(UINT wParam, LONG lParam);
@@ -144,6 +135,5 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_MAINFRM_H__96DFF9BB_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

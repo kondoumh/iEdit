@@ -54,7 +54,6 @@ public:
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 	void setEMF2Clpbrd(HENHMETAFILE emf);
 	void cancelDragRelax();

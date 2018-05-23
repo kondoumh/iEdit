@@ -38,7 +38,6 @@ BEGIN_MESSAGE_MAP(LinkForPathDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// LinkForPathDlg メッセージ ハンドラ
 
 void LinkForPathDlg::OnBrowse() 
 {

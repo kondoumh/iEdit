@@ -120,14 +120,12 @@ public:
 		LA_COMPOSIT
 	};
 
-// オーバーライド
 	//{{AFX_VIRTUAL(CiEditApp)
 	public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 	afx_msg void OnAppAbout();
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileNew();

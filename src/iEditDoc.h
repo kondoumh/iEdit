@@ -56,10 +56,6 @@ protected:
 	iEditDoc();
 	DECLARE_DYNCREATE(iEditDoc)
 
-// アトリビュート
-public:
-
-// オペレーション
 public:
 	void fitSetlectedNodeSize();
 	bool writeClickableMap(CStdioFile& f, const CString& textFileName, bool singleText=true);
@@ -79,9 +75,8 @@ public:
 	int getAppLinkWidth() const;
 	int getAppLinkArrow() const;
 
-//オーバーライド
 	//{{AFX_VIRTUAL(iEditDoc)
-	public:
+public:
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
 	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);

@@ -38,9 +38,6 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
-protected:
-
 	//{{AFX_MSG(LinkPropertiesDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSelchangeCombo();

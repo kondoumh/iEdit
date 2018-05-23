@@ -18,10 +18,9 @@ class ShapesManagementDlg : public CDialog
 {
 // コンストラクション
 public:
-	ShapesManagementDlg(CWnd* pParent = NULL);   // 標準のコンストラクタ
+	ShapesManagementDlg(CWnd* pParent = NULL);
 	void regNodeShape(HENHMETAFILE hMF);
 
-// ダイアログ データ
 	//{{AFX_DATA(ShapesManagementDlg)
 	enum { IDD = IDD_SHAPES };
 	CButton	m_btnGet;
@@ -33,23 +32,18 @@ public:
 	CListBox	m_catListBox;
 	//}}AFX_DATA
 
-
-// オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(ShapesManagementDlg)
-	public:
+public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 	void decideShapef();
 	void getFromView();
 	void editCatName();
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(ShapesManagementDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBtnDrop();
@@ -87,6 +81,5 @@ private:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_SHAPESDLG_H__EE06AEF3_1CC4_11D4_AE5E_00A0C9B72FDD__INCLUDED_)
