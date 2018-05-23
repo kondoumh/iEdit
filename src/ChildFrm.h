@@ -14,26 +14,18 @@ class CChildFrame : public CMDIChildWnd
 	DECLARE_DYNCREATE(CChildFrame)
 public:
 	CChildFrame();
-
-// アトリビュート
-public:
-
-// オペレーション
-public:
 	void changeSelectedLineWidth();
 	void changeSelectedLinkArrow();
 
-//オーバーライド
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(CChildFrame)
-	public:
+public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
-	protected:
+
+protected:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 public:
 	virtual ~CChildFrame();
 #ifdef _DEBUG
@@ -41,7 +33,6 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-// 生成したメッセージ マップ関数
 protected:
 	//{{AFX_MSG(CChildFrame)
 	afx_msg void OnClose();
@@ -64,6 +55,5 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
 
 #endif // !defined(AFX_CHILDFRM_H__96DFF9BD_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

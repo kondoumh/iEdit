@@ -22,9 +22,8 @@ public:
 	//}}AFX_DATA
 
 
-	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(EditShapeCategoryDlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 

@@ -40,7 +40,6 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWnd)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CChildFrame クラスの構築/消滅
 
 CChildFrame::CChildFrame()
 {
@@ -63,7 +62,6 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CChildFrame クラスの診断
 
 #ifdef _DEBUG
 void CChildFrame::AssertValid() const
@@ -79,7 +77,6 @@ void CChildFrame::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// CChildFrame クラスのメッセージハンドラ
 
 BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
 {
@@ -88,7 +85,6 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	long cyNet = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Net Height"), lpcs->cy*1/2);
 	
 	m_Splitter1.CreateStatic(this, 1, 2);
-//	m_Splitter1.SetColumnInfo(0, cxLeft, 0);
 	m_Splitter2.CreateStatic(&m_Splitter1, 2, 1, WS_CHILD | WS_VISIBLE | WS_BORDER, m_Splitter1.IdFromRowCol(0, 0));
 	m_Splitter2.CreateView(0, 0, RUNTIME_CLASS(OutlineView), CSize(cxLeft, cyTree), pContext);
 	m_Splitter2.CreateView(1, 0, RUNTIME_CLASS(LinkView), CSize(cxLeft, 0), pContext);

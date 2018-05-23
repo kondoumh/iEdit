@@ -13,7 +13,6 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CreateNodeDlg ダイアログ
 
-
 CreateNodeDlg::CreateNodeDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CreateNodeDlg::IDD, pParent)
 {
@@ -21,7 +20,6 @@ CreateNodeDlg::CreateNodeDlg(CWnd* pParent /*=NULL*/)
 	m_strcn = _T("");
 	//}}AFX_DATA_INIT
 }
-
 
 void CreateNodeDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -41,7 +39,6 @@ BEGIN_MESSAGE_MAP(CreateNodeDlg, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CreateNodeDlg メッセージ ハンドラ
 
 BOOL CreateNodeDlg::OnInitDialog() 
 {

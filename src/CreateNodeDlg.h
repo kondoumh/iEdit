@@ -10,13 +10,11 @@
 
 class CreateNodeDlg : public CDialog
 {
-// コンストラクション
 public:
 	CRect iniRect;
 	CPoint m_iniPt;
 	CreateNodeDlg(CWnd* pParent = NULL);
 
-// ダイアログ データ
 	//{{AFX_DATA(CreateNodeDlg)
 	enum { IDD = IDD_INPCN };
 	CEdit	m_editName;
@@ -24,17 +22,14 @@ public:
 	//}}AFX_DATA
 
 
-// オーバーライド
 	//{{AFX_VIRTUAL(CreateNodeDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-// インプリメンテーション
 protected:
 	LRESULT afx_msg OnSetCharData(UINT wParam, LONG lParam);
 
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(CreateNodeDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnClose();
