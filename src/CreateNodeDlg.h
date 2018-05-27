@@ -21,13 +21,11 @@ public:
 	CString	m_strcn;
 	//}}AFX_DATA
 
-
+protected:
 	//{{AFX_VIRTUAL(CreateNodeDlg)
-	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-protected:
 	LRESULT afx_msg OnSetCharData(UINT wParam, LONG lParam);
 
 	//{{AFX_MSG(CreateNodeDlg)
