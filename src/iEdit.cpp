@@ -165,25 +165,24 @@ public:
 	enum { IDD = IDD_ABOUTBOX };
 	//}}AFX_DATA
 
+protected:
 	//{{AFX_VIRTUAL(CAboutDlg)
-	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
+	virtual BOOL OnInitDialog();
 	//}}AFX_VIRTUAL
 
-protected:
 	//{{AFX_MSG(CAboutDlg)
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+	afx_msg void OnStnClickedWebsite();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
 private:
 	CBitmap m_bmp;
 	CBrush m_brsDlg;
 	CFont m_webSiteFont;
 	LOGFONT m_logFont;
-public:
-	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-	virtual BOOL OnInitDialog();
-	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
-	afx_msg void OnStnClickedWebsite();
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)

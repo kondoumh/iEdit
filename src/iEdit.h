@@ -121,7 +121,6 @@ public:
 	};
 
 	//{{AFX_VIRTUAL(CiEditApp)
-	public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 	//}}AFX_VIRTUAL
@@ -129,14 +128,15 @@ public:
 	afx_msg void OnAppAbout();
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileNew();
+	afx_msg void OnFiletypeRegDel();
 	DECLARE_MESSAGE_MAP()
+
 protected:
 	void loadmfs(CArchive& ar);
+
 private:
 	CMultiDocTemplate* m_pDocTemplate;
 	CMultiDocTemplate* m_pDocTemplate2;
-public:
-	afx_msg void OnFiletypeRegDel();
 };
 
 
