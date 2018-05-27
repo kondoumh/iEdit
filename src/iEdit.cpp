@@ -161,7 +161,6 @@ class CAboutDlg : public CDialog
 public:
 	CAboutDlg();
 
-// ダイアログ データ
 	//{{AFX_DATA(CAboutDlg)
 	enum { IDD = IDD_ABOUTBOX };
 	//}}AFX_DATA
