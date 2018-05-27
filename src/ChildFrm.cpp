@@ -218,7 +218,7 @@ void CChildFrame::changeSelectedLineWidth()
 	pNetView->changeSelectedLineWidth();
 }
 
-void CChildFrame::changeSelectedNodeColor(void)
+void CChildFrame::ChangeSelectedNodeColor(void)
 {
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
 	POSITION pos = pDoc->GetFirstViewPosition();
@@ -228,7 +228,7 @@ void CChildFrame::changeSelectedNodeColor(void)
 	pNetView->changeSelectedNodeColor();
 }
 
-void CChildFrame::changeSelectedLineColor(void)
+void CChildFrame::ChangeSelectedLineColor(void)
 {
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
 	POSITION pos = pDoc->GetFirstViewPosition();
@@ -238,7 +238,7 @@ void CChildFrame::changeSelectedLineColor(void)
 	pNetView->changeSelectedLineColor();
 }
 
-void CChildFrame::changeSelectedFontColor(void)
+void CChildFrame::ChangeSelectedFontColor(void)
 {
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
 	POSITION pos = pDoc->GetFirstViewPosition();

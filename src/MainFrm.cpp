@@ -696,7 +696,7 @@ void CMainFrame::OnSelectNodeColor()
 	m_wndFormPalette.GetToolBarCtrl().GetImageList()->Replace(10, &bmpImage, NULL);
 	m_wndFormPalette.Invalidate();
 	bmpImage.DeleteObject();
-	((CChildFrame*)MDIGetActive())->changeSelectedNodeColor();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedNodeColor();
 }
 
 void CMainFrame::OnSelectLineColor()
@@ -709,7 +709,7 @@ void CMainFrame::OnSelectLineColor()
 	m_wndFormPalette.GetToolBarCtrl().GetImageList()->Replace(11, &bmpImage, NULL);
 	m_wndFormPalette.Invalidate();
 	bmpImage.DeleteObject();
-	((CChildFrame*)MDIGetActive())->changeSelectedLineColor();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLineColor();
 }
 
 void CMainFrame::OnSelectFontColor()
@@ -722,7 +722,7 @@ void CMainFrame::OnSelectFontColor()
 	m_wndFormPalette.GetToolBarCtrl().GetImageList()->Replace(12, &bmpImage, NULL);
 	m_wndFormPalette.Invalidate();
 	bmpImage.DeleteObject();
-	((CChildFrame*)MDIGetActive())->changeSelectedFontColor();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedFontColor();
 }
 
 void CMainFrame::OnAppHelp()

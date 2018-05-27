@@ -47,9 +47,9 @@ private:
 	CSplitterWnd m_Splitter2;
 	CSplitterWnd m_Splitter1;
 public:
-	void changeSelectedNodeColor(void);
-	void changeSelectedLineColor(void);
-	void changeSelectedFontColor(void);
+	void ChangeSelectedNodeColor(void);
+	void ChangeSelectedLineColor(void);
+	void ChangeSelectedFontColor(void);
 };
 
 /////////////////////////////////////////////////////////////////////////////
