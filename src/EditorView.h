@@ -18,19 +18,16 @@ protected:
 	DECLARE_DYNCREATE(EditorView)
 
 public:
-
-public:
-	virtual void OnReplaceAll( LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase);
-	virtual void  OnReplaceSel( LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR lpszReplace);
-	virtual void OnFindNext( LPCTSTR lpszFind, BOOL bNext, BOOL bCase );
 	void setViewFont();
 	void setTabStop();
 	iEditDoc* GetDocument();
 
+protected:
 	//{{AFX_VIRTUAL(EditorView)
-	public:
+	virtual void OnReplaceAll( LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase);
+	virtual void OnReplaceSel( LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR lpszReplace);
+	virtual void OnFindNext( LPCTSTR lpszFind, BOOL bNext, BOOL bCase );
 	virtual void OnInitialUpdate();
-	protected:
 	virtual void OnDraw(CDC* pDC);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
@@ -43,11 +40,11 @@ protected:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-protected:
 	void initSizeChar();
 	void DrawCaretLine(BOOL bInPaint = FALSE);
 	int GetCaretLine() const;
 	void GetLineRect(int nLine, LPRECT lpRect) const;
+
 	//{{AFX_MSG(EditorView)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
@@ -74,8 +71,10 @@ protected:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg HBRUSH CtlColor(CDC* pDC, UINT nCtlColor);
 	afx_msg void OnChange();
+	afx_msg void OnEnVscroll();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
 private:
 	bool m_bPreUpdateReplace;
 	BOOL m_bDrawUnderLine;
@@ -88,8 +87,6 @@ private:
 	CFindReplaceDialog* m_pFindReplacedlg;
 	CFont m_font;
 	DWORD m_preKey;
-public:
-	afx_msg void OnEnVscroll();
 };
 
 /////////////////////////////////////////////////////////////////////////////
