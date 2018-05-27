@@ -14,23 +14,20 @@ class EditShapeCategoryDlg : public CDialog
 {
 public:
 	EditShapeCategoryDlg(CWnd* pParent = NULL);
+	CString	m_strName;
 
+protected:
 	//{{AFX_DATA(EditShapeCategoryDlg)
 	enum { IDD = IDD_SHPCATDLG };
 	CEdit	m_edit;
-	CString	m_strName;
 	//}}AFX_DATA
 
-
 	//{{AFX_VIRTUAL(EditShapeCategoryDlg)
-protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
+	virtual BOOL OnInitDialog();
 	//}}AFX_VIRTUAL
 
-protected:
-
 	//{{AFX_MSG(EditShapeCategoryDlg)
-	virtual BOOL OnInitDialog();
 	afx_msg void OnChangeEdit1();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
