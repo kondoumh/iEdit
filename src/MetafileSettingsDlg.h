@@ -23,15 +23,10 @@ public:
 	CStatic	m_stMF;
 	//}}AFX_DATA
 
-
-	//{{AFX_VIRTUAL(MetafileSettingsDlg)
 protected:
+	//{{AFX_VIRTUAL(MetafileSettingsDlg)
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
-
-protected:
-	void showSizeInfo();
-	HENHMETAFILE createMF();
 
 	//{{AFX_MSG(MetafileSettingsDlg)
 	virtual BOOL OnInitDialog();
@@ -39,10 +34,13 @@ protected:
 	afx_msg void OnBtnRight();
 	afx_msg void OnBtnDown();
 	afx_msg void OnBtnUp();
+	afx_msg void OnBnClickedBtnReset();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
-public:
-	afx_msg void OnBnClickedBtnReset();
+
+private:
+	void showSizeInfo();
+	HENHMETAFILE createMF();
 };
 
 //{{AFX_INSERT_LOCATION}}

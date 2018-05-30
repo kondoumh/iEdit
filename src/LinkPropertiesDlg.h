@@ -32,7 +32,6 @@ public:
 	CComboBox	m_combo;
 	//}}AFX_DATA
 
-
 protected:
 	//{{AFX_VIRTUAL(LinkPropertiesDlg)
 	virtual void DoDataExchange(CDataExchange* pDX);

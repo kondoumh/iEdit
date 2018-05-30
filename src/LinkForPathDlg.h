@@ -25,13 +25,11 @@ public:
 	CStatic	m_Org;
 	//}}AFX_DATA
 
-
+protected:
 	//{{AFX_VIRTUAL(LinkForPathDlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
-
-protected:
 
 	//{{AFX_MSG(LinkForPathDlg)
 	afx_msg void OnBrowse();
