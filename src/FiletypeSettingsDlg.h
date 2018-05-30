@@ -11,15 +11,14 @@ public:
 	virtual ~FiletypeSettingsDlg();
 
 	enum { IDD = IDD_SHELL_FILETYPE_SETTING };
+	int m_registFileType;
+	BOOL m_bRegistOldtype;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
+	virtual BOOL OnInitDialog();
 
 	DECLARE_MESSAGE_MAP()
-public:
-	int m_registFileType;
-	BOOL m_bRegistOldtype;
-	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedRdNotRegist();
 	afx_msg void OnBnClickedRdRegist();
 };

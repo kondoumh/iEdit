@@ -20,14 +20,11 @@ public:
 	int		m_importMode;
 	//}}AFX_DATA
 
-	//{{AFX_VIRTUAL(ImportXmlDlg)
 protected:
+	//{{AFX_VIRTUAL(ImportXmlDlg)
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
 
-protected:
-
-	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(ImportXmlDlg)
 	afx_msg void OnRdRep();
 	afx_msg void OnRdSub();

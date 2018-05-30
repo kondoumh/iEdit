@@ -13,14 +13,13 @@ public:
 
 // ダイアログ データ
 	enum { IDD = IDD_IMPORT_TEXT };
+	int m_charSelection;
+	CString m_fileName;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 
 	DECLARE_MESSAGE_MAP()
-public:
-	int m_charSelection;
 	afx_msg void OnBnClickedRadio1();
 	afx_msg void OnBnClickedRadio2();
-	CString m_fileName;
 };

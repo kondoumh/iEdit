@@ -21,12 +21,11 @@ public:
 	int		m_level;
 	//}}AFX_DATA
 
+protected:
+
 	//{{AFX_VIRTUAL(FoldingSettingsDlg)
-	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
-
-protected:
 
 	//{{AFX_MSG(FoldingSettingsDlg)
 	virtual BOOL OnInitDialog();

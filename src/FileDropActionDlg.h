@@ -20,13 +20,10 @@ public:
 	int		m_nDropProc;
 	//}}AFX_DATA
 
-
 protected:
 	//{{AFX_VIRTUAL(FileDropActionDlg)
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
-
-protected:
 
 	//{{AFX_MSG(FileDropActionDlg)
 		// メモ: ClassWizard はこの位置にメンバ関数を追加します。
