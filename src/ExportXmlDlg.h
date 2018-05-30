@@ -20,13 +20,10 @@ public:
 	int		m_nTreeOp;
 	//}}AFX_DATA
 
-
+protected:
 	//{{AFX_VIRTUAL(ExportXmlDlg)
-	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
-
-protected:
 
 	//{{AFX_MSG(ExportXmlDlg)
 	//}}AFX_MSG

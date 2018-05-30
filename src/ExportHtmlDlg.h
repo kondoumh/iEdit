@@ -14,7 +14,6 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 
-	DECLARE_MESSAGE_MAP()
 public:
 	CString m_NameOfRoot;
 	CString m_NameOfVisibleRoot;
@@ -32,7 +31,9 @@ public:
 	CString m_xvEdPrfToc;
 	CString m_xvEdPrfTextSingle;
 	CString m_xvEdPrfTextEverynode;
-	afx_msg void OnBnClickedRdNavOutline();
+	CString m_xvEdPrfNet;
+	BOOL m_xvRdTree;
+
 private:
 	void setPathIndex();
 	void setPathTextSingle();
@@ -41,20 +42,22 @@ private:
 	void SetRdImageEnable(BOOL bEnable);
 	void SetEdPrfTextSingleEnable(BOOL bEnable);
 	void SetEdPrfTextEverynodeEnable(BOOL bEnable);
-public:
+
+protected:
 	virtual BOOL OnInitDialog();
+
+	DECLARE_MESSAGE_MAP()
+	afx_msg void OnBnClickedRdNavOutline();
 	afx_msg void OnBnClickedRdNavNetwork();
 	afx_msg void OnBnClickedRdNavBoth();
 	afx_msg void OnBnClickedRdTextEverynode();
 	afx_msg void OnBnClickedRdTextSingle();
-	CString m_xvEdPrfNet;
 	afx_msg void OnBnClickedBtnSetPrfByFname();
 	afx_msg void OnEnChangeEdPrfToc();
 	afx_msg void OnEnChangeEdPrfIndex();
 	afx_msg void OnEnChangeEdPrfNet();
 	afx_msg void OnEnChangeEdPrfTextSingle();
 	afx_msg void OnEnChangeEdPrfTextEverynode();
-	BOOL m_xvRdTree;
 	afx_msg void OnBnClickedBtnSetPrfByRoot();
 	afx_msg void OnBnClickedBtnSetPrfByVisibleRoot();
 };
