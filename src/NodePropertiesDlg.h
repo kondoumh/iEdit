@@ -20,6 +20,7 @@ public:
 		int t;
 		int b;
 	} margins;
+
 	int vert;
 	int horiz;
 	BOOL bOldBynary;
@@ -31,11 +32,11 @@ public:
 	COLORREF colorLine;
 	COLORREF colorFont;
 	LOGFONT lf;
-	CString m_strLabel;
 	NodePropertiesDlg(CWnd* pParent = NULL);
 
 	//{{AFX_DATA(NodePropertiesDlg)
 	enum { IDD = IDD_PRPNODE };
+	CString m_strLabel;
 	CComboBox	m_cmbHoriz;
 	CComboBox	m_cmbVert;
 	CButton	m_chkBoxNoBrs;
@@ -47,35 +48,31 @@ public:
 	BOOL	m_bNoBrush;
 	//}}AFX_DATA
 
-
-	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(NodePropertiesDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
-
 protected:
+
+	//{{AFX_VIRTUAL(NodePropertiesDlg)
+	virtual void DoDataExchange(CDataExchange* pDX);
+	virtual void OnOK();
+	virtual BOOL OnInitDialog();
+	//}}AFX_VIRTUAL
 
 	//{{AFX_MSG(NodePropertiesDlg)
 	afx_msg void OnSelchangeComboline();
 	afx_msg void OnBtnLineColor();
 	afx_msg void OnBtnBrs();
 	afx_msg void OnBtnFont();
-	virtual BOOL OnInitDialog();
 	afx_msg void OnRadioTline1();
 	afx_msg void OnRadioTline2();
 	afx_msg void OnRadioShape();
 	afx_msg void OnRadioShape2();
-	virtual void OnOK();
 	afx_msg void OnChkNoBrs();
 	afx_msg void OnRadioTline3();
 	afx_msg void OnSelchangeComboHoriz();
 	afx_msg void OnSelchangeComboVert();
 	afx_msg void OnRadioShape3();
+	afx_msg void OnBnClickedBtnSetMargin();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
-public:
-	afx_msg void OnBnClickedBtnSetMargin();
 };
 
 //{{AFX_INSERT_LOCATION}}

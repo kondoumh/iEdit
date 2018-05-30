@@ -38,25 +38,25 @@ public:
 	BOOL	m_bUpper;
 	//}}AFX_DATA
 
+protected:
+
 	//{{AFX_VIRTUAL(NodeSearchDlg)
 	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
-	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
+	virtual void OnCancel();
+	virtual BOOL OnInitDialog();
 	//}}AFX_VIRTUAL
 
-protected:
 	void srchNode();
 
 	//{{AFX_MSG(NodeSearchDlg)
 	afx_msg void OnOk();
-	virtual void OnCancel();
 	afx_msg void OnStart();
 	afx_msg void OnBtngo();
 	afx_msg void OnChklabel();
 	afx_msg void OnChklinks();
 	afx_msg void OnChktext();
-	virtual BOOL OnInitDialog();
 	afx_msg void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnChkupper();
