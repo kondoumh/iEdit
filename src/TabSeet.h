@@ -19,15 +19,6 @@ class CTabSeet : public CTabCtrl
 
 public:
 	CTabSeet();
-
-public:
-
-public:
-
-	//{{AFX_VIRTUAL(CTabSeet)
-	//}}AFX_VIRTUAL
-
-public:
 	template<class Dialog>
 	void addPage(Dialog* dialog) {
 		page_.push_back(page(dialog, Dialog::IDD));
@@ -39,6 +30,10 @@ public:
 	virtual ~CTabSeet();
 
 protected:
+
+	//{{AFX_VIRTUAL(CTabSeet)
+	//}}AFX_VIRTUAL
+
 	//{{AFX_MSG(CTabSeet)
 	afx_msg void OnSelchange(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG

@@ -23,16 +23,15 @@ public:
 	CString	m_strPath;
 	//}}AFX_DATA
 
-	//{{AFX_VIRTUAL(ShapeRegistrationDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
-
 protected:
+
+	//{{AFX_VIRTUAL(ShapeRegistrationDlg)
+	virtual void DoDataExchange(CDataExchange* pDX);
+	virtual void OnOK();
+	//}}AFX_VIRTUAL
 
 	//{{AFX_MSG(ShapeRegistrationDlg)
 	afx_msg void OnBtnBrowse();
-	virtual void OnOK();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

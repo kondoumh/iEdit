@@ -27,19 +27,20 @@ public:
 
 
 	//{{AFX_VIRTUAL(WndTransparencySettingsDlg)
-	public:
+public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
+	virtual BOOL OnInitDialog();
 	//}}AFX_VIRTUAL
 
 protected:
 
 	//{{AFX_MSG(WndTransparencySettingsDlg)
-	virtual BOOL OnInitDialog();
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
 private:
 	CWnd* m_pParent;
 };

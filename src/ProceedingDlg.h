@@ -15,12 +15,11 @@ public:
 	CProgressCtrl	m_ProgProc;
 	//}}AFX_DATA
 
+protected:
+
 	//{{AFX_VIRTUAL(ProceedingDlg)
-	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
-
-protected:
 
 	//{{AFX_MSG(ProceedingDlg)
 	//}}AFX_MSG
