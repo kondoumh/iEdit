@@ -27,13 +27,24 @@ public:
 	CTabSeet	m_tabSeet;
 	//}}AFX_DATA
 
+protected:
 
 	//{{AFX_VIRTUAL(OptionSettingsDlg)
-	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
 
-protected:
+	//{{AFX_MSG(OptionSettingsDlg)
+	virtual BOOL OnInitDialog();
+	virtual void OnOK();
+	virtual void OnCancel();
+	//}}AFX_MSG
+	DECLARE_MESSAGE_MAP()
+
+private:
+	OptionPageForNode* pNode;
+	OptionPageForLink* pLink;
+	OptionPageForFrame* pFrame;
+	OptionPageForOther* pOther;
 	void writePageOther();
 	void writePageLink();
 	void writePageNode();
@@ -42,17 +53,6 @@ protected:
 	void initPageFrame();
 	void initPageNode();
 
-	//{{AFX_MSG(OptionSettingsDlg)
-	virtual BOOL OnInitDialog();
-	virtual void OnOK();
-	virtual void OnCancel();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
-private:
-	OptionPageForNode* pNode;
-	OptionPageForLink* pLink;
-	OptionPageForFrame* pFrame;
-	OptionPageForOther* pOther;
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -38,17 +38,15 @@ public:
 	CString	m_strStylesheet;
 	//}}AFX_DATA
 
-
-	//{{AFX_VIRTUAL(OptionPageForOther)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
-
 protected:
 
-	//{{AFX_MSG(OptionPageForOther)
+	//{{AFX_VIRTUAL(OptionPageForOther)
+	virtual void DoDataExchange(CDataExchange* pDX);
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
+	//}}AFX_VIRTUAL
+
+	//{{AFX_MSG(OptionPageForOther)
 	afx_msg void OnRdTab1();
 	afx_msg void OnRdTab2();
 	afx_msg void OnRdTab3();
@@ -60,11 +58,10 @@ protected:
 	afx_msg void OnChkDrwUndrln();
 	afx_msg void OnChkSetStylesheet();
 	afx_msg void OnChangeEditStylesheet();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
-public:
 	afx_msg void OnBnClickedChkPostAction();
 	afx_msg void OnBnClickedChkExportFilelink();
+	//}}AFX_MSG
+	DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

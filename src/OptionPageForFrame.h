@@ -37,20 +37,14 @@ public:
 	BOOL	m_bSaveBarState;
 	//}}AFX_DATA
 
+protected:
 
 	//{{AFX_VIRTUAL(OptionPageForFrame)
-	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
+	virtual void OnCancel();
 	//}}AFX_VIRTUAL
 
-protected:
-	void drawNWPreView(CDC* pDC);
-	void drawLNPreView(CDC* pDC);
-	void drawOLPreView(CDC* pDC);
-	void drawTextPreView(CDC* pDC);
-
 	//{{AFX_MSG(OptionPageForFrame)
-	virtual void OnCancel();
 	afx_msg void OnBtnLink();
 	afx_msg void OnBtnOutline();
 	afx_msg void OnBtnText();
@@ -67,7 +61,12 @@ protected:
 	afx_msg void OnBtnInsertmark();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
 private:
+	void drawNWPreView(CDC* pDC);
+	void drawLNPreView(CDC* pDC);
+	void drawOLPreView(CDC* pDC);
+	void drawTextPreView(CDC* pDC);
 	void updateFont(LOGFONT* plf, CFont& font);
 	void drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor);
 };

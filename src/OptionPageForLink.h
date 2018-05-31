@@ -29,17 +29,15 @@ public:
 	BOOL	m_bSetStrength;
 	//}}AFX_DATA
 
-
-	//{{AFX_VIRTUAL(OptionPageForLink)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
-
 protected:
 
-	//{{AFX_MSG(OptionPageForLink)
+	//{{AFX_VIRTUAL(OptionPageForLink)
+	virtual void DoDataExchange(CDataExchange* pDX);
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
+	//}}AFX_VIRTUAL
+
+	//{{AFX_MSG(OptionPageForLink)
 	afx_msg void OnBtnColor();
 	afx_msg void OnBtnFont();
 	afx_msg void OnSelchangeCmbLine();
