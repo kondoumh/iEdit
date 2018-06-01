@@ -52,6 +52,7 @@ class iEditDoc : public CDocument
 	nVec nodes_undo;
 	lVec links_undo;
 	int m_serialVersion;
+
 protected:
 	iEditDoc();
 	DECLARE_DYNCREATE(iEditDoc)
@@ -76,14 +77,12 @@ public:
 	int getAppLinkArrow() const;
 
 	//{{AFX_VIRTUAL(iEditDoc)
-public:
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
 	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
 	//}}AFX_VIRTUAL
 
-public:
 	void setSelectedNodeDragging(bool dragging = true);
 	void divideTargetLink(DWORD key);
 	CString getTitleFromOpenPath();
@@ -260,8 +259,6 @@ public:
 #endif
 
 protected:
-
-protected:
 	CString procWikiNotation(const CString& text);
 	void beginUL(CString& str, int& level, int& prevLevel);
 	void endUL(CString& str, int& level);
@@ -293,10 +290,14 @@ protected:
 	void saveOrderByTreeEx(CArchive& ar, int version);
 	void saveTreeState(CArchive& ar, int version);
 	void loadTreeState(CArchive& ar, int version);
+
 	//{{AFX_MSG(iEditDoc)
 	afx_msg void OnFileSaveAs();
+	afx_msg void OnFileSave();
+	afx_msg void OnUpdateFileSave(CCmdUI *pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
 private:
 	CString m_openFilePath;
 	int m_initialBranchMode;
@@ -332,9 +333,6 @@ private:
 	DWORD lastKey, lastLinkKey;
 	void desideLinkLineStyle(iLink& l);
 	void desideLinkArrow(iLink& l);
-public:
-	afx_msg void OnFileSave();
-	afx_msg void OnUpdateFileSave(CCmdUI *pCmdUI);
 };
 
 /////////////////////////////////////////////////////////////////////////////
