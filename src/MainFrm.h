@@ -17,13 +17,6 @@ class CMainFrame : public CMDIFrameWnd
 	DECLARE_DYNAMIC(CMainFrame)
 public:
 	CMainFrame();
-
-	//{{AFX_VIRTUAL(CMainFrame)
-	protected:
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
-
-public:
 	CComboBox* getZoomComboBox();
 	void loadFramePosition();
 	virtual ~CMainFrame();
@@ -33,16 +26,14 @@ public:
 #endif
 
 protected:
-	CStatusBar  m_wndStatusBar;
-	CToolBar    m_wndToolBar;
 
-protected:
-	void MakeWindowTransparent();
-	afx_msg LRESULT OnSlideAlpha(UINT wParam, LONG lParam);
-	void JointCBLine(CFrameWnd *pFrameWnd,CControlBar *pBar,CControlBar *pCB);
-	CToolBar m_wndFormPalette;
-	void addComboZoom();
+	//{{AFX_VIRTUAL(CMainFrame)
+	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+	//}}AFX_VIRTUAL
+
 	//{{AFX_MSG(CMainFrame)
+	afx_msg LRESULT OnSlideAlpha(UINT wParam, LONG lParam);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSetProperties();
 	afx_msg void OnUpdateSetProperties(CCmdUI* pCmdUI);
@@ -53,9 +44,47 @@ protected:
 	afx_msg void OnDestroy();
 	afx_msg void OnTransparentMode();
 	afx_msg void OnUpdateTransparentMode(CCmdUI* pCmdUI);
+	afx_msg void OnMnuLsR0();
+	afx_msg void OnUpdateMnuLsR0(CCmdUI *pCmdUI);
+	afx_msg void OnMnuLsDot();
+	afx_msg void OnUpdateMnuLsDot(CCmdUI *pCmdUI);
+	afx_msg void OnMnuLsR1();
+	afx_msg void OnUpdateMnuLsR1(CCmdUI *pCmdUI);
+	afx_msg void OnMnuLsR2();
+	afx_msg void OnUpdateMnuLsR2(CCmdUI *pCmdUI);
+	afx_msg void OnMnuLsR3();
+	afx_msg void OnUpdateMnuLsR3(CCmdUI *pCmdUI);
+	afx_msg void OnMnuLsR4();
+	afx_msg void OnUpdateMnuLsR4(CCmdUI *pCmdUI);
+	afx_msg void OnLinkArrowNone();
+	afx_msg void OnUpdateLinkArrowNone(CCmdUI *pCmdUI);
+	afx_msg void OnLinkArrowSingle();
+	afx_msg void OnUpdateLinkArrowSingle(CCmdUI *pCmdUI);
+	afx_msg void OnLinkArrowDouble();
+	afx_msg void OnUpdateLinkArrowDouble(CCmdUI *pCmdUI);
+	afx_msg void OnLinkDependSingle();
+	afx_msg void OnUpdateLinkDependSingle(CCmdUI *pCmdUI);
+	afx_msg void OnLinkDependDouble();
+	afx_msg void OnUpdateLinkDependDouble(CCmdUI *pCmdUI);
+	afx_msg void OnLinkArrowInherit();
+	afx_msg void OnUpdateLinkArrowInherit(CCmdUI *pCmdUI);
+	afx_msg void OnLinkArrowAgregat();
+	afx_msg void OnUpdateLinkArrowAgregat(CCmdUI *pCmdUI);
+	afx_msg void OnLinkArrowComposit();
+	afx_msg void OnUpdateLinkArrowComposit(CCmdUI *pCmdUI);
+	afx_msg void OnViewFormBar();
+	afx_msg void OnUpdateViewFormBar(CCmdUI *pCmdUI);
+	afx_msg void OnSelectNodeColor();
+	afx_msg void OnSelectLineColor();
+	afx_msg void OnSelectFontColor();
+	afx_msg void OnAppHelp();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
 private:
+	CStatusBar  m_wndStatusBar;
+	CToolBar    m_wndToolBar;
+	CToolBar m_wndFormPalette;
 	CImageList m_tbPlDwnImage;
 	BOOL m_bCanBeTransparent;
 	BOOL m_bTransparent;
@@ -64,72 +93,10 @@ private:
 	CComboBox m_comboZoom;
 	CFont m_fntComboZoom;
 	void saveFramePosition();
-protected:
-	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-public:
-	afx_msg void OnMnuLsR0();
-public:
-	afx_msg void OnUpdateMnuLsR0(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnMnuLsDot();
-public:
-	afx_msg void OnUpdateMnuLsDot(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnMnuLsR1();
-public:
-	afx_msg void OnUpdateMnuLsR1(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnMnuLsR2();
-public:
-	afx_msg void OnUpdateMnuLsR2(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnMnuLsR3();
-public:
-	afx_msg void OnUpdateMnuLsR3(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnMnuLsR4();
-public:
-	afx_msg void OnUpdateMnuLsR4(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnLinkArrowNone();
-public:
-	afx_msg void OnUpdateLinkArrowNone(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnLinkArrowSingle();
-public:
-	afx_msg void OnUpdateLinkArrowSingle(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnLinkArrowDouble();
-public:
-	afx_msg void OnUpdateLinkArrowDouble(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnLinkDependSingle();
-public:
-	afx_msg void OnUpdateLinkDependSingle(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnLinkDependDouble();
-public:
-	afx_msg void OnUpdateLinkDependDouble(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnLinkArrowInherit();
-public:
-	afx_msg void OnUpdateLinkArrowInherit(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnLinkArrowAgregat();
-public:
-	afx_msg void OnUpdateLinkArrowAgregat(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnLinkArrowComposit();
-public:
-	afx_msg void OnUpdateLinkArrowComposit(CCmdUI *pCmdUI);
-public:
-	afx_msg void OnViewFormBar();
-	afx_msg void OnUpdateViewFormBar(CCmdUI *pCmdUI);
 	void createBrushedBitmap(CBitmap* pBitmap, COLORREF rgb);
-	afx_msg void OnSelectNodeColor();
-	afx_msg void OnSelectLineColor();
-	afx_msg void OnSelectFontColor();
-	afx_msg void OnAppHelp();
+	void MakeWindowTransparent();
+	void JointCBLine(CFrameWnd *pFrameWnd,CControlBar *pBar,CControlBar *pCB);
+	void addComboZoom();
 };
 
 /////////////////////////////////////////////////////////////////////////////
