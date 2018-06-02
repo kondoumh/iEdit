@@ -132,12 +132,6 @@ public:
 	};
 
 private:
-	void init();
-	void initCopy(const iNode& n);
-	void enhanceBoundGradualy(int area);
-	void enhanceLineOriented(const CSize& sz);
-	//void fitFixedWidth();
-	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
 	int scrollpos_;
 	int margin_l_;
 	int margin_r_;
@@ -173,7 +167,12 @@ private:
 	bool deleted_;
 	bool dragging_;
 	CString chapterNumber_; // 章番号 transient な属性
-protected:
+
+	void init();
+	void initCopy(const iNode& n);
+	void enhanceBoundGradualy(int area);
+	void enhanceLineOriented(const CSize& sz);
+	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
 	void adjustFont(bool bForceResize=false);
 	CSize getNodeTextSize();
 };
