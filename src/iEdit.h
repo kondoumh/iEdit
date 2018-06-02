@@ -120,6 +120,8 @@ public:
 		LA_COMPOSIT
 	};
 
+protected:
+
 	//{{AFX_VIRTUAL(CiEditApp)
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
@@ -131,10 +133,8 @@ public:
 	afx_msg void OnFiletypeRegDel();
 	DECLARE_MESSAGE_MAP()
 
-protected:
-	void loadmfs(CArchive& ar);
-
 private:
+	void loadmfs(CArchive& ar);
 	CMultiDocTemplate* m_pDocTemplate;
 	CMultiDocTemplate* m_pDocTemplate2;
 };
