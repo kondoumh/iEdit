@@ -102,9 +102,6 @@ public:
 	enum {upright, upleft, downleft, downright}; // 自己参照線の位置
 
 private:
-	void initCopy(const iLink& l);
-	void drawRectangles(CDC* pDC);
-	void drawTriangles(CDC* pDC);
 	CPen penCommentRect;
 	int selfPos;
 	CRect selfRect;
@@ -134,7 +131,10 @@ private:
 	double len_;        // ばねモデル用リンク長(直線距離)
 	bool bChain_;
 	bool dropTarget_;
-protected:
+
+	void initCopy(const iLink& l);
+	void drawRectangles(CDC* pDC);
+	void drawTriangles(CDC* pDC);
 	void rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg);
 	CPoint getClossPoint(const CRect& target, const CPoint& start);
 	void setConnectPoint();
