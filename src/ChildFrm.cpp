@@ -51,11 +51,11 @@ CChildFrame::~CChildFrame()
 
 BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	cs.style |= WS_CHILD | WS_VISIBLE |WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
-	
-	if( !CMDIChildWnd::PreCreateWindow(cs) )
+	cs.style |= WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
+
+	if (!CMDIChildWnd::PreCreateWindow(cs))
 		return FALSE;
-	
+
 	return TRUE;
 }
 
@@ -78,12 +78,12 @@ void CChildFrame::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
+BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 {
-	long cxLeft = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Width"), lpcs->cx*1/3);
-	long cyTree = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Height"), lpcs->cy*2/3);
-	long cyNet = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Net Height"), lpcs->cy*1/2);
-	
+	long cxLeft = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Width"), lpcs->cx * 1 / 3);
+	long cyTree = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Outline Height"), lpcs->cy * 2 / 3);
+	long cyNet = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Net Height"), lpcs->cy * 1 / 2);
+
 	m_Splitter1.CreateStatic(this, 1, 2);
 	m_Splitter2.CreateStatic(&m_Splitter1, 2, 1, WS_CHILD | WS_VISIBLE | WS_BORDER, m_Splitter1.IdFromRowCol(0, 0));
 	m_Splitter2.CreateView(0, 0, RUNTIME_CLASS(OutlineView), CSize(cxLeft, cyTree), pContext);
@@ -91,7 +91,7 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	m_Splitter3.CreateStatic(&m_Splitter1, 2, 1, WS_CHILD | WS_VISIBLE | WS_BORDER, m_Splitter1.IdFromRowCol(0, 1));
 	m_Splitter3.CreateView(0, 0, RUNTIME_CLASS(NetView), CSize(0, cyNet), pContext);
 	m_Splitter3.CreateView(1, 0, RUNTIME_CLASS(EditorView), CSize(0, 0), pContext);
-	
+
 	m_Splitter1.SetColumnInfo(0, cxLeft, 0);
 	m_Splitter1.RecalcLayout();
 	m_Splitter2.SetRowInfo(0, cyTree, 0);
@@ -101,19 +101,19 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	return TRUE;
 }
 
-BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo) 
+BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
 	if (CMDIChildWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
 		return TRUE;
 	}
 	iEditDoc* pDoc = (iEditDoc*)GetActiveDocument();
 	ASSERT(pDoc->IsKindOf(RUNTIME_CLASS(iEditDoc)));
-	
+
 	// コマンドフィルタ (全部のビューにルーティングしたくないときはここに追加する
 	if (nID == ID_INSERT_SIBLING || nID == ID_INSERT_CHILD) {
 		return FALSE;
 	}
-	
+
 	if (pDoc != NULL) {
 		if (pDoc->RouteCmdToAllViews(GetActiveView(), nID, nCode, pExtra, pHandlerInfo)) {
 			return TRUE;
@@ -122,24 +122,24 @@ BOOL CChildFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 	return FALSE;
 }
 
-void CChildFrame::OnDestroy() 
+void CChildFrame::OnDestroy()
 {
 	CMDIChildWnd::OnDestroy();
-	
+
 	CMDIFrameWnd* pFrame = GetMDIFrame();
 	WINDOWPLACEMENT wndplm;
 	pFrame->GetWindowPlacement(&wndplm);
-	
+
 	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
-	if (saveFrame && 
-		  (wndplm.showCmd == SW_SHOWNORMAL || wndplm.showCmd == SW_SHOWMAXIMIZED)) {
+	if (saveFrame &&
+		(wndplm.showCmd == SW_SHOWNORMAL || wndplm.showCmd == SW_SHOWMAXIMIZED)) {
 		WINDOWPLACEMENT wndpl;
 		GetWindowPlacement(&wndpl);
 		int cur1, min1, cur2, min2, cur3, min3;
 		m_Splitter1.GetColumnInfo(0, cur1, min1);
 		m_Splitter2.GetRowInfo(0, cur2, min2);
 		m_Splitter3.GetRowInfo(0, cur3, min3);
-		if (cur1 > 0 && cur1 < 1600 && cur2 > 0 && cur2 <1600 && cur3 > 0 && cur3 < 1600 && 
+		if (cur1 > 0 && cur1 < 1600 && cur2 > 0 && cur2 < 1600 && cur3 > 0 && cur3 < 1600 &&
 			wndpl.showCmd == SW_SHOWMAXIMIZED) {
 			AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Outline Width"), cur1);
 			AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Outline Height"), cur2);
@@ -149,41 +149,44 @@ void CChildFrame::OnDestroy()
 }
 
 
-void CChildFrame::OnClose() 
+void CChildFrame::OnClose()
 {
 	CMDIChildWnd::OnClose();
 }
 
-void CChildFrame::OnChangeViewFocus() 
+void CChildFrame::OnChangeViewFocus()
 {
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
-	
+
 	POSITION pos = pDoc->GetFirstViewPosition();
 	CView* pfirstView = pDoc->GetNextView(pos);
 	CView* psecondView = pDoc->GetNextView(pos);
 	CView* pthirdView = pDoc->GetNextView(pos);
 	CView* pforthView = pDoc->GetNextView(pos);
-	
+
 	CView* pcurView = GetActiveView();
 	if (pcurView == pfirstView) {
 		SetActiveView(pthirdView, TRUE);
-	} else if (pcurView == psecondView) {
+	}
+	else if (pcurView == psecondView) {
 		SetActiveView(pfirstView, TRUE);
-	} else if (pcurView == pthirdView) {
+	}
+	else if (pcurView == pthirdView) {
 		SetActiveView(pforthView);
-	} else if (pcurView == pforthView) {
+	}
+	else if (pcurView == pforthView) {
 		SetActiveView(psecondView);
 	}
 }
 
-void CChildFrame::OnUpdateChangeViewFocus(CCmdUI* pCmdUI) 
+void CChildFrame::OnUpdateChangeViewFocus(CCmdUI* pCmdUI)
 {
 }
 
-void CChildFrame::OnMDIActivate(BOOL bActivate, CWnd* pActivateWnd, CWnd* pDeactivateWnd) 
+void CChildFrame::OnMDIActivate(BOOL bActivate, CWnd* pActivateWnd, CWnd* pDeactivateWnd)
 {
 	CMDIChildWnd::OnMDIActivate(bActivate, pActivateWnd, pDeactivateWnd);
-	
+
 	if (!bActivate) {
 		CView* pView = GetActiveView();
 		if (pView == NULL) return;
