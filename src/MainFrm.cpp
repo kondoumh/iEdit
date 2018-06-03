@@ -103,11 +103,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
-	
+
 	if (m_bTransparent) {
 		MakeWindowTransparent();
 	}
-		
+
 	/////////// ToolBar
 	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
@@ -116,29 +116,29 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0(_T("Failed to create toolbar\n"));
 		return -1;
 	}
-	
+
 	if (!m_wndFormPalette.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
-		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(0,0,0,0), IDR_FORM_PALLETE) ||
+		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(0, 0, 0, 0), IDR_FORM_PALLETE) ||
 		!m_wndFormPalette.LoadToolBar(IDR_FORM_PALLETE))
 	{
 		TRACE0(_T("Failed to create form pallete\n"));
 		return -1;
 	}
-	
+
 	////////////// StatusBar
 	if (!m_wndStatusBar.Create(this) ||
 		!m_wndStatusBar.SetIndicators(indicators,
-		  sizeof(indicators)/sizeof(UINT)))
+			sizeof(indicators) / sizeof(UINT)))
 	{
 		TRACE0(_T("Failed to create status bar\n"));
 		return -1;
 	}
-	
+
 	/////// ドロップダウンスタイルボタンの設定
 	m_wndToolBar.GetToolBarCtrl().SetExtendedStyle(TBSTYLE_EX_DRAWDDARROWS);
 	TBBUTTONINFO tbButtonInfo;
-	tbButtonInfo.dwMask= TBIF_STYLE;
-	tbButtonInfo.cbSize= sizeof(TBBUTTONINFO);
+	tbButtonInfo.dwMask = TBIF_STYLE;
+	tbButtonInfo.cbSize = sizeof(TBBUTTONINFO);
 	// リンク線の種類
 	m_wndToolBar.GetToolBarCtrl().GetButtonInfo(ID_BTN_LINK_LINE_STYLE, &tbButtonInfo);
 	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
@@ -147,12 +147,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.GetToolBarCtrl().GetButtonInfo(ID_BTN_LINK_ARROW, &tbButtonInfo);
 	tbButtonInfo.fsStyle |= TBSTYLE_DROPDOWN;
 	m_wndToolBar.GetToolBarCtrl().SetButtonInfo(ID_BTN_LINK_ARROW, &tbButtonInfo);
-	
+
 	m_wndToolBar.SetWindowText(_T("編集"));
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	// ズーム変更用コンボボックスの追加
 	addComboZoom();
-	
+
 	m_wndFormPalette.GetToolBarCtrl().SetExtendedStyle(TBSTYLE_EX_DRAWDDARROWS);
 	// ノード色ボタン
 	m_wndFormPalette.GetToolBarCtrl().GetButtonInfo(ID_BTN_NODE_FILL_COLOR, &tbButtonInfo);
@@ -171,24 +171,24 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndFormPalette.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
-	JointCBLine(this,&m_wndFormPalette,&m_wndToolBar);
-	
-	
+	JointCBLine(this, &m_wndFormPalette, &m_wndToolBar);
+
+
 	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 	if (saveBar) {
 		LoadBarState(_T("BarSettings"));
 	}
-	
+
 	CSplashWnd::ShowSplashScreen(this);
-	
+
 	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
 	if (saveFrame) {
 		loadFramePosition();
-	}	
-	
+	}
+
 	m_pSetAlphaDlg = NULL;
 	m_tbPlDwnImage.Create(IDB_TB_PLDWN, 16, 5, RGB(255, 0, 255));
-	
+
 	((CiEditApp*)AfxGetApp())->m_colorNodeBtn = RGB(255, 255, 255);
 	((CiEditApp*)AfxGetApp())->m_colorLineBtn = RGB(0, 0, 0);
 	((CiEditApp*)AfxGetApp())->m_colorFontBtn = RGB(0, 0, 0);
@@ -216,7 +216,7 @@ void CMainFrame::Dump(CDumpContext& dc) const
 // CMainFrame メッセージ ハンドラ
 
 
-void CMainFrame::OnSetProperties() 
+void CMainFrame::OnSetProperties()
 {
 	OptionSettingsDlg dlg;
 	if (dlg.DoModal() == IDOK) {
@@ -225,30 +225,30 @@ void CMainFrame::OnSetProperties()
 	}
 }
 
-void CMainFrame::OnUpdateSetProperties(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateSetProperties(CCmdUI* pCmdUI)
 {
 }
 
-void CMainFrame::OnClose() 
+void CMainFrame::OnClose()
 {
 	BOOL saveBar = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 	if (saveBar) {
 		SaveBarState(_T("BarSettings"));
-	}	
-	
+	}
+
 	BOOL saveFrame = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
 	if (saveFrame) {
 		saveFramePosition();
 	}
-	
+
 	CMDIFrameWnd::OnClose();
 }
 
-void CMainFrame::OnDropFiles(HDROP hDropInfo) 
+void CMainFrame::OnDropFiles(HDROP hDropInfo)
 {
 	WCHAR fileName[MAX_PATH];
 	DragQueryFile(hDropInfo, 0, fileName, MAX_PATH);
-	
+
 	WCHAR drive[_MAX_DRIVE];
 	WCHAR dir[_MAX_DIR];
 	WCHAR fname[_MAX_FNAME];
@@ -257,16 +257,16 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 	ZeroMemory(dir, _MAX_DIR);
 	ZeroMemory(fname, _MAX_FNAME);
 	ZeroMemory(ext, _MAX_EXT);
-	
+
 	_wsplitpath_s((const wchar_t *)fileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
-	
+
 	CString extent = ext;
 	extent.MakeLower();
 	if (extent != _T(".iedx") && extent != _T(".ied") && extent != _T(".xml")) {
 		AfxMessageBox(_T("iEditファイルではありません"));
 		return;
 	}
-	
+
 	CMDIFrameWnd::OnDropFiles(hDropInfo);
 }
 
@@ -303,16 +303,16 @@ void CMainFrame::addComboZoom()
 {
 	CRect rcCombo(-75, -300, 0, 0);
 	DWORD dwStyle = CBS_DROPDOWNLIST;
-	dwStyle |= WS_CHILD|WS_VISIBLE;
-	m_comboZoom.Create(dwStyle,rcCombo,&m_wndToolBar, ID_DROPDOWN);
-	m_fntComboZoom.CreatePointFont(100,_T("ＭＳ ゴシック"));
+	dwStyle |= WS_CHILD | WS_VISIBLE;
+	m_comboZoom.Create(dwStyle, rcCombo, &m_wndToolBar, ID_DROPDOWN);
+	m_fntComboZoom.CreatePointFont(100, _T("ＭＳ ゴシック"));
 	m_comboZoom.SetFont(&m_fntComboZoom);
-	m_wndToolBar.SetButtonInfo(IDX_TB_ZOOMCOMBO, ID_DROPDOWN, TBBS_SEPARATOR,75);
+	m_wndToolBar.SetButtonInfo(IDX_TB_ZOOMCOMBO, ID_DROPDOWN, TBBS_SEPARATOR, 75);
 	m_wndToolBar.GetItemRect(IDX_TB_ZOOMCOMBO, &rcCombo);
-	m_comboZoom.SetWindowPos(NULL, rcCombo.left,rcCombo.top+1,0,0,
-		SWP_NOZORDER|SWP_NOACTIVATE|SWP_NOSIZE|SWP_NOCOPYBITS);
-	m_comboZoom.ModifyStyleEx(0,WS_EX_CLIENTEDGE);
-	
+	m_comboZoom.SetWindowPos(NULL, rcCombo.left, rcCombo.top + 1, 0, 0,
+		SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOCOPYBITS);
+	m_comboZoom.ModifyStyleEx(0, WS_EX_CLIENTEDGE);
+
 	m_comboZoom.AddString(_T("10%"));
 	m_comboZoom.AddString(_T("25%"));
 	m_comboZoom.AddString(_T("50%"));
@@ -322,50 +322,52 @@ void CMainFrame::addComboZoom()
 	m_comboZoom.AddString(_T("200%"));
 	m_comboZoom.AddString(_T("300%"));
 	m_comboZoom.AddString(_T("全体表示"));
-	
+
 	m_comboZoom.SetCurSel(4);
 }
 
 void CMainFrame::JointCBLine(CFrameWnd *pFrameWnd, CControlBar *pBar, CControlBar *pCB)
 {
 	DWORD dw;
-	UINT n=0;
+	UINT n = 0;
 	CRect rect;
-	
+
 	pFrameWnd->RecalcLayout();
 	pCB->GetWindowRect(&rect);
-	rect.OffsetRect(1,0);
+	rect.OffsetRect(1, 0);
 	dw = pCB->GetBarStyle();
 	n = (dw & CBRS_ALIGN_TOP) ? AFX_IDW_DOCKBAR_TOP : n;
-	n = (dw & CBRS_ALIGN_BOTTOM && n==0) ? AFX_IDW_DOCKBAR_BOTTOM : n;
-	n = (dw & CBRS_ALIGN_LEFT && n==0) ? AFX_IDW_DOCKBAR_LEFT : n;
-	n = (dw & CBRS_ALIGN_RIGHT && n==0) ? AFX_IDW_DOCKBAR_RIGHT : n;
-	
-	pFrameWnd->DockControlBar(pBar,n,&rect);
+	n = (dw & CBRS_ALIGN_BOTTOM && n == 0) ? AFX_IDW_DOCKBAR_BOTTOM : n;
+	n = (dw & CBRS_ALIGN_LEFT && n == 0) ? AFX_IDW_DOCKBAR_LEFT : n;
+	n = (dw & CBRS_ALIGN_RIGHT && n == 0) ? AFX_IDW_DOCKBAR_RIGHT : n;
+
+	pFrameWnd->DockControlBar(pBar, n, &rect);
 }
 
-BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs) 
+BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if( !CMDIFrameWnd::PreCreateWindow(cs) )
+	if (!CMDIFrameWnd::PreCreateWindow(cs))
 		return FALSE;
+
 	OSVERSIONINFO vinfo;
 	vinfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 	::GetVersionEx(&vinfo);
 	if (vinfo.dwMajorVersion >= 5) {
 		m_bCanBeTransparent = TRUE;
-	} else {
+	}
+	else {
 		m_bCanBeTransparent = FALSE;
 	}
-	
+
 	m_bTransparent = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Transparent Mode"), FALSE);
-	m_nAlphaValue = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Alpha Value"),  200);
+	m_nAlphaValue = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Alpha Value"), 200);
 	if (m_bTransparent) {
 		cs.dwExStyle |= WS_EX_LAYERED;
 	}
 	return TRUE;
 }
 
-void CMainFrame::OnAdjustAlpha() 
+void CMainFrame::OnAdjustAlpha()
 {
 	m_pSetAlphaDlg = new WndTransparencySettingsDlg;
 	m_pSetAlphaDlg->m_nLevel = m_nAlphaValue;
@@ -374,23 +376,24 @@ void CMainFrame::OnAdjustAlpha()
 	m_pSetAlphaDlg->SetFocus();
 }
 
-void CMainFrame::OnUpdateAdjustAlpha(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateAdjustAlpha(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_bTransparent);
 }
 
-void CMainFrame::OnDestroy() 
+void CMainFrame::OnDestroy()
 {
 	CMDIFrameWnd::OnDestroy();
-	
+
 	if (m_pSetAlphaDlg != NULL) {
 		if (m_nAlphaValue > 255) {
 			m_nAlphaValue = 255;
-		} else if (m_nAlphaValue < 40) {
+		}
+		else if (m_nAlphaValue < 40) {
 			m_nAlphaValue = 40;
 		}
 		AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Alpha Value"), m_nAlphaValue);
-		
+
 		m_pSetAlphaDlg->DestroyWindow();
 		delete m_pSetAlphaDlg;
 	}
@@ -410,19 +413,20 @@ void CMainFrame::MakeWindowTransparent()
 
 
 
-void CMainFrame::OnTransparentMode() 
+void CMainFrame::OnTransparentMode()
 {
 	m_bTransparent = !m_bTransparent;
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Transparent Mode"), m_bTransparent);
 	if (m_bTransparent) {
 		SetWindowLong(m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 		MakeWindowTransparent();
-	} else {
+	}
+	else {
 		SetWindowLong(m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) ^ WS_EX_LAYERED);
 	}
 }
 
-void CMainFrame::OnUpdateTransparentMode(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateTransparentMode(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_bCanBeTransparent);
 	pCmdUI->SetCheck(m_bTransparent && m_bCanBeTransparent);
@@ -464,13 +468,14 @@ BOOL CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			if (tbID == 0) {
 				m_wndToolBar.GetItemRect(m_wndToolBar.CommandToIndex(lpNMTOOLBAR->iItem), &rc);
 				m_wndToolBar.ClientToScreen(&rc);
-			} else if (tbID == 1) {
+			}
+			else if (tbID == 1) {
 				m_wndFormPalette.GetItemRect(m_wndFormPalette.CommandToIndex(lpNMTOOLBAR->iItem), &rc);
 				m_wndFormPalette.ClientToScreen(&rc);
 			}
 			pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, rc.bottom + 1, this);
 			return FALSE;
-		} 
+		}
 	}
 
 	return CMDIFrameWnd::OnNotify(wParam, lParam, pResult);
@@ -480,7 +485,7 @@ BOOL CMainFrame::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 void CMainFrame::OnMnuLsR0()
 {
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R0;
-	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage .ExtractIcon(0));
+	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(0));
 	m_wndToolBar.Invalidate();
 	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
 }
@@ -677,7 +682,7 @@ void CMainFrame::createBrushedBitmap(CBitmap* pBitmap, COLORREF rgb)
 	CDC* pDC = GetDC();
 	CDC dc;
 	dc.CreateCompatibleDC(pDC);
-	
+
 	pBitmap->CreateCompatibleBitmap(pDC, bmpRect.Width(), bmpRect.Height());
 	CBitmap * oldBmp = dc.SelectObject(pBitmap);
 	dc.FillRect(bmpRect, &bkBrush);
