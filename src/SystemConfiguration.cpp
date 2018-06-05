@@ -9,7 +9,7 @@ SystemConfiguration::SystemConfiguration(void)
 	m_OsVersion = SystemConfiguration::Unknown;
 	m_OsProduct = SystemConfiguration::UnknownProduct;
 	m_OsProssesorEdition = SystemConfiguration::x32;
-	
+
 	CreateNameDictionaries();
 	CheckEnvironment();
 }
@@ -49,7 +49,7 @@ void SystemConfiguration::CheckEnvironment()
 		}
 		return;
 	}
-	
+
 	if (osVerInfo.dwPlatformId == VER_PLATFORM_WIN32_NT) // NT系OS
 	{
 		if (osVerInfo.dwMajorVersion < 5)
@@ -84,7 +84,8 @@ void SystemConfiguration::CheckEnvironment()
 					m_OsVersion = SystemConfiguration::Windows2000;
 					if (osVerInfoEx.wProductType == VER_NT_WORKSTATION) {
 						m_OsProduct = SystemConfiguration::Professional;
-					} else {
+					}
+					else {
 						m_OsProduct = SystemConfiguration::Server;
 					}
 					break;
@@ -92,7 +93,8 @@ void SystemConfiguration::CheckEnvironment()
 					m_OsVersion = SystemConfiguration::WindowsXP;
 					if (osVerInfoEx.wProductType == VER_NT_WORKSTATION) {
 						m_OsProduct = SystemConfiguration::Professional;
-					} else {
+					}
+					else {
 						if (osVerInfoEx.wSuiteMask == VER_SUITE_PERSONAL)
 						{
 							m_OsProduct = SystemConfiguration::Home;
@@ -106,7 +108,7 @@ void SystemConfiguration::CheckEnvironment()
 					if (pGNSI != NULL) {
 						SYSTEM_INFO si;
 						pGNSI(&si);
-						if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64 || 
+						if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64 ||
 							si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64)
 						{
 							m_OsVersion = SystemConfiguration::WindowsXP;
@@ -125,16 +127,20 @@ void SystemConfiguration::CheckEnvironment()
 				if (osVerInfoEx.dwMinorVersion == 0) {
 					if (osVerInfoEx.wProductType == VER_NT_WORKSTATION) {
 						m_OsVersion = SystemConfiguration::WindowsVista;
-					} else {
+					}
+					else {
 						m_OsVersion = SystemConfiguration::Windows2008;
 					}
-				} else if (osVerInfoEx.dwMinorVersion == 1) {
+				}
+				else if (osVerInfoEx.dwMinorVersion == 1) {
 					if (osVerInfoEx.wProductType == VER_NT_WORKSTATION) {
 						m_OsVersion = SystemConfiguration::Windows7;
-					} else {
+					}
+					else {
 						m_OsVersion = SystemConfiguration::Windows2008;
 					}
-				} else if (osVerInfoEx.dwMinorVersion == 2) {
+				}
+				else if (osVerInfoEx.dwMinorVersion == 2) {
 					m_OsVersion = SystemConfiguration::Windows8;
 				}
 				else if (osVerInfoEx.dwMinorVersion == 3) {
@@ -145,7 +151,7 @@ void SystemConfiguration::CheckEnvironment()
 				}
 			}
 			else if (osVerInfoEx.dwMajorVersion == 10) {
-				
+
 				m_OsVersion = SystemConfiguration::Windows10;
 			}
 			CString m; m.Format(_T("%d + %d : %s\n"), osVerInfoEx.dwMajorVersion, osVerInfoEx.dwMinorVersion, m_VersionNames[m_OsVersion]);
@@ -189,7 +195,7 @@ CString SystemConfiguration::GetConfigurationName() const
 	{
 		name += (*it).second;
 	}
-	
+
 	if (m_OsVersion != Windows2003 && m_OsVersion != Windows2008) {
 		it = m_ProductNames.find(m_OsProduct);
 		if (it != m_ProductNames.end())

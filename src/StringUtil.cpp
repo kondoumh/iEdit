@@ -16,7 +16,7 @@ CString StringUtil::getSafeFileName(const CString& str)
 	for (int i = 0; i < str.GetLength(); i++) {
 		TCHAR a = str.GetAt(i);
 		if ((a == '|' || a == '\\') && i > 0) {
-			if (_ismbblead(str.GetAt(i-1))) {
+			if (_ismbblead(str.GetAt(i - 1))) {
 				rs += a;
 				continue;
 			}
@@ -35,9 +35,11 @@ CString StringUtil::removeCR(const CString &str)
 	for (int i = 0; i < str.GetLength(); i++) {
 		if (str[i] == '\n') {
 			;
-		} else if (str[i] == '\r') {
+		}
+		else if (str[i] == '\r') {
 			toStr += " ";
-		} else {
+		}
+		else {
 			toStr += str[i];
 		}
 	}
@@ -51,7 +53,8 @@ vector<CString> StringUtil::getLines(const CString &text)
 	for (int i = 0; i < text.GetLength(); i++) {
 		if (text[i] != '\r' && text[i] != '\n') {
 			line += text[i];
-		} else if (text[i] == '\n') {
+		}
+		else if (text[i] == '\n') {
 			lines.push_back(line);
 			line = "";
 		}
@@ -116,7 +119,7 @@ CString StringUtil::removeDependChar(LPCTSTR moji)
 			TBYTE p_ch2 = (TBYTE)strChkMoji.GetAt(nPos + 1);
 			nByte = (p_ch1 << 8) | (p_ch2);
 			// 機種依存文字 or Shift-JISでない場合
-			if (isDependChar(nByte) || (p_ch > 0xef) ) {
+			if (isDependChar(nByte) || (p_ch > 0xef)) {
 				++nPos;
 				strOKWords += _T("?");
 				continue;

@@ -57,23 +57,23 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-void OptionPageForFrame::OnCancel() 
+void OptionPageForFrame::OnCancel()
 {
 	return;
 	CDialog::OnCancel();
 }
 
-void OptionPageForFrame::OnBtnLink() 
+void OptionPageForFrame::OnBtnLink()
 {
 	updateFont(&lfLink, fntLink);
 }
 
-void OptionPageForFrame::OnBtnOutline() 
+void OptionPageForFrame::OnBtnOutline()
 {
 	updateFont(&lfOutline, fntOutline);
 }
 
-void OptionPageForFrame::OnBtnText() 
+void OptionPageForFrame::OnBtnText()
 {
 	updateFont(&lfText, fntText);
 }
@@ -86,20 +86,20 @@ void OptionPageForFrame::updateFont(LOGFONT* plf, CFont& font)
 	Invalidate();
 }
 
-void OptionPageForFrame::OnChkSaveBarState() 
+void OptionPageForFrame::OnChkSaveBarState()
 {
 	m_bSaveBarState = m_ChkSaveBarState.GetCheck();
 }
 
-void OptionPageForFrame::OnChkSaveFrame() 
+void OptionPageForFrame::OnChkSaveFrame()
 {
 	m_bSaveFrame = m_chkSaveFrame.GetCheck();
 }
 
-void OptionPageForFrame::OnPaint() 
+void OptionPageForFrame::OnPaint()
 {
 	CPaintDC dc(this);
-	
+
 	drawOLPreView(&dc);
 	drawLNPreView(&dc);
 	drawTextPreView(&dc);
@@ -125,18 +125,18 @@ void OptionPageForFrame::drawTextPreView(CDC *pDC)
 }
 
 void OptionPageForFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor) {
-	
+
 	CBrush brs(bgColor);
 	CBrush* brsOld = pDC->SelectObject(&brs);
 	pDC->FillRect(rc, &brs);
 	pDC->SelectObject(brsOld);
-	
+
 	pDC->MoveTo(rc.TopLeft());
 	pDC->LineTo(CPoint(rc.right, rc.top));
 	pDC->LineTo(rc.BottomRight());
 	pDC->LineTo(CPoint(rc.left, rc.bottom));
 	pDC->LineTo(rc.TopLeft());
-	
+
 	CFont* pOldFont = pDC->SelectObject(&font);
 	COLORREF preColor = pDC->SetTextColor(fontColor);
 	int oldBkMode = pDC->SetBkMode(TRANSPARENT);
@@ -145,7 +145,8 @@ void OptionPageForFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLOR
 	CString sSample;
 	if (lf.lfCharSet == SHIFTJIS_CHARSET) {
 		sSample = _T("A あ 亜");
-	} else {
+	}
+	else {
 		sSample = _T("AaBbYyZz");
 	}
 	pDC->DrawText(sSample, &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -157,12 +158,12 @@ void OptionPageForFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLOR
 void OptionPageForFrame::drawNWPreView(CDC *pDC)
 {
 	CRect rc(200, 255, 310, 280);
-	
+
 	CBrush brs(m_colorNWBG);
 	CBrush* brsOld = pDC->SelectObject(&brs);
 	pDC->FillRect(rc, &brs);
 	pDC->SelectObject(brsOld);
-	
+
 	pDC->MoveTo(rc.TopLeft());
 	pDC->LineTo(CPoint(rc.right, rc.top));
 	pDC->LineTo(rc.BottomRight());
@@ -170,7 +171,7 @@ void OptionPageForFrame::drawNWPreView(CDC *pDC)
 	pDC->LineTo(rc.TopLeft());
 }
 
-void OptionPageForFrame::OnBtnFclrOl() 
+void OptionPageForFrame::OnBtnFclrOl()
 {
 	CColorDialog dlg(m_colorOLFor);
 	if (dlg.DoModal() != IDOK) return;
@@ -178,7 +179,7 @@ void OptionPageForFrame::OnBtnFclrOl()
 	Invalidate();
 }
 
-void OptionPageForFrame::OnBtnBclrOl() 
+void OptionPageForFrame::OnBtnBclrOl()
 {
 	CColorDialog dlg(m_colorOLBG);
 	if (dlg.DoModal() != IDOK) return;
@@ -186,7 +187,7 @@ void OptionPageForFrame::OnBtnBclrOl()
 	Invalidate();
 }
 
-void OptionPageForFrame::OnBtnFclrLn() 
+void OptionPageForFrame::OnBtnFclrLn()
 {
 	CColorDialog dlg(m_colorLNFor);
 	if (dlg.DoModal() != IDOK) return;
@@ -194,7 +195,7 @@ void OptionPageForFrame::OnBtnFclrLn()
 	Invalidate();
 }
 
-void OptionPageForFrame::OnBtnBclrLn() 
+void OptionPageForFrame::OnBtnBclrLn()
 {
 	CColorDialog dlg(m_colorLNBG);
 	if (dlg.DoModal() != IDOK) return;
@@ -202,7 +203,7 @@ void OptionPageForFrame::OnBtnBclrLn()
 	Invalidate();
 }
 
-void OptionPageForFrame::OnBtnFclrTx() 
+void OptionPageForFrame::OnBtnFclrTx()
 {
 	CColorDialog dlg(m_colorEditFor);
 	if (dlg.DoModal() != IDOK) return;
@@ -210,7 +211,7 @@ void OptionPageForFrame::OnBtnFclrTx()
 	Invalidate();
 }
 
-void OptionPageForFrame::OnBtnBclrTx() 
+void OptionPageForFrame::OnBtnBclrTx()
 {
 	CColorDialog dlg(m_colorEditBG);
 	if (dlg.DoModal() != IDOK) return;
@@ -218,7 +219,7 @@ void OptionPageForFrame::OnBtnBclrTx()
 	Invalidate();
 }
 
-void OptionPageForFrame::OnBtnBclrNw() 
+void OptionPageForFrame::OnBtnBclrNw()
 {
 	CColorDialog dlg(m_colorNWBG);
 	if (dlg.DoModal() != IDOK) return;
@@ -226,7 +227,7 @@ void OptionPageForFrame::OnBtnBclrNw()
 	Invalidate();
 }
 
-void OptionPageForFrame::OnBtnInsertmark() 
+void OptionPageForFrame::OnBtnInsertmark()
 {
 	CColorDialog dlg(m_colorInsrtMrk);
 	if (dlg.DoModal() != IDOK) return;

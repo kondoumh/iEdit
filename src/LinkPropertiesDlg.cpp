@@ -48,10 +48,10 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL LinkPropertiesDlg::OnInitDialog() 
+BOOL LinkPropertiesDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	m_LabelFrom.SetWindowText(strFrom);
 	m_LabelTo.SetWindowText(strTo);
 	switch (styleArrow) {
@@ -78,22 +78,24 @@ BOOL LinkPropertiesDlg::OnInitDialog()
 	default:
 		m_combo.SetCurSel(0);
 	}
-	
+
 	m_edit.ReplaceSel(strComment);
-	
+
 	if (styleLine == PS_DOT) {
 		m_cmbLineStyle.SetCurSel(5);
-	} else {
+	}
+	else {
 		if (lineWidth == 0) {
 			m_cmbLineStyle.SetCurSel(0);
-		} else {
+		}
+		else {
 			m_cmbLineStyle.SetCurSel(lineWidth - 1);
 		}
 	}
 	return TRUE;
 }
 
-void LinkPropertiesDlg::OnSelchangeCombo() 
+void LinkPropertiesDlg::OnSelchangeCombo()
 {
 	switch (m_combo.GetCurSel()) {
 	case 0:
@@ -123,38 +125,40 @@ void LinkPropertiesDlg::OnSelchangeCombo()
 	}
 }
 
-void LinkPropertiesDlg::OnOK() 
+void LinkPropertiesDlg::OnOK()
 {
 	m_edit.GetWindowText(strComment);
 	CDialog::OnOK();
 }
 
 
-void LinkPropertiesDlg::OnBtnColor() 
+void LinkPropertiesDlg::OnBtnColor()
 {
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
 }
 
-void LinkPropertiesDlg::OnBtnFont() 
+void LinkPropertiesDlg::OnBtnFont()
 {
 	CFontDialog dlg(&lf);
 	dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 	if (dlg.DoModal() != IDOK) return;
 }
 
-void LinkPropertiesDlg::OnSelchangeCmbLine() 
+void LinkPropertiesDlg::OnSelchangeCmbLine()
 {
 	int index = m_cmbLineStyle.GetCurSel();
 	if (index == 0 || index == 5) {
 		lineWidth = 0;
-	} else {
-		lineWidth = index+1;
+	}
+	else {
+		lineWidth = index + 1;
 	}
 	if (index < 5) {
 		styleLine = PS_SOLID;
-	} else if (index == 5) {
+	}
+	else if (index == 5) {
 		styleLine = PS_DOT;
 	}
 }

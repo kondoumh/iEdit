@@ -70,17 +70,20 @@ BOOL ExportHtmlDlg::OnInitDialog()
 	setPathOutline();
 	if (m_xvRdNav == 0) {
 		SetRdImageEnable(FALSE);
-	} else if (m_xvRdNav == 1) {
+	}
+	else if (m_xvRdNav == 1) {
 		GetDlgItem(IDC_ED_PRF_TOC)->EnableWindow(FALSE);
 		SetRdImageEnable(TRUE);
-	} else {
+	}
+	else {
 		SetRdImageEnable(TRUE);
 		setPathNetwork();
 	}
 	if (m_xvRdText == 0) {
 		SetEdPrfTextEverynodeEnable(FALSE);
 		SetEdPrfTextSingleEnable(TRUE);
-	} else {
+	}
+	else {
 		SetEdPrfTextEverynodeEnable(FALSE);
 		SetEdPrfTextSingleEnable(TRUE);
 		setPathTextSingle();
@@ -162,7 +165,8 @@ void ExportHtmlDlg::setPathIndex()
 	prf = StringUtil::getSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathIndex = _T("index.html");
-	} else {
+	}
+	else {
 		m_pathIndex = prf + _T(".html");
 	}
 	GetDlgItem(IDC_LB_INDEX)->SetWindowText(m_pathIndex);
@@ -181,7 +185,8 @@ void ExportHtmlDlg::setPathOutline()
 	prf = StringUtil::getSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathOutline = _T("outline.html");
-	} else {
+	}
+	else {
 		m_pathOutline = prf + _T("_outline.html");
 	}
 	GetDlgItem(IDC_LB_TOC)->SetWindowText(m_pathOutline);
@@ -202,7 +207,8 @@ void ExportHtmlDlg::setPathNetwork()
 		m_pathNetwork = _T("network.html");
 		m_pathSvg = _T("network.svg");
 		m_pathPng = _T("network.png");
-	} else {
+	}
+	else {
 		m_pathNetwork = prf + _T("_network.html");
 		m_pathSvg = prf + _T("_network.svg");
 		m_pathPng = prf + _T("_network.png");
@@ -223,7 +229,8 @@ void ExportHtmlDlg::setPathTextSingle()
 	prf = StringUtil::getSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathTextSingle = _T("text.html");
-	} else {
+	}
+	else {
 		m_pathTextSingle = prf + _T("_text.html");
 	}
 	GetDlgItem(IDC_LB_TEXT_SINGLE)->SetWindowText(m_pathTextSingle);
@@ -237,7 +244,8 @@ void ExportHtmlDlg::OnEnChangeEdPrfTextEverynode()
 	prf = StringUtil::getSafeFileName(prf);
 	if (prf == "") {
 		m_xvEdPrfTextEverynode = _T("");
-	} else {
+	}
+	else {
 		m_xvEdPrfTextEverynode = prf;
 	}
 	GetDlgItem(IDC_LB_TEXT_EVERYNODE)->SetWindowText(

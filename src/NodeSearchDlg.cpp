@@ -65,26 +65,26 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL NodeSearchDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
+BOOL NodeSearchDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext)
 {
 	m_pParent = pParentWnd;
-	
+
 	return CDialog::Create(IDD, pParentWnd);
 }
 
-void NodeSearchDlg::OnOk() 
+void NodeSearchDlg::OnOk()
 {
 	return;
 }
 
-void NodeSearchDlg::OnCancel() 
+void NodeSearchDlg::OnCancel()
 {
 	m_pParent->PostMessage(WM_CLOSESRCHWINDOW, IDCANCEL);
 	m_pParent->SetFocus();
 	CDialog::OnCancel();
 }
 
-void NodeSearchDlg::OnStart() 
+void NodeSearchDlg::OnStart()
 {
 	m_combSrch.GetWindowText(m_srchString);
 	if (m_srchString == _T("")) return;
@@ -95,7 +95,7 @@ void NodeSearchDlg::OnStart()
 	m_pParent->PostMessage(WM_LISTUPNODES, 0);
 }
 
-void NodeSearchDlg::OnBtngo() 
+void NodeSearchDlg::OnBtngo()
 {
 	srchNode();
 }
@@ -108,25 +108,25 @@ void NodeSearchDlg::srchNode()
 	m_pParent->SetFocus();
 }
 
-void NodeSearchDlg::OnChklabel() 
+void NodeSearchDlg::OnChklabel()
 {
 	m_bLabel = m_chLabel.GetCheck();
 }
 
-void NodeSearchDlg::OnChklinks() 
+void NodeSearchDlg::OnChklinks()
 {
 	m_bLinks = m_ckLiinks.GetCheck();
 }
 
-void NodeSearchDlg::OnChktext() 
+void NodeSearchDlg::OnChktext()
 {
 	m_bText = m_ckText.GetCheck();
 }
 
-BOOL NodeSearchDlg::OnInitDialog() 
+BOOL NodeSearchDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	m_lcResult.InsertColumn(0, _T("項目"));
 	m_lcResult.InsertColumn(1, _T("種別"));
 	CRect rc; m_lcResult.GetClientRect(&rc);
@@ -150,7 +150,7 @@ BOOL NodeSearchDlg::OnInitDialog()
 
 void NodeSearchDlg::displayResult()
 {
-	m_lcResult.DeleteAllItems( );
+	m_lcResult.DeleteAllItems();
 	for (unsigned int i = 0; i < m_labels.size(); i++) {
 		LV_ITEM lvi;
 		lvi.iItem = i;
@@ -169,17 +169,17 @@ void NodeSearchDlg::displayResult()
 	}
 }
 
-void NodeSearchDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
+void NodeSearchDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	srchNode();
-	
+
 	*pResult = 0;
 }
 
-void NodeSearchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult) 
+void NodeSearchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	
+
 	if (pDispInfo->item.mask & LVIF_TEXT) {
 		int index = (int)pDispInfo->item.lParam;
 		switch (pDispInfo->item.iSubItem) {
@@ -190,39 +190,42 @@ void NodeSearchDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 			int state = m_labels[index].state;
 			if (state == 0) {
 				::lstrcpy(pDispInfo->item.pszText, _T("label"));
-			} else if (state == 1) {
+			}
+			else if (state == 1) {
 				::lstrcpy(pDispInfo->item.pszText, _T("text"));
-			} else if (state == 2) {
+			}
+			else if (state == 2) {
 				::lstrcpy(pDispInfo->item.pszText, _T("link"));
-			} else if (state == 3) {
+			}
+			else if (state == 3) {
 				::lstrcpy(pDispInfo->item.pszText, _T("URL"));
 			}
 			break;
 		}
 	}
-	
+
 	*pResult = 0;
 }
 
-void NodeSearchDlg::OnChkupper() 
+void NodeSearchDlg::OnChkupper()
 {
 	m_bUpper = m_ckUpper.GetCheck();
 }
 
-void NodeSearchDlg::OnSize(UINT nType, int cx, int cy) 
+void NodeSearchDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
-	
+
 	CRect rc;
 	GetClientRect(rc);
-	CRect newrc(20, m_iniLCRect.top, rc.right-15, rc.bottom - 15);
-	
+	CRect newrc(20, m_iniLCRect.top, rc.right - 15, rc.bottom - 15);
+
 	m_lcResult.MoveWindow(newrc);
-	m_lcResult.SetColumnWidth(0, newrc.Width()-70);
+	m_lcResult.SetColumnWidth(0, newrc.Width() - 70);
 	m_lcResult.SetColumnWidth(1, 70);
 }
 
-void NodeSearchDlg::OnEditchangeCombo() 
+void NodeSearchDlg::OnEditchangeCombo()
 {
 	m_combSrch.GetWindowText(m_srchString);
 	m_lcResult.DeleteAllItems();
@@ -233,7 +236,7 @@ void NodeSearchDlg::OnEditchangeCombo()
 	m_pParent->PostMessage(WM_LISTUPNODES, 0);
 }
 
-void NodeSearchDlg::OnSelchangeCombo() 
+void NodeSearchDlg::OnSelchangeCombo()
 {
 	m_combSrch.GetLBText(m_combSrch.GetCurSel(), m_srchString);
 	m_lcResult.DeleteAllItems();

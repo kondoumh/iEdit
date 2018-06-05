@@ -40,25 +40,27 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL CreateNodeDlg::OnInitDialog() 
+BOOL CreateNodeDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	GetWindowRect(&iniRect);
 	if (m_iniPt.x != -1 && m_iniPt.y != -1) {
 		MoveWindow(m_iniPt.x, m_iniPt.y, iniRect.Width(), iniRect.Height(), TRUE);
 	}
-	
+
 	if (m_strcn == _T("")) {
 		m_editName.SetWindowText(_T("新しいノード"));
-	} else if (m_strcn == _T("ノード")) {
+	}
+	else if (m_strcn == _T("ノード")) {
 		m_editName.SetWindowText(_T("ノード"));
-	} else {
+	}
+	else {
 		PostMessage(WM_SETCHARDATA, 0);
 	}
 	return TRUE;
 }
 
-void CreateNodeDlg::OnClose() 
+void CreateNodeDlg::OnClose()
 {
 	MoveWindow(iniRect.left, iniRect.top, iniRect.Width(), iniRect.Height(), TRUE);
 	CDialog::OnClose();

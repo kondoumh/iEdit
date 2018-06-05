@@ -89,7 +89,7 @@ void EditorView::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs) 
+BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	BOOL shwHScroll = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Show HScroll"), FALSE);
 	cs.style |= WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL;
@@ -99,7 +99,7 @@ BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs)
 	return CEditView::PreCreateWindow(cs);
 }
 
-void EditorView::OnInitialUpdate() 
+void EditorView::OnInitialUpdate()
 {
 	CEditView::OnInitialUpdate();
 	CString t = GetDocument()->getSelectedNodeText();
@@ -109,9 +109,9 @@ void EditorView::OnInitialUpdate()
 	initSizeChar();
 }
 
-void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	DWORD curKey = 	GetDocument()->getSelectedNodeKey();
+	DWORD curKey = GetDocument()->getSelectedNodeKey();
 	m_bPreUpdateReplace = false;
 	if (curKey != m_preKey) {
 		m_bPreUpdateReplace = true;
@@ -120,7 +120,7 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		CString t = GetDocument()->getSelectedNodeText();
 		GetEditCtrl().SetWindowText(t);
 	}
-	
+
 	iHint* ph = NULL;
 	if (pHint != NULL) {
 		ph = reinterpret_cast<iHint*>(pHint);
@@ -139,7 +139,7 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	}
 }
 
-int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CEditView::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -147,7 +147,7 @@ int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_bkColor = app->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), app->m_colorTextViewBg);
 	m_textColor = app->GetProfileInt(REGS_FRAME, _T("Edit forColor"), app->m_colorTextViewFg);
 	m_hBrsBack.CreateSolidBrush(m_bkColor);
-	
+
 	setViewFont();
 	setTabStop();
 	return 0;
@@ -167,25 +167,25 @@ void EditorView::initSizeChar()
 	m_nCaretLine = GetCaretLine();
 }
 
-void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
-	
+
 	if (nChar == VK_ESCAPE) {
 		GetDocument()->selChanged(m_preKey, false, GetDocument()->isShowSubBranch());
 	}
-	
+
 	CEditView::OnKeyUp(nChar, nRepCnt, nFlags);
 }
 
-void EditorView::OnDelete() 
+void EditorView::OnDelete()
 {
 	GetEditCtrl().SendMessage(WM_KEYDOWN, VK_DELETE, VK_DELETE);
 	GetDocument()->SetModifiedFlag();
 }
 
-void EditorView::OnUpdateDelete(CCmdUI* pCmdUI) 
+void EditorView::OnUpdateDelete(CCmdUI* pCmdUI)
 {
 }
 
@@ -207,7 +207,8 @@ void EditorView::setViewFont()
 	CFont *pFont = GetFont();
 	if (pFont != NULL) {
 		pFont->GetObject(sizeof(LOGFONT), &lf);
-	} else {
+	}
+	else {
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
 	CString defaultFont = _T("MS UI Gothic");
@@ -221,41 +222,41 @@ void EditorView::setViewFont()
 	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Italic"), FALSE);
 	lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 UnderLine"), FALSE);
 	lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 StrikeOut"), FALSE);
-	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 CharSet"), SHIFTJIS_CHARSET);
+	lf.lfCharSet = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 CharSet"), SHIFTJIS_CHARSET);
 	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font3 Weight"), FW_NORMAL);
-	
+
 	m_font.CreateFontIndirect(&lf);
 	SetFont(&m_font, TRUE);
-	
+
 	initSizeChar();
 }
 
-void EditorView::OnEditLabel() 
+void EditorView::OnEditLabel()
 {
 }
 
-void EditorView::OnEditCut() 
+void EditorView::OnEditCut()
 {
 	GetEditCtrl().Cut();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
-void EditorView::OnUpdateEditCut(CCmdUI* pCmdUI) 
+void EditorView::OnUpdateEditCut(CCmdUI* pCmdUI)
 {
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
 	pCmdUI->Enable(start < end);
 }
 
-void EditorView::OnEditPaste() 
+void EditorView::OnEditPaste()
 {
 	GetEditCtrl().Paste();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
-void EditorView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
+void EditorView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 {
 	if (!::OpenClipboard(m_hWnd)) {
 		pCmdUI->Enable(FALSE);
@@ -266,37 +267,37 @@ void EditorView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 	pCmdUI->Enable(cf != 0);
 }
 
-void EditorView::OnEditUndo() 
+void EditorView::OnEditUndo()
 {
 	GetEditCtrl().Undo();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
-void EditorView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
+void EditorView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(GetEditCtrl().CanUndo());
 }
 
-void EditorView::OnEditClear() 
+void EditorView::OnEditClear()
 {
 	GetEditCtrl().Clear();
 	CString t; GetEditCtrl().GetWindowText(t);
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
-void EditorView::OnUpdateEditClear(CCmdUI* pCmdUI) 
+void EditorView::OnUpdateEditClear(CCmdUI* pCmdUI)
 {
 	int start, end;
 	GetEditCtrl().GetSel(start, end);
 	pCmdUI->Enable(start < end);
 }
 
-void EditorView::OnContextMenu(CWnd* pWnd, CPoint point) 
+void EditorView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	CMenu menu;
 	menu.LoadMenu(IDR_CONTEXT);
-	
+
 	CMenu* pPopup = menu.GetSubMenu(6);
 	if (point.x < 0 || point.y < 0) {
 		CRect rc; GetWindowRect(&rc);
@@ -306,7 +307,7 @@ void EditorView::OnContextMenu(CWnd* pWnd, CPoint point)
 	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, AfxGetMainWnd());
 }
 
-void EditorView::OnEditFind() 
+void EditorView::OnEditFind()
 {
 	CString cText; GetEditCtrl().GetWindowText(cText);
 	int start, end;
@@ -321,11 +322,11 @@ void EditorView::OnEditFind()
 	m_pFindReplacedlg->ShowWindow(SW_SHOW);
 }
 
-void EditorView::OnUpdateEditFind(CCmdUI* pCmdUI) 
+void EditorView::OnUpdateEditFind(CCmdUI* pCmdUI)
 {
 }
 
-void EditorView::OnEditReplace() 
+void EditorView::OnEditReplace()
 {
 	CString cText; GetEditCtrl().GetWindowText(cText);
 	int start, end;
@@ -340,7 +341,7 @@ void EditorView::OnEditReplace()
 	m_pFindReplacedlg->ShowWindow(SW_SHOW);
 }
 
-void EditorView::OnUpdateEditReplace(CCmdUI* pCmdUI) 
+void EditorView::OnUpdateEditReplace(CCmdUI* pCmdUI)
 {
 }
 
@@ -354,14 +355,15 @@ void EditorView::OnFindNext(LPCTSTR lpszFind, BOOL bNext, BOOL bCase)
 		cText.MakeLower();
 		findStr.MakeLower();
 	}
-	
+
 	if (bNext) {
 		CString searchText = cText.Right(cText.GetLength() - nEnd);
 		int ns = searchText.Find(findStr);
 		if (ns != -1) {
 			GetEditCtrl().SetSel(nEnd + ns, nEnd + ns + findStr.GetLength());
 		}
-	} else {
+	}
+	else {
 		CString searchText = cText.Left(nStart);
 		for (int i = nStart - findStr.GetLength(); i > 0; i--) {
 			if (searchText.Right(searchText.GetLength() - i).Find(findStr) != -1) {
@@ -393,7 +395,7 @@ void EditorView::OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR 
 		cText.MakeLower();
 		findStr.MakeLower();
 	}
-	
+
 	CString searchText = cText.Right(cText.GetLength() - nStart);
 	int ns = searchText.Find(findStr);
 	if (ns != -1) {
@@ -404,12 +406,12 @@ void EditorView::OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR 
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
-HBRUSH EditorView::CtlColor(CDC* pDC, UINT nCtlColor) 
+HBRUSH EditorView::CtlColor(CDC* pDC, UINT nCtlColor)
 {
 	pDC->SetBkColor(m_bkColor);
 	pDC->SetTextColor(m_textColor);
 	return m_hBrsBack;
-	
+
 	return NULL;
 }
 
@@ -500,14 +502,14 @@ void EditorView::DrawCaretLine(BOOL bInPaint)
 	m_nCaretLine = nLine;
 }
 
-void EditorView::OnPaint() 
+void EditorView::OnPaint()
 {
 	Default();
 	if (m_bDrawUnderLine && m_bCanPaint)
 		DrawCaretLine(TRUE);
 }
 
-void EditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void EditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	Default();
 	int nLine = GetCaretLine();
@@ -528,21 +530,21 @@ void EditorView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 }
 
-void EditorView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void EditorView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	Default();
 	if (m_bDrawUnderLine && m_bCanPaint)
 		DrawCaretLine();
 }
 
-void EditorView::OnLButtonDown(UINT nFlags, CPoint point) 
+void EditorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	Default();
 	if (m_bDrawUnderLine && m_bCanPaint)
 		DrawCaretLine();
 }
 
-void EditorView::OnMouseMove(UINT nFlags, CPoint point) 
+void EditorView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	Default();
 	if (nFlags & MK_LBUTTON) {
@@ -552,10 +554,10 @@ void EditorView::OnMouseMove(UINT nFlags, CPoint point)
 		InvalidateRect(rect, FALSE);
 		UpdateWindow();
 		m_nCaretLine = nLine;
-	}	
+	}
 }
 
-void EditorView::OnChange() 
+void EditorView::OnChange()
 {
 	GetDocument()->SetModifiedFlag();
 }

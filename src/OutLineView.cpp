@@ -60,7 +60,8 @@ struct copyLabels : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 		l.key = tree.GetItemData(item);
 		if (tree.GetParentItem(item) != NULL) {
 			l.parent = tree.GetItemData(tree.GetParentItem(item));
-		} else {
+		}
+		else {
 			l.parent = tree.GetItemData(tree.GetRootItem());
 		}
 		l.name = tree.GetItemText(item);
@@ -98,7 +99,7 @@ struct copyKeyVec : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 //     tree 巡回アルゴリズム treeview_for_each            //
 ////////////////////////////////////////////////////////////
 template<class BinaryFunction>
-BinaryFunction treeview_for_each(CTreeCtrl& tree, BinaryFunction function, HTREEITEM item=0)
+BinaryFunction treeview_for_each(CTreeCtrl& tree, BinaryFunction function, HTREEITEM item = 0)
 {
 	HTREEITEM hItem;
 	if (item == 0) {
@@ -116,7 +117,7 @@ BinaryFunction treeview_for_each(CTreeCtrl& tree, BinaryFunction function, HTREE
 }
 
 template<class BinaryFunction>
-BinaryFunction treeview_for_each2(CTreeCtrl& tree, BinaryFunction function, HTREEITEM item=0)
+BinaryFunction treeview_for_each2(CTreeCtrl& tree, BinaryFunction function, HTREEITEM item = 0)
 {
 	HTREEITEM hItem;
 	if (item == 0) {
@@ -134,7 +135,7 @@ BinaryFunction treeview_for_each2(CTreeCtrl& tree, BinaryFunction function, HTRE
 //        tree 検索アルゴリズム treeview_find             //
 ////////////////////////////////////////////////////////////
 template<class Predicate>
-HTREEITEM treeview_find(CTreeCtrl& tree, Predicate pred, HTREEITEM item=0)
+HTREEITEM treeview_find(CTreeCtrl& tree, Predicate pred, HTREEITEM item = 0)
 {
 	HTREEITEM hItem;
 	if (item == 0) {
@@ -157,15 +158,15 @@ HTREEITEM treeview_find(CTreeCtrl& tree, Predicate pred, HTREEITEM item=0)
 }
 
 // フォルダ選択ダイアログ用コールバックプロシージャ
-static int _stdcall FolderDlgCallBackProc( 
+static int _stdcall FolderDlgCallBackProc(
 	HWND hWnd, UINT uiMsg, LPARAM lParam, LPARAM lpData)
 {
-	if(uiMsg == BFFM_INITIALIZED){
-		if( lpData != NULL){
-			SendMessage( hWnd, 
-					BFFM_SETSELECTION, 
-					TRUE, 
-					lpData );
+	if (uiMsg == BFFM_INITIALIZED) {
+		if (lpData != NULL) {
+			SendMessage(hWnd,
+				BFFM_SETSELECTION,
+				TRUE,
+				lpData);
 		}
 	}
 	return(0);
@@ -279,7 +280,7 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_UPDATE_COMMAND_UI(ID_EXPORT_TO_TEXT, &OutlineView::OnUpdateExportToText)
 	ON_COMMAND(ID_EXPORT_TO_XML, &OutlineView::OnExportToXml)
 	ON_UPDATE_COMMAND_UI(ID_EXPORT_TO_XML, &OutlineView::OnUpdateExportToXml)
-	END_MESSAGE_MAP()
+END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // OutlineView クラスの構築/消滅
@@ -301,7 +302,7 @@ OutlineView::OutlineView()
 	m_hSiblingPreMove = NULL;
 	m_bNodeSel = false;
 	m_exportOption = { 0, 0, 0, 0, 0, _T("") };
-	m_textExportOption = {0, 0, 0, FALSE, FALSE};
+	m_textExportOption = { 0, 0, 0, FALSE, FALSE };
 }
 
 OutlineView::~OutlineView()
@@ -325,15 +326,16 @@ void OutlineView::OnDraw(CDC* pDC)
 void OutlineView::OnInitialUpdate()
 {
 	CTreeView::OnInitialUpdate();
-	
+
 	if (GetDocument()->isOldBinary() || GetDocument()->getSerialVersion() <= 1) {
 		treeConstruct();
-	} else {
+	}
+	else {
 		treeConstruct2();
 	}
-	
+
 	doColorSetting(); // 背景色や文字色の設定
-	
+
 	// SubBranch表示状態のリストア
 	if (GetDocument()->isShowSubBranch()) {
 		int branchMode = GetDocument()->getInitialBranchMode();
@@ -346,7 +348,8 @@ void OutlineView::OnInitialUpdate()
 			GetDocument()->setVisibleNodes(ks);
 			GetDocument()->setShowBranch(tree().GetItemData(m_hItemShowRoot));
 			tree().SetItemImage(m_hItemShowRoot, 1, 1);
-		} else if (branchMode == 2) {
+		}
+		else if (branchMode == 2) {
 			treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
 			GetDocument()->setVisibleNodes(ks);
 			GetDocument()->setShowBranch(tree().GetItemData(m_hItemShowRoot));
@@ -396,11 +399,11 @@ iEditDoc* OutlineView::GetDocument() // 非デバッグ バージョンはイン
 /////////////////////////////////////////////////////////////////////////////
 // OutlineView クラスのメッセージ ハンドラ
 
-int OutlineView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+int OutlineView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CTreeView::OnCreate(lpCreateStruct) == -1)
 		return -1;
-	
+
 	m_imgList.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, 1);
 	CBitmap images;
 	images.LoadBitmap(IDB_TREE);
@@ -420,7 +423,7 @@ void OutlineView::treeConstruct()
 	iEditDoc* pDoc = GetDocument();
 	Labels ls;
 	pDoc->copyNodeLabels(ls);
-	
+
 	HTREEITEM hRoot = tree().InsertItem(ls[0].name, 0, 0);
 	tree().SetItemData(hRoot, ls[0].key);
 	tree().SetItemState(hRoot, ls[0].state, TVIS_EXPANDED);
@@ -435,7 +438,7 @@ void OutlineView::treeConstruct()
 				preKey = ls[i].parent;
 			}
 		}
-		
+
 		HTREEITEM hnew = tree().InsertItem(ls[i].name, 0, 0, hPreParent);
 		tree().SetItemData(hnew, ls[i].key);
 		tree().SetItemState(hnew, ls[i].state, TVIS_EXPANDED);
@@ -454,20 +457,20 @@ void OutlineView::treeConstruct2()
 	HTREEITEM hRoot = tree().InsertItem(ls[0].name, 0, 0);
 	tree().SetItemData(hRoot, ls[0].key);
 	tree().SetItemState(hRoot, ls[0].state, TVIS_EXPANDED);
-//	tree().SetItemImage(hRoot, ls[0].treeIconId, ls[0].treeIconId);
-	// Rootのイメージをシリアル化で再現するとネットワークビューに何も表示されないのでコメントアウト
-	
+	//	tree().SetItemImage(hRoot, ls[0].treeIconId, ls[0].treeIconId);
+		// Rootのイメージをシリアル化で再現するとネットワークビューに何も表示されないのでコメントアウト
+
 	DWORD preKey = 0;
 	HTREEITEM hParent = tree().GetRootItem();
 	HTREEITEM hSel = hParent;
 	HTREEITEM hPrevNew = tree().GetRootItem();
 	int prevLevel = 0;
-	
+
 	HTREEITEM hNew = hRoot;
 	for (unsigned int i = 1; i < ls.size(); i++) {
 		if (prevLevel > ls[i].level) {
 			unsigned int diff = prevLevel - ls[i].level;
-			
+
 			HTREEITEM hIt = hPrevNew;
 			HTREEITEM hItParent = tree().GetParentItem(hIt);
 			for (unsigned int u = 0; u <= diff; u++) {
@@ -477,25 +480,29 @@ void OutlineView::treeConstruct2()
 			if (ls[i].parent == tree().GetItemData(hItParent)) {
 				hNew = tree().InsertItem(ls[i].name, 0, 0, hItParent);
 				hParent = hItParent;
-			} else {
+			}
+			else {
 				AfxMessageBox(_T("キーが一致しませんa"));
 			}
 			preKey = ls[i].parent;
-		} else if (prevLevel < ls[i].level) {
+		}
+		else if (prevLevel < ls[i].level) {
 			if (ls[i].parent == preKey) {
 				hNew = tree().InsertItem(ls[i].name, 0, 0, hPrevNew);
 				hParent = hPrevNew;
-			} else {
+			}
+			else {
 				AfxMessageBox(_T("キーが一致しませんb"));
 			}
-		} else {
+		}
+		else {
 			hNew = tree().InsertItem(ls[i].name, 0, 0, hParent, hPrevNew);
 		}
 		tree().SetItemData(hNew, ls[i].key);
 		tree().SetItemState(hNew, ls[i].state, TVIS_EXPANDED);
 		tree().SetItemImage(hNew, ls[i].treeIconId, ls[i].treeIconId);
 		if (ls[i].state & TVIS_SELECTED) hSel = hNew;
-		
+
 		preKey = ls[i].key;
 		hPrevNew = hNew;
 		prevLevel = ls[i].level;
@@ -510,7 +517,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 	iEditDoc* pDoc = GetDocument();
 	Labels ls;
 	pDoc->copyNodeLabels(ls);
-	
+
 	int loop = ls.size();
 	ASSERT(loop >= 0);
 	ProceedingDlg prcdlg;
@@ -518,12 +525,12 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 	prcdlg.m_ProcName.SetWindowText(_T("登録中"));
 	prcdlg.m_ProgProc.SetStep(1); // プログレスバーの初期設定
 	prcdlg.m_ProgProc.SetRange(0, loop);
-	
+
 	HTREEITEM hRoot = findKeyItem(rootKey, tree().GetRootItem());
 	DWORD preKey = rootKey;
 	HTREEITEM hPreParent = hRoot;
 	HTREEITEM hsel = hPreParent;
-	
+
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		if (ls[i].parent != preKey) {
 			HTREEITEM hParent = findKeyItem(ls[i].parent, tree().GetRootItem());
@@ -543,7 +550,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 {
 	iEditDoc* pDoc = GetDocument();
-	
+
 	HTREEITEM hRoot = findKeyItem(rootKey, tree().GetRootItem());
 	HTREEITEM hNew;
 	if (addNodes.size() > 0) {
@@ -554,28 +561,28 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 		addNodes[0].setParent(tree().GetItemData(hRoot));
 		GetDocument()->addNode2(addNodes[0]);
 	}
-	
+
 	int loop = addNodes.size() - 1;
 	if (loop <= 0) return;
-	
+
 	ProceedingDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
 	prcdlg.m_ProcName.SetWindowText(_T("登録中"));
 	prcdlg.m_ProgProc.SetStep(1); // プログレスバーの初期設定
 	prcdlg.m_ProgProc.SetRange(0, loop);
-	
+
 	DWORD preKey = rootKey;
 	HTREEITEM hParent = hRoot;
 	HTREEITEM hSel = hParent;
 	int prevLevel = addNodes[0].getLevel();
 	HTREEITEM hPrevNew = hNew;
 	for (unsigned int i = 1; i < addNodes.size(); i++) {
-		preKey = addNodes[i-1].getKey();
+		preKey = addNodes[i - 1].getKey();
 		hPrevNew = hNew;
-		prevLevel = addNodes[i-1].getLevel();
+		prevLevel = addNodes[i - 1].getLevel();
 		if (prevLevel > addNodes[i].getLevel()) {
 			unsigned int diff = prevLevel - addNodes[i].getLevel();
-			
+
 			HTREEITEM hIt = hPrevNew;
 			HTREEITEM hItParent = tree().GetParentItem(hIt);
 			for (unsigned int u = 0; u <= diff; u++) {
@@ -584,27 +591,29 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 			}
 			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hItParent);
 			hParent = hItParent;
-		} else if (prevLevel < addNodes[i].getLevel()) {
+		}
+		else if (prevLevel < addNodes[i].getLevel()) {
 			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hPrevNew);
 			hParent = hPrevNew;
-		} else {
+		}
+		else {
 			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hParent, hPrevNew);
 		}
 		addNodes[i].setParent(tree().GetItemData(hParent));
 		GetDocument()->addNode2(addNodes[i]);
 		tree().SetItemData(hNew, addNodes[i].getKey());
 		tree().SetItemImage(hNew, 0, 0);
-		
+
 		prcdlg.m_ProgProc.StepIt(); // プログレスバーを更新
 	}
-	
+
 	tree().SelectItem(hSel);
 	iHint h; h.event = iHint::reflesh;
 	GetDocument()->UpdateAllViews(NULL, (LPARAM)tree().GetItemData(curItem()), &h);
 }
 
 
-HTREEITEM OutlineView::findKeyItem(DWORD key, HTREEITEM item=NULL)
+HTREEITEM OutlineView::findKeyItem(DWORD key, HTREEITEM item = NULL)
 {
 	HTREEITEM hItem;
 	if (item == 0) {
@@ -626,37 +635,38 @@ HTREEITEM OutlineView::findKeyItem(DWORD key, HTREEITEM item=NULL)
 	return NULL;
 }
 
-void OutlineView::OnContextMenu(CWnd* pWnd, CPoint point) 
+void OutlineView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
 	CMenu menu;
 	menu.LoadMenu(IDR_CONTEXT);
-	
+
 	CMenu* pPopup;
 	if (!m_bHitR && point.x > 0 && point.y > 0) {
 		return;
-	} else {
+	}
+	else {
 		pPopup = menu.GetSubMenu(0);
 	}
-	
+
 	if (m_bAddingLink) {
 		m_bAddingLink = false;
 		return;
 	}
-	
+
 	ASSERT(pPopup != NULL);
 	if (point.x < 0 || point.y < 0) {
 		CRect r; GetWindowRect(&r);
 		point = r.TopLeft();
 		tree().GetItemRect(curItem(), &r, TRUE);
-		CPoint p; p.x = (r.left + r.right)/2; p.y = (r.top + r.bottom)/2;
+		CPoint p; p.x = (r.left + r.right) / 2; p.y = (r.top + r.bottom) / 2;
 		point += p;
 	}
 	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, AfxGetMainWnd());
 }
 
-void OutlineView::OnRButtonDown(UINT nFlags, CPoint point) 
+void OutlineView::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
@@ -664,31 +674,31 @@ void OutlineView::OnRButtonDown(UINT nFlags, CPoint point)
 	if (m_bAddingLink) {
 		m_bAddingLink = false;
 	}
-	
+
 	m_bHitR = false;
-	
+
 	TV_HITTESTINFO hitTestInfo;
 	hitTestInfo.pt = point;
 	tree().HitTest(&hitTestInfo);
-	
+
 	if (hitTestInfo.flags & TVHT_ONITEMRIGHT || hitTestInfo.flags & TVHT_ONITEMINDENT ||
 		hitTestInfo.flags & TVHT_ONITEMBUTTON || hitTestInfo.flags & TVHT_NOWHERE) {
 		CTreeView::OnRButtonDown(nFlags, point);
 		return;
 	}
-	
+
 	if (hitTestInfo.hItem != 0) m_bHitR = true;
 	tree().SelectItem(hitTestInfo.hItem);
 }
 
 ///////////////////////////
 // 子ノード追加
-void OutlineView::OnAddChild() 
+void OutlineView::OnAddChild()
 {
 	if (m_bAdding) return;
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
-	
+
 	m_bAdding = true;
 	m_bAddingChild = true;
 	GetDocument()->disableUndo();
@@ -700,18 +710,18 @@ void OutlineView::OnAddChild()
 	tree().EditLabel(newItem);
 }
 
-void OutlineView::OnUpdateAddChild(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateAddChild(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!m_bAdding);
 }
 
-void OutlineView::OnAddSibling() 
+void OutlineView::OnAddSibling()
 {
 	if (m_bAdding) return;
-	
+
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
-	
+
 	m_bAdding = true;
 	m_bAddingChild = false;
 	GetDocument()->disableUndo();
@@ -727,12 +737,12 @@ void OutlineView::OnAddSibling()
 	tree().EditLabel(newItem);
 }
 
-void OutlineView::OnUpdateAddSibling(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateAddSibling(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(curItem() != tree().GetRootItem());
 }
 
-void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult) 
+void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
 	int style = GetDocument()->getSelectedNodeTextStyle();
@@ -751,12 +761,12 @@ void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult) 
+void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
 	m_bLabelEditting = false;
 	CString editString = pTVDispInfo->item.pszText;
-	
+
 	iEditDoc* pDoc = GetDocument();
 	if (!m_bAdding) {
 		// ラベルが編集された場合
@@ -765,24 +775,25 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 			tree().SetItem(&pTVDispInfo->item);
 			pDoc->setKeyNodeName(tree().GetItemData(curItem()), tree().GetItemText(pTVDispInfo->item.hItem));
 		}
-	} else {
+	}
+	else {
 		// ラベルが追加された場合
 		if (editString.GetLength() > 256) {
 			lstrcpy(pTVDispInfo->item.pszText, editString.Left(255));
 		}
-		
+
 		if (editString != _T("")) {
 			pTVDispInfo->item.mask = TVIF_TEXT;
 			tree().SetItem(&pTVDispInfo->item);
 		}
-		
+
 		label l;
 		l.name = tree().GetItemText(pTVDispInfo->item.hItem);
 		l.key = pDoc->getUniqKey();
-	//	tree().SetItemData(tree().GetSelectedItem(), l.key); // バグの温床 curItem() != NewItemの場合がある
+		//	tree().SetItemData(tree().GetSelectedItem(), l.key); // バグの温床 curItem() != NewItemの場合がある
 		tree().SetItemData(m_HNew, l.key);
 		l.parent = tree().GetItemData(tree().GetParentItem(m_HNew));
-		
+
 		DWORD keyInherit = l.parent;
 		if (!m_bAddingChild) {
 			keyInherit = tree().GetItemData(tree().GetPrevSiblingItem(tree().GetSelectedItem()));
@@ -795,14 +806,15 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 		if (pApp->m_rgsNode.bInheritSibling && !m_bAddingChild) {
 			binherit = true;
 		}
-		
+
 		pDoc->addNode(l, keyInherit, binherit);
-		
+
 		m_bAdding = false;
 		int branchMode = getBranchMode();
 		if (branchMode == 0) {
 			pDoc->selChanged(tree().GetItemData(curItem()));
-		} else {
+		}
+		else {
 			if (isPosterityOF(m_hItemShowRoot, curItem())) {
 				// showBranchモードのiEditDocメソッドを呼ぶ
 				pDoc->selChanged(tree().GetItemData(curItem()), m_bNodeSel, true);
@@ -819,7 +831,8 @@ void OutlineView::treeToSequence(Labels &ls)
 	if (m_opTreeOut == 0) {
 		setAllNodeLevels(); // level 設定
 		treeview_for_each(tree(), copyLabels(ls), tree().GetRootItem());
-	} else if (m_opTreeOut == 1) {
+	}
+	else if (m_opTreeOut == 1) {
 		setSubNodeLevels(); // level 設定
 		label l;
 		l.key = tree().GetItemData(tree().GetSelectedItem());
@@ -832,7 +845,8 @@ void OutlineView::treeToSequence(Labels &ls)
 		if (tree().ItemHasChildren(tree().GetSelectedItem())) {
 			treeview_for_each(tree(), copyLabels(ls), tree().GetChildItem(tree().GetSelectedItem()));
 		}
-	} else if (m_opTreeOut == 2) {
+	}
+	else if (m_opTreeOut == 2) {
 		setSubNodeLevels(); // level 設定
 		label l;
 		l.key = tree().GetItemData(tree().GetSelectedItem());
@@ -861,43 +875,46 @@ serialVec OutlineView::getDrawOrder(const bool bShowSubBranch) const
 		if (tree().GetRootItem() == tree().GetSelectedItem()) {
 			vec.push_back(0);
 			treeview_for_each2(tree(), copyKeyVec(vec), tree().GetChildItem(tree().GetSelectedItem()));
-		} else {
+		}
+		else {
 			HTREEITEM hParent = tree().GetParentItem(tree().GetSelectedItem());
 			if (hParent == tree().GetRootItem()) {
 				vec.push_back(0);
 			}
 			treeview_for_each2(tree(), copyKeyVec(vec), tree().GetChildItem(hParent));
 		}
-	} else {
+	}
+	else {
 		int branchMode = getBranchMode();
 		if (branchMode == 2) {
 			treeview_for_each(tree(), copyKeyVec(vec), m_hItemShowRoot);
-		} else if (branchMode == 1) {
+		}
+		else if (branchMode == 1) {
 			treeview_for_each2(tree(), copyKeyVec(vec), tree().GetChildItem(m_hItemShowRoot));
 		}
 	}
 	return vec;
 }
 
-void OutlineView::OnEditLabel() 
+void OutlineView::OnEditLabel()
 {
 	tree().EditLabel(curItem());
 }
 
-void OutlineView::OnUpdateEditLabel(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateEditLabel(CCmdUI* pCmdUI)
 {
 }
 
-void OutlineView::OnLebelUp() 
+void OutlineView::OnLebelUp()
 {
 	if (m_bAdding) return;
 	HTREEITEM hParent = tree().GetParentItem(curItem());
 	HTREEITEM hGrdParent = tree().GetParentItem(hParent);
 	HTREEITEM hcur = curItem();
-	
+
 	m_hParentPreMove = tree().GetParentItem(curItem());
 	m_hSiblingPreMove = tree().GetPrevSiblingItem(curItem());
-	
+
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(hcur), 0, 0, hGrdParent, hParent);
 	tree().SetItemState(hNew, tree().GetItemState(hcur, TVIS_EXPANDED), TVIS_EXPANDED);
 	tree().SetItemData(hNew, tree().GetItemData(hcur));
@@ -905,7 +922,7 @@ void OutlineView::OnLebelUp()
 	tree().SetItemImage(hNew, nImage, nImage);
 	tree().Expand(hGrdParent, TVE_EXPAND);
 	GetDocument()->setKeyNodeParent(tree().GetItemData(hcur), tree().GetItemData(hGrdParent));
-	
+
 	if (tree().ItemHasChildren(hcur)) {
 		copySubNodes(tree().GetChildItem(hcur), hNew);
 	}
@@ -915,19 +932,19 @@ void OutlineView::OnLebelUp()
 	tree().SelectItem(hNew);
 }
 
-void OutlineView::OnUpdateLebelUp(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateLebelUp(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(curItem() != tree().GetRootItem() && tree().GetParentItem(curItem()) != tree().GetRootItem());
 }
 
-void OutlineView::OnLebelDown() 
+void OutlineView::OnLebelDown()
 {
 	if (m_bAdding) return;
 	HTREEITEM hcur = curItem();
-	
+
 	m_hParentPreMove = tree().GetParentItem(curItem());
 	m_hSiblingPreMove = tree().GetPrevSiblingItem(curItem());
-	
+
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(hcur), 0, 0, tree().GetPrevSiblingItem(hcur));
 	tree().SetItemState(hNew, tree().GetItemState(hcur, TVIS_EXPANDED), TVIS_EXPANDED);
 	tree().SetItemData(hNew, tree().GetItemData(hcur));
@@ -935,7 +952,7 @@ void OutlineView::OnLebelDown()
 	tree().SetItemImage(hNew, nImage, nImage);
 	tree().Expand(tree().GetPrevSiblingItem(hcur), TVE_EXPAND);
 	GetDocument()->setKeyNodeParent(tree().GetItemData(hcur), tree().GetItemData(tree().GetPrevSiblingItem(hcur)));
-	
+
 	if (tree().ItemHasChildren(hcur)) {
 		copySubNodes(tree().GetChildItem(hcur), hNew);
 	}
@@ -946,26 +963,27 @@ void OutlineView::OnLebelDown()
 	tree().SelectItem(hNew);
 }
 
-void OutlineView::OnUpdateLebelDown(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateLebelDown(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(curItem() != tree().GetRootItem() && tree().GetPrevSiblingItem(curItem()) != NULL);
 }
 
-void OutlineView::OnOrderUp() 
+void OutlineView::OnOrderUp()
 {
 	if (m_bAdding) return;
 	HTREEITEM hcur = curItem();
 	HTREEITEM hpre = tree().GetPrevSiblingItem(curItem());
 	HTREEITEM hprepre = tree().GetPrevSiblingItem(hpre);
 	HTREEITEM hNew;
-	
+
 	// Undo Info
 	m_hParentPreMove = tree().GetParentItem(curItem());
 	m_hSiblingPreMove = hpre;
-	
+
 	if (hprepre != NULL) {
 		hNew = tree().InsertItem(tree().GetItemText(hcur), 0, 0, tree().GetParentItem(hcur), hprepre);
-	} else {
+	}
+	else {
 		hNew = tree().InsertItem(tree().GetItemText(hcur), 0, 0, tree().GetParentItem(hcur), TVI_FIRST);
 	}
 	tree().SetItemData(hNew, tree().GetItemData(hcur));
@@ -983,20 +1001,20 @@ void OutlineView::OnOrderUp()
 	GetDocument()->SetModifiedFlag();
 }
 
-void OutlineView::OnUpdateOrderUp(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateOrderUp(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(tree().GetPrevSiblingItem(curItem()) != NULL);
 }
 
-void OutlineView::OnOrderDown() 
+void OutlineView::OnOrderDown()
 {
 	if (m_bAdding) return;
 	HTREEITEM hcur = curItem();
-	
+
 	// Undo Info
 	m_hParentPreMove = tree().GetParentItem(curItem());
 	m_hSiblingPreMove = tree().GetPrevSiblingItem(curItem());
-	
+
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(hcur), 0, 0, tree().GetParentItem(hcur), tree().GetNextSiblingItem(hcur));
 	tree().SetItemData(hNew, tree().GetItemData(hcur));
 	int nImage; tree().GetItemImage(hcur, nImage, nImage);
@@ -1012,7 +1030,7 @@ void OutlineView::OnOrderDown()
 	GetDocument()->SetModifiedFlag();
 }
 
-void OutlineView::OnUpdateOrderDown(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateOrderDown(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(tree().GetNextSiblingItem(curItem()) != NULL);
 }
@@ -1035,19 +1053,19 @@ void OutlineView::copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent)
 	}
 }
 
-void OutlineView::OnDelete() 
+void OutlineView::OnDelete()
 {
 	GetDocument()->disableUndo();
 	clearUndo();
 	deleteNode();
 }
 
-void OutlineView::OnUpdateDelete(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateDelete(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(curItem() != tree().GetRootItem() && !m_bLabelEditting || m_bLabelEditting);
 }
 
-void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult) 
+void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
@@ -1055,30 +1073,33 @@ void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
 	bool bShowBranch = false;
 	int branchMode = getBranchMode();
-	
+
 	if (branchMode == 1) {
-		if (tree().GetParentItem(curItem()) != 	m_hItemShowRoot && m_hItemShowRoot != curItem()) {
+		if (tree().GetParentItem(curItem()) != m_hItemShowRoot && m_hItemShowRoot != curItem()) {
 			resetShowBranch();
 			GetDocument()->resetShowBranch();
-		} else {
-			bShowBranch = true;
 		}
-	} else if (branchMode == 2) {
-		if (!isPosterityOF(m_hItemShowRoot, curItem()) && m_hItemShowRoot != curItem()) {
-			resetShowBranch();
-			GetDocument()->resetShowBranch();
-		} else {
+		else {
 			bShowBranch = true;
 		}
 	}
-	
+	else if (branchMode == 2) {
+		if (!isPosterityOF(m_hItemShowRoot, curItem()) && m_hItemShowRoot != curItem()) {
+			resetShowBranch();
+			GetDocument()->resetShowBranch();
+		}
+		else {
+			bShowBranch = true;
+		}
+	}
+
 	if (!m_bAdding) {
 		GetDocument()->selChanged(tree().GetItemData(curItem()), true, bShowBranch);
 	}
 	*pResult = 0;
 }
 
-void OutlineView::OnEditUndo() 
+void OutlineView::OnEditUndo()
 {
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Undo();
@@ -1091,11 +1112,12 @@ void OutlineView::OnEditUndo()
 		GetDocument()->UpdateAllViews(NULL, (LPARAM)tree().GetItemData(curItem()), &h);
 		return;
 	}
-	
+
 	HTREEITEM hNew;
 	if (m_hSiblingPreMove != NULL) {
 		hNew = tree().InsertItem(tree().GetItemText(m_hItemMoved), 0, 0, m_hParentPreMove, m_hSiblingPreMove);
-	} else {
+	}
+	else {
 		hNew = tree().InsertItem(tree().GetItemText(m_hItemMoved), 0, 0, m_hParentPreMove, TVI_FIRST);
 	}
 	tree().SetItemData(hNew, tree().GetItemData(m_hItemMoved));
@@ -1113,58 +1135,60 @@ void OutlineView::OnEditUndo()
 	GetDocument()->SetModifiedFlag();
 }
 
-void OutlineView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_bLabelEditting || m_hItemMoved != NULL || GetDocument()->canResumeUndo());
 
 }
 
-void OutlineView::OnEditCut() 
+void OutlineView::OnEditCut()
 {
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Cut();
 	}
 }
 
-void OutlineView::OnUpdateEditCut(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateEditCut(CCmdUI* pCmdUI)
 {
 }
 
-void OutlineView::OnEditCopy() 
+void OutlineView::OnEditCopy()
 {
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Copy();
-	} else {
+	}
+	else {
 		GetDocument()->setSelectedNodeCopyOrg();
 	}
 }
 
-void OutlineView::OnUpdateEditCopy(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 {
 }
 
-void OutlineView::OnEditPaste() 
+void OutlineView::OnEditPaste()
 {
 	if (m_bLabelEditting) {
 		tree().GetEditControl()->Paste();
-	} else {
+	}
+	else {
 		GetDocument()->disableUndo();
 		GetDocument()->makeCopyNode(CPoint(0, 0));
 	}
 }
 
-void OutlineView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 {
 	if (!m_bLabelEditting) {
 		pCmdUI->Enable(GetDocument()->canCopyNode());
 	}
 }
 
-void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
 	if (pHint == NULL) return;
 	m_bNodeSel = true;
-	
+
 	DWORD key = (DWORD)lHint;
 	HTREEITEM item;
 	iHint* ph = reinterpret_cast<iHint*>(pHint);
@@ -1198,12 +1222,13 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		HTREEITEM newItem;
 		if (tree().GetSelectedItem() == tree().GetRootItem()) {
 			newItem = tree().InsertItem(ph->str, 0, 0, curItem());
-		} else {
+		}
+		else {
 			newItem = tree().InsertItem(ph->str, 0, 0, tree().GetParentItem(curItem()), curItem());
 		}
 		tree().SetItemData(newItem, key);
 		tree().SetItemImage(newItem, ph->treeIconId, ph->treeIconId);
-	//	tree().Expand(curItem(), TVE_EXPAND);
+		//	tree().Expand(curItem(), TVE_EXPAND);
 		tree().SelectItem(newItem);
 		break;
 	case iHint::nodeLabelChanged:
@@ -1232,7 +1257,7 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		doColorSetting();
 		setViewFont();
 		break;
-	
+
 	case iHint::groupMigrate:
 		moveNodes(ph->keyTarget, key);
 		break;
@@ -1240,7 +1265,8 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		HTREEITEM hNext = tree().GetNextSiblingItem(curItem());
 		if (hNext != NULL) {
 			tree().SelectItem(hNext);
-		} else {
+		}
+		else {
 			HTREEITEM hParent = tree().GetParentItem(curItem());
 			tree().SelectItem(tree().GetNextItem(hParent, TVGN_CHILD));
 		}
@@ -1248,27 +1274,27 @@ void OutlineView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	}
 }
 
-void OutlineView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) 
+void OutlineView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
 	int branchMode = getBranchMode();
 	if (bActivate) {
 		GetDocument()->selChanged(tree().GetItemData(curItem()), true, branchMode != 0);
 	}
-	
+
 	CTreeView::OnActivateView(bActivate, pActivateView, pDeactiveView);
 }
 
-void OutlineView::OnAddLink() 
+void OutlineView::OnAddLink()
 {
 	m_bAddingLink = !m_bAddingLink;
 }
 
-void OutlineView::OnUpdateAddLink(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateAddLink(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_bAddingLink);
 }
 
-BOOL OutlineView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) 
+BOOL OutlineView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
 	if (m_bItemDragging) {
 		::SetCursor(m_hCsrMove);
@@ -1281,7 +1307,7 @@ BOOL OutlineView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	return CTreeView::OnSetCursor(pWnd, nHitTest, message);
 }
 
-void OutlineView::OnLButtonDown(UINT nFlags, CPoint point) 
+void OutlineView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CEdit* pEdit = tree().GetEditControl();
 	if (pEdit != NULL) return;
@@ -1301,11 +1327,12 @@ void OutlineView::OnLButtonDown(UINT nFlags, CPoint point)
 		if (dlg.DoModal() == IDOK) {
 			// iEditDocのリンク追加処理
 			GetDocument()->setNewLinkInfo(tree().GetItemData(curItem()), tree().GetItemData(hitTestInfo.hItem),
-										  dlg.strComment, dlg.styleArrow);
+				dlg.strComment, dlg.styleArrow);
 		}
 		m_bAddingLink = false;
 		return;
-	} else if (!m_bItemDragging) {
+	}
+	else if (!m_bItemDragging) {
 		m_hitemDragPre = hitTestInfo.hItem;
 	}
 	CTreeView::OnLButtonDown(nFlags, point);
@@ -1356,7 +1383,7 @@ void OutlineView::deleteKeyNode(DWORD key, DWORD parentKey)
 	tree().DeleteItem(hDeleteItem);
 }
 
-void OutlineView::OnAddUrl() 
+void OutlineView::OnAddUrl()
 {
 	LinkForPathDlg dlg;
 	dlg.strOrg = tree().GetItemText(curItem());
@@ -1372,33 +1399,33 @@ void OutlineView::OnAddUrl()
 		ZeroMemory(dir, _MAX_DIR);
 		ZeroMemory(fileName, _MAX_FNAME);
 		ZeroMemory(ext, _MAX_EXT);
-		
+
 		_wsplitpath_s((const wchar_t *)dlg.strPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 		dlg.strComment.Format(_T("%s%s"), fileName, ext);
 	}
 	GetDocument()->addURLLink(dlg.strPath, dlg.strComment);
 }
 
-void OutlineView::OnUpdateAddUrl(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateAddUrl(CCmdUI* pCmdUI)
 {
 }
 
-void OutlineView::OnSelectChild() 
+void OutlineView::OnSelectChild()
 {
 	tree().SelectItem(tree().GetChildItem(curItem()));
 }
 
-void OutlineView::OnUpdateSelectChild(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateSelectChild(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
-void OutlineView::OnSelectParent() 
+void OutlineView::OnSelectParent()
 {
 	tree().SelectItem(tree().GetParentItem(curItem()));
 }
 
-void OutlineView::OnUpdateSelectParent(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateSelectParent(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(curItem() != tree().GetRootItem());
 }
@@ -1409,7 +1436,8 @@ void OutlineView::setViewFont()
 	CFont *pFont = GetFont();
 	if (pFont != NULL) {
 		pFont->GetObject(sizeof(LOGFONT), &lf);
-	} else {
+	}
+	else {
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
 	CString defaultFont = _T("MS UI Gothic");
@@ -1423,38 +1451,39 @@ void OutlineView::setViewFont()
 	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Italic"), FALSE);
 	lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 UnderLine"), FALSE);
 	lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 StrikeOut"), FALSE);
-	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 CharSet"), SHIFTJIS_CHARSET);
+	lf.lfCharSet = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 CharSet"), SHIFTJIS_CHARSET);
 	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font1 Weight"), FW_NORMAL);
 	m_font.CreateFontIndirect(&lf);
 	SetFont(&m_font, TRUE);
 }
 
-void OutlineView::OnSortChildren() 
+void OutlineView::OnSortChildren()
 {
 	if (tree().SortChildren(curItem())) {
 		GetDocument()->SetModifiedFlag();
 	}
 }
 
-void OutlineView::OnUpdateSortChildren(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateSortChildren(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
 
-void OutlineView::OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult) 
+void OutlineView::OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
 	m_bItemDragging = true;
-	
+
 	CPoint		ptAction;
 	UINT		nFlags;
-	
+
 	GetCursorPos(&ptAction);
 	ScreenToClient(&ptAction);
 	if (m_hitemDragPre != NULL) {
 		m_hitemDrag = m_hitemDragPre;
 		m_hitemDragPre = NULL;
-	} else {
+	}
+	else {
 		m_hitemDrag = tree().HitTest(ptAction, &nFlags);
 	}
 	tree().SelectItem(m_hitemDrag);
@@ -1462,18 +1491,18 @@ void OutlineView::OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void OutlineView::OnLButtonUp(UINT nFlags, CPoint point) 
+void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	if (m_bItemDragging) {
 		tree().SelectDropTarget(NULL);
 		if (m_nDropStatus == OutlineView::drop_child) {
-			if (m_hitemDrag != m_hitemDrop && m_hitemDrop != NULL && !IsChildNodeOf(m_hitemDrop, m_hitemDrag) && 
-															tree().GetParentItem(m_hitemDrag) != m_hitemDrop) {
-				
+			if (m_hitemDrag != m_hitemDrop && m_hitemDrop != NULL && !IsChildNodeOf(m_hitemDrop, m_hitemDrag) &&
+				tree().GetParentItem(m_hitemDrag) != m_hitemDrop) {
+
 				m_hParentPreMove = tree().GetParentItem(m_hitemDrag);
 				m_hSiblingPreMove = tree().GetPrevSiblingItem(m_hitemDrag);
-				
-				
+
+
 				HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, m_hitemDrop);
 				tree().SetItemState(hNew, tree().GetItemState(m_hitemDrag, TVIS_EXPANDED), TVIS_EXPANDED);
 				tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
@@ -1489,17 +1518,19 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 				tree().SelectItem(hNew);         // ここで1度選択しておかないと
 				tree().DeleteItem(m_hitemDrag);  // 一番下端にあるノードを消した時にF6状態くずれる
 				tree().SelectItem(hNew);         // 再度選択
-			} else {
+			}
+			else {
 				tree().SelectItem(m_hitemDrag);
 			}
-		} else if (m_nDropStatus == OutlineView::drop_sibling) {
+		}
+		else if (m_nDropStatus == OutlineView::drop_sibling) {
 			if (m_hitemDrag != m_hitemDrop && m_hitemDrop != NULL &&
 				!IsChildNodeOf(m_hitemDrop, m_hitemDrag)) {
-				
+
 				m_hParentPreMove = tree().GetParentItem(m_hitemDrag);
 				m_hSiblingPreMove = tree().GetPrevSiblingItem(m_hitemDrag);
-				
-				if (tree().ItemHasChildren(m_hitemDrop) && 
+
+				if (tree().ItemHasChildren(m_hitemDrop) &&
 					(TVIS_EXPANDED & tree().GetItemState(m_hitemDrop, TVIS_EXPANDED))) {
 					// Drop先ノードが子階層を持っているときに、子階層の先頭にするか
 					// Drop先ノードと同一階層にするか、メニューで選ぶようにした。
@@ -1521,17 +1552,18 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 				if (tree().ItemHasChildren(m_hitemDrag)) {
 					copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
 				}
-				
+
 				GetDocument()->disableUndo();
 				m_hItemMoved = hNew; // Undo Info
 				tree().SelectItem(hNew);
 				tree().DeleteItem(m_hitemDrag);
 				tree().SelectItem(hNew);
-			} else {
+			}
+			else {
 				tree().SelectItem(m_hitemDrag);
 			}
 		}
-		
+
 		tree().SetInsertMark(NULL);
 		tree().SelectDropTarget(NULL);
 		m_bItemDragging = false;
@@ -1539,7 +1571,7 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 	CTreeView::OnLButtonUp(nFlags, point);
 }
 
-void OutlineView::OnMouseMove(UINT nFlags, CPoint point) 
+void OutlineView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	if (m_bItemDragging)
 	{
@@ -1550,47 +1582,52 @@ void OutlineView::OnMouseMove(UINT nFlags, CPoint point)
 			CTreeView::OnMouseMove(nFlags, point);
 			return;
 		}
-		
+
 		TV_HITTESTINFO hitTestInfo;
 		hitTestInfo.pt = point;
 		tree().HitTest(&hitTestInfo);
-		
+
 		m_nDropStatus = OutlineView::drop_none;
 		if (hitTestInfo.flags & TVHT_ONITEMLABEL) {
 			m_nDropStatus = OutlineView::drop_child;  // child
 			tree().SetInsertMark(NULL);
 			tree().SelectDropTarget(hitTestInfo.hItem);
-		} else if (hitTestInfo.flags & TVHT_ONITEMINDENT ||
-					hitTestInfo.flags & TVHT_ONITEMBUTTON ||
-					hitTestInfo.flags & TVHT_ONITEMICON ||
-					hitTestInfo.flags & TVHT_ONITEMRIGHT) {
+		}
+		else if (hitTestInfo.flags & TVHT_ONITEMINDENT ||
+			hitTestInfo.flags & TVHT_ONITEMBUTTON ||
+			hitTestInfo.flags & TVHT_ONITEMICON ||
+			hitTestInfo.flags & TVHT_ONITEMRIGHT) {
 			m_nDropStatus = OutlineView::drop_sibling; // sibling
 			tree().SelectDropTarget(NULL);
 			tree().SetInsertMark(hitTestInfo.hItem, TRUE);
-		} else if (hitTestInfo.flags &  TVHT_NOWHERE) {
+		}
+		else if (hitTestInfo.flags &  TVHT_NOWHERE) {
 			m_nDropStatus = OutlineView::drop_none;
 			tree().SetInsertMark(NULL);
 			tree().SelectDropTarget(NULL);
-		} else if (hitTestInfo.flags & TVHT_ABOVE ||
-					hitTestInfo.flags & TVHT_BELOW ||
-					hitTestInfo.flags & TVHT_TOLEFT ||
-					hitTestInfo.flags & TVHT_TORIGHT) {
+		}
+		else if (hitTestInfo.flags & TVHT_ABOVE ||
+			hitTestInfo.flags & TVHT_BELOW ||
+			hitTestInfo.flags & TVHT_TOLEFT ||
+			hitTestInfo.flags & TVHT_TORIGHT) {
 			m_nDropStatus = OutlineView::drop_none;
 			tree().SetInsertMark(NULL);
 			tree().SelectDropTarget(NULL);
 			m_bItemDragging = false;
 		}
-		
+
 		CRect rc; GetClientRect(rc);
 		if (m_nDropStatus == 2 || m_nDropStatus == 1)
 		{
 			m_hitemDrop = hitTestInfo.hItem;
 			if (point.y < tree().GetItemHeight()) {
 				tree().Select(tree().GetPrevVisibleItem(tree().GetFirstVisibleItem()), TVGN_FIRSTVISIBLE);
-			} else if (point.y > rc.Height() - tree().GetItemHeight()) {
+			}
+			else if (point.y > rc.Height() - tree().GetItemHeight()) {
 				tree().Select(tree().GetNextVisibleItem(tree().GetFirstVisibleItem()), TVGN_FIRSTVISIBLE);
 			}
-		} else {
+		}
+		else {
 			m_hitemDrop = NULL;
 		}
 	}
@@ -1598,7 +1635,7 @@ void OutlineView::OnMouseMove(UINT nFlags, CPoint point)
 	CTreeView::OnMouseMove(nFlags, point);
 }
 
-void OutlineView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void OutlineView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_ESCAPE) {
 		if (m_bItemDragging) {
@@ -1622,20 +1659,19 @@ BOOL OutlineView::IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedPa
 	{
 		if (hitemChild == hitemSuspectedParent)
 			break;
-	}
-	while ((hitemChild = tree().GetParentItem(hitemChild)) != NULL);
-	
+	} while ((hitemChild = tree().GetParentItem(hitemChild)) != NULL);
+
 	return (hitemChild != NULL);
 }
 
-void OutlineView::OnImportData() 
+void OutlineView::OnImportData()
 {
 	CString txtpath;
 	WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt|xmlファイル (*.xml)|*.xml||");
 	CFileDialog dlg(TRUE, _T("txt"), txtpath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
-	
+
 	WCHAR drive[_MAX_DRIVE];
 	WCHAR dir[_MAX_DIR];
 	WCHAR fileName[_MAX_FNAME];
@@ -1644,11 +1680,11 @@ void OutlineView::OnImportData()
 	ZeroMemory(dir, _MAX_DIR);
 	ZeroMemory(fileName, _MAX_FNAME);
 	ZeroMemory(ext, _MAX_EXT);
-	
+
 	_wsplitpath_s((const wchar_t *)infileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 	CString extent = ext;
 	extent.MakeLower();
-	
+
 	CString caption;
 	int TextLevelCharNum = 0;
 	if (extent == _T(".txt")) {
@@ -1659,16 +1695,18 @@ void OutlineView::OnImportData()
 			return;
 		}
 		TextLevelCharNum = dlg.m_charSelection;
-	} else if (extent == _T(".xml")) {
+	}
+	else if (extent == _T(".xml")) {
 		caption = _T("XMLファイルのインポート");
 		CString mes = infileName + _T(" をインポートしますか");
 		if (MessageBox(mes, caption, MB_YESNO) != IDYES) {
 			return;
 		}
-	} else {
+	}
+	else {
 		return;
 	}
-	
+
 	int mode = getBranchMode();
 	HTREEITEM hShowRoot;
 	if (mode != 0) {
@@ -1687,28 +1725,31 @@ void OutlineView::OnImportData()
 		if (ret) {
 			treeAddBranch2(tree().GetItemData(curItem()), addNodes);
 		}
-	} else if (extent == _T(".xml")) {
+	}
+	else if (extent == _T(".xml")) {
 		ret = ImportXML(infileName);
 		if (ret) {
 			treeAddBranch(tree().GetItemData(curItem()));
 		}
 	}
-	
+
 	if (mode == 1) {
 		tree().SelectItem(hShowRoot);
 		OnShowSelectedChildren();
-	} else if (mode == 2) {
+	}
+	else if (mode == 2) {
 		tree().SelectItem(hShowRoot);
 		OnShowSelectedBranch();
 	}
 	if (ret) {
 		MessageBox(_T("終了しました"), caption, MB_OK);
-	} else {
+	}
+	else {
 		MessageBox(_T("失敗しました"), caption, MB_OK);
 	}
 }
 
-void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI)
 {
 }
 
@@ -1730,11 +1771,13 @@ void OutlineView::OutputHTML()
 	if (GetDocument()->isShowSubBranch()) {
 		eDlg.m_NameOfVisibleRoot = tree().GetItemText(m_hItemShowRoot);
 		eDlg.m_xvRdTree = 1;
-	} else {
+	}
+	else {
 		if (tree().GetSelectedItem() == tree().GetRootItem()) {
 			eDlg.m_NameOfVisibleRoot = tree().GetItemText(tree().GetRootItem());
-		} else {
-			eDlg.m_NameOfVisibleRoot = 
+		}
+		else {
+			eDlg.m_NameOfVisibleRoot =
 				tree().GetItemText(tree().GetParentItem(tree().GetSelectedItem()));
 		}
 	}
@@ -1753,11 +1796,11 @@ void OutlineView::OutputHTML()
 	TCHAR szBuff[MAX_PATH];
 	BROWSEINFO bi;
 	bi.hwndOwner = m_hWnd;
-	
+
 	bi.pidlRoot = NULL;
 	bi.pszDisplayName = szBuff;
 	bi.lpszTitle = _T("HTML出力先フォルダー選択");
-	
+
 	bi.ulFlags = BIF_RETURNONLYFSDIRS;
 	bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
 	bi.lParam = (LPARAM)m_exportOption.htmlOutDir.GetBuffer();
@@ -1766,22 +1809,23 @@ void OutlineView::OutputHTML()
 	bi.iImage = 0;
 	CString folder = AfxGetApp()->GetProfileString(_T("Settings"), _T("HTML OutputDir"), _T(""));
 	bi.lParam = (LPARAM)folder.GetBuffer(folder.GetLength());
-	
+
 	CString outdir;
 	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
 	if (pList == NULL) return;
 	if (::SHGetPathFromIDList(pList, szBuff)) {
 		//szBuffに選択したフォルダ名が入る
 		outdir = CString(szBuff);
-	} else {
+	}
+	else {
 		MessageBox(_T("出力先フォルダーを指定して下さい"));
 		return;
 	}
 	m_exportOption.htmlOutDir = outdir;
-	
+
 	CWaitCursor wc;
 	_wsetlocale(LC_ALL, _T("jpn"));
-	
+
 	CString indexFilePath = outdir + _T("\\") + eDlg.m_pathIndex;
 	CFileFind find;
 	if (find.FindFile(indexFilePath)) {
@@ -1800,25 +1844,28 @@ void OutlineView::OutputHTML()
 			}
 		}
 	}
-	
+
 	AfxGetApp()->WriteProfileString(_T("Settings"), _T("HTML OutputDir"), outdir);
 	HTREEITEM root;
 	if (m_exportOption.htmlOutOption == 0) {
 		root = tree().GetRootItem();
-	} else {
+	}
+	else {
 		if (GetDocument()->isShowSubBranch()) {
 			root = m_hItemShowRoot;
-		} else {
+		}
+		else {
 			if (tree().GetSelectedItem() != tree().GetRootItem()) {
 				root = tree().GetParentItem(tree().GetSelectedItem());
-			} else {
+			}
+			else {
 				root = tree().GetRootItem();
 			}
 		}
 	}
 	CString keystr;
 	keystr.Format(_T("%d"), tree().GetItemData(root));
-	
+
 	////////////////////////
 	////// create frame
 	////////////////////////
@@ -1856,7 +1903,7 @@ void OutlineView::OutputHTML()
 	}
 	f.WriteString(_T("</html>\n"));
 	f.Close();
-	
+
 	CString olName = outdir + _T("\\") + eDlg.m_pathOutline;
 	FILE* pOf;
 	if (_tfopen_s(&pOf, olName, _T("w, ccs=UTF-8")) != 0) {
@@ -1876,7 +1923,8 @@ void OutlineView::OutputHTML()
 		olf.WriteString(_T("<a href="));
 		if (m_exportOption.textOption == 0) {
 			olf.WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#") + keystr);
-		} else {
+		}
+		else {
 			olf.WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
 		}
 		olf.WriteString(_T("\" target=text>"));
@@ -1897,14 +1945,15 @@ void OutlineView::OutputHTML()
 		writeTextStyle(tf);
 		tf.WriteString(_T("</head>\n<body>\n"));
 		GetDocument()->writeTextHtml(tree().GetItemData(root), &tf);
-	} else {
+	}
+	else {
 		CString arName = textDir + _T("\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
 		FILE* pRf;
 		if (_tfopen_s(&pRf, arName, _T("w, ccs=UTF-8")) != 0) {
 			AfxMessageBox(_T("coud not open file. ") + arName);
 			return;
 		}
-		CStdioFile rootTf(pRf);		
+		CStdioFile rootTf(pRf);
 		writeHtmlHeader(rootTf);
 		writeTextStyle(rootTf, false);
 		rootTf.WriteString(_T("</head>\n<body>\n"));
@@ -1917,7 +1966,7 @@ void OutlineView::OutputHTML()
 		HTREEITEM child = tree().GetNextItem(root, TVGN_CHILD);
 		htmlOutTree(root, child, &olf, &tf);
 	}
-	
+
 	if (eDlg.m_xvRdNav != 1) {
 		olf.WriteString(_T("</ul>\n</body>\n</html>\n"));
 		olf.Close();
@@ -1928,7 +1977,7 @@ void OutlineView::OutputHTML()
 	}
 	olf.Close();
 	tf.Close();
-	
+
 	///////////////////// create network.html
 	if (eDlg.m_xvRdNav > 0) {
 		CString nName = outdir + _T("\\") + eDlg.m_pathNetwork;
@@ -1941,7 +1990,7 @@ void OutlineView::OutputHTML()
 		writeHtmlHeader(nf);
 		nf.WriteString(_T("</head>\n"));
 		nf.WriteString(_T("<body>\n"));
-		
+
 		CString sWidth; sWidth.Format(_T("width=\"%d\""), GetDocument()->getMaxPt().x);
 		CString sHeight; sHeight.Format(_T("height=\"%d\""), GetDocument()->getMaxPt().y);
 		CString sWidthMgn; sWidthMgn.Format(_T("width=\"%d\""), GetDocument()->getMaxPt().x + 50);
@@ -1950,7 +1999,8 @@ void OutlineView::OutputHTML()
 			CString svgPath = outdir + _T("\\") + eDlg.m_pathSvg;
 			if (m_exportOption.textOption == 0) {
 				GetDocument()->exportSVG(false, svgPath, true, m_exportOption.pathTextSingle);
-			} else {
+			}
+			else {
 				GetDocument()->exportSVG(false, svgPath, true, m_exportOption.prfTextEverynode, false);
 			}
 			nf.WriteString(_T("<object type=\"image/svg+xml\" data=\"")
@@ -1961,13 +2011,15 @@ void OutlineView::OutputHTML()
 				+ eDlg.m_pathSvg + _T("\"") +
 				_T("type=\"image/svg+xml\" ")
 				+ sWidthMgn + " " + sHeightMgn + _T(" />\n"));
-		} else {
+		}
+		else {
 			GetDocument()->saveCurrentImage(outdir + _T("\\") + eDlg.m_pathPng);
 			nf.WriteString(_T("<img src=\"") + eDlg.m_pathPng + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
 			nf.WriteString(_T("<map name=\"nodes\">\n"));
 			if (m_exportOption.textOption == 0) {
 				GetDocument()->writeClickableMap(nf, m_exportOption.pathTextSingle);
-			} else {
+			}
+			else {
 				GetDocument()->writeClickableMap(nf, m_exportOption.prfTextEverynode, false);
 			}
 			nf.WriteString(_T("</map>\n"));
@@ -1976,7 +2028,7 @@ void OutlineView::OutputHTML()
 		nf.Close();
 	}
 	_wsetlocale(LC_ALL, _T(""));
-	
+
 	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExport) {
 		ShellExecute(m_hWnd, _T("open"), indexFilePath, NULL, NULL, SW_SHOW);
 	}
@@ -1994,7 +2046,8 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 		if (m_exportOption.textOption == 0) {
 			foutline->WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#"));
 			foutline->WriteString(keystr);
-		} else {
+		}
+		else {
 			foutline->WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
 		}
 		foutline->WriteString(_T("\" target=text>"));
@@ -2002,13 +2055,14 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 		foutline->WriteString(itemStr);
 		foutline->WriteString(_T("</a>"));
 	}
-	
+
 	// Text出力
 	DWORD key = tree().GetItemData(hItem);
 	if (m_exportOption.textOption == 0) {
 		GetDocument()->writeTextHtml(key, ftext);
-	} else {
-		CString fName = m_exportOption.htmlOutDir + _T("\\text\\") 
+	}
+	else {
+		CString fName = m_exportOption.htmlOutDir + _T("\\text\\")
 			+ m_exportOption.prfTextEverynode + keystr + _T(".html");
 		FILE* pRf;
 		if (_tfopen_s(&pRf, fName, _T("w, ccs=UTF-8")) != 0) {
@@ -2023,8 +2077,8 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 		tf.WriteString(_T("</body>\n</html>\n"));
 		tf.Close();
 	}
-	
-	bool nested = m_exportOption.htmlOutOption == 0 || 
+
+	bool nested = m_exportOption.htmlOutOption == 0 ||
 		m_exportOption.htmlOutOption == 1 && GetDocument()->isShowSubBranch();
 	if (tree().ItemHasChildren(hItem) && nested) {
 		if (m_exportOption.navOption != 1) {
@@ -2051,7 +2105,8 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 				}
 				hi = hParent;
 			}                                   // 兄弟のいる親まで戻る
-		} else {
+		}
+		else {
 			htmlOutTree(hRoot, hnextItem, foutline, ftext);
 		}                                       // 兄弟に移動
 	}
@@ -2059,7 +2114,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 
 void OutlineView::writeHtmlHeader(CStdioFile &f)
 {
-	f.WriteString(_T("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n")); 
+	f.WriteString(_T("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"));
 	f.WriteString(_T("<html lang=\"ja\">\n<head>\n"));
 	f.WriteString(_T("<meta http-equiv=\"content-Type\" content=\"text/html; charset=UTF-8\">\n"));
 }
@@ -2069,7 +2124,8 @@ void OutlineView::writeTextStyle(CStdioFile &f, bool single)
 	f.WriteString(_T("<style type=\"text/css\">\n"));
 	if (single) {
 		f.WriteString(_T(" h1 {font-size: 120%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n"));
-	} else {
+	}
+	else {
 		f.WriteString(_T(" h1 {font-size: 120%; background: #F3F3F3; padding: 5px 5px 5px;}\n"));
 	}
 	f.WriteString(_T(" h2 {font-size: 110%; border-bottom:2pt solid #9999FF; border-left:3pt solid #9999FF; padding: 5px 5px 5px;}\n"));
@@ -2112,18 +2168,19 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab)
 	CString label = StringUtil::removeDependChar(tree().GetItemText(hItem));
 	label = StringUtil::removeCR(label);
 	f->WriteString(label + _T("\n"));
-	
+
 	if (m_textExportOption.formatOption != 1) {
 		CString text = StringUtil::removeDependChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
 		f->WriteString(GetDocument()->procCR(text));
 		f->WriteString(_T("\n"));
 	}
-	
+
 	if (tree().ItemHasChildren(hItem) && m_textExportOption.treeOption != 2) {           // 子どもに移動
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
 		textOutTree(hchildItem, f, ++tab);
-	} else {
-		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);	
+	}
+	else {
+		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {    // 次に兄弟がいない
 			HTREEITEM hi = hItem;
 			HTREEITEM hParent = hItem;
@@ -2137,7 +2194,8 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab)
 				}
 				hi = hParent;
 			}                                   // 兄弟のいる親まで戻る
-		} else {
+		}
+		else {
 			textOutTree(hnextItem, f, tab);
 		}                                       // 兄弟に移動
 	}
@@ -2146,14 +2204,14 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab)
 bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char levelChar)
 {
 	_wsetlocale(LC_ALL, _T("jpn"));
-	
+
 	FILE* fp;
 	if (_tfopen_s(&fp, inPath, _T("r, ccs=UTF-8")) != 0) {
 		AfxMessageBox(_T("coud not open file. ") + inPath);
 		return false;
 	}
 	CStdioFile f(fp);
-	
+
 	CString line;
 	vector<CString> lines;
 	while (f.ReadString(line) != NULL) {
@@ -2171,7 +2229,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 	prcdlg.m_ProcName.SetWindowText(_T("インポート中"));
 	prcdlg.m_ProgProc.SetStep(1);              // プログレスバーの初期設定
 	prcdlg.m_ProgProc.SetRange(0, (short)(lines.size() - 1));
-	
+
 	CSize mvSz(30, 30);
 	CString label;
 	CString text;
@@ -2190,7 +2248,8 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 			}
 			text.Append(lines[i] + _T("\r\n"));
 			continue;
-		} else {
+		}
+		else {
 			if (label == _T("")) {
 				CString line = lines[i];
 				label = line.TrimLeft(_T("\t."));
@@ -2204,7 +2263,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 			node.moveBound(mvSz);
 			node.setLevel(curLevel);
 			addNodes.push_back(node);
-			
+
 			text = _T("");
 			CString line = lines[i];
 			label = line.TrimLeft(_T("\t."));
@@ -2216,7 +2275,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 			prcdlg.m_ProgProc.StepIt();  // プログレスバーを更新
 		}
 	}
-	
+
 	if (label != _T("")) {
 		iNode node;
 		node.setName(label);
@@ -2227,7 +2286,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 		node.setLevel(curLevel);
 		addNodes.push_back(node);
 	}
-	
+
 	return true;
 }
 
@@ -2252,13 +2311,13 @@ bool OutlineView::ImportXML(const CString &inPath)
 	return GetDocument()->loadXML(inPath, rep);
 }
 
-void OutlineView::OnEditFind() 
+void OutlineView::OnEditFind()
 {
 	m_pSrchDlg->ShowWindow(SW_SHOWNORMAL);
 	m_pSrchDlg->SetFocus();
 }
 
-void OutlineView::OnUpdateEditFind(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateEditFind(CCmdUI* pCmdUI)
 {
 }
 
@@ -2275,10 +2334,10 @@ LRESULT OutlineView::OnSearchNode(UINT wParam, LONG lParam)
 	return 0;
 }
 
-void OutlineView::OnDestroy() 
+void OutlineView::OnDestroy()
 {
 	CTreeView::OnDestroy();
-	
+
 	m_pSrchDlg->DestroyWindow();
 }
 
@@ -2287,13 +2346,13 @@ LRESULT OutlineView::OnListUpNodes(UINT wParam, LONG lParam)
 	// リストアップ用のデータをNodeSearchDlgに受け渡す
 	if (m_pSrchDlg->m_labels.size() > 0) return 0;
 	GetDocument()->listUpNodes(m_pSrchDlg->m_srchString, m_pSrchDlg->m_labels,
-							   m_pSrchDlg->m_bLabel, m_pSrchDlg->m_bText, m_pSrchDlg->m_bLinks,
-							   m_pSrchDlg->m_bUpper);
+		m_pSrchDlg->m_bLabel, m_pSrchDlg->m_bText, m_pSrchDlg->m_bLinks,
+		m_pSrchDlg->m_bUpper);
 	m_pSrchDlg->displayResult();
 	return 0;
 }
 
-void OutlineView::OnEditReplace() 
+void OutlineView::OnEditReplace()
 {
 }
 
@@ -2309,16 +2368,16 @@ void OutlineView::clearUndo()
 	m_hSiblingPreMove = NULL;
 }
 
-void OutlineView::OnSetFoldup() 
+void OutlineView::OnSetFoldup()
 {
 	FoldingSettingsDlg dlg;
 	dlg.m_level = 1;
 	if (dlg.DoModal() != IDOK) return;
-	foldUpTree(tree().GetRootItem(), 0, dlg.m_level-1);
+	foldUpTree(tree().GetRootItem(), 0, dlg.m_level - 1);
 	tree().SelectItem(tree().GetRootItem());
 }
 
-void OutlineView::OnUpdateSetFoldup(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateSetFoldup(CCmdUI* pCmdUI)
 {
 }
 
@@ -2328,7 +2387,8 @@ void OutlineView::foldUpTree(HTREEITEM hItem, int curLevel, int levelSet)
 		if (tree().ItemHasChildren(hItem)) {
 			tree().Expand(hItem, TVE_EXPAND);
 		}
-	} else {
+	}
+	else {
 		if (tree().ItemHasChildren(hItem)) {
 			tree().Expand(hItem, TVE_COLLAPSE);
 		}
@@ -2336,7 +2396,8 @@ void OutlineView::foldUpTree(HTREEITEM hItem, int curLevel, int levelSet)
 	if (tree().ItemHasChildren(hItem)) {
 		HTREEITEM hChild = tree().GetNextItem(hItem, TVGN_CHILD);
 		foldUpTree(hChild, ++curLevel, levelSet);
-	} else {
+	}
+	else {
 		HTREEITEM hNext = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hNext == NULL) {
 			HTREEITEM hi = hItem;
@@ -2351,7 +2412,8 @@ void OutlineView::foldUpTree(HTREEITEM hItem, int curLevel, int levelSet)
 				}
 				hi = hParent;
 			}
-		} else {
+		}
+		else {
 			foldUpTree(hNext, curLevel, levelSet);
 		}
 	}
@@ -2380,16 +2442,16 @@ void OutlineView::OnAddChild2()
 	clearUndo();
 	HTREEITEM newItem = tree().InsertItem(dlg.m_strcn, 0, 0, curItem());
 	m_HNew = newItem;
-	
+
 	iEditDoc* pDoc = GetDocument();
 	label l;
 	l.name = dlg.m_strcn;
 	l.key = pDoc->getUniqKey();
 	tree().SetItemData(m_HNew, l.key);
 	l.parent = tree().GetItemData(tree().GetParentItem(m_HNew));
-		
+
 	DWORD keyInherit = tree().GetItemData(tree().GetSelectedItem());
-	
+
 	bool binherit = false;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_rgsNode.bInheritParent) {
@@ -2405,7 +2467,7 @@ void OutlineView::OnUpdateAddChild2(CCmdUI *pCmdUI)
 	pCmdUI->Enable(!tree().ItemHasChildren(tree().GetSelectedItem()));
 }
 
-void OutlineView::OnShowSelectedBranch() 
+void OutlineView::OnShowSelectedBranch()
 {
 	KeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
@@ -2422,7 +2484,7 @@ void OutlineView::OnShowSelectedBranch()
 	tree().SelectItem(tree().GetChildItem(curItem()));
 }
 
-void OutlineView::OnUpdateShowSelectedBranch(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateShowSelectedBranch(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
@@ -2454,7 +2516,7 @@ void OutlineView::resetShowBranch()
 	tree().SetItemImage(m_hItemShowRoot, 0, 0);
 }
 
-void OutlineView::OnShowSelectedChildren() 
+void OutlineView::OnShowSelectedChildren()
 {
 	KeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
@@ -2471,7 +2533,7 @@ void OutlineView::OnShowSelectedChildren()
 	tree().SelectItem(tree().GetChildItem(curItem()));
 }
 
-void OutlineView::OnUpdateShowSelectedChildren(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateShowSelectedChildren(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(tree().ItemHasChildren(curItem()));
 }
@@ -2484,7 +2546,8 @@ void OutlineView::setNodeLevels(HTREEITEM hItem, int curLevel)
 	if (tree().ItemHasChildren(hItem)) {
 		HTREEITEM hChild = tree().GetNextItem(hItem, TVGN_CHILD);
 		setNodeLevels(hChild, ++curLevel);
-	} else {
+	}
+	else {
 		HTREEITEM hNext = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hNext == NULL) {
 			HTREEITEM hi = hItem;
@@ -2499,7 +2562,8 @@ void OutlineView::setNodeLevels(HTREEITEM hItem, int curLevel)
 				}
 				hi = hParent;
 			}
-		} else {
+		}
+		else {
 			setNodeLevels(hNext, curLevel);
 		}
 	}
@@ -2515,13 +2579,13 @@ void OutlineView::setSubNodeLevels()
 	setNodeLevels(tree().GetSelectedItem(), 0);
 }
 
-void OutlineView::OnDropFirstOrder() 
+void OutlineView::OnDropFirstOrder()
 {
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, m_hitemDrop, TVI_FIRST);
 	tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
 	int nImage; tree().GetItemImage(m_hitemDrag, nImage, nImage);
 	tree().SetItemImage(hNew, nImage, nImage);
-	
+
 	GetDocument()->setKeyNodeParent(tree().GetItemData(m_hitemDrag), tree().GetItemData(m_hitemDrop));
 	if (tree().ItemHasChildren(m_hitemDrag)) {
 		copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
@@ -2531,26 +2595,26 @@ void OutlineView::OnDropFirstOrder()
 	tree().SelectItem(hNew);
 	tree().DeleteItem(m_hitemDrag);
 	tree().SelectItem(hNew);
-	
+
 	m_bItemDragging = false;
 	tree().SetInsertMark(NULL);
 	tree().SelectDropTarget(NULL);
 }
 
-void OutlineView::OnUpdateDropFirstOrder(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateDropFirstOrder(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_bItemDragging == true);
 }
 
-void OutlineView::OnDropLevelUp() 
+void OutlineView::OnDropLevelUp()
 {
 	HTREEITEM hParent = tree().GetParentItem(m_hitemDrop);
 	HTREEITEM hNew = tree().InsertItem(tree().GetItemText(m_hitemDrag), 0, 0, hParent, m_hitemDrop);
 	tree().SetItemData(hNew, tree().GetItemData(m_hitemDrag));
-	
+
 	int nImage; tree().GetItemImage(m_hitemDrag, nImage, nImage);
 	tree().SetItemImage(hNew, nImage, nImage);
-	
+
 	GetDocument()->setKeyNodeParent(tree().GetItemData(m_hitemDrag), tree().GetItemData(hParent));
 	if (tree().ItemHasChildren(m_hitemDrag)) {
 		copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
@@ -2560,28 +2624,28 @@ void OutlineView::OnDropLevelUp()
 	tree().SelectItem(hNew);
 	tree().DeleteItem(m_hitemDrag);
 	tree().SelectItem(hNew);
-	
+
 	m_bItemDragging = false;
 	tree().SetInsertMark(NULL);
 	tree().SelectDropTarget(NULL);
 }
 
-void OutlineView::OnUpdateDropLevelUp(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateDropLevelUp(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_bItemDragging == true && m_hitemDrop != tree().GetRootItem());
 }
 
-void OutlineView::OnCopyTreeToClipboard() 
+void OutlineView::OnCopyTreeToClipboard()
 {
 	setSubNodeLevels();
 	CString strData;
 	catTreeLabel(tree().GetSelectedItem(), strData);
-	
+
 	// クリップボードにコピー
 	if (OpenClipboard()) {
 		EmptyClipboard();
 		HGLOBAL hClipboardData;
-		size_t len = (strData.GetLength() + 1)*sizeof(TCHAR);
+		size_t len = (strData.GetLength() + 1) * sizeof(TCHAR);
 		hClipboardData = GlobalAlloc(GMEM_DDESHARE, len);
 
 		TCHAR* pchData;
@@ -2591,7 +2655,7 @@ void OutlineView::OnCopyTreeToClipboard()
 		SetClipboardData(CF_UNICODETEXT, hClipboardData);
 		CloseClipboard();
 	}
-	
+
 }
 
 void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
@@ -2612,7 +2676,8 @@ void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
 	if (tree().ItemHasChildren(hItem)) {
 		HTREEITEM hchildItem = tree().GetNextItem(hItem, TVGN_CHILD);
 		catTreeLabel(hchildItem, text);
-	} else {
+	}
+	else {
 		HTREEITEM hnextItem = tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {
 			HTREEITEM hi = hItem;
@@ -2626,13 +2691,14 @@ void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
 				}
 				hi = hParent;
 			}
-		} else {
+		}
+		else {
 			catTreeLabel(hnextItem, text);
 		}
 	}
 }
 
-void OutlineView::OnUpdateCopyTreeToClipboard(CCmdUI* pCmdUI) 
+void OutlineView::OnUpdateCopyTreeToClipboard(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(tree().ItemHasChildren(tree().GetSelectedItem()));
 }
@@ -2642,7 +2708,8 @@ void OutlineView::moveNodes(DWORD keyTarget, DWORD keyMove)
 	HTREEITEM hTarget;
 	if (keyTarget != -1) {
 		hTarget = findKeyItem(keyTarget);
-	} else {
+	}
+	else {
 		hTarget = this->m_hItemShowRoot;
 	}
 	HTREEITEM hMove = findKeyItem(keyMove);
@@ -2654,7 +2721,7 @@ void OutlineView::moveNodes(DWORD keyTarget, DWORD keyMove)
 	tree().SetItemData(hNew, tree().GetItemData(hMove));
 	int nImage; tree().GetItemImage(hMove, nImage, nImage);
 	tree().SetItemImage(hNew, nImage, nImage);
-	
+
 	tree().Expand(hTarget, TVE_EXPAND);
 	GetDocument()->setKeyNodeParent(keyMove, tree().GetItemData(hTarget));
 	if (tree().ItemHasChildren(hMove)) {
@@ -2677,7 +2744,7 @@ void OutlineView::OnCreateClone()
 	tree().SetItemData(hNew, newKey);
 	int nImage; tree().GetItemImage(hSelected, nImage, nImage);
 	tree().SetItemImage(hNew, nImage, nImage);
-	
+
 	tree().SetItemState(hNew, tree().GetItemState(hSelected, TVIS_EXPANDED), TVIS_EXPANDED);
 	IdMap idm;
 	idm[key] = newKey;
@@ -2892,7 +2959,7 @@ void OutlineView::OnPasteTreeFromClipboard()
 			::showLastErrorMessage();
 			return;
 		}
-		
+
 		HGLOBAL hData;
 		hData = ::GetClipboardData(CF_TEXT);
 		if (hData == NULL) {
@@ -2901,11 +2968,11 @@ void OutlineView::OnPasteTreeFromClipboard()
 		}
 		char* pszData = (char*)GlobalLock(hData);
 		ClipText = CString(pszData);
-		
+
 		GlobalUnlock(hData);
 		::CloseClipboard();
 	}
-	
+
 	int mode = getBranchMode();
 	HTREEITEM hShowRoot;
 	if (mode != 0) {
@@ -2913,17 +2980,17 @@ void OutlineView::OnPasteTreeFromClipboard()
 		resetShowBranch();
 		GetDocument()->resetShowBranch();
 	}
-	
+
 	ClipText += _T("\n");
 	CToken tok(ClipText);
 	tok.SetToken(_T("\n"));
 	vector<CString> lines;
-	while(tok.MoreTokens()) {
+	while (tok.MoreTokens()) {
 		CString s = tok.GetNextToken();
 		lines.push_back(s);
 	}
 	nVec addNodes;
-	
+
 	ImportTextDlg dlg;
 	dlg.m_fileName = _T("<クリップボードから>");
 	dlg.m_charSelection = 1;
@@ -2934,14 +3001,15 @@ void OutlineView::OnPasteTreeFromClipboard()
 	if (dlg.m_charSelection == 1) {
 		levelChar = '\t';
 	}
-	
+
 	if (levelToNode(lines, addNodes, levelChar)) {
 		treeAddBranch2(tree().GetItemData(curItem()), addNodes);
 	}
 	if (mode == 1) {
 		tree().SelectItem(hShowRoot);
 		OnShowSelectedChildren();
-	} else if (mode == 2) {
+	}
+	else if (mode == 2) {
 		tree().SelectItem(hShowRoot);
 		OnShowSelectedBranch();
 	}
@@ -2980,14 +3048,14 @@ void OutlineView::OnExportToText()
 		setChapterNumbers();
 	}
 
-	CString outfile = GetDocument()->getTitleFromPath();	
+	CString outfile = GetDocument()->getTitleFromPath();
 	if (dlg.m_rdTreeOption != 0) {
 		CString label = StringUtil::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
 		if (label != _T("")) {
 			outfile = label;
 		}
 	}
-	
+
 	if (m_textExportOption.formatOption != 2) {
 		CString ext = _T("txt");
 		CString filters = _T("テキストファイル (*.txt)|*.txt");
@@ -3110,7 +3178,7 @@ void OutlineView::textOutTreeByNode(HTREEITEM hItem)
 }
 
 void OutlineView::createNodeTextFile(const CString& title, const CString& text) {
-	
+
 	CString path = m_textExportOption.outDir + _T("\\") + title + _T(".txt");
 	FILE* fp;
 	if (_tfopen_s(&fp, path, _T("w, ccs=UTF-8")) != 0) {
@@ -3201,7 +3269,7 @@ void OutlineView::OnExportToXml()
 	if (dlg.DoModal() != IDOK) return;
 	m_opTreeOut = dlg.m_nTreeOp;
 	m_exportOption.treeOption = dlg.m_nTreeOp;
-	
+
 	CString outfile = GetDocument()->getTitleFromPath();
 	if (dlg.m_nTreeOp != 0) {
 		CString label = StringUtil::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
@@ -3209,12 +3277,12 @@ void OutlineView::OnExportToXml()
 			outfile = label;
 		}
 	}
-	WCHAR szFilters[] = _T("XMLファイル (*.xml)|*.xml");	
+	WCHAR szFilters[] = _T("XMLファイル (*.xml)|*.xml");
 	CFileDialog fdlg(FALSE, _T("xml"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (fdlg.DoModal() != IDOK) return;
 	CString outfileName = fdlg.GetPathName();
 	_wsetlocale(LC_ALL, _T("jpn"));
-	
+
 	if (GetDocument()->saveXML(outfileName)) {
 		MessageBox(_T("終了しました"), _T("XMLへのエクスポート"), MB_OK);
 	}

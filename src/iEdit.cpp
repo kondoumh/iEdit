@@ -87,26 +87,26 @@ BOOL CiEditApp::InitInstance()
 
 	}
 	AfxEnableControlContainer();
-	
+
 	SetRegistryKey(REGS_ROOT);
-	
-	LoadStdProfileSettings(9);	
+
+	LoadStdProfileSettings(9);
 	getNodeProfile();
 	getLinkProfile();
 	getOtherProfile();
 	getOptionsProfile();
 	m_bShapeModified = false;
-	
+
 	// Initialize static members of CGDIThread
 	InitializeCriticalSection(&CRelaxThrd::m_csGDILock);
-	
+
 	m_pDocTemplate = new CMultiDocTemplate(
 		IDR_IEDITTYPE,
 		RUNTIME_CLASS(iEditDoc),
 		RUNTIME_CLASS(CChildFrame),
 		RUNTIME_CLASS(OutlineView));
 	AddDocTemplate(m_pDocTemplate);
-	
+
 	if (m_rgsOptions.registOldFiletype) {
 		m_pDocTemplate2 = new CMultiDocTemplate(
 			IDR_IEDITTYPE_OLD,
@@ -115,16 +115,16 @@ BOOL CiEditApp::InitInstance()
 			RUNTIME_CLASS(OutlineView));
 		AddDocTemplate(m_pDocTemplate2);
 	}
-	
+
 	CMainFrame* pMainFrame = new CMainFrame;
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME))
 		return FALSE;
 	m_pMainWnd = pMainFrame;
-	
+
 	AfxOleInit();
-	
+
 	m_pMainWnd->DragAcceptFiles();
-	
+
 	if (m_rgsOptions.registFiletype) {
 		HKEY hkResult;
 		if (::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Classes"), &hkResult) == ERROR_SUCCESS) {
@@ -134,18 +134,18 @@ BOOL CiEditApp::InitInstance()
 			::RegOverridePredefKey(HKEY_CLASSES_ROOT, NULL);
 		}
 	}
-	
+
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
-	
+
 	// 起動時に MDI Child Window を表示させない
 	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew) {
 		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 	}
-	
+
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
-	
+
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
 
@@ -236,7 +236,7 @@ void CiEditApp::getNodeProfile()
 	m_rgsNode.bFillColor = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Paint"), FALSE);
 	m_rgsNode.lineWidth = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Line Width"), 0);
 	m_rgsNode.styleLine = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Line Style"), PS_SOLID);
-	m_rgsNode.shape= AfxGetApp()->GetProfileInt(REGS_NODE, _T("Node Shape"), iNode::rectangle);
+	m_rgsNode.shape = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Node Shape"), iNode::rectangle);
 	m_rgsNode.styleText = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Text Align"), iNode::s_cc);
 	::lstrcpy(m_rgsNode.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_NODE, _T("Font Name"), defaultFontName));
 	m_rgsNode.lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Height"), 0xfffffff3);
@@ -244,9 +244,9 @@ void CiEditApp::getNodeProfile()
 	m_rgsNode.lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Italic"), FALSE);
 	m_rgsNode.lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font UnderLine"), FALSE);
 	m_rgsNode.lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font StrikeOut"), FALSE);
-	m_rgsNode.lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font CharSet"), SHIFTJIS_CHARSET);
+	m_rgsNode.lf.lfCharSet = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font CharSet"), SHIFTJIS_CHARSET);
 	m_rgsNode.lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Font Weight"), FW_NORMAL);
-	
+
 	m_rgsNode.bInheritParent = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Inherit Parent"), TRUE);
 	m_rgsNode.bInheritSibling = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Inherit Sibling"), TRUE);
 	m_rgsNode.bSyncOrder = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Sync Order"), TRUE);
@@ -269,17 +269,17 @@ void CiEditApp::getLinkProfile()
 	}
 	m_rgsLink.colorLine = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Color"), RGB(0, 0, 0));
 	m_rgsLink.lineWidth = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Width"), 0);
-	m_rgsLink.strength  = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Strength"), 9);
+	m_rgsLink.strength = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Strength"), 9);
 	m_rgsLink.styleLine = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Style"), PS_SOLID);
 	m_rgsLink.bSetStrength = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Set Strength"), TRUE);
-	
+
 	::lstrcpy(m_rgsLink.lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_LINK, _T("Font Name"), defaultFontName));
 	m_rgsLink.lf.lfHeight = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Height"), 0xfffffff3);
 	m_rgsLink.lf.lfWidth = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Width"), 0);
 	m_rgsLink.lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Italic"), FALSE);
 	m_rgsLink.lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font UnderLine"), FALSE);
 	m_rgsLink.lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font StrikeOut"), FALSE);
-	m_rgsLink.lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font CharSet"), SHIFTJIS_CHARSET);
+	m_rgsLink.lf.lfCharSet = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font CharSet"), SHIFTJIS_CHARSET);
 	m_rgsLink.lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Font Weight"), FW_NORMAL);
 }
 
@@ -289,30 +289,31 @@ void CiEditApp::getOptionsProfile()
 	m_rgsOptions.registOldFiletype = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Register Old Filetype"), FALSE);
 }
 
-int CiEditApp::ExitInstance() 
+int CiEditApp::ExitInstance()
 {
 	DeleteCriticalSection(&CRelaxThrd::m_csGDILock);
 	CloseHandle(CRelaxThrd::m_hAnotherDead);
-	
+
 	return CWinApp::ExitInstance();
 }
 
 void CiEditApp::loadMetaFiles(const CString& fname)
 {
 	for (int i = 0; i < 10; i++) {
-		CString cname; cname.Format(_T("%02d"), i+1);
+		CString cname; cname.Format(_T("%02d"), i + 1);
 		m_mfCategories[i] = cname;
 		for (int j = 0; j < 20; j++) {
 			HENHMETAFILE hm = NULL;
-			m_hMetaFiles[i*100+j] = hm;
+			m_hMetaFiles[i * 100 + j] = hm;
 		}
-	}	
+	}
 	CFile f;
 	BOOL res = f.Open(fname, CFile::modeRead);
 	if (res) {
 		CArchive ar(&f, CArchive::load);
 		loadmfs(ar);
-	} else {
+	}
+	else {
 		AfxGetApp()->WriteProfileString(REGS_SHAPES, _T("recent file"), _T(""));
 	}
 }
@@ -321,17 +322,17 @@ void CiEditApp::saveMetaFiles(const CString &fname)
 {
 	CFile f(fname, CFile::modeWrite | CFile::modeCreate);
 	CArchive ar(&f, CArchive::store);
-	
+
 	for (int i = 0; i < 10; i++) {
 		ar << m_mfCategories[i];
 		for (int j = 0; j < 20; j++) {
-			ar << (i+1)*100+j;
-			UINT hBits = GetEnhMetaFileBits(m_hMetaFiles[i*100+j], NULL, NULL);
+			ar << (i + 1) * 100 + j;
+			UINT hBits = GetEnhMetaFileBits(m_hMetaFiles[i * 100 + j], NULL, NULL);
 			ar << hBits;
-			
+
 			if (hBits > 0) {
 				BYTE *pData = new BYTE[hBits];
-				UINT ret = GetEnhMetaFileBits(m_hMetaFiles[i*100+j], hBits, pData);
+				UINT ret = GetEnhMetaFileBits(m_hMetaFiles[i * 100 + j], hBits, pData);
 				for (unsigned int i = 0; i < hBits; i++) {
 					ar << pData[i];
 				}
@@ -362,7 +363,7 @@ void CiEditApp::loadmfs(CArchive &ar)
 				hm = SetEnhMetaFileBits(hBits, pData);
 				delete pData;
 			}
-			m_hMetaFiles[i*100+j] = hm;
+			m_hMetaFiles[i * 100 + j] = hm;
 		}
 	}
 	CFile* pf = ar.GetFile();
@@ -373,14 +374,14 @@ void CiEditApp::notifyViewSetting()
 {
 	POSITION posDocTempl = GetFirstDocTemplatePosition();
 	CDocTemplate* pDocTemplate = GetNextDocTemplate(posDocTempl);
-	POSITION pos =  pDocTemplate->GetFirstDocPosition();
+	POSITION pos = pDocTemplate->GetFirstDocPosition();
 	while (pos != NULL) {
 		iEditDoc* pDoc = (iEditDoc*)pDocTemplate->GetNextDoc(pos);
 		pDoc->viewSettingChanged();
 	}
 }
 
-void CiEditApp::OnFileOpen() 
+void CiEditApp::OnFileOpen()
 {
 	CString szFilter = _T("iEditファイル(*.iedx)|*.iedx|iEditファイル(旧)(*.ied)|*.ied|XMLファイル(*.xml)|*.xml||");
 	CFileDialog cfDlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT |
@@ -406,18 +407,19 @@ void CiEditApp::getOtherProfile()
 
 HBRUSH CAboutDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
-	switch(nCtlColor){
+	switch (nCtlColor) {
 	case CTLCOLOR_DLG:
-		return (HBRUSH) m_brsDlg;
+		return (HBRUSH)m_brsDlg;
 	case CTLCOLOR_STATIC:
 		pDC->SetBkMode(TRANSPARENT);
 		if (pWnd->GetDlgCtrlID() == IDC_WEBSITE) {
 			pDC->SelectObject(&m_webSiteFont);
 			pDC->SetTextColor(RGB(0, 0, 255));
-		} else {
+		}
+		else {
 			pDC->SetTextColor(RGB(0, 0, 0));
 		}
-		return (HBRUSH) m_brsDlg;
+		return (HBRUSH)m_brsDlg;
 	default:
 		break;
 	}
@@ -428,10 +430,10 @@ BOOL CAboutDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	m_brsDlg.CreateSolidBrush(RGB(255,255,255));
+	m_brsDlg.CreateSolidBrush(RGB(255, 255, 255));
 	GetDlgItem(IDC_WEBSITE)->ModifyStyle(0, SS_NOTIFY);
 	HFONT hFont = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
-	::GetObject( hFont, sizeof( LOGFONT), &m_logFont);
+	::GetObject(hFont, sizeof(LOGFONT), &m_logFont);
 	m_logFont.lfUnderline = TRUE;
 	m_webSiteFont.CreateFontIndirect(&m_logFont);
 
@@ -443,7 +445,8 @@ BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	if (pWnd->GetDlgCtrlID() == IDC_WEBSITE) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		return TRUE;
-	} else {
+	}
+	else {
 		return CDialog::OnSetCursor(pWnd, nHitTest, message);
 	}
 }
@@ -465,7 +468,8 @@ void CiEditApp::OnFiletypeRegDel()
 	if (dlg.DoModal() != IDOK) return;
 	if (dlg.m_registFileType == 1) {
 		bRegist = TRUE;
-	} else {
+	}
+	else {
 		bRegist = FALSE;
 	}
 	pApp->m_rgsOptions.registFiletype = bRegist;

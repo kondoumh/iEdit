@@ -41,7 +41,7 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-void ShapeRegistrationDlg::OnBtnBrowse() 
+void ShapeRegistrationDlg::OnBtnBrowse()
 {
 	CString empath;
 	WCHAR szFilters[] = _T("拡張メタファイル (*.emf)|*.emf|全てのファイル (*.*)|*.*||");
@@ -54,13 +54,14 @@ void ShapeRegistrationDlg::OnBtnBrowse()
 			m_iShape.SetEnhMetaFile(hm);
 			m_strPath = infileName;
 			m_edPath.SetWindowText(m_strPath);
-		} else {
+		}
+		else {
 			AfxMessageBox(_T("有効なメタファイル形式ではありません"));
 		}
 	}
 }
 
-void ShapeRegistrationDlg::OnOK() 
+void ShapeRegistrationDlg::OnOK()
 {
 	if (m_strPath == _T("")) {
 		AfxMessageBox(_T("メタファイルが指定されていません"));

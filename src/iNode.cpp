@@ -12,7 +12,7 @@
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -37,10 +37,10 @@ iNode::iNode(const CString &name)
 void iNode::init()
 {
 	bound_.left = 0;
-	bound_.top = 0; 
+	bound_.top = 0;
 	bound_.right = 10;
 	bound_.bottom = 5;
-	
+
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	memset(&lf_, 0, sizeof(LOGFONT));
 	::lstrcpy(lf_.lfFaceName, pApp->m_rgsNode.lf.lfFaceName);
@@ -49,14 +49,14 @@ void iNode::init()
 	lf_.lfItalic = pApp->m_rgsNode.lf.lfItalic;
 	lf_.lfUnderline = pApp->m_rgsNode.lf.lfUnderline;
 	lf_.lfStrikeOut = pApp->m_rgsNode.lf.lfStrikeOut;
-	lf_.lfCharSet= pApp->m_rgsNode.lf.lfCharSet;
+	lf_.lfCharSet = pApp->m_rgsNode.lf.lfCharSet;
 	lf_.lfWeight = pApp->m_rgsNode.lf.lfWeight;
 	colorFont = pApp->m_rgsNode.colorFont;
 	styleText = pApp->m_rgsNode.styleText;
-	
+
 	colorLine = pApp->m_rgsNode.colorLine;
 	colorFill = pApp->m_rgsNode.colorFill;
-	
+
 	lineWidth = pApp->m_rgsNode.lineWidth;
 	styleLine = pApp->m_rgsNode.styleLine;
 	selected_ = false;
@@ -144,9 +144,9 @@ void iNode::Serialize(CArchive &ar)
 		if (deleted_) return;
 		CString fname(lf_.lfFaceName);
 		ar << key_ << parent_ << treeState_ << bound_ << styleLine << styleText << shape_ << fixed_
-		   << bfillcolor << colorFill << colorFont << colorLine << lineWidth << styleLine << name_ << text_
-		   << lf_.lfCharSet << lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
-		   << fname;
+			<< bfillcolor << colorFill << colorFont << colorLine << lineWidth << styleLine << name_ << text_
+			<< lf_.lfCharSet << lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
+			<< fname;
 		if (shape_ == iNode::MetaFile) {
 			UINT hBits = GetEnhMetaFileBits(hMF_, NULL, NULL);
 			BYTE *pData = new BYTE[hBits];
@@ -157,12 +157,13 @@ void iNode::Serialize(CArchive &ar)
 			}
 			delete pData;
 		}
-	} else {
+	}
+	else {
 		CString fname;
 		ar >> key_ >> parent_ >> treeState_ >> bound_ >> styleLine >> styleText >> shape_ >> fixed_
-		   >> bfillcolor >> colorFill >> colorFont >> colorLine >> lineWidth >> styleLine >> name_ >> text_
-		   >> lf_.lfCharSet >> lf_.lfHeight >> lf_.lfWidth >> lf_.lfItalic >> lf_.lfUnderline >> lf_.lfStrikeOut >> lf_.lfWeight
-		   >> fname;
+			>> bfillcolor >> colorFill >> colorFont >> colorLine >> lineWidth >> styleLine >> name_ >> text_
+			>> lf_.lfCharSet >> lf_.lfHeight >> lf_.lfWidth >> lf_.lfItalic >> lf_.lfUnderline >> lf_.lfStrikeOut >> lf_.lfWeight
+			>> fname;
 		::lstrcpy(lf_.lfFaceName, fname);
 		if (shape_ == iNode::MetaFile) {
 			UINT hBits;
@@ -183,9 +184,9 @@ void iNode::SerializeEx(CArchive& ar, int version)
 		if (deleted_) return;
 		CString fname(lf_.lfFaceName);
 		ar << key_ << parent_ << treeState_ << bound_ << styleLine << styleText << shape_ << fixed_
-		   << bfillcolor << colorFill << colorFont << colorLine << lineWidth << styleLine << name_ << text_
-		   << lf_.lfCharSet << lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
-		   << fname;
+			<< bfillcolor << colorFill << colorFont << colorLine << lineWidth << styleLine << name_ << text_
+			<< lf_.lfCharSet << lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
+			<< fname;
 		if (version > 1) {
 			ar << nLevel_;
 		}
@@ -205,12 +206,13 @@ void iNode::SerializeEx(CArchive& ar, int version)
 			}
 			delete pData;
 		}
-	} else {
+	}
+	else {
 		CString fname;
 		ar >> key_ >> parent_ >> treeState_ >> bound_ >> styleLine >> styleText >> shape_ >> fixed_
-		   >> bfillcolor >> colorFill >> colorFont >> colorLine >> lineWidth >> styleLine >> name_ >> text_
-		   >> lf_.lfCharSet >> lf_.lfHeight >> lf_.lfWidth >> lf_.lfItalic >> lf_.lfUnderline >> lf_.lfStrikeOut >> lf_.lfWeight
-		   >> fname;
+			>> bfillcolor >> colorFill >> colorFont >> colorLine >> lineWidth >> styleLine >> name_ >> text_
+			>> lf_.lfCharSet >> lf_.lfHeight >> lf_.lfWidth >> lf_.lfItalic >> lf_.lfUnderline >> lf_.lfStrikeOut >> lf_.lfWeight
+			>> fname;
 		::lstrcpy(lf_.lfFaceName, fname);
 		if (version > 1) {
 			ar >> nLevel_;
@@ -239,7 +241,7 @@ void iNode::setFontInfo(const LOGFONT &lf, bool resize)
 	LONG pre = lf_.lfHeight;
 	lf_ = lf;
 	::lstrcpy(lf_.lfFaceName, lf.lfFaceName);
-	double rate = (double)lf_.lfHeight/(double)pre;
+	double rate = (double)lf_.lfHeight / (double)pre;
 	double cx = ((double)(bound_.Width()))*rate;
 	double cy = ((double)(bound_.Height()))*rate;
 	adjustFont();
@@ -256,7 +258,7 @@ void iNode::adjustFont(bool bForceResize)
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize && !bForceResize) return;
 	if (styleText == iNode::notext) return;
 	CSize sz = getNodeTextSize();
-	LONG hmargin = sz.cy*4/7;
+	LONG hmargin = sz.cy * 4 / 7;
 	LONG wmargin = sz.cy;
 	if (!bfillcolor && styleLine == PS_NULL) {
 		hmargin /= 2;
@@ -271,14 +273,16 @@ void iNode::adjustFont(bool bForceResize)
 		if (bound_.Height() < height) {
 			bound_.bottom = bound_.top + height;
 		}
-	} else {
+	}
+	else {
 		int width = sz.cx + margin_l_ + margin_r_;
 		int height = sz.cy + margin_t_;
-		if (bound_.Width()*bound_.Height() >= width*height) return;
+		if (bound_.Width()*bound_.Height() >= width * height) return;
 		if (name_.Find(_T("\n")) == -1) {
 			enhanceBoundGradualy(width*height);
 			bound_.bottom += (int)((double)hmargin);
-		} else {
+		}
+		else {
 			enhanceLineOriented(sz);
 		}
 		bound_.right += wmargin;
@@ -290,7 +294,7 @@ void iNode::enhanceBoundGradualy(int area)
 	double dw = bound_.Width();
 	double dh = bound_.Height();
 	int square = (int)(dw*dh);
-	for(int i = 0; square <= area ; i++) {
+	for (int i = 0; square <= area; i++) {
 		dw *= 1.01;
 		dh *= 1.01;
 		bound_.right = bound_.left + (int)dw;
@@ -303,7 +307,7 @@ void iNode::enhanceLineOriented(const CSize& sz)
 {
 	int lineCount, maxLength;
 	getInnerLineInfo(name_, lineCount, maxLength);
-	int width = (int)((double)sz.cx*(((double)maxLength))/((double)(name_.GetLength())))
+	int width = (int)((double)sz.cx*(((double)maxLength)) / ((double)(name_.GetLength())))
 		+ sz.cy + margin_l_ + margin_r_; // 1文字文余分にマージンをつけた
 	int height = sz.cy*(lineCount - 1) + margin_t_;
 	bound_.right = bound_.left + width;
@@ -316,7 +320,7 @@ void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
 	tok.SetToken(_T("\n"));
 	lineCount = 1;
 	maxLength = 0;
-	for ( ; tok.MoreTokens(); lineCount++) {
+	for (; tok.MoreTokens(); lineCount++) {
 		CString line = tok.GetNextToken();
 		if (maxLength < line.GetLength()) {
 			maxLength = line.GetLength();
@@ -363,7 +367,7 @@ void iNode::setMetaFile(HENHMETAFILE& hMF)
 {
 	hMF_ = CopyEnhMetaFile(hMF, NULL);
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-	
+
 	ENHMETAHEADER h;
 	::GetEnhMetaFileHeader(hMF_, /*sz*/sizeof(h), &h);
 	RECTL b = h.rclBounds;
@@ -389,7 +393,7 @@ void iNode::restoreState()
 
 void iNode::fitSize()
 {
-	double height = 20.0*((double)bound_.Height())/((double)bound_.Width());
+	double height = 20.0*((double)bound_.Height()) / ((double)bound_.Width());
 	bound_.right = bound_.left + 20;
 	bound_.bottom = bound_.top + (int)height;
 	adjustFont();
@@ -411,7 +415,7 @@ bool iNode::isDragging() const
 void iNodeDrawer::draw(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 {
 	int oldBkMode = pDC->SetBkMode(TRANSPARENT); // DCの背景色透明
-	
+
 	if (node.isFilled()) {
 		fillBound(node, pDC);
 	}
@@ -421,7 +425,7 @@ void iNodeDrawer::draw(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 	if (node.isDragging()) {
 		drawDraggingTracker(node, pDC);
 	}
-	
+
 	pDC->SetBkMode(oldBkMode); // DCの背景リストア
 }
 
@@ -430,14 +434,14 @@ void iNodeDrawer::drawDraggingTracker(const iNode& node, CDC* pDC)
 	CPen penLine;
 	penLine.CreatePen(PS_SOLID, 10, RGB(127, 127, 255)); // ペン作成
 	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCのペン変更
-	
+
 	CRect bound = node.getBound();
 	pDC->MoveTo(bound.TopLeft());
 	pDC->LineTo(bound.right, bound.top);
 	pDC->LineTo(bound.BottomRight());
 	pDC->LineTo(bound.left, bound.bottom);
 	pDC->LineTo(bound.TopLeft());
-	
+
 	pDC->SelectObject(pOldPen);  // DCのペンリストア
 	penLine.DeleteObject();          // ペン開放
 }
@@ -455,9 +459,9 @@ void iNodeDrawer::fillBound(const iNode & node, CDC *pDC)
 {
 	CBrush brush(node.getBrsColor());	// ブラシ作成
 	CBrush* brsOld = pDC->SelectObject(&brush);  // DCのブラシ変更
-	
+
 	fillBoundSpecific(node, pDC, &brush); // サブクラスで処理
-	
+
 	pDC->SelectObject(brsOld);             // DCのブラシリストア
 	brush.DeleteObject();	                  // ブラシ開放
 }
@@ -468,9 +472,9 @@ void iNodeDrawer::drawShape(const iNode &node, CDC *pDC)
 	penLine.CreatePen(node.getLineStyle(),
 		node.getLineWidth(), node.getLineColor()); // ペン作成
 	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCのペン変更
-	
+
 	drawShapeSpecific(node, pDC, &penLine); // サブクラスで処理 メタファイルはここで再生
-	
+
 	pDC->SelectObject(pOldPen);  // DCのペンリストア
 	penLine.DeleteObject();          // ペン開放
 }
@@ -481,25 +485,25 @@ void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 	LOGFONT lf = node.getFontInfo();
 	CFont font;
 	font.CreateFont(lf.lfHeight, lf.lfWidth, 0, 0, lf.lfWeight, lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet,
-		             OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, lf.lfFaceName);
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, lf.lfFaceName);
 
-	
+
 	// デバイスコンテキストのフォント変更
 	CFont* pOldFont = pDC->SelectObject(&font);
 	COLORREF preColor = pDC->SetTextColor(node.getFontColor());
-	
+
 	drawLabelSpecific(node, pDC);
-	
+
 	pDC->SelectObject(pOldFont);
 	pDC->SetTextColor(preColor);
 	font.DeleteObject();
-	
+
 	if (bDrawOrderInfo) {
 		font.CreatePointFont(90, _T("MS Gothic"), pDC);
 		pOldFont = pDC->SelectObject(&font);
 		preColor = pDC->SetTextColor(RGB(90, 90, 90));
 		CString test; test.Format(_T("%d"), node.getDrawOrder());
-		pDC->TextOut(node.getBound().left+ 2, node.getBound().top + 2, test);
+		pDC->TextOut(node.getBound().left + 2, node.getBound().top + 2, test);
 		pDC->SelectObject(pOldFont);
 		pDC->SetTextColor(preColor);
 		font.DeleteObject();
@@ -516,75 +520,75 @@ void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::s_cl:
 		nFormat = DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::s_cr:
 		nFormat = DT_RIGHT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::s_tc:
-		nFormat =DT_CENTER | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
+		nFormat = DT_CENTER | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::s_tl:
 		nFormat = DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::s_tr:
-		nFormat =DT_RIGHT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
+		nFormat = DT_RIGHT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::s_bc:
-		nFormat =DT_CENTER | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
+		nFormat = DT_CENTER | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.bottom -= node.getMarginB();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::s_bl:
 		nFormat = DT_LEFT | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.bottom -= node.getMarginB();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::s_br:
 		nFormat = DT_RIGHT | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
 		m_textRect.bottom -= node.getMarginB();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::m_c:
 		nFormat = DT_CENTER | DT_WORDBREAK | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::m_l:
 		nFormat = DT_LEFT | DT_WORDBREAK | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
 		m_textRect.left += node.getMarginL();
 		m_textRect.right -= node.getMarginR();
 		break;
-	
+
 	case iNode::m_r:
 		nFormat = DT_RIGHT | DT_WORDBREAK | DT_NOPREFIX;
 		m_textRect.top += node.getMarginT();
@@ -594,7 +598,7 @@ void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
 	case iNode::notext:
 		break;
 	}
-	
+
 	if (styleText != iNode::notext) {
 		pDC->DrawText(node.getName(), &m_textRect, nFormat);
 	}
@@ -639,25 +643,27 @@ void iNodeRoundRectDrawer::drawShape(const iNode &node, CDC *pDC)
 	penLine.CreatePen(node.getLineStyle(),
 		node.getLineWidth(), node.getLineColor()); // ペン作成
 	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCのペン変更
-	
+
 	CBrush* pBrsOld;
 	HGDIOBJ hGdiObj;
 	CBrush brs(node.getBrsColor());
 	if (node.isFilled()) {
 		pBrsOld = pDC->SelectObject(&brs);
-	} else {
+	}
+	else {
 		hGdiObj = SelectObject(pDC->m_hDC, GetStockObject(NULL_BRUSH));
 	}
 	CRect bound = node.getBound();
 	m_r = (bound.Width() < bound.Height()) ? bound.Width() : bound.Height();
-	pDC->RoundRect(bound, CPoint(m_r/4, m_r/4));
-	
+	pDC->RoundRect(bound, CPoint(m_r / 4, m_r / 4));
+
 	if (node.isFilled()) {
 		pDC->SelectObject(pBrsOld);
-	} else {
+	}
+	else {
 		SelectObject(pDC->m_hDC, hGdiObj);
 	}
-	
+
 	pDC->SelectObject(pOldPen);  // DCのペンリストア
 	penLine.DeleteObject();          // ペン開放
 }
@@ -667,19 +673,19 @@ void iNodeRoundRectDrawer::adjustTextArea(const iNode &node)
 	iNodeDrawer::adjustTextArea(node);
 	switch (node.getTextStyle()) {
 	case iNode::s_tl:
-		m_textRect.left += m_r/8;
+		m_textRect.left += m_r / 8;
 		break;
-	
+
 	case iNode::s_tr:
-		m_textRect.right -= m_r/8;
+		m_textRect.right -= m_r / 8;
 		break;
-	
+
 	case iNode::s_bl:
-		m_textRect.left += m_r/8;
+		m_textRect.left += m_r / 8;
 		break;
-	
+
 	case iNode::s_br:
-		m_textRect.right -= m_r/8;
+		m_textRect.right -= m_r / 8;
 		break;
 	}
 }
@@ -707,26 +713,26 @@ void iNodeArcDrawer::drawShapeSpecific(const iNode &node, CDC *pDC, const CPen *
 void iNodeArcDrawer::adjustTextArea(const iNode &node)
 {
 	m_textRect = node.getBound();
-	m_textRect.left += node.getBound().Width()/16;
-	m_textRect.right -= node.getBound().Width()/16;
-	m_textRect.top += node.getBound().Height()/16;
-	m_textRect.bottom -= node.getBound().Height()/16;
-	
+	m_textRect.left += node.getBound().Width() / 16;
+	m_textRect.right -= node.getBound().Width() / 16;
+	m_textRect.top += node.getBound().Height() / 16;
+	m_textRect.bottom -= node.getBound().Height() / 16;
+
 	switch (node.getTextStyle()) {
 	case iNode::s_tl:
-		m_textRect.top += node.getBound().Height()*3/16;
+		m_textRect.top += node.getBound().Height() * 3 / 16;
 		break;
-	
+
 	case iNode::s_tr:
-		m_textRect.top += node.getBound().Height()*3/16;
+		m_textRect.top += node.getBound().Height() * 3 / 16;
 		break;
-	
+
 	case iNode::s_bl:
-		m_textRect.bottom -= node.getBound().Height()*3/16;
+		m_textRect.bottom -= node.getBound().Height() * 3 / 16;
 		break;
-	
+
 	case iNode::s_br:
-		m_textRect.bottom -= node.getBound().Height()*3/16;
+		m_textRect.bottom -= node.getBound().Height() * 3 / 16;
 		break;
 	}
 }
@@ -760,11 +766,12 @@ void iNodes::setSelKey(DWORD key)
 {
 	selKey_ = key;
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (selKey_ == (*it).second.getKey()) {
 			(*it).second.selectNode();
 			curParent_ = (*it).second.getParent();
-		} else {
+		}
+		else {
 			(*it).second.selectNode(false);
 		}
 	}
@@ -785,9 +792,10 @@ void iNodes::initSelection()
 	if (size() == 1) {
 		selKey_ = 0;
 		setSelKey(selKey_);
-	} else {
+	}
+	else {
 		const_niterator it = begin();
-		for ( ; it != end(); it++) {
+		for (; it != end(); it++) {
 			if ((*it).second.getTreeState() & TVIS_SELECTED) {
 				// TVIS_EXPANDEDと間違えてた
 				selKey_ = (*it).second.getKey();
@@ -801,7 +809,7 @@ void iNodes::initSelection()
 void iNodes::drawNodes(CDC *pDC, bool bDrwAll)
 {
 	vector<iNode*>::iterator it = nodesDraw_.begin();
-	for ( ; it != nodesDraw_.end(); it++) {
+	for (; it != nodesDraw_.end(); it++) {
 		iNodeDrawer* pDrawer = getNodeDrawer(*(*it));
 		pDrawer->draw(*(*it), pDC, m_bDrawOrderInfo);
 	}
@@ -810,14 +818,14 @@ void iNodes::drawNodes(CDC *pDC, bool bDrwAll)
 iNode* iNodes::hitTest(const CPoint &pt, bool bTestAll)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		(*it).second.selectNode(false);
 	}
-	
+
 	vector<iNode*>::reverse_iterator vit = nodesDraw_.rbegin();
 	CRect preRc(0, 0, 0, 0);
 	vector<iNode*>::reverse_iterator vit_inner = nodesDraw_.rend();
-	for ( ; vit != nodesDraw_.rend(); vit++) {
+	for (; vit != nodesDraw_.rend(); vit++) {
 		CRect rc = (*vit)->getBound();
 		rc.left -= 1;
 		rc.right += 1;
@@ -830,7 +838,8 @@ iNode* iNodes::hitTest(const CPoint &pt, bool bTestAll)
 					vit_inner = vit;
 					preRc = rc;
 				}
-			} else {
+			}
+			else {
 				vit_inner = vit;
 				preRc = rc;
 			}
@@ -850,7 +859,7 @@ iNode* iNodes::hitTest2(const CPoint &pt, bool bTestAll) const
 	vector<iNode*>::const_reverse_iterator vit = nodesDraw_.rbegin();
 	CRect preRc(0, 0, 0, 0);
 	vector<iNode*>::const_reverse_iterator vit_inner = nodesDraw_.rend();
-	for ( ; vit != nodesDraw_.rend(); vit++) {
+	for (; vit != nodesDraw_.rend(); vit++) {
 		CRect rc = (*vit)->getBound();
 		rc.left -= 1;
 		rc.right += 1;
@@ -863,7 +872,8 @@ iNode* iNodes::hitTest2(const CPoint &pt, bool bTestAll) const
 					vit_inner = vit;
 					preRc = rc;
 				}
-			} else {
+			}
+			else {
 				vit_inner = vit;
 				preRc = rc;
 			}
@@ -876,7 +886,7 @@ iNode* iNodes::hitTest2(const CPoint &pt, bool bTestAll) const
 void iNodes::moveSelectedNode(const CSize &sz)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.moveBound(sz);
 		}
@@ -894,7 +904,7 @@ void iNodes::setSelectedNodeBound(const CRect &r)
 void iNodes::setSelectedNodeFont(const LOGFONT &lf)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setFontInfo(lf);
 		}
@@ -924,7 +934,7 @@ COLORREF iNodes::getSelectedNodeFontColor() const
 void iNodes::setSelectedNodeFontColor(const COLORREF &c)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setFontColor(c);
 		}
@@ -934,7 +944,7 @@ void iNodes::setSelectedNodeFontColor(const COLORREF &c)
 void iNodes::setSelectedNodeBrush(const COLORREF &c)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setBrush(c);
 		}
@@ -944,7 +954,7 @@ void iNodes::setSelectedNodeBrush(const COLORREF &c)
 void iNodes::setSelectedNodeNoBrush(BOOL noBrush)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setNoBrush(noBrush);
 		}
@@ -954,7 +964,7 @@ void iNodes::setSelectedNodeNoBrush(BOOL noBrush)
 void iNodes::setSelectedNodeLineColor(const COLORREF &c)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setLineColor(c);
 		}
@@ -984,7 +994,7 @@ COLORREF iNodes::getSelectedNodeBrsColor() const
 void iNodes::setSelectedNodeLineStyle(int style)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setLineStyle(style);
 		}
@@ -1004,7 +1014,7 @@ int iNodes::getSelectedNodeLineStyle() const
 void iNodes::setSelectedNodeLineWidth(int w)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setLineWidth(w);
 		}
@@ -1025,7 +1035,7 @@ int iNodes::getSelectedNodeLineWidth() const
 void iNodes::setSelectedNodeTextStyle(int style)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setTextStyle(style);
 		}
@@ -1053,21 +1063,22 @@ int iNodes::getSelectedNodeTextStyle() const
 int iNodes::selectNodesInBound(const CRect &bound, CRect &selRect, bool bDrwAll)
 {
 	niterator it = begin();
-	int cnt=0;
-	for ( ; it != end(); it++) {
+	int cnt = 0;
+	for (; it != end(); it++) {
 		CRect r = (*it).second.getBound();
 		if (!(*it).second.isVisible()) continue;
 		if ((r | bound) == bound) {
 			(*it).second.selectNode();
 			selRect = (*it).second.getBound();
 			cnt++;
-		} else {
+		}
+		else {
 			(*it).second.selectNode(false);
 		}
 	}
-	
+
 	it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			if ((*it).second.getBound().left < selRect.left) selRect.left = (*it).second.getBound().left;
 			if ((*it).second.getBound().right > selRect.right) selRect.right = (*it).second.getBound().right;
@@ -1087,7 +1098,7 @@ CString iNodes::createClickableMapString(const CString& fileName, bool singleTex
 {
 	CString mapString;
 	vector<iNode*>::reverse_iterator it = nodesDraw_.rbegin();
-	for ( ; it != nodesDraw_.rend(); it++) {
+	for (; it != nodesDraw_.rend(); it++) {
 		iNodeDrawer* pDrawer = getNodeDrawer(*(*it));
 		CString coordsValue;
 		CPoint ptl = (*it)->getBound().TopLeft();
@@ -1096,10 +1107,11 @@ CString iNodes::createClickableMapString(const CString& fileName, bool singleTex
 		CString href;
 		if (singleText) {
 			href.Format(fileName + _T("#%d"), (*it)->getKey());
-		} else {
+		}
+		else {
 			href.Format(_T("text/") + fileName + _T("%d.html"), (*it)->getKey());
 		}
-		mapString += _T("<area shape=\"rect\" coords=\"") + coordsValue 
+		mapString += _T("<area shape=\"rect\" coords=\"") + coordsValue
 			+ _T("\" href=\"") + href + _T("\" target=\"text\" alt=\"") + StringUtil::removeCR((*it)->getName()) + _T("\" />\n");
 	}
 	return mapString;
@@ -1109,12 +1121,13 @@ void iNodes::setVisibleNodes(DWORD key)
 {
 	nodesDraw_.clear();
 	nodesDraw_.resize(0);
-	
+
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.getParent() != curParent_) {
 			(*it).second.setVisible(false);
-		} else {
+		}
+		else {
 			(*it).second.setVisible();
 			unsigned int order = 0;
 			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*it).second.getKey());
@@ -1139,15 +1152,15 @@ void iNodes::setVisibleNodes(KeySet& keySet)
 {
 	nodesDraw_.clear();
 	nodesDraw_.resize(0);
-	
+
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		(*it).second.setVisible(false);
 	}
-	
+
 	set<DWORD>::iterator itks = keySet.begin();
 	niterator nit;
-	for ( ; itks != keySet.end(); itks++) {
+	for (; itks != keySet.end(); itks++) {
 		nit = findNodeW(*itks);
 		if (nit != end()) {
 			(*nit).second.setVisible(true);
@@ -1169,7 +1182,7 @@ void iNodes::setVisibleNodes(KeySet& keySet)
 BOOL iNodes::isSelectedNodeFilled() const
 {
 	const_niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			return ((*it).second.isFilled());
 		}
@@ -1190,12 +1203,12 @@ int iNodes::getSelectedNodeShape() const
 void iNodes::setSelectedNodeShape(int shape)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setNodeShape(shape);
 			if (shape > 9) {
 				CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-				(*it).second.setMetaFile(pApp->m_hMetaFiles[shape-10]);
+				(*it).second.setMetaFile(pApp->m_hMetaFiles[shape - 10]);
 			}
 		}
 	}
@@ -1232,9 +1245,9 @@ niterator iNodes::findNodeW(DWORD key)
 CSize iNodes::getMaxNodeSize(bool selection, bool bDrwAll) const
 {
 	CSize sz(0, 0);
-	
+
 	const_niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).second.isVisible()) {
 			continue;
 		}
@@ -1278,13 +1291,17 @@ iNodeDrawer* iNodes::getNodeDrawer(const iNode &node)
 	int shape = node.getNodeShape();
 	if (shape == iNode::rectangle) {
 		return m_pNodeRectDrawer;
-	} else if (shape == iNode::roundRect) {
+	}
+	else if (shape == iNode::roundRect) {
 		return m_pNodeRoundRectDrawer;
-	} else if (shape == iNode::arc) {
+	}
+	else if (shape == iNode::arc) {
 		return m_pNodeArcDrawer;
-	} else if (shape == iNode::MetaFile) {
+	}
+	else if (shape == iNode::MetaFile) {
 		return m_pMetafileDrawer;
-	} else if (shape == iNode::MindMapNode) {
+	}
+	else if (shape == iNode::MindMapNode) {
 		return m_pMMNodeDrawer;
 	}
 	return m_pNodeRectDrawer;
@@ -1293,7 +1310,7 @@ iNodeDrawer* iNodes::getNodeDrawer(const iNode &node)
 void iNodes::drawNodesSelected(CDC *pDC)
 {
 	vector<iNode*>::iterator it = nodesDraw_.begin();
-	for ( ; it != nodesDraw_.end(); it++) {
+	for (; it != nodesDraw_.end(); it++) {
 		if ((*(*it)).isSelected()) {
 			iNodeDrawer* pDrawer = getNodeDrawer(*(*it));
 			pDrawer->draw(*(*it), pDC, m_bDrawOrderInfo);
@@ -1304,7 +1321,7 @@ void iNodes::drawNodesSelected(CDC *pDC)
 void iNodes::fixNodesReversibly(DWORD keyExcluded)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isInChain()) {
 			(*it).second.backupState();
 			if ((*it).second.getKey() != keyExcluded) {
@@ -1317,7 +1334,7 @@ void iNodes::fixNodesReversibly(DWORD keyExcluded)
 void iNodes::restoreNodesFixState(DWORD keyExcluded)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isInChain()) {
 			if ((*it).second.getKey() != keyExcluded) {
 				(*it).second.restoreState();
@@ -1329,13 +1346,14 @@ void iNodes::restoreNodesFixState(DWORD keyExcluded)
 void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			LOGFONT lf = (*it).second.getFontInfo();
 			LONG pre = lf.lfHeight;
 			if (bEnlarge) {
 				lf.lfHeight -= 2;
-			} else {
+			}
+			else {
 				if (lf.lfHeight < -4) {
 					lf.lfHeight += 2;
 				}
@@ -1349,7 +1367,7 @@ serialVec iNodes::getSelectedNodeKeys() const
 {
 	serialVec v;
 	const_niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected() && (*it).second.isVisible()) {
 			v.push_back((*it).second.getKey());
 		}
@@ -1360,7 +1378,7 @@ serialVec iNodes::getSelectedNodeKeys() const
 void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setMarginL(l);
 			(*it).second.setMarginR(r);
@@ -1373,7 +1391,7 @@ void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
 void iNodes::setSelectedLinkDragging(bool dragging)
 {
 	niterator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
 			(*it).second.setDragging(dragging);
 			return;

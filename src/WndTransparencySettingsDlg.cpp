@@ -40,16 +40,16 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL WndTransparencySettingsDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
+BOOL WndTransparencySettingsDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext)
 {
 	m_pParent = pParentWnd;
 	return CDialog::Create(IDD, pParentWnd);
 }
 
-BOOL WndTransparencySettingsDlg::OnInitDialog() 
+BOOL WndTransparencySettingsDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	m_sldrAlpha.SetRange(50, 255);
 	m_sldrAlpha.SetPos(m_nLevel);
 	CString s; s.Format(_T("%d"), m_sldrAlpha.GetPos());
@@ -57,7 +57,7 @@ BOOL WndTransparencySettingsDlg::OnInitDialog()
 	return TRUE;
 }
 
-void WndTransparencySettingsDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+void WndTransparencySettingsDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	CString s; s.Format(_T("%d"), m_sldrAlpha.GetPos());
 	m_lbLevel.SetWindowText(s);

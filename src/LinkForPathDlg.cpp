@@ -39,7 +39,7 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-void LinkForPathDlg::OnBrowse() 
+void LinkForPathDlg::OnBrowse()
 {
 	WCHAR szFilters[] = _T("全てのファイル (*.*)|*.*|");
 	CFileDialog dlg(TRUE, _T("*.*"), NULL, OFN_HIDEREADONLY, szFilters, NULL);
@@ -48,7 +48,7 @@ void LinkForPathDlg::OnBrowse()
 	m_edit.ReplaceSel(dlg.GetPathName());
 }
 
-void LinkForPathDlg::OnOK() 
+void LinkForPathDlg::OnOK()
 {
 	m_edit.GetWindowText(strPath);
 	m_Comment.GetWindowText(strComment);
@@ -59,7 +59,7 @@ void LinkForPathDlg::OnOK()
 	CDialog::OnOK();
 }
 
-BOOL LinkForPathDlg::OnInitDialog() 
+BOOL LinkForPathDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	m_Org.SetWindowText(strOrg);

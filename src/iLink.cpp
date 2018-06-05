@@ -9,7 +9,7 @@
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -27,9 +27,9 @@ iLink::iLink()
 	lf_.lfItalic = pApp->m_rgsLink.lf.lfItalic;
 	lf_.lfUnderline = pApp->m_rgsLink.lf.lfUnderline;
 	lf_.lfStrikeOut = pApp->m_rgsLink.lf.lfStrikeOut;
-	lf_.lfCharSet= pApp->m_rgsLink.lf.lfCharSet;
+	lf_.lfCharSet = pApp->m_rgsLink.lf.lfCharSet;
 	lf_.lfWeight = pApp->m_rgsLink.lf.lfWeight;
-	
+
 	drwFlag = false;
 	deleted_ = false;
 	colorLine = pApp->m_rgsLink.colorLine;
@@ -92,18 +92,18 @@ IMPLEMENT_SERIAL(iLink, CObject, 0)
 void iLink::drawComment(CDC *pDC, bool clipbrd)
 {
 	CRect rc = getCommentRect();
-	
+
 	font_.CreateFont(lf_.lfHeight, lf_.lfWidth, 0, 0, lf_.lfWeight, lf_.lfItalic, lf_.lfUnderline, lf_.lfStrikeOut, lf_.lfCharSet,
-		             OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, lf_.lfFaceName);
-	
-	
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, lf_.lfFaceName);
+
+
 	CFont* pOldFont = pDC->SelectObject(&font_);
 	COLORREF preColor = pDC->SetTextColor(colorLine);
-	
+
 	pDC->TextOut(rc.left, rc.top, name_);
-	
+
 	bool renderHandle = this->curved_ && this->name_.GetLength() == 0 && !this->angled_;
-	
+
 	if (!pDC->IsPrinting() && !clipbrd && renderHandle) {
 		penCommentRect.CreatePen(PS_DOT, 0, RGB(127, 127, 127));
 		CPen* poldPen = pDC->SelectObject(&penCommentRect);
@@ -112,7 +112,7 @@ void iLink::drawComment(CDC *pDC, bool clipbrd)
 		pDC->LineTo(rc.BottomRight());
 		pDC->LineTo(rc.left, rc.bottom);
 		pDC->LineTo(rc.TopLeft());
-		
+
 		pDC->SelectObject(poldPen);
 		penCommentRect.DeleteObject();
 	}
@@ -129,7 +129,8 @@ void iLink::drawLine(CDC *pDC)
 		if (!curved_) {
 			pDC->MoveTo(ptFrom);
 			pDC->LineTo(ptTo);
-		} else {
+		}
+		else {
 			if (!angled_) {
 				CPoint pt[4];
 				pt[0] = ptFrom;
@@ -137,13 +138,15 @@ void iLink::drawLine(CDC *pDC)
 				pt[2] = ptPath;
 				pt[3] = ptTo;
 				pDC->PolyBezier(pt, 4);
-			} else {
+			}
+			else {
 				pDC->MoveTo(ptFrom);
 				pDC->LineTo(ptPath);
 				pDC->LineTo(ptTo);
 			}
 		}
-	} else {
+	}
+	else {
 		if (!angled_) {
 			CPoint pt[4];
 			pt[0] = ptFrom;
@@ -151,7 +154,8 @@ void iLink::drawLine(CDC *pDC)
 			pt[2] = ptPath;
 			pt[3] = ptTo;
 			pDC->PolyBezier(pt, 4);
-		} else {
+		}
+		else {
 			pDC->MoveTo(ptFrom);
 			pDC->LineTo(ptPath);
 			pDC->LineTo(ptTo);
@@ -174,7 +178,8 @@ void iLink::drawDropTarget(CDC* pDC)
 		if (!curved_) {
 			pDC->MoveTo(ptFrom);
 			pDC->LineTo(ptTo);
-		} else {
+		}
+		else {
 			if (!angled_) {
 				CPoint pt[4];
 				pt[0] = ptFrom;
@@ -182,13 +187,15 @@ void iLink::drawDropTarget(CDC* pDC)
 				pt[2] = ptPath;
 				pt[3] = ptTo;
 				pDC->PolyBezier(pt, 4);
-			} else {
+			}
+			else {
 				pDC->MoveTo(ptFrom);
 				pDC->LineTo(ptPath);
 				pDC->LineTo(ptTo);
 			}
 		}
-	} else {
+	}
+	else {
 		if (!angled_) {
 			CPoint pt[4];
 			pt[0] = ptFrom;
@@ -196,7 +203,8 @@ void iLink::drawDropTarget(CDC* pDC)
 			pt[2] = ptPath;
 			pt[3] = ptTo;
 			pDC->PolyBezier(pt, 4);
-		} else {
+		}
+		else {
 			pDC->MoveTo(ptFrom);
 			pDC->LineTo(ptPath);
 			pDC->LineTo(ptTo);
@@ -211,7 +219,8 @@ void iLink::drawArrow(CDC *pDC)
 {
 	if (!this->isRectLink()) {
 		drawTriangles(pDC);
-	} else {
+	}
+	else {
 		drawRectangles(pDC);
 	}
 }
@@ -219,25 +228,26 @@ void iLink::drawArrow(CDC *pDC)
 const bool iLink::isRectLink() const
 {
 	if (styleArrow == iLink::aggregat || styleArrow == iLink::composit) {
-			return true;
+		return true;
 	}
 	return false;
 }
 
 void iLink::drawRectangles(CDC* pDC)
 {
-	
+
 	CBrush* pOldBrs;
 	CBrush brs(colorLine);
 	if (styleArrow == iLink::aggregat) {
 		pOldBrs = (CBrush*)pDC->SelectStockObject(WHITE_BRUSH);
-	} else {
+	}
+	else {
 		pOldBrs = pDC->SelectObject(&brs);
 	}
-	
+
 	int ArrowWidth = 5;
 	int ArrowHeight = 12;
-	
+
 	CPoint pt[4];
 	pt[0].x = ptTo.x;
 	pt[0].y = ptTo.y;
@@ -250,13 +260,14 @@ void iLink::drawRectangles(CDC* pDC)
 
 	if (!curved_) {
 		rotateArrow(pt, 4, ptFrom, ptTo, ptTo);
-	} else {
-		rotateArrow(pt, 4, ptPath, ptTo, ptTo);		
 	}
-	
+	else {
+		rotateArrow(pt, 4, ptPath, ptTo, ptTo);
+	}
+
 	pDC->Polygon(pt, 4);
 	pDC->SelectObject(pOldBrs);
-	
+
 	penLine.CreatePen(PS_SOLID, lineWidth, colorLine);
 	CPen* oldpen = pDC->SelectObject(&penLine);
 	pDC->MoveTo(pt[0]);
@@ -274,13 +285,14 @@ void iLink::drawTriangles(CDC* pDC)
 	CBrush brs(colorLine);
 	if (styleArrow == iLink::inherit) {
 		pOldBrs = (CBrush*)pDC->SelectStockObject(WHITE_BRUSH);
-	} else {
+	}
+	else {
 		pOldBrs = pDC->SelectObject(&brs);
 	}
-	
+
 	penLine.CreatePen(PS_SOLID, lineWidth, colorLine);
 	CPen* oldpen = pDC->SelectObject(&penLine);
-	
+
 	int ArrowWidth = 5;
 	int ArrowHeight = 12;
 	switch (this->lineWidth) {
@@ -305,7 +317,7 @@ void iLink::drawTriangles(CDC* pDC)
 		ArrowHeight = 19;
 		break;
 	}
-	
+
 	if (isSingle() || isDual()) {
 		CPoint pt[3];
 		pt[0].x = ptTo.x;
@@ -314,20 +326,23 @@ void iLink::drawTriangles(CDC* pDC)
 		pt[1].y = pt[0].y + ArrowWidth;
 		pt[2].x = pt[0].x + ArrowHeight;
 		pt[2].y = pt[0].y - ArrowWidth;
-		
+
 		if (keyFrom != keyTo) {
 			if (!curved_) {
 				rotateArrow(pt, 3, ptFrom, ptTo, ptTo);
-			} else {
-				rotateArrow(pt, 3, ptPath, ptTo, ptTo);		
 			}
-		} else {
-			rotateArrow(pt, 3, ptPath, ptTo, ptTo);		
+			else {
+				rotateArrow(pt, 3, ptPath, ptTo, ptTo);
+			}
+		}
+		else {
+			rotateArrow(pt, 3, ptPath, ptTo, ptTo);
 		}
 		if (styleArrow == iLink::arrow || styleArrow == iLink::arrow2 ||
 			styleArrow == iLink::inherit) {
 			pDC->Polygon(pt, 3);
-		} else if (styleArrow == iLink::depend || styleArrow == iLink::depend2) {
+		}
+		else if (styleArrow == iLink::depend || styleArrow == iLink::depend2) {
 			pDC->MoveTo(pt[0]);
 			pDC->LineTo(pt[1]);
 			pDC->MoveTo(pt[0]);
@@ -342,19 +357,22 @@ void iLink::drawTriangles(CDC* pDC)
 		pt[1].y = pt[0].y + ArrowWidth;
 		pt[2].x = pt[0].x + ArrowHeight;
 		pt[2].y = pt[0].y - ArrowWidth;
-		
+
 		if (keyFrom != keyTo) {
 			if (!curved_) {
 				rotateArrow(pt, 3, ptTo, ptFrom, ptFrom);
-			} else {
+			}
+			else {
 				rotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
 			}
-		} else {
+		}
+		else {
 			rotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
 		}
 		if (styleArrow == iLink::arrow2) {
 			pDC->Polygon(pt, 3);
-		} else if (styleArrow == iLink::depend2) {
+		}
+		else if (styleArrow == iLink::depend2) {
 			pDC->MoveTo(pt[0]);
 			pDC->LineTo(pt[1]);
 			pDC->MoveTo(pt[0]);
@@ -369,11 +387,11 @@ void iLink::drawTriangles(CDC* pDC)
 
 void iLink::rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg)
 {
-	double c,s;
+	double c, s;
 	double r = sqrt(pow((double)(pTo.x - pFrom.x), 2) + pow((double)(pTo.y - pFrom.y), 2));
-	c = ((double)(pFrom.x - pTo.x))/r;
-	s = ((double)(pFrom.y - pTo.y))/r;
-	
+	c = ((double)(pFrom.x - pTo.x)) / r;
+	s = ((double)(pFrom.y - pTo.y)) / r;
+
 	for (int i = 0; i < size; i++) { // 頂点の数だけ繰り返し
 		// m_ptTo を原点になるように座標の並行移動
 		pPoint[i].x = pPoint[i].x - pTo.x;
@@ -402,35 +420,40 @@ const bool iLink::isSingle() const
 void iLink::setConnectPoint()
 {
 	CPoint gFrom = rcFrom.CenterPoint();
-	CPoint gTo = rcTo.CenterPoint(); 
-	
+	CPoint gTo = rcTo.CenterPoint();
+
 	if (keyFrom != keyTo) {
 		if (!curved_) {
 			ptFrom = getClossPoint(rcFrom, gTo);
 			ptTo = getClossPoint(rcTo, gFrom);
-		} else {
+		}
+		else {
 			ptFrom = getClossPoint(rcFrom, ptPath);
 			ptTo = getClossPoint(rcTo, ptPath);
 		}
-	} else {
+	}
+	else {
 		selfRect.left = gFrom.x; selfRect.bottom = gFrom.y;
 		selfRect.right = ptPath.x; selfRect.top = ptPath.y;
 		selfRect.NormalizeRect();
-		
+
 		if (ptPath.x >= gFrom.x && ptPath.y <= gFrom.y) {
 			ptFrom = CPoint(rcFrom.right, gFrom.y);
 			ptTo = CPoint(gFrom.x, rcFrom.top);
-		} else if (ptPath.x >= gFrom.x && ptPath.y > gFrom.y) {
+		}
+		else if (ptPath.x >= gFrom.x && ptPath.y > gFrom.y) {
 			ptFrom = CPoint(gFrom.x, rcFrom.bottom);
 			ptTo = CPoint(rcFrom.right, gFrom.y);
-		} else if (ptPath.x < gFrom.x && ptPath.y > gFrom.y) {
+		}
+		else if (ptPath.x < gFrom.x && ptPath.y > gFrom.y) {
 			ptFrom = CPoint(rcFrom.left, gFrom.y);
 			ptTo = CPoint(gFrom.x, rcFrom.bottom);
-		} else if (ptPath.x < gFrom.x && ptPath.y <= gFrom.y) {
+		}
+		else if (ptPath.x < gFrom.x && ptPath.y <= gFrom.y) {
 			ptFrom = CPoint(gFrom.x, rcFrom.top);
 			ptTo = CPoint(rcFrom.left, gFrom.y);
 		}
-		
+
 		curved_ = true;
 	}
 }
@@ -440,22 +463,24 @@ void iLink::Serialize(CArchive &ar)
 	if (ar.IsStoring()) {
 		if (deleted_) return;
 		CString fname(lf_.lfFaceName);
-		
+
 		// Visual C++ 6.0 と 7.0(.NET)の互換性のためのシリアライズコード
 		// 7.0ではbool値をそのままシリアル化可能となっているが、過去のファイル
 		// との整合性のため1と0に変換してシリアル化することとする
 		int curve;
 		if (curved_ == true) {
 			curve = 1;
-		} else {
+		}
+		else {
 			curve = 0;
 		}
-		
+
 		ar << keyFrom << keyTo << rcFrom << rcTo << ptFrom << ptTo << ptPath << curve
 			<< lineWidth << styleArrow << styleLine << colorLine << name_ << path_
 			<< lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
 			<< fname;
-	} else {
+	}
+	else {
 		CString fname;
 		int curve;
 		ar >> keyFrom >> keyTo >> rcFrom >> rcTo >> ptFrom >> ptTo >> ptPath >> curve
@@ -465,7 +490,8 @@ void iLink::Serialize(CArchive &ar)
 		::lstrcpy(lf_.lfFaceName, fname);
 		if (curve > 0) {
 			curved_ = true;
-		} else {
+		}
+		else {
 			curved_ = false;
 		}
 		if (keyFrom == keyTo) {
@@ -479,9 +505,9 @@ void iLink::SerializeEx(CArchive& ar, int version)
 	if (ar.IsStoring()) {
 		if (deleted_) return;
 		CString fname(lf_.lfFaceName);
-		
+
 		int curve = curved_ ? 1 : 0;
-		
+
 		ar << keyFrom << keyTo << rcFrom << rcTo << ptFrom << ptTo << ptPath << curve
 			<< lineWidth << styleArrow << styleLine << colorLine << name_ << path_
 			<< lf_.lfHeight << lf_.lfWidth << lf_.lfItalic << lf_.lfUnderline << lf_.lfStrikeOut << lf_.lfWeight
@@ -490,7 +516,8 @@ void iLink::SerializeEx(CArchive& ar, int version)
 			int angled = angled_ ? 1 : 0;
 			ar << angled;
 		}
-	} else {
+	}
+	else {
 		CString fname;
 		int curve;
 		ar >> keyFrom >> keyTo >> rcFrom >> rcTo >> ptFrom >> ptTo >> ptPath >> curve
@@ -512,16 +539,16 @@ void iLink::SerializeEx(CArchive& ar, int version)
 
 CPoint iLink::getClossPoint(const CRect &target, const CPoint &start)
 {
-	CPoint g((target.left + target.right)/2, (target.top + target.bottom)/2);
-	
+	CPoint g((target.left + target.right) / 2, (target.top + target.bottom) / 2);
+
 	double t;
 	CPoint cpt;
-	for (t = 0.01; t < 1.0; t+= 0.01) {
+	for (t = 0.01; t < 1.0; t += 0.01) {
 		cpt.x = start.x + (int)(t*(g.x - start.x));
 		cpt.y = start.y + (int)(t*(g.y - start.y));
 		if (target.PtInRect(cpt)) break;
 	}
-	
+
 	return cpt;
 }
 
@@ -532,7 +559,7 @@ bool iLink::hitTest(const CPoint &pt)
 	if (!curved_) {
 		CPoint pts[4];
 		const int mrgn = 4;
-		if (abs(ptFrom.x - ptTo.x) > abs (ptFrom.y - ptTo.y)) {
+		if (abs(ptFrom.x - ptTo.x) > abs(ptFrom.y - ptTo.y)) {
 			pts[0].x = ptFrom.x;
 			pts[0].y = ptFrom.y - mrgn;
 			pts[1].x = ptFrom.x;
@@ -541,7 +568,8 @@ bool iLink::hitTest(const CPoint &pt)
 			pts[2].y = ptTo.y + mrgn;
 			pts[3].x = ptTo.x;
 			pts[3].y = ptTo.y - mrgn;
-		} else {
+		}
+		else {
 			pts[0].x = ptFrom.x - mrgn;
 			pts[0].y = ptFrom.y;
 			pts[1].x = ptFrom.x + mrgn;
@@ -555,7 +583,8 @@ bool iLink::hitTest(const CPoint &pt)
 		r->CreatePolygonRgn(pts, 4, WINDING);
 		if (r->PtInRegion(pt)) {
 			selected_ = true;
-		} else {
+		}
+		else {
 			selected_ = false;
 		}
 		CRect cr = getCommentRect();
@@ -563,7 +592,8 @@ bool iLink::hitTest(const CPoint &pt)
 			selected_ = true;
 		}
 		delete r;
-	} else {
+	}
+	else {
 		CPoint pts[6];
 		const int mrgn = 4;
 		pts[0].x = ptFrom.x;
@@ -582,7 +612,8 @@ bool iLink::hitTest(const CPoint &pt)
 		r->CreatePolygonRgn(pts, 6, WINDING);
 		if (r->PtInRegion(pt)) {
 			selected_ = true;
-		} else {
+		}
+		else {
 			selected_ = false;
 		}
 		delete r;
@@ -591,7 +622,7 @@ bool iLink::hitTest(const CPoint &pt)
 			selected_ = true;
 		}
 	}
-	
+
 	return selected_;
 }
 
@@ -643,7 +674,7 @@ bool iLink::hitTest2(const CPoint &pt)
 	}
 	CPoint pts[4];
 	const int mrgn = 10;
-	if (abs(ptFrom.x - ptTo.x) > abs (ptFrom.y - ptTo.y)) {
+	if (abs(ptFrom.x - ptTo.x) > abs(ptFrom.y - ptTo.y)) {
 		pts[0].x = ptFrom.x;
 		pts[0].y = ptFrom.y - mrgn;
 		pts[1].x = ptFrom.x;
@@ -652,7 +683,8 @@ bool iLink::hitTest2(const CPoint &pt)
 		pts[2].y = ptTo.y + mrgn;
 		pts[3].x = ptTo.x;
 		pts[3].y = ptTo.y - mrgn;
-	} else {
+	}
+	else {
 		pts[0].x = ptFrom.x - mrgn;
 		pts[0].y = ptFrom.y;
 		pts[1].x = ptFrom.x + mrgn;
@@ -666,7 +698,8 @@ bool iLink::hitTest2(const CPoint &pt)
 	r->CreatePolygonRgn(pts, 4, WINDING);
 	if (r->PtInRegion(pt)) {
 		selected_ = true;
-	} else {
+	}
+	else {
 		selected_ = false;
 	}
 	delete r;
@@ -678,18 +711,18 @@ void iLink::drawSelection(CDC *pDC)
 	if (selected_) {
 		CBrush Brs(BLACK_BRUSH);
 		const int mrgn = 3;
-		CRect FromRc(ptFrom.x - mrgn, ptFrom.y - mrgn, ptFrom.x + mrgn , ptFrom.y + mrgn);
-		CRect ToRc(ptTo.x - mrgn, ptTo.y - mrgn, ptTo.x + mrgn , ptTo.y + mrgn);
+		CRect FromRc(ptFrom.x - mrgn, ptFrom.y - mrgn, ptFrom.x + mrgn, ptFrom.y + mrgn);
+		CRect ToRc(ptTo.x - mrgn, ptTo.y - mrgn, ptTo.x + mrgn, ptTo.y + mrgn);
 		pDC->FillRect(ToRc, &Brs);
 		pDC->FillRect(FromRc, &Brs);
 		if (curved_) {
-			CRect pathRc(ptPath.x -mrgn, ptPath.y -mrgn, ptPath.x + mrgn, ptPath.y + mrgn);
+			CRect pathRc(ptPath.x - mrgn, ptPath.y - mrgn, ptPath.x + mrgn, ptPath.y + mrgn);
 			pDC->FillRect(pathRc, &Brs);
 		}
 		pDC->MoveTo(ptFrom);
 		if (curved_) {
 			pDC->LineTo(ptPath);
-		}	
+		}
 		pDC->LineTo(ptTo);
 	}
 }
@@ -716,19 +749,20 @@ CRect iLink::getCommentRect() const
 {
 	CPoint cpt;
 	if (!curved_) {
-		cpt.x = (ptFrom.x + ptTo.x)/2; cpt.y = (ptFrom.y + ptTo.y)/2;
-	} else {
+		cpt.x = (ptFrom.x + ptTo.x) / 2; cpt.y = (ptFrom.y + ptTo.y) / 2;
+	}
+	else {
 		cpt = ptPath;
 	}
-	int width = name_.GetLength()*abs(lf_.lfHeight)/2;
+	int width = name_.GetLength()*abs(lf_.lfHeight) / 2;
 	int height = abs(lf_.lfHeight);
 	if (name_.GetLength() == 0) {
-		width = 5; height= 5;
+		width = 5; height = 5;
 	}
-	
-	cpt.x -= width/2;
-	cpt.y -= height/2;
-	CRect rc(cpt.x, cpt.y, cpt.x+width, cpt.y+height);
+
+	cpt.x -= width / 2;
+	cpt.y -= height / 2;
+	CRect rc(cpt.x, cpt.y, cpt.x + width, cpt.y + height);
 	return rc;
 }
 
@@ -746,7 +780,8 @@ CRect iLink::getBound() const
 			CRect r1(ptFrom, ptPath); r1.NormalizeRect();
 			rc |= r1;
 		}
-	} else {
+	}
+	else {
 		rc = selfRect;
 	}
 	rc |= getCommentRect();
@@ -782,7 +817,7 @@ iLinks::iLinks()
 void iLinks::drawComments(CDC *pDC, bool clipbrd)
 {
 	literator it = begin();
-	for( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -795,7 +830,7 @@ void iLinks::drawComments(CDC *pDC, bool clipbrd)
 void iLinks::drawLines(CDC *pDC)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -808,7 +843,7 @@ void iLinks::drawLines(CDC *pDC)
 void iLinks::drawArrows(CDC *pDC)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -831,7 +866,8 @@ bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path)
 			key = (*it).getKeyFrom();
 			path = (*it).getPath();
 			hit = true;
-		} else {
+		}
+		else {
 			(*it).selectLink(false);
 		}
 	}
@@ -856,7 +892,8 @@ DWORD iLinks::hitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
 				hitKey = (*it).getKey();
 				hit = true;
 			}
-		} else {
+		}
+		else {
 			(*it).setDropTarget(false);
 		}
 	}
@@ -876,7 +913,8 @@ bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path)
 			key = (*it).getKeyFrom();
 			path = (*it).getPath();
 			hit = true;
-		} else {
+		}
+		else {
 			(*it).selectLink(false);
 		}
 	}
@@ -896,7 +934,8 @@ bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path)
 			key = (*it).getKeyFrom();
 			path = (*it).getPath();
 			hit = true;
-		} else {
+		}
+		else {
 			(*it).selectLink(false);
 		}
 	}
@@ -906,7 +945,7 @@ bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path)
 void iLinks::drawSelection(CDC *pDC)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -919,7 +958,7 @@ void iLinks::drawSelection(CDC *pDC)
 void iLinks::drawSelectionFrom(CDC *pDC)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -932,7 +971,7 @@ void iLinks::drawSelectionFrom(CDC *pDC)
 void iLinks::drawSelectionTo(CDC *pDC)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -945,7 +984,7 @@ void iLinks::drawSelectionTo(CDC *pDC)
 const_literator iLinks::getSelectedLink() const
 {
 	const_literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).getArrowStyle() != iLink::other) {
 			if (!(*it).canDraw()) {
 				continue;
@@ -961,7 +1000,7 @@ const_literator iLinks::getSelectedLink() const
 const_literator iLinks::getSelectedLink2() const
 {
 	const_literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).isSelected()) {
 			return it;
 		}
@@ -972,7 +1011,7 @@ const_literator iLinks::getSelectedLink2() const
 literator iLinks::getSelectedLinkW()
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).getArrowStyle() != iLink::other) {
 			if (!(*it).canDraw()) {
 				continue;
@@ -988,7 +1027,7 @@ literator iLinks::getSelectedLinkW()
 literator iLinks::getSelectedLinkW2()
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).isSelected()) {
 			return it;
 		}
@@ -999,29 +1038,35 @@ literator iLinks::getSelectedLinkW2()
 void iLinks::selectLinksInBound(const CRect &r)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
 		if (!(*it).isCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
 			if (r.PtInRect((*it).getPtFrom()) && r.PtInRect((*it).getPtTo())) {
 				(*it).selectLink();
-			} else {
+			}
+			else {
 				(*it).selectLink(false);
 			}
-		} else if ((*it).isCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
+		}
+		else if ((*it).isCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
 			if (r.PtInRect((*it).getPtFrom()) && r.PtInRect((*it).getPtTo()) && r.PtInRect((*it).getPtPath())) {
 				(*it).selectLink();
-			} else {
+			}
+			else {
 				(*it).selectLink(false);
 			}
-		} else if ((*it).getKeyFrom() == (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
+		}
+		else if ((*it).getKeyFrom() == (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
 			if (r.PtInRect((*it).getSelfRect().TopLeft()) && r.PtInRect((*it).getSelfRect().BottomRight())) {
 				(*it).selectLink();
-			} else {
+			}
+			else {
 				(*it).selectLink(false);
 			}
-		} else {
+		}
+		else {
 			(*it).selectLink(false);
 		}
 	}
@@ -1031,7 +1076,7 @@ void iLinks::selectLinksInBound(const CRect &r)
 void iLinks::getSelectedLinkFont(LOGFONT &lf)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -1045,7 +1090,7 @@ void iLinks::getSelectedLinkFont(LOGFONT &lf)
 void iLinks::setSelectedLinkFont(const LOGFONT &lf)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -1058,7 +1103,7 @@ void iLinks::setSelectedLinkFont(const LOGFONT &lf)
 void iLinks::setSelectedLinkLineColor(const COLORREF &c)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -1072,7 +1117,7 @@ COLORREF iLinks::getSelectedLinkLineColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
 	const_literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -1086,7 +1131,7 @@ COLORREF iLinks::getSelectedLinkLineColor() const
 void iLinks::setSelectedLinkWidth(int w)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -1109,7 +1154,7 @@ int iLinks::getSelectedLinkWidth() const
 void iLinks::setSelectedLinkLineStyle(int style)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) {
 			continue;
 		}
@@ -1123,7 +1168,7 @@ int iLinks::getSelectedLinkLineStyle(bool bDrawAll) const
 {
 	int s = PS_SOLID;
 	const_literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw() && !bDrawAll) {
 			continue;
 		}
@@ -1134,10 +1179,10 @@ int iLinks::getSelectedLinkLineStyle(bool bDrawAll) const
 	return s;
 }
 
-bool iLinks::isIsolated(DWORD key,  bool bDrawAll) const
+bool iLinks::isIsolated(DWORD key, bool bDrawAll) const
 {
 	const_literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw() && !bDrawAll) {
 			continue;
 		}
@@ -1155,7 +1200,7 @@ CRect iLinks::getSelectedLinkBound(bool bDrawAll) const
 	if (it == end()) return rc;
 	rc = (*it).getBound();
 	it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).canDraw() && !bDrawAll) {
 			continue;
 		}
@@ -1201,14 +1246,15 @@ void iLinks::setSelectedLinkReverse()
 DWORD iLinks::getFirstVisiblePair(DWORD key) const
 {
 	const_literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if (!(*it).canDraw()) continue;
 		if ((*it).getKeyFrom() == (*it).getKeyTo()) continue;
 		if ((*it).getArrowStyle() == iLink::other) continue;
 		if ((*it).isTerminalNodeKey(key)) {
 			if ((*it).getKeyFrom() == key) {
 				return (*it).getKeyTo();
-			} else {
+			}
+			else {
 				return (*it).getKeyFrom();
 			}
 		}
@@ -1219,13 +1265,14 @@ DWORD iLinks::getFirstVisiblePair(DWORD key) const
 void iLinks::resizeSelectedLinkFont(bool bEnlarge)
 {
 	literator it = begin();
-	for ( ; it != end(); it++) {
+	for (; it != end(); it++) {
 		if ((*it).isSelected()) {
 			LOGFONT lf = (*it).getFontInfo();
 			LONG pre = lf.lfHeight;
 			if (bEnlarge) {
 				lf.lfHeight -= 2;
-			} else {
+			}
+			else {
 				if (lf.lfHeight < -4) {
 					lf.lfHeight += 2;
 				}
@@ -1238,7 +1285,7 @@ void iLinks::resizeSelectedLinkFont(bool bEnlarge)
 const_literator iLinks::findByKey(DWORD key) const
 {
 	const_literator li = begin();
-	for ( ; li != end(); li++) {
+	for (; li != end(); li++) {
 		if ((*li).getKey() == key) return li;
 	}
 
@@ -1263,7 +1310,7 @@ void iLinks::clearDividedLinkKey()
 void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 {
 	literator li = begin();
-	for ( ; li != end(); li++) {
+	for (; li != end(); li++) {
 		if ((*li).isDropTarget()) {
 			(*li).curve(false);
 			iLink l((*li));

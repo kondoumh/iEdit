@@ -15,7 +15,7 @@ FiletypeSettingsDlg::FiletypeSettingsDlg(CWnd* pParent /*=NULL*/)
 	, m_registFileType(0)
 	, m_bRegistOldtype(FALSE)
 {
-	
+
 }
 
 FiletypeSettingsDlg::~FiletypeSettingsDlg()
@@ -42,7 +42,8 @@ BOOL FiletypeSettingsDlg::OnInitDialog()
 
 	if (m_registFileType == 0) {
 		GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(FALSE);
-	} else {
+	}
+	else {
 		GetDlgItem(IDC_CHK_REGIST_OLDTYPE)->EnableWindow(TRUE);
 	}
 	return TRUE;

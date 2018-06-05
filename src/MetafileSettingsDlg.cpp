@@ -47,25 +47,25 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // MetafileSettingsDlg メッセージ ハンドラ
 
-BOOL MetafileSettingsDlg::OnInitDialog() 
+BOOL MetafileSettingsDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	// TODO: この位置に初期化の補足処理を追加してください
 	m_stMF.SetEnhMetaFile(createMF());
 	showSizeInfo();
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
+				  // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
 
 HENHMETAFILE MetafileSettingsDlg::createMF()
 {
 	CMetaFileDC mfDC;
-	CRect rc(0, 0, (int)(100*m_rx) , (int)(100*m_ry));
+	CRect rc(0, 0, (int)(100 * m_rx), (int)(100 * m_ry));
 	mfDC.CreateEnhanced(NULL, NULL, &rc, NULL);
-	
+
 	mfDC.Ellipse(0, 0, 100, 100);
-	
+
 	return mfDC.CloseEnhanced();
 }
 
@@ -76,18 +76,18 @@ void MetafileSettingsDlg::showSizeInfo()
 	m_stInfo.SetWindowText(info);
 }
 
-void MetafileSettingsDlg::OnBtnLeft() 
+void MetafileSettingsDlg::OnBtnLeft()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rx -= 0.1;
 	if (m_rx <= 0) {
 		m_rx = 0.1;
-	} 
+	}
 	m_stMF.SetEnhMetaFile(createMF());
 	showSizeInfo();
 }
 
-void MetafileSettingsDlg::OnBtnRight() 
+void MetafileSettingsDlg::OnBtnRight()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rx += 0.1;
@@ -95,7 +95,7 @@ void MetafileSettingsDlg::OnBtnRight()
 	showSizeInfo();
 }
 
-void MetafileSettingsDlg::OnBtnDown() 
+void MetafileSettingsDlg::OnBtnDown()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_ry -= 0.1;
@@ -106,7 +106,7 @@ void MetafileSettingsDlg::OnBtnDown()
 	showSizeInfo();
 }
 
-void MetafileSettingsDlg::OnBtnUp() 
+void MetafileSettingsDlg::OnBtnUp()
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_ry += 0.1;
@@ -118,8 +118,8 @@ void MetafileSettingsDlg::OnBnClickedBtnReset()
 {
 	// TODO : ここにコントロール通知ハンドラ コードを追加します。
 	CSize szMF = MfSizer::getMFSize();
-	m_rx = ((double)szMF.cx)/10.0;
-	m_ry = ((double)szMF.cy)/10.0;;
+	m_rx = ((double)szMF.cx) / 10.0;
+	m_ry = ((double)szMF.cy) / 10.0;;
 	m_stMF.SetEnhMetaFile(createMF());
 	showSizeInfo();
 }

@@ -24,11 +24,13 @@ int sortBy = 0;
 bool operator <(const listitem& i1, const listitem& i2) {
 	if (sortBy == 0) {
 		return (i1.comment < i2.comment);
-	} else if (sortBy == 1) {
+	}
+	else if (sortBy == 1) {
 		CString s1, s2;
 		if (i1.linkType == listitem::linkSL || i1.linkType == listitem::linkDL) {
 			s1 = i1.sTo;
-		} else if (i1.linkType == listitem::FileName ||
+		}
+		else if (i1.linkType == listitem::FileName ||
 			i1.linkType == listitem::WebURL ||
 			i1.linkType == listitem::linkFolder ||
 			i1.linkType == listitem::iedFile) {
@@ -36,7 +38,8 @@ bool operator <(const listitem& i1, const listitem& i2) {
 		}
 		if (i2.linkType == listitem::linkSL || i2.linkType == listitem::linkDL) {
 			s2 = i2.sTo;
-		} else if (i2.linkType == listitem::FileName ||
+		}
+		else if (i2.linkType == listitem::FileName ||
 			i2.linkType == listitem::WebURL ||
 			i2.linkType == listitem::linkFolder ||
 			i2.linkType == listitem::iedFile) {
@@ -125,7 +128,7 @@ void LinkView::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 // LinkView メッセージ ハンドラ
 
-BOOL LinkView::PreCreateWindow(CREATESTRUCT& cs) 
+BOOL LinkView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	cs.style &= ~LVS_TYPEMASK;
 	// 複数選択をサポートするには、LVS_SINGLSELをはずす
@@ -133,52 +136,52 @@ BOOL LinkView::PreCreateWindow(CREATESTRUCT& cs)
 	return CListView::PreCreateWindow(cs);
 }
 
-void LinkView::OnInitialUpdate() 
+void LinkView::OnInitialUpdate()
 {
 	CListView::OnInitialUpdate();
-	
+
 	doColorSetting();
-	
+
 	m_preKey = GetDocument()->getSelectedNodeKey();
 	CString s = GetDocument()->getSelectedNodeLabel();
 	GetListCtrl().DeleteColumn(0);
 	GetListCtrl().InsertColumn(0, s);
 	CRect rc; GetClientRect(&rc);
-	GetListCtrl().SetColumnWidth(0, rc.Width()/2);
-	GetListCtrl().SetColumnWidth(1, rc.Width()/2);
+	GetListCtrl().SetColumnWidth(0, rc.Width() / 2);
+	GetListCtrl().SetColumnWidth(1, rc.Width() / 2);
 	m_preWidth = rc.Width();
-	
+
 	reflesh();
 	setSelection(0);
 }
 
-void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
 	iHint* ph = NULL;
 	if (pHint != NULL) {
 		ph = reinterpret_cast<iHint*>(pHint);
-	} 
+	}
 	if ((ph != NULL && ph->event == iHint::linkAdd ||
-		ph != NULL && ph->event == iHint::linkDelete || 
+		ph != NULL && ph->event == iHint::linkDelete ||
 		ph != NULL && ph->event == iHint::linkSel ||
 		ph != NULL && ph->event == iHint::linkModified ||
 		ph != NULL && ph->event == iHint::linkDeleteMulti) ||
 		(m_preKey != GetDocument()->getSelectedNodeKey())) {
-		
+
 		CString s = GetDocument()->getSelectedNodeLabel();
 		GetListCtrl().DeleteColumn(0);
 		GetListCtrl().InsertColumn(0, s);
 		CRect rc; GetClientRect(&rc);
-		GetListCtrl().SetColumnWidth(0, rc.Width()/2);
-		GetListCtrl().SetColumnWidth(1, rc.Width()/2);
-		
+		GetListCtrl().SetColumnWidth(0, rc.Width() / 2);
+		GetListCtrl().SetColumnWidth(1, rc.Width() / 2);
+
 		reflesh();
 		setSelection(0);
-		
+
 		if (GetListCtrl().GetItemCount() == 0) return;
 		int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED) - 1;
 		CSize sz = GetListCtrl().ApproximateViewRect();
-		sz.cy = sz.cy*index/GetListCtrl().GetItemCount();
+		sz.cy = sz.cy*index / GetListCtrl().GetItemCount();
 		GetListCtrl().Scroll(sz);
 	}
 	if (ph != NULL && ph->event == iHint::viewSettingChanged) {
@@ -190,7 +193,7 @@ void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 void LinkView::listConstruct()
 {
 	int selindex = 0;
-	for (unsigned int i=0 ; i < items_.size(); i++) {
+	for (unsigned int i = 0; i < items_.size(); i++) {
 		LV_ITEM lvi;
 		lvi.iItem = i;
 		lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
@@ -206,29 +209,29 @@ void LinkView::listConstruct()
 	m_preKey = GetDocument()->getSelectedNodeKey();
 }
 
-int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CListView::OnCreate(lpCreateStruct) == -1)
 		return -1;
-	
+
 	m_oleDropTarget.Register(this);
-	GetListCtrl().InsertColumn(0, _T("リンク名"), LVCFMT_LEFT, 100); 
+	GetListCtrl().InsertColumn(0, _T("リンク名"), LVCFMT_LEFT, 100);
 	GetListCtrl().InsertColumn(1, _T("リンク先"), LVCFMT_LEFT, 100);
-	m_imageList.Create(IDB_LINKS, 16, 1, RGB(255, 0, 255));	
+	m_imageList.Create(IDB_LINKS, 16, 1, RGB(255, 0, 255));
 	GetListCtrl().SetImageList(&m_imageList, LVSIL_SMALL);
 	setViewFont();
 	return 0;
 }
 
-void LinkView::OnSize(UINT nType, int cx, int cy) 
+void LinkView::OnSize(UINT nType, int cx, int cy)
 {
 	if (cx != m_preWidth) {
 		CHeaderCtrl* pHeader = GetListCtrl().GetHeaderCtrl();
 		CRect r;
 		pHeader->GetItemRect(0, r);
 		if (cy >= r.Height()) {
-			GetListCtrl().SetColumnWidth(0, cx/2);
-			GetListCtrl().SetColumnWidth(1, cx/2);
+			GetListCtrl().SetColumnWidth(0, cx / 2);
+			GetListCtrl().SetColumnWidth(1, cx / 2);
 			m_preWidth = cx;
 		}
 	}
@@ -241,10 +244,10 @@ iEditDoc* LinkView::GetDocument()
 	return (iEditDoc*)m_pDocument;
 }
 
-void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult) 
+void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	
+
 	if (pDispInfo->item.mask & LVIF_TEXT) {
 		int index = (int)pDispInfo->item.lParam;
 		CString sComment;
@@ -261,8 +264,9 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 			CString sTo;
 			if (type == listitem::linkSL || type == listitem::linkDL ||
 				type == listitem::linkSL2 || type == listitem::linkDL2) {
-					sTo = items_[index].sTo;
-			} else if (type == listitem::FileName || type == listitem::WebURL || type == listitem::linkFolder || type == listitem::iedFile) {
+				sTo = items_[index].sTo;
+			}
+			else if (type == listitem::FileName || type == listitem::WebURL || type == listitem::linkFolder || type == listitem::iedFile) {
 				sTo = items_[index].path;
 			}
 			if (sTo.GetLength() >= 260) {
@@ -272,54 +276,55 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 			break;
 		}
 	}
-	
+
 	*pResult = 0;
 }
 
-void LinkView::OnJumpTo() 
+void LinkView::OnJumpTo()
 {
 	jumpTo();
 }
 
-void LinkView::OnUpdateJumpTo(CCmdUI* pCmdUI) 
+void LinkView::OnUpdateJumpTo(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	pCmdUI->Enable(index != -1 ? 1: 0);
+	pCmdUI->Enable(index != -1 ? 1 : 0);
 }
 
-void LinkView::OnJumpBack() 
+void LinkView::OnJumpBack()
 {
 	jumpBack();
 }
 
-void LinkView::OnUpdateJumpBack(CCmdUI* pCmdUI) 
+void LinkView::OnUpdateJumpBack(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(kstack.size() > 0 ? 1 : 0);
 }
 
-void LinkView::OnDelete() 
+void LinkView::OnDelete()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	if (index == -1) return;
 	if (!items_[index].isFromLink()) return;
-	
+
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		CString s = '<' + items_[index].comment + _T(">\n削除しますか?");
 		if (MessageBox(s, _T("リンクの削除"), MB_YESNO) != IDYES) return;
 		GetDocument()->deleteSpecifidLink(items_[index]);
-	} else {
+	}
+	else {
 		pEdit->SendMessage(WM_KEYDOWN, VK_DELETE, VK_DELETE);
 	}
 }
 
-void LinkView::OnUpdateDelete(CCmdUI* pCmdUI) 
+void LinkView::OnUpdateDelete(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
-void LinkView::OnSetLinkInfo() 
+void LinkView::OnSetLinkInfo()
 {
 	setLinkInfo();
 }
@@ -335,17 +340,17 @@ void LinkView::setLinkInfo()
 		dlg.strFrom = GetDocument()->getSelectedNodeLabel();
 		dlg.strTo = i.sTo;
 		dlg.styleArrow = i._arrowStyle;
-		
+
 		dlg.lineWidth = i.linkWidth_;
 		dlg.colorLine = i.linkColor_;
 		dlg.styleLine = i.styleLine_;
 		dlg.lf = i.lf_;
 		::lstrcpy(dlg.lf.lfFaceName, i.lf_.lfFaceName);
-		
+
 		GetDocument()->getSelectedLinkFont(dlg.lf, true);
-		
+
 		if (dlg.DoModal() != IDOK) return;
-		
+
 		i.comment = dlg.strComment;
 		i._arrowStyle = dlg.styleArrow;
 		i.linkWidth_ = dlg.lineWidth;
@@ -354,7 +359,8 @@ void LinkView::setLinkInfo()
 		i.lf_ = dlg.lf;
 		::lstrcpy(i.lf_.lfFaceName, dlg.lf.lfFaceName);
 		GetDocument()->setSpecifiedLinkInfo(items_[index], i);
-	} else if (type == listitem::FileName || type == listitem::WebURL ||
+	}
+	else if (type == listitem::FileName || type == listitem::WebURL ||
 		type == listitem::linkFolder || type == listitem::iedFile) {
 		LinkForPathDlg dlg;
 		dlg.strComment = i.comment;
@@ -380,13 +386,13 @@ void LinkView::setLinkInfo()
 	}
 }
 
-void LinkView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI) 
+void LinkView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
-void LinkView::OnLButtonDblClk(UINT nFlags, CPoint point) 
+void LinkView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	jumpTo();
 	CListView::OnLButtonDblClk(nFlags, point);
@@ -411,7 +417,7 @@ void LinkView::jumpTo()
 		ZeroMemory(ext, _MAX_EXT);
 		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 		CString workdir; workdir.Format(_T("%s%s"), drive, dir);
-		
+
 		CString sdrive(drive);
 		if (sdrive == _T("")) {
 			// ドライブレターが無い場合、編集中のieditファイルとの
@@ -426,19 +432,22 @@ void LinkView::jumpTo()
 			ZeroMemory(fileName2, _MAX_FNAME);
 			ZeroMemory(ext2, _MAX_EXT);
 			_wsplitpath_s((const wchar_t *)ieditFilePath, drive2, _MAX_DRIVE, dir2, _MAX_DIR, fileName2, _MAX_FNAME, ext2, _MAX_EXT);
-			CString combPath; combPath.Format(_T("%s%s%s%s%s"),drive2, dir2, dir, fileName, ext);
+			CString combPath; combPath.Format(_T("%s%s%s%s%s"), drive2, dir2, dir, fileName, ext);
 			workdir.Format(_T("%s%s"), drive2, dir2, dir2);
 			path = combPath;
 		}
 		CString extention(ext);
 		if (extention == _T(".ied") || extention == _T(".iedx")) {
 			AfxGetApp()->OpenDocumentFile(path);
-		} else {
+		}
+		else {
 			ShellExecute(m_hWnd, _T("open"), path, NULL, workdir, SW_SHOW);
 		}
-	} else if (type == listitem::WebURL) {
+	}
+	else if (type == listitem::WebURL) {
 		ShellExecute(m_hWnd, _T("open"), items_[index].path, NULL, NULL, SW_SHOW);
-	} else {
+	}
+	else {
 		kstack.push(GetDocument()->getSelectedNodeKey());
 		GetDocument()->selChanged(items_[index].keyTo, true, GetDocument()->isShowSubBranch());
 	}
@@ -452,35 +461,35 @@ void LinkView::jumpBack()
 	GetDocument()->selChanged(prekey, true, GetDocument()->isShowSubBranch());
 }
 
-void LinkView::OnContextMenu(CWnd* pWnd, CPoint point) 
+void LinkView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	CListCtrl& List = GetListCtrl();
 	int index = List.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	
+
 	CMenu menu;
 	menu.LoadMenu(IDR_CONTEXT);
-	
+
 	CMenu* pPopup = menu.GetSubMenu(5);
 	if (point.x < 0 || point.y < 0) {
 		CRect rc; GetWindowRect(&rc);
 		point = rc.TopLeft();
 		if (index != -1) {
 			List.GetItemRect(index, &rc, LVIR_LABEL);
-			point.x += rc.Width()/2;
-			point.y += rc.top + rc.Height()/2;
+			point.x += rc.Width() / 2;
+			point.y += rc.top + rc.Height() / 2;
 		}
 	}
 	ASSERT(pPopup != NULL);
 	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, AfxGetMainWnd());
 }
 
-void LinkView::OnReturn(NMHDR* pNMHDR, LRESULT* pResult) 
+void LinkView::OnReturn(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	jumpTo();
 	*pResult = 0;
 }
 
-void LinkView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void LinkView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_BACK) {
 		jumpBack();
@@ -503,58 +512,61 @@ void LinkView::notifySelLink()
 	}
 }
 
-void LinkView::OnEditCut() 
+void LinkView::OnEditCut()
 {
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		notifySelLink();
 		GetDocument()->setCpLinkOrg();
 		GetDocument()->deleteSelectedLink2();
-	} else {
+	}
+	else {
 		pEdit->Cut();
 	}
 }
 
-void LinkView::OnUpdateEditCut(CCmdUI* pCmdUI) 
+void LinkView::OnUpdateEditCut(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
-void LinkView::OnEditCopy() 
+void LinkView::OnEditCopy()
 {
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		notifySelLink();
 		GetDocument()->setCpLinkOrg();
-	} else {
+	}
+	else {
 		pEdit->Copy();
 	}
 }
 
-void LinkView::OnUpdateEditCopy(CCmdUI* pCmdUI) 
+void LinkView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
-void LinkView::OnEditPaste() 
+void LinkView::OnEditPaste()
 {
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		GetDocument()->addSetLinkOrg();
-	} else {
+	}
+	else {
 		pEdit->Paste();
 	}
 }
 
-void LinkView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
+void LinkView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 {
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	pCmdUI->Enable(GetDocument()->canCopyLink() || pEdit != NULL);
 }
 
-void LinkView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult) 
+void LinkView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	int index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
@@ -562,7 +574,7 @@ void LinkView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
 		curSel = index;
 		notifySelLink();
 	}
-	
+
 	*pResult = 0;
 }
 
@@ -572,7 +584,8 @@ void LinkView::setViewFont()
 	CFont *pFont = GetFont();
 	if (pFont != NULL) {
 		pFont->GetObject(sizeof(LOGFONT), &lf);
-	} else {
+	}
+	else {
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
 	CString defaultFont = _T("MS UI Gothic");
@@ -586,18 +599,19 @@ void LinkView::setViewFont()
 	lf.lfItalic = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Italic"), FALSE);
 	lf.lfUnderline = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 UnderLine"), FALSE);
 	lf.lfStrikeOut = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 StrikeOut"), FALSE);
-	lf.lfCharSet= AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 CharSet"), SHIFTJIS_CHARSET);
+	lf.lfCharSet = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 CharSet"), SHIFTJIS_CHARSET);
 	lf.lfWeight = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Font2 Weight"), FW_NORMAL);
 	m_font.CreateFontIndirect(&lf);
 	SetFont(&m_font, TRUE);
 }
 
-void LinkView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult) 
+void LinkView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	if (pNMListView->iSubItem == 0) {
 		sortBy = 0;
-	} else {
+	}
+	else {
 		sortBy = 1;
 	}
 	sort(items_.begin(), items_.end());
@@ -607,75 +621,75 @@ void LinkView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void LinkView::OnEditLabel() 
+void LinkView::OnEditLabel()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetListCtrl().EditLabel(index);
 }
 
-void LinkView::OnUpdateEditLabel(CCmdUI* pCmdUI) 
+void LinkView::OnUpdateEditLabel(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
 }
 
-void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult) 
+void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	
+
 	CString editString = pDispInfo->item.pszText;
 	if (editString == _T("")) return;
-	
+
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	int type = items_[index].linkType;
 	listitem i = items_[index];
-	
+
 	if (!i.isFromLink()) {
 		MessageBox(_T("このリンクを編集するにはリンク元のノードを選択して下さい"));
 		return;
 	}
 	i.comment = editString;
 	GetDocument()->setSpecifiedLinkInfo(items_[index], i);
-	
+
 	Invalidate();
 	*pResult = 0;
 }
 
-void LinkView::OnEditReplace() 
+void LinkView::OnEditReplace()
 {
 }
 
-void LinkView::OnEditUndo() 
+void LinkView::OnEditUndo()
 {
 }
 
-void LinkView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
+void LinkView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
 }
 
-DROPEFFECT LinkView::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) 
+DROPEFFECT LinkView::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
 {
 	return CListView::OnDragEnter(pDataObject, dwKeyState, point);
 }
 
-void LinkView::OnDragLeave() 
+void LinkView::OnDragLeave()
 {
 	CListView::OnDragLeave();
 }
 
-DROPEFFECT LinkView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) 
+DROPEFFECT LinkView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
 {
 	// check for force link
 	DROPEFFECT de = DROPEFFECT_NONE;
-	if ( (dwKeyState & (MK_CONTROL|MK_SHIFT)) == (MK_CONTROL|MK_SHIFT) ) {
+	if ((dwKeyState & (MK_CONTROL | MK_SHIFT)) == (MK_CONTROL | MK_SHIFT)) {
 		de = DROPEFFECT_LINK;
 	}
 	// コピー
-	else if ( (dwKeyState & MK_CONTROL) == MK_CONTROL ) {
+	else if ((dwKeyState & MK_CONTROL) == MK_CONTROL) {
 		de = DROPEFFECT_COPY;
 	}
 	// 移動
-	else if ( (dwKeyState & MK_SHIFT) == MK_SHIFT ) {
+	else if ((dwKeyState & MK_SHIFT) == MK_SHIFT) {
 		de = DROPEFFECT_MOVE;
 	}
 	// デフォルトはコピー
@@ -686,15 +700,15 @@ DROPEFFECT LinkView::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, C
 	return de;
 }
 
-BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point) 
+BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
 {
-	if (pDataObject->IsDataAvailable(CF_TEXT)){
+	if (pDataObject->IsDataAvailable(CF_TEXT)) {
 		// IEのアドレスバーからのドラッグ＆ドロップ
-		
+
 		HGLOBAL hmem = pDataObject->GetGlobalData(CF_TEXT);
 		CMemFile sf((BYTE*) ::GlobalLock(hmem), ::GlobalSize(hmem));
 		CString buffer;
-		
+
 		LPSTR str = (LPSTR)buffer.GetBufferSetLength(::GlobalSize(hmem));
 		sf.Read(str, ::GlobalSize(hmem));
 		::GlobalUnlock(hmem);
@@ -703,7 +717,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		}
 		return TRUE;
 	}
-	
+
 	HGLOBAL hData = pDataObject->GetGlobalData(CF_HDROP);
 	const HDROP hdrop = (const HDROP)::GlobalLock(hData);
 	int n = ::DragQueryFile(hdrop, 0xffffffff, NULL, 0);
@@ -711,42 +725,44 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 	if (n > 0) {
 		GetDocument()->disableUndo();
 	}
-	
+
 	WCHAR drive[_MAX_DRIVE];
 	WCHAR dir[_MAX_DIR];
 	WCHAR fname[_MAX_FNAME];
 	WCHAR ext[_MAX_EXT];
-	
-	for (int i = 0; i < n; i++){
+
+	for (int i = 0; i < n; i++) {
 		::DragQueryFile(hdrop, i, path, sizeof(path));
 		memset(drive, '\0', _MAX_DRIVE);
 		memset(dir, '\0', _MAX_DIR);
 		memset(fname, '\0', _MAX_FNAME);
 		memset(ext, '\0', _MAX_EXT);
-	_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
+		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
 		CString extention(ext);
 		extention.MakeLower();
 		if (extention == _T(".url")) {
 			CString url = getLocationFromURLFile(path);
 			GetDocument()->addURLLink(url, CString(fname));
 			continue;
-		} else if (extention == _T(".ied") || extention == _T(".iedx")) {
+		}
+		else if (extention == _T(".ied") || extention == _T(".iedx")) {
 			FileDropActionDlg dlg;
 			dlg.m_nDropProc = 0;
 			if (dlg.DoModal() != IDOK) return TRUE;
 			if (dlg.m_nDropProc == 1) {
 				return CListView::OnDrop(pDataObject, dropEffect, point);
-			} else {
+			}
+			else {
 				;
 			}
 		}
-		
+
 		CString fileName;
 		fileName.Format(_T("%s%s"), fname, ext);
 		GetDocument()->addURLLink(path, fileName);
 	}
-	::GlobalUnlock(hData);	
-	
+	::GlobalUnlock(hData);
+
 	return TRUE;
 }
 
@@ -755,7 +771,7 @@ CString LinkView::getLocationFromURLFile(LPCTSTR path)
 	CStdioFile f;
 	CFileStatus status;
 	CFileException e;
-	
+
 	if (!f.Open(path, CFile::typeText | CFile::modeRead, &e)) {
 		return _T("");
 	}
@@ -788,9 +804,9 @@ bool LinkView::isURLStr(const CString &str) const
 	if (str.Find(_T("http://")) != 0 && str.Find(_T("https://")) != 0 && str.Find(_T("ftp://")) != 0) {
 		return false;
 	}
-	
+
 	if (str.Find(_T("\r")) != -1 || str.Find(_T("\n")) != -1) return false;
-	
+
 	return true;
 }
 
@@ -815,7 +831,7 @@ void LinkView::reflesh()
 
 void LinkView::setSelection(int index)
 {
-	GetListCtrl().SetItemState(index, 
+	GetListCtrl().SetItemState(index,
 		LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
 	curSel = index;
 }
@@ -823,7 +839,7 @@ void LinkView::setSelection(int index)
 void LinkView::OnLinkMoveUp()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	GetDocument()->swapLinkOrder(items_[index-1].key, items_[index].key);
+	GetDocument()->swapLinkOrder(items_[index - 1].key, items_[index].key);
 	reflesh();
 	setSelection(index - 1);
 }
@@ -837,7 +853,7 @@ void LinkView::OnUpdateLinkMoveUp(CCmdUI *pCmdUI)
 void LinkView::OnLinkMoveDown()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	GetDocument()->swapLinkOrder(items_[index].key, items_[index+1].key);
+	GetDocument()->swapLinkOrder(items_[index].key, items_[index + 1].key);
 	reflesh();
 	setSelection(index + 1);
 }

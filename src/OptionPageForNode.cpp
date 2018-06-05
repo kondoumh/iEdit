@@ -77,70 +77,75 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-void OptionPageForNode::OnCancel() 
+void OptionPageForNode::OnCancel()
 {
 	return;
 	CDialog::OnCancel();
 }
 
-BOOL OptionPageForNode::OnInitDialog() 
+BOOL OptionPageForNode::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	if (styleLine == PS_DOT) {
 		m_cmbLineStyle.SetCurSel(5);
-	} else if (styleLine == PS_NULL) {
+	}
+	else if (styleLine == PS_NULL) {
 		m_cmbLineStyle.SetCurSel(6);
-	} else {
+	}
+	else {
 		if (lineWidth == 0) {
 			m_cmbLineStyle.SetCurSel(0);
-		} else {
+		}
+		else {
 			m_cmbLineStyle.SetCurSel(lineWidth - 1);
 		}
 	}
-	
+
 	m_cmbHoriz.SetCurSel(horiz);
 	m_cmbVert.SetCurSel(vert);
-	
+
 	m_chkNoBrs.SetCheck(m_bNoBrs);
 	m_BtnBrsColor.EnableWindow(!m_chkNoBrs.GetCheck());
-	
+
 	if (m_rdTLine == 0) {
 		m_cmbHoriz.EnableWindow(TRUE);
 		m_cmbVert.EnableWindow(TRUE);
-	} else if (m_rdTLine == 1) {
+	}
+	else if (m_rdTLine == 1) {
 		m_cmbHoriz.EnableWindow(TRUE);
 		m_cmbVert.EnableWindow(FALSE);
-	} else if (m_rdTLine == 2) {
+	}
+	else if (m_rdTLine == 2) {
 		m_cmbHoriz.EnableWindow(FALSE);
 		m_cmbVert.EnableWindow(FALSE);
 	}
-	
+
 	m_chkSyncOrder.SetCheck(m_bSyncOrder);
 	m_btnAscending.EnableWindow(m_bSyncOrder);
 	m_btnDescending.EnableWindow(m_bSyncOrder);
 	m_chkEnableGroup.SetCheck(m_bEnableGroup);
 	m_ChkDisableNodeResize.SetCheck(m_bDisableNodeResize);
 	m_chkPriorSelectionDragging.SetCheck(m_bPriorSelectionDragging);
-	
+
 	return TRUE;
 }
 
-void OptionPageForNode::OnBtnLineColor() 
+void OptionPageForNode::OnBtnLineColor()
 {
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
 }
 
-void OptionPageForNode::OnBtnBrs() 
+void OptionPageForNode::OnBtnBrs()
 {
 	CColorDialog dlg(colorFill);
 	if (dlg.DoModal() != IDOK) return;
 	colorFill = dlg.GetColor();
 }
 
-void OptionPageForNode::OnBtnFont() 
+void OptionPageForNode::OnBtnFont()
 {
 	CFontDialog dlg(&lf);
 	dlg.m_cf.rgbColors = colorFont;
@@ -148,72 +153,75 @@ void OptionPageForNode::OnBtnFont()
 	colorFont = dlg.m_cf.rgbColors;
 }
 
-void OptionPageForNode::OnRadioTline1() 
+void OptionPageForNode::OnRadioTline1()
 {
 	m_rdTLine = 0;
 	m_cmbHoriz.EnableWindow(TRUE);
 	m_cmbVert.EnableWindow(TRUE);
 }
 
-void OptionPageForNode::OnRadioTline2() 
+void OptionPageForNode::OnRadioTline2()
 {
 	m_rdTLine = 1;
 	m_cmbHoriz.EnableWindow(TRUE);
 	m_cmbVert.EnableWindow(FALSE);
 }
 
-void OptionPageForNode::OnRadioTline3() 
+void OptionPageForNode::OnRadioTline3()
 {
-	m_rdTLine = 2;	
+	m_rdTLine = 2;
 	m_cmbHoriz.EnableWindow(FALSE);
 	m_cmbVert.EnableWindow(FALSE);
 }
 
-void OptionPageForNode::OnRadioShape() 
+void OptionPageForNode::OnRadioShape()
 {
 	m_rdShape = 0;
 }
 
-void OptionPageForNode::OnRadioShape2() 
+void OptionPageForNode::OnRadioShape2()
 {
 	m_rdShape = 1;
 }
 
-void OptionPageForNode::OnRadioShape3() 
+void OptionPageForNode::OnRadioShape3()
 {
 	m_rdShape = 2;
 }
 
-void OptionPageForNode::OnChkNoBrs() 
+void OptionPageForNode::OnChkNoBrs()
 {
 	m_bNoBrs = m_chkNoBrs.GetCheck();
 	m_BtnBrsColor.EnableWindow(!m_chkNoBrs.GetCheck());
 }
 
 
-void OptionPageForNode::OnSelchangeComboline() 
+void OptionPageForNode::OnSelchangeComboline()
 {
 	int index = m_cmbLineStyle.GetCurSel();
 	if (index == 0 || index == 5 || index == 6) {
 		lineWidth = 0;
-	} else {
-		lineWidth = index+1;
+	}
+	else {
+		lineWidth = index + 1;
 	}
 	if (index < 5) {
 		styleLine = PS_SOLID;
-	} else if (index == 5) {
+	}
+	else if (index == 5) {
 		styleLine = PS_DOT;
-	} else if (index == 6) {
+	}
+	else if (index == 6) {
 		styleLine = PS_NULL;
 	}
 }
 
-void OptionPageForNode::OnSelchangeComboHoriz() 
+void OptionPageForNode::OnSelchangeComboHoriz()
 {
 	horiz = m_cmbHoriz.GetCurSel();
 }
 
-void OptionPageForNode::OnSelchangeComboVert() 
+void OptionPageForNode::OnSelchangeComboVert()
 {
 	vert = m_cmbVert.GetCurSel();
 }

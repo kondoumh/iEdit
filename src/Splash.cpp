@@ -55,13 +55,13 @@ BOOL CSplashWnd::PreTranslateAppMessage(MSG* pMsg)
 		return FALSE;
 
 	if (pMsg->message == WM_KEYDOWN ||
-	    pMsg->message == WM_SYSKEYDOWN ||
-	    pMsg->message == WM_LBUTTONDOWN ||
-	    pMsg->message == WM_RBUTTONDOWN ||
-	    pMsg->message == WM_MBUTTONDOWN ||
-	    pMsg->message == WM_NCLBUTTONDOWN ||
-	    pMsg->message == WM_NCRBUTTONDOWN ||
-	    pMsg->message == WM_NCMBUTTONDOWN)
+		pMsg->message == WM_SYSKEYDOWN ||
+		pMsg->message == WM_LBUTTONDOWN ||
+		pMsg->message == WM_RBUTTONDOWN ||
+		pMsg->message == WM_MBUTTONDOWN ||
+		pMsg->message == WM_NCLBUTTONDOWN ||
+		pMsg->message == WM_NCRBUTTONDOWN ||
+		pMsg->message == WM_NCMBUTTONDOWN)
 	{
 		c_pSplashWnd->HideSplashScreen();
 		return TRUE;

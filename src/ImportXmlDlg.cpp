@@ -39,12 +39,12 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-void ImportXmlDlg::OnRdRep() 
+void ImportXmlDlg::OnRdRep()
 {
 	m_importMode = 0;
 }
 
-void ImportXmlDlg::OnRdSub() 
+void ImportXmlDlg::OnRdSub()
 {
 	m_importMode = 1;
 }

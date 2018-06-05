@@ -47,7 +47,7 @@ END_MESSAGE_MAP()
 BOOL ExportTextDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	
+
 	if (m_rdFormatOption != 2) {
 		EnableContentFileOption(FALSE);
 	}

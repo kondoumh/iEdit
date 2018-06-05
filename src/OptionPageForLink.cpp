@@ -49,22 +49,24 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-void OptionPageForLink::OnCancel() 
+void OptionPageForLink::OnCancel()
 {
 	return;
 	CDialog::OnCancel();
 }
 
-BOOL OptionPageForLink::OnInitDialog() 
+BOOL OptionPageForLink::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	if (styleLine == PS_DOT) {
 		m_cmbLine.SetCurSel(5);
-	} else {
+	}
+	else {
 		if (lineWidth == 0) {
 			m_cmbLine.SetCurSel(0);
-		} else {
+		}
+		else {
 			m_cmbLine.SetCurSel(lineWidth - 1);
 		}
 	}
@@ -76,60 +78,62 @@ BOOL OptionPageForLink::OnInitDialog()
 	m_Slider.SetRangeMin(0, TRUE);
 	m_Slider.SetPos(strength);
 	CString mes;
-	mes.Format(_T("%.1f"), (double)m_Slider.GetPos()/10.0);
+	mes.Format(_T("%.1f"), (double)m_Slider.GetPos() / 10.0);
 	m_strn.SetWindowText(mes);
-	
+
 	return TRUE;
 }
 
-void OptionPageForLink::OnBtnColor() 
+void OptionPageForLink::OnBtnColor()
 {
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
 }
 
-void OptionPageForLink::OnBtnFont() 
+void OptionPageForLink::OnBtnFont()
 {
 	CFontDialog dlg(&lf);
 	if (dlg.DoModal() != IDOK) return;
 }
 
-void OptionPageForLink::OnSelchangeCmbLine() 
+void OptionPageForLink::OnSelchangeCmbLine()
 {
 	int index = m_cmbLine.GetCurSel();
 	if (index == 0 || index == 5) {
 		lineWidth = 0;
-	} else {
-		lineWidth = index+1;
+	}
+	else {
+		lineWidth = index + 1;
 	}
 	if (index < 5) {
 		styleLine = PS_SOLID;
-	} else if (index == 5) {
+	}
+	else if (index == 5) {
 		styleLine = PS_DOT;
 	}
 }
 
-void OptionPageForLink::OnChkStrength() 
+void OptionPageForLink::OnChkStrength()
 {
 	m_bSetStrength = m_chkSetStreangth.GetCheck();
 }
 
-void OptionPageForLink::OnReleasedcaptureSlid(NMHDR* pNMHDR, LRESULT* pResult) 
+void OptionPageForLink::OnReleasedcaptureSlid(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	CString mes;
 	strength = m_Slider.GetPos();
-	mes.Format(_T("%.1f"), (double)strength/10.0);
+	mes.Format(_T("%.1f"), (double)strength / 10.0);
 	m_strn.SetWindowText(mes);
 	*pResult = 0;
 }
 
-void OptionPageForLink::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+void OptionPageForLink::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	CString mes;
 	strength = m_Slider.GetPos();
-	mes.Format(_T("%.1f"), (double)strength/10.0);
+	mes.Format(_T("%.1f"), (double)strength / 10.0);
 	m_strn.SetWindowText(mes);
-	
+
 	CDialog::OnHScroll(nSBCode, nPos, pScrollBar);
 }

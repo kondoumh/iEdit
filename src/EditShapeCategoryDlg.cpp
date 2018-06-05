@@ -43,15 +43,15 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // EditShapeCategoryDlg メッセージ ハンドラ
 
-BOOL EditShapeCategoryDlg::OnInitDialog() 
+BOOL EditShapeCategoryDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	m_edit.SetSel(0, -1);
 	return TRUE;
 }
 
-void EditShapeCategoryDlg::OnChangeEdit1() 
+void EditShapeCategoryDlg::OnChangeEdit1()
 {
 	m_edit.GetWindowText(m_strName);
 }

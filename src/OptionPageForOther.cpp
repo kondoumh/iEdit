@@ -80,94 +80,95 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-void OptionPageForOther::OnCancel() 
+void OptionPageForOther::OnCancel()
 {
 	return;
 	CDialog::OnCancel();
 }
 
-BOOL OptionPageForOther::OnInitDialog() 
+BOOL OptionPageForOther::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	m_edStylesheet.EnableWindow(m_bSetStylesheet);
-	
+
 	return TRUE;
 }
 
-void OptionPageForOther::OnRdTab1() 
+void OptionPageForOther::OnRdTab1()
 {
 	m_tabSelect = 0;
 }
 
-void OptionPageForOther::OnRdTab2() 
+void OptionPageForOther::OnRdTab2()
 {
 	m_tabSelect = 1;
 }
 
-void OptionPageForOther::OnRdTab3() 
+void OptionPageForOther::OnRdTab3()
 {
 	m_tabSelect = 2;
 }
 
-void OptionPageForOther::OnChkShowHs() 
+void OptionPageForOther::OnChkShowHs()
 {
 	m_bShowHS = m_chkShowHS.GetCheck();
 }
 
-void OptionPageForOther::OnChkInheritParent() 
+void OptionPageForOther::OnChkInheritParent()
 {
 	m_bInheritParent = m_chkInheritParent.GetCheck();
 }
 
-void OptionPageForOther::OnChkInheritSibling() 
+void OptionPageForOther::OnChkInheritSibling()
 {
 	m_bInheritSibling = m_chkInheritSibling.GetCheck();
 }
 
-void OptionPageForOther::OnChkAccel() 
+void OptionPageForOther::OnChkAccel()
 {
 	m_bAccelmove = m_chkAccelMove.GetCheck();
 }
 
-void OptionPageForOther::OnBtnSetmfsize() 
+void OptionPageForOther::OnBtnSetmfsize()
 {
 	MetafileSettingsDlg dlg;
-	double mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rWidth"), 0)/10.0;
-	double mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rHeight"), 0)/10.0;
-	
-	
+	double mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rWidth"), 0) / 10.0;
+	double mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rHeight"), 0) / 10.0;
+
+
 	if (mfWidth != 0 && mfHeight != 0) {
 		dlg.m_rx = mfWidth;
 		dlg.m_ry = mfHeight;
-	} else {
-		CSize szMF = MfSizer::getMFSize();
-		dlg.m_rx = ((double)szMF.cx)/10.0;
-		dlg.m_ry = ((double)szMF.cy)/10.0;;
 	}
-	
+	else {
+		CSize szMF = MfSizer::getMFSize();
+		dlg.m_rx = ((double)szMF.cx) / 10.0;
+		dlg.m_ry = ((double)szMF.cy) / 10.0;;
+	}
+
 	if (dlg.DoModal() == IDOK) {
-		AfxGetApp()->WriteProfileInt(REGS_OTHER, _T("MF rWidth"), (int)(dlg.m_rx*10));
-		AfxGetApp()->WriteProfileInt(REGS_OTHER, _T("MF rHeight"), (int)(dlg.m_ry*10));
+		AfxGetApp()->WriteProfileInt(REGS_OTHER, _T("MF rWidth"), (int)(dlg.m_rx * 10));
+		AfxGetApp()->WriteProfileInt(REGS_OTHER, _T("MF rHeight"), (int)(dlg.m_ry * 10));
 		MessageBox(_T("この設定は再起動後に反映されます"));
 	}
 }
 
-void OptionPageForOther::OnChkDrwUndrln() 
+void OptionPageForOther::OnChkDrwUndrln()
 {
 	m_bDrawUnderLine = m_chkDrawUnderLine.GetCheck();
 }
 
-void OptionPageForOther::OnChkSetStylesheet() 
+void OptionPageForOther::OnChkSetStylesheet()
 {
 	m_bSetStylesheet = m_chkStylesheet.GetCheck();
 	m_edStylesheet.EnableWindow(m_bSetStylesheet);
 }
 
-void OptionPageForOther::OnChangeEditStylesheet() 
+void OptionPageForOther::OnChangeEditStylesheet()
 {
 	m_edStylesheet.GetWindowText(m_strStylesheet);
-	
+
 }
 
 void OptionPageForOther::OnBnClickedChkPostAction()

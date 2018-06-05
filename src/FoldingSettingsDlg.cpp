@@ -37,10 +37,10 @@ BEGIN_MESSAGE_MAP(FoldingSettingsDlg, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-BOOL FoldingSettingsDlg::OnInitDialog() 
+BOOL FoldingSettingsDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	m_spin.SetRange(1, 10000);
 	return TRUE;
 }

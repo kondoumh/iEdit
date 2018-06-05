@@ -50,52 +50,52 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL OptionSettingsDlg::OnInitDialog() 
+BOOL OptionSettingsDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	// タブシートにタブを追加
 	TC_ITEM item;
 	item.mask = TCIF_TEXT;
 	item.pszText = _T("フレーム");
-	m_tabSeet.InsertItem(0,&item);
+	m_tabSeet.InsertItem(0, &item);
 	item.pszText = _T("ノード");
-	m_tabSeet.InsertItem(1,&item);
+	m_tabSeet.InsertItem(1, &item);
 	item.pszText = _T("リンク");
-	m_tabSeet.InsertItem(2,&item);
+	m_tabSeet.InsertItem(2, &item);
 	item.pszText = _T("その他");
-	m_tabSeet.InsertItem(3,&item);
+	m_tabSeet.InsertItem(3, &item);
 
 	// タブシートにページを追加
 	m_tabSeet.addPage(pFrame = new OptionPageForFrame);
 	m_tabSeet.addPage(pNode = new OptionPageForNode);
 	m_tabSeet.addPage(pLink = new OptionPageForLink);
 	m_tabSeet.addPage(pOther = new OptionPageForOther);
-	
+
 	initPageFrame();
 	initPageNode();
 	initPageLink();
 	initPageOther();
-	
+
 	// タブシート開始!
 	m_tabSeet.beginService();
-	
+
 	return TRUE;
 }
 
-void OptionSettingsDlg::OnOK() 
+void OptionSettingsDlg::OnOK()
 {
 	// レジストリへの設定値書き込み
 	writePageFrame();
 	writePageNode();
 	writePageLink();
 	writePageOther();
-	
+
 	m_tabSeet.endService(true);
 	CDialog::OnOK();
 }
 
-void OptionSettingsDlg::OnCancel() 
+void OptionSettingsDlg::OnCancel()
 {
 	m_tabSeet.endService(true);
 	CDialog::OnCancel();
@@ -112,12 +112,14 @@ void OptionSettingsDlg::initPageNode()
 	pNode->styleLine = pApp->m_rgsNode.styleLine;
 	if (pApp->m_rgsNode.shape == iNode::rectangle) {
 		pNode->m_rdShape = 0;
-	} else if (pApp->m_rgsNode.shape == iNode::roundRect) {
+	}
+	else if (pApp->m_rgsNode.shape == iNode::roundRect) {
 		pNode->m_rdShape = 1;
-	} else if (pApp->m_rgsNode.shape == iNode::arc) {
+	}
+	else if (pApp->m_rgsNode.shape == iNode::arc) {
 		pNode->m_rdShape = 2;
 	}
-	
+
 	int ts = pApp->m_rgsNode.styleText;
 	if (ts == iNode::notext) {
 		pNode->m_rdTLine = 2;
@@ -127,37 +129,44 @@ void OptionSettingsDlg::initPageNode()
 		ts == iNode::s_cl || ts == iNode::s_cc || ts == iNode::s_cr ||
 		ts == iNode::s_bl || ts == iNode::s_bc || ts == iNode::s_br) {
 		pNode->m_rdTLine = 0;
-	} else if (ts == iNode::m_l || ts == iNode::m_c || ts == iNode::m_r) {
+	}
+	else if (ts == iNode::m_l || ts == iNode::m_c || ts == iNode::m_r) {
 		pNode->m_rdTLine = 1;
 	}
-	
+
 	if (ts == iNode::s_cc || ts == iNode::s_tc || ts == iNode::s_bc || ts == iNode::m_c) {
 		pNode->horiz = 1;
-	} else if (ts == iNode::s_cl || ts == iNode::s_tl || ts == iNode::s_bl || ts == iNode::m_l) {
+	}
+	else if (ts == iNode::s_cl || ts == iNode::s_tl || ts == iNode::s_bl || ts == iNode::m_l) {
 		pNode->horiz = 0;
-	} else if (ts == iNode::s_cr || ts == iNode::s_tr || ts == iNode::s_br || ts == iNode::m_r) {
+	}
+	else if (ts == iNode::s_cr || ts == iNode::s_tr || ts == iNode::s_br || ts == iNode::m_r) {
 		pNode->horiz = 2;
-	} else {
+	}
+	else {
 		pNode->horiz = 1;
 	}
-	
+
 	if (ts == iNode::s_tc || ts == iNode::s_tl || ts == iNode::s_tr) {
 		pNode->vert = 0;
-	} else if (ts == iNode::s_cc || ts == iNode::s_cl || ts == iNode::s_cr) {
+	}
+	else if (ts == iNode::s_cc || ts == iNode::s_cl || ts == iNode::s_cr) {
 		pNode->vert = 1;
-	} else if (ts == iNode::s_bc || ts == iNode::s_bl || ts == iNode::s_br) {
+	}
+	else if (ts == iNode::s_bc || ts == iNode::s_bl || ts == iNode::s_br) {
 		pNode->vert = 2;
-	} else {
+	}
+	else {
 		pNode->vert = 1;
 	}
 	pNode->lf = pApp->m_rgsNode.lf;
 	::lstrcpy(pNode->lf.lfFaceName, pApp->m_rgsNode.lf.lfFaceName);
-	
+
 	pNode->m_bSyncOrder = pApp->m_rgsNode.bSyncOrder;
 	pNode->m_orderDirection = pApp->m_rgsNode.orderDirection;
 	pNode->m_bEnableGroup = pApp->m_rgsNode.bEnableGroup;
 	pNode->m_bDisableNodeResize = pApp->m_rgsNode.bDisableNodeResize;
-	
+
 	pNode->margins.l = pApp->m_rgsNode.margin_l;
 	pNode->margins.r = pApp->m_rgsNode.margin_r;
 	pNode->margins.t = pApp->m_rgsNode.margin_t;
@@ -190,44 +199,58 @@ void OptionSettingsDlg::writePageNode()
 	pApp->WriteProfileInt(REGS_NODE, _T("Line Style"), pNode->styleLine);
 	if (pNode->m_rdShape == 0) {
 		pApp->WriteProfileInt(REGS_NODE, _T("Node Shape"), iNode::rectangle);
-	} else if (pNode->m_rdShape == 1) {
+	}
+	else if (pNode->m_rdShape == 1) {
 		pApp->WriteProfileInt(REGS_NODE, _T("Node Shape"), iNode::roundRect);
-	} else if (pNode->m_rdShape == 2) {
+	}
+	else if (pNode->m_rdShape == 2) {
 		pApp->WriteProfileInt(REGS_NODE, _T("Node Shape"), iNode::arc);
-	}	
-	
+	}
+
 	if (pNode->m_rdTLine == 0) {
 		if (pNode->vert == 0 && pNode->horiz == 0) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::s_tl);
-		} else if (pNode->vert == 1 && pNode->horiz == 0) {
+		}
+		else if (pNode->vert == 1 && pNode->horiz == 0) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::s_cl);
-		} else if (pNode->vert == 2 && pNode->horiz == 0) {
+		}
+		else if (pNode->vert == 2 && pNode->horiz == 0) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::s_bl);
-		} else if (pNode->vert == 0 && pNode->horiz == 1) {
+		}
+		else if (pNode->vert == 0 && pNode->horiz == 1) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::s_tc);
-		} else if (pNode->vert == 1 && pNode->horiz == 1) {
+		}
+		else if (pNode->vert == 1 && pNode->horiz == 1) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::s_cc);
-		} else if (pNode->vert == 2 && pNode->horiz == 1) {
+		}
+		else if (pNode->vert == 2 && pNode->horiz == 1) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::s_bc);
-		} else if (pNode->vert == 0 && pNode->horiz == 2) {
+		}
+		else if (pNode->vert == 0 && pNode->horiz == 2) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::s_tr);
-		} else if (pNode->vert == 1 && pNode->horiz == 2) {
+		}
+		else if (pNode->vert == 1 && pNode->horiz == 2) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::s_cr);
-		} else if (pNode->vert == 2 && pNode->horiz == 2) {
+		}
+		else if (pNode->vert == 2 && pNode->horiz == 2) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::s_br);
 		}
-	} else if (pNode->m_rdTLine == 1) {
+	}
+	else if (pNode->m_rdTLine == 1) {
 		if (pNode->horiz == 0) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::m_l);
-		} else if (pNode->horiz == 1) {
+		}
+		else if (pNode->horiz == 1) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::m_c);
-		} else if (pNode->horiz == 2) {
+		}
+		else if (pNode->horiz == 2) {
 			pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::m_r);
 		}
-	} else if (pNode->m_rdTLine == 2) {
+	}
+	else if (pNode->m_rdTLine == 2) {
 		pApp->WriteProfileInt(REGS_NODE, _T("Text Align"), iNode::notext);
 	}
-	
+
 	pApp->WriteProfileString(REGS_NODE, _T("Font Name"), pNode->lf.lfFaceName);
 	pApp->WriteProfileInt(REGS_NODE, _T("Font Height"), pNode->lf.lfHeight);
 	pApp->WriteProfileInt(REGS_NODE, _T("Font Width"), pNode->lf.lfWidth);
@@ -236,7 +259,7 @@ void OptionSettingsDlg::writePageNode()
 	pApp->WriteProfileInt(REGS_NODE, _T("Font StrikeOut"), pNode->lf.lfStrikeOut);
 	pApp->WriteProfileInt(REGS_NODE, _T("Font CharSet"), pNode->lf.lfCharSet);
 	pApp->WriteProfileInt(REGS_NODE, _T("Font Weight"), pNode->lf.lfWeight);
-	pApp->WriteProfileInt(REGS_NODE, _T("Sync Order"),  pNode->m_bSyncOrder);
+	pApp->WriteProfileInt(REGS_NODE, _T("Sync Order"), pNode->m_bSyncOrder);
 	pApp->WriteProfileInt(REGS_NODE, _T("Order Direction"), pNode->m_orderDirection);
 	pApp->WriteProfileInt(REGS_NODE, _T("Enable Grouping"), pNode->m_bEnableGroup);
 	pApp->WriteProfileInt(REGS_NODE, _T("Disable NodeResize"), pNode->m_bDisableNodeResize);
@@ -246,7 +269,7 @@ void OptionSettingsDlg::writePageNode()
 	pApp->WriteProfileInt(REGS_NODE, _T("Margin Top"), pNode->margins.t);
 	pApp->WriteProfileInt(REGS_NODE, _T("Margin Bottom"), pNode->margins.b);
 	pApp->WriteProfileInt(REGS_NODE, _T("Prior Selected Node Dragging"), pNode->m_bPriorSelectionDragging);
-	
+
 	pApp->getNodeProfile(); // アプリケーションオブジェクトの再設定
 }
 
@@ -258,7 +281,7 @@ void OptionSettingsDlg::writePageLink()
 	pApp->WriteProfileInt(REGS_LINK, _T("Strength"), pLink->strength);
 	pApp->WriteProfileInt(REGS_LINK, _T("Line Style"), pLink->styleLine);
 	pApp->WriteProfileInt(REGS_LINK, _T("Set Strength"), pLink->m_bSetStrength);
-	
+
 	pApp->WriteProfileString(REGS_LINK, _T("Font Name"), pLink->lf.lfFaceName);
 	pApp->WriteProfileInt(REGS_LINK, _T("Font Height"), pLink->lf.lfHeight);
 	pApp->WriteProfileInt(REGS_LINK, _T("Font Width"), pLink->lf.lfWidth);
@@ -267,7 +290,7 @@ void OptionSettingsDlg::writePageLink()
 	pApp->WriteProfileInt(REGS_LINK, _T("Font StrikeOut"), pLink->lf.lfStrikeOut);
 	pApp->WriteProfileInt(REGS_LINK, _T("Font CharSet"), pLink->lf.lfCharSet);
 	pApp->WriteProfileInt(REGS_LINK, _T("Font Weight"), pLink->lf.lfWeight);
-	
+
 	pApp->getLinkProfile();
 }
 
@@ -276,7 +299,7 @@ void OptionSettingsDlg::initPageOther()
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pOther->m_bShowHS = pApp->GetProfileInt(REGS_OTHER, _T("Show HScroll"), FALSE);
 	pOther->m_tabSelect = pApp->GetProfileInt(REGS_OTHER, _T("Tab Stop"), 1);
-	
+
 	pOther->m_bInheritParent = pApp->m_rgsNode.bInheritParent;
 	pOther->m_bInheritSibling = pApp->m_rgsNode.bInheritSibling;
 	pOther->m_bAccelmove = pApp->GetProfileInt(REGS_OTHER, _T("Accel Move"), TRUE);
@@ -300,10 +323,10 @@ void OptionSettingsDlg::writePageOther()
 	pApp->WriteProfileInt(REGS_OTHER, _T("Output Filelinks On Export"), pOther->m_bOutputFileLinksOnExport);
 	pApp->WriteProfileInt(REGS_OTHER, _T("XML StyleSheet"), pOther->m_bSetStylesheet);
 	pApp->WriteProfileString(REGS_OTHER, _T("XML StyleSheet Name"), pOther->m_strStylesheet);
-	
+
 	pApp->m_rgsNode.bInheritParent = pOther->m_bInheritParent;
 	pApp->m_rgsNode.bInheritSibling = pOther->m_bInheritSibling;
-	
+
 	pApp->m_rgsOther.bSetStylesheet = pOther->m_bSetStylesheet;
 	pApp->m_rgsOther.strStyleSheetFile = pOther->m_strStylesheet;
 	pApp->m_rgsOther.bOpenFilesAfterExport = pOther->m_bOpenFilesAfterExport;
@@ -325,11 +348,11 @@ void OptionSettingsDlg::initPageFrame()
 	pFrame->lfOutline.lfItalic = app->GetProfileInt(REGS_FRAME, _T("Font1 Italic"), FALSE);
 	pFrame->lfOutline.lfUnderline = app->GetProfileInt(REGS_FRAME, _T("Font1 UnderLine"), FALSE);
 	pFrame->lfOutline.lfStrikeOut = app->GetProfileInt(REGS_FRAME, _T("Font1 StrikeOut"), FALSE);
-	pFrame->lfOutline.lfCharSet= app->GetProfileInt(REGS_FRAME, _T("Font1 CharSet"), SHIFTJIS_CHARSET);
+	pFrame->lfOutline.lfCharSet = app->GetProfileInt(REGS_FRAME, _T("Font1 CharSet"), SHIFTJIS_CHARSET);
 	pFrame->lfOutline.lfWeight = app->GetProfileInt(REGS_FRAME, _T("Font1 Weight"), FW_NORMAL);
 	pFrame->lfOutline.lfEscapement = 0;
 	pFrame->fntOutline.CreateFontIndirect(&pFrame->lfOutline);
-	
+
 	// LinkView Font
 	::lstrcpy(pFrame->lfLink.lfFaceName, app->GetProfileString(REGS_FRAME, _T("Font2 Name"), defaultFontName));
 	pFrame->lfLink.lfHeight = app->GetProfileInt(REGS_FRAME, _T("Font2 Height"), 0xfffffff3);
@@ -337,11 +360,11 @@ void OptionSettingsDlg::initPageFrame()
 	pFrame->lfLink.lfItalic = app->GetProfileInt(REGS_FRAME, _T("Font2 Italic"), FALSE);
 	pFrame->lfLink.lfUnderline = app->GetProfileInt(REGS_FRAME, _T("Font2 UnderLine"), FALSE);
 	pFrame->lfLink.lfStrikeOut = app->GetProfileInt(REGS_FRAME, _T("Font2 StrikeOut"), FALSE);
-	pFrame->lfLink.lfCharSet= app->GetProfileInt(REGS_FRAME, _T("Font2 CharSet"), SHIFTJIS_CHARSET);
+	pFrame->lfLink.lfCharSet = app->GetProfileInt(REGS_FRAME, _T("Font2 CharSet"), SHIFTJIS_CHARSET);
 	pFrame->lfLink.lfWeight = app->GetProfileInt(REGS_FRAME, _T("Font2 Weight"), FW_NORMAL);
 	pFrame->lfLink.lfEscapement = 0;
 	pFrame->fntLink.CreateFontIndirect(&pFrame->lfLink);
-	
+
 	// TextView Font
 	::lstrcpy(pFrame->lfText.lfFaceName, app->GetProfileString(REGS_FRAME, _T("Font3 Name"), defaultFontName));
 	pFrame->lfText.lfHeight = app->GetProfileInt(REGS_FRAME, _T("Font3 Height"), 0xfffffff1);
@@ -349,30 +372,30 @@ void OptionSettingsDlg::initPageFrame()
 	pFrame->lfText.lfItalic = app->GetProfileInt(REGS_FRAME, _T("Font3 Italic"), FALSE);
 	pFrame->lfText.lfUnderline = app->GetProfileInt(REGS_FRAME, _T("Font3 UnderLine"), FALSE);
 	pFrame->lfText.lfStrikeOut = app->GetProfileInt(REGS_FRAME, _T("Font3 StrikeOut"), FALSE);
-	pFrame->lfText.lfCharSet= app->GetProfileInt(REGS_FRAME, _T("Font3 CharSet"), SHIFTJIS_CHARSET);
+	pFrame->lfText.lfCharSet = app->GetProfileInt(REGS_FRAME, _T("Font3 CharSet"), SHIFTJIS_CHARSET);
 	pFrame->lfText.lfWeight = app->GetProfileInt(REGS_FRAME, _T("Font3 Weight"), FW_NORMAL);
 	pFrame->lfText.lfEscapement = 0;
 	pFrame->fntText.CreateFontIndirect(&pFrame->lfText);
-	
+
 	// TreeView Color
 	pFrame->m_colorOLBG = app->GetProfileInt(REGS_FRAME, _T("Outline bgColor"), app->m_colorOutlineViewBg);
 	pFrame->m_colorOLFor = app->GetProfileInt(REGS_FRAME, _T("Outline forColor"), app->m_colorOutlineViewFg);
 	pFrame->m_colorInsrtMrk = app->GetProfileInt(REGS_FRAME, _T("InsertMark Color"), RGB(0, 0, 0));
-	
+
 	// LinkView Color
 	pFrame->m_colorLNBG = app->GetProfileInt(REGS_FRAME, _T("Link bgColor"), app->m_colorLinkViewBg);
 	pFrame->m_colorLNFor = app->GetProfileInt(REGS_FRAME, _T("Link forColor"), app->m_colorLinkViewFg);
-	
+
 	// EditerView Color
 	pFrame->m_colorEditBG = app->GetProfileInt(REGS_FRAME, _T("Edit bgColor"), app->m_colorTextViewBg);
 	pFrame->m_colorEditFor = app->GetProfileInt(REGS_FRAME, _T("Edit forColor"), app->m_colorTextViewFg);
-	
+
 	// NetView Color
 	pFrame->m_colorNWBG = app->GetProfileInt(REGS_FRAME, _T("Net bgColor"), app->m_colorNetViewBg);
-	
+
 	// Frame Option
 	pFrame->m_bSaveFrame = app->GetProfileInt(REGS_FRAME, _T("Save Frame Sizes"), TRUE);
-	
+
 	// Bar State Option
 	pFrame->m_bSaveBarState = app->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 }
@@ -388,7 +411,7 @@ void OptionSettingsDlg::writePageFrame()
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font1 StrikeOut"), pFrame->lfOutline.lfStrikeOut);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font1 CharSet"), pFrame->lfOutline.lfCharSet);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font1 Weight"), pFrame->lfOutline.lfWeight);
-	
+
 	// LinkView Font
 	AfxGetApp()->WriteProfileString(REGS_FRAME, _T("Font2 Name"), pFrame->lfLink.lfFaceName);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font2 Height"), pFrame->lfLink.lfHeight);
@@ -398,7 +421,7 @@ void OptionSettingsDlg::writePageFrame()
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font2 StrikeOut"), pFrame->lfLink.lfStrikeOut);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font2 CharSet"), pFrame->lfLink.lfCharSet);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font2 Weight"), pFrame->lfLink.lfWeight);
-	
+
 	// EditorView Font
 	AfxGetApp()->WriteProfileString(REGS_FRAME, _T("Font3 Name"), pFrame->lfText.lfFaceName);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font3 Height"), pFrame->lfText.lfHeight);
@@ -408,26 +431,26 @@ void OptionSettingsDlg::writePageFrame()
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font3 StrikeOut"), pFrame->lfText.lfStrikeOut);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font3 CharSet"), pFrame->lfText.lfCharSet);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Font3 Weight"), pFrame->lfText.lfWeight);
-	
+
 	// TreeView Color
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Outline bgColor"), pFrame->m_colorOLBG);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Outline forColor"), pFrame->m_colorOLFor);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("InsertMark Color"), pFrame->m_colorInsrtMrk);
-	
+
 	// LinkView Color
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Link bgColor"), pFrame->m_colorLNBG);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Link forColor"), pFrame->m_colorLNFor);
-	
+
 	// EditView Color
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Edit bgColor"), pFrame->m_colorEditBG);
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Edit forColor"), pFrame->m_colorEditFor);
-	
+
 	// NetView Color
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Net bgColor"), pFrame->m_colorNWBG);
-	
+
 	// Frame Option
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Save Frame Sizes"), pFrame->m_bSaveFrame);
-	
+
 	// Bar State Option
 	AfxGetApp()->WriteProfileInt(REGS_FRAME, _T("Save bar status"), pFrame->m_bSaveBarState);
 }

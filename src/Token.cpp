@@ -29,7 +29,7 @@
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -53,11 +53,11 @@ CToken::~CToken()
 
 BOOL CToken::MoreTokens()
 {
-	if ((m_strLeft.Find(m_strToken,0) == -1) && (m_bFinalToken))
+	if ((m_strLeft.Find(m_strToken, 0) == -1) && (m_bFinalToken))
 	{
 		return TRUE; // The string that is left over is a token
 	}
-	else if ((m_strLeft.Find(m_strToken,0) == -1) && (!m_bFinalToken))
+	else if ((m_strLeft.Find(m_strToken, 0) == -1) && (!m_bFinalToken))
 	{
 		return FALSE; // The string contains no tokens
 	}
@@ -68,18 +68,18 @@ BOOL CToken::MoreTokens()
 
 CString CToken::GetNextToken()
 {
-	
-	if(m_bFinalToken)
+
+	if (m_bFinalToken)
 	{
 		m_bFinalToken = FALSE;
 		return m_strLeft;
 	}
-	
+
 
 	int pos, len;
 	CString newtok = m_strLeft; // Our own working copy of the string left
 	len = newtok.GetLength();
-	pos = newtok.Find(m_strToken,0);
+	pos = newtok.Find(m_strToken, 0);
 	if (pos == -1)
 	{
 		// This should never happen
@@ -91,7 +91,7 @@ CString CToken::GetNextToken()
 	m_strLeft = m_strLeft.Right(len - pos);
 
 	//Check to see if there anymore tokens
-	if (m_strLeft.Find(m_strToken,0) == -1)
+	if (m_strLeft.Find(m_strToken, 0) == -1)
 	{
 		// No more tokens but the string left is the remaining token
 		m_bFinalToken = TRUE;
@@ -104,13 +104,15 @@ CString CToken::GetNextToken()
 int CToken::GetIndent(const CString &string)
 {
 	CString res = string.SpanIncluding(_T("\t 　."));
-	
+
 	if (res.IsEmpty()) {
 		return 0;
-	} else {
+	}
+	else {
 		if (res.Find(_T("　"), 0) == 0) {
-			return res.GetLength()/2;
-		} else {
+			return res.GetLength() / 2;
+		}
+		else {
 			return res.GetLength();
 		}
 	}

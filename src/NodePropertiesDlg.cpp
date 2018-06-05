@@ -64,38 +64,41 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-void NodePropertiesDlg::OnSelchangeComboline() 
+void NodePropertiesDlg::OnSelchangeComboline()
 {
 	int index = m_CombTLine.GetCurSel();
 	if (index == 0 || index == 5 || index == 6) {
 		lineWidth = 0;
-	} else {
-		lineWidth = index+1;
+	}
+	else {
+		lineWidth = index + 1;
 	}
 	if (index < 5) {
 		styleLine = PS_SOLID;
-	} else if (index == 5) {
+	}
+	else if (index == 5) {
 		styleLine = PS_DOT;
-	} else if (index == 6) {
+	}
+	else if (index == 6) {
 		styleLine = PS_NULL;
 	}
 }
 
-void NodePropertiesDlg::OnBtnLineColor() 
+void NodePropertiesDlg::OnBtnLineColor()
 {
 	CColorDialog dlg(colorLine);
 	if (dlg.DoModal() != IDOK) return;
 	colorLine = dlg.GetColor();
 }
 
-void NodePropertiesDlg::OnBtnBrs() 
+void NodePropertiesDlg::OnBtnBrs()
 {
 	CColorDialog dlg(colorFill);
 	if (dlg.DoModal() != IDOK) return;
 	colorFill = dlg.GetColor();
 }
 
-void NodePropertiesDlg::OnBtnFont() 
+void NodePropertiesDlg::OnBtnFont()
 {
 	CFontDialog dlg(&lf);
 	dlg.m_cf.rgbColors = colorFont;
@@ -103,43 +106,48 @@ void NodePropertiesDlg::OnBtnFont()
 	colorFont = dlg.m_cf.rgbColors;
 }
 
-BOOL NodePropertiesDlg::OnInitDialog() 
+BOOL NodePropertiesDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	m_editLabel.ReplaceSel(m_strLabel);
 	if (styleLine == PS_DOT) {
 		m_CombTLine.SetCurSel(5);
-	} else if (styleLine == PS_NULL) {
+	}
+	else if (styleLine == PS_NULL) {
 		m_CombTLine.SetCurSel(6);
-	} else {
+	}
+	else {
 		if (lineWidth == 0) {
 			m_CombTLine.SetCurSel(0);
-		} else {
+		}
+		else {
 			m_CombTLine.SetCurSel(lineWidth - 1);
 		}
 	}
 	m_cmbHoriz.SetCurSel(horiz);
 	m_cmbVert.SetCurSel(vert);
-	
+
 	m_BtnBrsColor.EnableWindow(!m_chkBoxNoBrs.GetCheck());
 	if (m_TLine == 0) {
 		m_editLabel.ModifyStyle(ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL, ES_AUTOHSCROLL);
-		m_editLabel.MoveWindow(86,11 ,263,25);
+		m_editLabel.MoveWindow(86, 11, 263, 25);
 		m_cmbHoriz.EnableWindow(TRUE);
 		m_cmbVert.EnableWindow(TRUE);
-	} else if (m_TLine == 1) {
+	}
+	else if (m_TLine == 1) {
 		m_cmbHoriz.EnableWindow(TRUE);
 		m_cmbVert.EnableWindow(FALSE);
-		m_editLabel.ModifyStyle( ES_AUTOHSCROLL, WS_HSCROLL | ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL);
-		m_editLabel.MoveWindow(86,11,263,65);
-	} else if (m_TLine == 2) {
-		m_editLabel.ModifyStyle(ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL , ES_AUTOHSCROLL);
-		m_editLabel.MoveWindow(86,11,263,25);
+		m_editLabel.ModifyStyle(ES_AUTOHSCROLL, WS_HSCROLL | ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL);
+		m_editLabel.MoveWindow(86, 11, 263, 65);
+	}
+	else if (m_TLine == 2) {
+		m_editLabel.ModifyStyle(ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL, ES_AUTOHSCROLL);
+		m_editLabel.MoveWindow(86, 11, 263, 25);
 		m_cmbHoriz.EnableWindow(FALSE);
 		m_cmbVert.EnableWindow(FALSE);
 	}
-	
+
 	if (bOldBynary) {
 		GetDlgItem(IDC_BTN_SET_MARGIN)->EnableWindow(FALSE);
 	}
@@ -147,65 +155,65 @@ BOOL NodePropertiesDlg::OnInitDialog()
 }
 
 
-void NodePropertiesDlg::OnRadioTline1() 
+void NodePropertiesDlg::OnRadioTline1()
 {
 	m_editLabel.ModifyStyle(ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL, ES_AUTOHSCROLL);
-	m_editLabel.MoveWindow(86,11,263,25);
+	m_editLabel.MoveWindow(86, 11, 263, 25);
 	m_TLine = 0;
 	m_cmbHoriz.EnableWindow(TRUE);
 	m_cmbVert.EnableWindow(TRUE);
 }
 
-void NodePropertiesDlg::OnRadioTline2() 
+void NodePropertiesDlg::OnRadioTline2()
 {
-	m_editLabel.ModifyStyle( ES_AUTOHSCROLL, ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL);
-	m_editLabel.MoveWindow(86,11,263,65);
+	m_editLabel.ModifyStyle(ES_AUTOHSCROLL, ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL);
+	m_editLabel.MoveWindow(86, 11, 263, 65);
 	m_TLine = 1;
 	m_cmbHoriz.EnableWindow(TRUE);
 	m_cmbVert.EnableWindow(FALSE);
 }
 
-void NodePropertiesDlg::OnRadioTline3() 
+void NodePropertiesDlg::OnRadioTline3()
 {
 	m_editLabel.ModifyStyle(ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | ES_AUTOVSCROLL | WS_HSCROLL, ES_AUTOHSCROLL);
-	m_editLabel.MoveWindow(86,11,263,25);
+	m_editLabel.MoveWindow(86, 11, 263, 25);
 	m_TLine = 2;
 	m_cmbHoriz.EnableWindow(FALSE);
 	m_cmbVert.EnableWindow(FALSE);
 }
 
-void NodePropertiesDlg::OnRadioShape() 
+void NodePropertiesDlg::OnRadioShape()
 {
 	m_shape = 0;
 }
 
-void NodePropertiesDlg::OnRadioShape2() 
+void NodePropertiesDlg::OnRadioShape2()
 {
 	m_shape = 1;
 }
 
-void NodePropertiesDlg::OnRadioShape3() 
+void NodePropertiesDlg::OnRadioShape3()
 {
 	m_shape = 2;
 }
 
-void NodePropertiesDlg::OnOK() 
+void NodePropertiesDlg::OnOK()
 {
 	m_editLabel.GetWindowText(m_strLabel);
 	CDialog::OnOK();
 }
 
-void NodePropertiesDlg::OnChkNoBrs() 
+void NodePropertiesDlg::OnChkNoBrs()
 {
 	m_BtnBrsColor.EnableWindow(!m_chkBoxNoBrs.GetCheck());
 }
 
-void NodePropertiesDlg::OnSelchangeComboHoriz() 
+void NodePropertiesDlg::OnSelchangeComboHoriz()
 {
 	horiz = m_cmbHoriz.GetCurSel();
 }
 
-void NodePropertiesDlg::OnSelchangeComboVert() 
+void NodePropertiesDlg::OnSelchangeComboVert()
 {
 	vert = m_cmbVert.GetCurSel();
 }
@@ -217,7 +225,7 @@ void NodePropertiesDlg::OnBnClickedBtnSetMargin()
 	dlg.m_nRight = margins.r;
 	dlg.m_nTop = margins.t;
 	dlg.m_nBottom = margins.b;
-	
+
 	if (dlg.DoModal() != IDOK) return;
 
 	margins.l = dlg.m_nLeft;

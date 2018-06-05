@@ -67,24 +67,24 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 
-BOOL ShapesManagementDlg::OnInitDialog() 
+BOOL ShapesManagementDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
-	m_bounds[0]  = CRect(137,  22, 167,  52);
-	m_bounds[1]  = CRect(169,  22, 199,  52);
-	m_bounds[2]  = CRect(201,  22, 231,  52);
-	m_bounds[3]  = CRect(233,  22, 263,  52);
 
-	m_bounds[4]  = CRect(137,  54, 167,  84);
-	m_bounds[5]  = CRect(169,  54, 199,  84);
-	m_bounds[6]  = CRect(201,  54, 231,  84);
-	m_bounds[7]  = CRect(233,  54, 263,  84);
+	m_bounds[0] = CRect(137, 22, 167, 52);
+	m_bounds[1] = CRect(169, 22, 199, 52);
+	m_bounds[2] = CRect(201, 22, 231, 52);
+	m_bounds[3] = CRect(233, 22, 263, 52);
 
-	m_bounds[8]  = CRect(137,  86, 167, 116);
-	m_bounds[9]  = CRect(169,  86, 199, 116);
-	m_bounds[10] = CRect(201,  86, 231, 116);
-	m_bounds[11] = CRect(233,  86, 263, 116);
+	m_bounds[4] = CRect(137, 54, 167, 84);
+	m_bounds[5] = CRect(169, 54, 199, 84);
+	m_bounds[6] = CRect(201, 54, 231, 84);
+	m_bounds[7] = CRect(233, 54, 263, 84);
+
+	m_bounds[8] = CRect(137, 86, 167, 116);
+	m_bounds[9] = CRect(169, 86, 199, 116);
+	m_bounds[10] = CRect(201, 86, 231, 116);
+	m_bounds[11] = CRect(233, 86, 263, 116);
 
 	m_bounds[12] = CRect(137, 118, 167, 148);
 	m_bounds[13] = CRect(169, 118, 199, 148);
@@ -95,30 +95,30 @@ BOOL ShapesManagementDlg::OnInitDialog()
 	m_bounds[17] = CRect(169, 150, 199, 180);
 	m_bounds[18] = CRect(201, 150, 231, 180);
 	m_bounds[19] = CRect(233, 150, 263, 180);
-	
+
 	m_indexIncat = 0;
 	m_selRect = m_bounds[0];
 	m_oldRect = m_bounds[0];
-	
+
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-	
+
 	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
 	pApp->loadMetaFiles(mfname);
-	
+
 	for (int i = 0; i < 10; i++) {
 		m_catListBox.AddString(pApp->m_mfCategories[i]);
 	}
 	m_catListBox.SetCurSel(0);
-	
+
 	return TRUE;
 }
 
-void ShapesManagementDlg::OnBtnDrop() 
+void ShapesManagementDlg::OnBtnDrop()
 {
 	updateNetVew();
 }
 
-void ShapesManagementDlg::OnUpdateDiagram() 
+void ShapesManagementDlg::OnUpdateDiagram()
 {
 	updateNetVew();
 }
@@ -129,7 +129,7 @@ void ShapesManagementDlg::updateNetVew()
 		AfxMessageBox(_T("シェイプを選択してください"));
 		return;
 	}
-	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
+	int index = m_catListBox.GetCurSel() * 100 + m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] == NULL) {
 		AfxMessageBox(_T("シェイプが登録されていません"));
@@ -139,24 +139,24 @@ void ShapesManagementDlg::updateNetVew()
 	m_pParent->SetFocus();
 }
 
-BOOL ShapesManagementDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
+BOOL ShapesManagementDlg::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext)
 {
 	m_pParent = pParentWnd;
 	return CDialog::Create(IDD, pParentWnd);
 }
 
-void ShapesManagementDlg::OnOK() 
+void ShapesManagementDlg::OnOK()
 {
 	return;
 }
 
-void ShapesManagementDlg::OnCancel() 
+void ShapesManagementDlg::OnCancel()
 {
 	m_pParent->PostMessage(WM_CLOSESHAPEWINDOW, IDCANCEL);
 	CDialog::OnCancel();
 }
 
-void ShapesManagementDlg::OnSelchangeCatlist() 
+void ShapesManagementDlg::OnSelchangeCatlist()
 {
 	InvalidateRect(m_selRect);
 	m_indexIncat = 0;
@@ -168,12 +168,12 @@ void ShapesManagementDlg::OnSelchangeCatlist()
 	InvalidateRect(rc);
 }
 
-void ShapesManagementDlg::OnDblclkCatlist() 
+void ShapesManagementDlg::OnDblclkCatlist()
 {
 	editCatName();
 }
 
-void ShapesManagementDlg::OnEditCatName() 
+void ShapesManagementDlg::OnEditCatName()
 {
 	editCatName();
 }
@@ -188,7 +188,7 @@ void ShapesManagementDlg::editCatName()
 		m_catListBox.InsertString(m_catListBox.GetCurSel(), dlg.m_strName);
 		m_catListBox.DeleteString(m_catListBox.GetCurSel());
 		m_catListBox.SetCurSel(index);
-		
+
 		CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 		pApp->m_mfCategories[index] = dlg.m_strName;
 		pApp->m_bShapeModified = true;
@@ -196,7 +196,7 @@ void ShapesManagementDlg::editCatName()
 	}
 }
 
-void ShapesManagementDlg::OnNewShape() 
+void ShapesManagementDlg::OnNewShape()
 {
 	if (m_selRect == CRect(0, 0, 0, 0)) {
 		AfxMessageBox(_T("登録する場所を選択してください"));
@@ -210,9 +210,9 @@ void ShapesManagementDlg::OnNewShape()
 		AfxMessageBox(_T("メタファイルが読み込めませんでした"));
 		return;
 	}
-	
+
 	if (MessageBox(_T("シェイプを登録しますか?"), _T("シェイプの登録"), MB_YESNO) != IDYES) return;
-	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
+	int index = m_catListBox.GetCurSel() * 100 + m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->m_hMetaFiles[index] = hm;
 	pApp->m_bShapeModified = true;
@@ -220,31 +220,32 @@ void ShapesManagementDlg::OnNewShape()
 	decideShapef();
 }
 
-void ShapesManagementDlg::OnDeleteShape() 
+void ShapesManagementDlg::OnDeleteShape()
 {
-	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
+	int index = m_catListBox.GetCurSel() * 100 + m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] == NULL) {
 		AfxMessageBox(_T("シェイプが登録されていません"));
 		return;
 	}
 	if (MessageBox(_T("選択されたシェイプを削除します"), _T("シェイプの削除"), MB_YESNO) != IDYES) return;
-	
+
 	pApp->m_hMetaFiles[index] = NULL;
 	pApp->m_bShapeModified = true;
 	InvalidateRect(m_selRect);
 	decideShapef();
 }
 
-void ShapesManagementDlg::OnPaint() 
+void ShapesManagementDlg::OnPaint()
 {
 	CPaintDC dc(this);
-	
+
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	for (int i = 0; i < 20; i++) {
-		if (pApp->m_hMetaFiles[m_catListBox.GetCurSel()*100+i]) {
-			dc.PlayMetaFile(pApp->m_hMetaFiles[m_catListBox.GetCurSel()*100+i], m_bounds[i]);
-		} else {
+		if (pApp->m_hMetaFiles[m_catListBox.GetCurSel() * 100 + i]) {
+			dc.PlayMetaFile(pApp->m_hMetaFiles[m_catListBox.GetCurSel() * 100 + i], m_bounds[i]);
+		}
+		else {
 			dc.MoveTo(m_bounds[i].TopLeft());
 			dc.LineTo(m_bounds[i].right, m_bounds[i].top);
 			dc.LineTo(m_bounds[i].BottomRight());
@@ -258,7 +259,7 @@ void ShapesManagementDlg::OnPaint()
 	tracker.Draw(&dc);
 }
 
-void ShapesManagementDlg::OnLButtonDown(UINT nFlags, CPoint point) 
+void ShapesManagementDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	for (int i = 0; i < 20; i++) {
 		if (m_bounds[i].PtInRect(point)) {
@@ -273,7 +274,7 @@ void ShapesManagementDlg::OnLButtonDown(UINT nFlags, CPoint point)
 	CDialog::OnLButtonDown(nFlags, point);
 }
 
-void ShapesManagementDlg::OnLButtonDblClk(UINT nFlags, CPoint point) 
+void ShapesManagementDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	for (int i = 0; i < 20; i++) {
 		if (m_bounds[i].PtInRect(point)) {
@@ -285,7 +286,7 @@ void ShapesManagementDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 	CDialog::OnLButtonDblClk(nFlags, point);
 }
 
-void ShapesManagementDlg::OnBtnL() 
+void ShapesManagementDlg::OnBtnL()
 {
 	if (m_indexIncat > 0) {
 		m_indexIncat--;
@@ -293,10 +294,11 @@ void ShapesManagementDlg::OnBtnL()
 		m_selRect = m_bounds[m_indexIncat];
 		InvalidateRect(m_oldRect);
 		InvalidateRect(m_selRect);
-	} else if (m_indexIncat == 0) {
+	}
+	else if (m_indexIncat == 0) {
 		int index = m_catListBox.GetCurSel();
 		if (index > 0) {
-			m_catListBox.SetCurSel(index-1);
+			m_catListBox.SetCurSel(index - 1);
 			m_indexIncat = 19;
 			m_selRect = m_bounds[19];
 			Invalidate();
@@ -304,7 +306,7 @@ void ShapesManagementDlg::OnBtnL()
 	}
 }
 
-void ShapesManagementDlg::OnBtnR() 
+void ShapesManagementDlg::OnBtnR()
 {
 	if (m_indexIncat < 19) {
 		m_indexIncat++;
@@ -312,10 +314,11 @@ void ShapesManagementDlg::OnBtnR()
 		m_selRect = m_bounds[m_indexIncat];
 		InvalidateRect(m_oldRect);
 		InvalidateRect(m_selRect);
-	} else if (m_indexIncat == 19) {
+	}
+	else if (m_indexIncat == 19) {
 		int index = m_catListBox.GetCurSel();
 		if (index < 9) {
-			m_catListBox.SetCurSel(index+1);
+			m_catListBox.SetCurSel(index + 1);
 			m_indexIncat = 0;
 			m_selRect = m_bounds[0];
 			Invalidate();
@@ -323,37 +326,37 @@ void ShapesManagementDlg::OnBtnR()
 	}
 }
 
-void ShapesManagementDlg::OnBtnLl() 
+void ShapesManagementDlg::OnBtnLl()
 {
 	int index = m_catListBox.GetCurSel();
 	if (index > 0) {
-		m_catListBox.SetCurSel(index-1);
+		m_catListBox.SetCurSel(index - 1);
 		Invalidate();
 	}
 }
 
-void ShapesManagementDlg::OnBtnRr() 
+void ShapesManagementDlg::OnBtnRr()
 {
 	int index = m_catListBox.GetCurSel();
 	if (index < 9) {
-		m_catListBox.SetCurSel(index+1);
+		m_catListBox.SetCurSel(index + 1);
 		Invalidate();
 	}
 }
 
-void ShapesManagementDlg::OnSaveShapeFile() 
+void ShapesManagementDlg::OnSaveShapeFile()
 {
 	WCHAR szFilters[] = _T("シェイプファイル (*.ies)|*.ies||");
 	CFileDialog dlg(FALSE, _T("ies"), _T("shapes.ies"), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
-	
+
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->saveMetaFiles(outfileName);
 	pApp->m_bShapeModified = false;
 }
 
-void ShapesManagementDlg::OnOpenShapeFile() 
+void ShapesManagementDlg::OnOpenShapeFile()
 {
 	CString infile;
 	WCHAR szFilters[] = _T("シェイプファイル (*.ies)|*.ies||");
@@ -366,10 +369,10 @@ void ShapesManagementDlg::OnOpenShapeFile()
 		return;
 	}
 	f.Close();
-	
+
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->loadMetaFiles(infileName);
-	
+
 	for (int i = 9; i >= 0; i--) {
 		m_catListBox.DeleteString(i);
 	}
@@ -383,12 +386,12 @@ void ShapesManagementDlg::OnOpenShapeFile()
 	Invalidate();
 }
 
-void ShapesManagementDlg::OnBtnget() 
+void ShapesManagementDlg::OnBtnget()
 {
 	getFromView();
 }
 
-void ShapesManagementDlg::OnRegistNodeshape() 
+void ShapesManagementDlg::OnRegistNodeshape()
 {
 	getFromView();
 }
@@ -404,30 +407,30 @@ void ShapesManagementDlg::getFromView()
 
 void ShapesManagementDlg::regNodeShape(HENHMETAFILE hMF)
 {
-	int index = m_catListBox.GetCurSel()*100+m_indexIncat;
+	int index = m_catListBox.GetCurSel() * 100 + m_indexIncat;
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (pApp->m_hMetaFiles[index] != NULL) {
 		if (MessageBox(_T("選択されたシェイプを差し替えます"), _T("シェイプの差し替え"), MB_YESNO) != IDYES) return;
 	}
-	
+
 	pApp->m_hMetaFiles[index] = hMF;
 	pApp->m_bShapeModified = true;
-	
+
 	InvalidateRect(m_selRect);
 	decideShapef();
 }
 
-void ShapesManagementDlg::OnPasteFromClpbrd() 
+void ShapesManagementDlg::OnPasteFromClpbrd()
 {
 	if (::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
-		 ::IsClipboardFormatAvailable(CF_METAFILEPICT) ||
-		 ::IsClipboardFormatAvailable(CF_DIB) ) {
-		
+		::IsClipboardFormatAvailable(CF_METAFILEPICT) ||
+		::IsClipboardFormatAvailable(CF_DIB)) {
+
 		if (!OpenClipboard()) {
 			AfxMessageBox(_T("Cannot open the Clipboard"));
 			return;
 		}
-		int index = m_catListBox.GetCurSel()*100+m_indexIncat;
+		int index = m_catListBox.GetCurSel() * 100 + m_indexIncat;
 		CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 		if (pApp->m_hMetaFiles[index] != NULL) {
 			if (MessageBox(_T("選択されたシェイプを差し替えます"), _T("シェイプの差し替え"), MB_YESNO) != IDYES) return;
@@ -441,7 +444,7 @@ void ShapesManagementDlg::OnPasteFromClpbrd()
 	}
 }
 
-void ShapesManagementDlg::OnUpdatePasteFromClpbrd(CCmdUI* pCmdUI) 
+void ShapesManagementDlg::OnUpdatePasteFromClpbrd(CCmdUI* pCmdUI)
 {
 }
 
@@ -450,21 +453,21 @@ void ShapesManagementDlg::decideShapef()
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
 	if (mfname != _T("")) return;
-	
+
 	AfxMessageBox(_T("シェイプを保存するファイル名を指定してください"));
 	WCHAR szFilters[] = _T("シェイプファイル (*.ies)|*.ies||");
 	CFileDialog dlg(FALSE, _T("ies"), _T("shapes1"), OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
 	pApp->m_bShapeModified = false;
-	
+
 	pApp->saveMetaFiles(outfileName);
 }
 
-void ShapesManagementDlg::OnDestroy() 
+void ShapesManagementDlg::OnDestroy()
 {
 	CDialog::OnDestroy();
-	
+
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
 	if (mfname != _T("") && pApp->m_bShapeModified) {
