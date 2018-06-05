@@ -11,11 +11,11 @@ private:
 	CString m_ConfigurationName; // システム構成の文字列表現を保持
 	Dictionary m_VersionNames;   // OSのバージョン用ディクショナリー
 	Dictionary m_ProductNames;   // OSのプロダクト名用ディクショナリー
-	
+
 public:
 	SystemConfiguration(void);
 	~SystemConfiguration(void);
-	
+
 	// OSのバージョンのenum
 	enum Versions {
 		Unknown,
@@ -36,10 +36,10 @@ public:
 		Windows10
 	};
 	// OSのプロダクトタイプのenum
-	enum ProductTypes {UnknownProduct, Home, Professional, Server};
+	enum ProductTypes { UnknownProduct, Home, Professional, Server };
 	/// OSのプロセッサータイプのenum
-	enum ProcessorTypes {x32, x64};
-	
+	enum ProcessorTypes { x32, x64 };
+
 	int m_OsVersion; //  OSのバージョンのenum値を格納
 	int m_OsProduct; // OSのプロダクトタイプのenum値を格納
 	int m_OsProssesorEdition; // OSのプロセッサータイプのenum値を格納

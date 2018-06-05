@@ -11,7 +11,7 @@
 
 class iNode : public CObject
 {
-DECLARE_SERIAL(iNode)
+	DECLARE_SERIAL(iNode)
 public:
 	bool isDragging() const;
 	void setDragging(bool dragging = true);
@@ -34,14 +34,14 @@ public:
 	void backupState();
 	void setInChain(bool bChain = true);
 	const bool isInChain() const;
-	
+
 	const CRect& getBoundPre() const;
 	void setBoundPre(const CRect& r);
 	HENHMETAFILE getMetaFile() const;
 	void setLevel(const int nLevel);
 	const int getLevel() const;
 	void setMetaFile(HENHMETAFILE& hMF);
-	void fix(BOOL f=TRUE);
+	void fix(BOOL f = TRUE);
 	BOOL isFixed() const;
 	iNode(const CString& name);
 	double dy;
@@ -52,9 +52,9 @@ public:
 	bool isVisible() const;
 	bool isDeleted() const;
 	void setDelete();
-	void setVisible(bool v=true);
+	void setVisible(bool v = true);
 	bool isSelected() const;
-	void selectNode(bool sel=true);
+	void selectNode(bool sel = true);
 	int getTextStyle() const;
 	void setTextStyle(int s);
 	int getLineWidth() const;
@@ -66,11 +66,11 @@ public:
 	void setFontColor(const COLORREF& c);
 	void setBrush(const COLORREF& c);
 	const COLORREF& getBrsColor() const;
-	void setNoBrush(BOOL noBrush=TRUE);
+	void setNoBrush(BOOL noBrush = TRUE);
 	BOOL isFilled() const;
 	const COLORREF& getFontColor() const;
 	const LOGFONT& getFontInfo() const;
-	void setFontInfo(const LOGFONT& lf, bool resize=true);
+	void setFontInfo(const LOGFONT& lf, bool resize = true);
 	bool operator ==(iNode &n);
 	bool operator <(iNode &n);
 	void setBound(const CRect& r);
@@ -94,7 +94,7 @@ public:
 	const CString& getChapterNumber() const;
 	iNode();
 	virtual ~iNode();
-	
+
 	// 文字列アライメント(12種類)
 	enum {
 		s_cc,
@@ -111,7 +111,7 @@ public:
 		m_r,
 		notext
 	};
-	
+
 	// 描画図形
 	enum {
 		// 標準
@@ -173,7 +173,7 @@ private:
 	void enhanceBoundGradualy(int area);
 	void enhanceLineOriented(const CSize& sz);
 	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
-	void adjustFont(bool bForceResize=false);
+	void adjustFont(bool bForceResize = false);
 	CSize getNodeTextSize();
 };
 
@@ -236,7 +236,7 @@ inline int iNode::getTreeIconId() const
 {
 	return treeIconId_;
 }
-	
+
 
 inline void iNode::setDrawOrder(int drawOrder)
 {
@@ -322,7 +322,7 @@ inline void iNode::moveTo(const CPoint &pt)
 	int width = bound_.Width();
 	int height = bound_.Height();
 	bound_.left = pt.x;
-	bound_.top=  pt.y;
+	bound_.top = pt.y;
 	bound_.right = pt.x + width;
 	bound_.bottom = pt.y + height;
 }
@@ -436,7 +436,7 @@ inline void iNode::moveBound(const CSize& sz)
 	bound_.left += sz.cx;
 	bound_.top += sz.cy;
 	bound_.right = bound_.left + width;
-	bound_.bottom = bound_.top+ height;
+	bound_.bottom = bound_.top + height;
 }
 
 inline int iNode::getNodeShape() const
@@ -568,22 +568,22 @@ public:
 	void drawNodesSelected(CDC *pDC);
 	iNodes();
 	~iNodes();
-	CSize getMaxNodeSize(bool selection=true, bool bDrwAll=false) const;
-	void setSelectedNodeFixed(BOOL f=TRUE);
+	CSize getMaxNodeSize(bool selection = true, bool bDrwAll = false) const;
+	void setSelectedNodeFixed(BOOL f = TRUE);
 	BOOL isSelectedNodeFixed() const;
 	const_niterator getSelectedNodeR() const;
 	niterator findNodeW(DWORD key);
 	const_niterator findNode(DWORD key) const;
 	void setSelectedNodeShape(int shape);
 	int getSelectedNodeShape() const;
-	void setSelectedNodeNoBrush(BOOL noBrush=TRUE);
+	void setSelectedNodeNoBrush(BOOL noBrush = TRUE);
 	COLORREF getSelectedNodeBrsColor() const;
 	BOOL isSelectedNodeFilled() const;
 	void setSelectedNodeBrush(const COLORREF& c);
 	void setVisibleNodes(DWORD key);
 	vector<iNode*> getVisibleNodes() const;
 	void setVisibleNodes(KeySet& keySet);
-	int selectNodesInBound(const CRect& bound, CRect& selRect, bool bDrwAll=false);
+	int selectNodesInBound(const CRect& bound, CRect& selRect, bool bDrwAll = false);
 	int getSelectedNodeTextStyle() const;
 	void setSelectedNodeTextStyle(int style);
 	void setSelectedNodeTreeIconId(int id);
@@ -618,7 +618,7 @@ private:
 	iNodeArcDrawer* m_pNodeArcDrawer;
 	iNodeMetafileDrawer* m_pMetafileDrawer;
 	iNodeMMNodeDrawer* m_pMMNodeDrawer;
-	
+
 protected:
 public:
 	void resizeSelectedNodeFont(bool bEnlarge);

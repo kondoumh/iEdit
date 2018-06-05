@@ -14,7 +14,7 @@
 
 class WndTransparencySettingsDlg : public CDialog
 {
-// コンストラクション
+	// コンストラクション
 public:
 	long m_nLevel;
 	WndTransparencySettingsDlg(CWnd* pParent = NULL);
@@ -42,7 +42,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	CWnd* m_pParent;
+	CWnd * m_pParent;
 };
 
 //{{AFX_INSERT_LOCATION}}

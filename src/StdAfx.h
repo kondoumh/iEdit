@@ -73,7 +73,7 @@ struct listitem {
 	CString sTo;
 	CString comment;
 	CString path;
-	enum {linkSL, linkDL, FileName, WebURL, linkSL2, linkDL2, linkFolder, iedFile};
+	enum { linkSL, linkDL, FileName, WebURL, linkSL2, linkDL2, linkFolder, iedFile };
 	int linkType;
 	DWORD _keyFrom;
 	int _arrowStyle;

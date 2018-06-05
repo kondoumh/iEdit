@@ -41,7 +41,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	OptionPageForNode* pNode;
+	OptionPageForNode * pNode;
 	OptionPageForLink* pLink;
 	OptionPageForFrame* pFrame;
 	OptionPageForOther* pOther;

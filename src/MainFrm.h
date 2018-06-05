@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 class WndTransparencySettingsDlg;
-typedef DWORD (WINAPI *FWINLAYER)(HWND hwnd,DWORD crKey,BYTE bAlpha,DWORD dwFlags);
+typedef DWORD(WINAPI *FWINLAYER)(HWND hwnd, DWORD crKey, BYTE bAlpha, DWORD dwFlags);
 
 class CMainFrame : public CMDIFrameWnd
 {
@@ -95,7 +95,7 @@ private:
 	void saveFramePosition();
 	void createBrushedBitmap(CBitmap* pBitmap, COLORREF rgb);
 	void MakeWindowTransparent();
-	void JointCBLine(CFrameWnd *pFrameWnd,CControlBar *pBar,CControlBar *pCB);
+	void JointCBLine(CFrameWnd *pFrameWnd, CControlBar *pBar, CControlBar *pCB);
 	void addComboZoom();
 };
 

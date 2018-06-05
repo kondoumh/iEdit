@@ -27,7 +27,7 @@ public:
 
 protected:
 	//{{AFX_VIRTUAL(LinkForPathDlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
 

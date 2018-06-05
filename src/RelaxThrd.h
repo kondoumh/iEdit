@@ -55,7 +55,7 @@ public:
 	virtual ~CRelaxThrd();
 
 	//{{AFX_VIRTUAL(CRelaxThrd)
-	public:
+public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 	//}}AFX_VIRTUAL

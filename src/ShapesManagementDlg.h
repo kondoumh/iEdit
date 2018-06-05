@@ -16,7 +16,7 @@
 
 class ShapesManagementDlg : public CDialog
 {
-// コンストラクション
+	// コンストラクション
 public:
 	ShapesManagementDlg(CWnd* pParent = NULL);
 	void regNodeShape(HENHMETAFILE hMF);

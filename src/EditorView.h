@@ -24,9 +24,9 @@ public:
 
 protected:
 	//{{AFX_VIRTUAL(EditorView)
-	virtual void OnReplaceAll( LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase);
-	virtual void OnReplaceSel( LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR lpszReplace);
-	virtual void OnFindNext( LPCTSTR lpszFind, BOOL bNext, BOOL bCase );
+	virtual void OnReplaceAll(LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase);
+	virtual void OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR lpszReplace);
+	virtual void OnFindNext(LPCTSTR lpszFind, BOOL bNext, BOOL bCase);
 	virtual void OnInitialUpdate();
 	virtual void OnDraw(CDC* pDC);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

@@ -14,7 +14,7 @@ class ExportXmlDlg : public CDialog
 {
 public:
 	ExportXmlDlg(CWnd* pParent = NULL);
-	
+
 	//{{AFX_DATA(ExportXmlDlg)
 	enum { IDD = IDD_SELEXPORT };
 	int		m_nTreeOp;

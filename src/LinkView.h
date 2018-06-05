@@ -32,7 +32,7 @@ public:
 	virtual void OnDragLeave();
 	virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
 	virtual BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
-	protected:
+protected:
 	virtual void OnDraw(CDC* pDC);      // このビューを描画するためにオーバーライドしました。
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);

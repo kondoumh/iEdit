@@ -19,13 +19,14 @@
 //////////////////////////////////
 class iHint : public CObject {
 public:
-	enum {nodeSel, parentSel, nodeDelete, nodeDeleteByKey, nodeAdd, selectChild, selectParent, nodeLabelChanged,
-		  rectAdd, arcAdd, nodeStyleChanged,
-		  linkAdd, linkDelete, linkModified, lelax, linkCurved, linkStraight, linkSel, linkSelRet, linkListSel,
-	      nextNode, nextNodeSibling, reflesh, viewSettingChanged, showSubBranch, resetShowSubBranch, nodeFontResize,
-	      groupMigrate, groupMoved,
-		  nodeDeleteMulti,
-		  linkDeleteMulti
+	enum {
+		nodeSel, parentSel, nodeDelete, nodeDeleteByKey, nodeAdd, selectChild, selectParent, nodeLabelChanged,
+		rectAdd, arcAdd, nodeStyleChanged,
+		linkAdd, linkDelete, linkModified, lelax, linkCurved, linkStraight, linkSel, linkSelRet, linkListSel,
+		nextNode, nextNodeSibling, reflesh, viewSettingChanged, showSubBranch, resetShowSubBranch, nodeFontResize,
+		groupMigrate, groupMoved,
+		nodeDeleteMulti,
+		linkDeleteMulti
 	};
 	iHint() : treeIconId(0) {}
 	int event;
@@ -59,7 +60,7 @@ protected:
 
 public:
 	void fitSetlectedNodeSize();
-	bool writeClickableMap(CStdioFile& f, const CString& textFileName, bool singleText=true);
+	bool writeClickableMap(CStdioFile& f, const CString& textFileName, bool singleText = true);
 	bool saveCurrentImage(const CString& pngPath);
 	CString getTitleFromPath() const;
 	void swapLinkOrder(DWORD key1, DWORD key2);
@@ -107,7 +108,7 @@ public:
 	const CRect addNodeWithLink(int nodeType, DWORD keyRoot, DWORD keyPrevSibling = -1, const CPoint& pt = CPoint(0, 0), bool bMindMap = true);
 	void recalcArea();
 	CRect getChaindNodesBound() const;
-	void listupChainNodes(bool bResetLinkCurve=true);
+	void listupChainNodes(bool bResetLinkCurve = true);
 	void relaxSingleStep(const CPoint& point, const CPoint& dragOffset);
 	void calcEdges();
 	void setNodeLevel(const DWORD key, const int nLevel);
@@ -124,11 +125,11 @@ public:
 		const CString& textFileName = _T(""), bool textSingle = true);
 	void viewSettingChanged();
 	void drawLinkSelectionTo(CDC* pDC, bool bDrwAll);
-	void drawLinkSelectionFrom(CDC* pDC, bool bDrwAll=false);
+	void drawLinkSelectionFrom(CDC* pDC, bool bDrwAll = false);
 	void setSelectedLinkReverse(bool bDrwAll = false);
 	bool setAlterLinkTo(const CPoint& pt, bool bDrwAll);
 	bool setAlterLinkFrom(const CPoint& pt, bool bDrwAll);
-	const iLink* getSelectedLink(bool bDrawAll=false) const;
+	const iLink* getSelectedLink(bool bDrawAll = false) const;
 	bool hitTestLinksTo(const CPoint &pt, bool drwAll);
 	bool hitTestLinksFrom(const CPoint& pt, bool drwAll);
 	void sameNodesSize(const CString& strSize, bool bDrwAll = false);
@@ -151,18 +152,18 @@ public:
 	CString procCR(const CString& str);
 	CString getKeyNodeText(DWORD key);
 	void writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = _T(""));
-	void randomNodesPos(const CSize& area, bool bDrwAll=false);
+	void randomNodesPos(const CSize& area, bool bDrwAll = false);
 	bool saveXML(const CString& outPath, bool bSerialize = false);
-	bool loadXML(const CString& filename, bool replace=false);
+	bool loadXML(const CString& filename, bool replace = false);
 	void addNodeRoundRect(const CString& name, const CPoint& pt);
 	void setResultRelax(Bounds& bounds);
-	void setNodeRelax(CRelaxThrd* r, bool bDrwAll=false);
+	void setNodeRelax(CRelaxThrd* r, bool bDrwAll = false);
 	BOOL isSelectedNodeFixed() const;
-	void setSelectedNodeFixed(BOOL f=TRUE);
+	void setSelectedNodeFixed(BOOL f = TRUE);
 	void setSelectedNodeTextStyle(int style);
 	int getSelectedNodeTextStyle() const;
 	void setSelectedNodeLabel(const CString& label);
-	void setSelectedNodeShape(int shape, int mfIndex=0);
+	void setSelectedNodeShape(int shape, int mfIndex = 0);
 	void setSelectedNodeMetaFile(HENHMETAFILE metafile);
 	int getSelectedNodeShape() const;
 	BOOL canCopyNode();
@@ -171,7 +172,7 @@ public:
 	BOOL linkExist(bool drwAll = false) const;
 	void addNode2(const iNode& n);
 	int getDataSize() const;
-	void setSelectedNodeNoBrush(BOOL noBrush=TRUE);
+	void setSelectedNodeNoBrush(BOOL noBrush = TRUE);
 	COLORREF getSelectedNodeBrsColor() const;
 	BOOL isSelectedNodeFilled() const;
 	void setSelectedNodeBrush(const COLORREF &c);
@@ -179,39 +180,39 @@ public:
 	BOOL canCopyLink();
 	void addSetLinkOrg();
 	void setCpLinkOrg();
-	BOOL isSelectedLinkCurved(bool bDrwAll=false) const;
+	BOOL isSelectedLinkCurved(bool bDrwAll = false) const;
 	BOOL isSelectedLinkSelf() const;
-	void notifySelectLink(const lsItems& ls, int index, bool drwAll=false);
+	void notifySelectLink(const lsItems& ls, int index, bool drwAll = false);
 	void selectChild();
-	void getSelectedLinkPts(CPoint& start, CPoint& end, bool bDrwAll=false);
-	void setSelectedLinkCurve(CPoint pt, bool curve=true, bool bDrwAll=false);
+	void getSelectedLinkPts(CPoint& start, CPoint& end, bool bDrwAll = false);
+	void setSelectedLinkCurve(CPoint pt, bool curve = true, bool bDrwAll = false);
 	void setSelectedLinkAngled(bool angled = true);
 	CRect getRelatedBound(bool drwAll = false) const;
-	CRect getSelectedLinkBound(bool drwAll=false) const;
+	CRect getSelectedLinkBound(bool drwAll = false) const;
 	void setSpecifiedLinkInfo(const listitem& iOld, const listitem& iNew);
 	void deleteSpecifidLink(const listitem& i);
 	DWORD getSelectedNodeKey() const;
 	void addURLLink(const CString& url, const CString& comment);
-	void getLinkInfoList(lsItems& ls, bool drwAll=false);
+	void getLinkInfoList(lsItems& ls, bool drwAll = false);
 	bool canDeleteNode() const;
-	CString getSelectedLinkLabel(bool drawAll=false);
+	CString getSelectedLinkLabel(bool drawAll = false);
 	CString getSelectedNodeLabel();
 	void deleteSelectedNode();
 	void deleteSelectedNodes();
 	void deleteSelectedLink();
 	void deleteSelectedLink2();
 	BOOL RouteCmdToAllViews(CView * pView, UINT nID, int nCode, void * pExtra, AFX_CMDHANDLERINFO * pHandlerInfo);
-	void getSelectedLinkFont(LOGFONT& lf, bool drwAll=false);
-	void setSelectedLinkFont(const LOGFONT& lf, bool drwAll=false);
-	void setSelectedLinkLineColor(const COLORREF& c, bool drwAll=false);
-	COLORREF getSelectedLinkLineColor(bool drwAll=false) const;
-	int getSelectedLinkLineStyle(bool drwAll=false);
-	void setSelectedLinkLineStyle(int style, bool drwAll=false);
-	void setSelectedLinkWidth(int w, bool drwAll=false);
+	void getSelectedLinkFont(LOGFONT& lf, bool drwAll = false);
+	void setSelectedLinkFont(const LOGFONT& lf, bool drwAll = false);
+	void setSelectedLinkLineColor(const COLORREF& c, bool drwAll = false);
+	COLORREF getSelectedLinkLineColor(bool drwAll = false) const;
+	int getSelectedLinkLineStyle(bool drwAll = false);
+	void setSelectedLinkLineStyle(int style, bool drwAll = false);
+	void setSelectedLinkWidth(int w, bool drwAll = false);
 	int getSelectedLinkWidth(bool drwAll = false) const;
 	void selectLinksInBound(const CRect& r, bool drwAll = false);
-	void setSelectedLinkInfo(const CString& sComment, int arrowType, bool bDrwAll=false);
-	void getSelectedLinkInfo(CString& sFrom, CString& sTo, CString& sComment, int& arrowType, bool bDrwAll=false);
+	void setSelectedLinkInfo(const CString& sComment, int arrowType, bool bDrwAll = false);
+	void getSelectedLinkInfo(CString& sFrom, CString& sTo, CString& sComment, int& arrowType, bool bDrwAll = false);
 	void setNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString& comment, int styleArrow);
 	void drawLinkSelection(CDC* pDC, bool bDrwAll = false);
 	bool hitTestLinks(const CPoint& pt, bool drwAll = false);
@@ -220,8 +221,8 @@ public:
 	void addNodeRect(const CString& name, const CPoint& pt, bool bSetMultiLineProcess = true, bool bNoBound = false);
 	CRect getRecentNodeRect();
 	CRect getSelectedNodeRect() const;
-	int selectNodesInBound(const CRect& r, CRect& selRect, bool drwAll=false);
-	void setSelectedNodeMultiLine(bool set=true);
+	int selectNodesInBound(const CRect& r, CRect& selRect, bool drwAll = false);
+	void setSelectedNodeMultiLine(bool set = true);
 	bool isSelectedNodeMultiLine() const;
 	int getSelectedNodeLineWidth() const;
 	void setSelectedNodeLineWidth(int w);
@@ -234,15 +235,15 @@ public:
 	void getSelectedNodeFont(LOGFONT& lf);
 	void setSelectedNodeFont(const LOGFONT& lf);
 	const CPoint& getMaxPt() const;
-	bool setEndLink(const CPoint& pt, int arrowType=iLink::line, bool bDrwAll=false, bool bArrowSpecification=false);
+	bool setEndLink(const CPoint& pt, int arrowType = iLink::line, bool bDrwAll = false, bool bArrowSpecification = false);
 	bool setStartLink(const CPoint& pt);
-	void drawLinks(CDC* pDC, bool bDrwAll=false, bool clipbrd=false);
+	void drawLinks(CDC* pDC, bool bDrwAll = false, bool clipbrd = false);
 	void setSelectedNodeBound(const CRect& r, bool widthLink = true, bool noBackup = false);
 	void moveSelectedNode(const CSize& sz);
-	bool hitTest(const CPoint& pt, CRect& r, bool bDrwAll=false);
+	bool hitTest(const CPoint& pt, CRect& r, bool bDrwAll = false);
 	void drawNodes(CDC* pDC, bool bDrwAll = false);
 	void setCurNodeText(CString& s, int scrollPos);
-	void selChanged(DWORD key, bool reflesh=true, bool bShowSubBranch = false);
+	void selChanged(DWORD key, bool reflesh = true, bool bShowSubBranch = false);
 	CString getSelectedNodeText();
 	void deleteKeyItem(DWORD key);
 	void setKeyNodeParent(DWORD key, DWORD parent);

@@ -11,7 +11,7 @@ public:
 	ImportTextDlg(CWnd* pParent = NULL);
 	virtual ~ImportTextDlg();
 
-// ダイアログ データ
+	// ダイアログ データ
 	enum { IDD = IDD_IMPORT_TEXT };
 	int m_charSelection;
 	CString m_fileName;

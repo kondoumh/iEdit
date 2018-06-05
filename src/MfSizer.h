@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-class MfSizer  
+class MfSizer
 {
 public:
 	static CSize getMFSize();

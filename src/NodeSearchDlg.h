@@ -38,10 +38,7 @@ public:
 	BOOL	m_bUpper;
 	//}}AFX_DATA
 
-protected:
-
 	//{{AFX_VIRTUAL(NodeSearchDlg)
-	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	virtual void OnCancel();

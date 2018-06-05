@@ -12,17 +12,17 @@
 #include "iNode.h"
 #include "iLink.h"
 
-class SvgWriter  
+class SvgWriter
 {
 public:
-	SvgWriter(iNodes& nodes, iLinks& links, serialVec& drawOrder, bool bDrwAll=false);
+	SvgWriter(iNodes& nodes, iLinks& links, serialVec& drawOrder, bool bDrwAll = false);
 	virtual ~SvgWriter();
-	void exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed=false);
+	void exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed = false);
 	void setTextHtmlFileName(const CString& fileName);
 	void setTextHtmlFilePrefix(const CString& prefix);
 
 private:
-	iNodes& m_nodes;
+	iNodes & m_nodes;
 	iLinks& m_links;
 	bool m_bDrwAll;
 	serialVec m_drawOrder;

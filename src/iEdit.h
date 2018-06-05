@@ -9,7 +9,7 @@
 #endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
-	#error include 'stdafx.h' before including this file for PCH
+#error include 'stdafx.h' before including this file for PCH
 #endif
 
 #include "resource.h"       // メイン シンボル
@@ -98,7 +98,7 @@ public:
 	CString m_mfCategories[10];
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	CiEditApp();
-	
+
 	// リンク線の種類
 	enum {
 		LS_R0,

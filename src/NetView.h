@@ -39,8 +39,8 @@ public:
 	void setNodeProp();
 	void hideModeless();
 	iEditDoc* GetDocument();
-	enum {none, single, multi, link, linkTermFrom, linkTermTo};
-	enum {normal, rect, rRect, arc, link0, link1, link2, label};
+	enum { none, single, multi, link, linkTermFrom, linkTermTo };
+	enum { normal, rect, rRect, arc, link0, link1, link2, label };
 
 	//{{AFX_VIRTUAL(NetView)
 public:
@@ -364,7 +364,7 @@ private:
 	CRect getCurveBound(const CPoint& pt);
 	void drawCurve(CDC* pDC);
 	void adjustRedrawBound(CRect& rc);
-	void addNode(const CPoint& logPt, const CPoint& screenPt, const CString& s=_T(""));
+	void addNode(const CPoint& logPt, const CPoint& screenPt, const CString& s = _T(""));
 	void trackMulti(CPoint& logPt, CPoint& point, CDC* pDC);
 	void trackSingle(CPoint& logPt, CPoint& point, CDC* pDC, BOOL keepRatio = FALSE);
 	void drawAddLink(CDC* pDC);

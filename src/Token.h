@@ -32,7 +32,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-class CToken  
+class CToken
 {
 public:
 	static CString TrimLeft(const CString& string);

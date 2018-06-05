@@ -11,7 +11,7 @@
 
 class iLink : public CObject
 {
-DECLARE_SERIAL(iLink)
+	DECLARE_SERIAL(iLink)
 public:
 	const bool isDropTarget() const;
 	void setDropTarget(bool dropTarget = true);
@@ -19,7 +19,7 @@ public:
 	const bool isDual() const;
 	const bool isSingle() const;
 	const bool isTerminalNodeKey(const DWORD key) const;
-	void setInChain(bool bChain=true);
+	void setInChain(bool bChain = true);
 	const bool isInChain() const;
 	const double getLen() const;
 	void setLen(double);
@@ -39,8 +39,8 @@ public:
 	void setPathPt(const CPoint& pt);
 	bool isCurved() const;
 	bool isAngled() const;
-	void curve(bool c=true);
-	void angle(bool a=true);
+	void curve(bool c = true);
+	void angle(bool a = true);
 	const COLORREF& getLinkColor() const;
 	void setLinkColor(const COLORREF& c);
 	const CString& getPath() const;
@@ -81,7 +81,7 @@ public:
 	void drawArrow(CDC* pDC);
 	void drawLine(CDC* pDC);
 	void drawDropTarget(CDC* pDC);
-	void drawComment(CDC* pDC, bool clipbrd=false);
+	void drawComment(CDC* pDC, bool clipbrd = false);
 	iLink();
 	virtual ~iLink();
 	// 矢印の種類
@@ -98,8 +98,8 @@ public:
 		aggregat,   // || -<> 中抜き
 		composit    // || -<> 色付
 	};
-	
-	enum {upright, upleft, downleft, downright}; // 自己参照線の位置
+
+	enum { upright, upleft, downleft, downright }; // 自己参照線の位置
 
 private:
 	CPen penCommentRect;
@@ -154,12 +154,13 @@ inline void iLink::movePts(const CSize& sz)
 {
 	if (keyFrom != keyTo) {
 		ptFrom.x += sz.cx; ptFrom.y += sz.cy;
-		ptTo.x +=   sz.cx; ptTo.y +=   sz.cy;
+		ptTo.x += sz.cx; ptTo.y += sz.cy;
 		ptPath.x += sz.cx; ptPath.y += sz.cy;
 		rcFrom.OffsetRect(sz);
 		rcTo.OffsetRect(sz);
 		selfRect.OffsetRect(sz);
-	} else {
+	}
+	else {
 		ptPath.x += sz.cx; ptPath.y += sz.cy;
 		setConnectPoint();
 	}
@@ -273,7 +274,7 @@ inline const CRect& iLink::getSelfRect() const
 
 inline void iLink::setName(const CString &name)
 {
-	name_  = name;
+	name_ = name;
 }
 
 inline const CString& iLink::getName() const
@@ -444,7 +445,7 @@ public:
 	DWORD hitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey);
 	void drawArrows(CDC* pDC);
 	void drawLines(CDC* pDC);
-	void drawComments(CDC* pDC, bool clipbrd=false);
+	void drawComments(CDC* pDC, bool clipbrd = false);
 	iLinks();
 private:
 	DWORD dividedLinkKey_;
