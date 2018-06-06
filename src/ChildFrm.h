@@ -16,24 +16,23 @@ public:
 	CChildFrame();
 	void changeSelectedLineWidth();
 	void changeSelectedLinkArrow();
-
-	//{{AFX_VIRTUAL(CChildFrame)
-public:
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
+	void ChangeSelectedNodeColor();
+	void ChangeSelectedLineColor();
+	void ChangeSelectedFontColor();
 
 protected:
-	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
-	//}}AFX_VIRTUAL
 
-public:
+	//{{AFX_VIRTUAL(CChildFrame)
+	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
+	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	virtual ~CChildFrame();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
+	//}}AFX_VIRTUAL
 
-protected:
 	//{{AFX_MSG(CChildFrame)
 	afx_msg void OnClose();
 	afx_msg void OnChangeViewFocus();
@@ -42,14 +41,11 @@ protected:
 	afx_msg void OnDestroy();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
 private:
-	CSplitterWnd m_Splitter3;
-	CSplitterWnd m_Splitter2;
 	CSplitterWnd m_Splitter1;
-public:
-	void ChangeSelectedNodeColor(void);
-	void ChangeSelectedLineColor(void);
-	void ChangeSelectedFontColor(void);
+	CSplitterWnd m_Splitter2;
+	CSplitterWnd m_Splitter3;
 };
 
 /////////////////////////////////////////////////////////////////////////////
