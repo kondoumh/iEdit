@@ -1766,18 +1766,18 @@ void OutlineView::OutputHTML()
 	eDlg.m_xvEdPrfTextSingle = m_exportOption.prfTextSingle;
 	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
 	eDlg.m_pathTextSingle = m_exportOption.pathTextSingle;
-	eDlg.m_sDocTitle = GetDocument()->getTitleFromPath();
-	eDlg.m_NameOfRoot = tree().GetItemText(tree().GetRootItem());
+	eDlg.m_docTitle = GetDocument()->getTitleFromPath();
+	eDlg.m_nameOfRoot = tree().GetItemText(tree().GetRootItem());
 	if (GetDocument()->isShowSubBranch()) {
-		eDlg.m_NameOfVisibleRoot = tree().GetItemText(m_hItemShowRoot);
+		eDlg.m_nameOfVisibleRoot = tree().GetItemText(m_hItemShowRoot);
 		eDlg.m_xvRdTree = 1;
 	}
 	else {
 		if (tree().GetSelectedItem() == tree().GetRootItem()) {
-			eDlg.m_NameOfVisibleRoot = tree().GetItemText(tree().GetRootItem());
+			eDlg.m_nameOfVisibleRoot = tree().GetItemText(tree().GetRootItem());
 		}
 		else {
-			eDlg.m_NameOfVisibleRoot =
+			eDlg.m_nameOfVisibleRoot =
 				tree().GetItemText(tree().GetParentItem(tree().GetSelectedItem()));
 		}
 	}

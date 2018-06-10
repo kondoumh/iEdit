@@ -15,15 +15,15 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 
 public:
-	CString m_NameOfRoot;
-	CString m_NameOfVisibleRoot;
+	CString m_nameOfRoot;
+	CString m_nameOfVisibleRoot;
 	CString m_pathIndex;
 	CString m_pathTextSingle;
 	CString m_pathOutline;
 	CString m_pathNetwork;
 	CString m_pathSvg;
 	CString m_pathPng;
-	CString m_sDocTitle;
+	CString m_docTitle;
 	int m_xvRdNav;
 	int m_xvRdImg;
 	int m_xvRdText;
@@ -35,10 +35,10 @@ public:
 	BOOL m_xvRdTree;
 
 private:
-	void setPathIndex();
-	void setPathTextSingle();
-	void setPathOutline();
-	void setPathNetwork();
+	void SetPathIndex();
+	void SetPathTextSingle();
+	void SetPathOutline();
+	void SetPathNetwork();
 	void SetRdImageEnable(BOOL bEnable);
 	void SetEdPrfTextSingleEnable(BOOL bEnable);
 	void SetEdPrfTextEverynodeEnable(BOOL bEnable);

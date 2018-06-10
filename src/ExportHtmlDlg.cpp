@@ -21,8 +21,8 @@ ExportHtmlDlg::ExportHtmlDlg(CWnd* pParent /*=NULL*/)
 	, m_xvEdPrfTextEverynode(_T(""))
 	, m_xvEdPrfNet(_T(""))
 	, m_xvRdTree(FALSE)
-	, m_NameOfRoot(_T(""))
-	, m_NameOfVisibleRoot(_T(""))
+	, m_nameOfRoot(_T(""))
+	, m_nameOfVisibleRoot(_T(""))
 {
 
 }
@@ -66,8 +66,8 @@ END_MESSAGE_MAP()
 BOOL ExportHtmlDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	setPathIndex();
-	setPathOutline();
+	SetPathIndex();
+	SetPathOutline();
 	if (m_xvRdNav == 0) {
 		SetRdImageEnable(FALSE);
 	}
@@ -77,7 +77,7 @@ BOOL ExportHtmlDlg::OnInitDialog()
 	}
 	else {
 		SetRdImageEnable(TRUE);
-		setPathNetwork();
+		SetPathNetwork();
 	}
 	if (m_xvRdText == 0) {
 		SetEdPrfTextEverynodeEnable(FALSE);
@@ -86,7 +86,7 @@ BOOL ExportHtmlDlg::OnInitDialog()
 	else {
 		SetEdPrfTextEverynodeEnable(FALSE);
 		SetEdPrfTextSingleEnable(TRUE);
-		setPathTextSingle();
+		SetPathTextSingle();
 	}
 	return TRUE;
 }
@@ -140,15 +140,15 @@ void ExportHtmlDlg::OnBnClickedRdTextSingle()
 
 void ExportHtmlDlg::OnBnClickedBtnSetPrfByFname()
 {
-	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(m_sDocTitle);
+	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(m_docTitle);
 }
 
 void ExportHtmlDlg::OnEnChangeEdPrfIndex()
 {
-	setPathIndex();
+	SetPathIndex();
 }
 
-void ExportHtmlDlg::setPathIndex()
+void ExportHtmlDlg::SetPathIndex()
 {
 	CString s;
 	GetDlgItem(IDC_ED_PRF_INDEX)->GetWindowText(s);
@@ -174,10 +174,10 @@ void ExportHtmlDlg::setPathIndex()
 
 void ExportHtmlDlg::OnEnChangeEdPrfToc()
 {
-	setPathOutline();
+	SetPathOutline();
 }
 
-void ExportHtmlDlg::setPathOutline()
+void ExportHtmlDlg::SetPathOutline()
 {
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TOC)->GetWindowText(s);
@@ -194,10 +194,10 @@ void ExportHtmlDlg::setPathOutline()
 
 void ExportHtmlDlg::OnEnChangeEdPrfNet()
 {
-	setPathNetwork();
+	SetPathNetwork();
 }
 
-void ExportHtmlDlg::setPathNetwork()
+void ExportHtmlDlg::SetPathNetwork()
 {
 	CString s;
 	GetDlgItem(IDC_ED_PRF_NET)->GetWindowText(s);
@@ -218,10 +218,10 @@ void ExportHtmlDlg::setPathNetwork()
 
 void ExportHtmlDlg::OnEnChangeEdPrfTextSingle()
 {
-	setPathTextSingle();
+	SetPathTextSingle();
 }
 
-void ExportHtmlDlg::setPathTextSingle()
+void ExportHtmlDlg::SetPathTextSingle()
 {
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->GetWindowText(s);
@@ -255,11 +255,11 @@ void ExportHtmlDlg::OnEnChangeEdPrfTextEverynode()
 void ExportHtmlDlg::OnBnClickedBtnSetPrfByRoot()
 {
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
-		StringUtil::getSafeFileName(m_NameOfRoot));
+		StringUtil::getSafeFileName(m_nameOfRoot));
 }
 
 void ExportHtmlDlg::OnBnClickedBtnSetPrfByVisibleRoot()
 {
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
-		StringUtil::getSafeFileName(m_NameOfVisibleRoot));
+		StringUtil::getSafeFileName(m_nameOfVisibleRoot));
 }
