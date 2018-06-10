@@ -18,8 +18,6 @@ protected:
 	DECLARE_DYNCREATE(EditorView)
 
 public:
-	void setViewFont();
-	void setTabStop();
 	iEditDoc* GetDocument();
 
 protected:
@@ -33,17 +31,11 @@ protected:
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	//}}AFX_VIRTUAL
 
-protected:
 	virtual ~EditorView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
-
-	void initSizeChar();
-	void DrawCaretLine(BOOL bInPaint = FALSE);
-	int GetCaretLine() const;
-	void GetLineRect(int nLine, LPRECT lpRect) const;
 
 	//{{AFX_MSG(EditorView)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -80,13 +72,20 @@ private:
 	BOOL m_bDrawUnderLine;
 	BOOL m_bCanPaint;
 	int m_nCaretLine;
-	CSize m_sizeChar;
+	CSize m_textExtent;
 	CBrush m_hBrsBack;
 	COLORREF m_textColor;
 	COLORREF m_bkColor;
 	CFindReplaceDialog* m_pFindReplacedlg;
 	CFont m_font;
 	DWORD m_preKey;
+
+	int GetCaretLine() const;
+	void GetLineRect(int nLine, LPRECT lpRect) const;
+	void UpdateTextExtent();
+	void SetViewFont();
+	void SetTabStop();
+	void DrawCaretLine(BOOL bInPaint = FALSE);
 };
 
 /////////////////////////////////////////////////////////////////////////////

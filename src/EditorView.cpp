@@ -106,7 +106,7 @@ void EditorView::OnInitialUpdate()
 	GetEditCtrl().SetWindowText(t);
 	m_preKey = GetDocument()->getSelectedNodeKey();
 	m_bDrawUnderLine = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Draw Underline"), TRUE);
-	initSizeChar();
+	UpdateTextExtent();
 }
 
 void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
@@ -131,8 +131,8 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		m_textColor = app->GetProfileInt(REGS_FRAME, _T("Edit forColor"), app->m_colorTextViewFg);
 		m_hBrsBack.CreateSolidBrush(m_bkColor);
 		Invalidate();
-		setViewFont();
-		setTabStop();
+		SetViewFont();
+		SetTabStop();
 	}
 	if (m_bPreUpdateReplace) {
 		GetEditCtrl().LineScroll(GetDocument()->getSelectedNodeScrollPos());
@@ -148,8 +148,8 @@ int EditorView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_textColor = app->GetProfileInt(REGS_FRAME, _T("Edit forColor"), app->m_colorTextViewFg);
 	m_hBrsBack.CreateSolidBrush(m_bkColor);
 
-	setViewFont();
-	setTabStop();
+	SetViewFont();
+	SetTabStop();
 	return 0;
 }
 
@@ -159,11 +159,11 @@ iEditDoc* EditorView::GetDocument()
 	return (iEditDoc*)m_pDocument;
 }
 
-void EditorView::initSizeChar()
+void EditorView::UpdateTextExtent()
 {
 	CClientDC dc(this);
 	dc.SelectObject(m_font);
-	m_sizeChar = dc.GetOutputTextExtent(_T("W"));
+	m_textExtent = dc.GetOutputTextExtent(_T("W"));
 	m_nCaretLine = GetCaretLine();
 }
 
@@ -189,7 +189,7 @@ void EditorView::OnUpdateDelete(CCmdUI* pCmdUI)
 {
 }
 
-void EditorView::setTabStop()
+void EditorView::SetTabStop()
 {
 	int tabSelect = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Tab Stop"), 1);
 	int tab = 16;
@@ -201,7 +201,7 @@ void EditorView::setTabStop()
 	SetTabStops(tab);
 }
 
-void EditorView::setViewFont()
+void EditorView::SetViewFont()
 {
 	LOGFONT lf;
 	CFont *pFont = GetFont();
@@ -228,7 +228,7 @@ void EditorView::setViewFont()
 	m_font.CreateFontIndirect(&lf);
 	SetFont(&m_font, TRUE);
 
-	initSizeChar();
+	UpdateTextExtent();
 }
 
 void EditorView::OnEditLabel()
@@ -420,7 +420,7 @@ void EditorView::GetLineRect(int nLine, LPRECT lpRect) const
 	if (nLine == 0)
 	{
 		GetEditCtrl().GetRect(lpRect);
-		lpRect->bottom = lpRect->top + m_sizeChar.cy;
+		lpRect->bottom = lpRect->top + m_textExtent.cy;
 	}
 	else if (nLine == GetEditCtrl().GetLineCount() - 1)
 	{
@@ -428,8 +428,8 @@ void EditorView::GetLineRect(int nLine, LPRECT lpRect) const
 		CPoint ptPos = GetEditCtrl().PosFromChar(nLineIndex);
 		GetEditCtrl().GetRect(lpRect);
 		lpRect->top = ptPos.y;
-		lpRect->bottom = lpRect->top + m_sizeChar.cy;
-		OffsetRect(lpRect, 0, m_sizeChar.cy);
+		lpRect->bottom = lpRect->top + m_textExtent.cy;
+		OffsetRect(lpRect, 0, m_textExtent.cy);
 	}
 	else
 	{
@@ -437,7 +437,7 @@ void EditorView::GetLineRect(int nLine, LPRECT lpRect) const
 		CPoint ptPos = GetEditCtrl().PosFromChar(nLineIndex);
 		GetEditCtrl().GetRect(lpRect);
 		lpRect->top = ptPos.y;
-		lpRect->bottom = lpRect->top + m_sizeChar.cy;
+		lpRect->bottom = lpRect->top + m_textExtent.cy;
 	}
 	lpRect->top = lpRect->bottom - 1;
 }
