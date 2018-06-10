@@ -311,7 +311,7 @@ void CiEditApp::loadMetaFiles(const CString& fname)
 	BOOL res = f.Open(fname, CFile::modeRead);
 	if (res) {
 		CArchive ar(&f, CArchive::load);
-		loadmfs(ar);
+		LoadShapeMetafile(ar);
 	}
 	else {
 		AfxGetApp()->WriteProfileString(REGS_SHAPES, _T("recent file"), _T(""));
@@ -343,7 +343,7 @@ void CiEditApp::saveMetaFiles(const CString &fname)
 	WriteProfileString(REGS_SHAPES, _T("recent file"), fname);
 }
 
-void CiEditApp::loadmfs(CArchive &ar)
+void CiEditApp::LoadShapeMetafile(CArchive &ar)
 {
 	for (int i = 0; i < 10; i++) {
 		CString cname;

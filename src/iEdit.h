@@ -134,7 +134,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	void loadmfs(CArchive& ar);
+	void LoadShapeMetafile(CArchive& ar);
 	CMultiDocTemplate* m_pDocTemplate;
 	CMultiDocTemplate* m_pDocTemplate2;
 };
