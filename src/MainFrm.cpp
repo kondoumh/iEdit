@@ -487,7 +487,7 @@ void CMainFrame::OnMnuLsR0()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R0;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(0));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR0(CCmdUI *pCmdUI)
@@ -500,7 +500,7 @@ void CMainFrame::OnMnuLsDot()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_DOT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(1));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsDot(CCmdUI *pCmdUI)
@@ -513,7 +513,7 @@ void CMainFrame::OnMnuLsR1()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R1;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(2));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR1(CCmdUI *pCmdUI)
@@ -526,7 +526,7 @@ void CMainFrame::OnMnuLsR2()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R2;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(3));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR2(CCmdUI *pCmdUI)
@@ -539,7 +539,7 @@ void CMainFrame::OnMnuLsR3()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R3;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(4));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR3(CCmdUI *pCmdUI)
@@ -552,7 +552,7 @@ void CMainFrame::OnMnuLsR4()
 	((CiEditApp*)AfxGetApp())->m_curLinkLineStyle = CiEditApp::LS_R4;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_LINE_STYLE, m_tbPlDwnImage.ExtractIcon(5));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLineWidth();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLineWidth();
 }
 
 void CMainFrame::OnUpdateMnuLsR4(CCmdUI *pCmdUI)
@@ -565,7 +565,7 @@ void CMainFrame::OnLinkArrowNone()
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_NONE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(6));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLinkArrow();
 }
 
 void CMainFrame::OnUpdateLinkArrowNone(CCmdUI *pCmdUI)
@@ -578,7 +578,7 @@ void CMainFrame::OnLinkArrowSingle()
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_SINGLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(7));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLinkArrow();
 }
 
 void CMainFrame::OnUpdateLinkArrowSingle(CCmdUI *pCmdUI)
@@ -592,7 +592,7 @@ void CMainFrame::OnLinkArrowDouble()
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_DOUBLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(8));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLinkArrow();
 }
 
 void CMainFrame::OnUpdateLinkArrowDouble(CCmdUI *pCmdUI)
@@ -605,7 +605,7 @@ void CMainFrame::OnLinkDependSingle()
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_DEPEND_SINGLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(9));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLinkArrow();
 }
 
 void CMainFrame::OnUpdateLinkDependSingle(CCmdUI *pCmdUI)
@@ -618,7 +618,7 @@ void CMainFrame::OnLinkDependDouble()
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_DEPEND_DOUBLE;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(10));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLinkArrow();
 }
 
 void CMainFrame::OnUpdateLinkDependDouble(CCmdUI *pCmdUI)
@@ -631,7 +631,7 @@ void CMainFrame::OnLinkArrowInherit()
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_INHERIT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(11));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLinkArrow();
 }
 
 void CMainFrame::OnUpdateLinkArrowInherit(CCmdUI *pCmdUI)
@@ -644,7 +644,7 @@ void CMainFrame::OnLinkArrowAgregat()
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_AGGREGAT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(12));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLinkArrow();
 }
 
 void CMainFrame::OnUpdateLinkArrowAgregat(CCmdUI *pCmdUI)
@@ -657,7 +657,7 @@ void CMainFrame::OnLinkArrowComposit()
 	((CiEditApp*)AfxGetApp())->m_curLinkArrow = CiEditApp::LA_COMPOSIT;
 	m_wndToolBar.GetToolBarCtrl().GetImageList()->Replace(IDX_TB_ARROW, m_tbPlDwnImage.ExtractIcon(13));
 	m_wndToolBar.Invalidate();
-	((CChildFrame*)MDIGetActive())->changeSelectedLinkArrow();
+	((CChildFrame*)MDIGetActive())->ChangeSelectedLinkArrow();
 }
 
 void CMainFrame::OnUpdateLinkArrowComposit(CCmdUI *pCmdUI)

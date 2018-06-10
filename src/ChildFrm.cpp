@@ -201,7 +201,7 @@ void CChildFrame::OnMDIActivate(BOOL bActivate, CWnd* pActivateWnd, CWnd* pDeact
 	}
 }
 
-void CChildFrame::changeSelectedLinkArrow()
+void CChildFrame::ChangeSelectedLinkArrow()
 {
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
 	POSITION pos = pDoc->GetFirstViewPosition();
@@ -211,7 +211,7 @@ void CChildFrame::changeSelectedLinkArrow()
 	pNetView->changeSelectedLinkArrow();
 }
 
-void CChildFrame::changeSelectedLineWidth()
+void CChildFrame::ChangeSelectedLineWidth()
 {
 	iEditDoc* pDoc = (iEditDoc*)GetActiveView()->GetDocument();
 	POSITION pos = pDoc->GetFirstViewPosition();

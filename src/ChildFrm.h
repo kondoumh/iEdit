@@ -14,8 +14,8 @@ class CChildFrame : public CMDIChildWnd
 	DECLARE_DYNCREATE(CChildFrame)
 public:
 	CChildFrame();
-	void changeSelectedLineWidth();
-	void changeSelectedLinkArrow();
+	void ChangeSelectedLineWidth();
+	void ChangeSelectedLinkArrow();
 	void ChangeSelectedNodeColor();
 	void ChangeSelectedLineColor();
 	void ChangeSelectedFontColor();
