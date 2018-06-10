@@ -13,8 +13,8 @@
 class EditShapeCategoryDlg : public CDialog
 {
 public:
+	CString m_name;
 	EditShapeCategoryDlg(CWnd* pParent = NULL);
-	CString	m_strName;
 
 protected:
 	//{{AFX_DATA(EditShapeCategoryDlg)

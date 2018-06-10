@@ -19,7 +19,7 @@ EditShapeCategoryDlg::EditShapeCategoryDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(EditShapeCategoryDlg::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(EditShapeCategoryDlg)
-	m_strName = _T("");
+	m_name = _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -29,7 +29,7 @@ void EditShapeCategoryDlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(EditShapeCategoryDlg)
 	DDX_Control(pDX, IDC_EDIT1, m_edit);
-	DDX_Text(pDX, IDC_EDIT1, m_strName);
+	DDX_Text(pDX, IDC_EDIT1, m_name);
 	//}}AFX_DATA_MAP
 }
 
@@ -53,5 +53,5 @@ BOOL EditShapeCategoryDlg::OnInitDialog()
 
 void EditShapeCategoryDlg::OnChangeEdit1()
 {
-	m_edit.GetWindowText(m_strName);
+	m_edit.GetWindowText(m_name);
 }

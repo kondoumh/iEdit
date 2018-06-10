@@ -182,15 +182,15 @@ void ShapesManagementDlg::editCatName()
 {
 	EditShapeCategoryDlg dlg;
 	CString s; m_catListBox.GetText(m_catListBox.GetCurSel(), s);
-	dlg.m_strName = s;
+	dlg.m_name = s;
 	int index = m_catListBox.GetCurSel();
-	if (dlg.DoModal() != IDCANCEL && dlg.m_strName != _T("")) {
-		m_catListBox.InsertString(m_catListBox.GetCurSel(), dlg.m_strName);
+	if (dlg.DoModal() != IDCANCEL && dlg.m_name != _T("")) {
+		m_catListBox.InsertString(m_catListBox.GetCurSel(), dlg.m_name);
 		m_catListBox.DeleteString(m_catListBox.GetCurSel());
 		m_catListBox.SetCurSel(index);
 
 		CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-		pApp->m_mfCategories[index] = dlg.m_strName;
+		pApp->m_mfCategories[index] = dlg.m_name;
 		pApp->m_bShapeModified = true;
 		decideShapef();
 	}
