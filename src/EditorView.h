@@ -78,8 +78,8 @@ protected:
 private:
 	bool m_bPreUpdateReplace;
 	BOOL m_bDrawUnderLine;
-	BOOL	m_bCanPaint;
-	int		m_nCaretLine;
+	BOOL m_bCanPaint;
+	int m_nCaretLine;
 	CSize m_sizeChar;
 	CBrush m_hBrsBack;
 	COLORREF m_textColor;
