@@ -959,7 +959,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 		if (((CiEditApp*)AfxGetApp())->m_rgsNode.bEnableGroup && !resized) {
 			GetDocument()->moveNodesInBound(org, CSize(moveX, moveY));
 			if (GetDocument()->isShowSubBranch() && m_bGrpOlCoupled) {
-				GetDocument()->migrateGroup();
+				GetDocument()->MigrateGroup();
 			}
 		}
 	}
@@ -4315,7 +4315,7 @@ void NetView::OnDeleteSelectedLinks()
 {
 	if (MessageBox(_T("選択範囲にあるリンクを削除しますか?"),
 		_T("選択範囲のリンクを削除"), MB_YESNO) != IDYES) return;
-	GetDocument()->deleteLinksInBound(m_selectRect);
+	GetDocument()->DeleteLinksInBound(m_selectRect);
 }
 
 void NetView::OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI)
@@ -4413,7 +4413,7 @@ void NetView::OnExportPng()
 	CFileDialog dlg(FALSE, _T("png"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
-	GetDocument()->saveCurrentImage(outfileName);
+	GetDocument()->SaveCurrentImage(outfileName);
 }
 
 void NetView::OnUpdateExportPng(CCmdUI *pCmdUI)
@@ -4449,7 +4449,7 @@ void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
 
 void NetView::OnResizeTofit()
 {
-	GetDocument()->fitSetlectedNodeSize();
+	GetDocument()->FitSelectedNodeSize();
 }
 
 void NetView::OnUpdateResizeTofit(CCmdUI *pCmdUI)

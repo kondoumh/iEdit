@@ -839,7 +839,7 @@ void LinkView::setSelection(int index)
 void LinkView::OnLinkMoveUp()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	GetDocument()->swapLinkOrder(items_[index - 1].key, items_[index].key);
+	GetDocument()->SwapLinkOrder(items_[index - 1].key, items_[index].key);
 	reflesh();
 	setSelection(index - 1);
 }
@@ -853,7 +853,7 @@ void LinkView::OnUpdateLinkMoveUp(CCmdUI *pCmdUI)
 void LinkView::OnLinkMoveDown()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	GetDocument()->swapLinkOrder(items_[index].key, items_[index + 1].key);
+	GetDocument()->SwapLinkOrder(items_[index].key, items_[index + 1].key);
 	reflesh();
 	setSelection(index + 1);
 }

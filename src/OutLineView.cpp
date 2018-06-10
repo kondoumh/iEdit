@@ -327,7 +327,7 @@ void OutlineView::OnInitialUpdate()
 {
 	CTreeView::OnInitialUpdate();
 
-	if (GetDocument()->isOldBinary() || GetDocument()->getSerialVersion() <= 1) {
+	if (GetDocument()->isOldBinary() || GetDocument()->GetSerialVersion() <= 1) {
 		treeConstruct();
 	}
 	else {
@@ -338,8 +338,8 @@ void OutlineView::OnInitialUpdate()
 
 	// SubBranch表示状態のリストア
 	if (GetDocument()->isShowSubBranch()) {
-		int branchMode = GetDocument()->getInitialBranchMode();
-		m_hItemShowRoot = findKeyItem(GetDocument()->getBranchRootKey(), tree().GetRootItem());
+		int branchMode = GetDocument()->GetInitialBranchMode();
+		m_hItemShowRoot = findKeyItem(GetDocument()->GetBranchRootKey(), tree().GetRootItem());
 		if (m_hItemShowRoot == NULL) return;
 		KeySet ks;
 		ks.insert(tree().GetItemData(m_hItemShowRoot));
@@ -1766,7 +1766,7 @@ void OutlineView::OutputHTML()
 	eDlg.m_xvEdPrfTextSingle = m_exportOption.prfTextSingle;
 	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
 	eDlg.m_pathTextSingle = m_exportOption.pathTextSingle;
-	eDlg.m_docTitle = GetDocument()->getTitleFromPath();
+	eDlg.m_docTitle = GetDocument()->GetFileNameFromPath();
 	eDlg.m_nameOfRoot = tree().GetItemText(tree().GetRootItem());
 	if (GetDocument()->isShowSubBranch()) {
 		eDlg.m_nameOfVisibleRoot = tree().GetItemText(m_hItemShowRoot);
@@ -1876,7 +1876,7 @@ void OutlineView::OutputHTML()
 	}
 	CStdioFile f(pFp);
 	writeHtmlHeader(f);
-	CString title = GetDocument()->getTitleFromPath();
+	CString title = GetDocument()->GetFileNameFromPath();
 	if (m_exportOption.prfIndex != _T("")) {
 		title = m_exportOption.prfIndex;
 	}
@@ -2013,14 +2013,14 @@ void OutlineView::OutputHTML()
 				+ sWidthMgn + " " + sHeightMgn + _T(" />\n"));
 		}
 		else {
-			GetDocument()->saveCurrentImage(outdir + _T("\\") + eDlg.m_pathPng);
+			GetDocument()->SaveCurrentImage(outdir + _T("\\") + eDlg.m_pathPng);
 			nf.WriteString(_T("<img src=\"") + eDlg.m_pathPng + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
 			nf.WriteString(_T("<map name=\"nodes\">\n"));
 			if (m_exportOption.textOption == 0) {
-				GetDocument()->writeClickableMap(nf, m_exportOption.pathTextSingle);
+				GetDocument()->WriteClickableMap(nf, m_exportOption.pathTextSingle);
 			}
 			else {
-				GetDocument()->writeClickableMap(nf, m_exportOption.prfTextEverynode, false);
+				GetDocument()->WriteClickableMap(nf, m_exportOption.prfTextEverynode, false);
 			}
 			nf.WriteString(_T("</map>\n"));
 		}
@@ -2738,7 +2738,7 @@ void OutlineView::OnCreateClone()
 	// TODO: Add your command handler code here
 	DWORD key = tree().GetItemData(tree().GetSelectedItem());
 	CString label = GetDocument()->getKeyNodeLabel(key);
-	DWORD newKey = GetDocument()->duplicateKeyNode(key);
+	DWORD newKey = GetDocument()->DuplicateKeyNode(key);
 	HTREEITEM hSelected = tree().GetSelectedItem();
 	HTREEITEM hNew = tree().InsertItem(label, tree().GetParentItem(hSelected), hSelected);
 	tree().SetItemData(hNew, newKey);
@@ -2751,7 +2751,7 @@ void OutlineView::OnCreateClone()
 	if (tree().ItemHasChildren(hSelected)) {
 		cloneTree(tree().GetChildItem(hSelected), hNew, idm);
 	}
-	GetDocument()->duplicateLinks(idm);
+	GetDocument()->DuplicateLinks(idm);
 	// 指定配下のノードを全部見せるモードの場合、クローンした一連のノードとリンクをvisibleに
 	if (GetDocument()->isShowSubBranch()) {
 		KeySet ks;
@@ -2778,7 +2778,7 @@ void OutlineView::cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, Id
 		hItem = item;
 		DWORD key = tree().GetItemData(hItem);
 		CString label = GetDocument()->getKeyNodeLabel(key);
-		DWORD newKey = GetDocument()->duplicateKeyNode(key);
+		DWORD newKey = GetDocument()->DuplicateKeyNode(key);
 		GetDocument()->setKeyNodeParent(newKey, tree().GetItemData(targetParent));
 		HTREEITEM hNew = tree().InsertItem(label, 0, 0, targetParent);
 		tree().SetItemData(hNew, newKey);
@@ -3048,7 +3048,7 @@ void OutlineView::OnExportToText()
 		setChapterNumbers();
 	}
 
-	CString outfile = GetDocument()->getTitleFromPath();
+	CString outfile = GetDocument()->GetFileNameFromPath();
 	if (dlg.m_rdTreeOption != 0) {
 		CString label = StringUtil::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
 		if (label != _T("")) {
@@ -3270,7 +3270,7 @@ void OutlineView::OnExportToXml()
 	m_opTreeOut = dlg.m_nTreeOp;
 	m_exportOption.treeOption = dlg.m_nTreeOp;
 
-	CString outfile = GetDocument()->getTitleFromPath();
+	CString outfile = GetDocument()->GetFileNameFromPath();
 	if (dlg.m_nTreeOp != 0) {
 		CString label = StringUtil::getSafeFileName(tree().GetItemText(tree().GetSelectedItem()));
 		if (label != _T("")) {

@@ -273,12 +273,12 @@ void iEditDoc::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 // iEditDoc コマンド
 
-DWORD iEditDoc::getBranchRootKey() const
+DWORD iEditDoc::GetBranchRootKey() const
 {
 	return m_dwBranchRootKey;
 }
 
-int iEditDoc::getInitialBranchMode() const
+int iEditDoc::GetInitialBranchMode() const
 {
 	return m_initialBranchMode;
 }
@@ -4676,7 +4676,7 @@ BOOL iEditDoc::isDrawOrderInfo() const
 	return nodes_.m_bDrawOrderInfo;
 }
 
-void iEditDoc::migrateGroup()
+void iEditDoc::MigrateGroup()
 {
 	niterator it = nodes_.getSelectedNode();
 	CRect r = (*it).second.getBound();
@@ -4753,7 +4753,7 @@ void iEditDoc::applyFormatToSelectedLink()
 	(*l).setLinkColor(m_linkForFormat.getLinkColor());
 }
 
-void iEditDoc::deleteLinksInBound(const CRect& bound)
+void iEditDoc::DeleteLinksInBound(const CRect& bound)
 {
 	links_.erase(remove_if(links_.begin(), links_.end(),
 		iLink_inBound(bound)), links_.end());
@@ -4762,7 +4762,7 @@ void iEditDoc::deleteLinksInBound(const CRect& bound)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-DWORD iEditDoc::duplicateKeyNode(DWORD key)
+DWORD iEditDoc::DuplicateKeyNode(DWORD key)
 {
 	const_niterator it = nodes_.findNode(key);
 	iNode n = (*it).second;
@@ -4771,7 +4771,7 @@ DWORD iEditDoc::duplicateKeyNode(DWORD key)
 	return n.getKey();
 }
 
-void iEditDoc::duplicateLinks(const IdMap& idm)
+void iEditDoc::DuplicateLinks(const IdMap& idm)
 {
 	IdMap::const_iterator it = idm.begin();
 	for (; it != idm.end(); it++) {
@@ -4791,7 +4791,7 @@ void iEditDoc::duplicateLinks(const IdMap& idm)
 	}
 }
 
-int iEditDoc::getSerialVersion() const
+int iEditDoc::GetSerialVersion() const
 {
 	return m_serialVersion;
 }
@@ -4807,7 +4807,7 @@ void iEditDoc::getSelectedNodeMargin(int& l, int & r, int& t, int& b) const
 	}
 }
 
-void iEditDoc::swapLinkOrder(DWORD key1, DWORD key2)
+void iEditDoc::SwapLinkOrder(DWORD key1, DWORD key2)
 {
 	const_literator li1 = links_.findByKey(key1);
 	const_literator li2 = links_.findByKey(key2);
@@ -4829,7 +4829,7 @@ void iEditDoc::setSelectedNodeMargin(int l, int r, int t, int b)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-CString iEditDoc::getTitleFromPath() const
+CString iEditDoc::GetFileNameFromPath() const
 {
 	CString fullPath = GetPathName();
 	WCHAR drive[_MAX_DRIVE];
@@ -4844,7 +4844,7 @@ CString iEditDoc::getTitleFromPath() const
 	return CString(fileName);
 }
 
-bool iEditDoc::saveCurrentImage(const CString& pngPath)
+bool iEditDoc::SaveCurrentImage(const CString& pngPath)
 {
 	CPoint p1(0, 0);
 	CPoint p2 = getMaxPt();
@@ -4864,13 +4864,13 @@ bool iEditDoc::saveCurrentImage(const CString& pngPath)
 	return true;
 }
 
-bool iEditDoc::writeClickableMap(CStdioFile& f, const CString& textFileName, bool singleText)
+bool iEditDoc::WriteClickableMap(CStdioFile& f, const CString& textFileName, bool singleText)
 {
 	f.WriteString(nodes_.createClickableMapString(textFileName, singleText));
 	return true;
 }
 
-void iEditDoc::fitSetlectedNodeSize()
+void iEditDoc::FitSelectedNodeSize()
 {
 	backUpUndoNodes();
 	backUpUndoLinks();

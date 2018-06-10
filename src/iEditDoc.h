@@ -59,18 +59,18 @@ protected:
 	DECLARE_DYNCREATE(iEditDoc)
 
 public:
-	void fitSetlectedNodeSize();
-	bool writeClickableMap(CStdioFile& f, const CString& textFileName, bool singleText = true);
-	bool saveCurrentImage(const CString& pngPath);
-	CString getTitleFromPath() const;
-	void swapLinkOrder(DWORD key1, DWORD key2);
-	int getSerialVersion() const;
-	int getInitialBranchMode() const;
-	DWORD getBranchRootKey() const;
-	void duplicateLinks(const IdMap& idm);
-	DWORD duplicateKeyNode(DWORD key);
-	void deleteLinksInBound(const CRect& bound);
-	void migrateGroup();
+	void FitSelectedNodeSize();
+	bool WriteClickableMap(CStdioFile& f, const CString& textFileName, bool singleText = true);
+	bool SaveCurrentImage(const CString& pngPath);
+	CString GetFileNameFromPath() const;
+	void SwapLinkOrder(DWORD key1, DWORD key2);
+	int GetSerialVersion() const;
+	int GetInitialBranchMode() const;
+	DWORD GetBranchRootKey() const;
+	void DuplicateLinks(const IdMap& idm);
+	DWORD DuplicateKeyNode(DWORD key);
+	void DeleteLinksInBound(const CRect& bound);
+	void MigrateGroup();
 	BOOL isDrawOrderInfo() const;
 	void setDrawOrderInfo(bool bSetDrawOrderInfo);
 	void moveNodesInBound(const CRect& bound, const CSize move);
