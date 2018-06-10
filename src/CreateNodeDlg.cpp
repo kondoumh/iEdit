@@ -43,9 +43,9 @@ END_MESSAGE_MAP()
 BOOL CreateNodeDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	GetWindowRect(&iniRect);
-	if (m_iniPt.x != -1 && m_iniPt.y != -1) {
-		MoveWindow(m_iniPt.x, m_iniPt.y, iniRect.Width(), iniRect.Height(), TRUE);
+	GetWindowRect(&m_initialRect);
+	if (m_initialPt.x != -1 && m_initialPt.y != -1) {
+		MoveWindow(m_initialPt.x, m_initialPt.y, m_initialRect.Width(), m_initialRect.Height(), TRUE);
 	}
 
 	if (m_strcn == _T("")) {
@@ -62,7 +62,7 @@ BOOL CreateNodeDlg::OnInitDialog()
 
 void CreateNodeDlg::OnClose()
 {
-	MoveWindow(iniRect.left, iniRect.top, iniRect.Width(), iniRect.Height(), TRUE);
+	MoveWindow(m_initialRect.left, m_initialRect.top, m_initialRect.Width(), m_initialRect.Height(), TRUE);
 	CDialog::OnClose();
 }
 

@@ -10,9 +10,10 @@
 
 class CreateNodeDlg : public CDialog
 {
+	CRect m_initialRect;
+
 public:
-	CRect iniRect;
-	CPoint m_iniPt;
+	CPoint m_initialPt;
 	CreateNodeDlg(CWnd* pParent = NULL);
 
 	//{{AFX_DATA(CreateNodeDlg)

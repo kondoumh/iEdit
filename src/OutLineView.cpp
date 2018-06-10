@@ -2434,8 +2434,8 @@ void OutlineView::doColorSetting()
 void OutlineView::OnAddChild2()
 {
 	CreateNodeDlg dlg;
-	dlg.m_iniPt.x = -1;
-	dlg.m_iniPt.y = -1;
+	dlg.m_initialPt.x = -1;
+	dlg.m_initialPt.y = -1;
 	if (dlg.DoModal() != IDOK) return;
 	if (dlg.m_strcn == _T("")) return;
 	GetDocument()->disableUndo();

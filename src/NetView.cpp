@@ -1933,8 +1933,8 @@ void NetView::addNode(const CPoint &logPt, const CPoint& screenPt, const CString
 	CreateNodeDlg dlg;
 	CPoint curPt = GetScrollPosition();
 
-	dlg.m_iniPt.x = screenPt.x;
-	dlg.m_iniPt.y = screenPt.y;
+	dlg.m_initialPt.x = screenPt.x;
+	dlg.m_initialPt.y = screenPt.y;
 	if (s != _T("")) {
 		dlg.m_strcn = s;
 	}
@@ -3858,7 +3858,7 @@ void NetView::procRenameDialog(const CRect& nodeBound)
 	CPoint spt(nodeBound.CenterPoint());
 	ViewLPtoDP(&spt, 1);
 	ClientToScreen(&spt);
-	dlg.m_iniPt = spt;
+	dlg.m_initialPt = spt;
 	dlg.m_strcn = GetDocument()->getSelectedNodeLabel();
 
 	if (dlg.DoModal() != IDOK) return;
