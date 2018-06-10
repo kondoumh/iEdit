@@ -26,7 +26,6 @@ protected:
 	//}}AFX_VIRTUAL
 
 	//{{AFX_MSG(FileDropActionDlg)
-		// メモ: ClassWizard はこの位置にメンバ関数を追加します。
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
