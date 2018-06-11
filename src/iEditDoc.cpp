@@ -614,7 +614,7 @@ void iEditDoc::moveSelectedNode(const CSize &sz)
 	SetModifiedFlag();
 }
 
-void iEditDoc::moveNodesInBound(const CRect& bound, const CSize move)
+void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 {
 	niterator itSelected = nodes_.getSelectedNode();
 	if (itSelected == nodes_.end()) return;
@@ -4564,10 +4564,10 @@ void iEditDoc::desideLinkLineStyle(iLink& l)
 
 void iEditDoc::desideLinkArrow(iLink& l)
 {
-	l.setArrowStyle(getAppLinkArrow());
+	l.setArrowStyle(GetAppLinkArrow());
 }
 
-int iEditDoc::getAppLinkArrow() const
+int iEditDoc::GetAppLinkArrow() const
 {
 	int linkArrow = ((CiEditApp*)AfxGetApp())->m_curLinkArrow;
 	switch (linkArrow) {
@@ -4591,7 +4591,7 @@ int iEditDoc::getAppLinkArrow() const
 	return iLink::line;
 }
 
-int iEditDoc::getAppLinkWidth() const
+int iEditDoc::GetAppLinkWidth() const
 {
 	int linkStyle = ((CiEditApp*)AfxGetApp())->m_curLinkLineStyle;
 	switch (linkStyle) {
@@ -4666,12 +4666,12 @@ OutlineView* iEditDoc::getOutlineView() const
 	return pView;
 }
 
-void iEditDoc::setDrawOrderInfo(bool bSetDrawOrderInfo)
+void iEditDoc::SetDrawOrderInfo(bool bSetDrawOrderInfo)
 {
 	nodes_.m_bDrawOrderInfo = !nodes_.m_bDrawOrderInfo;
 }
 
-BOOL iEditDoc::isDrawOrderInfo() const
+BOOL iEditDoc::DrawOrderInfo() const
 {
 	return nodes_.m_bDrawOrderInfo;
 }

@@ -957,7 +957,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 		adjustScrollArea();
 
 		if (((CiEditApp*)AfxGetApp())->m_rgsNode.bEnableGroup && !resized) {
-			GetDocument()->moveNodesInBound(org, CSize(moveX, moveY));
+			GetDocument()->MoveNodesInBound(org, CSize(moveX, moveY));
 			if (GetDocument()->isShowSubBranch() && m_bGrpOlCoupled) {
 				GetDocument()->MigrateGroup();
 			}
@@ -3988,13 +3988,13 @@ void NetView::changeSelectedLinkArrow()
 		CString sFrom, sTo, sComment;
 		int arrowType;
 		GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-		GetDocument()->setSelectedLinkInfo(sComment, GetDocument()->getAppLinkArrow());
+		GetDocument()->setSelectedLinkInfo(sComment, GetDocument()->GetAppLinkArrow());
 	}
 }
 
 void NetView::changeSelectedLineWidth()
 {
-	int style = GetDocument()->getAppLinkWidth();
+	int style = GetDocument()->GetAppLinkWidth();
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
 	if (m_selectStatus == NetView::link) {
@@ -4022,14 +4022,14 @@ void NetView::changeSelectedLineWidth()
 
 void NetView::OnDrawOrderInfo()
 {
-	GetDocument()->setDrawOrderInfo(!GetDocument()->isDrawOrderInfo());
+	GetDocument()->SetDrawOrderInfo(!GetDocument()->DrawOrderInfo());
 	Invalidate();
 }
 
 void NetView::OnUpdateDrawOrderInfo(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(((CiEditApp*)AfxGetApp())->m_rgsNode.bSyncOrder);
-	pCmdUI->SetCheck(GetDocument()->isDrawOrderInfo());
+	pCmdUI->SetCheck(GetDocument()->DrawOrderInfo());
 }
 
 void NetView::OnSetNodeMm()

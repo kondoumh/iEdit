@@ -71,11 +71,11 @@ public:
 	DWORD DuplicateKeyNode(DWORD key);
 	void DeleteLinksInBound(const CRect& bound);
 	void MigrateGroup();
-	BOOL isDrawOrderInfo() const;
-	void setDrawOrderInfo(bool bSetDrawOrderInfo);
-	void moveNodesInBound(const CRect& bound, const CSize move);
-	int getAppLinkWidth() const;
-	int getAppLinkArrow() const;
+	BOOL DrawOrderInfo() const;
+	void SetDrawOrderInfo(bool bSetDrawOrderInfo);
+	void MoveNodesInBound(const CRect& bound, const CSize move);
+	int GetAppLinkWidth() const;
+	int GetAppLinkArrow() const;
 
 	//{{AFX_VIRTUAL(iEditDoc)
 	virtual BOOL OnNewDocument();
