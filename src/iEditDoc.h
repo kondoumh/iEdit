@@ -113,8 +113,8 @@ public:
 	bool CurKeyInBranch() const;
 	bool ShowSubBranch() const;
 	void ResetShowBranch();
-	CString getSubBranchRootLabel() const;
-	void setShowBranch(DWORD branchRootKey);
+	CString GetSubBranchRootLabel() const;
+	void SetShowBranch(DWORD branchRootKey);
 	void setVisibleNodes(KeySet& keySet);
 	iNode getHitNode(const CPoint& pt, bool bDrwAll);
 	void exportSVG(bool bDrwAll, const CString& path, bool bEmbed = false,

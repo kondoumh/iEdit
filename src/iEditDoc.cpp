@@ -3810,7 +3810,7 @@ void iEditDoc::setVisibleNodes(KeySet& keySet)
 	nodes_.setVisibleNodes(keySet);
 }
 
-void iEditDoc::setShowBranch(DWORD branchRootKey)
+void iEditDoc::SetShowBranch(DWORD branchRootKey)
 {
 	m_dwBranchRootKey = branchRootKey;
 	m_bShowBranch = true;
@@ -3830,7 +3830,7 @@ void iEditDoc::ResetShowBranch()
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-CString iEditDoc::getSubBranchRootLabel() const
+CString iEditDoc::GetSubBranchRootLabel() const
 {
 	const_niterator n = nodes_.findNode(m_dwBranchRootKey);
 	if (n != nodes_.end()) {

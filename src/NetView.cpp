@@ -2055,7 +2055,7 @@ void NetView::OnDelete()
 void NetView::deleteSelectedNodes() {
 	if (MessageBox(_T("選択したノードおよび配下のノードがすべて削除されます"), _T("ノードの削除"), MB_YESNO) != IDYES) return;
 	if (GetDocument()->ShowSubBranch()) {
-		CString mes = _T("「") + GetDocument()->getSubBranchRootLabel() + _T("」");
+		CString mes = _T("「") + GetDocument()->GetSubBranchRootLabel() + _T("」");
 		mes += _T("配下のノードをすべて表示するモードです。");
 		mes += _T("選択したノード以外にも表示されているノードが削除される可能性があります。\n続行しますか?");
 		if (MessageBox(mes, _T("選択範囲のノードを削除"), MB_YESNO) != IDYES) return;
