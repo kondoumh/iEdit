@@ -135,7 +135,7 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		SetTabStop();
 	}
 	if (m_bPreUpdateReplace) {
-		GetEditCtrl().LineScroll(GetDocument()->getSelectedNodeScrollPos());
+		GetEditCtrl().LineScroll(GetDocument()->GetSelectedNodeScrollPos());
 	}
 }
 
@@ -173,7 +173,7 @@ void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 
 	if (nChar == VK_ESCAPE) {
-		GetDocument()->selChanged(m_preKey, false, GetDocument()->isShowSubBranch());
+		GetDocument()->selChanged(m_preKey, false, GetDocument()->ShowSubBranch());
 	}
 
 	CEditView::OnKeyUp(nChar, nRepCnt, nFlags);
@@ -564,5 +564,5 @@ void EditorView::OnChange()
 
 void EditorView::OnEnVscroll()
 {
-	GetDocument()->setSelectedNodeScrollPos(GetEditCtrl().GetFirstVisibleLine());
+	GetDocument()->SetSelectedNodeScrollPos(GetEditCtrl().GetFirstVisibleLine());
 }

@@ -689,7 +689,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 			GetDocument()->disableUndo();
 			GetDocument()->backUpUndoNodes();
 			GetDocument()->backUpUndoLinks();
-			GetDocument()->setSelectedNodeDragging();
+			GetDocument()->SetSelectedNodeDragging();
 			m_bLinkAction = true;
 		}
 		return;
@@ -958,7 +958,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 
 		if (((CiEditApp*)AfxGetApp())->m_rgsNode.bEnableGroup && !resized) {
 			GetDocument()->MoveNodesInBound(org, CSize(moveX, moveY));
-			if (GetDocument()->isShowSubBranch() && m_bGrpOlCoupled) {
+			if (GetDocument()->ShowSubBranch() && m_bGrpOlCoupled) {
 				GetDocument()->MigrateGroup();
 			}
 		}
@@ -1002,8 +1002,8 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	OnPrepareDC(&dc);
 	CRect old, nw;
 
-	if (GetDocument()->isShowSubBranch() && GetDocument()->isCurKeyInBranch() ||
-		!GetDocument()->isShowSubBranch()) {
+	if (GetDocument()->ShowSubBranch() && GetDocument()->CurKeyInBranch() ||
+		!GetDocument()->ShowSubBranch()) {
 		m_selectRect = GetDocument()->getSelectedNodeRect();
 	}
 	else {
@@ -1066,8 +1066,8 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		break;
 
 	case iHint::nodeDeleteByKey:
-		if (!GetDocument()->isShowSubBranch()) {
-			old = GetDocument()->restoreDeleteBound();
+		if (!GetDocument()->ShowSubBranch()) {
+			old = GetDocument()->RestoreDeleteBound();
 			adjustRedrawBound(old);
 			InvalidateRect(old);
 		}
@@ -1085,7 +1085,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		Invalidate();
 		break;
 	case iHint::parentSel:
-		if (GetDocument()->isShowSubBranch()) {
+		if (GetDocument()->ShowSubBranch()) {
 			break;
 		}
 		Invalidate();
@@ -1113,7 +1113,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		Invalidate();
 		break;
 	case iHint::linkDelete:
-		old = GetDocument()->restoreDeleteBound();
+		old = GetDocument()->RestoreDeleteBound();
 		adjustRedrawBound(old);
 		InvalidateRect(old);
 		break;
@@ -1242,8 +1242,8 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	// 芋蔓処理
 	/////////////////////
 	if (nFlags & MK_CONTROL && m_bDragRelax) {
-		GetDocument()->relaxSingleStep(logPt, m_dragOffset);
-		CRect rBound = GetDocument()->getChaindNodesBound();
+		GetDocument()->RelaxSingleStep(logPt, m_dragOffset);
+		CRect rBound = GetDocument()->GetChaindNodesBound();
 		ViewLPtoDP(rBound);
 		InvalidateRect(rBound);
 		return;
@@ -1384,9 +1384,9 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 
 	// リンク分割挿入アクションの処理
 	if (m_bLinkAction) {
-		GetDocument()->setSelectedNodeDragging(false);
+		GetDocument()->SetSelectedNodeDragging(false);
 		if (m_nodeKeyDrop != -1) {
-			GetDocument()->divideTargetLink(m_nodeKeyDrop);
+			GetDocument()->DivideTargetLink(m_nodeKeyDrop);
 		}
 		else {
 			GetDocument()->setConnectPoint();
@@ -2054,7 +2054,7 @@ void NetView::OnDelete()
 
 void NetView::deleteSelectedNodes() {
 	if (MessageBox(_T("選択したノードおよび配下のノードがすべて削除されます"), _T("ノードの削除"), MB_YESNO) != IDYES) return;
-	if (GetDocument()->isShowSubBranch()) {
+	if (GetDocument()->ShowSubBranch()) {
 		CString mes = _T("「") + GetDocument()->getSubBranchRootLabel() + _T("」");
 		mes += _T("配下のノードをすべて表示するモードです。");
 		mes += _T("選択したノード以外にも表示されているノードが削除される可能性があります。\n続行しますか?");
@@ -2151,7 +2151,7 @@ void NetView::setNodeProp()
 	dlg.styleLine = GetDocument()->getSelectedNodeLineStyle();
 	dlg.bMultiLine = GetDocument()->isSelectedNodeMultiLine();
 	dlg.m_bNoBrush = !GetDocument()->isSelectedNodeFilled();
-	dlg.bOldBynary = GetDocument()->isOldBinary();
+	dlg.bOldBynary = GetDocument()->IsOldBinary();
 	int shape = GetDocument()->getSelectedNodeShape();
 	if (shape == iNode::rectangle) {
 		dlg.m_shape = 0;
@@ -2202,7 +2202,7 @@ void NetView::setNodeProp()
 	}
 	dlg.m_strLabel = GetDocument()->getSelectedNodeLabel();
 	GetDocument()->getSelectedNodeFont(dlg.lf);
-	GetDocument()->getSelectedNodeMargin(
+	GetDocument()->GetSelectedNodeMargin(
 		dlg.margins.l, dlg.margins.r, dlg.margins.t, dlg.margins.b);
 
 	if (dlg.DoModal() != IDOK) return;
@@ -2281,8 +2281,8 @@ void NetView::setNodeProp()
 			GetDocument()->setSelectedNodeTextStyle(iNode::m_r);
 		}
 	}
-	if (!GetDocument()->isOldBinary()) {
-		GetDocument()->setSelectedNodeMargin(
+	if (!GetDocument()->IsOldBinary()) {
+		GetDocument()->SetSelectedNodeMargin(
 			dlg.margins.l, dlg.margins.r, dlg.margins.t, dlg.margins.b);
 	}
 	GetDocument()->setSelectedNodeFont(dlg.lf);
@@ -3559,8 +3559,8 @@ void NetView::prepareDragRelax()
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
 	// 連鎖ノードだけを動かすためのフィルタ処理
-	GetDocument()->listupChainNodes();
-	GetDocument()->calcEdges();
+	GetDocument()->ListupChainNodes();
+	GetDocument()->CalcEdges();
 }
 
 
@@ -3568,7 +3568,7 @@ void NetView::cancelDragRelax()
 {
 	m_bDragRelax = false;
 	m_selectRect = GetDocument()->getSelectedNodeRect();
-	GetDocument()->recalcArea();
+	GetDocument()->RecalcArea();
 	GetDocument()->SetModifiedFlag();
 	Invalidate();
 	adjustScrollArea();
@@ -3602,7 +3602,7 @@ void NetView::PointedLinkEndPosition(CPoint point)
 
 	if (point == m_ptPrePos) return;
 
-	if (GetDocument()->hitTest2(logPt)) {
+	if (GetDocument()->HitTest2(logPt)) {
 		GetDocument()->setEndLink(logPt);
 	}
 	else {
@@ -3625,7 +3625,7 @@ void NetView::OnInsertChild()
 {
 	GetDocument()->disableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
-	CRect nwRect = GetDocument()->addNodeWithLink(shape, GetDocument()->getSelectedNodeKey());
+	CRect nwRect = GetDocument()->AddNodeWithLink(shape, GetDocument()->getSelectedNodeKey());
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 	}
@@ -3640,7 +3640,7 @@ void NetView::OnInsertSibling()
 {
 	GetDocument()->disableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
-	CRect nwRect = GetDocument()->addNodeWithLink2(shape, GetDocument()->getSelectedNodeKey());
+	CRect nwRect = GetDocument()->AddNodeWithLink2(shape, GetDocument()->getSelectedNodeKey());
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 	}
@@ -3811,7 +3811,7 @@ void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 void NetView::OnAddlinkednodeArc()
 {
 	GetDocument()->disableUndo();
-	CRect nwRect = GetDocument()->addNodeWithLink(iNode::arc, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
+	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::arc, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 	}
@@ -3824,7 +3824,7 @@ void NetView::OnUpdateAddlinkednodeArc(CCmdUI *pCmdUI)
 void NetView::OnAddlinkednodeRect()
 {
 	GetDocument()->disableUndo();
-	CRect nwRect = GetDocument()->addNodeWithLink(iNode::rectangle, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
+	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::rectangle, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 
@@ -3838,7 +3838,7 @@ void NetView::OnUpdateAddlinkednodeRect(CCmdUI *pCmdUI)
 void NetView::OnAddlinkednodeRndrect()
 {
 	GetDocument()->disableUndo();
-	CRect nwRect = GetDocument()->addNodeWithLink(iNode::roundRect, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
+	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::roundRect, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 	}
@@ -3850,7 +3850,7 @@ void NetView::OnUpdateAddlinkednodeRndrect(CCmdUI *pCmdUI)
 
 void NetView::procRenameDialog(const CRect& nodeBound)
 {
-	GetDocument()->recalcArea();
+	GetDocument()->RecalcArea();
 	adjustScrollArea();
 	Invalidate();
 	CreateNodeDlg dlg;
@@ -3885,8 +3885,8 @@ void NetView::OnUpdateAddLabelOnly(CCmdUI *pCmdUI)
 
 void NetView::OnFontEnlarge()
 {
-	GetDocument()->resizeSelectedNodeFont(true);
-	GetDocument()->resizeSelectedLinkFont(true);
+	GetDocument()->ResizeSelectedNodeFont(true);
+	GetDocument()->ResizeSelectedLinkFont(true);
 }
 
 void NetView::OnUpdateFontEnlarge(CCmdUI *pCmdUI)
@@ -3896,8 +3896,8 @@ void NetView::OnUpdateFontEnlarge(CCmdUI *pCmdUI)
 
 void NetView::OnFontEnsmall()
 {
-	GetDocument()->resizeSelectedNodeFont(false);
-	GetDocument()->resizeSelectedLinkFont(false);
+	GetDocument()->ResizeSelectedNodeFont(false);
+	GetDocument()->ResizeSelectedLinkFont(false);
 }
 
 
@@ -4254,11 +4254,11 @@ void NetView::OnUpdateBtnLinkLineStyle(CCmdUI *pCmdUI)
 void NetView::OnSaveFormat()
 {
 	if (m_selectStatus == NetView::single) {
-		GetDocument()->saveSelectedNodeFormat();
+		GetDocument()->SaveSelectedNodeFormat();
 		m_bFormCopied = TRUE;
 	}
 	else if (m_selectStatus == NetView::link) {
-		GetDocument()->saveSelectedLinkFormat();
+		GetDocument()->SaveSelectedLinkFormat();
 		m_bFormCopied = TRUE;
 	}
 }
@@ -4283,10 +4283,10 @@ void NetView::aplyFormat(CPoint& pt)
 {
 	CRect r;
 	if (GetDocument()->hitTestLinks(pt)) {
-		GetDocument()->applyFormatToSelectedLink();
+		GetDocument()->ApplyFormatToSelectedLink();
 	}
 	else if (GetDocument()->hitTest(pt, r, false)) {
-		GetDocument()->applyFormatToSelectedNode();
+		GetDocument()->ApplyFormatToSelectedNode();
 	}
 }
 
@@ -4297,7 +4297,7 @@ void NetView::OnGrpOlCoupled()
 
 void NetView::OnUpdateGrpOlCoupled(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(GetDocument()->isShowSubBranch());
+	pCmdUI->Enable(GetDocument()->ShowSubBranch());
 	pCmdUI->SetCheck(m_bGrpOlCoupled);
 }
 
@@ -4334,7 +4334,7 @@ void NetView::OnSetLinkAngled()
 void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
 {
 	const iLink* pLink = GetDocument()->getSelectedLink();
-	pCmdUI->Enable(!GetDocument()->isOldBinary() && pLink != NULL && pLink->isCurved());
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() && pLink != NULL && pLink->isCurved());
 	pCmdUI->SetCheck(pLink != NULL && pLink->isAngled());
 }
 
@@ -4426,7 +4426,7 @@ void NetView::OnSetMargin()
 	NodeMarginSettingsDlg dlg;
 	int l, r, t, b;
 	if (m_selectStatus == NetView::single) {
-		GetDocument()->getSelectedNodeMargin(l, r, t, b);
+		GetDocument()->GetSelectedNodeMargin(l, r, t, b);
 		dlg.m_nLeft = l;
 		dlg.m_nRight = r;
 		dlg.m_nTop = t;
@@ -4437,13 +4437,13 @@ void NetView::OnSetMargin()
 	r = dlg.m_nRight;
 	t = dlg.m_nTop;
 	b = dlg.m_nBottom;
-	GetDocument()->setSelectedNodeMargin(l, r, t, b);
+	GetDocument()->SetSelectedNodeMargin(l, r, t, b);
 }
 
 void NetView::OnUpdateSetMargin(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(
-		!GetDocument()->isOldBinary() &&
+		!GetDocument()->IsOldBinary() &&
 		(m_selectStatus == NetView::single || m_selectStatus == NetView::multi));
 }
 

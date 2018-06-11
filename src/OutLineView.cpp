@@ -327,7 +327,7 @@ void OutlineView::OnInitialUpdate()
 {
 	CTreeView::OnInitialUpdate();
 
-	if (GetDocument()->isOldBinary() || GetDocument()->GetSerialVersion() <= 1) {
+	if (GetDocument()->IsOldBinary() || GetDocument()->GetSerialVersion() <= 1) {
 		treeConstruct();
 	}
 	else {
@@ -337,7 +337,7 @@ void OutlineView::OnInitialUpdate()
 	doColorSetting(); // 背景色や文字色の設定
 
 	// SubBranch表示状態のリストア
-	if (GetDocument()->isShowSubBranch()) {
+	if (GetDocument()->ShowSubBranch()) {
 		int branchMode = GetDocument()->GetInitialBranchMode();
 		m_hItemShowRoot = findKeyItem(GetDocument()->GetBranchRootKey(), tree().GetRootItem());
 		if (m_hItemShowRoot == NULL) return;
@@ -1077,7 +1077,7 @@ void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 	if (branchMode == 1) {
 		if (tree().GetParentItem(curItem()) != m_hItemShowRoot && m_hItemShowRoot != curItem()) {
 			resetShowBranch();
-			GetDocument()->resetShowBranch();
+			GetDocument()->ResetShowBranch();
 		}
 		else {
 			bShowBranch = true;
@@ -1086,7 +1086,7 @@ void OutlineView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 	else if (branchMode == 2) {
 		if (!isPosterityOF(m_hItemShowRoot, curItem()) && m_hItemShowRoot != curItem()) {
 			resetShowBranch();
-			GetDocument()->resetShowBranch();
+			GetDocument()->ResetShowBranch();
 		}
 		else {
 			bShowBranch = true;
@@ -1348,7 +1348,7 @@ void OutlineView::deleteNode()
 	HTREEITEM hcur = curItem();
 	CString m = "<" + tree().GetItemText(hcur) + _T(">") + '\n' + _T("削除しますか？");
 	if (MessageBox(m, _T("ノードの削除"), MB_YESNO) != IDYES) return;
-	GetDocument()->backupDeleteBound();
+	GetDocument()->BackupDeleteBound();
 	if (tree().GetNextSiblingItem(curItem()) == NULL) {
 		if (tree().GetPrevSiblingItem(curItem()) != NULL) {
 			tree().SelectItem(tree().GetPrevSiblingItem(curItem()));
@@ -1712,7 +1712,7 @@ void OutlineView::OnImportData()
 	if (mode != 0) {
 		hShowRoot = m_hItemShowRoot;
 		resetShowBranch();
-		GetDocument()->resetShowBranch();
+		GetDocument()->ResetShowBranch();
 	}
 	bool ret;
 	if (extent == _T(".txt")) {
@@ -1768,7 +1768,7 @@ void OutlineView::OutputHTML()
 	eDlg.m_pathTextSingle = m_exportOption.pathTextSingle;
 	eDlg.m_docTitle = GetDocument()->GetFileNameFromPath();
 	eDlg.m_nameOfRoot = tree().GetItemText(tree().GetRootItem());
-	if (GetDocument()->isShowSubBranch()) {
+	if (GetDocument()->ShowSubBranch()) {
 		eDlg.m_nameOfVisibleRoot = tree().GetItemText(m_hItemShowRoot);
 		eDlg.m_xvRdTree = 1;
 	}
@@ -1851,7 +1851,7 @@ void OutlineView::OutputHTML()
 		root = tree().GetRootItem();
 	}
 	else {
-		if (GetDocument()->isShowSubBranch()) {
+		if (GetDocument()->ShowSubBranch()) {
 			root = m_hItemShowRoot;
 		}
 		else {
@@ -2079,7 +2079,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 	}
 
 	bool nested = m_exportOption.htmlOutOption == 0 ||
-		m_exportOption.htmlOutOption == 1 && GetDocument()->isShowSubBranch();
+		m_exportOption.htmlOutOption == 1 && GetDocument()->ShowSubBranch();
 	if (tree().ItemHasChildren(hItem) && nested) {
 		if (m_exportOption.navOption != 1) {
 			foutline->WriteString(_T("\n<ul>\n"));
@@ -2542,7 +2542,7 @@ void OutlineView::setNodeLevels(HTREEITEM hItem, int curLevel)
 {
 	iEditDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	pDoc->setNodeLevel(tree().GetItemData(hItem), curLevel);
+	pDoc->SetNodeLevel(tree().GetItemData(hItem), curLevel);
 	if (tree().ItemHasChildren(hItem)) {
 		HTREEITEM hChild = tree().GetNextItem(hItem, TVGN_CHILD);
 		setNodeLevels(hChild, ++curLevel);
@@ -2664,7 +2664,7 @@ void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
 		return;
 	}
 	DWORD key = tree().GetItemData(hItem);
-	int level = GetDocument()->getKeyNodeLevelNumber(key);
+	int level = GetDocument()->GetKeyNodeLevelNumber(key);
 	if (level != -1) {
 		for (int i = 1; i <= level; i++) {
 			text += _T("\t");
@@ -2753,7 +2753,7 @@ void OutlineView::OnCreateClone()
 	}
 	GetDocument()->DuplicateLinks(idm);
 	// 指定配下のノードを全部見せるモードの場合、クローンした一連のノードとリンクをvisibleに
-	if (GetDocument()->isShowSubBranch()) {
+	if (GetDocument()->ShowSubBranch()) {
 		KeySet ks;
 		ks.insert(tree().GetItemData(m_hItemShowRoot));
 		treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
@@ -2798,7 +2798,7 @@ void OutlineView::OnResetShowSubbranch()
 {
 	tree().SelectItem(m_hItemShowRoot);
 	resetShowBranch();
-	GetDocument()->resetShowBranch();
+	GetDocument()->ResetShowBranch();
 }
 
 void OutlineView::OnUpdateResetShowSubbranch(CCmdUI *pCmdUI)
@@ -2810,14 +2810,14 @@ void OutlineView::OnUpdateResetShowSubbranch(CCmdUI *pCmdUI)
 void OutlineView::OnTreeImageChcek()
 {
 	tree().SetItemImage(curItem(), OutlineView::check, OutlineView::check);
-	GetDocument()->setSelectedNodeTreeIconId(OutlineView::check);
+	GetDocument()->SetSelectedNodeTreeIconId(OutlineView::check);
 }
 
 void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
 {
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() &&
 		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::check &&
 		curItem() != tree().GetRootItem());
@@ -2826,14 +2826,14 @@ void OutlineView::OnUpdateTreeImageChcek(CCmdUI *pCmdUI)
 void OutlineView::OnTreeImageBlue()
 {
 	tree().SetItemImage(curItem(), OutlineView::blue, OutlineView::blue);
-	GetDocument()->setSelectedNodeTreeIconId(OutlineView::blue);
+	GetDocument()->SetSelectedNodeTreeIconId(OutlineView::blue);
 }
 
 void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
 {
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() &&
 		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::blue &&
 		curItem() != tree().GetRootItem());
@@ -2842,14 +2842,14 @@ void OutlineView::OnUpdateTreeImageBlue(CCmdUI *pCmdUI)
 void OutlineView::OnTreeImageRed()
 {
 	tree().SetItemImage(curItem(), OutlineView::red, OutlineView::red);
-	GetDocument()->setSelectedNodeTreeIconId(OutlineView::red);
+	GetDocument()->SetSelectedNodeTreeIconId(OutlineView::red);
 }
 
 void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
 {
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() &&
 		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::red &&
 		curItem() != tree().GetRootItem());
@@ -2858,14 +2858,14 @@ void OutlineView::OnUpdateTreeImageRed(CCmdUI *pCmdUI)
 void OutlineView::OnTreeImageYealow()
 {
 	tree().SetItemImage(curItem(), OutlineView::yellow, OutlineView::yellow);
-	GetDocument()->setSelectedNodeTreeIconId(OutlineView::yellow);
+	GetDocument()->SetSelectedNodeTreeIconId(OutlineView::yellow);
 }
 
 void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
 {
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() &&
 		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::yellow &&
 		curItem() != tree().GetRootItem());
@@ -2874,14 +2874,14 @@ void OutlineView::OnUpdateTreeImageYealow(CCmdUI *pCmdUI)
 void OutlineView::OnTreeImageCancel()
 {
 	tree().SetItemImage(curItem(), OutlineView::cancel, OutlineView::cancel);
-	GetDocument()->setSelectedNodeTreeIconId(OutlineView::cancel);
+	GetDocument()->SetSelectedNodeTreeIconId(OutlineView::cancel);
 }
 
 void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
 {
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() &&
 		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::cancel &&
 		curItem() != tree().GetRootItem());
@@ -2890,14 +2890,14 @@ void OutlineView::OnUpdateTreeImageCancel(CCmdUI *pCmdUI)
 void OutlineView::OnTreeImageQuestion()
 {
 	tree().SetItemImage(curItem(), OutlineView::question, OutlineView::question);
-	GetDocument()->setSelectedNodeTreeIconId(OutlineView::question);
+	GetDocument()->SetSelectedNodeTreeIconId(OutlineView::question);
 }
 
 void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
 {
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() &&
 		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::question &&
 		curItem() != tree().GetRootItem());
@@ -2906,14 +2906,14 @@ void OutlineView::OnUpdateTreeImageQuestion(CCmdUI *pCmdUI)
 void OutlineView::OnTreeImageWarning()
 {
 	tree().SetItemImage(curItem(), OutlineView::warning, OutlineView::warning);
-	GetDocument()->setSelectedNodeTreeIconId(OutlineView::warning);
+	GetDocument()->SetSelectedNodeTreeIconId(OutlineView::warning);
 }
 
 void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
 {
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() &&
 		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::warning &&
 		curItem() != tree().GetRootItem());
@@ -2922,14 +2922,14 @@ void OutlineView::OnUpdateTreeImageWarning(CCmdUI *pCmdUI)
 void OutlineView::OnTreeImageFace()
 {
 	tree().SetItemImage(curItem(), OutlineView::face, OutlineView::face);
-	GetDocument()->setSelectedNodeTreeIconId(OutlineView::face);
+	GetDocument()->SetSelectedNodeTreeIconId(OutlineView::face);
 }
 
 void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
 {
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() &&
 		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::face &&
 		curItem() != tree().GetRootItem());
@@ -2938,14 +2938,14 @@ void OutlineView::OnUpdateTreeImageFace(CCmdUI *pCmdUI)
 void OutlineView::OnTreeImageIdea()
 {
 	tree().SetItemImage(curItem(), OutlineView::idea, OutlineView::idea);
-	GetDocument()->setSelectedNodeTreeIconId(OutlineView::idea);
+	GetDocument()->SetSelectedNodeTreeIconId(OutlineView::idea);
 }
 
 void OutlineView::OnUpdateTreeImageIdea(CCmdUI *pCmdUI)
 {
 	int nImage;
 	tree().GetItemImage(curItem(), nImage, nImage);
-	pCmdUI->Enable(!GetDocument()->isOldBinary() &&
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() &&
 		tree().GetSelectedItem() != m_hItemShowRoot &&
 		nImage != OutlineView::idea &&
 		curItem() != tree().GetRootItem());
@@ -2978,7 +2978,7 @@ void OutlineView::OnPasteTreeFromClipboard()
 	if (mode != 0) {
 		hShowRoot = m_hItemShowRoot;
 		resetShowBranch();
-		GetDocument()->resetShowBranch();
+		GetDocument()->ResetShowBranch();
 	}
 
 	ClipText += _T("\n");

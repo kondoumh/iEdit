@@ -308,7 +308,7 @@ void iEditDoc::addNode(const label &l, DWORD inheritKey, bool bInherit)
 	n.setKey(l.key);
 	n.setParent(l.parent);
 
-	if (isShowSubBranch()) {
+	if (ShowSubBranch()) {
 		m_visibleKeys.insert(l.key);
 	}
 
@@ -330,7 +330,7 @@ void iEditDoc::addNode(const label &l, DWORD inheritKey, bool bInherit)
 	}
 
 	nodes_[n.getKey()] = n;
-	selChanged(l.key, true, isShowSubBranch());
+	selChanged(l.key, true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeAdd;
 	UpdateAllViews(NULL, (LPARAM)l.key, &hint);
@@ -492,8 +492,8 @@ void iEditDoc::InitDocument()
 		lastKey = 0;
 		iNode i(_T("主題")); i.setKey(0); i.setParent(0);
 		i.moveBound(CSize(10, 10));
-		CString title = getTitleFromOpenPath();
-		if (getTitleFromOpenPath() != _T("")) {
+		CString title = GetFileNameFromOpenPath();
+		if (GetFileNameFromOpenPath() != _T("")) {
 			i.setName(title);
 		}
 		nodes_[i.getKey()] = i;
@@ -507,7 +507,7 @@ void iEditDoc::InitDocument()
 	canCpyLink = FALSE;
 }
 
-CString iEditDoc::getTitleFromOpenPath()
+CString iEditDoc::GetFileNameFromOpenPath()
 {
 	WCHAR drive[_MAX_DRIVE];
 	WCHAR dir[_MAX_DIR];
@@ -990,20 +990,20 @@ CRect iEditDoc::getRecentNodeRect()
 // クリップボートからのノード一括作成のためにこのメソッドだけシグネチャを変えました。
 void iEditDoc::addNodeRect(const CString &name, const CPoint &pt, bool bSetMultiLineProcess, bool bNoBound)
 {
-	addNodeInternal(name, pt, iNode::rectangle, bSetMultiLineProcess, bNoBound);
+	AddNodeInternal(name, pt, iNode::rectangle, bSetMultiLineProcess, bNoBound);
 }
 
 void iEditDoc::addNodeArc(const CString &name, const CPoint &pt)
 {
-	addNodeInternal(name, pt, iNode::arc, true);
+	AddNodeInternal(name, pt, iNode::arc, true);
 }
 
 void iEditDoc::addNodeRoundRect(const CString &name, const CPoint &pt)
 {
-	addNodeInternal(name, pt, iNode::roundRect, true);
+	AddNodeInternal(name, pt, iNode::roundRect, true);
 }
 
-void iEditDoc::addNodeInternal(const CString &name, const CPoint &pt, int nodeType, bool bEnableMultiLineProcess, bool bNoBound)
+void iEditDoc::AddNodeInternal(const CString &name, const CPoint &pt, int nodeType, bool bEnableMultiLineProcess, bool bNoBound)
 {
 	iNode n(name);
 	n.setKey(getUniqKey());
@@ -1021,11 +1021,11 @@ void iEditDoc::addNodeInternal(const CString &name, const CPoint &pt, int nodeTy
 	}
 	nodes_[n.getKey()] = n;
 
-	if (isShowSubBranch()) {
+	if (ShowSubBranch()) {
 		m_visibleKeys.insert(n.getKey());
 	}
 	calcMaxPt(m_maxPt);
-	selChanged(n.getKey(), true, isShowSubBranch());
+	selChanged(n.getKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint;
 
@@ -1050,11 +1050,11 @@ void iEditDoc::addNodeMF(const CString &name, const CPoint &pt, int mfIndex, HEN
 	n.setTextStyle(iNode::notext);
 	nodes_[n.getKey()] = n;
 
-	if (isShowSubBranch()) {
+	if (ShowSubBranch()) {
 		m_visibleKeys.insert(n.getKey());
 	}
 
-	selChanged(n.getKey(), true, isShowSubBranch());
+	selChanged(n.getKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint;
 	hint.event = iHint::rectAdd;
@@ -1271,7 +1271,7 @@ void iEditDoc::deleteSelectedNodes()
 {
 	SetModifiedFlag();
 	DWORD parentKey = nodes_.getCurParent();
-	if (isShowSubBranch()) {
+	if (ShowSubBranch()) {
 		parentKey = m_dwBranchRootKey;
 	}
 	serialVec v = nodes_.getSelectedNodeKeys();
@@ -1857,11 +1857,11 @@ void iEditDoc::makeCopyNode(const CPoint& pt, bool useDefault)
 
 		nodes_[n.getKey()] = n;
 
-		if (isShowSubBranch()) {
+		if (ShowSubBranch()) {
 			m_visibleKeys.insert(n.getKey());
 		}
 
-		selChanged(n.getKey(), true, isShowSubBranch());
+		selChanged(n.getKey(), true, ShowSubBranch());
 		calcMaxPt(m_maxPt);
 		SetModifiedFlag();
 		iHint hint; hint.event = iHint::rectAdd;
@@ -1947,7 +1947,7 @@ void iEditDoc::setSelectedNodeTextStyle(int style)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::setSelectedNodeTreeIconId(int id)
+void iEditDoc::SetSelectedNodeTreeIconId(int id)
 {
 	nodes_.setSelectedNodeTreeIconId(id);
 	SetModifiedFlag();
@@ -3765,7 +3765,7 @@ void iEditDoc::setSelectedLinkReverse(bool bDrwAll)
 	DWORD keyTo = pl->getKeyTo();
 	links_.setSelectedLinkReverse();
 	SetModifiedFlag();
-	selChanged(keyTo, true, isShowSubBranch());
+	selChanged(keyTo, true, ShowSubBranch());
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)getSelectedNodeKey(), &h);
 }
@@ -3780,7 +3780,7 @@ void iEditDoc::viewSettingChanged()
 void iEditDoc::exportSVG(bool bDrwAll, const CString &path, bool bEmbed,
 	const CString& textFileName, bool textSingle)
 {
-	serialVec vec = getOutlineView()->getDrawOrder(isShowSubBranch());
+	serialVec vec = getOutlineView()->getDrawOrder(ShowSubBranch());
 	SvgWriter writer(nodes_, links_, vec, bDrwAll);
 	if (textSingle) {
 		writer.setTextHtmlFileName(textFileName);
@@ -3820,7 +3820,7 @@ void iEditDoc::setShowBranch(DWORD branchRootKey)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::resetShowBranch()
+void iEditDoc::ResetShowBranch()
 {
 	m_bShowBranch = false;
 	nodes_.setVisibleNodes(nodes_.getCurParent());
@@ -3839,17 +3839,17 @@ CString iEditDoc::getSubBranchRootLabel() const
 	return _T("");
 }
 
-bool iEditDoc::isShowSubBranch() const
+bool iEditDoc::ShowSubBranch() const
 {
 	return m_bShowBranch;
 }
 
-bool iEditDoc::isOldBinary() const
+bool iEditDoc::IsOldBinary() const
 {
 	return m_bOldBinary;
 }
 
-bool iEditDoc::isCurKeyInBranch() const
+bool iEditDoc::CurKeyInBranch() const
 {
 	DWORD key = getSelectedNodeKey();
 	set<DWORD>::const_iterator it = m_visibleKeys.find(key);
@@ -3969,17 +3969,17 @@ void iEditDoc::OnUpdateFileSave(CCmdUI *pCmdUI)
 	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }
 
-CRect iEditDoc::restoreDeleteBound() const
+CRect iEditDoc::RestoreDeleteBound() const
 {
 	return m_deleteBound;
 }
 
-void iEditDoc::backupDeleteBound()
+void iEditDoc::BackupDeleteBound()
 {
 	m_deleteBound = getRelatedBound(false);
 }
 
-void iEditDoc::setNodeLevel(const DWORD key, const int nLevel)
+void iEditDoc::SetNodeLevel(const DWORD key, const int nLevel)
 {
 	niterator it = nodes_.findNodeW(key);
 	if (it == nodes_.end()) {
@@ -3991,7 +3991,7 @@ void iEditDoc::setNodeLevel(const DWORD key, const int nLevel)
 
 // 芋蔓に必要なノード間距離を計算する
 // iNodeのBoundPreも初期化する多機能メソッド←ダメ
-void iEditDoc::calcEdges()
+void iEditDoc::CalcEdges()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 
@@ -4035,7 +4035,7 @@ void iEditDoc::calcEdges()
 	}
 }
 
-void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
+void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 {
 	// ドラッグ中のノードの位置を変更
 	niterator ni = nodes_.begin();
@@ -4169,7 +4169,7 @@ void iEditDoc::relaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 }
 
 /// 芋づる式に関連ノード・リンクにフラグを立てる
-void iEditDoc::listupChainNodes(bool bResetLinkCurve)
+void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 {
 	// 直前までのフラグをクリア
 	niterator nit = nodes_.begin();
@@ -4225,7 +4225,7 @@ void iEditDoc::listupChainNodes(bool bResetLinkCurve)
 	}
 }
 
-CRect iEditDoc::getChaindNodesBound() const
+CRect iEditDoc::GetChaindNodesBound() const
 {
 	CRect rc = getSelectedNodeRect();
 	const_niterator it = nodes_.begin();
@@ -4260,7 +4260,7 @@ void iEditDoc::setConnectPoint2()
 	}
 }
 
-void iEditDoc::recalcArea()
+void iEditDoc::RecalcArea()
 {
 	calcMaxPt(m_maxPt);
 }
@@ -4280,7 +4280,7 @@ void iEditDoc::outStyleSheetLine(T &f)
 	f.WriteString(s);
 }
 
-const CRect iEditDoc::addNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSibling, const CPoint & pt, bool bMindmap)
+const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSibling, const CPoint & pt, bool bMindmap)
 {
 	niterator it = nodes_.find(keyRoot);
 	if (it == nodes_.end()) return CRect(0, 0, 0, 0);
@@ -4288,15 +4288,15 @@ const CRect iEditDoc::addNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 	iNode nwNode;
 	if (bMindmap) {
 		CPoint ptTarget = (*it).second.getBound().CenterPoint() + CPoint(100, -100);
-		nwNode = insertNode(nodeType, _T("ノード"), ptTarget);
+		nwNode = InsertNode(nodeType, _T("ノード"), ptTarget);
 	}
 	else {
-		nwNode = insertNode(nodeType, _T("ノード"), pt);
+		nwNode = InsertNode(nodeType, _T("ノード"), pt);
 	}
 
 	DWORD newKey = nwNode.getKey();
 
-	selChanged(nwNode.getKey(), true, isShowSubBranch());
+	selChanged(nwNode.getKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 
 	iHint hint;
@@ -4314,22 +4314,22 @@ const CRect iEditDoc::addNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 
 
 	if (bMindmap) {
-		listupChainNodes(false);
-		calcEdges();
+		ListupChainNodes(false);
+		CalcEdges();
 		nodes_.fixNodesReversibly(newKey); // 新しいノード以外を固定
 		for (int i = 0; i < 100; i++) {
-			relaxSingleStep2();
+			RelaxSingleStep2();
 		}
 		nodes_.restoreNodesFixState(newKey); // Fix状態をリストア
 	}
 
-	selChanged(nwNode.getKey(), true, isShowSubBranch());
+	selChanged(nwNode.getKey(), true, ShowSubBranch());
 
 	niterator nit = nodes_.find(nwNode.getKey());
 	return (*nit).second.getBound();
 }
 
-const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
+const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 {
 	if (links_.isIsolated(nodes_.getSelKey(), false)) return CRect(0, 0, 0, 0);
 	DWORD pairKey = links_.getFirstVisiblePair(nodes_.getSelKey());
@@ -4360,10 +4360,10 @@ const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 		ptTarget += CPoint(50, 50);
 	}
 
-	iNode nwNode = insertNode(nodeType, _T("ノード"), ptTarget);
+	iNode nwNode = InsertNode(nodeType, _T("ノード"), ptTarget);
 	DWORD newKey = nwNode.getKey();
 
-	selChanged(nwNode.getKey(), true, isShowSubBranch());
+	selChanged(nwNode.getKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 
 	iHint hint;
@@ -4380,15 +4380,15 @@ const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 
 	links_.push_back(l);
 
-	listupChainNodes(false);
-	calcEdges();
+	ListupChainNodes(false);
+	CalcEdges();
 
 	nodes_.fixNodesReversibly(newKey);
 	for (int i = 0; i < 100; i++) {
-		relaxSingleStep2();
+		RelaxSingleStep2();
 	}
 	nodes_.restoreNodesFixState(newKey);
-	selChanged(nwNode.getKey(), true, isShowSubBranch());
+	selChanged(nwNode.getKey(), true, ShowSubBranch());
 
 	niterator nit = nodes_.find(nwNode.getKey());
 	return (*nit).second.getBound();
@@ -4396,7 +4396,7 @@ const CRect iEditDoc::addNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 
 // ACTION : addNodeXXを一元化するメソッド(今後リファクタリング)
 // Notifyをオプショナルにするか？？
-const iNode& iEditDoc::insertNode(const int nodeType, const CString &name, const CPoint &pt)
+const iNode& iEditDoc::InsertNode(const int nodeType, const CString &name, const CPoint &pt)
 {
 	iNode n(name);
 	n.setKey(getUniqKey());
@@ -4406,14 +4406,14 @@ const iNode& iEditDoc::insertNode(const int nodeType, const CString &name, const
 	n.setVisible();
 	nodes_[n.getKey()] = n;
 
-	if (isShowSubBranch()) {
+	if (ShowSubBranch()) {
 		m_visibleKeys.insert(n.getKey());
 	}
 	const_niterator nit = nodes_.find(n.getKey());
 	return ((*nit).second);
 }
 
-void iEditDoc::relaxSingleStep2()
+void iEditDoc::RelaxSingleStep2()
 {
 	////// ばねモデル処理
 	literator li = links_.begin();
@@ -4517,7 +4517,7 @@ void iEditDoc::relaxSingleStep2()
 	setConnectPoint2();
 }
 
-int iEditDoc::getKeyNodeLevelNumber(DWORD key)
+int iEditDoc::GetKeyNodeLevelNumber(DWORD key)
 {
 	const_niterator it = nodes_.findNode(key);
 	if (it != nodes_.end()) {
@@ -4527,7 +4527,7 @@ int iEditDoc::getKeyNodeLevelNumber(DWORD key)
 }
 
 // サイレントなHitTest
-bool iEditDoc::hitTest2(const CPoint& pt)
+bool iEditDoc::HitTest2(const CPoint& pt)
 {
 	iNode* pNode = nodes_.hitTest2(pt, false);
 	if (pNode != NULL) {
@@ -4612,7 +4612,7 @@ int iEditDoc::GetAppLinkWidth() const
 }
 
 
-void iEditDoc::resizeSelectedNodeFont(bool bEnLarge)
+void iEditDoc::ResizeSelectedNodeFont(bool bEnLarge)
 {
 	backUpUndoNodes();
 	backUpUndoLinks();
@@ -4625,7 +4625,7 @@ void iEditDoc::resizeSelectedNodeFont(bool bEnLarge)
 	UpdateAllViews(NULL, (LPARAM)(nodes_.getSelKey()), &hint);
 }
 
-void iEditDoc::resizeSelectedLinkFont(bool bEnLarge)
+void iEditDoc::ResizeSelectedLinkFont(bool bEnLarge)
 {
 	backUpUndoNodes();
 	backUpUndoLinks();
@@ -4700,13 +4700,13 @@ void iEditDoc::MigrateGroup()
 	UpdateAllViews(NULL, (LPARAM)(*it).second.getKey(), &hint);
 }
 
-void iEditDoc::saveSelectedNodeFormat()
+void iEditDoc::SaveSelectedNodeFormat()
 {
 	niterator n = nodes_.getSelectedNode();
 	m_nodeForFormat = iNode((*n).second);
 }
 
-void iEditDoc::applyFormatToSelectedNode()
+void iEditDoc::ApplyFormatToSelectedNode()
 {
 	backUpUndoNodes();
 	niterator n = nodes_.getSelectedNode();
@@ -4734,7 +4734,7 @@ void iEditDoc::applyFormatToSelectedNode()
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &hint);
 }
 
-void iEditDoc::saveSelectedLinkFormat()
+void iEditDoc::SaveSelectedLinkFormat()
 {
 	const_literator l = links_.getSelectedLink();
 	m_linkForFormat.setArrowStyle((*l).getArrowStyle());
@@ -4743,7 +4743,7 @@ void iEditDoc::saveSelectedLinkFormat()
 	m_linkForFormat.setLinkColor((*l).getLinkColor());
 }
 
-void iEditDoc::applyFormatToSelectedLink()
+void iEditDoc::ApplyFormatToSelectedLink()
 {
 	backUpUndoLinks();
 	literator l = links_.getSelectedLinkW();
@@ -4796,7 +4796,7 @@ int iEditDoc::GetSerialVersion() const
 	return m_serialVersion;
 }
 
-void iEditDoc::getSelectedNodeMargin(int& l, int & r, int& t, int& b) const
+void iEditDoc::GetSelectedNodeMargin(int& l, int & r, int& t, int& b) const
 {
 	const_niterator nit = nodes_.getSelectedNodeR();
 	if (nit != nodes_.end()) {
@@ -4819,7 +4819,7 @@ void iEditDoc::SwapLinkOrder(DWORD key1, DWORD key2)
 	}
 }
 
-void iEditDoc::setSelectedNodeMargin(int l, int r, int t, int b)
+void iEditDoc::SetSelectedNodeMargin(int l, int r, int t, int b)
 {
 	backUpUndoNodes();
 	nodes_.setSelectedNodeMargin(l, r, t, b);
@@ -4888,7 +4888,7 @@ void iEditDoc::FitSelectedNodeSize()
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-int iEditDoc::getSelectedNodeScrollPos() const
+int iEditDoc::GetSelectedNodeScrollPos() const
 {
 	const_niterator it = nodes_.getSelectedNodeR();
 	if (it != nodes_.end()) {
@@ -4897,7 +4897,7 @@ int iEditDoc::getSelectedNodeScrollPos() const
 	return 0;
 }
 
-void iEditDoc::setSelectedNodeScrollPos(int pos)
+void iEditDoc::SetSelectedNodeScrollPos(int pos)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
@@ -4905,7 +4905,7 @@ void iEditDoc::setSelectedNodeScrollPos(int pos)
 	}
 }
 
-void iEditDoc::divideTargetLink(DWORD key)
+void iEditDoc::DivideTargetLink(DWORD key)
 {
 	links_.divideTargetLinks(key, lastLinkKey++);
 	setConnectPoint();
@@ -4913,7 +4913,7 @@ void iEditDoc::divideTargetLink(DWORD key)
 	SetModifiedFlag();
 }
 
-void iEditDoc::setSelectedNodeDragging(bool dragging)
+void iEditDoc::SetSelectedNodeDragging(bool dragging)
 {
 	nodes_.setSelectedLinkDragging(dragging);
 }
