@@ -3804,7 +3804,7 @@ iNode iEditDoc::getHitNode(const CPoint &pt, bool bDrwAll)
 	}
 }
 
-void iEditDoc::setVisibleNodes(KeySet& keySet)
+void iEditDoc::SetVisibleNodes(KeySet& keySet)
 {
 	m_visibleKeys = keySet;
 	nodes_.setVisibleNodes(keySet);

@@ -345,13 +345,13 @@ void OutlineView::OnInitialUpdate()
 		ks.insert(tree().GetItemData(m_hItemShowRoot));
 		if (branchMode == 1) {
 			treeview_for_each2(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
-			GetDocument()->setVisibleNodes(ks);
+			GetDocument()->SetVisibleNodes(ks);
 			GetDocument()->SetShowBranch(tree().GetItemData(m_hItemShowRoot));
 			tree().SetItemImage(m_hItemShowRoot, 1, 1);
 		}
 		else if (branchMode == 2) {
 			treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
-			GetDocument()->setVisibleNodes(ks);
+			GetDocument()->SetVisibleNodes(ks);
 			GetDocument()->SetShowBranch(tree().GetItemData(m_hItemShowRoot));
 			tree().SetItemImage(m_hItemShowRoot, 2, 2);
 		}
@@ -2472,7 +2472,7 @@ void OutlineView::OnShowSelectedBranch()
 	KeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
-	GetDocument()->setVisibleNodes(ks);
+	GetDocument()->SetVisibleNodes(ks);
 	GetDocument()->SetShowBranch(tree().GetItemData(curItem()));
 	int branchMode = getBranchMode();
 	if (branchMode != 0) {
@@ -2521,7 +2521,7 @@ void OutlineView::OnShowSelectedChildren()
 	KeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each2(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
-	GetDocument()->setVisibleNodes(ks);
+	GetDocument()->SetVisibleNodes(ks);
 	GetDocument()->SetShowBranch(tree().GetItemData(curItem()));
 	int branchMode = getBranchMode();
 	if (branchMode != 0) {
@@ -2758,7 +2758,7 @@ void OutlineView::OnCreateClone()
 		ks.insert(tree().GetItemData(m_hItemShowRoot));
 		treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
 		iEditDoc* pDoc = GetDocument();
-		pDoc->setVisibleNodes(ks);
+		pDoc->SetVisibleNodes(ks);
 		pDoc->SetShowBranch(tree().GetItemData(m_hItemShowRoot));
 	}
 	// 既存のノードと重ならないようにずらす

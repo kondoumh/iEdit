@@ -115,7 +115,7 @@ public:
 	void ResetShowBranch();
 	CString GetSubBranchRootLabel() const;
 	void SetShowBranch(DWORD branchRootKey);
-	void setVisibleNodes(KeySet& keySet);
+	void SetVisibleNodes(KeySet& keySet);
 	iNode getHitNode(const CPoint& pt, bool bDrwAll);
 	void exportSVG(bool bDrwAll, const CString& path, bool bEmbed = false,
 		const CString& textFileName = _T(""), bool textSingle = true);
