@@ -3179,7 +3179,7 @@ void NetView::sameNodesSize(const CString &strSize)
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
 
-	GetDocument()->sameNodesSize(strSize, bDrwAll);
+	GetDocument()->AlignSelectedNodesToSameSize(strSize, bDrwAll);
 
 	CRect nwrd = GetDocument()->getRelatedBoundAnd(bDrwAll);
 	m_selectRect = nwrd;

@@ -3721,7 +3721,7 @@ void iEditDoc::adjustNodesEnd(const CString& side, const CRect& rect, bool bDrwA
 	SetModifiedFlag();
 }
 
-void iEditDoc::sameNodesSize(const CString &strSize, bool bDrwAll)
+void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize, bool bDrwAll)
 {
 	CSize maxSz = nodes_.getMaxNodeSize(true, bDrwAll);
 	niterator it = nodes_.begin();

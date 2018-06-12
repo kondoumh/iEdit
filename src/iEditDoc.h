@@ -128,7 +128,7 @@ public:
 	const iLink* GetSelectedLink(bool bDrawAll = false) const;
 	bool SelectLinkEndIfHit(const CPoint &pt, bool drwAll);
 	bool SelectLinkStartIfHit(const CPoint& pt, bool drwAll);
-	void sameNodesSize(const CString& strSize, bool bDrwAll = false);
+	void AlignSelectedNodesToSameSize(const CString& strSize, bool bDrwAll = false);
 	void adjustNodesEnd(const CString& side, const CRect& rect, bool bDrwAll = false);
 	CString getKeyNodeLabel(DWORD key);
 	void backUpUndoLinks();
