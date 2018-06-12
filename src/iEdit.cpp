@@ -377,7 +377,7 @@ void CiEditApp::notifyViewSetting()
 	POSITION pos = pDocTemplate->GetFirstDocPosition();
 	while (pos != NULL) {
 		iEditDoc* pDoc = (iEditDoc*)pDocTemplate->GetNextDoc(pos);
-		pDoc->viewSettingChanged();
+		pDoc->ViewSettingChanged();
 	}
 }
 

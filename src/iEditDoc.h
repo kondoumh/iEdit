@@ -116,15 +116,15 @@ public:
 	CString GetSubBranchRootLabel() const;
 	void SetShowBranch(DWORD branchRootKey);
 	void SetVisibleNodes(KeySet& keySet);
-	iNode getHitNode(const CPoint& pt, bool bDrwAll);
-	void exportSVG(bool bDrwAll, const CString& path, bool bEmbed = false,
+	iNode GetHitNode(const CPoint& pt, bool bDrwAll);
+	void ExportSVG(bool bDrwAll, const CString& path, bool bEmbed = false,
 		const CString& textFileName = _T(""), bool textSingle = true);
-	void viewSettingChanged();
-	void drawLinkSelectionTo(CDC* pDC, bool bDrwAll);
-	void drawLinkSelectionFrom(CDC* pDC, bool bDrwAll = false);
-	void setSelectedLinkReverse(bool bDrwAll = false);
-	bool setAlterLinkTo(const CPoint& pt, bool bDrwAll);
-	bool setAlterLinkFrom(const CPoint& pt, bool bDrwAll);
+	void ViewSettingChanged();
+	void DrawLinkSelectionTo(CDC* pDC, bool bDrwAll);
+	void DrawLinkSelectionFrom(CDC* pDC, bool bDrwAll = false);
+	void ReverseSelectedLinkDirection(bool bDrwAll = false);
+	bool SwitchLinkEndNodeAt(const CPoint& pt, bool bDrwAll);
+	bool SwitchLinkStartNodeAt(const CPoint& pt, bool bDrwAll);
 	const iLink* getSelectedLink(bool bDrawAll = false) const;
 	bool hitTestLinksTo(const CPoint &pt, bool drwAll);
 	bool hitTestLinksFrom(const CPoint& pt, bool drwAll);

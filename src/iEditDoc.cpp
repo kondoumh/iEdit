@@ -789,7 +789,7 @@ bool iEditDoc::setEndLink(const CPoint &pt, int ArrowType, bool bDrwAll, bool bA
 	return false;
 }
 
-bool iEditDoc::setAlterLinkFrom(const CPoint &pt, bool bDrwAll)
+bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt, bool bDrwAll)
 {
 	iNode* pNode = nodes_.hitTest(pt, bDrwAll); // リンク元を再選択
 	if (pNode != NULL) {
@@ -803,7 +803,7 @@ bool iEditDoc::setAlterLinkFrom(const CPoint &pt, bool bDrwAll)
 	return false;
 }
 
-bool iEditDoc::setAlterLinkTo(const CPoint &pt, bool bDrwAll)
+bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt, bool bDrwAll)
 {
 	iNode* pNode = nodes_.hitTest2(pt, bDrwAll); // 再選択なし
 	if (pNode != NULL) {
@@ -1105,12 +1105,12 @@ void iEditDoc::drawLinkSelection(CDC *pDC, bool bDrwAll)
 	links_.drawSelection(pDC);
 }
 
-void iEditDoc::drawLinkSelectionFrom(CDC *pDC, bool bDrwAll)
+void iEditDoc::DrawLinkSelectionFrom(CDC *pDC, bool bDrwAll)
 {
 	links_.drawSelectionFrom(pDC);
 }
 
-void iEditDoc::drawLinkSelectionTo(CDC *pDC, bool bDrwAll)
+void iEditDoc::DrawLinkSelectionTo(CDC *pDC, bool bDrwAll)
 {
 	links_.drawSelectionTo(pDC);
 }
@@ -3758,7 +3758,7 @@ const iLink* iEditDoc::getSelectedLink(bool bDrawAll) const
 	return &(*li);
 }
 
-void iEditDoc::setSelectedLinkReverse(bool bDrwAll)
+void iEditDoc::ReverseSelectedLinkDirection(bool bDrwAll)
 {
 	const iLink* pl = getSelectedLink(bDrwAll);
 	if (pl == NULL) return;
@@ -3770,14 +3770,14 @@ void iEditDoc::setSelectedLinkReverse(bool bDrwAll)
 	UpdateAllViews(NULL, (LPARAM)getSelectedNodeKey(), &h);
 }
 
-void iEditDoc::viewSettingChanged()
+void iEditDoc::ViewSettingChanged()
 {
 	iHint hint; hint.event = iHint::viewSettingChanged;
 	DWORD key = nodes_.getSelKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::exportSVG(bool bDrwAll, const CString &path, bool bEmbed,
+void iEditDoc::ExportSVG(bool bDrwAll, const CString &path, bool bEmbed,
 	const CString& textFileName, bool textSingle)
 {
 	serialVec vec = getOutlineView()->getDrawOrder(ShowSubBranch());
@@ -3791,7 +3791,7 @@ void iEditDoc::exportSVG(bool bDrwAll, const CString &path, bool bEmbed,
 	writer.exportSVG(path, getMaxPt(), bEmbed);
 }
 
-iNode iEditDoc::getHitNode(const CPoint &pt, bool bDrwAll)
+iNode iEditDoc::GetHitNode(const CPoint &pt, bool bDrwAll)
 {
 	iNode* pNode = nodes_.hitTest2(pt, bDrwAll);
 	if (pNode != NULL) {

@@ -397,10 +397,10 @@ void NetView::drawSelection(CDC *pDC)
 		}
 		break;
 	case NetView::linkTermFrom:
-		GetDocument()->drawLinkSelectionFrom(pDC, false);
+		GetDocument()->DrawLinkSelectionFrom(pDC, false);
 		break;
 	case NetView::linkTermTo:
-		GetDocument()->drawLinkSelectionTo(pDC, false);
+		GetDocument()->DrawLinkSelectionTo(pDC, false);
 		break;
 	}
 }
@@ -1196,7 +1196,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		&& !m_bDragRelax) {
 		CRect r;
 		iEditDoc* pDoc = GetDocument();
-		iNode node = pDoc->getHitNode(logPt, false);
+		iNode node = pDoc->GetHitNode(logPt, false);
 		if (node.getText() != _T("")) {
 			CString strTipNew = node.getText().Left(300);
 			if (node.getText().GetLength() > 300) {
@@ -1405,7 +1405,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 			Invalidate();
 			return;
 		}
-		if (GetDocument()->setAlterLinkFrom(logPt, false)) {
+		if (GetDocument()->SwitchLinkStartNodeAt(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkTo, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
 			CRect rcNew = GetDocument()->getSelectedLinkBound(false);
@@ -1428,7 +1428,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 			Invalidate();
 			return;
 		}
-		if (GetDocument()->setAlterLinkTo(logPt, false)) {
+		if (GetDocument()->SwitchLinkEndNodeAt(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkFrom, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
 			CRect rcNew = GetDocument()->getSelectedLinkBound(false);
@@ -3201,7 +3201,7 @@ void NetView::OnReverseLinkDirection()
 {
 	bool bDrwAll = false;
 	GetDocument()->backUpUndoLinks();
-	GetDocument()->setSelectedLinkReverse(bDrwAll);
+	GetDocument()->ReverseSelectedLinkDirection(bDrwAll);
 }
 
 void NetView::OnUpdateReverseLinkDirection(CCmdUI* pCmdUI)
@@ -3511,7 +3511,7 @@ void NetView::OnExportSvg()
 	CString outfileName = dlg.GetPathName();
 
 	bool bDrwAll = false;
-	GetDocument()->exportSVG(bDrwAll, outfileName);
+	GetDocument()->ExportSVG(bDrwAll, outfileName);
 	MessageBox(_T("終了しました"), _T("SVG出力"));
 }
 
