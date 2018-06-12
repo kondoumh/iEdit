@@ -3471,7 +3471,7 @@ CString iEditDoc::getKeyNodeText(DWORD key)
 	return _T("");
 }
 
-CString iEditDoc::getKeyNodeLabel(DWORD key)
+CString iEditDoc::GetKeyNodeLabel(DWORD key)
 {
 	const_niterator it = nodes_.findNode(key);
 	if (it != nodes_.end()) {

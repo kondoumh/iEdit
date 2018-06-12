@@ -1928,7 +1928,7 @@ void OutlineView::OutputHTML()
 			olf.WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
 		}
 		olf.WriteString(_T("\" target=text>"));
-		CString rootStr = StringUtil::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(root)));
+		CString rootStr = StringUtil::removeCR(GetDocument()->GetKeyNodeLabel(tree().GetItemData(root)));
 		olf.WriteString(rootStr);
 		olf.WriteString(_T("</a></h1>\n"));
 		olf.WriteString(_T("<ul>\n"));
@@ -2041,7 +2041,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 	// アウトライン書き込み
 	if (m_exportOption.navOption != 1) {
 		foutline->WriteString(_T("<li>"));
-		CString itemStr = StringUtil::removeCR(GetDocument()->getKeyNodeLabel(tree().GetItemData(hItem)));
+		CString itemStr = StringUtil::removeCR(GetDocument()->GetKeyNodeLabel(tree().GetItemData(hItem)));
 		foutline->WriteString(_T("<a href="));
 		if (m_exportOption.textOption == 0) {
 			foutline->WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#"));
@@ -2669,7 +2669,7 @@ void OutlineView::catTreeLabel(HTREEITEM hItem, CString &text)
 		for (int i = 1; i <= level; i++) {
 			text += _T("\t");
 		}
-		CString label = GetDocument()->getKeyNodeLabel(key);
+		CString label = GetDocument()->GetKeyNodeLabel(key);
 		text += StringUtil::removeCR(label);
 		text += _T("\r\n");
 	}
@@ -2737,7 +2737,7 @@ void OutlineView::OnCreateClone()
 {
 	// TODO: Add your command handler code here
 	DWORD key = tree().GetItemData(tree().GetSelectedItem());
-	CString label = GetDocument()->getKeyNodeLabel(key);
+	CString label = GetDocument()->GetKeyNodeLabel(key);
 	DWORD newKey = GetDocument()->DuplicateKeyNode(key);
 	HTREEITEM hSelected = tree().GetSelectedItem();
 	HTREEITEM hNew = tree().InsertItem(label, tree().GetParentItem(hSelected), hSelected);
@@ -2777,7 +2777,7 @@ void OutlineView::cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, Id
 	while (item != NULL) {
 		hItem = item;
 		DWORD key = tree().GetItemData(hItem);
-		CString label = GetDocument()->getKeyNodeLabel(key);
+		CString label = GetDocument()->GetKeyNodeLabel(key);
 		DWORD newKey = GetDocument()->DuplicateKeyNode(key);
 		GetDocument()->setKeyNodeParent(newKey, tree().GetItemData(targetParent));
 		HTREEITEM hNew = tree().InsertItem(label, 0, 0, targetParent);
