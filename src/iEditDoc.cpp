@@ -3749,7 +3749,7 @@ void iEditDoc::sameNodesSize(const CString &strSize, bool bDrwAll)
 	SetModifiedFlag();
 }
 
-const iLink* iEditDoc::getSelectedLink(bool bDrawAll) const
+const iLink* iEditDoc::GetSelectedLink(bool bDrawAll) const
 {
 	const_literator li = links_.getSelectedLink();
 	if (li == links_.end()) {
@@ -3760,7 +3760,7 @@ const iLink* iEditDoc::getSelectedLink(bool bDrawAll) const
 
 void iEditDoc::ReverseSelectedLinkDirection(bool bDrwAll)
 {
-	const iLink* pl = getSelectedLink(bDrwAll);
+	const iLink* pl = GetSelectedLink(bDrwAll);
 	if (pl == NULL) return;
 	DWORD keyTo = pl->getKeyTo();
 	links_.setSelectedLinkReverse();

@@ -125,7 +125,7 @@ public:
 	void ReverseSelectedLinkDirection(bool bDrwAll = false);
 	bool SwitchLinkEndNodeAt(const CPoint& pt, bool bDrwAll);
 	bool SwitchLinkStartNodeAt(const CPoint& pt, bool bDrwAll);
-	const iLink* getSelectedLink(bool bDrawAll = false) const;
+	const iLink* GetSelectedLink(bool bDrawAll = false) const;
 	bool hitTestLinksTo(const CPoint &pt, bool drwAll);
 	bool hitTestLinksFrom(const CPoint& pt, bool drwAll);
 	void sameNodesSize(const CString& strSize, bool bDrwAll = false);

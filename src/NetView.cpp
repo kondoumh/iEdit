@@ -1164,7 +1164,7 @@ void NetView::startLink(const CPoint pt)
 
 void NetView::startAlterFrom(const CPoint& pt)
 {
-	const iLink* pl = GetDocument()->getSelectedLink(false);
+	const iLink* pl = GetDocument()->GetSelectedLink(false);
 	if (pl != NULL) {
 		m_bAlteringLinkFrom = true;
 		m_alterLinkStartPt = pt;
@@ -1175,7 +1175,7 @@ void NetView::startAlterFrom(const CPoint& pt)
 
 void NetView::startAlterTo(const CPoint &pt)
 {
-	const iLink* pl = GetDocument()->getSelectedLink(false);
+	const iLink* pl = GetDocument()->GetSelectedLink(false);
 	if (pl != NULL) {
 		m_bAlteringLinkTo = true;
 		m_alterLinkStartPt = pt;
@@ -3735,8 +3735,8 @@ void NetView::OnSetLinkArrowNone()
 void NetView::OnUpdateSetLinkArrowNone(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
-		GetDocument()->getSelectedLink() != NULL &&
-		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::line);
+		GetDocument()->GetSelectedLink() != NULL &&
+		GetDocument()->GetSelectedLink()->getArrowStyle() != iLink::line);
 }
 
 void NetView::OnSetLinkArrowSingle()
@@ -3750,8 +3750,8 @@ void NetView::OnSetLinkArrowSingle()
 void NetView::OnUpdateSetLinkArrowSingle(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
-		GetDocument()->getSelectedLink() != NULL &&
-		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::arrow);
+		GetDocument()->GetSelectedLink() != NULL &&
+		GetDocument()->GetSelectedLink()->getArrowStyle() != iLink::arrow);
 }
 
 void NetView::OnSetLinkArrowDouble()
@@ -3765,8 +3765,8 @@ void NetView::OnSetLinkArrowDouble()
 void NetView::OnUpdateSetLinkArrowDouble(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
-		GetDocument()->getSelectedLink() != NULL &&
-		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::arrow2);
+		GetDocument()->GetSelectedLink() != NULL &&
+		GetDocument()->GetSelectedLink()->getArrowStyle() != iLink::arrow2);
 }
 
 
@@ -3917,8 +3917,8 @@ void NetView::OnSetLinkDependSingle()
 void NetView::OnUpdateSetLinkDependSingle(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
-		GetDocument()->getSelectedLink() != NULL &&
-		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::depend);
+		GetDocument()->GetSelectedLink() != NULL &&
+		GetDocument()->GetSelectedLink()->getArrowStyle() != iLink::depend);
 }
 
 void NetView::OnSetLinkDependDouble()
@@ -3932,8 +3932,8 @@ void NetView::OnSetLinkDependDouble()
 void NetView::OnUpdateSetLinkDependDouble(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
-		GetDocument()->getSelectedLink() != NULL &&
-		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::depend2);
+		GetDocument()->GetSelectedLink() != NULL &&
+		GetDocument()->GetSelectedLink()->getArrowStyle() != iLink::depend2);
 }
 
 void NetView::OnSetLinkInherit()
@@ -3948,8 +3948,8 @@ void NetView::OnSetLinkInherit()
 void NetView::OnUpdateSetLinkInherit(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
-		GetDocument()->getSelectedLink() != NULL &&
-		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::inherit);
+		GetDocument()->GetSelectedLink() != NULL &&
+		GetDocument()->GetSelectedLink()->getArrowStyle() != iLink::inherit);
 }
 
 void NetView::OnSetLinkAgregat()
@@ -3963,8 +3963,8 @@ void NetView::OnSetLinkAgregat()
 void NetView::OnUpdateSetLinkAgregat(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
-		GetDocument()->getSelectedLink() != NULL &&
-		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::aggregat);
+		GetDocument()->GetSelectedLink() != NULL &&
+		GetDocument()->GetSelectedLink()->getArrowStyle() != iLink::aggregat);
 }
 
 void NetView::OnSetLinkComposit()
@@ -3978,8 +3978,8 @@ void NetView::OnSetLinkComposit()
 void NetView::OnUpdateSetLinkComposit(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(m_selectStatus == NetView::link &&
-		GetDocument()->getSelectedLink() != NULL &&
-		GetDocument()->getSelectedLink()->getArrowStyle() != iLink::composit);
+		GetDocument()->GetSelectedLink() != NULL &&
+		GetDocument()->GetSelectedLink()->getArrowStyle() != iLink::composit);
 }
 
 void NetView::changeSelectedLinkArrow()
@@ -4326,14 +4326,14 @@ void NetView::OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI)
 
 void NetView::OnSetLinkAngled()
 {
-	const iLink* pLink = GetDocument()->getSelectedLink();
+	const iLink* pLink = GetDocument()->GetSelectedLink();
 	if (pLink == NULL) return;
 	GetDocument()->setSelectedLinkAngled(!pLink->isAngled());
 }
 
 void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
 {
-	const iLink* pLink = GetDocument()->getSelectedLink();
+	const iLink* pLink = GetDocument()->GetSelectedLink();
 	pCmdUI->Enable(!GetDocument()->IsOldBinary() && pLink != NULL && pLink->isCurved());
 	pCmdUI->SetCheck(pLink != NULL && pLink->isAngled());
 }
