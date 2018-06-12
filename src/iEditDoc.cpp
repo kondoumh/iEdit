@@ -1078,7 +1078,7 @@ DWORD iEditDoc::hitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey)
 	return links_.hitTestDropTarget(pt, selectedNodeKey);
 }
 
-bool iEditDoc::hitTestLinksFrom(const CPoint &pt, bool drwAll)
+bool iEditDoc::SelectLinkStartIfHit(const CPoint &pt, bool drwAll)
 {
 	DWORD key; CString path;
 	bool hit = links_.hitTestFrom(pt, key, path);
@@ -1089,7 +1089,7 @@ bool iEditDoc::hitTestLinksFrom(const CPoint &pt, bool drwAll)
 	return hit;
 }
 
-bool iEditDoc::hitTestLinksTo(const CPoint &pt, bool drwAll)
+bool iEditDoc::SelectLinkEndIfHit(const CPoint &pt, bool drwAll)
 {
 	DWORD key; CString path;
 	bool hit = links_.hitTestTo(pt, key, path);

@@ -780,7 +780,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		InvalidateRect(nw);
 		InvalidateRect(old);
 	}
-	else if (GetDocument()->hitTestLinksFrom(logPt, false)) {
+	else if (GetDocument()->SelectLinkStartIfHit(logPt, false)) {
 		// リンクのリンク元を選択した
 		m_selectStatus = NetView::linkTermFrom;
 		m_selectRect = GetDocument()->getSelectedLinkBound(false);
@@ -789,7 +789,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		InvalidateRect(old);
 		startAlterFrom(logPt);
 	}
-	else if (GetDocument()->hitTestLinksTo(logPt, false)) {
+	else if (GetDocument()->SelectLinkEndIfHit(logPt, false)) {
 		// リンクのリンク先を選択した
 		m_selectStatus = NetView::linkTermTo;
 		m_selectRect = GetDocument()->getSelectedLinkBound(false);

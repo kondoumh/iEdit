@@ -126,8 +126,8 @@ public:
 	bool SwitchLinkEndNodeAt(const CPoint& pt, bool bDrwAll);
 	bool SwitchLinkStartNodeAt(const CPoint& pt, bool bDrwAll);
 	const iLink* GetSelectedLink(bool bDrawAll = false) const;
-	bool hitTestLinksTo(const CPoint &pt, bool drwAll);
-	bool hitTestLinksFrom(const CPoint& pt, bool drwAll);
+	bool SelectLinkEndIfHit(const CPoint &pt, bool drwAll);
+	bool SelectLinkStartIfHit(const CPoint& pt, bool drwAll);
 	void sameNodesSize(const CString& strSize, bool bDrwAll = false);
 	void adjustNodesEnd(const CString& side, const CRect& rect, bool bDrwAll = false);
 	CString getKeyNodeLabel(DWORD key);
