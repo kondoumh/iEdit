@@ -3688,7 +3688,7 @@ void iEditDoc::resumeUndoLinks()
 	SetModifiedFlag();
 }
 
-void iEditDoc::adjustNodesEnd(const CString& side, const CRect& rect, bool bDrwAll)
+void iEditDoc::AlignNodesInBoundTo(const CString& side, const CRect& rect, bool bDrwAll)
 {
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {

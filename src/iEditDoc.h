@@ -129,7 +129,7 @@ public:
 	bool SelectLinkEndIfHit(const CPoint &pt, bool drwAll);
 	bool SelectLinkStartIfHit(const CPoint& pt, bool drwAll);
 	void AlignSelectedNodesToSameSize(const CString& strSize, bool bDrwAll = false);
-	void adjustNodesEnd(const CString& side, const CRect& rect, bool bDrwAll = false);
+	void AlignNodesInBoundTo(const CString& side, const CRect& rect, bool bDrwAll = false);
 	CString getKeyNodeLabel(DWORD key);
 	void backUpUndoLinks();
 	void backUpUndoNodes();

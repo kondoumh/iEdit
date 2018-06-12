@@ -3124,7 +3124,7 @@ void NetView::adjustNodesEnd(const CString& side)
 	GetDocument()->backUpUndoNodes();
 	GetDocument()->backUpUndoLinks();
 
-	GetDocument()->adjustNodesEnd(side, m_selectRect, bDrwAll);
+	GetDocument()->AlignNodesInBoundTo(side, m_selectRect, bDrwAll);
 
 	CRect nwrd = GetDocument()->getRelatedBoundAnd(bDrwAll);
 	m_selectRect = nwrd;
