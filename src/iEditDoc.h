@@ -131,12 +131,12 @@ public:
 	void AlignSelectedNodesToSameSize(const CString& strSize, bool bDrwAll = false);
 	void AlignNodesInBoundTo(const CString& side, const CRect& rect, bool bDrwAll = false);
 	CString GetKeyNodeLabel(DWORD key);
-	void backUpUndoLinks();
-	void backUpUndoNodes();
-	void resumeUndoLinks();
-	void disableUndo();
-	bool canResumeUndo();
-	void resumeUndoNodes();
+	void BackupLinksForUndo();
+	void BackupNodesForUndo();
+	void RestoreLinksForUndo();
+	void RestoreNodesForUndo();
+	void DisableUndo();
+	bool CanUndo();
 	CRect getRelatedBoundAnd(bool drwAll);
 	void drawLinksSelected(CDC* pDC, bool bDrwAll, bool clipbrd);
 	void drawNodesSelected(CDC* pDC, bool bDrwAll);

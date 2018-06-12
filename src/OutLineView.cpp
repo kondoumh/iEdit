@@ -701,7 +701,7 @@ void OutlineView::OnAddChild()
 
 	m_bAdding = true;
 	m_bAddingChild = true;
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	clearUndo();
 	HTREEITEM newItem = tree().InsertItem(_T("新しいノード"), 0, 0, curItem());
 	m_HNew = newItem;
@@ -724,7 +724,7 @@ void OutlineView::OnAddSibling()
 
 	m_bAdding = true;
 	m_bAddingChild = false;
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	clearUndo();
 	CString cur = tree().GetItemText(curItem());
 	int cr;
@@ -821,7 +821,7 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 			}
 		}
 	}
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	clearUndo();
 	*pResult = 0;
 }
@@ -927,7 +927,7 @@ void OutlineView::OnLebelUp()
 		copySubNodes(tree().GetChildItem(hcur), hNew);
 	}
 	tree().DeleteItem(hcur);
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	m_hItemMoved = hNew; // Undo Info
 	tree().SelectItem(hNew);
 }
@@ -958,7 +958,7 @@ void OutlineView::OnLebelDown()
 	}
 	tree().SelectItem(hNew); // 先に選択状態にすることで、親ノード選択を防ぐ
 	tree().DeleteItem(hcur);
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	m_hItemMoved = hNew; // Undo Info
 	tree().SelectItem(hNew);
 }
@@ -995,7 +995,7 @@ void OutlineView::OnOrderUp()
 	}
 	tree().SelectItem(hNew);
 	tree().DeleteItem(hcur);
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	m_hItemMoved = hNew; // Undo Info
 	tree().SelectItem(hNew);
 	GetDocument()->SetModifiedFlag();
@@ -1024,7 +1024,7 @@ void OutlineView::OnOrderDown()
 		copySubNodes(tree().GetChildItem(hcur), hNew);
 	}
 	tree().DeleteItem(hcur);
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	m_hItemMoved = hNew; // Undo Info
 	tree().SelectItem(hNew);
 	GetDocument()->SetModifiedFlag();
@@ -1055,7 +1055,7 @@ void OutlineView::copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent)
 
 void OutlineView::OnDelete()
 {
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	clearUndo();
 	deleteNode();
 }
@@ -1105,9 +1105,9 @@ void OutlineView::OnEditUndo()
 		tree().GetEditControl()->Undo();
 		return;
 	}
-	if (m_hItemMoved == NULL && GetDocument()->canResumeUndo()) {
-		GetDocument()->resumeUndoNodes();
-		GetDocument()->resumeUndoLinks();
+	if (m_hItemMoved == NULL && GetDocument()->CanUndo()) {
+		GetDocument()->RestoreNodesForUndo();
+		GetDocument()->RestoreLinksForUndo();
 		iHint h; h.event = iHint::reflesh;
 		GetDocument()->UpdateAllViews(NULL, (LPARAM)tree().GetItemData(curItem()), &h);
 		return;
@@ -1129,7 +1129,7 @@ void OutlineView::OnEditUndo()
 		copySubNodes(tree().GetChildItem(m_hItemMoved), hNew);
 	}
 	tree().DeleteItem(m_hItemMoved);
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	clearUndo();
 	tree().SelectItem(hNew);
 	GetDocument()->SetModifiedFlag();
@@ -1137,7 +1137,7 @@ void OutlineView::OnEditUndo()
 
 void OutlineView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(m_bLabelEditting || m_hItemMoved != NULL || GetDocument()->canResumeUndo());
+	pCmdUI->Enable(m_bLabelEditting || m_hItemMoved != NULL || GetDocument()->CanUndo());
 
 }
 
@@ -1172,7 +1172,7 @@ void OutlineView::OnEditPaste()
 		tree().GetEditControl()->Paste();
 	}
 	else {
-		GetDocument()->disableUndo();
+		GetDocument()->DisableUndo();
 		GetDocument()->makeCopyNode(CPoint(0, 0));
 	}
 }
@@ -1388,7 +1388,7 @@ void OutlineView::OnAddUrl()
 	LinkForPathDlg dlg;
 	dlg.strOrg = tree().GetItemText(curItem());
 	if (dlg.DoModal() != IDOK) return;
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	clearUndo();
 	if (dlg.strComment == _T("") && dlg.strPath != _T("")) {
 		WCHAR drive[_MAX_DRIVE];
@@ -1513,7 +1513,7 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 				if (tree().ItemHasChildren(m_hitemDrag)) {
 					copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
 				}
-				GetDocument()->disableUndo();
+				GetDocument()->DisableUndo();
 				m_hItemMoved = hNew; // Undo Info
 				tree().SelectItem(hNew);         // ここで1度選択しておかないと
 				tree().DeleteItem(m_hitemDrag);  // 一番下端にあるノードを消した時にF6状態くずれる
@@ -1553,7 +1553,7 @@ void OutlineView::OnLButtonUp(UINT nFlags, CPoint point)
 					copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
 				}
 
-				GetDocument()->disableUndo();
+				GetDocument()->DisableUndo();
 				m_hItemMoved = hNew; // Undo Info
 				tree().SelectItem(hNew);
 				tree().DeleteItem(m_hitemDrag);
@@ -2438,7 +2438,7 @@ void OutlineView::OnAddChild2()
 	dlg.m_initialPt.y = -1;
 	if (dlg.DoModal() != IDOK) return;
 	if (dlg.m_strcn == _T("")) return;
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	clearUndo();
 	HTREEITEM newItem = tree().InsertItem(dlg.m_strcn, 0, 0, curItem());
 	m_HNew = newItem;
@@ -2590,7 +2590,7 @@ void OutlineView::OnDropFirstOrder()
 	if (tree().ItemHasChildren(m_hitemDrag)) {
 		copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
 	}
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	m_hItemMoved = hNew; // Undo Info
 	tree().SelectItem(hNew);
 	tree().DeleteItem(m_hitemDrag);
@@ -2619,7 +2619,7 @@ void OutlineView::OnDropLevelUp()
 	if (tree().ItemHasChildren(m_hitemDrag)) {
 		copySubNodes(tree().GetChildItem(m_hitemDrag), hNew);
 	}
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	m_hItemMoved = hNew; // Undo Info
 	tree().SelectItem(hNew);
 	tree().DeleteItem(m_hitemDrag);
@@ -2727,7 +2727,7 @@ void OutlineView::moveNodes(DWORD keyTarget, DWORD keyMove)
 	if (tree().ItemHasChildren(hMove)) {
 		copySubNodes(tree().GetChildItem(hMove), hNew);
 	}
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	tree().SelectItem(hNew);
 	tree().DeleteItem(hMove);
 	tree().SelectItem(hNew);

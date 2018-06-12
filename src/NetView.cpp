@@ -662,9 +662,9 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 			CPoint selTopLeft = GetDocument()->getSelectedNodeRect().TopLeft();
 			m_dragOffset = selTopLeft - logPt;
 
-			GetDocument()->disableUndo();
-			GetDocument()->backUpUndoNodes();
-			GetDocument()->backUpUndoLinks();
+			GetDocument()->DisableUndo();
+			GetDocument()->BackupNodesForUndo();
+			GetDocument()->BackupLinksForUndo();
 			m_bDragRelax = true;
 			prepareDragRelax();
 		}
@@ -686,9 +686,9 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 			CPoint selTopLeft = GetDocument()->getSelectedNodeRect().TopLeft();
 			m_dragOffset = selTopLeft - logPt;
 
-			GetDocument()->disableUndo();
-			GetDocument()->backUpUndoNodes();
-			GetDocument()->backUpUndoLinks();
+			GetDocument()->DisableUndo();
+			GetDocument()->BackupNodesForUndo();
+			GetDocument()->BackupLinksForUndo();
 			GetDocument()->SetSelectedNodeDragging();
 			m_bLinkAction = true;
 		}
@@ -883,8 +883,8 @@ void NetView::trackMulti(CPoint &logPt, CPoint &point, CDC *pDC)
 		int moveX = m_selectRect.left - org.left;
 		int moveY = m_selectRect.top - org.top;
 
-		GetDocument()->backUpUndoNodes();
-		GetDocument()->backUpUndoLinks();
+		GetDocument()->BackupNodesForUndo();
+		GetDocument()->BackupLinksForUndo();
 		GetDocument()->moveSelectedNode(CSize(moveX, moveY));
 		GetDocument()->moveSelectedLink(CSize(moveX, moveY));
 		CRect nwrd = GetDocument()->getRelatedBound(false); adjustRedrawBound(nwrd);
@@ -918,8 +918,8 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 	tracker.m_nStyle = CRectTracker::resizeInside;
 	CRect old = GetDocument()->getRelatedBound(false); adjustRedrawBound(old);
 	if (tracker.Track(this, point, TRUE)) {
-		GetDocument()->backUpUndoNodes();
-		GetDocument()->backUpUndoLinks();
+		GetDocument()->BackupNodesForUndo();
+		GetDocument()->BackupLinksForUndo();
 
 		CRect nw;
 		ViewDPtoLP(tracker.m_rect);
@@ -1452,8 +1452,8 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 				Invalidate();
 				return;
 			}
-			GetDocument()->disableUndo();
-			GetDocument()->backUpUndoLinks();
+			GetDocument()->DisableUndo();
+			GetDocument()->BackupLinksForUndo();
 			GetDocument()->setSelectedLinkCurve(logPt, true, false);
 			Invalidate();
 		}
@@ -1559,8 +1559,8 @@ void NetView::OnSetNodeFont()
 	lf.lfStrikeOut = FALSE;
 	lf.lfCharSet = SHIFTJIS_CHARSET;
 
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	if (m_selectStatus == NetView::single) {
 		GetDocument()->getSelectedNodeFont(lf);
 		CFontDialog dlg(&lf);
@@ -1596,8 +1596,8 @@ void NetView::OnUpdateSetNodeFont(CCmdUI* pCmdUI)
 void NetView::OnSetNodeLineColor()
 {
 	bool bDrwAll = false;
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	if (m_selectStatus == NetView::single) {
 		CColorDialog dlg(GetDocument()->getSelectedNodeLineColor());
 		if (dlg.DoModal() != IDOK) return;
@@ -1622,7 +1622,7 @@ void NetView::OnUpdateSetNodeLineColor(CCmdUI* pCmdUI)
 
 void NetView::OnSetLineNull()
 {
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeLineWidth(0);
 	GetDocument()->setSelectedNodeLineStyle(PS_NULL);
 }
@@ -1639,8 +1639,8 @@ void NetView::OnUpdateSetLineNull(CCmdUI* pCmdUI)
 void NetView::OnSetLineSolid0()
 {
 	bool bDrwAll = false;
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	switch (m_selectStatus) {
 	case NetView::single:
 		GetDocument()->setSelectedNodeLineWidth(0);
@@ -1676,8 +1676,8 @@ void NetView::OnUpdateSetLineSolid0(CCmdUI* pCmdUI)
 void NetView::OnSetLineSolid1()
 {
 	bool bDrwAll = false;
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	switch (m_selectStatus) {
 	case NetView::single:
 		GetDocument()->setSelectedNodeLineWidth(2);
@@ -1713,8 +1713,8 @@ void NetView::OnUpdateSetLineSolid1(CCmdUI* pCmdUI)
 void NetView::OnSetLineSolid2()
 {
 	bool bDrwAll = false;
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	switch (m_selectStatus) {
 	case NetView::single:
 		GetDocument()->setSelectedNodeLineWidth(3);
@@ -1750,8 +1750,8 @@ void NetView::OnUpdateSetLineSolid2(CCmdUI* pCmdUI)
 void NetView::OnSetLineSolid3()
 {
 	bool bDrwAll = false;
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	switch (m_selectStatus) {
 	case NetView::single:
 		GetDocument()->setSelectedNodeLineWidth(4);
@@ -1787,8 +1787,8 @@ void NetView::OnUpdateSetLineSolid3(CCmdUI* pCmdUI)
 void NetView::OnSetLineSolid4()
 {
 	bool bDrwAll = false;
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	switch (m_selectStatus) {
 	case NetView::single:
 		GetDocument()->setSelectedNodeLineWidth(5);
@@ -1824,8 +1824,8 @@ void NetView::OnUpdateSetLineSolid4(CCmdUI* pCmdUI)
 void NetView::OnSetLineDot()
 {
 	bool bDrwAll = false;
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	switch (m_selectStatus) {
 	case NetView::single:
 		GetDocument()->setSelectedNodeLineWidth(0);
@@ -1947,7 +1947,7 @@ void NetView::addNode(const CPoint &logPt, const CPoint& screenPt, const CString
 		m_addMode = NetView::normal;
 		return;
 	}
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	if (m_addMode == NetView::rect) {
 		GetDocument()->addNodeRect(dlg.m_strcn, logPt);
 	}
@@ -2018,8 +2018,8 @@ void NetView::setLinkInfo()
 	GetDocument()->getSelectedLinkFont(dlg.lf, bDrwAll);
 
 	if (dlg.DoModal() != IDOK) return;
-	GetDocument()->disableUndo();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->DisableUndo();
+	GetDocument()->BackupLinksForUndo();
 
 	GetDocument()->setSelectedLinkInfo(dlg.strComment, dlg.styleArrow, bDrwAll);
 	GetDocument()->setSelectedLinkFont(dlg.lf, bDrwAll);
@@ -2035,7 +2035,7 @@ void NetView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI)
 
 void NetView::OnDelete()
 {
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	if (m_selectStatus == NetView::single) {
 		bool bDrwAll = false;
 		CRect old = GetDocument()->getRelatedBound(bDrwAll); adjustRedrawBound(old);
@@ -2083,8 +2083,8 @@ void NetView::OnAutoLayout()
 		m_bLayouting = true;
 		CSize sz(GetDocument()->getMaxPt().x, GetDocument()->getMaxPt().y);
 		bool bDrwAll = false;
-		GetDocument()->backUpUndoNodes();
-		GetDocument()->backUpUndoLinks();
+		GetDocument()->BackupNodesForUndo();
+		GetDocument()->BackupLinksForUndo();
 
 		CRelaxThrd* pRelaxThrd = new CRelaxThrd(this, m_pDC->GetSafeHdc(), sz, false, GetScrollPosition());
 		pRelaxThrd->m_pThreadParams = NULL;
@@ -2206,7 +2206,7 @@ void NetView::setNodeProp()
 		dlg.margins.l, dlg.margins.r, dlg.margins.t, dlg.margins.b);
 
 	if (dlg.DoModal() != IDOK) return;
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 
 	BOOL oldSetting = ((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize;
 	((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize = TRUE;
@@ -2444,7 +2444,7 @@ void NetView::copyMFtoClpbrd()
 
 void NetView::OnNoBrush()
 {
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 
 	if (GetDocument()->isSelectedNodeFilled()) {
 		GetDocument()->setSelectedNodeNoBrush(FALSE);
@@ -2465,7 +2465,7 @@ void NetView::OnSetNodeBrush()
 	if (m_selectStatus == NetView::single || m_selectStatus == NetView::multi) {
 		CColorDialog dlg(GetDocument()->getSelectedNodeBrsColor());
 		if (dlg.DoModal() != IDOK) return;
-		GetDocument()->backUpUndoNodes();
+		GetDocument()->BackupNodesForUndo();
 		GetDocument()->setSelectedNodeBrush(dlg.GetColor());
 	}
 }
@@ -2540,7 +2540,7 @@ void NetView::OnEditPaste()
 			hm = pMfDC->CloseEnhanced();
 			delete pMfDC;
 		}
-		GetDocument()->disableUndo();
+		GetDocument()->DisableUndo();
 		GetDocument()->addNodeMF(_T("図形"), ptDrop, iNode::MetaFile, hm);
 		if (!EmptyClipboard()) {
 			AfxMessageBox(_T("Cannot empty the Clipboard"));
@@ -2586,7 +2586,7 @@ void NetView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 void NetView::OnSetNodeRect()
 {
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeShape(iNode::rectangle);
 }
 
@@ -2598,7 +2598,7 @@ void NetView::OnUpdateSetNodeRect(CCmdUI* pCmdUI)
 
 void NetView::OnSetNodeRoundRect()
 {
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeShape(iNode::roundRect);
 }
 
@@ -2610,7 +2610,7 @@ void NetView::OnUpdateSetNodeRoundRect(CCmdUI* pCmdUI)
 
 void NetView::OnSetNodeArc()
 {
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeShape(iNode::arc);
 }
 
@@ -2709,9 +2709,9 @@ void NetView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	int dif;
 	if (nChar == VK_UP) {
 		if (m_cntUp == 0) {
-			GetDocument()->disableUndo();
-			GetDocument()->backUpUndoNodes();
-			GetDocument()->backUpUndoLinks();
+			GetDocument()->DisableUndo();
+			GetDocument()->BackupNodesForUndo();
+			GetDocument()->BackupLinksForUndo();
 		}
 		m_cntUp++;
 		if (m_bAccel) {
@@ -2724,9 +2724,9 @@ void NetView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	else if (nChar == VK_DOWN) {
 		if (m_cntDown == 0) {
-			GetDocument()->disableUndo();
-			GetDocument()->backUpUndoNodes();
-			GetDocument()->backUpUndoLinks();
+			GetDocument()->DisableUndo();
+			GetDocument()->BackupNodesForUndo();
+			GetDocument()->BackupLinksForUndo();
 		}
 		m_cntDown++;
 		if (m_bAccel) {
@@ -2739,9 +2739,9 @@ void NetView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	else if (nChar == VK_LEFT) {
 		if (m_cntLeft == 0) {
-			GetDocument()->disableUndo();
-			GetDocument()->backUpUndoNodes();
-			GetDocument()->backUpUndoLinks();
+			GetDocument()->DisableUndo();
+			GetDocument()->BackupNodesForUndo();
+			GetDocument()->BackupLinksForUndo();
 		}
 		m_cntLeft++;
 		if (m_bAccel) {
@@ -2754,9 +2754,9 @@ void NetView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	else if (nChar == VK_RIGHT) {
 		if (m_cntRight == 0) {
-			GetDocument()->disableUndo();
-			GetDocument()->backUpUndoNodes();
-			GetDocument()->backUpUndoLinks();
+			GetDocument()->DisableUndo();
+			GetDocument()->BackupNodesForUndo();
+			GetDocument()->BackupLinksForUndo();
 		}
 		m_cntRight++;
 		if (m_bAccel) {
@@ -2903,9 +2903,9 @@ void NetView::OnRandomize()
 {
 	bool bDrwAll = false;
 	CRect rc; GetClientRect(rc);
-	GetDocument()->disableUndo();
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->DisableUndo();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	GetDocument()->randomNodesPos(CSize((int)(rc.Width()*0.8), (int)(rc.Height()*0.8)), bDrwAll);
 	m_selectRect = CRect(0, 0, 0, 0);
 	adjustScrollArea();
@@ -2990,12 +2990,12 @@ LRESULT NetView::OnAddMetaFileID(UINT wParam, LONG lParam)
 
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	if (m_selectStatus == NetView::none) {
 		GetDocument()->addNodeMF(_T("図形"), CPoint(rand() % 150, rand() % 150), iNode::MetaFile, pApp->m_hMetaFiles[(int)wParam]);
 	}
 	else if (m_selectStatus == NetView::single) {
-		GetDocument()->backUpUndoNodes();
+		GetDocument()->BackupNodesForUndo();
 		GetDocument()->setSelectedNodeShape(iNode::MetaFile, (int)wParam);
 	}
 	return 0;
@@ -3060,8 +3060,8 @@ void NetView::OnEditUndo()
 {
 	// ビューポート調整に問題あり
 
-	GetDocument()->resumeUndoNodes();
-	GetDocument()->resumeUndoLinks();
+	GetDocument()->RestoreNodesForUndo();
+	GetDocument()->RestoreLinksForUndo();
 	m_selectRect = GetDocument()->getSelectedNodeRect();
 	m_selectStatus = NetView::single;
 
@@ -3074,7 +3074,7 @@ void NetView::OnEditUndo()
 
 void NetView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && GetDocument()->canResumeUndo());
+	pCmdUI->Enable(!m_bLayouting && GetDocument()->CanUndo());
 }
 
 void NetView::OnAdjustTop()
@@ -3121,8 +3121,8 @@ void NetView::adjustNodesEnd(const CString& side)
 {
 	bool bDrwAll = false;
 	CRect old = GetDocument()->getRelatedBound(bDrwAll); adjustRedrawBound(old);
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 
 	GetDocument()->AlignNodesInBoundTo(side, m_selectRect, bDrwAll);
 
@@ -3176,8 +3176,8 @@ void NetView::sameNodesSize(const CString &strSize)
 {
 	bool bDrwAll = false;
 	CRect old = GetDocument()->getRelatedBound(bDrwAll); adjustRedrawBound(old);
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 
 	GetDocument()->AlignSelectedNodesToSameSize(strSize, bDrwAll);
 
@@ -3200,7 +3200,7 @@ void NetView::sameNodesSize(const CString &strSize)
 void NetView::OnReverseLinkDirection()
 {
 	bool bDrwAll = false;
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupLinksForUndo();
 	GetDocument()->ReverseSelectedLinkDirection(bDrwAll);
 }
 
@@ -3556,8 +3556,8 @@ void NetView::OnTipDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 void NetView::prepareDragRelax()
 {
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	// 連鎖ノードだけを動かすためのフィルタ処理
 	GetDocument()->ListupChainNodes();
 	GetDocument()->CalcEdges();
@@ -3623,7 +3623,7 @@ void NetView::PointedLinkEndPosition(CPoint point)
 
 void NetView::OnInsertChild()
 {
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
 	CRect nwRect = GetDocument()->AddNodeWithLink(shape, GetDocument()->getSelectedNodeKey());
 	if (!nwRect.IsRectEmpty()) {
@@ -3638,7 +3638,7 @@ void NetView::OnUpdateInsertChild(CCmdUI* pCmdUI)
 
 void NetView::OnInsertSibling()
 {
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
 	CRect nwRect = GetDocument()->AddNodeWithLink2(shape, GetDocument()->getSelectedNodeKey());
 	if (!nwRect.IsRectEmpty()) {
@@ -3810,7 +3810,7 @@ void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void NetView::OnAddlinkednodeArc()
 {
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::arc, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
@@ -3823,7 +3823,7 @@ void NetView::OnUpdateAddlinkednodeArc(CCmdUI *pCmdUI)
 
 void NetView::OnAddlinkednodeRect()
 {
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::rectangle, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
@@ -3837,7 +3837,7 @@ void NetView::OnUpdateAddlinkednodeRect(CCmdUI *pCmdUI)
 
 void NetView::OnAddlinkednodeRndrect()
 {
-	GetDocument()->disableUndo();
+	GetDocument()->DisableUndo();
 	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::roundRect, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
@@ -3995,8 +3995,8 @@ void NetView::changeSelectedLinkArrow()
 void NetView::changeSelectedLineWidth()
 {
 	int style = GetDocument()->GetAppLinkWidth();
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	if (m_selectStatus == NetView::link) {
 		if (style == -1) {
 			GetDocument()->setSelectedLinkWidth(0);
@@ -4034,7 +4034,7 @@ void NetView::OnUpdateDrawOrderInfo(CCmdUI *pCmdUI)
 
 void NetView::OnSetNodeMm()
 {
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeShape(iNode::MindMapNode);
 }
 
@@ -4054,7 +4054,7 @@ void NetView::OnValignTop()
 	if (st == iNode::s_cc) stNew = iNode::s_tc;
 	if (st == iNode::s_cl) stNew = iNode::s_tl;
 	if (st == iNode::s_cr) stNew = iNode::s_tr;
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4076,7 +4076,7 @@ void NetView::OnAlignBottom()
 	if (st == iNode::s_cc) stNew = iNode::s_bc;
 	if (st == iNode::s_cl) stNew = iNode::s_bl;
 	if (st == iNode::s_cr) stNew = iNode::s_br;
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4100,7 +4100,7 @@ void NetView::OnHalignRight()
 	if (st == iNode::s_bl) stNew = iNode::s_br;
 	if (st == iNode::m_c) stNew = iNode::m_r;
 	if (st == iNode::m_l) stNew = iNode::m_r;
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4124,7 +4124,7 @@ void NetView::OnHalignLeft()
 	if (st == iNode::s_br) stNew = iNode::s_bl;
 	if (st == iNode::m_c) stNew = iNode::m_l;
 	if (st == iNode::m_r) stNew = iNode::m_l;
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4145,7 +4145,7 @@ void NetView::OnValignCenter()
 	if (st == iNode::s_tc) stNew = iNode::s_cc;
 	if (st == iNode::s_tl) stNew = iNode::s_cl;
 	if (st == iNode::s_tr) stNew = iNode::s_cr;
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4169,7 +4169,7 @@ void NetView::OnHalignCenter()
 	if (st == iNode::s_bl) stNew = iNode::s_bc;
 	if (st == iNode::m_r) stNew = iNode::m_c;
 	if (st == iNode::m_l) stNew = iNode::m_c;
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeTextStyle(stNew);
 }
 
@@ -4182,7 +4182,7 @@ void NetView::OnUpdateHalignCenter(CCmdUI *pCmdUI)
 
 void NetView::OnBtnNodeFillColor()
 {
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 }
 
@@ -4193,8 +4193,8 @@ void NetView::OnUpdateBtnNodeFillColor(CCmdUI *pCmdUI)
 
 void NetView::OnBtnLineColor()
 {
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 	GetDocument()->setSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 }
@@ -4206,7 +4206,7 @@ void NetView::OnUpdateBtnLineColor(CCmdUI *pCmdUI)
 
 void NetView::OnBtnTextColor()
 {
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeFontColor(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 }
 
@@ -4222,14 +4222,14 @@ void NetView::changeSelectedNodeColor()
 
 void NetView::changeSelectedFontColor()
 {
-	GetDocument()->backUpUndoNodes();
+	GetDocument()->BackupNodesForUndo();
 	GetDocument()->setSelectedNodeFontColor(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 }
 
 void NetView::changeSelectedLineColor()
 {
-	GetDocument()->backUpUndoNodes();
-	GetDocument()->backUpUndoLinks();
+	GetDocument()->BackupNodesForUndo();
+	GetDocument()->BackupLinksForUndo();
 	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 	GetDocument()->setSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 }

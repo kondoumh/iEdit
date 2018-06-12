@@ -668,7 +668,7 @@ void iEditDoc::moveSelectedLink(const CSize &sz)
 void iEditDoc::setSelectedNodeBound(const CRect &r, bool withLink, bool noBackup)
 {
 	if (!noBackup) {
-		backUpUndoNodes();
+		BackupNodesForUndo();
 	}
 	nodes_.setSelectedNodeBound(r);
 	if (withLink) {
@@ -793,7 +793,7 @@ bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt, bool bDrwAll)
 {
 	iNode* pNode = nodes_.hitTest(pt, bDrwAll); // リンク元を再選択
 	if (pNode != NULL) {
-		backUpUndoLinks();
+		BackupLinksForUndo();
 		links_.setSelectedNodeLinkFrom(pNode->getKey(), pNode->getBound());
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkModified;
@@ -807,7 +807,7 @@ bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt, bool bDrwAll)
 {
 	iNode* pNode = nodes_.hitTest2(pt, bDrwAll); // 再選択なし
 	if (pNode != NULL) {
-		backUpUndoLinks();
+		BackupLinksForUndo();
 		links_.setSelectedNodeLinkTo(pNode->getKey(), pNode->getBound());
 		SetModifiedFlag();
 		UpdateAllViews(NULL);
@@ -934,8 +934,8 @@ void iEditDoc::setSelectedNodeMultiLine(bool set)
 	else {
 		style = iNode::s_cc;
 	}
-	backUpUndoNodes();
-	backUpUndoLinks();
+	BackupNodesForUndo();
+	BackupLinksForUndo();
 	nodes_.setSelectedNodeTextStyle(style);
 	setConnectPoint3();
 	calcMaxPt(m_maxPt);
@@ -1151,7 +1151,7 @@ void iEditDoc::setSelectedLinkInfo(const CString &sComment, int arrowType, bool 
 {
 	literator li = links_.getSelectedLinkW();
 	if (li != links_.end()) {
-		backUpUndoLinks();
+		BackupLinksForUndo();
 		(*li).setName(sComment);
 		(*li).setArrowStyle(arrowType);
 		SetModifiedFlag();
@@ -1700,7 +1700,7 @@ void iEditDoc::setSelectedLinkCurve(CPoint pt, bool curve, bool bDrwAll)
 
 void iEditDoc::setSelectedLinkAngled(bool angled)
 {
-	backUpUndoLinks();
+	BackupLinksForUndo();
 	literator li = links_.getSelectedLinkW();
 	if (li == links_.end()) return;
 	if (!(*li).isCurved()) return;
@@ -1886,9 +1886,9 @@ int iEditDoc::getSelectedNodeShape() const
 
 void iEditDoc::setSelectedNodeShape(int shape, int mfIndex)
 {
-	disableUndo();
-	backUpUndoNodes();
-	backUpUndoLinks();
+	DisableUndo();
+	BackupNodesForUndo();
+	BackupLinksForUndo();
 	nodes_.setSelectedNodeShape(shape);
 	SetModifiedFlag();
 	if (shape == iNode::MetaFile) {
@@ -1907,9 +1907,9 @@ void iEditDoc::setSelectedNodeMetaFile(HENHMETAFILE metafile)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		disableUndo();
-		backUpUndoNodes();
-		backUpUndoLinks();
+		DisableUndo();
+		BackupNodesForUndo();
+		BackupLinksForUndo();
 		(*it).second.setNodeShape(iNode::MetaFile);
 		(*it).second.setMetaFile(metafile);
 		setConnectPoint();
@@ -3610,7 +3610,7 @@ void iEditDoc::drawLinksSelected(CDC *pDC, bool bDrwAll, bool clipbrd)
 	}
 }
 
-void iEditDoc::backUpUndoNodes()
+void iEditDoc::BackupNodesForUndo()
 {
 	nodes_undo.clear();
 	nodes_undo.resize(0);
@@ -3623,7 +3623,7 @@ void iEditDoc::backUpUndoNodes()
 	}
 }
 
-void iEditDoc::resumeUndoNodes()
+void iEditDoc::RestoreNodesForUndo()
 {
 	for (unsigned int i = 0; i < nodes_undo.size(); i++) {
 		niterator it = nodes_.findNodeW(nodes_undo[i].getKey());
@@ -3638,7 +3638,7 @@ void iEditDoc::resumeUndoNodes()
 	SetModifiedFlag();
 }
 
-bool iEditDoc::canResumeUndo()
+bool iEditDoc::CanUndo()
 {
 	if (nodes_undo.size() == 0 && links_undo.size() == 0) {
 		return false;
@@ -3646,7 +3646,7 @@ bool iEditDoc::canResumeUndo()
 	return true;
 }
 
-void iEditDoc::disableUndo()
+void iEditDoc::DisableUndo()
 {
 	nodes_undo.clear();
 	nodes_undo.resize(0);
@@ -3654,7 +3654,7 @@ void iEditDoc::disableUndo()
 	links_undo.resize(0);
 }
 
-void iEditDoc::backUpUndoLinks()
+void iEditDoc::BackupLinksForUndo()
 {
 	links_undo.clear();
 	links_undo.resize(0);
@@ -3667,7 +3667,7 @@ void iEditDoc::backUpUndoLinks()
 	}
 }
 
-void iEditDoc::resumeUndoLinks()
+void iEditDoc::RestoreLinksForUndo()
 {
 	for (unsigned int i = 0; i < links_undo.size(); i++) {
 		literator li = links_.begin();
@@ -4614,8 +4614,8 @@ int iEditDoc::GetAppLinkWidth() const
 
 void iEditDoc::ResizeSelectedNodeFont(bool bEnLarge)
 {
-	backUpUndoNodes();
-	backUpUndoLinks();
+	BackupNodesForUndo();
+	BackupLinksForUndo();
 	nodes_.resizeSelectedNodeFont(bEnLarge);
 	setConnectPoint3();
 	calcMaxPt(m_maxPt);
@@ -4627,8 +4627,8 @@ void iEditDoc::ResizeSelectedNodeFont(bool bEnLarge)
 
 void iEditDoc::ResizeSelectedLinkFont(bool bEnLarge)
 {
-	backUpUndoNodes();
-	backUpUndoLinks();
+	BackupNodesForUndo();
+	BackupLinksForUndo();
 	links_.resizeSelectedLinkFont(bEnLarge);
 	setConnectPoint3();
 	calcMaxPt(m_maxPt);
@@ -4708,7 +4708,7 @@ void iEditDoc::SaveSelectedNodeFormat()
 
 void iEditDoc::ApplyFormatToSelectedNode()
 {
-	backUpUndoNodes();
+	BackupNodesForUndo();
 	niterator n = nodes_.getSelectedNode();
 	(*n).second.setLineColor(m_nodeForFormat.getLineColor());
 	(*n).second.setLineColor(m_nodeForFormat.getLineColor());
@@ -4745,7 +4745,7 @@ void iEditDoc::SaveSelectedLinkFormat()
 
 void iEditDoc::ApplyFormatToSelectedLink()
 {
-	backUpUndoLinks();
+	BackupLinksForUndo();
 	literator l = links_.getSelectedLinkW();
 	(*l).setArrowStyle(m_linkForFormat.getArrowStyle());
 	(*l).setLineStyle(m_linkForFormat.getLineStyle());
@@ -4821,7 +4821,7 @@ void iEditDoc::SwapLinkOrder(DWORD key1, DWORD key2)
 
 void iEditDoc::SetSelectedNodeMargin(int l, int r, int t, int b)
 {
-	backUpUndoNodes();
+	BackupNodesForUndo();
 	nodes_.setSelectedNodeMargin(l, r, t, b);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
@@ -4872,8 +4872,8 @@ bool iEditDoc::WriteClickableMap(CStdioFile& f, const CString& textFileName, boo
 
 void iEditDoc::FitSelectedNodeSize()
 {
-	backUpUndoNodes();
-	backUpUndoLinks();
+	BackupNodesForUndo();
+	BackupLinksForUndo();
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
 		if ((*it).second.isSelected()) {

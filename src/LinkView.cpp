@@ -723,7 +723,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 	int n = ::DragQueryFile(hdrop, 0xffffffff, NULL, 0);
 	WCHAR path[_MAX_PATH];
 	if (n > 0) {
-		GetDocument()->disableUndo();
+		GetDocument()->DisableUndo();
 	}
 
 	WCHAR drive[_MAX_DRIVE];
