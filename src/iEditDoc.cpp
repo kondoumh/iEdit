@@ -1039,7 +1039,7 @@ void iEditDoc::AddNodeInternal(const CString &name, const CPoint &pt, int nodeTy
 	UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
 }
 
-void iEditDoc::addNodeMF(const CString &name, const CPoint &pt, int mfIndex, HENHMETAFILE& mh)
+void iEditDoc::AddShapeNode(const CString &name, const CPoint &pt, int mfIndex, HENHMETAFILE& mh)
 {
 	iNode n(name);
 	n.setKey(getUniqKey());

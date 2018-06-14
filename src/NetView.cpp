@@ -2541,7 +2541,7 @@ void NetView::OnEditPaste()
 			delete pMfDC;
 		}
 		GetDocument()->DisableUndo();
-		GetDocument()->addNodeMF(_T("図形"), ptDrop, iNode::MetaFile, hm);
+		GetDocument()->AddShapeNode(_T("図形"), ptDrop, iNode::MetaFile, hm);
 		if (!EmptyClipboard()) {
 			AfxMessageBox(_T("Cannot empty the Clipboard"));
 			return;
@@ -2992,7 +2992,7 @@ LRESULT NetView::OnAddMetaFileID(UINT wParam, LONG lParam)
 
 	GetDocument()->DisableUndo();
 	if (m_selectStatus == NetView::none) {
-		GetDocument()->addNodeMF(_T("図形"), CPoint(rand() % 150, rand() % 150), iNode::MetaFile, pApp->m_hMetaFiles[(int)wParam]);
+		GetDocument()->AddShapeNode(_T("図形"), CPoint(rand() % 150, rand() % 150), iNode::MetaFile, pApp->m_hMetaFiles[(int)wParam]);
 	}
 	else if (m_selectStatus == NetView::single) {
 		GetDocument()->BackupNodesForUndo();
