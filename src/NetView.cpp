@@ -1095,7 +1095,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	case iHint::nodeStyleChanged:
 		m_selectStatus = prevSelectStatus;
 		if (m_selectStatus == NetView::multi) {
-			m_selectRect = GetDocument()->getRelatedBoundAnd(false);
+			m_selectRect = GetDocument()->GetRelatedBoundAnd(false);
 		}
 		InvalidateRect(&oldBound);
 		nwBound = GetDocument()->getRelatedBound(false); adjustRedrawBound(nwBound);
@@ -1121,7 +1121,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	case iHint::nodeFontResize:
 		m_selectStatus = prevSelectStatus;
 		if (m_selectStatus == NetView::multi) {
-			m_selectRect = GetDocument()->getRelatedBoundAnd(false);
+			m_selectRect = GetDocument()->GetRelatedBoundAnd(false);
 		}
 		nwBound = GetDocument()->getRelatedBound(); adjustRedrawBound(nwBound);
 		nwBound |= oldBound;
@@ -2405,14 +2405,14 @@ void NetView::copyMFtoClpbrd()
 		CRect rc(0, 0, (int)((double)(p2.x)*m_mfWidth), (int)((double)(p2.y)*m_mfHeight));
 		mfDC.CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 		mfDC.SetViewportOrg(-m_selectRect.left, -m_selectRect.top);
-		GetDocument()->drawNodesSelected(&mfDC, false);
+		GetDocument()->DrawNodesSelected(&mfDC, false);
 		hmetafile = mfDC.CloseEnhanced();
 	}
 	else if (m_selectStatus == NetView::multi) {
 		CRect selRect;
 
 		int selcnt = GetDocument()->selectNodesInBound(m_selectRect, selRect, false);
-		CRect nwBound = GetDocument()->getRelatedBoundAnd(false);
+		CRect nwBound = GetDocument()->GetRelatedBoundAnd(false);
 		GetDocument()->selectLinksInBound(nwBound, false);
 		selRect |= GetDocument()->getSelectedLinkBound(false);
 
@@ -2423,8 +2423,8 @@ void NetView::copyMFtoClpbrd()
 		mfDC.CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 		mfDC.SetViewportOrg(-nwBound.left, -nwBound.top);
 
-		GetDocument()->drawNodesSelected(&mfDC, false);
-		GetDocument()->drawLinksSelected(&mfDC, false, true);
+		GetDocument()->DrawNodesSelected(&mfDC, false);
+		GetDocument()->DrawLinksSelected(&mfDC, false, true);
 
 		hmetafile = mfDC.CloseEnhanced();
 	}
@@ -3021,7 +3021,7 @@ LRESULT NetView::OnRegNodeMetaFile(UINT wParam, LONG lParam)
 	if (m_bLayouting) return 0;
 	if (m_selectStatus == NetView::multi || m_selectStatus == NetView::link) return 0;
 	if (GetDocument()->getSelectedNodeShape() == iNode::MetaFile) {
-		m_pShapesDlg->regNodeShape(GetDocument()->getSelectedNodeMetaFile());
+		m_pShapesDlg->regNodeShape(GetDocument()->GetSelectedNodeMetaFile());
 	}
 	else {
 		AfxMessageBox(_T("シェイプではありません"));
@@ -3126,7 +3126,7 @@ void NetView::adjustNodesEnd(const CString& side)
 
 	GetDocument()->AlignNodesInBoundTo(side, m_selectRect, bDrwAll);
 
-	CRect nwrd = GetDocument()->getRelatedBoundAnd(bDrwAll);
+	CRect nwrd = GetDocument()->GetRelatedBoundAnd(bDrwAll);
 	m_selectRect = nwrd;
 	adjustRedrawBound(nwrd);
 	CRect rc;
@@ -3181,7 +3181,7 @@ void NetView::sameNodesSize(const CString &strSize)
 
 	GetDocument()->AlignSelectedNodesToSameSize(strSize, bDrwAll);
 
-	CRect nwrd = GetDocument()->getRelatedBoundAnd(bDrwAll);
+	CRect nwrd = GetDocument()->GetRelatedBoundAnd(bDrwAll);
 	m_selectRect = nwrd;
 	adjustRedrawBound(nwrd);
 	CRect rc;

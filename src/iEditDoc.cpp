@@ -1636,7 +1636,7 @@ CRect iEditDoc::getRelatedBound(bool drwAll) const
 	return rc;
 }
 
-CRect iEditDoc::getRelatedBoundAnd(bool drwAll)
+CRect iEditDoc::GetRelatedBoundAnd(bool drwAll)
 {
 	CRect rc(CRect(0, 0, 0, 0));
 
@@ -3582,7 +3582,7 @@ void iEditDoc::listUpNodes(const CString &sfind, Labels &labels, BOOL bLabel, BO
 	}
 }
 
-HENHMETAFILE iEditDoc::getSelectedNodeMetaFile()
+HENHMETAFILE iEditDoc::GetSelectedNodeMetaFile()
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
@@ -3591,12 +3591,12 @@ HENHMETAFILE iEditDoc::getSelectedNodeMetaFile()
 	return NULL;
 }
 
-void iEditDoc::drawNodesSelected(CDC *pDC, bool bDrwAll)
+void iEditDoc::DrawNodesSelected(CDC *pDC, bool bDrwAll)
 {
 	nodes_.drawNodesSelected(pDC);
 }
 
-void iEditDoc::drawLinksSelected(CDC *pDC, bool bDrwAll, bool clipbrd)
+void iEditDoc::DrawLinksSelected(CDC *pDC, bool bDrwAll, bool clipbrd)
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {

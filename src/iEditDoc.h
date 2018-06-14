@@ -137,10 +137,10 @@ public:
 	void RestoreNodesForUndo();
 	void DisableUndo();
 	bool CanUndo();
-	CRect getRelatedBoundAnd(bool drwAll);
-	void drawLinksSelected(CDC* pDC, bool bDrwAll, bool clipbrd);
-	void drawNodesSelected(CDC* pDC, bool bDrwAll);
-	HENHMETAFILE getSelectedNodeMetaFile();
+	CRect GetRelatedBoundAnd(bool drwAll);
+	void DrawLinksSelected(CDC* pDC, bool bDrwAll, bool clipbrd);
+	void DrawNodesSelected(CDC* pDC, bool bDrwAll);
+	HENHMETAFILE GetSelectedNodeMetaFile();
 	void listUpNodes(const CString& sfind, Labels& labels, BOOL bLabel = TRUE, BOOL bText = FALSE, BOOL bLinks = FALSE, BOOL bUpper = FALSE);
 	void addNodeMF(const CString& name, const CPoint& pt, int mfIndex, HENHMETAFILE& mh);
 	void setConnectPoint();
