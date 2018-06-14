@@ -609,7 +609,7 @@ bool iEditDoc::hitTest(const CPoint& pt, CRect &r, bool bDrwAll)
 void iEditDoc::moveSelectedNode(const CSize &sz)
 {
 	nodes_.moveSelectedNode(sz);
-	setConnectPoint();
+	SetConnectionPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }
@@ -642,7 +642,7 @@ void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 				(*li).movePts(move);
 			}
 		}
-		setConnectPoint();
+		SetConnectionPoint();
 
 		iHint hint; hint.event = iHint::groupMoved;
 		UpdateAllViews(NULL, nodes_.getSelKey(), &hint);
@@ -672,7 +672,7 @@ void iEditDoc::setSelectedNodeBound(const CRect &r, bool withLink, bool noBackup
 	}
 	nodes_.setSelectedNodeBound(r);
 	if (withLink) {
-		setConnectPoint();
+		SetConnectionPoint();
 	}
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
@@ -681,7 +681,7 @@ void iEditDoc::setSelectedNodeBound(const CRect &r, bool withLink, bool noBackup
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::setConnectPoint()
+void iEditDoc::SetConnectionPoint()
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {
@@ -824,7 +824,7 @@ void iEditDoc::setSelectedNodeFont(const LOGFONT &lf)
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
-	setConnectPoint();
+	SetConnectionPoint();
 	calcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
@@ -1896,7 +1896,7 @@ void iEditDoc::setSelectedNodeShape(int shape, int mfIndex)
 		if (it != nodes_.end()) {
 			CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 			(*it).second.setMetaFile(pApp->m_hMetaFiles[mfIndex]);
-			setConnectPoint();
+			SetConnectionPoint();
 		}
 	}
 	iHint h; h.event = iHint::nodeStyleChanged;
@@ -1912,7 +1912,7 @@ void iEditDoc::setSelectedNodeMetaFile(HENHMETAFILE metafile)
 		BackupLinksForUndo();
 		(*it).second.setNodeShape(iNode::MetaFile);
 		(*it).second.setMetaFile(metafile);
-		setConnectPoint();
+		SetConnectionPoint();
 		SetModifiedFlag();
 		iHint h; h.event = iHint::nodeStyleChanged;
 		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
@@ -1972,7 +1972,7 @@ void iEditDoc::setResultRelax(Bounds &bounds)
 		(*nit).second.setBound((*it).newBound);
 	}
 	calcMaxPt(m_maxPt);
-	setConnectPoint();
+	SetConnectionPoint();
 	SetModifiedFlag();
 }
 
@@ -3176,7 +3176,7 @@ void iEditDoc::addImportData(bool brepRoot)
 			links_.push_back(linksImport[i]);
 		}
 	}
-	setConnectPoint();
+	SetConnectionPoint();
 	SetModifiedFlag();
 
 	if (brepRoot) {
@@ -3205,7 +3205,7 @@ void iEditDoc::randomNodesPos(const CSize &area, bool bDrwAll)
 		(*it).second.moveTo(CPoint(0, 0));
 		(*it).second.moveBound(CSize(rand() % area.cx, rand() % area.cy));
 	}
-	setConnectPoint();
+	SetConnectionPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }
@@ -3631,7 +3631,7 @@ void iEditDoc::RestoreNodesForUndo()
 			(*it).second = nodes_undo[i];
 		}
 	}
-	//	setConnectPoint();
+	//	SetConnectionPoint();
 	calcMaxPt(m_maxPt);
 	nodes_undo.clear();
 	nodes_undo.resize(0);
@@ -3716,7 +3716,7 @@ void iEditDoc::AlignNodesInBoundTo(const CString& side, const CRect& rect, bool 
 
 		(*it).second.moveTo(pt);
 	}
-	setConnectPoint();
+	SetConnectionPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }
@@ -3744,7 +3744,7 @@ void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize, bool bDrwAll
 		}
 		(*it).second.setBound(rc);
 	}
-	setConnectPoint();
+	SetConnectionPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }
@@ -4727,7 +4727,7 @@ void iEditDoc::ApplyFormatToSelectedNode()
 	(*n).second.setMarginR(m_nodeForFormat.getMarginR());
 	(*n).second.setMarginT(m_nodeForFormat.getMarginT());
 	(*n).second.setMarginB(m_nodeForFormat.getMarginB());
-	setConnectPoint();
+	SetConnectionPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
@@ -4881,7 +4881,7 @@ void iEditDoc::FitSelectedNodeSize()
 		}
 	}
 	SetModifiedFlag();
-	setConnectPoint();
+	SetConnectionPoint();
 	calcMaxPt(m_maxPt);
 	iHint hint; hint.event = iHint::reflesh;
 	DWORD key = nodes_.getSelKey();
@@ -4908,7 +4908,7 @@ void iEditDoc::SetSelectedNodeScrollPos(int pos)
 void iEditDoc::DivideTargetLink(DWORD key)
 {
 	links_.divideTargetLinks(key, lastLinkKey++);
-	setConnectPoint();
+	SetConnectionPoint();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }

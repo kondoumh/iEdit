@@ -1272,7 +1272,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 			rc.bottom = height;
 		}
 		GetDocument()->setSelectedNodeBound(rc, false, true);
-		GetDocument()->setConnectPoint();
+		GetDocument()->SetConnectionPoint();
 
 		DWORD hitKey = GetDocument()->hitTestDropTarget(rc.CenterPoint(), GetDocument()->getSelectedNodeKey());
 		if (hitKey != -1) {
@@ -1389,7 +1389,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 			GetDocument()->DivideTargetLink(m_nodeKeyDrop);
 		}
 		else {
-			GetDocument()->setConnectPoint();
+			GetDocument()->SetConnectionPoint();
 		}
 		m_bLinkAction = false;
 		GetDocument()->hitTestDropTarget(CPoint(-1, -1), -1);
@@ -2964,7 +2964,7 @@ void NetView::OnUpdateEditSelectAll(CCmdUI* pCmdUI)
 
 void NetView::OnRefreshNetView()
 {
-	GetDocument()->setConnectPoint();
+	GetDocument()->SetConnectionPoint();
 	Invalidate();
 }
 

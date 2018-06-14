@@ -143,7 +143,7 @@ public:
 	HENHMETAFILE GetSelectedNodeMetaFile();
 	void ListUpNodes(const CString& sfind, Labels& labels, BOOL bLabel = TRUE, BOOL bText = FALSE, BOOL bLinks = FALSE, BOOL bUpper = FALSE);
 	void AddShapeNode(const CString& name, const CPoint& pt, int mfIndex, HENHMETAFILE& mh);
-	void setConnectPoint();
+	void SetConnectionPoint();
 	CString procLF(const CString& str);
 	CString procCR(const CString& str);
 	CString getKeyNodeText(DWORD key);
