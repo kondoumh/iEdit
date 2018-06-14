@@ -2345,7 +2345,7 @@ LRESULT OutlineView::OnListUpNodes(UINT wParam, LONG lParam)
 {
 	// リストアップ用のデータをNodeSearchDlgに受け渡す
 	if (m_pSrchDlg->m_labels.size() > 0) return 0;
-	GetDocument()->listUpNodes(m_pSrchDlg->m_srchString, m_pSrchDlg->m_labels,
+	GetDocument()->ListUpNodes(m_pSrchDlg->m_srchString, m_pSrchDlg->m_labels,
 		m_pSrchDlg->m_bLabel, m_pSrchDlg->m_bText, m_pSrchDlg->m_bLinks,
 		m_pSrchDlg->m_bUpper);
 	m_pSrchDlg->displayResult();

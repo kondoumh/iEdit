@@ -3525,7 +3525,7 @@ bool iEditDoc::isKeyInLabels(const Labels &labels, DWORD key)
 	return false;
 }
 
-void iEditDoc::listUpNodes(const CString &sfind, Labels &labels, BOOL bLabel, BOOL bText, BOOL bLinks, BOOL bUpper)
+void iEditDoc::ListUpNodes(const CString &sfind, Labels &labels, BOOL bLabel, BOOL bText, BOOL bLinks, BOOL bUpper)
 {
 	CString sf = sfind;
 	if (bUpper) {
