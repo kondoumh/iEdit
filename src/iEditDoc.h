@@ -147,8 +147,8 @@ public:
 	CString GetKeyNodeText(DWORD key);
 	void WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = _T(""));
 	void RandomizeNodesPos(const CSize& area);
-	bool saveXML(const CString& outPath, bool bSerialize = false);
-	bool loadXML(const CString& filename, bool replace = false);
+	bool SaveXml(const CString& outPath, bool bSerialize = false);
+	bool LoadXml(const CString& filename, bool replace = false);
 	void addNodeRoundRect(const CString& name, const CPoint& pt);
 	void setResultRelax(Bounds& bounds);
 	void setNodeRelax(CRelaxThrd* r, bool bDrwAll = false);

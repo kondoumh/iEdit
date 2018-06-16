@@ -2308,7 +2308,7 @@ bool OutlineView::ImportXML(const CString &inPath)
 	dlg.m_importMode = 0;
 	if (dlg.DoModal() != IDOK) return true;
 	bool rep = (dlg.m_importMode == 0);
-	return GetDocument()->loadXML(inPath, rep);
+	return GetDocument()->LoadXml(inPath, rep);
 }
 
 void OutlineView::OnEditFind()
@@ -3283,7 +3283,7 @@ void OutlineView::OnExportToXml()
 	CString outfileName = fdlg.GetPathName();
 	_wsetlocale(LC_ALL, _T("jpn"));
 
-	if (GetDocument()->saveXML(outfileName)) {
+	if (GetDocument()->SaveXml(outfileName)) {
 		MessageBox(_T("終了しました"), _T("XMLへのエクスポート"), MB_OK);
 	}
 	_wsetlocale(LC_ALL, _T(""));

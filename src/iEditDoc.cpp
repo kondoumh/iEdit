@@ -480,7 +480,7 @@ BOOL iEditDoc::OnSaveDocument(LPCTSTR lpszPathName)
 		m_bSerializeXML = true;
 		m_bOldBinary = false;
 		SetModifiedFlag(FALSE);
-		saveXML(lpszPathName, true);
+		SaveXml(lpszPathName, true);
 		return TRUE;
 	}
 	return CDocument::OnSaveDocument(lpszPathName);
@@ -1978,7 +1978,7 @@ void iEditDoc::setResultRelax(Bounds &bounds)
 }
 
 // このloadメソッドはインポート用
-bool iEditDoc::loadXML(const CString &filename, bool replace)
+bool iEditDoc::LoadXml(const CString &filename, bool replace)
 {
 	MSXML2::IXMLDOMDocument		*pDoc = NULL;
 	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
@@ -2768,7 +2768,7 @@ CPoint iEditDoc::tags2pathPt(MSXML2::IXMLDOMNode *pNode)
 }
 
 // エクスポート時のXML出力関数
-bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
+bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 {
 	FILE* fp;
 	if (_tfopen_s(&fp, outPath, _T("w, ccs=UTF-8")) != 0) {
