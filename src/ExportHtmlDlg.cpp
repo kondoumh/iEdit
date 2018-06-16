@@ -162,7 +162,7 @@ void ExportHtmlDlg::SetPathIndex()
 		GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->SetWindowText(s);
 	}
 	CString prf = s.Trim();
-	prf = StringUtil::getSafeFileName(prf);
+	prf = StringUtil::GetSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathIndex = _T("index.html");
 	}
@@ -182,7 +182,7 @@ void ExportHtmlDlg::SetPathOutline()
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TOC)->GetWindowText(s);
 	CString prf = s.Trim();
-	prf = StringUtil::getSafeFileName(prf);
+	prf = StringUtil::GetSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathOutline = _T("outline.html");
 	}
@@ -202,7 +202,7 @@ void ExportHtmlDlg::SetPathNetwork()
 	CString s;
 	GetDlgItem(IDC_ED_PRF_NET)->GetWindowText(s);
 	CString prf = s.Trim();
-	prf = StringUtil::getSafeFileName(prf);
+	prf = StringUtil::GetSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathNetwork = _T("network.html");
 		m_pathSvg = _T("network.svg");
@@ -226,7 +226,7 @@ void ExportHtmlDlg::SetPathTextSingle()
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TEXT_SINGLE)->GetWindowText(s);
 	CString prf = s.Trim();
-	prf = StringUtil::getSafeFileName(prf);
+	prf = StringUtil::GetSafeFileName(prf);
 	if (prf == _T("")) {
 		m_pathTextSingle = _T("text.html");
 	}
@@ -241,7 +241,7 @@ void ExportHtmlDlg::OnEnChangeEdPrfTextEverynode()
 	CString s;
 	GetDlgItem(IDC_ED_PRF_TEXT_EVERYNODE)->GetWindowText(s);
 	CString prf = s.Trim();
-	prf = StringUtil::getSafeFileName(prf);
+	prf = StringUtil::GetSafeFileName(prf);
 	if (prf == "") {
 		m_xvEdPrfTextEverynode = _T("");
 	}
@@ -255,11 +255,11 @@ void ExportHtmlDlg::OnEnChangeEdPrfTextEverynode()
 void ExportHtmlDlg::OnBnClickedBtnSetPrfByRoot()
 {
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
-		StringUtil::getSafeFileName(m_nameOfRoot));
+		StringUtil::GetSafeFileName(m_nameOfRoot));
 }
 
 void ExportHtmlDlg::OnBnClickedBtnSetPrfByVisibleRoot()
 {
 	GetDlgItem(IDC_ED_PRF_INDEX)->SetWindowText(
-		StringUtil::getSafeFileName(m_nameOfVisibleRoot));
+		StringUtil::GetSafeFileName(m_nameOfVisibleRoot));
 }

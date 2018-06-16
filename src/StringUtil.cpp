@@ -10,7 +10,7 @@ StringUtil::~StringUtil(void)
 {
 }
 
-CString StringUtil::getSafeFileName(const CString& str)
+CString StringUtil::GetSafeFileName(const CString& str)
 {
 	CString rs;
 	for (int i = 0; i < str.GetLength(); i++) {
@@ -29,7 +29,7 @@ CString StringUtil::getSafeFileName(const CString& str)
 	return rs;
 }
 
-CString StringUtil::removeCR(const CString &str)
+CString StringUtil::RemoveCr(const CString &str)
 {
 	CString toStr;
 	for (int i = 0; i < str.GetLength(); i++) {
@@ -46,7 +46,7 @@ CString StringUtil::removeCR(const CString &str)
 	return toStr;
 }
 
-vector<CString> StringUtil::getLines(const CString &text)
+vector<CString> StringUtil::GetLines(const CString &text)
 {
 	vector<CString> lines;
 	CString line;
@@ -65,7 +65,7 @@ vector<CString> StringUtil::getLines(const CString &text)
 	return lines;
 }
 
-bool StringUtil::isDependChar(int nByte)
+bool StringUtil::IsMachineDependentChar(int nByte)
 {
 	/*
 	参考：
@@ -101,7 +101,7 @@ bool StringUtil::isDependChar(int nByte)
 	return false;
 }
 
-CString StringUtil::removeDependChar(LPCTSTR moji)
+CString StringUtil::RemoveMachineDependentChar(LPCTSTR moji)
 {
 	CString strChkMoji;  // 検証対象の文字列
 	strChkMoji.Format(_T("%s"), moji);
@@ -119,7 +119,7 @@ CString StringUtil::removeDependChar(LPCTSTR moji)
 			TBYTE p_ch2 = (TBYTE)strChkMoji.GetAt(nPos + 1);
 			nByte = (p_ch1 << 8) | (p_ch2);
 			// 機種依存文字 or Shift-JISでない場合
-			if (isDependChar(nByte) || (p_ch > 0xef)) {
+			if (IsMachineDependentChar(nByte) || (p_ch > 0xef)) {
 				++nPos;
 				strOKWords += _T("?");
 				continue;
@@ -132,7 +132,7 @@ CString StringUtil::removeDependChar(LPCTSTR moji)
 			// 半角文字
 			nByte = (TBYTE)strChkMoji.GetAt(nPos);
 			// 半角文字の機種依存チェック
-			if (isDependChar(nByte)) {
+			if (IsMachineDependentChar(nByte)) {
 				strOKWords += _T("?");
 				continue;
 			}

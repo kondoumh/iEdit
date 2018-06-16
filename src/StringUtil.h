@@ -5,11 +5,11 @@ class StringUtil
 public:
 	StringUtil(void);
 	~StringUtil(void);
-	static CString getSafeFileName(const CString& str);
-	static CString removeCR(const CString &str);
-	static vector<CString> getLines(const CString& text);
-	static bool isDependChar(int nByte);
-	static CString removeDependChar(LPCTSTR moji);
+	static CString GetSafeFileName(const CString& str);
+	static CString RemoveCr(const CString &str);
+	static vector<CString> GetLines(const CString& text);
+	static bool IsMachineDependentChar(int nByte);
+	static CString RemoveMachineDependentChar(LPCTSTR moji);
 	static CString ReplaceLfToCrlf(const CString& str);
 	static CString ReplaceCrToLf(const CString& str);
 };
