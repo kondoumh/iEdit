@@ -3324,14 +3324,14 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 
 CString iEditDoc::procWikiNotation(const CString &text)
 {
-	const std::tr1::wregex h2(_T("^\\*\\s([^\\*].*)$")); //"^-.*$" "^[0-9].*$" "^\\*.*$"
-	const std::tr1::wregex h3(_T("^\\*\\*\\s([^\\*].*)$"));
-	const std::tr1::wregex h4(_T("^\\*\\*\\*\\s([^\\*].*)$"));
-	const std::tr1::wregex l1(_T("^-\\s([^-].*)$"));
-	const std::tr1::wregex l2(_T("^--\\s([^-].*)"));
-	const std::tr1::wregex l3(_T("^---\\s([^-].*)"));
-	const std::tr1::wregex uri(_T("^.*(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+).*$"));
-	std::tr1::match_results<std::wstring::const_iterator> result;
+	const std::wregex h2(_T("^\\*\\s([^\\*].*)$")); //"^-.*$" "^[0-9].*$" "^\\*.*$"
+	const std::wregex h3(_T("^\\*\\*\\s([^\\*].*)$"));
+	const std::wregex h4(_T("^\\*\\*\\*\\s([^\\*].*)$"));
+	const std::wregex l1(_T("^-\\s([^-].*)$"));
+	const std::wregex l2(_T("^--\\s([^-].*)"));
+	const std::wregex l3(_T("^---\\s([^-].*)"));
+	const std::wregex uri(_T("^.*(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+).*$"));
+	std::match_results<std::wstring::const_iterator> result;
 	// TODO:wstring使うようにしてみたが、処理が動くか検証
 	vector<CString> lines = StringUtil::GetLines(text);
 	int level = 0;
@@ -3350,25 +3350,25 @@ CString iEditDoc::procWikiNotation(const CString &text)
 			rtnStr += lines[i] + _T("\n");
 			continue;
 		}
-		if (std::tr1::regex_match(line, result, h2)) {
+		if (std::regex_match(line, result, h2)) {
 			endUL(rtnStr, level);
 			rtnStr += _T("<h2>");
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</h2>\n");
 		}
-		else if (std::tr1::regex_match(line, result, h3)) {
+		else if (std::regex_match(line, result, h3)) {
 			endUL(rtnStr, level);
 			rtnStr += _T("<h3>");
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</h3>\n");
 		}
-		else if (std::tr1::regex_match(line, result, h4)) {
+		else if (std::regex_match(line, result, h4)) {
 			endUL(rtnStr, level);
 			rtnStr += _T("<h4>");
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</h4>\n");
 		}
-		else if (std::tr1::regex_match(line, result, l1)) {
+		else if (std::regex_match(line, result, l1)) {
 			prevLevel = level;
 			level = 1;
 			beginUL(rtnStr, level, prevLevel);
@@ -3376,7 +3376,7 @@ CString iEditDoc::procWikiNotation(const CString &text)
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</li>\n");
 		}
-		else if (std::tr1::regex_match(line, result, l2)) {
+		else if (std::regex_match(line, result, l2)) {
 			prevLevel = level;
 			level = 2;
 			beginUL(rtnStr, level, prevLevel);
@@ -3384,7 +3384,7 @@ CString iEditDoc::procWikiNotation(const CString &text)
 			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</li>\n");
 		}
-		else if (std::tr1::regex_match(line, result, l3)) {
+		else if (std::regex_match(line, result, l3)) {
 			prevLevel = level;
 			level = 3;
 			beginUL(rtnStr, level, prevLevel);
@@ -3404,11 +3404,11 @@ CString iEditDoc::procWikiNotation(const CString &text)
 // インラインのURLを検出する 今のところ最初の1個のみ
 CString iEditDoc::makeInlineUrlLink(const CString &line)
 {
-	const std::tr1::wregex uri(_T("^(.*)(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)(.*)$"));
-	const std::tr1::wregex wikiLink(_T("^(.*)\\[\\[(.+):(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)\\]\\](.*)$"));
+	const std::wregex uri(_T("^(.*)(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)(.*)$"));
+	const std::wregex wikiLink(_T("^(.*)\\[\\[(.+):(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)\\]\\](.*)$"));
 	std::wstring sLine = static_cast<LPCTSTR>(line);
-	std::tr1::match_results<std::wstring::const_iterator> result;
-	if (std::tr1::regex_match(sLine, result, wikiLink)) {
+	std::match_results<std::wstring::const_iterator> result;
+	if (std::regex_match(sLine, result, wikiLink)) {
 		CString rtnStr = result[1].str().c_str();
 		rtnStr += _T("<a href=\"");
 		rtnStr += result[3].str().c_str();
@@ -3418,7 +3418,7 @@ CString iEditDoc::makeInlineUrlLink(const CString &line)
 		rtnStr += result[4].str().c_str();
 		return rtnStr;
 	}
-	else if (std::tr1::regex_match(sLine, result, uri)) {
+	else if (std::regex_match(sLine, result, uri)) {
 		CString rtnStr = result[1].str().c_str();
 		rtnStr += _T("<a href=\"");
 		rtnStr += result[2].str().c_str();
