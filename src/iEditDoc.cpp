@@ -999,7 +999,7 @@ void iEditDoc::addNodeArc(const CString &name, const CPoint &pt)
 	AddNodeInternal(name, pt, iNode::arc, true);
 }
 
-void iEditDoc::addNodeRoundRect(const CString &name, const CPoint &pt)
+void iEditDoc::AddNodeRoundedRect(const CString &name, const CPoint &pt)
 {
 	AddNodeInternal(name, pt, iNode::roundRect, true);
 }
@@ -1490,7 +1490,7 @@ void iEditDoc::setSpecifiedLinkInfo(const listitem &iOld, const listitem &iNew)
 	}
 }
 
-void iEditDoc::setNodeRelax(CRelaxThrd *r, bool bDrwAll)
+void iEditDoc::SetNodeRelax(CRelaxThrd *r, bool bDrwAll)
 {
 	////////////////////////////////////////////////
 	// 自動レイアウトアルゴリズム用のedgeデータ設定
@@ -1837,7 +1837,7 @@ void iEditDoc::setSelectedNodeCopyOrg()
 	}
 }
 
-void iEditDoc::makeCopyNode(const CPoint& pt, bool useDefault)
+void iEditDoc::DuplicateNodes(const CPoint& pt, bool useDefault)
 {
 	for (unsigned int i = 0; i < copyOrg.size(); i++) {
 		niterator it = nodes_.findNodeW(copyOrg[i]);
@@ -1874,18 +1874,18 @@ void iEditDoc::makeCopyNode(const CPoint& pt, bool useDefault)
 	copyOrg.resize(0);
 }
 
-BOOL iEditDoc::canCopyNode()
+BOOL iEditDoc::CanDuplicateNodes()
 {
 	if (copyOrg.size() != 0) return TRUE;
 	return FALSE;
 }
 
-int iEditDoc::getSelectedNodeShape() const
+int iEditDoc::GetSelectedNodeShape() const
 {
 	return nodes_.getSelectedNodeShape();
 }
 
-void iEditDoc::setSelectedNodeShape(int shape, int mfIndex)
+void iEditDoc::SetSelectedNodeShape(int shape, int mfIndex)
 {
 	DisableUndo();
 	BackupNodesForUndo();
@@ -1904,7 +1904,7 @@ void iEditDoc::setSelectedNodeShape(int shape, int mfIndex)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-void iEditDoc::setSelectedNodeMetaFile(HENHMETAFILE metafile)
+void iEditDoc::SetSelectedNodeMetaFile(HENHMETAFILE metafile)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
@@ -1920,7 +1920,7 @@ void iEditDoc::setSelectedNodeMetaFile(HENHMETAFILE metafile)
 	}
 }
 
-void iEditDoc::setSelectedNodeLabel(const CString &label)
+void iEditDoc::SetSelectedNodeLabel(const CString &label)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
@@ -1934,12 +1934,12 @@ void iEditDoc::setSelectedNodeLabel(const CString &label)
 }
 
 
-int iEditDoc::getSelectedNodeTextStyle() const
+int iEditDoc::GetSelectedNodeTextStyle() const
 {
 	return nodes_.getSelectedNodeTextStyle();
 }
 
-void iEditDoc::setSelectedNodeTextStyle(int style)
+void iEditDoc::SetSelectedNodeTextStyle(int style)
 {
 	nodes_.setSelectedNodeTextStyle(style);
 	SetModifiedFlag();
@@ -1954,18 +1954,18 @@ void iEditDoc::SetSelectedNodeTreeIconId(int id)
 	SetModifiedFlag();
 }
 
-void iEditDoc::setSelectedNodeFixed(BOOL f)
+void iEditDoc::SetSelectedNodeFixed(BOOL f)
 {
 	nodes_.setSelectedNodeFixed(f);
 	SetModifiedFlag();
 }
 
-BOOL iEditDoc::isSelectedNodeFixed() const
+BOOL iEditDoc::IsSelectedNodeFixed() const
 {
 	return nodes_.isSelectedNodeFixed();
 }
 
-void iEditDoc::setResultRelax(Bounds &bounds)
+void iEditDoc::SetResultRelax(Bounds &bounds)
 {
 	Bounds::iterator it = bounds.begin();
 	for (; it != bounds.end(); it++) {

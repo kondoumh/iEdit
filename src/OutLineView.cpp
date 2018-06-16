@@ -745,7 +745,7 @@ void OutlineView::OnUpdateAddSibling(CCmdUI* pCmdUI)
 void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
-	int style = GetDocument()->getSelectedNodeTextStyle();
+	int style = GetDocument()->GetSelectedNodeTextStyle();
 	bool multiline = GetDocument()->isSelectedNodeMultiLine();
 	CString label = GetDocument()->getSelectedNodeLabel();
 	bool multilineActual = label.Find(_T("\n")) != -1;
@@ -1173,14 +1173,14 @@ void OutlineView::OnEditPaste()
 	}
 	else {
 		GetDocument()->DisableUndo();
-		GetDocument()->makeCopyNode(CPoint(0, 0));
+		GetDocument()->DuplicateNodes(CPoint(0, 0));
 	}
 }
 
 void OutlineView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 {
 	if (!m_bLabelEditting) {
-		pCmdUI->Enable(GetDocument()->canCopyNode());
+		pCmdUI->Enable(GetDocument()->CanDuplicateNodes());
 	}
 }
 

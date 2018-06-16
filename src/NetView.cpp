@@ -753,7 +753,7 @@ bool NetView::isAddingLink() const
 
 void NetView::preparePastePoint(const CPoint &point)
 {
-	if (GetDocument()->canCopyNode() ||
+	if (GetDocument()->CanDuplicateNodes() ||
 		::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		::IsClipboardFormatAvailable(CF_METAFILEPICT) ||
 		::IsClipboardFormatAvailable(CF_DIB) ||
@@ -1533,7 +1533,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 	CRect nw = m_selectRect; adjustRedrawBound(nw);
 	InvalidateRect(nw);
 	InvalidateRect(old);
-	if (GetDocument()->canCopyNode()) {
+	if (GetDocument()->CanDuplicateNodes()) {
 		m_ptPaste = logPt;
 	}
 
@@ -1955,7 +1955,7 @@ void NetView::addNode(const CPoint &logPt, const CPoint& screenPt, const CString
 		GetDocument()->addNodeArc(dlg.m_strcn, logPt);
 	}
 	else if (m_addMode == NetView::rRect) {
-		GetDocument()->addNodeRoundRect(dlg.m_strcn, logPt);
+		GetDocument()->AddNodeRoundedRect(dlg.m_strcn, logPt);
 	}
 	else if (m_addMode == NetView::label) {
 		GetDocument()->addNodeRect(dlg.m_strcn, logPt, true, true);
@@ -2088,7 +2088,7 @@ void NetView::OnAutoLayout()
 
 		CRelaxThrd* pRelaxThrd = new CRelaxThrd(this, m_pDC->GetSafeHdc(), sz, false, GetScrollPosition());
 		pRelaxThrd->m_pThreadParams = NULL;
-		GetDocument()->setNodeRelax(pRelaxThrd, bDrwAll);
+		GetDocument()->SetNodeRelax(pRelaxThrd, bDrwAll);
 		if (!pRelaxThrd->CreateThread(CREATE_SUSPENDED))
 		{
 			AfxMessageBox(_T("Cannnot Create Thread"));
@@ -2116,7 +2116,7 @@ void NetView::stopLayouting()
 	if (m_bLayouting) {
 		m_bLayouting = false;
 		CRelaxThrd* pRelaxThrd = m_relaxStack.top();
-		GetDocument()->setResultRelax(pRelaxThrd->bounds);
+		GetDocument()->SetResultRelax(pRelaxThrd->bounds);
 		SetEvent(pRelaxThrd->m_hEventKill);
 		Sleep(10);
 		m_selectRect = CRect(0, 0, 0, 0);
@@ -2152,7 +2152,7 @@ void NetView::setNodeProp()
 	dlg.bMultiLine = GetDocument()->isSelectedNodeMultiLine();
 	dlg.m_bNoBrush = !GetDocument()->isSelectedNodeFilled();
 	dlg.bOldBynary = GetDocument()->IsOldBinary();
-	int shape = GetDocument()->getSelectedNodeShape();
+	int shape = GetDocument()->GetSelectedNodeShape();
 	if (shape == iNode::rectangle) {
 		dlg.m_shape = 0;
 	}
@@ -2170,7 +2170,7 @@ void NetView::setNodeProp()
 		dlg.m_TLine = 0;
 	}
 
-	int ts = GetDocument()->getSelectedNodeTextStyle();
+	int ts = GetDocument()->GetSelectedNodeTextStyle();
 	if (ts == iNode::notext) {
 		dlg.m_TLine = 2;
 	}
@@ -2223,13 +2223,13 @@ void NetView::setNodeProp()
 		GetDocument()->setSelectedNodeNoBrush(TRUE);
 	}
 	if (dlg.m_shape == 0) {
-		GetDocument()->setSelectedNodeShape(iNode::rectangle);
+		GetDocument()->SetSelectedNodeShape(iNode::rectangle);
 	}
 	else if (dlg.m_shape == 1) {
-		GetDocument()->setSelectedNodeShape(iNode::roundRect);
+		GetDocument()->SetSelectedNodeShape(iNode::roundRect);
 	}
 	else if (dlg.m_shape == 2) {
-		GetDocument()->setSelectedNodeShape(iNode::arc);
+		GetDocument()->SetSelectedNodeShape(iNode::arc);
 	}
 	if (dlg.m_TLine == 1) {
 		GetDocument()->setSelectedNodeMultiLine();
@@ -2238,47 +2238,47 @@ void NetView::setNodeProp()
 		GetDocument()->setSelectedNodeMultiLine(false);
 	}
 	if (dlg.m_TLine == 2) {
-		GetDocument()->setSelectedNodeTextStyle(iNode::notext);
+		GetDocument()->SetSelectedNodeTextStyle(iNode::notext);
 	}
 
 	if (dlg.m_TLine == 0) {
 		if (dlg.vert == 0 && dlg.horiz == 0) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::s_tl);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::s_tl);
 		}
 		else if (dlg.vert == 1 && dlg.horiz == 0) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::s_cl);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::s_cl);
 		}
 		else if (dlg.vert == 2 && dlg.horiz == 0) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::s_bl);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::s_bl);
 		}
 		else if (dlg.vert == 0 && dlg.horiz == 1) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::s_tc);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::s_tc);
 		}
 		else if (dlg.vert == 1 && dlg.horiz == 1) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::s_cc);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::s_cc);
 		}
 		else if (dlg.vert == 2 && dlg.horiz == 1) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::s_bc);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::s_bc);
 		}
 		else if (dlg.vert == 0 && dlg.horiz == 2) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::s_tr);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::s_tr);
 		}
 		else if (dlg.vert == 1 && dlg.horiz == 2) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::s_cr);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::s_cr);
 		}
 		else if (dlg.vert == 2 && dlg.horiz == 2) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::s_br);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::s_br);
 		}
 	}
 	else if (dlg.m_TLine == 1) {
 		if (dlg.horiz == 0) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::m_l);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::m_l);
 		}
 		else if (dlg.horiz == 1) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::m_c);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::m_c);
 		}
 		else if (dlg.horiz == 2) {
-			GetDocument()->setSelectedNodeTextStyle(iNode::m_r);
+			GetDocument()->SetSelectedNodeTextStyle(iNode::m_r);
 		}
 	}
 	if (!GetDocument()->IsOldBinary()) {
@@ -2287,7 +2287,7 @@ void NetView::setNodeProp()
 	}
 	GetDocument()->setSelectedNodeFont(dlg.lf);
 	((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize = oldSetting;
-	GetDocument()->setSelectedNodeLabel(dlg.m_strLabel);
+	GetDocument()->SetSelectedNodeLabel(dlg.m_strLabel);
 }
 
 void NetView::OnGraspMode()
@@ -2490,7 +2490,7 @@ void NetView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 
 void NetView::OnEditPaste()
 {
-	if (!GetDocument()->canCopyNode() &&
+	if (!GetDocument()->CanDuplicateNodes() &&
 		(::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 			::IsClipboardFormatAvailable(CF_METAFILEPICT) ||
 			::IsClipboardFormatAvailable(CF_DIB) ||
@@ -2551,10 +2551,10 @@ void NetView::OnEditPaste()
 	}
 
 	if (m_ptPaste == CPoint(0, 0)) {
-		GetDocument()->makeCopyNode(CPoint(0, 0));
+		GetDocument()->DuplicateNodes(CPoint(0, 0));
 	}
 	else {
-		GetDocument()->makeCopyNode(m_ptPaste, false);
+		GetDocument()->DuplicateNodes(m_ptPaste, false);
 	}
 	m_ptPaste = CPoint(0, 0);
 
@@ -2576,7 +2576,7 @@ void NetView::OnEditPaste()
 
 void NetView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(GetDocument()->canCopyNode() ||
+	pCmdUI->Enable(GetDocument()->CanDuplicateNodes() ||
 		::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
 		::IsClipboardFormatAvailable(CF_METAFILEPICT) ||
 		::IsClipboardFormatAvailable(CF_DIB) ||
@@ -2587,53 +2587,53 @@ void NetView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 void NetView::OnSetNodeRect()
 {
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeShape(iNode::rectangle);
+	GetDocument()->SetSelectedNodeShape(iNode::rectangle);
 }
 
 void NetView::OnUpdateSetNodeRect(CCmdUI* pCmdUI)
 {
-	int shape = GetDocument()->getSelectedNodeShape();
+	int shape = GetDocument()->GetSelectedNodeShape();
 	pCmdUI->Enable(shape != iNode::rectangle && shape != iNode::MetaFile);
 }
 
 void NetView::OnSetNodeRoundRect()
 {
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeShape(iNode::roundRect);
+	GetDocument()->SetSelectedNodeShape(iNode::roundRect);
 }
 
 void NetView::OnUpdateSetNodeRoundRect(CCmdUI* pCmdUI)
 {
-	int shape = GetDocument()->getSelectedNodeShape();
+	int shape = GetDocument()->GetSelectedNodeShape();
 	pCmdUI->Enable(shape != iNode::roundRect && shape != iNode::MetaFile);
 }
 
 void NetView::OnSetNodeArc()
 {
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeShape(iNode::arc);
+	GetDocument()->SetSelectedNodeShape(iNode::arc);
 }
 
 void NetView::OnUpdateSetNodeArc(CCmdUI* pCmdUI)
 {
-	int shape = GetDocument()->getSelectedNodeShape();
+	int shape = GetDocument()->GetSelectedNodeShape();
 	pCmdUI->Enable(shape != iNode::arc && shape != iNode::MetaFile);
 }
 
 void NetView::OnFixNode()
 {
-	BOOL fix = GetDocument()->isSelectedNodeFixed();
+	BOOL fix = GetDocument()->IsSelectedNodeFixed();
 	if (fix) {
-		GetDocument()->setSelectedNodeFixed(FALSE);
+		GetDocument()->SetSelectedNodeFixed(FALSE);
 	}
 	else {
-		GetDocument()->setSelectedNodeFixed();
+		GetDocument()->SetSelectedNodeFixed();
 	}
 }
 
 void NetView::OnUpdateFixNode(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(GetDocument()->isSelectedNodeFixed());
+	pCmdUI->SetCheck(GetDocument()->IsSelectedNodeFixed());
 }
 
 void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -2995,7 +2995,7 @@ LRESULT NetView::OnAddMetaFileID(UINT wParam, LONG lParam)
 	}
 	else if (m_selectStatus == NetView::single) {
 		GetDocument()->BackupNodesForUndo();
-		GetDocument()->setSelectedNodeShape(iNode::MetaFile, (int)wParam);
+		GetDocument()->SetSelectedNodeShape(iNode::MetaFile, (int)wParam);
 	}
 	return 0;
 }
@@ -3019,7 +3019,7 @@ LRESULT NetView::OnRegNodeMetaFile(UINT wParam, LONG lParam)
 {
 	if (m_bLayouting) return 0;
 	if (m_selectStatus == NetView::multi || m_selectStatus == NetView::link) return 0;
-	if (GetDocument()->getSelectedNodeShape() == iNode::MetaFile) {
+	if (GetDocument()->GetSelectedNodeShape() == iNode::MetaFile) {
 		m_pShapesDlg->regNodeShape(GetDocument()->GetSelectedNodeMetaFile());
 	}
 	else {
@@ -3862,7 +3862,7 @@ void NetView::procRenameDialog(const CRect& nodeBound)
 
 	if (dlg.DoModal() != IDOK) return;
 	if (dlg.m_strcn == _T("")) return;
-	GetDocument()->setSelectedNodeLabel(dlg.m_strcn);
+	GetDocument()->SetSelectedNodeLabel(dlg.m_strcn);
 }
 
 
@@ -4034,18 +4034,18 @@ void NetView::OnUpdateDrawOrderInfo(CCmdUI *pCmdUI)
 void NetView::OnSetNodeMm()
 {
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeShape(iNode::MindMapNode);
+	GetDocument()->SetSelectedNodeShape(iNode::MindMapNode);
 }
 
 void NetView::OnUpdateSetNodeMm(CCmdUI *pCmdUI)
 {
-	int shape = GetDocument()->getSelectedNodeShape();
+	int shape = GetDocument()->GetSelectedNodeShape();
 	pCmdUI->Enable(shape != iNode::MindMapNode && shape != iNode::MetaFile);
 }
 
 void NetView::OnValignTop()
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_bc) stNew = iNode::s_tc;
 	if (st == iNode::s_bl) stNew = iNode::s_tl;
@@ -4054,12 +4054,12 @@ void NetView::OnValignTop()
 	if (st == iNode::s_cl) stNew = iNode::s_tl;
 	if (st == iNode::s_cr) stNew = iNode::s_tr;
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeTextStyle(stNew);
+	GetDocument()->SetSelectedNodeTextStyle(stNew);
 }
 
 void NetView::OnUpdateValignTop(CCmdUI *pCmdUI)
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tc && st != iNode::s_tl && st != iNode::s_tr &&
 		st != iNode::m_c && st != iNode::m_l && st != iNode::m_r);
@@ -4067,7 +4067,7 @@ void NetView::OnUpdateValignTop(CCmdUI *pCmdUI)
 
 void NetView::OnAlignBottom()
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tc) stNew = iNode::s_bc;
 	if (st == iNode::s_tl) stNew = iNode::s_bl;
@@ -4076,12 +4076,12 @@ void NetView::OnAlignBottom()
 	if (st == iNode::s_cl) stNew = iNode::s_bl;
 	if (st == iNode::s_cr) stNew = iNode::s_br;
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeTextStyle(stNew);
+	GetDocument()->SetSelectedNodeTextStyle(stNew);
 }
 
 void NetView::OnUpdateAlignBottom(CCmdUI *pCmdUI)
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_bc && st != iNode::s_bl && st != iNode::s_br &&
 		st != iNode::m_c && st != iNode::m_l && st != iNode::m_r);
@@ -4089,7 +4089,7 @@ void NetView::OnUpdateAlignBottom(CCmdUI *pCmdUI)
 
 void NetView::OnHalignRight()
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tc) stNew = iNode::s_tr;
 	if (st == iNode::s_tl) stNew = iNode::s_tr;
@@ -4100,12 +4100,12 @@ void NetView::OnHalignRight()
 	if (st == iNode::m_c) stNew = iNode::m_r;
 	if (st == iNode::m_l) stNew = iNode::m_r;
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeTextStyle(stNew);
+	GetDocument()->SetSelectedNodeTextStyle(stNew);
 }
 
 void NetView::OnUpdateHalignRight(CCmdUI *pCmdUI)
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tr && st != iNode::s_cr && st != iNode::s_br && st != iNode::m_r);
 }
@@ -4113,7 +4113,7 @@ void NetView::OnUpdateHalignRight(CCmdUI *pCmdUI)
 
 void NetView::OnHalignLeft()
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tc) stNew = iNode::s_tl;
 	if (st == iNode::s_tr) stNew = iNode::s_tl;
@@ -4124,19 +4124,19 @@ void NetView::OnHalignLeft()
 	if (st == iNode::m_c) stNew = iNode::m_l;
 	if (st == iNode::m_r) stNew = iNode::m_l;
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeTextStyle(stNew);
+	GetDocument()->SetSelectedNodeTextStyle(stNew);
 }
 
 void NetView::OnUpdateHalignLeft(CCmdUI *pCmdUI)
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tl && st != iNode::s_cl && st != iNode::s_bl && st != iNode::m_l);
 }
 
 void NetView::OnValignCenter()
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_bc) stNew = iNode::s_cc;
 	if (st == iNode::s_bl) stNew = iNode::s_cl;
@@ -4145,12 +4145,12 @@ void NetView::OnValignCenter()
 	if (st == iNode::s_tl) stNew = iNode::s_cl;
 	if (st == iNode::s_tr) stNew = iNode::s_cr;
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeTextStyle(stNew);
+	GetDocument()->SetSelectedNodeTextStyle(stNew);
 }
 
 void NetView::OnUpdateValignCenter(CCmdUI *pCmdUI)
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_cc && st != iNode::s_cl && st != iNode::s_cr &&
 		st != iNode::m_c && st != iNode::m_l && st != iNode::m_r);
@@ -4158,7 +4158,7 @@ void NetView::OnUpdateValignCenter(CCmdUI *pCmdUI)
 
 void NetView::OnHalignCenter()
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	int stNew = st;
 	if (st == iNode::s_tr) stNew = iNode::s_tc;
 	if (st == iNode::s_tl) stNew = iNode::s_tc;
@@ -4169,12 +4169,12 @@ void NetView::OnHalignCenter()
 	if (st == iNode::m_r) stNew = iNode::m_c;
 	if (st == iNode::m_l) stNew = iNode::m_c;
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeTextStyle(stNew);
+	GetDocument()->SetSelectedNodeTextStyle(stNew);
 }
 
 void NetView::OnUpdateHalignCenter(CCmdUI *pCmdUI)
 {
-	int st = GetDocument()->getSelectedNodeTextStyle();
+	int st = GetDocument()->GetSelectedNodeTextStyle();
 	pCmdUI->Enable(m_selectStatus == NetView::single &&
 		st != iNode::s_tc && st != iNode::s_cc && st != iNode::s_bc && st != iNode::m_c);
 }
@@ -4494,7 +4494,7 @@ void NetView::OnReplaceMetafile()
 		delete pMfDC;
 	}
 	if (hm != NULL) {
-		GetDocument()->setSelectedNodeMetaFile(hm);
+		GetDocument()->SetSelectedNodeMetaFile(hm);
 	}
 	if (!EmptyClipboard()) {
 		AfxMessageBox(_T("Cannot empty the Clipboard"));
@@ -4509,7 +4509,7 @@ void NetView::OnUpdateReplaceMetafile(CCmdUI *pCmdUI)
 		::IsClipboardFormatAvailable(CF_DIB) ||
 		::IsClipboardFormatAvailable(CF_BITMAP);
 
-	pCmdUI->Enable(m_selectStatus == NetView::single && canAvailable && !GetDocument()->canCopyNode());
+	pCmdUI->Enable(m_selectStatus == NetView::single && canAvailable && !GetDocument()->CanDuplicateNodes());
 }
 
 
