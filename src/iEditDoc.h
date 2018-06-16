@@ -144,9 +144,9 @@ public:
 	void ListUpNodes(const CString& sfind, Labels& labels, BOOL bLabel = TRUE, BOOL bText = FALSE, BOOL bLinks = FALSE, BOOL bUpper = FALSE);
 	void AddShapeNode(const CString& name, const CPoint& pt, int mfIndex, HENHMETAFILE& mh);
 	void SetConnectionPoint();
-	CString getKeyNodeText(DWORD key);
-	void writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = _T(""));
-	void randomNodesPos(const CSize& area, bool bDrwAll = false);
+	CString GetKeyNodeText(DWORD key);
+	void WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = _T(""));
+	void RandomizeNodesPos(const CSize& area);
 	bool saveXML(const CString& outPath, bool bSerialize = false);
 	bool loadXML(const CString& filename, bool replace = false);
 	void addNodeRoundRect(const CString& name, const CPoint& pt);

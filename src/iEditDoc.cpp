@@ -3193,16 +3193,14 @@ void iEditDoc::addImportData(bool brepRoot)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::randomNodesPos(const CSize &area, bool bDrwAll)
+void iEditDoc::RandomizeNodesPos(const CSize &area)
 {
 	SYSTEMTIME st;
 	GetSystemTime(&st);
 	srand((unsigned)st.wMilliseconds);
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		//		if (!bDrwAll) {
 		if (!(*it).second.isVisible()) continue;
-		//		}
 		(*it).second.moveTo(CPoint(0, 0));
 		(*it).second.moveBound(CSize(rand() % area.cx, rand() % area.cy));
 	}
@@ -3211,7 +3209,7 @@ void iEditDoc::randomNodesPos(const CSize &area, bool bDrwAll)
 	SetModifiedFlag();
 }
 
-void iEditDoc::writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated, const CString& textPrefix)
+void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, const CString& textPrefix)
 {
 	const_niterator it = nodes_.findNode(key);
 
@@ -3463,7 +3461,7 @@ void iEditDoc::endUL(CString & str, int& level)
 	if (level > 0) level = 0;
 }
 
-CString iEditDoc::getKeyNodeText(DWORD key)
+CString iEditDoc::GetKeyNodeText(DWORD key)
 {
 	const_niterator it = nodes_.findNode(key);
 	if (it != nodes_.end()) {

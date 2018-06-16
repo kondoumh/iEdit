@@ -2901,12 +2901,11 @@ void NetView::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 
 void NetView::OnRandomize()
 {
-	bool bDrwAll = false;
 	CRect rc; GetClientRect(rc);
 	GetDocument()->DisableUndo();
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->BackupLinksForUndo();
-	GetDocument()->randomNodesPos(CSize((int)(rc.Width()*0.8), (int)(rc.Height()*0.8)), bDrwAll);
+	GetDocument()->RandomizeNodesPos(CSize((int)(rc.Width()*0.8), (int)(rc.Height()*0.8)));
 	m_selectRect = CRect(0, 0, 0, 0);
 	adjustScrollArea();
 	Invalidate();

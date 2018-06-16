@@ -1944,7 +1944,7 @@ void OutlineView::OutputHTML()
 		writeHtmlHeader(tf);
 		writeTextStyle(tf);
 		tf.WriteString(_T("</head>\n<body>\n"));
-		GetDocument()->writeTextHtml(tree().GetItemData(root), &tf);
+		GetDocument()->WriteKeyNodeToHtml(tree().GetItemData(root), &tf);
 	}
 	else {
 		CString arName = textDir + _T("\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
@@ -1957,7 +1957,7 @@ void OutlineView::OutputHTML()
 		writeHtmlHeader(rootTf);
 		writeTextStyle(rootTf, false);
 		rootTf.WriteString(_T("</head>\n<body>\n"));
-		GetDocument()->writeTextHtml(tree().GetItemData(root), &rootTf, true, m_exportOption.prfTextEverynode);
+		GetDocument()->WriteKeyNodeToHtml(tree().GetItemData(root), &rootTf, true, m_exportOption.prfTextEverynode);
 		rootTf.WriteString(_T("</body>\n</html>\n"));
 		rootTf.Close();
 	}
@@ -2059,7 +2059,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 	// Text出力
 	DWORD key = tree().GetItemData(hItem);
 	if (m_exportOption.textOption == 0) {
-		GetDocument()->writeTextHtml(key, ftext);
+		GetDocument()->WriteKeyNodeToHtml(key, ftext);
 	}
 	else {
 		CString fName = m_exportOption.htmlOutDir + _T("\\text\\")
@@ -2073,7 +2073,7 @@ void OutlineView::htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *fout
 		writeHtmlHeader(tf);
 		writeTextStyle(tf, false);
 		tf.WriteString(_T("</head>\n<body>\n"));
-		GetDocument()->writeTextHtml(key, &tf, true, m_exportOption.prfTextEverynode);
+		GetDocument()->WriteKeyNodeToHtml(key, &tf, true, m_exportOption.prfTextEverynode);
 		tf.WriteString(_T("</body>\n</html>\n"));
 		tf.Close();
 	}
@@ -2170,7 +2170,7 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab)
 	f->WriteString(label + _T("\n"));
 
 	if (m_textExportOption.formatOption != 1) {
-		CString text = StringUtil::RemoveMachineDependentChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
+		CString text = StringUtil::RemoveMachineDependentChar(GetDocument()->GetKeyNodeText(tree().GetItemData(hItem)));
 		f->WriteString(StringUtil::ReplaceCrToLf(text));
 		f->WriteString(_T("\n"));
 	}
@@ -3087,7 +3087,7 @@ void OutlineView::OnExportToText()
 			}
 			f.WriteString(StringUtil::RemoveCr(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
 			if (dlg.m_rdFormatOption != 1) {
-				f.WriteString(StringUtil::ReplaceCrToLf(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
+				f.WriteString(StringUtil::ReplaceCrToLf(GetDocument()->GetKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
 				f.WriteString(_T("\n"));
 			}
 			if (tree().ItemHasChildren(tree().GetSelectedItem())) {
@@ -3149,7 +3149,7 @@ void OutlineView::textOutTreeByNode(HTREEITEM hItem)
 	CString chapNum = GetDocument()->getKeyNodeChapterNumber(tree().GetItemData(hItem));
 	CString label = chapNum + " " + StringUtil::GetSafeFileName(StringUtil::RemoveMachineDependentChar(tree().GetItemText(hItem)));
 	label = StringUtil::RemoveCr(label);
-	CString text = StringUtil::RemoveMachineDependentChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
+	CString text = StringUtil::RemoveMachineDependentChar(GetDocument()->GetKeyNodeText(tree().GetItemData(hItem)));
 	createNodeTextFile(label, text);
 
 	if (tree().ItemHasChildren(hItem)) {
