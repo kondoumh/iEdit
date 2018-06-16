@@ -10,4 +10,6 @@ public:
 	static vector<CString> getLines(const CString& text);
 	static bool isDependChar(int nByte);
 	static CString removeDependChar(LPCTSTR moji);
+	static CString ReplaceLfToCrlf(const CString& str);
+	static CString ReplaceCrToLf(const CString& str);
 };

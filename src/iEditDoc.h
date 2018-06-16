@@ -144,8 +144,6 @@ public:
 	void ListUpNodes(const CString& sfind, Labels& labels, BOOL bLabel = TRUE, BOOL bText = FALSE, BOOL bLinks = FALSE, BOOL bUpper = FALSE);
 	void AddShapeNode(const CString& name, const CPoint& pt, int mfIndex, HENHMETAFILE& mh);
 	void SetConnectionPoint();
-	CString procLF(const CString& str);
-	CString procCR(const CString& str);
 	CString getKeyNodeText(DWORD key);
 	void writeTextHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = _T(""));
 	void randomNodesPos(const CSize& area, bool bDrwAll = false);

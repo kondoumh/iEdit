@@ -142,3 +142,37 @@ CString StringUtil::removeDependChar(LPCTSTR moji)
 	}
 	return strOKWords;
 }
+
+CString StringUtil::ReplaceCrToLf(const CString &str)
+{
+	CString toStr;
+	for (int i = 0; i < str.GetLength(); i++) {
+		if (str[i] == '\n') {
+			;
+		}
+		else if (str[i] == '\r') {
+			toStr += _T("\n");
+		}
+		else {
+			toStr += str[i];
+		}
+	}
+	return toStr;
+}
+
+CString StringUtil::ReplaceLfToCrlf(const CString &str)
+{
+	CString toStr;
+	for (int i = 0; i < str.GetLength(); i++) {
+		if (str[i] == '\r') {
+			;
+		}
+		else if (str[i] == '\n') {
+			toStr += _T("\r\n");
+		}
+		else {
+			toStr += str[i];
+		}
+	}
+	return toStr;
+}

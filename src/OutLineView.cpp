@@ -2171,7 +2171,7 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab)
 
 	if (m_textExportOption.formatOption != 1) {
 		CString text = StringUtil::removeDependChar(GetDocument()->getKeyNodeText(tree().GetItemData(hItem)));
-		f->WriteString(GetDocument()->procCR(text));
+		f->WriteString(StringUtil::ReplaceCrToLf(text));
 		f->WriteString(_T("\n"));
 	}
 
@@ -3087,7 +3087,7 @@ void OutlineView::OnExportToText()
 			}
 			f.WriteString(StringUtil::removeCR(tree().GetItemText(tree().GetSelectedItem())) + _T("\n"));
 			if (dlg.m_rdFormatOption != 1) {
-				f.WriteString(GetDocument()->procCR(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
+				f.WriteString(StringUtil::ReplaceCrToLf(GetDocument()->getKeyNodeText(tree().GetItemData(tree().GetSelectedItem()))));
 				f.WriteString(_T("\n"));
 			}
 			if (tree().ItemHasChildren(tree().GetSelectedItem())) {

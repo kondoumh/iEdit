@@ -15,6 +15,7 @@
 #include <atlimage.h>
 #include <regex>
 #include <locale>
+#include "StringUtil.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -2234,7 +2235,7 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				else if (ename2 == _T("text")) {
 					childnode2->firstChild->get_text(&s);
 					CString text(s);
-					text = procLF(text);
+					text = StringUtil::ReplaceLfToCrlf(text);
 					nodesImport[nodesImport.size() - 1].setText(text);
 				}
 				else if (ename2 == _T("labelAlign")) {
@@ -2382,7 +2383,7 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 				else if (ename2 == _T("text")) {
 					childnode2->firstChild->get_text(&s);
 					CString text(s);
-					text = procLF(text);
+					text = StringUtil::ReplaceLfToCrlf(text);
 					nodesImport[nodesImport.size() - 1].setText(text);
 				}
 				else if (ename2 == _T("labelAlign")) {
@@ -2814,7 +2815,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 		f.WriteString(_T("\t\t<label>"));
 		CString title = _T("<![CDATA[") + (*it).second.getName() + _T("]]>");
 		if ((*it).second.getTextStyle() >= iNode::m_c) {
-			f.WriteString(procCR(title));
+			f.WriteString(StringUtil::ReplaceCrToLf(title));
 		}
 		else {
 			f.WriteString(title);
@@ -2823,7 +2824,7 @@ bool iEditDoc::saveXML(const CString &outPath, bool bSerialize)
 
 		f.WriteString(_T("\t\t<text>"));
 		CString text = _T("<![CDATA[") + (*it).second.getText() + _T("]]>");
-		f.WriteString(procCR(text));
+		f.WriteString(StringUtil::ReplaceCrToLf(text));
 		f.WriteString(_T("\n\t\t</text>\n"));
 
 		// ラベルのアライメント
@@ -3478,40 +3479,6 @@ CString iEditDoc::GetKeyNodeLabel(DWORD key)
 		return (*it).second.getName();
 	}
 	return _T("");
-}
-
-CString iEditDoc::procCR(const CString &str)
-{
-	CString toStr;
-	for (int i = 0; i < str.GetLength(); i++) {
-		if (str[i] == '\n') {
-			;
-		}
-		else if (str[i] == '\r') {
-			toStr += _T("\n");
-		}
-		else {
-			toStr += str[i];
-		}
-	}
-	return toStr;
-}
-
-CString iEditDoc::procLF(const CString &str)
-{
-	CString toStr;
-	for (int i = 0; i < str.GetLength(); i++) {
-		if (str[i] == '\r') {
-			;
-		}
-		else if (str[i] == '\n') {
-			toStr += _T("\r\n");
-		}
-		else {
-			toStr += str[i];
-		}
-	}
-	return toStr;
 }
 
 bool iEditDoc::isKeyInLabels(const Labels &labels, DWORD key)
