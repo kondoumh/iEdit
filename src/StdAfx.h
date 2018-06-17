@@ -101,8 +101,6 @@ typedef vector<NodeProps> NodePropsVec;
 typedef vector<LinkProps> LinkPropsVec;
 typedef set<DWORD> NodeKeySet;
 typedef vector<DWORD> NodeKeyVec;
-typedef pair<DWORD, DWORD> NodeKeyPair;
-typedef vector<NodeKeyPair> NodeKeyPairs;
 typedef map<DWORD, DWORD> NodeKeyMap;
 
 //{{AFX_INSERT_LOCATION}}
