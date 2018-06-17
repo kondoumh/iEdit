@@ -106,8 +106,6 @@ typedef pair<DWORD, DWORD> idConv;
 typedef vector<idConv> idCVec;
 typedef map<DWORD, DWORD> IdMap;
 
-#define DEBUG_WRITE ((CiEditApp*)AfxGetApp())->DebugWriteLine
-
 //{{AFX_INSERT_LOCATION}}
 
 #endif // !defined(AFX_STDAFX_H__96DFF9B9_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
