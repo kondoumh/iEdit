@@ -206,7 +206,7 @@ void iEditDoc::Serialize(CArchive& ar)
 void iEditDoc::saveOrderByTree(CArchive& ar)
 {
 	OutlineView* pView = getOutlineView();
-	Labels ls;
+	NodePropsVec ls;
 	pView->treeToSequence0(ls);  // シリアライズ専用シーケンス取得
 	ar << lastKey;
 	ar << ls.size();
@@ -222,7 +222,7 @@ void iEditDoc::saveOrderByTree(CArchive& ar)
 void iEditDoc::saveOrderByTreeEx(CArchive &ar, int version)
 {
 	OutlineView* pView = getOutlineView();
-	Labels ls;
+	NodePropsVec ls;
 	pView->treeToSequence0(ls);  // シリアライズ専用シーケンス取得
 	ar << lastKey;
 	ar << ls.size();
@@ -284,11 +284,11 @@ int iEditDoc::GetInitialBranchMode() const
 	return m_initialBranchMode;
 }
 
-void iEditDoc::copyNodeLabels(Labels &v)
+void iEditDoc::copyNodeLabels(NodePropsVec &v)
 {
 	for (unsigned int i = 0; i < sv.size(); i++) {
 		const_niterator it = nodes_.findNode(sv[i]);
-		label l;
+		NodeProps l;
 		l.name = (*it).second.getName();
 		l.key = (*it).second.getKey();
 		l.parent = (*it).second.getParent();
@@ -302,7 +302,7 @@ void iEditDoc::copyNodeLabels(Labels &v)
 }
 
 // OutlineViewでのノード追加用メソッド
-void iEditDoc::addNode(const label &l, DWORD inheritKey, bool bInherit)
+void iEditDoc::addNode(const NodeProps &l, DWORD inheritKey, bool bInherit)
 {
 	const_niterator it = nodes_.findNode(inheritKey);
 	iNode n(l.name);
@@ -541,7 +541,7 @@ void iEditDoc::selChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 	DWORD parentOld = nodes_.getCurParent();
 	nodes_.setSelKey(key);
 
-	serialVec svec = getOutlineView()->getDrawOrder(bShowSubBranch);
+	NodeKeyVec svec = getOutlineView()->getDrawOrder(bShowSubBranch);
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.orderDirection == 1) {
 		// 降順での描画オプションの場合は反転する
 		std::reverse(svec.begin(), svec.end());
@@ -621,7 +621,7 @@ void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 	if (itSelected == nodes_.end()) return;
 	niterator it = nodes_.begin();
 	bool moved = false;
-	KeySet keySet;
+	NodeKeySet keySet;
 	for (; it != nodes_.end(); it++) {
 		if (!(*it).second.isVisible()) continue;
 		BOOL bInBound = bound.PtInRect((*it).second.getBound().TopLeft()) &&
@@ -712,7 +712,7 @@ const CPoint& iEditDoc::getMaxPt() const
 // があると再描画領域の計算がおかしくなる。
 void iEditDoc::calcMaxPt(CPoint &pt)
 {
-	KeySet ks;
+	NodeKeySet ks;
 	pt = CPoint(0, 0);
 	const_niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
@@ -1275,7 +1275,7 @@ void iEditDoc::deleteSelectedNodes()
 	if (ShowSubBranch()) {
 		parentKey = m_dwBranchRootKey;
 	}
-	serialVec v = nodes_.getSelectedNodeKeys();
+	NodeKeyVec v = nodes_.getSelectedNodeKeys();
 	vector<DWORD>::iterator it = v.begin();
 	for (; it != v.end(); it++) {
 		DWORD delKey = (*it);
@@ -1311,13 +1311,13 @@ bool iEditDoc::canDeleteNode() const
 }
 
 
-void iEditDoc::getLinkInfoList(lsItems &ls, bool drwAll)
+void iEditDoc::getLinkInfoList(LinkPropsVec &ls, bool drwAll)
 {
 	DWORD curKey = nodes_.getSelKey();
 	literator it = links_.begin();
 	for (; it != links_.end(); it++) {
 		if ((*it).getKeyFrom() != curKey && (*it).getKeyTo() != curKey) continue;
-		listitem i;
+		LinkProps i;
 		i.comment = (*it).getName();
 		if ((*it).getKeyFrom() == curKey) {
 			i.keyTo = (*it).getKeyTo();
@@ -1342,36 +1342,36 @@ void iEditDoc::getLinkInfoList(lsItems &ls, bool drwAll)
 		if ((*it).getArrowStyle() != iLink::other) {
 			if ((*it).canDraw()) {
 				if ((*it).getKeyFrom() == curKey) {
-					i.linkType = listitem::linkSL;
+					i.linkType = LinkProps::linkSL;
 				}
 				else if ((*it).getKeyTo() == curKey) {
-					i.linkType = listitem::linkSL2;
+					i.linkType = LinkProps::linkSL2;
 				}
 			}
 			else {
 				if ((*it).getKeyFrom() == curKey) {
-					i.linkType = listitem::linkDL;
+					i.linkType = LinkProps::linkDL;
 				}
 				else if ((*it).getKeyTo() == curKey) {
-					i.linkType = listitem::linkDL2;
+					i.linkType = LinkProps::linkDL2;
 				}
 			}
 		}
 		else {
 			CString url = (*it).getPath();
 			if (url.Find(_T("http://")) != -1 || url.Find(_T("https://")) != -1 || url.Find(_T("ftp://")) != -1) {
-				i.linkType = listitem::WebURL;
+				i.linkType = LinkProps::WebURL;
 			}
 			else {
 				if (PathIsDirectory(url)) {
-					i.linkType = listitem::linkFolder;
+					i.linkType = LinkProps::linkFolder;
 				}
 				else {
 					if (url.Right(5) == _T(".iedx") || url.Right(4) == _T(".ied")) {
-						i.linkType = listitem::iedFile;
+						i.linkType = LinkProps::iedFile;
 					}
 					else {
-						i.linkType = listitem::FileName;
+						i.linkType = LinkProps::FileName;
 					}
 				}
 			}
@@ -1389,7 +1389,7 @@ void iEditDoc::getLinkInfoList(lsItems &ls, bool drwAll)
 	}
 }
 
-void iEditDoc::notifySelectLink(const lsItems &ls, int index, bool drwAll)
+void iEditDoc::notifySelectLink(const LinkPropsVec &ls, int index, bool drwAll)
 {
 	DWORD curKey = nodes_.getSelKey();
 	literator it = links_.begin();
@@ -1410,7 +1410,7 @@ void iEditDoc::notifySelectLink(const lsItems &ls, int index, bool drwAll)
 	}
 
 	if (selected) {
-		if (ls[index].linkType == listitem::linkSL) {
+		if (ls[index].linkType == LinkProps::linkSL) {
 			iHint h; h.event = iHint::linkListSel;
 			UpdateAllViews(NULL, LPARAM(curKey), &h);
 		}
@@ -1439,7 +1439,7 @@ DWORD iEditDoc::getSelectedNodeKey() const
 	return nodes_.getSelKey();
 }
 
-void iEditDoc::deleteSpecifidLink(const listitem &i)
+void iEditDoc::deleteSpecifidLink(const LinkProps &i)
 {
 	literator it = links_.begin();
 	for (; it != links_.end(); it++) {
@@ -1460,7 +1460,7 @@ void iEditDoc::deleteSpecifidLink(const listitem &i)
 	}
 }
 
-void iEditDoc::setSpecifiedLinkInfo(const listitem &iOld, const listitem &iNew)
+void iEditDoc::setSpecifiedLinkInfo(const LinkProps &iOld, const LinkProps &iNew)
 {
 	literator it = links_.begin();
 	for (; it != links_.end(); it++) {
@@ -2209,7 +2209,7 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 					CString ids(s);
 					int id;
 					swscanf_s((const wchar_t*)ids.GetBuffer(), _T("%d"), &id);
-					idConv idc;
+					NodeKeyPair idc;
 					idc.first = (DWORD)id;
 					idc.second = nodesImport[nodesImport.size() - 1].getKey();
 					idcVec.push_back(idc);
@@ -2779,7 +2779,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 
 	OutlineView* pView = getOutlineView();
 
-	Labels ls;
+	NodePropsVec ls;
 	if (bSerialize) {
 		pView->treeToSequence0(ls);
 	}
@@ -3479,7 +3479,7 @@ CString iEditDoc::GetKeyNodeLabel(DWORD key)
 	return _T("");
 }
 
-bool iEditDoc::isKeyInLabels(const Labels &labels, DWORD key)
+bool iEditDoc::isKeyInLabels(const NodePropsVec &labels, DWORD key)
 {
 	if (labels.size() == nodes_.size()) return true;
 	for (unsigned int i = 0; i < labels.size(); i++) {
@@ -3490,7 +3490,7 @@ bool iEditDoc::isKeyInLabels(const Labels &labels, DWORD key)
 	return false;
 }
 
-void iEditDoc::ListUpNodes(const CString &sfind, Labels &labels, BOOL bLabel, BOOL bText, BOOL bLinks, BOOL bUpper)
+void iEditDoc::ListUpNodes(const CString &sfind, NodePropsVec &labels, BOOL bLabel, BOOL bText, BOOL bLinks, BOOL bUpper)
 {
 	CString sf = sfind;
 	if (bUpper) {
@@ -3506,7 +3506,7 @@ void iEditDoc::ListUpNodes(const CString &sfind, Labels &labels, BOOL bLabel, BO
 			text.MakeUpper();
 		}
 		if (bLabel && name.Find(sf) != -1) {
-			label l;
+			NodeProps l;
 			l.name = (*it).second.getName();
 			l.key = (*it).second.getKey();
 			l.state = 0;
@@ -3514,7 +3514,7 @@ void iEditDoc::ListUpNodes(const CString &sfind, Labels &labels, BOOL bLabel, BO
 			done = true;
 		}
 		if (bText && text.Find(sf) != -1) {
-			label l;
+			NodeProps l;
 			l.name = (*it).second.getName();
 			l.key = (*it).second.getKey();
 			l.state = 1;
@@ -3531,14 +3531,14 @@ void iEditDoc::ListUpNodes(const CString &sfind, Labels &labels, BOOL bLabel, BO
 			path.MakeUpper();
 		}
 		if (bLinks && name.Find(sf) != -1) {
-			label l;
+			NodeProps l;
 			l.key = (*li).getKeyFrom();
 			l.name = (*li).getName();
 			l.state = 2;
 			labels.push_back(l);
 		}
 		if (bLinks && path.Find(sf) != -1) {
-			label l;
+			NodeProps l;
 			l.key = (*li).getKeyFrom();
 			l.name = (*li).getPath();
 			l.state = 3;
@@ -3745,7 +3745,7 @@ void iEditDoc::ViewSettingChanged()
 void iEditDoc::ExportSVG(bool bDrwAll, const CString &path, bool bEmbed,
 	const CString& textFileName, bool textSingle)
 {
-	serialVec vec = getOutlineView()->getDrawOrder(ShowSubBranch());
+	NodeKeyVec vec = getOutlineView()->getDrawOrder(ShowSubBranch());
 	SvgWriter writer(nodes_, links_, vec, bDrwAll);
 	if (textSingle) {
 		writer.setTextHtmlFileName(textFileName);
@@ -3769,7 +3769,7 @@ iNode iEditDoc::GetHitNode(const CPoint &pt, bool bDrwAll)
 	}
 }
 
-void iEditDoc::SetVisibleNodes(KeySet& keySet)
+void iEditDoc::SetVisibleNodes(NodeKeySet& keySet)
 {
 	m_visibleKeys = keySet;
 	nodes_.setVisibleNodes(keySet);
@@ -4147,12 +4147,12 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 	}
 
 	// links_から芋づる検索
-	KeySet nodeChain; // 新しい芋用
-	KeySet nodeChainChecked; // 掘った芋用
+	NodeKeySet nodeChain; // 新しい芋用
+	NodeKeySet nodeChainChecked; // 掘った芋用
 	nodeChain.insert(getSelectedNodeKey()); // selectされている芋
 	unsigned int sizePre = nodeChain.size();
 	for (; ; ) {
-		KeySet::iterator ki = nodeChain.begin();
+		NodeKeySet::iterator ki = nodeChain.begin();
 		for (; ki != nodeChain.end(); ki++) {
 			if (nodeChainChecked.find(*ki) != nodeChainChecked.end()) {
 				continue;
@@ -4736,14 +4736,14 @@ DWORD iEditDoc::DuplicateKeyNode(DWORD key)
 	return n.getKey();
 }
 
-void iEditDoc::DuplicateLinks(const IdMap& idm)
+void iEditDoc::DuplicateLinks(const NodeKeyMap& idm)
 {
-	IdMap::const_iterator it = idm.begin();
+	NodeKeyMap::const_iterator it = idm.begin();
 	for (; it != idm.end(); it++) {
 		literator li = links_.begin();
 		for (; li != links_.end(); li++) {
 			if ((*it).first == (*li).getKeyFrom()) {
-				IdMap::const_iterator pr = idm.find((*li).getKeyTo());
+				NodeKeyMap::const_iterator pr = idm.find((*li).getKeyTo());
 				if (pr != idm.end()) {
 					iLink l = (*li);
 					l.setKeyFrom((*it).second);

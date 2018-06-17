@@ -21,28 +21,28 @@ static char THIS_FILE[] = __FILE__;
 
 int sortBy = 0;
 
-bool operator <(const listitem& i1, const listitem& i2) {
+bool operator <(const LinkProps& i1, const LinkProps& i2) {
 	if (sortBy == 0) {
 		return (i1.comment < i2.comment);
 	}
 	else if (sortBy == 1) {
 		CString s1, s2;
-		if (i1.linkType == listitem::linkSL || i1.linkType == listitem::linkDL) {
+		if (i1.linkType == LinkProps::linkSL || i1.linkType == LinkProps::linkDL) {
 			s1 = i1.sTo;
 		}
-		else if (i1.linkType == listitem::FileName ||
-			i1.linkType == listitem::WebURL ||
-			i1.linkType == listitem::linkFolder ||
-			i1.linkType == listitem::iedFile) {
+		else if (i1.linkType == LinkProps::FileName ||
+			i1.linkType == LinkProps::WebURL ||
+			i1.linkType == LinkProps::linkFolder ||
+			i1.linkType == LinkProps::iedFile) {
 			s1 = i1.path;
 		}
-		if (i2.linkType == listitem::linkSL || i2.linkType == listitem::linkDL) {
+		if (i2.linkType == LinkProps::linkSL || i2.linkType == LinkProps::linkDL) {
 			s2 = i2.sTo;
 		}
-		else if (i2.linkType == listitem::FileName ||
-			i2.linkType == listitem::WebURL ||
-			i2.linkType == listitem::linkFolder ||
-			i2.linkType == listitem::iedFile) {
+		else if (i2.linkType == LinkProps::FileName ||
+			i2.linkType == LinkProps::WebURL ||
+			i2.linkType == LinkProps::linkFolder ||
+			i2.linkType == LinkProps::iedFile) {
 			s2 = i2.path;
 		}
 		return (s1 < s2);
@@ -262,11 +262,11 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 		case 1:
 			int type = items_[index].linkType;
 			CString sTo;
-			if (type == listitem::linkSL || type == listitem::linkDL ||
-				type == listitem::linkSL2 || type == listitem::linkDL2) {
+			if (type == LinkProps::linkSL || type == LinkProps::linkDL ||
+				type == LinkProps::linkSL2 || type == LinkProps::linkDL2) {
 				sTo = items_[index].sTo;
 			}
-			else if (type == listitem::FileName || type == listitem::WebURL || type == listitem::linkFolder || type == listitem::iedFile) {
+			else if (type == LinkProps::FileName || type == LinkProps::WebURL || type == LinkProps::linkFolder || type == LinkProps::iedFile) {
 				sTo = items_[index].path;
 			}
 			if (sTo.GetLength() >= 260) {
@@ -305,7 +305,7 @@ void LinkView::OnDelete()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	if (index == -1) return;
-	if (!items_[index].isFromLink()) return;
+	if (!items_[index].IsLinkFrom()) return;
 
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
@@ -321,7 +321,7 @@ void LinkView::OnDelete()
 void LinkView::OnUpdateDelete(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
+	pCmdUI->Enable(index != -1 && items_[index].IsLinkFrom());
 }
 
 void LinkView::OnSetLinkInfo()
@@ -333,8 +333,8 @@ void LinkView::setLinkInfo()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	int type = items_[index].linkType;
-	listitem i = items_[index];
-	if (type == listitem::linkSL || type == listitem::linkDL) {
+	LinkProps i = items_[index];
+	if (type == LinkProps::linkSL || type == LinkProps::linkDL) {
 		LinkPropertiesDlg dlg;
 		dlg.strComment = i.comment;
 		dlg.strFrom = GetDocument()->getSelectedNodeLabel();
@@ -360,8 +360,8 @@ void LinkView::setLinkInfo()
 		::lstrcpy(i.lf_.lfFaceName, dlg.lf.lfFaceName);
 		GetDocument()->setSpecifiedLinkInfo(items_[index], i);
 	}
-	else if (type == listitem::FileName || type == listitem::WebURL ||
-		type == listitem::linkFolder || type == listitem::iedFile) {
+	else if (type == LinkProps::FileName || type == LinkProps::WebURL ||
+		type == LinkProps::linkFolder || type == LinkProps::iedFile) {
 		LinkForPathDlg dlg;
 		dlg.strComment = i.comment;
 		dlg.strOrg = GetDocument()->getSelectedNodeLabel();
@@ -389,7 +389,7 @@ void LinkView::setLinkInfo()
 void LinkView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
+	pCmdUI->Enable(index != -1 && items_[index].IsLinkFrom());
 }
 
 void LinkView::OnLButtonDblClk(UINT nFlags, CPoint point)
@@ -405,7 +405,7 @@ void LinkView::jumpTo()
 		return;
 	}
 	int type = items_[index].linkType;
-	if (type == listitem::FileName || type == listitem::linkFolder || type == listitem::iedFile) {
+	if (type == LinkProps::FileName || type == LinkProps::linkFolder || type == LinkProps::iedFile) {
 		CString path = items_[index].path;
 		WCHAR drive[_MAX_DRIVE];
 		WCHAR dir[_MAX_DIR];
@@ -444,7 +444,7 @@ void LinkView::jumpTo()
 			ShellExecute(m_hWnd, _T("open"), path, NULL, workdir, SW_SHOW);
 		}
 	}
-	else if (type == listitem::WebURL) {
+	else if (type == LinkProps::WebURL) {
 		ShellExecute(m_hWnd, _T("open"), items_[index].path, NULL, NULL, SW_SHOW);
 	}
 	else {
@@ -528,7 +528,7 @@ void LinkView::OnEditCut()
 void LinkView::OnUpdateEditCut(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
+	pCmdUI->Enable(index != -1 && items_[index].IsLinkFrom());
 }
 
 void LinkView::OnEditCopy()
@@ -546,7 +546,7 @@ void LinkView::OnEditCopy()
 void LinkView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
+	pCmdUI->Enable(index != -1 && items_[index].IsLinkFrom());
 }
 
 void LinkView::OnEditPaste()
@@ -630,7 +630,7 @@ void LinkView::OnEditLabel()
 void LinkView::OnUpdateEditLabel(CCmdUI* pCmdUI)
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-	pCmdUI->Enable(index != -1 && items_[index].isFromLink());
+	pCmdUI->Enable(index != -1 && items_[index].IsLinkFrom());
 }
 
 void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
@@ -642,9 +642,9 @@ void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	int type = items_[index].linkType;
-	listitem i = items_[index];
+	LinkProps i = items_[index];
 
-	if (!i.isFromLink()) {
+	if (!i.IsLinkFrom()) {
 		MessageBox(_T("このリンクを編集するにはリンク元のノードを選択して下さい"));
 		return;
 	}

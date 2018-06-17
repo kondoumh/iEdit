@@ -15,7 +15,7 @@
 class SvgWriter
 {
 public:
-	SvgWriter(iNodes& nodes, iLinks& links, serialVec& drawOrder, bool bDrwAll = false);
+	SvgWriter(iNodes& nodes, iLinks& links, NodeKeyVec& drawOrder, bool bDrwAll = false);
 	virtual ~SvgWriter();
 	void exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed = false);
 	void setTextHtmlFileName(const CString& fileName);
@@ -25,7 +25,7 @@ private:
 	iNodes & m_nodes;
 	iLinks& m_links;
 	bool m_bDrwAll;
-	serialVec m_drawOrder;
+	NodeKeyVec m_drawOrder;
 	CString m_TextHtmlFileName;
 	CString m_TextHtmlFilePrefix;
 protected:

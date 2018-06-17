@@ -53,10 +53,10 @@ struct treeTest : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 
 // vector にラベルとキーを詰め込む関数オブジェクト
 struct copyLabels : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
-	Labels& ls_;
-	copyLabels(Labels& ls) : ls_(ls) {}
+	NodePropsVec& ls_;
+	copyLabels(NodePropsVec& ls) : ls_(ls) {}
 	int operator() (const CTreeCtrl& tree, HTREEITEM item) const {
-		label l;
+		NodeProps l;
 		l.key = tree.GetItemData(item);
 		if (tree.GetParentItem(item) != NULL) {
 			l.parent = tree.GetItemData(tree.GetParentItem(item));
@@ -71,10 +71,10 @@ struct copyLabels : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	}
 };
 
-// KeySetにキーを詰め込む関数オブジェクト
+// NodeKeySetにキーを詰め込む関数オブジェクト
 struct copyKeys : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
-	KeySet& ks_;
-	copyKeys(KeySet& ks) : ks_(ks) {}
+	NodeKeySet& ks_;
+	copyKeys(NodeKeySet& ks) : ks_(ks) {}
 	int operator() (const CTreeCtrl& tree, HTREEITEM item) const {
 		DWORD key;
 		key = tree.GetItemData(item);
@@ -85,8 +85,8 @@ struct copyKeys : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 
 // vector にキーを詰め込む関数オブジェクト
 struct copyKeyVec : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
-	serialVec& svec_;
-	copyKeyVec(serialVec& svec) : svec_(svec) {}
+	NodeKeyVec& svec_;
+	copyKeyVec(NodeKeyVec& svec) : svec_(svec) {}
 	int operator() (const CTreeCtrl& tree, HTREEITEM item) const {
 		DWORD key = tree.GetItemData(item);
 		svec_.push_back(key);
@@ -341,7 +341,7 @@ void OutlineView::OnInitialUpdate()
 		int branchMode = GetDocument()->GetInitialBranchMode();
 		m_hItemShowRoot = findKeyItem(GetDocument()->GetBranchRootKey(), tree().GetRootItem());
 		if (m_hItemShowRoot == NULL) return;
-		KeySet ks;
+		NodeKeySet ks;
 		ks.insert(tree().GetItemData(m_hItemShowRoot));
 		if (branchMode == 1) {
 			treeview_for_each2(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
@@ -421,7 +421,7 @@ int OutlineView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void OutlineView::treeConstruct()
 {
 	iEditDoc* pDoc = GetDocument();
-	Labels ls;
+	NodePropsVec ls;
 	pDoc->copyNodeLabels(ls);
 
 	HTREEITEM hRoot = tree().InsertItem(ls[0].name, 0, 0);
@@ -451,7 +451,7 @@ void OutlineView::treeConstruct()
 void OutlineView::treeConstruct2()
 {
 	iEditDoc* pDoc = GetDocument();
-	Labels ls;
+	NodePropsVec ls;
 	pDoc->copyNodeLabels(ls);
 
 	HTREEITEM hRoot = tree().InsertItem(ls[0].name, 0, 0);
@@ -515,7 +515,7 @@ void OutlineView::treeConstruct2()
 void OutlineView::treeAddBranch(const DWORD rootKey)
 {
 	iEditDoc* pDoc = GetDocument();
-	Labels ls;
+	NodePropsVec ls;
 	pDoc->copyNodeLabels(ls);
 
 	int loop = ls.size();
@@ -787,7 +787,7 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 			tree().SetItem(&pTVDispInfo->item);
 		}
 
-		label l;
+		NodeProps l;
 		l.name = tree().GetItemText(pTVDispInfo->item.hItem);
 		l.key = pDoc->getUniqKey();
 		//	tree().SetItemData(tree().GetSelectedItem(), l.key); // バグの温床 curItem() != NewItemの場合がある
@@ -826,7 +826,7 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void OutlineView::treeToSequence(Labels &ls)
+void OutlineView::treeToSequence(NodePropsVec &ls)
 {
 	if (m_opTreeOut == 0) {
 		setAllNodeLevels(); // level 設定
@@ -834,7 +834,7 @@ void OutlineView::treeToSequence(Labels &ls)
 	}
 	else if (m_opTreeOut == 1) {
 		setSubNodeLevels(); // level 設定
-		label l;
+		NodeProps l;
 		l.key = tree().GetItemData(tree().GetSelectedItem());
 		if (tree().GetSelectedItem() != tree().GetRootItem()) {
 			l.parent = tree().GetItemData(tree().GetParentItem(tree().GetSelectedItem()));
@@ -848,7 +848,7 @@ void OutlineView::treeToSequence(Labels &ls)
 	}
 	else if (m_opTreeOut == 2) {
 		setSubNodeLevels(); // level 設定
-		label l;
+		NodeProps l;
 		l.key = tree().GetItemData(tree().GetSelectedItem());
 		if (tree().GetSelectedItem() != tree().GetRootItem()) {
 			l.parent = tree().GetItemData(tree().GetParentItem(tree().GetSelectedItem()));
@@ -862,15 +862,15 @@ void OutlineView::treeToSequence(Labels &ls)
 	}
 }
 
-void OutlineView::treeToSequence0(Labels &ls)
+void OutlineView::treeToSequence0(NodePropsVec &ls)
 {
 	setAllNodeLevels();
 	treeview_for_each(tree(), copyLabels(ls), tree().GetRootItem());
 }
 
-serialVec OutlineView::getDrawOrder(const bool bShowSubBranch) const
+NodeKeyVec OutlineView::getDrawOrder(const bool bShowSubBranch) const
 {
-	serialVec vec;
+	NodeKeyVec vec;
 	if (!bShowSubBranch) {
 		if (tree().GetRootItem() == tree().GetSelectedItem()) {
 			vec.push_back(0);
@@ -1356,7 +1356,7 @@ void OutlineView::deleteNode()
 	}
 	GetDocument()->deleteKeyItem(tree().GetItemData(hcur));
 	if (tree().ItemHasChildren(hcur)) {
-		Labels ls;
+		NodePropsVec ls;
 		treeview_for_each(tree(), copyLabels(ls), tree().GetChildItem(hcur));
 		for (unsigned int i = 0; i < ls.size(); i++) {
 			GetDocument()->deleteKeyItem(ls[i].key);
@@ -1374,7 +1374,7 @@ void OutlineView::deleteKeyNode(DWORD key, DWORD parentKey)
 	if (hDeleteItem == NULL) return;
 	GetDocument()->deleteKeyItem(tree().GetItemData(hDeleteItem));
 	if (tree().ItemHasChildren(hDeleteItem)) {
-		Labels ls;
+		NodePropsVec ls;
 		treeview_for_each(tree(), copyLabels(ls), tree().GetChildItem(hDeleteItem));
 		for (unsigned int i = 0; i < ls.size(); i++) {
 			GetDocument()->deleteKeyItem(ls[i].key);
@@ -2444,7 +2444,7 @@ void OutlineView::OnAddChild2()
 	m_HNew = newItem;
 
 	iEditDoc* pDoc = GetDocument();
-	label l;
+	NodeProps l;
 	l.name = dlg.m_strcn;
 	l.key = pDoc->getUniqKey();
 	tree().SetItemData(m_HNew, l.key);
@@ -2469,7 +2469,7 @@ void OutlineView::OnUpdateAddChild2(CCmdUI *pCmdUI)
 
 void OutlineView::OnShowSelectedBranch()
 {
-	KeySet ks;
+	NodeKeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
 	GetDocument()->SetVisibleNodes(ks);
@@ -2518,7 +2518,7 @@ void OutlineView::resetShowBranch()
 
 void OutlineView::OnShowSelectedChildren()
 {
-	KeySet ks;
+	NodeKeySet ks;
 	ks.insert(tree().GetItemData(tree().GetSelectedItem()));
 	treeview_for_each2(tree(), copyKeys(ks), tree().GetChildItem(curItem()));
 	GetDocument()->SetVisibleNodes(ks);
@@ -2746,7 +2746,7 @@ void OutlineView::OnCreateClone()
 	tree().SetItemImage(hNew, nImage, nImage);
 
 	tree().SetItemState(hNew, tree().GetItemState(hSelected, TVIS_EXPANDED), TVIS_EXPANDED);
-	IdMap idm;
+	NodeKeyMap idm;
 	idm[key] = newKey;
 	if (tree().ItemHasChildren(hSelected)) {
 		cloneTree(tree().GetChildItem(hSelected), hNew, idm);
@@ -2754,7 +2754,7 @@ void OutlineView::OnCreateClone()
 	GetDocument()->DuplicateLinks(idm);
 	// 指定配下のノードを全部見せるモードの場合、クローンした一連のノードとリンクをvisibleに
 	if (GetDocument()->ShowSubBranch()) {
-		KeySet ks;
+		NodeKeySet ks;
 		ks.insert(tree().GetItemData(m_hItemShowRoot));
 		treeview_for_each(tree(), copyKeys(ks), tree().GetChildItem(m_hItemShowRoot));
 		iEditDoc* pDoc = GetDocument();
@@ -2770,7 +2770,7 @@ void OutlineView::OnUpdateCreateClone(CCmdUI *pCmdUI)
 	pCmdUI->Enable(tree().GetSelectedItem() != tree().GetRootItem());
 }
 
-void OutlineView::cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, IdMap& idm)
+void OutlineView::cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, NodeKeyMap& idm)
 {
 	HTREEITEM hItem, item;
 	item = curItem;

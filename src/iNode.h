@@ -561,8 +561,8 @@ public:
 	CString createClickableMapString(const CString& fileName, bool singleText = true);
 	void setSelectedNodeMargin(int l, int r, int t, int b);
 	BOOL m_bDrawOrderInfo;
-	serialVec getSelectedNodeKeys() const;
-	void setDrawOrder(const serialVec svec);
+	NodeKeyVec getSelectedNodeKeys() const;
+	void setDrawOrder(const NodeKeyVec svec);
 	void restoreNodesFixState(DWORD keyExcluded);
 	void fixNodesReversibly(DWORD keyExcluded);
 	void drawNodesSelected(CDC *pDC);
@@ -582,7 +582,7 @@ public:
 	void setSelectedNodeBrush(const COLORREF& c);
 	void setVisibleNodes(DWORD key);
 	vector<iNode*> getVisibleNodes() const;
-	void setVisibleNodes(KeySet& keySet);
+	void setVisibleNodes(NodeKeySet& keySet);
 	int selectNodesInBound(const CRect& bound, CRect& selRect, bool bDrwAll = false);
 	int getSelectedNodeTextStyle() const;
 	void setSelectedNodeTextStyle(int style);
@@ -609,7 +609,7 @@ public:
 	DWORD getSelKey() const;
 private:
 	vector<iNode*> nodesDraw_; // 描画用ノード配列
-	serialVec svec_; // 描画順序情報
+	NodeKeyVec svec_; // 描画順序情報
 	iNodeDrawer* getNodeDrawer(const iNode& node);
 	DWORD curParent_;
 	DWORD selKey_;
@@ -624,7 +624,7 @@ public:
 	void resizeSelectedNodeFont(bool bEnlarge);
 };
 
-inline void iNodes::setDrawOrder(const serialVec svec)
+inline void iNodes::setDrawOrder(const NodeKeyVec svec)
 {
 	svec_ = svec;
 }

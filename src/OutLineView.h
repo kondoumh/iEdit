@@ -40,12 +40,12 @@ protected:
 
 public:
 	int getBranchMode() const;
-	serialVec getDrawOrder(const bool bShowSubBranch) const;
+	NodeKeyVec getDrawOrder(const bool bShowSubBranch) const;
 	void hideModeless();
-	void treeToSequence0(Labels& ls);
+	void treeToSequence0(NodePropsVec& ls);
 	void OutputHTML();
 	void setViewFont();
-	void treeToSequence(Labels& ls);
+	void treeToSequence(NodePropsVec& ls);
 	virtual ~OutlineView();
 
 protected:
@@ -203,7 +203,7 @@ private:
 	bool m_bAdding;
 	bool m_bHitR;
 
-	void cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, IdMap& idm);
+	void cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, NodeKeyMap& idm);
 	void resetShowBranch();
 	void doColorSetting();
 	void foldUpTree(HTREEITEM hItem, int curLevel, int levelSet);

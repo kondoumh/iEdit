@@ -67,7 +67,7 @@ public:
 	int GetSerialVersion() const;
 	int GetInitialBranchMode() const;
 	DWORD GetBranchRootKey() const;
-	void DuplicateLinks(const IdMap& idm);
+	void DuplicateLinks(const NodeKeyMap& idm);
 	DWORD DuplicateKeyNode(DWORD key);
 	void DeleteLinksInBound(const CRect& bound);
 	void MigrateGroup();
@@ -115,7 +115,7 @@ public:
 	void ResetShowBranch();
 	CString GetSubBranchRootLabel() const;
 	void SetShowBranch(DWORD branchRootKey);
-	void SetVisibleNodes(KeySet& keySet);
+	void SetVisibleNodes(NodeKeySet& keySet);
 	iNode GetHitNode(const CPoint& pt, bool bDrwAll);
 	void ExportSVG(bool bDrwAll, const CString& path, bool bEmbed = false,
 		const CString& textFileName = _T(""), bool textSingle = true);
@@ -141,7 +141,7 @@ public:
 	void DrawLinksSelected(CDC* pDC, bool bDrwAll, bool clipbrd);
 	void DrawNodesSelected(CDC* pDC, bool bDrwAll);
 	HENHMETAFILE GetSelectedNodeMetaFile();
-	void ListUpNodes(const CString& sfind, Labels& labels, BOOL bLabel = TRUE, BOOL bText = FALSE, BOOL bLinks = FALSE, BOOL bUpper = FALSE);
+	void ListUpNodes(const CString& sfind, NodePropsVec& labels, BOOL bLabel = TRUE, BOOL bText = FALSE, BOOL bLinks = FALSE, BOOL bUpper = FALSE);
 	void AddShapeNode(const CString& name, const CPoint& pt, int mfIndex, HENHMETAFILE& mh);
 	void SetConnectionPoint();
 	CString GetKeyNodeText(DWORD key);
@@ -176,18 +176,18 @@ public:
 	void setCpLinkOrg();
 	BOOL isSelectedLinkCurved(bool bDrwAll = false) const;
 	BOOL isSelectedLinkSelf() const;
-	void notifySelectLink(const lsItems& ls, int index, bool drwAll = false);
+	void notifySelectLink(const LinkPropsVec& ls, int index, bool drwAll = false);
 	void selectChild();
 	void getSelectedLinkPts(CPoint& start, CPoint& end, bool bDrwAll = false);
 	void setSelectedLinkCurve(CPoint pt, bool curve = true, bool bDrwAll = false);
 	void setSelectedLinkAngled(bool angled = true);
 	CRect getRelatedBound(bool drwAll = false) const;
 	CRect getSelectedLinkBound(bool drwAll = false) const;
-	void setSpecifiedLinkInfo(const listitem& iOld, const listitem& iNew);
-	void deleteSpecifidLink(const listitem& i);
+	void setSpecifiedLinkInfo(const LinkProps& iOld, const LinkProps& iNew);
+	void deleteSpecifidLink(const LinkProps& i);
 	DWORD getSelectedNodeKey() const;
 	void addURLLink(const CString& url, const CString& comment);
-	void getLinkInfoList(lsItems& ls, bool drwAll = false);
+	void getLinkInfoList(LinkPropsVec& ls, bool drwAll = false);
 	bool canDeleteNode() const;
 	CString getSelectedLinkLabel(bool drawAll = false);
 	CString getSelectedNodeLabel();
@@ -245,8 +245,8 @@ public:
 	CString getKeyNodeChapterNumber(DWORD key);
 	void setKeyNodeChapterNumber(DWORD key, const CString& chapterNumber);
 	DWORD getUniqKey();
-	void addNode(const label& l, DWORD inheritKey = 0, bool bInherit = false);
-	void copyNodeLabels(Labels& v);
+	void addNode(const NodeProps& l, DWORD inheritKey = 0, bool bInherit = false);
+	void copyNodeLabels(NodePropsVec& v);
 	virtual ~iEditDoc();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -275,7 +275,7 @@ protected:
 	int tag2Align(const CString& tag);
 	bool DomTree2Nodes2(MSXML2::IXMLDOMElement* node, CStdioFile* f);
 	bool DomTree2Nodes3(MSXML2::IXMLDOMElement* node);
-	bool isKeyInLabels(const Labels& labels, DWORD key);
+	bool isKeyInLabels(const NodePropsVec& labels, DWORD key);
 	double width2Len(int width);
 	void addImportData(bool brepRoot);
 	DWORD findPairKey(const DWORD first);
@@ -302,7 +302,7 @@ private:
 	bool m_bSerializeXML;
 	bool m_bLoadXmlSucceeded;
 	bool m_bOldBinary;
-	KeySet m_visibleKeys;
+	NodeKeySet m_visibleKeys;
 	DWORD m_dwBranchRootKey;
 	CPoint m_pathPtImport;
 	colorref m_fcolorImport, m_lcolorImport, m_ncolorImport;
@@ -312,10 +312,10 @@ private:
 	nVec nodesImport;
 	iLink linkImport;
 	iNode nodeImport;
-	idCVec idcVec;
+	NodeKeyPairs idcVec;
 	CPoint ptSelectMin;
-	serialVec sv;
-	serialVec copyOrg;
+	NodeKeyVec sv;
+	NodeKeyVec copyOrg;
 	BOOL canCpyLink;
 	iLink m_cpLinkOrg;
 	CPoint m_maxPt;

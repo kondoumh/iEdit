@@ -1148,7 +1148,7 @@ vector<iNode*> iNodes::getVisibleNodes() const
 	return nodesDraw_;
 }
 
-void iNodes::setVisibleNodes(KeySet& keySet)
+void iNodes::setVisibleNodes(NodeKeySet& keySet)
 {
 	nodesDraw_.clear();
 	nodesDraw_.resize(0);
@@ -1363,9 +1363,9 @@ void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 	}
 }
 
-serialVec iNodes::getSelectedNodeKeys() const
+NodeKeyVec iNodes::getSelectedNodeKeys() const
 {
-	serialVec v;
+	NodeKeyVec v;
 	const_niterator it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.isSelected() && (*it).second.isVisible()) {

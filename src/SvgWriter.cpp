@@ -18,7 +18,7 @@ static char THIS_FILE[] = __FILE__;
 // 構築/消滅
 //////////////////////////////////////////////////////////////////////
 
-SvgWriter::SvgWriter(iNodes& nodes, iLinks& links, serialVec& drawOrder, bool bDrwAll) :
+SvgWriter::SvgWriter(iNodes& nodes, iLinks& links, NodeKeyVec& drawOrder, bool bDrwAll) :
 	m_nodes(nodes), m_links(links), m_drawOrder(drawOrder), m_bDrwAll(bDrwAll),
 	m_TextHtmlFileName(_T("")), m_TextHtmlFilePrefix(_T(""))
 {

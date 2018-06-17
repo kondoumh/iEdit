@@ -93,7 +93,7 @@ private:
 	int curSel;
 	DWORD m_preKey;
 	keyStack kstack;
-	lsItems items_;
+	LinkPropsVec items_;
 	CImageList m_imageList;
 public:
 	afx_msg void OnLinkMoveUp();

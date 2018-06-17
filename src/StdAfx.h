@@ -67,7 +67,7 @@ using namespace MSXML2;
 #include <afxcontrolbars.h>
 using namespace std;
 
-struct listitem {
+struct LinkProps {
 	DWORD key;
 	DWORD keyTo;
 	CString sTo;
@@ -82,13 +82,13 @@ struct listitem {
 	int linkWidth_;
 	int styleLine_;
 	LOGFONT lf_;
-	BOOL isFromLink() {
+	BOOL IsLinkFrom() {
 		if (linkType == linkSL2 || linkType == linkDL2) return FALSE;
 		return TRUE;
 	}
 };
 
-struct label {
+struct NodeProps {
 	CString name;
 	DWORD key;
 	DWORD parent;
@@ -97,14 +97,13 @@ struct label {
 	int treeIconId;
 };
 
-typedef vector<label> Labels;
-typedef set<DWORD> KeySet;
-typedef vector<listitem> lsItems;
-
-typedef vector<DWORD> serialVec;
-typedef pair<DWORD, DWORD> idConv;
-typedef vector<idConv> idCVec;
-typedef map<DWORD, DWORD> IdMap;
+typedef vector<NodeProps> NodePropsVec;
+typedef vector<LinkProps> LinkPropsVec;
+typedef set<DWORD> NodeKeySet;
+typedef vector<DWORD> NodeKeyVec;
+typedef pair<DWORD, DWORD> NodeKeyPair;
+typedef vector<NodeKeyPair> NodeKeyPairs;
+typedef map<DWORD, DWORD> NodeKeyMap;
 
 //{{AFX_INSERT_LOCATION}}
 
