@@ -1807,7 +1807,7 @@ int iEditDoc::getDataSize() const
 	return nodes_.size();
 }
 
-BOOL iEditDoc::linkExist(bool drwAll) const
+BOOL iEditDoc::LinksExist() const
 {
 	const_literator li = links_.begin();
 	for (; li != links_.end(); li++) {
@@ -1818,7 +1818,7 @@ BOOL iEditDoc::linkExist(bool drwAll) const
 	return FALSE;
 }
 
-void iEditDoc::setSelectedNodeCopyOrg()
+void iEditDoc::AddSelectedNodesToCopyOrg()
 {
 	copyOrg.clear(); copyOrg.resize(0);
 	niterator It = nodes_.getSelectedNode();

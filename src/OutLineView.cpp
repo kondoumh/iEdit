@@ -1158,7 +1158,7 @@ void OutlineView::OnEditCopy()
 		tree().GetEditControl()->Copy();
 	}
 	else {
-		GetDocument()->setSelectedNodeCopyOrg();
+		GetDocument()->AddSelectedNodesToCopyOrg();
 	}
 }
 

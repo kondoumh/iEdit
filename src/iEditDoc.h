@@ -162,8 +162,8 @@ public:
 	int GetSelectedNodeShape() const;
 	BOOL CanDuplicateNodes();
 	void DuplicateNodes(const CPoint& pt, bool useDefault = true);
-	void setSelectedNodeCopyOrg();
-	BOOL linkExist(bool drwAll = false) const;
+	void AddSelectedNodesToCopyOrg();
+	BOOL LinksExist() const;
 	void addNode2(const iNode& n);
 	int getDataSize() const;
 	void setSelectedNodeNoBrush(BOOL noBrush = TRUE);

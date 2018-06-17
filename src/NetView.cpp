@@ -2106,8 +2106,7 @@ void NetView::OnAutoLayout()
 
 void NetView::OnUpdateAutoLayout(CCmdUI* pCmdUI)
 {
-	bool bDrwAll = false;
-	pCmdUI->Enable(GetDocument()->linkExist(bDrwAll) && m_addMode == NetView::normal && !m_bGrasp);
+	pCmdUI->Enable(GetDocument()->LinksExist() && m_addMode == NetView::normal && !m_bGrasp);
 	pCmdUI->SetCheck(m_bLayouting);
 }
 
@@ -2477,7 +2476,7 @@ void NetView::OnUpdateSetNodeBrush(CCmdUI* pCmdUI)
 void NetView::OnEditCopy()
 {
 	if (!m_selectRect.IsRectEmpty()) {
-		GetDocument()->setSelectedNodeCopyOrg();
+		GetDocument()->AddSelectedNodesToCopyOrg();
 	}
 
 	copyMFtoClpbrd();
