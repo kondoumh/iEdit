@@ -120,7 +120,7 @@ public:
 	void SetShowBranch(DWORD branchRootKey);
 	void SetVisibleNodes(NodeKeySet& keySet);
 	iNode GetHitNode(const CPoint& pt, bool bDrwAll);
-	void ExportSVG(bool bDrwAll, const CString& path, bool bEmbed = false,
+	void ExportSvg(bool bDrwAll, const CString& path, bool bEmbed = false,
 		const CString& textFileName = _T(""), bool textSingle = true);
 	void ViewSettingChanged();
 	void DrawLinkSelectionTo(CDC* pDC, bool bDrwAll);

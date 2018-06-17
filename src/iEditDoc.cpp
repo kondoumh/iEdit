@@ -3742,7 +3742,7 @@ void iEditDoc::ViewSettingChanged()
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::ExportSVG(bool bDrwAll, const CString &path, bool bEmbed,
+void iEditDoc::ExportSvg(bool bDrwAll, const CString &path, bool bEmbed,
 	const CString& textFileName, bool textSingle)
 {
 	NodeKeyVec vec = getOutlineView()->getDrawOrder(ShowSubBranch());
