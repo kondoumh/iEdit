@@ -40,13 +40,13 @@ public:
 	int treeIconId;
 };
 
-struct colorref {
+struct ColorRef {
 	BYTE r;
 	BYTE g;
 	BYTE b;
 };
 
-typedef vector<iLink> lVec;
+typedef vector<iLink> iLinkVec;
 class OutlineView;
 
 class iEditDoc : public CDocument
@@ -54,7 +54,7 @@ class iEditDoc : public CDocument
 	iNodes nodes_;
 	iLinks links_;
 	nVec nodes_undo;
-	lVec links_undo;
+	iLinkVec links_undo;
 	int m_serialVersion;
 
 protected:
@@ -308,10 +308,10 @@ private:
 	NodeKeySet m_visibleKeys;
 	DWORD m_dwBranchRootKey;
 	CPoint m_pathPtImport;
-	colorref m_fcolorImport, m_lcolorImport, m_ncolorImport;
+	ColorRef m_fcolorImport, m_lcolorImport, m_ncolorImport;
 	CRect m_boundImport;
 	bool m_bShowBranch;
-	lVec linksImport;
+	iLinkVec linksImport;
 	nVec nodesImport;
 	iLink linkImport;
 	iNode nodeImport;

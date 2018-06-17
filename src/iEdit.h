@@ -15,7 +15,7 @@
 #include "resource.h"       // メイン シンボル
 
 // レジストリ情報格納用変数
-struct rgsNode {
+struct RegValueNode {
 	LOGFONT lf;
 	int styleText;
 	int styleLine;
@@ -38,7 +38,7 @@ struct rgsNode {
 	int margin_b;
 };
 
-struct rgsLink {
+struct RegValueLink {
 	LOGFONT lf;
 	int lineWidth;
 	int styleLine;
@@ -47,14 +47,14 @@ struct rgsLink {
 	BOOL bSetStrength;
 };
 
-struct rgsOther {
+struct RegValueMisc {
 	BOOL bSetStylesheet;
 	CString strStyleSheetFile;
 	BOOL bOpenFilesAfterExport;
 	BOOL bOutputFileLinksOnExport;
 };
 
-struct rgsOptions {
+struct RegValueFileType {
 	BOOL registFiletype;
 	BOOL registOldFiletype;
 };
@@ -90,10 +90,10 @@ public:
 	void getLinkProfile();
 	void getNodeProfile();
 	void getOptionsProfile();
-	rgsNode m_rgsNode;
-	rgsLink m_rgsLink;
-	rgsOther m_rgsOther;
-	rgsOptions m_rgsOptions;
+	RegValueNode m_rgsNode;
+	RegValueLink m_rgsLink;
+	RegValueMisc m_rgsOther;
+	RegValueFileType m_rgsOptions;
 	HMetaFiles m_hMetaFiles;
 	CString m_mfCategories[10];
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
