@@ -775,7 +775,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		// リンクの選択が更新された
 		m_selectStatus = NetView::link;
 		GetDocument()->GetSelectedLinkEndPoints(m_linkStart, m_linkEnd);
-		m_selectRect = GetDocument()->getSelectedLinkBound(false);
+		m_selectRect = GetDocument()->GetSelectedLinkBound(false);
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
 		InvalidateRect(nw);
 		InvalidateRect(old);
@@ -783,7 +783,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 	else if (GetDocument()->SelectLinkStartIfHit(logPt, false)) {
 		// リンクのリンク元を選択した
 		m_selectStatus = NetView::linkTermFrom;
-		m_selectRect = GetDocument()->getSelectedLinkBound(false);
+		m_selectRect = GetDocument()->GetSelectedLinkBound(false);
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
 		InvalidateRect(nw);
 		InvalidateRect(old);
@@ -792,7 +792,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 	else if (GetDocument()->SelectLinkEndIfHit(logPt, false)) {
 		// リンクのリンク先を選択した
 		m_selectStatus = NetView::linkTermTo;
-		m_selectRect = GetDocument()->getSelectedLinkBound(false);
+		m_selectRect = GetDocument()->GetSelectedLinkBound(false);
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
 		InvalidateRect(nw);
 		InvalidateRect(old);
@@ -845,7 +845,7 @@ void NetView::doPostSelection(const CPoint &logPt, BOOL shiftPressed)
 			if (selcnt > 1) {
 				m_selectStatus = NetView::multi;
 				GetDocument()->selectLinksInBound(trackerRect, false);// 含まれるlinkも選択する
-				m_selectRect |= GetDocument()->getSelectedLinkBound(false);
+				m_selectRect |= GetDocument()->GetSelectedLinkBound(false);
 			}
 			else if (selcnt == 1) {
 				m_selectStatus = NetView::single;
@@ -869,7 +869,7 @@ void NetView::trackMulti(CPoint &logPt, CPoint &point, CDC *pDC)
 	tracker.m_nStyle = CRectTracker::hatchedBorder | CRectTracker::resizeInside;
 	pDC->LPtoDP(&(tracker.m_rect));
 
-	CRect old = GetDocument()->getRelatedBound(false); adjustRedrawBound(old);
+	CRect old = GetDocument()->GetRelatedBound(); adjustRedrawBound(old);
 	if (tracker.Track(this, point, TRUE)) {
 		CRect org = m_selectRect;
 		pDC->DPtoLP(&(tracker.m_rect));
@@ -887,7 +887,7 @@ void NetView::trackMulti(CPoint &logPt, CPoint &point, CDC *pDC)
 		GetDocument()->BackupLinksForUndo();
 		GetDocument()->moveSelectedNode(CSize(moveX, moveY));
 		GetDocument()->moveSelectedLink(CSize(moveX, moveY));
-		CRect nwrd = GetDocument()->getRelatedBound(false); adjustRedrawBound(nwrd);
+		CRect nwrd = GetDocument()->GetRelatedBound(); adjustRedrawBound(nwrd);
 
 		CRect rc;
 		if (!rc.IntersectRect(old, nwrd)) {
@@ -916,7 +916,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 	}
 
 	tracker.m_nStyle = CRectTracker::resizeInside;
-	CRect old = GetDocument()->getRelatedBound(false); adjustRedrawBound(old);
+	CRect old = GetDocument()->GetRelatedBound(); adjustRedrawBound(old);
 	if (tracker.Track(this, point, TRUE)) {
 		GetDocument()->BackupNodesForUndo();
 		GetDocument()->BackupLinksForUndo();
@@ -941,7 +941,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 		int moveX = m_selectRect.left - org.left;
 		int moveY = m_selectRect.top - org.top;
 		GetDocument()->moveSelectedLink(CSize(moveX, moveY));
-		CRect rdnw = GetDocument()->getRelatedBound(false); adjustRedrawBound(rdnw);
+		CRect rdnw = GetDocument()->GetRelatedBound(); adjustRedrawBound(rdnw);
 		// getRelatedBoundAndに変更
 		CRect rc;
 		if (!rc.IntersectRect(old, rdnw)) {
@@ -1044,7 +1044,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		InvalidateRect(oldBound);
 
 		// 再描画領域の計算ロジックを作ってみた
-		nwBound = GetDocument()->getSelectedLinkBound(false);
+		nwBound = GetDocument()->GetSelectedLinkBound(false);
 		nwBound.left = (int)(nwBound.left*m_fZoomScale);
 		nwBound.top = (int)(nwBound.top*m_fZoomScale);
 		nwBound.right = (int)(nwBound.right*m_fZoomScale);
@@ -1098,11 +1098,11 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 			m_selectRect = GetDocument()->GetRelatedBoundAnd(false);
 		}
 		InvalidateRect(&oldBound);
-		nwBound = GetDocument()->getRelatedBound(false); adjustRedrawBound(nwBound);
+		nwBound = GetDocument()->GetRelatedBound(); adjustRedrawBound(nwBound);
 		InvalidateRect(nwBound);
 		break;
 	case iHint::linkAdd:
-		nwBound = GetDocument()->getRelatedBound(false); adjustRedrawBound(nwBound);
+		nwBound = GetDocument()->GetRelatedBound(); adjustRedrawBound(nwBound);
 		InvalidateRect(nwBound);
 		break;
 	case iHint::showSubBranch:
@@ -1123,7 +1123,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		if (m_selectStatus == NetView::multi) {
 			m_selectRect = GetDocument()->GetRelatedBoundAnd(false);
 		}
-		nwBound = GetDocument()->getRelatedBound(); adjustRedrawBound(nwBound);
+		nwBound = GetDocument()->GetRelatedBound(); adjustRedrawBound(nwBound);
 		nwBound |= oldBound;
 		InvalidateRect(nwBound);
 		break;
@@ -1408,7 +1408,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		if (GetDocument()->SwitchLinkStartNodeAt(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkTo, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
-			CRect rcNew = GetDocument()->getSelectedLinkBound(false);
+			CRect rcNew = GetDocument()->GetSelectedLinkBound(false);
 			rcNew.NormalizeRect();
 			InvalidateRect(rcOld | rcNew);
 		}
@@ -1431,7 +1431,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		if (GetDocument()->SwitchLinkEndNodeAt(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkFrom, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
-			CRect rcNew = GetDocument()->getSelectedLinkBound(false);
+			CRect rcNew = GetDocument()->GetSelectedLinkBound(false);
 			rcNew.NormalizeRect();
 			InvalidateRect(rcOld | rcNew);
 		}
@@ -1502,7 +1502,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 		// hitTest, linkHitTest
 		if (pDoc->hitTestLinks(logPt, false)) {
 			m_selectStatus = NetView::link;
-			m_selectRect = GetDocument()->getSelectedLinkBound(false);
+			m_selectRect = GetDocument()->GetSelectedLinkBound(false);
 		}
 		else if (pDoc->hitTest(logPt, r, false)) {
 			m_selectStatus = NetView::single;
@@ -1518,7 +1518,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 		if (!m_selectRect.PtInRect(logPt)) {
 			if (pDoc->hitTestLinks(logPt, false)) {
 				m_selectStatus = NetView::link;
-				m_selectRect = GetDocument()->getSelectedLinkBound(false);
+				m_selectRect = GetDocument()->GetSelectedLinkBound(false);
 			}
 			else if (pDoc->hitTest(logPt, r, false)) {
 				m_selectStatus = NetView::single;
@@ -2037,8 +2037,7 @@ void NetView::OnDelete()
 {
 	GetDocument()->DisableUndo();
 	if (m_selectStatus == NetView::single) {
-		bool bDrwAll = false;
-		CRect old = GetDocument()->getRelatedBound(bDrwAll); adjustRedrawBound(old);
+		CRect old = GetDocument()->GetRelatedBound(); adjustRedrawBound(old);
 		GetDocument()->deleteSelectedNode();
 		InvalidateRect(old);
 	}
@@ -2381,7 +2380,7 @@ void NetView::copyMFtoClpbrd()
 		int selcnt = GetDocument()->selectNodesInBound(allR, selRect, false);
 		CRect nwBound = allR;
 		GetDocument()->selectLinksInBound(nwBound, false);
-		selRect |= GetDocument()->getSelectedLinkBound(false);
+		selRect |= GetDocument()->GetSelectedLinkBound(false);
 
 		CMetaFileDC mfDC;
 		CPoint p1(0, 0);
@@ -2410,7 +2409,7 @@ void NetView::copyMFtoClpbrd()
 		int selcnt = GetDocument()->selectNodesInBound(m_selectRect, selRect, false);
 		CRect nwBound = GetDocument()->GetRelatedBoundAnd(false);
 		GetDocument()->selectLinksInBound(nwBound, false);
-		selRect |= GetDocument()->getSelectedLinkBound(false);
+		selRect |= GetDocument()->GetSelectedLinkBound(false);
 
 		CMetaFileDC mfDC;
 		CPoint p1(0, 0);
@@ -2783,8 +2782,7 @@ void NetView::cursorMove(int dx, int dy)
 	tracker.m_rect = m_selectRect;
 	dc.DPtoLP(&(tracker.m_rect));
 
-	bool bDrwAll = false;
-	CRect old = GetDocument()->getRelatedBound(bDrwAll); adjustRedrawBound(old);
+	CRect old = GetDocument()->GetRelatedBound(); adjustRedrawBound(old);
 
 	if (m_selectStatus == NetView::single) {
 		tracker.m_nStyle = CRectTracker::resizeInside;
@@ -2798,7 +2796,7 @@ void NetView::cursorMove(int dx, int dy)
 		GetDocument()->moveSelectedNode(CSize(dx, dy));
 		GetDocument()->moveSelectedLink(CSize(dx, dy));
 	}
-	CRect rdnw = GetDocument()->getRelatedBound(bDrwAll); adjustRedrawBound(rdnw);
+	CRect rdnw = GetDocument()->GetRelatedBound(); adjustRedrawBound(rdnw);
 
 	CRect rc;
 	if (!rc.IntersectRect(old, rdnw)) {
@@ -2942,7 +2940,7 @@ void NetView::selectAll()
 	if (selcnt > 1) {
 		m_selectStatus = NetView::multi;
 		GetDocument()->selectLinksInBound(allR, bDrwAll);
-		m_selectRect |= GetDocument()->getSelectedLinkBound(bDrwAll);
+		m_selectRect |= GetDocument()->GetSelectedLinkBound(bDrwAll);
 	}
 	else if (selcnt == 1) {
 		m_selectStatus = NetView::single;
@@ -3114,14 +3112,13 @@ void NetView::OnUpdateAdjustRight(CCmdUI* pCmdUI)
 
 void NetView::adjustNodesEnd(const CString& side)
 {
-	bool bDrwAll = false;
-	CRect old = GetDocument()->getRelatedBound(bDrwAll); adjustRedrawBound(old);
+	CRect old = GetDocument()->GetRelatedBound(); adjustRedrawBound(old);
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->BackupLinksForUndo();
 
-	GetDocument()->AlignNodesInBoundTo(side, m_selectRect, bDrwAll);
+	GetDocument()->AlignNodesInBoundTo(side, m_selectRect, false);
 
-	CRect nwrd = GetDocument()->GetRelatedBoundAnd(bDrwAll);
+	CRect nwrd = GetDocument()->GetRelatedBoundAnd(false);
 	m_selectRect = nwrd;
 	adjustRedrawBound(nwrd);
 	CRect rc;
@@ -3169,14 +3166,13 @@ void NetView::OnUpdateSameWidth(CCmdUI* pCmdUI)
 
 void NetView::sameNodesSize(const CString &strSize)
 {
-	bool bDrwAll = false;
-	CRect old = GetDocument()->getRelatedBound(bDrwAll); adjustRedrawBound(old);
+	CRect old = GetDocument()->GetRelatedBound(); adjustRedrawBound(old);
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->BackupLinksForUndo();
 
-	GetDocument()->AlignSelectedNodesToSameSize(strSize, bDrwAll);
+	GetDocument()->AlignSelectedNodesToSameSize(strSize, false);
 
-	CRect nwrd = GetDocument()->GetRelatedBoundAnd(bDrwAll);
+	CRect nwrd = GetDocument()->GetRelatedBoundAnd(false);
 	m_selectRect = nwrd;
 	adjustRedrawBound(nwrd);
 	CRect rc;
@@ -4315,7 +4311,7 @@ void NetView::OnDeleteSelectedLinks()
 
 void NetView::OnUpdateDeleteSelectedLinks(CCmdUI *pCmdUI)
 {
-	CRect rc = GetDocument()->getSelectedLinkBound();
+	CRect rc = GetDocument()->GetSelectedLinkBound();
 	pCmdUI->Enable(m_selectStatus == NetView::multi && !rc.IsRectEmpty());
 }
 

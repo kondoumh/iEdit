@@ -1598,14 +1598,14 @@ double iEditDoc::width2Len(int width)
 	return l;
 }
 
-CRect iEditDoc::getSelectedLinkBound(bool drwAll) const
+CRect iEditDoc::GetSelectedLinkBound(bool drwAll) const
 {
 	CRect rc(CRect(0, 0, 0, 0));
 	rc = links_.getSelectedLinkBound(drwAll);
 	return rc;
 }
 
-CRect iEditDoc::getRelatedBound(bool drwAll) const
+CRect iEditDoc::GetRelatedBound() const
 {
 	// TODO:branchモードの時の処理
 	CRect rc(CRect(0, 0, 0, 0));
@@ -3930,7 +3930,7 @@ CRect iEditDoc::RestoreDeleteBound() const
 
 void iEditDoc::BackupDeleteBound()
 {
-	m_deleteBound = getRelatedBound(false);
+	m_deleteBound = GetRelatedBound();
 }
 
 void iEditDoc::SetNodeLevel(const DWORD key, const int nLevel)
