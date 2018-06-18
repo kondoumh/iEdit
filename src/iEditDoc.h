@@ -184,9 +184,9 @@ public:
 	void AngleSelectedLink(bool angled = true);
 	CRect GetRelatedBound() const;
 	CRect GetSelectedLinkBound() const;
-	void setSpecifiedLinkInfo(const LinkProps& iOld, const LinkProps& iNew);
-	void deleteSpecifidLink(const LinkProps& i);
-	DWORD getSelectedNodeKey() const;
+	void SetSpecifiedLinkProps(const LinkProps& iOld, const LinkProps& iNew);
+	void DeleteSpecifidLink(const LinkProps& i);
+	DWORD GetSelectedNodeKey() const;
 	void addURLLink(const CString& url, const CString& comment);
 	void getLinkInfoList(LinkPropsVec& ls, bool drwAll = false);
 	bool canDeleteNode() const;

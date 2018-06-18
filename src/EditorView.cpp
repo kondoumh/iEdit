@@ -104,14 +104,14 @@ void EditorView::OnInitialUpdate()
 	CEditView::OnInitialUpdate();
 	CString t = GetDocument()->getSelectedNodeText();
 	GetEditCtrl().SetWindowText(t);
-	m_preKey = GetDocument()->getSelectedNodeKey();
+	m_preKey = GetDocument()->GetSelectedNodeKey();
 	m_bDrawUnderLine = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Draw Underline"), TRUE);
 	UpdateTextExtent();
 }
 
 void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	DWORD curKey = GetDocument()->getSelectedNodeKey();
+	DWORD curKey = GetDocument()->GetSelectedNodeKey();
 	m_bPreUpdateReplace = false;
 	if (curKey != m_preKey) {
 		m_bPreUpdateReplace = true;

@@ -798,7 +798,7 @@ bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt, bool bDrwAll)
 		links_.setSelectedNodeLinkFrom(pNode->getKey(), pNode->getBound());
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkModified;
-		UpdateAllViews(NULL, (LPARAM)getSelectedNodeKey(), &h);
+		UpdateAllViews(NULL, (LPARAM)GetSelectedNodeKey(), &h);
 		return true;
 	}
 	return false;
@@ -813,7 +813,7 @@ bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt, bool bDrwAll)
 		SetModifiedFlag();
 		UpdateAllViews(NULL);
 		iHint h; h.event = iHint::linkModified;
-		UpdateAllViews(NULL, (LPARAM)getSelectedNodeKey(), &h);
+		UpdateAllViews(NULL, (LPARAM)GetSelectedNodeKey(), &h);
 		return true;
 	}
 	return false;
@@ -1434,12 +1434,12 @@ void iEditDoc::addURLLink(const CString &url, const CString& comment)
 	UpdateAllViews(NULL, LPARAM(curKey), &h);
 }
 
-DWORD iEditDoc::getSelectedNodeKey() const
+DWORD iEditDoc::GetSelectedNodeKey() const
 {
 	return nodes_.getSelKey();
 }
 
-void iEditDoc::deleteSpecifidLink(const LinkProps &i)
+void iEditDoc::DeleteSpecifidLink(const LinkProps &i)
 {
 	literator it = links_.begin();
 	for (; it != links_.end(); it++) {
@@ -1460,7 +1460,7 @@ void iEditDoc::deleteSpecifidLink(const LinkProps &i)
 	}
 }
 
-void iEditDoc::setSpecifiedLinkInfo(const LinkProps &iOld, const LinkProps &iNew)
+void iEditDoc::SetSpecifiedLinkProps(const LinkProps &iOld, const LinkProps &iNew)
 {
 	literator it = links_.begin();
 	for (; it != links_.end(); it++) {
@@ -3721,7 +3721,7 @@ void iEditDoc::ReverseSelectedLinkDirection(bool bDrwAll)
 	SetModifiedFlag();
 	selChanged(keyTo, true, ShowSubBranch());
 	iHint h; h.event = iHint::linkModified;
-	UpdateAllViews(NULL, (LPARAM)getSelectedNodeKey(), &h);
+	UpdateAllViews(NULL, (LPARAM)GetSelectedNodeKey(), &h);
 }
 
 void iEditDoc::ViewSettingChanged()
@@ -3805,7 +3805,7 @@ bool iEditDoc::IsOldBinary() const
 
 bool iEditDoc::CurKeyInBranch() const
 {
-	DWORD key = getSelectedNodeKey();
+	DWORD key = GetSelectedNodeKey();
 	set<DWORD>::const_iterator it = m_visibleKeys.find(key);
 	if (it == m_visibleKeys.end()) {
 		return false;
@@ -4138,7 +4138,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 	// links_から芋づる検索
 	NodeKeySet nodeChain; // 新しい芋用
 	NodeKeySet nodeChainChecked; // 掘った芋用
-	nodeChain.insert(getSelectedNodeKey()); // selectされている芋
+	nodeChain.insert(GetSelectedNodeKey()); // selectされている芋
 	unsigned int sizePre = nodeChain.size();
 	for (; ; ) {
 		NodeKeySet::iterator ki = nodeChain.begin();

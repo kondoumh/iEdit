@@ -142,7 +142,7 @@ void LinkView::OnInitialUpdate()
 
 	doColorSetting();
 
-	m_preKey = GetDocument()->getSelectedNodeKey();
+	m_preKey = GetDocument()->GetSelectedNodeKey();
 	CString s = GetDocument()->getSelectedNodeLabel();
 	GetListCtrl().DeleteColumn(0);
 	GetListCtrl().InsertColumn(0, s);
@@ -166,7 +166,7 @@ void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		ph != NULL && ph->event == iHint::linkSel ||
 		ph != NULL && ph->event == iHint::linkModified ||
 		ph != NULL && ph->event == iHint::linkDeleteMulti) ||
-		(m_preKey != GetDocument()->getSelectedNodeKey())) {
+		(m_preKey != GetDocument()->GetSelectedNodeKey())) {
 
 		CString s = GetDocument()->getSelectedNodeLabel();
 		GetListCtrl().DeleteColumn(0);
@@ -206,7 +206,7 @@ void LinkView::listConstruct()
 		}
 		GetListCtrl().InsertItem(&lvi);
 	}
-	m_preKey = GetDocument()->getSelectedNodeKey();
+	m_preKey = GetDocument()->GetSelectedNodeKey();
 }
 
 int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -311,7 +311,7 @@ void LinkView::OnDelete()
 	if (pEdit == NULL) {
 		CString s = '<' + items_[index].comment + _T(">\n削除しますか?");
 		if (MessageBox(s, _T("リンクの削除"), MB_YESNO) != IDYES) return;
-		GetDocument()->deleteSpecifidLink(items_[index]);
+		GetDocument()->DeleteSpecifidLink(items_[index]);
 	}
 	else {
 		pEdit->SendMessage(WM_KEYDOWN, VK_DELETE, VK_DELETE);
@@ -358,7 +358,7 @@ void LinkView::setLinkInfo()
 		i.styleLine_ = dlg.styleLine;
 		i.lf_ = dlg.lf;
 		::lstrcpy(i.lf_.lfFaceName, dlg.lf.lfFaceName);
-		GetDocument()->setSpecifiedLinkInfo(items_[index], i);
+		GetDocument()->SetSpecifiedLinkProps(items_[index], i);
 	}
 	else if (type == LinkProps::FileName || type == LinkProps::WebURL ||
 		type == LinkProps::linkFolder || type == LinkProps::iedFile) {
@@ -382,7 +382,7 @@ void LinkView::setLinkInfo()
 			_wsplitpath_s((const wchar_t *)i.path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 			i.comment.Format(_T("%s%s"), fileName, ext);
 		}
-		GetDocument()->setSpecifiedLinkInfo(items_[index], i);
+		GetDocument()->SetSpecifiedLinkProps(items_[index], i);
 	}
 }
 
@@ -448,7 +448,7 @@ void LinkView::jumpTo()
 		ShellExecute(m_hWnd, _T("open"), items_[index].path, NULL, NULL, SW_SHOW);
 	}
 	else {
-		kstack.push(GetDocument()->getSelectedNodeKey());
+		kstack.push(GetDocument()->GetSelectedNodeKey());
 		GetDocument()->selChanged(items_[index].keyTo, true, GetDocument()->ShowSubBranch());
 	}
 }
@@ -649,7 +649,7 @@ void LinkView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 		return;
 	}
 	i.comment = editString;
-	GetDocument()->setSpecifiedLinkInfo(items_[index], i);
+	GetDocument()->SetSpecifiedLinkProps(items_[index], i);
 
 	Invalidate();
 	*pResult = 0;

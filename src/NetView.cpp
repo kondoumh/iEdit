@@ -1274,9 +1274,9 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		GetDocument()->setSelectedNodeBound(rc, false, true);
 		GetDocument()->SetConnectionPoint();
 
-		DWORD hitKey = GetDocument()->hitTestDropTarget(rc.CenterPoint(), GetDocument()->getSelectedNodeKey());
+		DWORD hitKey = GetDocument()->hitTestDropTarget(rc.CenterPoint(), GetDocument()->GetSelectedNodeKey());
 		if (hitKey != -1) {
-			m_nodeKeyDrop = GetDocument()->getSelectedNodeKey();
+			m_nodeKeyDrop = GetDocument()->GetSelectedNodeKey();
 		}
 		else {
 			m_nodeKeyDrop = -1;
@@ -3616,7 +3616,7 @@ void NetView::OnInsertChild()
 {
 	GetDocument()->DisableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
-	CRect nwRect = GetDocument()->AddNodeWithLink(shape, GetDocument()->getSelectedNodeKey());
+	CRect nwRect = GetDocument()->AddNodeWithLink(shape, GetDocument()->GetSelectedNodeKey());
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 	}
@@ -3631,7 +3631,7 @@ void NetView::OnInsertSibling()
 {
 	GetDocument()->DisableUndo();
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
-	CRect nwRect = GetDocument()->AddNodeWithLink2(shape, GetDocument()->getSelectedNodeKey());
+	CRect nwRect = GetDocument()->AddNodeWithLink2(shape, GetDocument()->GetSelectedNodeKey());
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 	}
@@ -3802,7 +3802,7 @@ void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 void NetView::OnAddlinkednodeArc()
 {
 	GetDocument()->DisableUndo();
-	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::arc, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
+	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::arc, GetDocument()->GetSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 	}
@@ -3815,7 +3815,7 @@ void NetView::OnUpdateAddlinkednodeArc(CCmdUI *pCmdUI)
 void NetView::OnAddlinkednodeRect()
 {
 	GetDocument()->DisableUndo();
-	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::rectangle, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
+	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::rectangle, GetDocument()->GetSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 
@@ -3829,7 +3829,7 @@ void NetView::OnUpdateAddlinkednodeRect(CCmdUI *pCmdUI)
 void NetView::OnAddlinkednodeRndrect()
 {
 	GetDocument()->DisableUndo();
-	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::roundRect, GetDocument()->getSelectedNodeKey(), -1, m_ptNew, false);
+	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::roundRect, GetDocument()->GetSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
 		procRenameDialog(nwRect);
 	}
