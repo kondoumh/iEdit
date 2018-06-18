@@ -179,7 +179,6 @@ public:
 	BOOL IsSelectedLinkCurved() const;
 	BOOL IsSelectedLinkSelfReferential() const;
 	void NotifyLinkSelected(const LinkPropsVec& ls, int index);
-	void selectChild();
 	void getSelectedLinkPts(CPoint& start, CPoint& end, bool bDrwAll = false);
 	void setSelectedLinkCurve(CPoint pt, bool curve = true, bool bDrwAll = false);
 	void setSelectedLinkAngled(bool angled = true);

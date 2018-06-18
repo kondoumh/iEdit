@@ -1729,12 +1729,6 @@ void iEditDoc::getSelectedLinkPts(CPoint &start, CPoint &end, bool bDrwAll)
 	}
 }
 
-void iEditDoc::selectChild()
-{
-	iHint h; h.event = iHint::selectChild;
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
-}
-
 BOOL iEditDoc::IsSelectedLinkCurved() const
 {
 	const_literator li = links_.getSelectedLink();
