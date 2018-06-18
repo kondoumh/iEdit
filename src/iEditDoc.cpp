@@ -1389,7 +1389,7 @@ void iEditDoc::getLinkInfoList(LinkPropsVec &ls, bool drwAll)
 	}
 }
 
-void iEditDoc::notifySelectLink(const LinkPropsVec &ls, int index, bool drwAll)
+void iEditDoc::NotifyLinkSelected(const LinkPropsVec &ls, int index)
 {
 	DWORD curKey = nodes_.getSelKey();
 	literator it = links_.begin();
@@ -1735,7 +1735,7 @@ void iEditDoc::selectChild()
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-BOOL iEditDoc::isSelectedLinkCurved(bool bDrwAll) const
+BOOL iEditDoc::IsSelectedLinkCurved() const
 {
 	const_literator li = links_.getSelectedLink();
 	if (li != links_.end() && (*li).isCurved()) {
@@ -1744,7 +1744,7 @@ BOOL iEditDoc::isSelectedLinkCurved(bool bDrwAll) const
 	return FALSE;
 }
 
-BOOL iEditDoc::isSelectedLinkSelf() const
+BOOL iEditDoc::IsSelectedLinkSelfReferential() const
 {
 	const_literator li = links_.getSelectedLink();
 

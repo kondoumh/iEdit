@@ -2359,8 +2359,7 @@ void NetView::OnLinkStraight()
 
 void NetView::OnUpdateLinkStraight(CCmdUI* pCmdUI)
 {
-	bool bDrwAll = false;
-	pCmdUI->Enable(GetDocument()->isSelectedLinkCurved(bDrwAll) && !GetDocument()->isSelectedLinkSelf());
+	pCmdUI->Enable(GetDocument()->IsSelectedLinkCurved() && !GetDocument()->IsSelectedLinkSelfReferential());
 }
 
 CRect NetView::getCurveBound(const CPoint &pt)

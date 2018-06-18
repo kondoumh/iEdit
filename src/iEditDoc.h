@@ -176,9 +176,9 @@ public:
 	BOOL canCopyLink();
 	void addSetLinkOrg();
 	void setCpLinkOrg();
-	BOOL isSelectedLinkCurved(bool bDrwAll = false) const;
-	BOOL isSelectedLinkSelf() const;
-	void notifySelectLink(const LinkPropsVec& ls, int index, bool drwAll = false);
+	BOOL IsSelectedLinkCurved() const;
+	BOOL IsSelectedLinkSelfReferential() const;
+	void NotifyLinkSelected(const LinkPropsVec& ls, int index);
 	void selectChild();
 	void getSelectedLinkPts(CPoint& start, CPoint& end, bool bDrwAll = false);
 	void setSelectedLinkCurve(CPoint pt, bool curve = true, bool bDrwAll = false);

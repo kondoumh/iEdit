@@ -508,7 +508,7 @@ void LinkView::notifySelLink()
 	int index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
 	if (index != -1) {
 		items_[index].selected = true;
-		GetDocument()->notifySelectLink(items_, index);
+		GetDocument()->NotifyLinkSelected(items_, index);
 	}
 }
 
