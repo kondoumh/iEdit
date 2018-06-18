@@ -650,7 +650,7 @@ void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 	}
 }
 
-void iEditDoc::moveSelectedLink(const CSize &sz)
+void iEditDoc::MoveSelectedLink(const CSize &sz)
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {

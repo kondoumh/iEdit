@@ -172,7 +172,7 @@ public:
 	COLORREF GetSelectedNodeBrsColor() const;
 	BOOL IsSelectedNodeFilled() const;
 	void SetSelectedNodeBrush(const COLORREF &c);
-	void moveSelectedLink(const CSize &sz);
+	void MoveSelectedLink(const CSize &sz);
 	BOOL canCopyLink();
 	void addSetLinkOrg();
 	void setCpLinkOrg();

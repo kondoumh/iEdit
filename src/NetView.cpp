@@ -886,7 +886,7 @@ void NetView::trackMulti(CPoint &logPt, CPoint &point, CDC *pDC)
 		GetDocument()->BackupNodesForUndo();
 		GetDocument()->BackupLinksForUndo();
 		GetDocument()->moveSelectedNode(CSize(moveX, moveY));
-		GetDocument()->moveSelectedLink(CSize(moveX, moveY));
+		GetDocument()->MoveSelectedLink(CSize(moveX, moveY));
 		CRect nwrd = GetDocument()->GetRelatedBound(); adjustRedrawBound(nwrd);
 
 		CRect rc;
@@ -940,7 +940,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 		GetDocument()->setSelectedNodeBound(m_selectRect);
 		int moveX = m_selectRect.left - org.left;
 		int moveY = m_selectRect.top - org.top;
-		GetDocument()->moveSelectedLink(CSize(moveX, moveY));
+		GetDocument()->MoveSelectedLink(CSize(moveX, moveY));
 		CRect rdnw = GetDocument()->GetRelatedBound(); adjustRedrawBound(rdnw);
 		// getRelatedBoundAndに変更
 		CRect rc;
@@ -2789,12 +2789,12 @@ void NetView::cursorMove(int dx, int dy)
 		GetDocument()->setSelectedNodeBound(m_selectRect);
 		int moveX = m_selectRect.left - org.left;
 		int moveY = m_selectRect.top - org.top;
-		GetDocument()->moveSelectedLink(CSize(moveX, moveY));
+		GetDocument()->MoveSelectedLink(CSize(moveX, moveY));
 	}
 	else if (m_selectStatus == NetView::multi) {
 		tracker.m_nStyle = CRectTracker::hatchedBorder | CRectTracker::resizeInside;
 		GetDocument()->moveSelectedNode(CSize(dx, dy));
-		GetDocument()->moveSelectedLink(CSize(dx, dy));
+		GetDocument()->MoveSelectedLink(CSize(dx, dy));
 	}
 	CRect rdnw = GetDocument()->GetRelatedBound(); adjustRedrawBound(rdnw);
 
