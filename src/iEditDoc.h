@@ -187,7 +187,7 @@ public:
 	void SetSpecifiedLinkProps(const LinkProps& iOld, const LinkProps& iNew);
 	void DeleteSpecifidLink(const LinkProps& i);
 	DWORD GetSelectedNodeKey() const;
-	void addURLLink(const CString& url, const CString& comment);
+	void AddUrlLink(const CString& url, const CString& comment);
 	void getLinkInfoList(LinkPropsVec& ls, bool drwAll = false);
 	bool canDeleteNode() const;
 	CString getSelectedLinkLabel(bool drawAll = false);

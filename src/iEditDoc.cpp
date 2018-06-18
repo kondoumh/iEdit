@@ -1417,7 +1417,7 @@ void iEditDoc::NotifyLinkSelected(const LinkPropsVec &ls, int index)
 	}
 }
 
-void iEditDoc::addURLLink(const CString &url, const CString& comment)
+void iEditDoc::AddUrlLink(const CString &url, const CString& comment)
 {
 	DWORD curKey = nodes_.getSelKey();
 	iLink l;

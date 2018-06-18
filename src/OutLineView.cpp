@@ -1403,7 +1403,7 @@ void OutlineView::OnAddUrl()
 		_wsplitpath_s((const wchar_t *)dlg.strPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
 		dlg.strComment.Format(_T("%s%s"), fileName, ext);
 	}
-	GetDocument()->addURLLink(dlg.strPath, dlg.strComment);
+	GetDocument()->AddUrlLink(dlg.strPath, dlg.strComment);
 }
 
 void OutlineView::OnUpdateAddUrl(CCmdUI* pCmdUI)

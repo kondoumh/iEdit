@@ -713,7 +713,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		sf.Read(str, ::GlobalSize(hmem));
 		::GlobalUnlock(hmem);
 		if (isURLStr(str)) {
-			GetDocument()->addURLLink(str, _T("URLリンク"));
+			GetDocument()->AddUrlLink(str, _T("URLリンク"));
 		}
 		return TRUE;
 	}
@@ -742,7 +742,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		extention.MakeLower();
 		if (extention == _T(".url")) {
 			CString url = getLocationFromURLFile(path);
-			GetDocument()->addURLLink(url, CString(fname));
+			GetDocument()->AddUrlLink(url, CString(fname));
 			continue;
 		}
 		else if (extention == _T(".ied") || extention == _T(".iedx")) {
@@ -759,7 +759,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 
 		CString fileName;
 		fileName.Format(_T("%s%s"), fname, ext);
-		GetDocument()->addURLLink(path, fileName);
+		GetDocument()->AddUrlLink(path, fileName);
 	}
 	::GlobalUnlock(hData);
 
