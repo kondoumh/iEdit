@@ -825,7 +825,7 @@ void LinkView::reflesh()
 	GetListCtrl().DeleteAllItems();
 	items_.clear();
 	items_.resize(0);
-	GetDocument()->getLinkInfoList(items_);
+	GetDocument()->CollectLinkProps(items_);
 	listConstruct();
 }
 

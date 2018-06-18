@@ -1311,7 +1311,7 @@ bool iEditDoc::canDeleteNode() const
 }
 
 
-void iEditDoc::getLinkInfoList(LinkPropsVec &ls, bool drwAll)
+void iEditDoc::CollectLinkProps(LinkPropsVec &ls, bool drwAll)
 {
 	DWORD curKey = nodes_.getSelKey();
 	literator it = links_.begin();
