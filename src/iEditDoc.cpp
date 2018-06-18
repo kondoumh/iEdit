@@ -1672,7 +1672,7 @@ CRect iEditDoc::GetRelatedBoundAnd(bool drwAll)
 	return rc;
 }
 
-void iEditDoc::setSelectedLinkCurve(CPoint pt, bool curve, bool bDrwAll)
+void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 {
 	literator li = links_.getSelectedLinkW();
 	if (li != links_.end()) {
@@ -1699,7 +1699,7 @@ void iEditDoc::setSelectedLinkCurve(CPoint pt, bool curve, bool bDrwAll)
 	}
 }
 
-void iEditDoc::setSelectedLinkAngled(bool angled)
+void iEditDoc::AngleSelectedLink(bool angled)
 {
 	BackupLinksForUndo();
 	literator li = links_.getSelectedLinkW();
@@ -1712,7 +1712,7 @@ void iEditDoc::setSelectedLinkAngled(bool angled)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-void iEditDoc::getSelectedLinkPts(CPoint &start, CPoint &end, bool bDrwAll)
+void iEditDoc::GetSelectedLinkEndPoints(CPoint &start, CPoint &end)
 {
 	const_literator li = links_.getSelectedLink();
 	if (li != links_.end()) {

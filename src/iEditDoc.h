@@ -179,9 +179,9 @@ public:
 	BOOL IsSelectedLinkCurved() const;
 	BOOL IsSelectedLinkSelfReferential() const;
 	void NotifyLinkSelected(const LinkPropsVec& ls, int index);
-	void getSelectedLinkPts(CPoint& start, CPoint& end, bool bDrwAll = false);
-	void setSelectedLinkCurve(CPoint pt, bool curve = true, bool bDrwAll = false);
-	void setSelectedLinkAngled(bool angled = true);
+	void GetSelectedLinkEndPoints(CPoint& start, CPoint& end);
+	void CurveSelectedLink(CPoint pt, bool curve = true);
+	void AngleSelectedLink(bool angled = true);
 	CRect getRelatedBound(bool drwAll = false) const;
 	CRect getSelectedLinkBound(bool drwAll = false) const;
 	void setSpecifiedLinkInfo(const LinkProps& iOld, const LinkProps& iNew);

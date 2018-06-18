@@ -774,7 +774,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 	if (GetDocument()->hitTestLinks(logPt, false)) {
 		// リンクの選択が更新された
 		m_selectStatus = NetView::link;
-		GetDocument()->getSelectedLinkPts(m_linkStart, m_linkEnd, false);
+		GetDocument()->GetSelectedLinkEndPoints(m_linkStart, m_linkEnd);
 		m_selectRect = GetDocument()->getSelectedLinkBound(false);
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
 		InvalidateRect(nw);
@@ -1454,7 +1454,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 			}
 			GetDocument()->DisableUndo();
 			GetDocument()->BackupLinksForUndo();
-			GetDocument()->setSelectedLinkCurve(logPt, true, false);
+			GetDocument()->CurveSelectedLink(logPt, true);
 			Invalidate();
 		}
 		return;
@@ -2352,9 +2352,8 @@ void NetView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 void NetView::OnLinkStraight()
 {
-	bool bDrwAll = false;
 	CPoint pt(0, 0);
-	GetDocument()->setSelectedLinkCurve(pt, false, bDrwAll);
+	GetDocument()->CurveSelectedLink(pt, false);
 }
 
 void NetView::OnUpdateLinkStraight(CCmdUI* pCmdUI)
@@ -2365,8 +2364,7 @@ void NetView::OnUpdateLinkStraight(CCmdUI* pCmdUI)
 CRect NetView::getCurveBound(const CPoint &pt)
 {
 	CPoint start, end;
-	bool bDrwAll = false;
-	GetDocument()->getSelectedLinkPts(start, end, bDrwAll);
+	GetDocument()->GetSelectedLinkEndPoints(start, end);
 	CRect rc1(start, pt); rc1.NormalizeRect();
 	CRect rc2(pt, end);   rc2.NormalizeRect();
 	return rc1 | rc2;
@@ -4325,7 +4323,7 @@ void NetView::OnSetLinkAngled()
 {
 	const iLink* pLink = GetDocument()->GetSelectedLink();
 	if (pLink == NULL) return;
-	GetDocument()->setSelectedLinkAngled(!pLink->isAngled());
+	GetDocument()->AngleSelectedLink(!pLink->isAngled());
 }
 
 void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
