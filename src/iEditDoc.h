@@ -183,7 +183,7 @@ public:
 	void CurveSelectedLink(CPoint pt, bool curve = true);
 	void AngleSelectedLink(bool angled = true);
 	CRect GetRelatedBound() const;
-	CRect GetSelectedLinkBound(bool drwAll = false) const;
+	CRect GetSelectedLinkBound() const;
 	void setSpecifiedLinkInfo(const LinkProps& iOld, const LinkProps& iNew);
 	void deleteSpecifidLink(const LinkProps& i);
 	DWORD getSelectedNodeKey() const;

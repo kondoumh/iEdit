@@ -775,7 +775,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		// リンクの選択が更新された
 		m_selectStatus = NetView::link;
 		GetDocument()->GetSelectedLinkEndPoints(m_linkStart, m_linkEnd);
-		m_selectRect = GetDocument()->GetSelectedLinkBound(false);
+		m_selectRect = GetDocument()->GetSelectedLinkBound();
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
 		InvalidateRect(nw);
 		InvalidateRect(old);
@@ -783,7 +783,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 	else if (GetDocument()->SelectLinkStartIfHit(logPt, false)) {
 		// リンクのリンク元を選択した
 		m_selectStatus = NetView::linkTermFrom;
-		m_selectRect = GetDocument()->GetSelectedLinkBound(false);
+		m_selectRect = GetDocument()->GetSelectedLinkBound();
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
 		InvalidateRect(nw);
 		InvalidateRect(old);
@@ -792,7 +792,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 	else if (GetDocument()->SelectLinkEndIfHit(logPt, false)) {
 		// リンクのリンク先を選択した
 		m_selectStatus = NetView::linkTermTo;
-		m_selectRect = GetDocument()->GetSelectedLinkBound(false);
+		m_selectRect = GetDocument()->GetSelectedLinkBound();
 		CRect nw = m_selectRect; adjustRedrawBound(nw);
 		InvalidateRect(nw);
 		InvalidateRect(old);
@@ -845,7 +845,7 @@ void NetView::doPostSelection(const CPoint &logPt, BOOL shiftPressed)
 			if (selcnt > 1) {
 				m_selectStatus = NetView::multi;
 				GetDocument()->selectLinksInBound(trackerRect, false);// 含まれるlinkも選択する
-				m_selectRect |= GetDocument()->GetSelectedLinkBound(false);
+				m_selectRect |= GetDocument()->GetSelectedLinkBound();
 			}
 			else if (selcnt == 1) {
 				m_selectStatus = NetView::single;
@@ -1044,7 +1044,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		InvalidateRect(oldBound);
 
 		// 再描画領域の計算ロジックを作ってみた
-		nwBound = GetDocument()->GetSelectedLinkBound(false);
+		nwBound = GetDocument()->GetSelectedLinkBound();
 		nwBound.left = (int)(nwBound.left*m_fZoomScale);
 		nwBound.top = (int)(nwBound.top*m_fZoomScale);
 		nwBound.right = (int)(nwBound.right*m_fZoomScale);
@@ -1408,7 +1408,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		if (GetDocument()->SwitchLinkStartNodeAt(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkTo, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
-			CRect rcNew = GetDocument()->GetSelectedLinkBound(false);
+			CRect rcNew = GetDocument()->GetSelectedLinkBound();
 			rcNew.NormalizeRect();
 			InvalidateRect(rcOld | rcNew);
 		}
@@ -1431,7 +1431,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 		if (GetDocument()->SwitchLinkEndNodeAt(logPt, false)) {
 			CRect rcOld = CRect(m_ptAlterLinkFrom, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
-			CRect rcNew = GetDocument()->GetSelectedLinkBound(false);
+			CRect rcNew = GetDocument()->GetSelectedLinkBound();
 			rcNew.NormalizeRect();
 			InvalidateRect(rcOld | rcNew);
 		}
@@ -1502,7 +1502,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 		// hitTest, linkHitTest
 		if (pDoc->hitTestLinks(logPt, false)) {
 			m_selectStatus = NetView::link;
-			m_selectRect = GetDocument()->GetSelectedLinkBound(false);
+			m_selectRect = GetDocument()->GetSelectedLinkBound();
 		}
 		else if (pDoc->hitTest(logPt, r, false)) {
 			m_selectStatus = NetView::single;
@@ -1518,7 +1518,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 		if (!m_selectRect.PtInRect(logPt)) {
 			if (pDoc->hitTestLinks(logPt, false)) {
 				m_selectStatus = NetView::link;
-				m_selectRect = GetDocument()->GetSelectedLinkBound(false);
+				m_selectRect = GetDocument()->GetSelectedLinkBound();
 			}
 			else if (pDoc->hitTest(logPt, r, false)) {
 				m_selectStatus = NetView::single;
@@ -2380,7 +2380,7 @@ void NetView::copyMFtoClpbrd()
 		int selcnt = GetDocument()->selectNodesInBound(allR, selRect, false);
 		CRect nwBound = allR;
 		GetDocument()->selectLinksInBound(nwBound, false);
-		selRect |= GetDocument()->GetSelectedLinkBound(false);
+		selRect |= GetDocument()->GetSelectedLinkBound();
 
 		CMetaFileDC mfDC;
 		CPoint p1(0, 0);
@@ -2409,7 +2409,7 @@ void NetView::copyMFtoClpbrd()
 		int selcnt = GetDocument()->selectNodesInBound(m_selectRect, selRect, false);
 		CRect nwBound = GetDocument()->GetRelatedBoundAnd(false);
 		GetDocument()->selectLinksInBound(nwBound, false);
-		selRect |= GetDocument()->GetSelectedLinkBound(false);
+		selRect |= GetDocument()->GetSelectedLinkBound();
 
 		CMetaFileDC mfDC;
 		CPoint p1(0, 0);
@@ -2940,7 +2940,7 @@ void NetView::selectAll()
 	if (selcnt > 1) {
 		m_selectStatus = NetView::multi;
 		GetDocument()->selectLinksInBound(allR, bDrwAll);
-		m_selectRect |= GetDocument()->GetSelectedLinkBound(bDrwAll);
+		m_selectRect |= GetDocument()->GetSelectedLinkBound();
 	}
 	else if (selcnt == 1) {
 		m_selectStatus = NetView::single;

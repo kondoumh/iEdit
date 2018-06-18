@@ -1598,10 +1598,10 @@ double iEditDoc::width2Len(int width)
 	return l;
 }
 
-CRect iEditDoc::GetSelectedLinkBound(bool drwAll) const
+CRect iEditDoc::GetSelectedLinkBound() const
 {
 	CRect rc(CRect(0, 0, 0, 0));
-	rc = links_.getSelectedLinkBound(drwAll);
+	rc = links_.getSelectedLinkBound(false);
 	return rc;
 }
 
