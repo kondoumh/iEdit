@@ -858,7 +858,7 @@ void iEditDoc::setSelectedNodeLineColor(const COLORREF &c)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::setSelectedNodeBrush(const COLORREF &c)
+void iEditDoc::SetSelectedNodeBrush(const COLORREF &c)
 {
 	nodes_.setSelectedNodeBrush(c);
 	SetModifiedFlag();
@@ -867,7 +867,7 @@ void iEditDoc::setSelectedNodeBrush(const COLORREF &c)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::setSelectedNodeNoBrush(BOOL noBrush)
+void iEditDoc::SetSelectedNodeNoBrush(BOOL noBrush)
 {
 	nodes_.setSelectedNodeNoBrush(noBrush);
 	setConnectPoint3();
@@ -882,7 +882,7 @@ COLORREF iEditDoc::getSelectedNodeLineColor() const
 	return nodes_.getSelectedNodeLineColor();
 }
 
-COLORREF iEditDoc::getSelectedNodeBrsColor() const
+COLORREF iEditDoc::GetSelectedNodeBrsColor() const
 {
 	return nodes_.getSelectedNodeBrsColor();
 }
@@ -1797,7 +1797,7 @@ BOOL iEditDoc::canCopyLink()
 	return canCpyLink;
 }
 
-BOOL iEditDoc::isSelectedNodeFilled() const
+BOOL iEditDoc::IsSelectedNodeFilled() const
 {
 	return nodes_.isSelectedNodeFilled();
 }

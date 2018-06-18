@@ -2144,12 +2144,12 @@ void NetView::setNodeProp()
 {
 	NodePropertiesDlg dlg;
 	dlg.colorLine = GetDocument()->getSelectedNodeLineColor();
-	dlg.colorFill = GetDocument()->getSelectedNodeBrsColor();
+	dlg.colorFill = GetDocument()->GetSelectedNodeBrsColor();
 	dlg.colorFont = GetDocument()->getSelectedNodeFontColor();
 	dlg.lineWidth = GetDocument()->getSelectedNodeLineWidth();
 	dlg.styleLine = GetDocument()->getSelectedNodeLineStyle();
 	dlg.bMultiLine = GetDocument()->isSelectedNodeMultiLine();
-	dlg.m_bNoBrush = !GetDocument()->isSelectedNodeFilled();
+	dlg.m_bNoBrush = !GetDocument()->IsSelectedNodeFilled();
 	dlg.bOldBynary = GetDocument()->IsOldBinary();
 	int shape = GetDocument()->GetSelectedNodeShape();
 	if (shape == iNode::rectangle) {
@@ -2211,15 +2211,15 @@ void NetView::setNodeProp()
 	((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize = TRUE;
 
 	GetDocument()->setSelectedNodeLineColor(dlg.colorLine);
-	GetDocument()->setSelectedNodeBrush(dlg.colorFill);
+	GetDocument()->SetSelectedNodeBrush(dlg.colorFill);
 	GetDocument()->setSelectedNodeFontColor(dlg.colorFont);
 	GetDocument()->setSelectedNodeLineWidth(dlg.lineWidth);
 	GetDocument()->setSelectedNodeLineStyle(dlg.styleLine);
 	if (dlg.m_bNoBrush) {
-		GetDocument()->setSelectedNodeNoBrush(FALSE);
+		GetDocument()->SetSelectedNodeNoBrush(FALSE);
 	}
 	else {
-		GetDocument()->setSelectedNodeNoBrush(TRUE);
+		GetDocument()->SetSelectedNodeNoBrush(TRUE);
 	}
 	if (dlg.m_shape == 0) {
 		GetDocument()->SetSelectedNodeShape(iNode::rectangle);
@@ -2445,27 +2445,27 @@ void NetView::OnNoBrush()
 {
 	GetDocument()->BackupNodesForUndo();
 
-	if (GetDocument()->isSelectedNodeFilled()) {
-		GetDocument()->setSelectedNodeNoBrush(FALSE);
+	if (GetDocument()->IsSelectedNodeFilled()) {
+		GetDocument()->SetSelectedNodeNoBrush(FALSE);
 	}
 	else {
-		GetDocument()->setSelectedNodeNoBrush(TRUE);
+		GetDocument()->SetSelectedNodeNoBrush(TRUE);
 	}
 }
 
 void NetView::OnUpdateNoBrush(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_selectStatus == NetView::single);
-	pCmdUI->SetCheck(!GetDocument()->isSelectedNodeFilled() && m_selectStatus == NetView::single);
+	pCmdUI->SetCheck(!GetDocument()->IsSelectedNodeFilled() && m_selectStatus == NetView::single);
 }
 
 void NetView::OnSetNodeBrush()
 {
 	if (m_selectStatus == NetView::single || m_selectStatus == NetView::multi) {
-		CColorDialog dlg(GetDocument()->getSelectedNodeBrsColor());
+		CColorDialog dlg(GetDocument()->GetSelectedNodeBrsColor());
 		if (dlg.DoModal() != IDOK) return;
 		GetDocument()->BackupNodesForUndo();
-		GetDocument()->setSelectedNodeBrush(dlg.GetColor());
+		GetDocument()->SetSelectedNodeBrush(dlg.GetColor());
 	}
 }
 
@@ -4181,7 +4181,7 @@ void NetView::OnUpdateHalignCenter(CCmdUI *pCmdUI)
 void NetView::OnBtnNodeFillColor()
 {
 	GetDocument()->BackupNodesForUndo();
-	GetDocument()->setSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
+	GetDocument()->SetSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 }
 
 void NetView::OnUpdateBtnNodeFillColor(CCmdUI *pCmdUI)
@@ -4215,7 +4215,7 @@ void NetView::OnUpdateBtnTextColor(CCmdUI *pCmdUI)
 
 void NetView::changeSelectedNodeColor()
 {
-	GetDocument()->setSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
+	GetDocument()->SetSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 }
 
 void NetView::changeSelectedFontColor()

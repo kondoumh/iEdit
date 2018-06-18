@@ -168,10 +168,10 @@ public:
 	void AddSelectedNodesToCopyOrg();
 	BOOL LinksExist() const;
 	void addNode2(const iNode& n);
-	void setSelectedNodeNoBrush(BOOL noBrush = TRUE);
-	COLORREF getSelectedNodeBrsColor() const;
-	BOOL isSelectedNodeFilled() const;
-	void setSelectedNodeBrush(const COLORREF &c);
+	void SetSelectedNodeNoBrush(BOOL noBrush = TRUE);
+	COLORREF GetSelectedNodeBrsColor() const;
+	BOOL IsSelectedNodeFilled() const;
+	void SetSelectedNodeBrush(const COLORREF &c);
 	void moveSelectedLink(const CSize &sz);
 	BOOL canCopyLink();
 	void addSetLinkOrg();
