@@ -168,7 +168,6 @@ public:
 	void AddSelectedNodesToCopyOrg();
 	BOOL LinksExist() const;
 	void addNode2(const iNode& n);
-	int getDataSize() const;
 	void setSelectedNodeNoBrush(BOOL noBrush = TRUE);
 	COLORREF getSelectedNodeBrsColor() const;
 	BOOL isSelectedNodeFilled() const;

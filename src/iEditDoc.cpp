@@ -1802,11 +1802,6 @@ BOOL iEditDoc::isSelectedNodeFilled() const
 	return nodes_.isSelectedNodeFilled();
 }
 
-int iEditDoc::getDataSize() const
-{
-	return nodes_.size();
-}
-
 BOOL iEditDoc::LinksExist() const
 {
 	const_literator li = links_.begin();
