@@ -1196,7 +1196,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		&& !m_bDragRelax) {
 		CRect r;
 		iEditDoc* pDoc = GetDocument();
-		iNode node = pDoc->GetHitNode(logPt, false);
+		iNode node = pDoc->GetHitNode(logPt);
 		if (node.getText() != _T("")) {
 			CString strTipNew = node.getText().Left(300);
 			if (node.getText().GetLength() > 300) {

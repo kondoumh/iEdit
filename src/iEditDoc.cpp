@@ -3745,9 +3745,9 @@ void iEditDoc::ExportSvg(bool bDrwAll, const CString &path, bool bEmbed,
 	writer.exportSVG(path, getMaxPt(), bEmbed);
 }
 
-iNode iEditDoc::GetHitNode(const CPoint &pt, bool bDrwAll)
+iNode iEditDoc::GetHitNode(const CPoint &pt)
 {
-	iNode* pNode = nodes_.hitTest2(pt, bDrwAll);
+	iNode* pNode = nodes_.hitTest2(pt, false);
 	if (pNode != NULL) {
 		iNode node = *pNode;
 		return node;

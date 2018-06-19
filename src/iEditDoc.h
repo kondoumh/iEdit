@@ -119,7 +119,7 @@ public:
 	CString GetSubBranchRootLabel() const;
 	void SetShowBranch(DWORD branchRootKey);
 	void SetVisibleNodes(NodeKeySet& keySet);
-	iNode GetHitNode(const CPoint& pt, bool bDrwAll);
+	iNode GetHitNode(const CPoint& pt);
 	void ExportSvg(bool bDrwAll, const CString& path, bool bEmbed = false,
 		const CString& textFileName = _T(""), bool textSingle = true);
 	void ViewSettingChanged();
