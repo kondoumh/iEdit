@@ -3731,11 +3731,11 @@ void iEditDoc::ViewSettingChanged()
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::ExportSvg(bool bDrwAll, const CString &path, bool bEmbed,
+void iEditDoc::ExportSvg(const CString &path, bool bEmbed,
 	const CString& textFileName, bool textSingle)
 {
 	NodeKeyVec vec = getOutlineView()->getDrawOrder(ShowSubBranch());
-	SvgWriter writer(nodes_, links_, vec, bDrwAll);
+	SvgWriter writer(nodes_, links_, vec, false);
 	if (textSingle) {
 		writer.setTextHtmlFileName(textFileName);
 	}

@@ -3502,7 +3502,7 @@ void NetView::OnExportSvg()
 	CString outfileName = dlg.GetPathName();
 
 	bool bDrwAll = false;
-	GetDocument()->ExportSvg(bDrwAll, outfileName);
+	GetDocument()->ExportSvg(outfileName);
 	MessageBox(_T("終了しました"), _T("SVG出力"));
 }
 

@@ -1998,10 +1998,10 @@ void OutlineView::OutputHTML()
 		if (eDlg.m_xvRdImg == 0) {
 			CString svgPath = outdir + _T("\\") + eDlg.m_pathSvg;
 			if (m_exportOption.textOption == 0) {
-				GetDocument()->ExportSvg(false, svgPath, true, m_exportOption.pathTextSingle);
+				GetDocument()->ExportSvg(svgPath, true, m_exportOption.pathTextSingle);
 			}
 			else {
-				GetDocument()->ExportSvg(false, svgPath, true, m_exportOption.prfTextEverynode, false);
+				GetDocument()->ExportSvg(svgPath, true, m_exportOption.prfTextEverynode, false);
 			}
 			nf.WriteString(_T("<object type=\"image/svg+xml\" data=\"")
 				+ eDlg.m_pathSvg +
