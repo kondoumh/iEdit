@@ -1101,7 +1101,7 @@ bool iEditDoc::SelectLinkEndIfHit(const CPoint &pt, bool drwAll)
 	return hit;
 }
 
-void iEditDoc::drawLinkSelection(CDC *pDC, bool bDrwAll)
+void iEditDoc::DrawLinkSelection(CDC *pDC)
 {
 	links_.drawSelection(pDC);
 }

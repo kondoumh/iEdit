@@ -209,7 +209,7 @@ public:
 	void setSelectedLinkInfo(const CString& sComment, int arrowType, bool bDrwAll = false);
 	void getSelectedLinkInfo(CString& sFrom, CString& sTo, CString& sComment, int& arrowType, bool bDrwAll = false);
 	void setNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString& comment, int styleArrow);
-	void drawLinkSelection(CDC* pDC, bool bDrwAll = false);
+	void DrawLinkSelection(CDC* pDC);
 	bool hitTestLinks(const CPoint& pt, bool drwAll = false);
 	DWORD hitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey);
 	void addNodeArc(const CString& name, const CPoint& pt);

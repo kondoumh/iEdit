@@ -393,7 +393,7 @@ void NetView::drawSelection(CDC *pDC)
 		break;
 	case NetView::link:
 		if (!m_bLinkCurving) {
-			GetDocument()->drawLinkSelection(pDC, false);
+			GetDocument()->DrawLinkSelection(pDC);
 		}
 		break;
 	case NetView::linkTermFrom:
