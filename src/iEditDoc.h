@@ -123,8 +123,8 @@ public:
 	void ExportSvg(const CString& path, bool bEmbed = false,
 		const CString& textFileName = _T(""), bool textSingle = true);
 	void ViewSettingChanged();
-	void DrawLinkSelectionTo(CDC* pDC, bool bDrwAll);
-	void DrawLinkSelectionFrom(CDC* pDC, bool bDrwAll = false);
+	void DrawLinkSelectionTo(CDC* pDC);
+	void DrawLinkSelectionFrom(CDC* pDC);
 	void ReverseSelectedLinkDirection(bool bDrwAll = false);
 	bool SwitchLinkEndNodeAt(const CPoint& pt, bool bDrwAll);
 	bool SwitchLinkStartNodeAt(const CPoint& pt, bool bDrwAll);

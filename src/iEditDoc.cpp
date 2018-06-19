@@ -1106,12 +1106,12 @@ void iEditDoc::drawLinkSelection(CDC *pDC, bool bDrwAll)
 	links_.drawSelection(pDC);
 }
 
-void iEditDoc::DrawLinkSelectionFrom(CDC *pDC, bool bDrwAll)
+void iEditDoc::DrawLinkSelectionFrom(CDC *pDC)
 {
 	links_.drawSelectionFrom(pDC);
 }
 
-void iEditDoc::DrawLinkSelectionTo(CDC *pDC, bool bDrwAll)
+void iEditDoc::DrawLinkSelectionTo(CDC *pDC)
 {
 	links_.drawSelectionTo(pDC);
 }

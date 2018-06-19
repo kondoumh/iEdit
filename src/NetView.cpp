@@ -397,10 +397,10 @@ void NetView::drawSelection(CDC *pDC)
 		}
 		break;
 	case NetView::linkTermFrom:
-		GetDocument()->DrawLinkSelectionFrom(pDC, false);
+		GetDocument()->DrawLinkSelectionFrom(pDC);
 		break;
 	case NetView::linkTermTo:
-		GetDocument()->DrawLinkSelectionTo(pDC, false);
+		GetDocument()->DrawLinkSelectionTo(pDC);
 		break;
 	}
 }
