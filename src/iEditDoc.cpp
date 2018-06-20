@@ -3712,9 +3712,9 @@ const iLink* iEditDoc::GetSelectedLink(bool bDrawAll) const
 	return &(*li);
 }
 
-void iEditDoc::ReverseSelectedLinkDirection(bool bDrwAll)
+void iEditDoc::ReverseSelectedLinkDirection()
 {
-	const iLink* pl = GetSelectedLink(bDrwAll);
+	const iLink* pl = GetSelectedLink(false);
 	if (pl == NULL) return;
 	DWORD keyTo = pl->getKeyTo();
 	links_.setSelectedLinkReverse();

@@ -3190,9 +3190,8 @@ void NetView::sameNodesSize(const CString &strSize)
 
 void NetView::OnReverseLinkDirection()
 {
-	bool bDrwAll = false;
 	GetDocument()->BackupLinksForUndo();
-	GetDocument()->ReverseSelectedLinkDirection(bDrwAll);
+	GetDocument()->ReverseSelectedLinkDirection();
 }
 
 void NetView::OnUpdateReverseLinkDirection(CCmdUI* pCmdUI)
