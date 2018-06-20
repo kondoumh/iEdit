@@ -804,9 +804,9 @@ bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt, bool bDrwAll)
 	return false;
 }
 
-bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt, bool bDrwAll)
+bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt)
 {
-	iNode* pNode = nodes_.hitTest2(pt, bDrwAll); // 再選択なし
+	iNode* pNode = nodes_.hitTest2(pt, false); // 再選択なし
 	if (pNode != NULL) {
 		BackupLinksForUndo();
 		links_.setSelectedNodeLinkTo(pNode->getKey(), pNode->getBound());

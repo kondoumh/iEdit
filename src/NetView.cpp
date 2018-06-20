@@ -1428,7 +1428,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 			Invalidate();
 			return;
 		}
-		if (GetDocument()->SwitchLinkEndNodeAt(logPt, false)) {
+		if (GetDocument()->SwitchLinkEndNodeAt(logPt)) {
 			CRect rcOld = CRect(m_ptAlterLinkFrom, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
 			CRect rcNew = GetDocument()->GetSelectedLinkBound();

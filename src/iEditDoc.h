@@ -126,7 +126,7 @@ public:
 	void DrawLinkSelectionTo(CDC* pDC);
 	void DrawLinkSelectionFrom(CDC* pDC);
 	void ReverseSelectedLinkDirection();
-	bool SwitchLinkEndNodeAt(const CPoint& pt, bool bDrwAll);
+	bool SwitchLinkEndNodeAt(const CPoint& pt);
 	bool SwitchLinkStartNodeAt(const CPoint& pt, bool bDrwAll);
 	const iLink* GetSelectedLink(bool bDrawAll = false) const;
 	bool SelectLinkEndIfHit(const CPoint &pt, bool drwAll);
