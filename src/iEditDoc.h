@@ -127,12 +127,12 @@ public:
 	void DrawLinkSelectionFrom(CDC* pDC);
 	void ReverseSelectedLinkDirection();
 	bool SwitchLinkEndNodeAt(const CPoint& pt);
-	bool SwitchLinkStartNodeAt(const CPoint& pt, bool bDrwAll);
+	bool SwitchLinkStartNodeAt(const CPoint& pt);
 	const iLink* GetSelectedLink(bool bDrawAll = false) const;
 	bool SelectLinkEndIfHit(const CPoint &pt, bool drwAll);
 	bool SelectLinkStartIfHit(const CPoint& pt, bool drwAll);
-	void AlignSelectedNodesToSameSize(const CString& strSize, bool bDrwAll = false);
-	void AlignNodesInBoundTo(const CString& side, const CRect& rect, bool bDrwAll = false);
+	void AlignSelectedNodesToSameSize(const CString& strSize);
+	void AlignNodesInBoundTo(const CString& side, const CRect& rect);
 	CString GetKeyNodeLabel(DWORD key);
 	void BackupLinksForUndo();
 	void BackupNodesForUndo();

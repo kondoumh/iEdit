@@ -790,9 +790,9 @@ bool iEditDoc::setEndLink(const CPoint &pt, int ArrowType, bool bDrwAll, bool bA
 	return false;
 }
 
-bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt, bool bDrwAll)
+bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt)
 {
-	iNode* pNode = nodes_.hitTest(pt, bDrwAll); // リンク元を再選択
+	iNode* pNode = nodes_.hitTest(pt, false); // リンク元を再選択
 	if (pNode != NULL) {
 		BackupLinksForUndo();
 		links_.setSelectedNodeLinkFrom(pNode->getKey(), pNode->getBound());
@@ -3642,13 +3642,11 @@ void iEditDoc::RestoreLinksForUndo()
 	SetModifiedFlag();
 }
 
-void iEditDoc::AlignNodesInBoundTo(const CString& side, const CRect& rect, bool bDrwAll)
+void iEditDoc::AlignNodesInBoundTo(const CString& side, const CRect& rect)
 {
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		//	if (!bDrwAll) {
 		if (!(*it).second.isVisible()) continue;
-		//	}
 		if (!(*it).second.isSelected()) continue;
 		CPoint pt;
 		if (side == _T("left")) {
@@ -3675,9 +3673,9 @@ void iEditDoc::AlignNodesInBoundTo(const CString& side, const CRect& rect, bool 
 	SetModifiedFlag();
 }
 
-void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize, bool bDrwAll)
+void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize)
 {
-	CSize maxSz = nodes_.getMaxNodeSize(true, bDrwAll);
+	CSize maxSz = nodes_.getMaxNodeSize(true, false);
 	niterator it = nodes_.begin();
 	CRect rc;
 	for (; it != nodes_.end(); it++) {

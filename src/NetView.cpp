@@ -1405,7 +1405,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 			Invalidate();
 			return;
 		}
-		if (GetDocument()->SwitchLinkStartNodeAt(logPt, false)) {
+		if (GetDocument()->SwitchLinkStartNodeAt(logPt)) {
 			CRect rcOld = CRect(m_ptAlterLinkTo, m_ptAlterLinkTo);
 			rcOld.NormalizeRect();
 			CRect rcNew = GetDocument()->GetSelectedLinkBound();
@@ -3116,7 +3116,7 @@ void NetView::adjustNodesEnd(const CString& side)
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->BackupLinksForUndo();
 
-	GetDocument()->AlignNodesInBoundTo(side, m_selectRect, false);
+	GetDocument()->AlignNodesInBoundTo(side, m_selectRect);
 
 	CRect nwrd = GetDocument()->GetRelatedBoundAnd(false);
 	m_selectRect = nwrd;
@@ -3170,7 +3170,7 @@ void NetView::sameNodesSize(const CString &strSize)
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->BackupLinksForUndo();
 
-	GetDocument()->AlignSelectedNodesToSameSize(strSize, false);
+	GetDocument()->AlignSelectedNodesToSameSize(strSize);
 
 	CRect nwrd = GetDocument()->GetRelatedBoundAnd(false);
 	m_selectRect = nwrd;
