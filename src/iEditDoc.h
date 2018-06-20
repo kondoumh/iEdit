@@ -235,7 +235,7 @@ public:
 	void drawLinks(CDC* pDC, bool bDrwAll = false, bool clipbrd = false);
 	void setSelectedNodeBound(const CRect& r, bool widthLink = true, bool noBackup = false);
 	void moveSelectedNode(const CSize& sz);
-	bool hitTest(const CPoint& pt, CRect& r, bool bDrwAll = false);
+	bool hitTest(const CPoint& pt, CRect& r);
 	void drawNodes(CDC* pDC);
 	void setCurNodeText(CString& s, int scrollPos);
 	void selChanged(DWORD key, bool reflesh = true, bool bShowSubBranch = false);

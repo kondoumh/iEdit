@@ -647,7 +647,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if (isAddingLink()) { // リンク追加開始の処理
 		CRect r;
-		if (GetDocument()->hitTest(logPt, r, false)) {
+		if (GetDocument()->hitTest(logPt, r)) {
 			m_ptPrePos = point;
 			startLink(logPt);
 		}
@@ -657,7 +657,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	// 芋づるモード開始
 	if (nFlags & MK_CONTROL) {
 		CRect r;
-		if (GetDocument()->hitTest(logPt, r, false)) {
+		if (GetDocument()->hitTest(logPt, r)) {
 			// ノードの矩形内のオフセットを計算
 			CPoint selTopLeft = GetDocument()->getSelectedNodeRect().TopLeft();
 			m_dragOffset = selTopLeft - logPt;
@@ -681,7 +681,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	// リンク分割挿入アクション開始
 	if (GetAsyncKeyState(VK_MENU) & 0x8000) {
 		CRect r;
-		if (GetDocument()->hitTest(logPt, r, false)) {
+		if (GetDocument()->hitTest(logPt, r)) {
 			// ノードの矩形内のオフセットを計算
 			CPoint selTopLeft = GetDocument()->getSelectedNodeRect().TopLeft();
 			m_dragOffset = selTopLeft - logPt;
@@ -798,7 +798,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		InvalidateRect(old);
 		startAlterTo(logPt);
 	}
-	else if (GetDocument()->hitTest(logPt, r, false)) {
+	else if (GetDocument()->hitTest(logPt, r)) {
 		// ノードの選択が更新された
 		m_selectStatus = NetView::single;
 		m_selectRect = r;
@@ -1504,7 +1504,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 			m_selectStatus = NetView::link;
 			m_selectRect = GetDocument()->GetSelectedLinkBound();
 		}
-		else if (pDoc->hitTest(logPt, r, false)) {
+		else if (pDoc->hitTest(logPt, r)) {
 			m_selectStatus = NetView::single;
 			m_selectRect = r;
 		}
@@ -1520,7 +1520,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 				m_selectStatus = NetView::link;
 				m_selectRect = GetDocument()->GetSelectedLinkBound();
 			}
-			else if (pDoc->hitTest(logPt, r, false)) {
+			else if (pDoc->hitTest(logPt, r)) {
 				m_selectStatus = NetView::single;
 				m_selectRect = r;
 			}
@@ -3568,7 +3568,7 @@ void NetView::OnMButtonDown(UINT nFlags, CPoint point)
 	CPoint logPt = point; ViewDPtoLP(&logPt);
 	m_ptPrePos = point;
 	CRect r;
-	if (GetDocument()->hitTest(logPt, r, false)) {
+	if (GetDocument()->hitTest(logPt, r)) {
 		m_addMode = NetView::link0;
 		startLink(logPt);
 	}
@@ -4274,7 +4274,7 @@ void NetView::aplyFormat(CPoint& pt)
 	if (GetDocument()->hitTestLinks(pt)) {
 		GetDocument()->ApplyFormatToSelectedLink();
 	}
-	else if (GetDocument()->hitTest(pt, r, false)) {
+	else if (GetDocument()->hitTest(pt, r)) {
 		GetDocument()->ApplyFormatToSelectedNode();
 	}
 }

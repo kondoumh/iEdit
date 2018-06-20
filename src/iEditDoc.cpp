@@ -593,9 +593,9 @@ void iEditDoc::drawNodes(CDC *pDC)
 	nodes_.drawNodes(pDC, false);
 }
 
-bool iEditDoc::hitTest(const CPoint& pt, CRect &r, bool bDrwAll)
+bool iEditDoc::hitTest(const CPoint& pt, CRect &r)
 {
-	iNode* pNode = nodes_.hitTest(pt, bDrwAll);
+	iNode* pNode = nodes_.hitTest(pt, false);
 	if (pNode != NULL) {
 		r = pNode->getBound();
 		iHint hint;
@@ -951,7 +951,7 @@ int iEditDoc::selectNodesInBound(const CRect &r, CRect& selRect, bool drwAll)
 	int cnt = nodes_.selectNodesInBound(r, selRect, drwAll);
 	if (cnt == 1) {
 		CRect rc;
-		hitTest(selRect.CenterPoint(), rc, drwAll);
+		hitTest(selRect.CenterPoint(), rc);
 	}
 	return cnt;
 }
