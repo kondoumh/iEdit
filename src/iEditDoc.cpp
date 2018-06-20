@@ -3545,7 +3545,7 @@ HENHMETAFILE iEditDoc::GetSelectedNodeMetaFile()
 	return NULL;
 }
 
-void iEditDoc::DrawNodesSelected(CDC *pDC, bool bDrwAll)
+void iEditDoc::DrawNodesSelected(CDC *pDC)
 {
 	nodes_.drawNodesSelected(pDC);
 }

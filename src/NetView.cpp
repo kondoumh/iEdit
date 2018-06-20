@@ -2400,7 +2400,7 @@ void NetView::copyMFtoClpbrd()
 		CRect rc(0, 0, (int)((double)(p2.x)*m_mfWidth), (int)((double)(p2.y)*m_mfHeight));
 		mfDC.CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 		mfDC.SetViewportOrg(-m_selectRect.left, -m_selectRect.top);
-		GetDocument()->DrawNodesSelected(&mfDC, false);
+		GetDocument()->DrawNodesSelected(&mfDC);
 		hmetafile = mfDC.CloseEnhanced();
 	}
 	else if (m_selectStatus == NetView::multi) {
@@ -2418,7 +2418,7 @@ void NetView::copyMFtoClpbrd()
 		mfDC.CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 		mfDC.SetViewportOrg(-nwBound.left, -nwBound.top);
 
-		GetDocument()->DrawNodesSelected(&mfDC, false);
+		GetDocument()->DrawNodesSelected(&mfDC);
 		GetDocument()->DrawLinksSelected(&mfDC, true);
 
 		hmetafile = mfDC.CloseEnhanced();

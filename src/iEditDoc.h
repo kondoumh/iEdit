@@ -142,7 +142,7 @@ public:
 	bool CanUndo();
 	CRect GetRelatedBoundAnd(bool drwAll);
 	void DrawLinksSelected(CDC* pDC, bool clipbrd);
-	void DrawNodesSelected(CDC* pDC, bool bDrwAll);
+	void DrawNodesSelected(CDC* pDC);
 	HENHMETAFILE GetSelectedNodeMetaFile();
 	void ListUpNodes(const CString& sfind, NodePropsVec& labels, BOOL bLabel = TRUE, BOOL bText = FALSE, BOOL bLinks = FALSE, BOOL bUpper = FALSE);
 	void AddShapeNode(const CString& name, const CPoint& pt, int mfIndex, HENHMETAFILE& mh);
