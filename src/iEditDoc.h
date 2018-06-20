@@ -236,7 +236,7 @@ public:
 	void setSelectedNodeBound(const CRect& r, bool widthLink = true, bool noBackup = false);
 	void moveSelectedNode(const CSize& sz);
 	bool hitTest(const CPoint& pt, CRect& r, bool bDrwAll = false);
-	void drawNodes(CDC* pDC, bool bDrwAll = false);
+	void drawNodes(CDC* pDC);
 	void setCurNodeText(CString& s, int scrollPos);
 	void selChanged(DWORD key, bool reflesh = true, bool bShowSubBranch = false);
 	CString getSelectedNodeText();

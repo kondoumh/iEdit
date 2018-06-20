@@ -328,7 +328,7 @@ void NetView::OnDraw(CDC* pDC)
 	iEditDoc* pDoc = GetDocument();
 
 	bool bDrwAll = false;
-	pDoc->drawNodes(pDC, bDrwAll);
+	pDoc->drawNodes(pDC);
 	if (!m_bDragRelax) {
 		drawSelection(pDC);
 	}
@@ -2387,7 +2387,7 @@ void NetView::copyMFtoClpbrd()
 		CRect rc(0, 0, (int)((double)(p2.x)*m_mfWidth), (int)((double)(p2.y)*m_mfHeight));
 		mfDC.CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 
-		GetDocument()->drawNodes(&mfDC, false);
+		GetDocument()->drawNodes(&mfDC);
 		GetDocument()->drawLinks(&mfDC, false, true);
 
 		hmetafile = mfDC.CloseEnhanced();
@@ -2871,7 +2871,7 @@ void NetView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 	pDC->SetViewportOrg(0, 0);
 
 	bool bDrwAll = false;
-	GetDocument()->drawNodes(pDC, bDrwAll);
+	GetDocument()->drawNodes(pDC);
 	GetDocument()->drawLinks(pDC, bDrwAll);
 
 	pDC->SetWindowExt(oldWnExt);
@@ -3034,7 +3034,7 @@ void NetView::OnCopyToClipbrd()
 	pMfDC->CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 	pMfDC->SetAttribDC(dc);
 
-	GetDocument()->drawNodes(pMfDC, bDrwAll);
+	GetDocument()->drawNodes(pMfDC);
 	GetDocument()->drawLinks(pMfDC, bDrwAll, true);
 	HENHMETAFILE hmetafile = pMfDC->CloseEnhanced();
 	delete pMfDC;
@@ -4365,7 +4365,7 @@ void NetView::OnExportEmf()
 	pMfDC->CreateEnhanced(&dc, outfileName, &rc, _T("iEdit"));
 	pMfDC->SetAttribDC(dc);
 
-	GetDocument()->drawNodes(pMfDC, bDrwAll);
+	GetDocument()->drawNodes(pMfDC);
 	GetDocument()->drawLinks(pMfDC, bDrwAll, true);
 	HENHMETAFILE hmetafile = pMfDC->CloseEnhanced();
 	delete pMfDC;

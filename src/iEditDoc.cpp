@@ -588,9 +588,9 @@ void iEditDoc::setCurNodeText(CString &s, int scrollPos)
 	// Undo 処理のためのメッセージを飛ばす方が良い。
 }
 
-void iEditDoc::drawNodes(CDC *pDC, bool bDrwAll)
+void iEditDoc::drawNodes(CDC *pDC)
 {
-	nodes_.drawNodes(pDC, bDrwAll);
+	nodes_.drawNodes(pDC, false);
 }
 
 bool iEditDoc::hitTest(const CPoint& pt, CRect &r, bool bDrwAll)
@@ -4809,7 +4809,7 @@ bool iEditDoc::SaveCurrentImage(const CString& pngPath)
 	CBrush brush(RGB(255, 255, 255));
 	pDC->FillRect(rc, &brush);
 
-	drawNodes(pDC, false);
+	drawNodes(pDC);
 	drawLinks(pDC, false, true);
 	image.ReleaseDC();
 	image.Save(pngPath, Gdiplus::ImageFormatPNG);
