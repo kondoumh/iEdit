@@ -2006,7 +2006,7 @@ void NetView::setLinkInfo()
 
 	CString sFrom, sTo, comment;
 	int arrowType = 0;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, comment, arrowType, bDrwAll);
+	GetDocument()->getSelectedLinkInfo(sFrom, sTo, comment, arrowType);
 	LinkPropertiesDlg dlg;
 	dlg.strFrom = sFrom;
 	dlg.strTo = sTo;

@@ -1135,7 +1135,7 @@ void iEditDoc::setNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment
 	UpdateAllViews(NULL, (LPARAM)keyFrom, &h);
 }
 
-void iEditDoc::getSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComment, int &arrowType, bool bDrwAll)
+void iEditDoc::getSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComment, int &arrowType)
 {
 	const_literator li = links_.getSelectedLink();
 	if (li != links_.end()) {
