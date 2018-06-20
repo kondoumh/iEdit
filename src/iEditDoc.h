@@ -141,7 +141,7 @@ public:
 	void DisableUndo();
 	bool CanUndo();
 	CRect GetRelatedBoundAnd(bool drwAll);
-	void DrawLinksSelected(CDC* pDC, bool bDrwAll, bool clipbrd);
+	void DrawLinksSelected(CDC* pDC, bool clipbrd);
 	void DrawNodesSelected(CDC* pDC, bool bDrwAll);
 	HENHMETAFILE GetSelectedNodeMetaFile();
 	void ListUpNodes(const CString& sfind, NodePropsVec& labels, BOOL bLabel = TRUE, BOOL bText = FALSE, BOOL bLinks = FALSE, BOOL bUpper = FALSE);

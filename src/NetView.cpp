@@ -2419,7 +2419,7 @@ void NetView::copyMFtoClpbrd()
 		mfDC.SetViewportOrg(-nwBound.left, -nwBound.top);
 
 		GetDocument()->DrawNodesSelected(&mfDC, false);
-		GetDocument()->DrawLinksSelected(&mfDC, false, true);
+		GetDocument()->DrawLinksSelected(&mfDC, true);
 
 		hmetafile = mfDC.CloseEnhanced();
 	}

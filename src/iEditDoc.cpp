@@ -3550,7 +3550,7 @@ void iEditDoc::DrawNodesSelected(CDC *pDC, bool bDrwAll)
 	nodes_.drawNodesSelected(pDC);
 }
 
-void iEditDoc::DrawLinksSelected(CDC *pDC, bool bDrwAll, bool clipbrd)
+void iEditDoc::DrawLinksSelected(CDC *pDC, bool clipbrd)
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {
