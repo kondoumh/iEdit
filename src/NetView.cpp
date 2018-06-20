@@ -2021,7 +2021,7 @@ void NetView::setLinkInfo()
 	GetDocument()->DisableUndo();
 	GetDocument()->BackupLinksForUndo();
 
-	GetDocument()->setSelectedLinkInfo(dlg.strComment, dlg.styleArrow, bDrwAll);
+	GetDocument()->setSelectedLinkInfo(dlg.strComment, dlg.styleArrow);
 	GetDocument()->setSelectedLinkFont(dlg.lf, bDrwAll);
 	GetDocument()->setSelectedLinkLineColor(dlg.colorLine, bDrwAll);
 	GetDocument()->setSelectedLinkLineStyle(dlg.styleLine, bDrwAll);

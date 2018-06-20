@@ -206,7 +206,7 @@ public:
 	void setSelectedLinkWidth(int w, bool drwAll = false);
 	int getSelectedLinkWidth(bool drwAll = false) const;
 	void selectLinksInBound(const CRect& r, bool drwAll = false);
-	void setSelectedLinkInfo(const CString& sComment, int arrowType, bool bDrwAll = false);
+	void setSelectedLinkInfo(const CString& sComment, int arrowType);
 	void getSelectedLinkInfo(CString& sFrom, CString& sTo, CString& sComment, int& arrowType, bool bDrwAll = false);
 	void setNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString& comment, int styleArrow);
 	void DrawLinkSelection(CDC* pDC);

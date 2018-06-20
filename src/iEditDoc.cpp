@@ -1148,7 +1148,7 @@ void iEditDoc::getSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComme
 	}
 }
 
-void iEditDoc::setSelectedLinkInfo(const CString &sComment, int arrowType, bool bDrwAll)
+void iEditDoc::setSelectedLinkInfo(const CString &sComment, int arrowType)
 {
 	literator li = links_.getSelectedLinkW();
 	if (li != links_.end()) {
