@@ -1490,7 +1490,7 @@ void iEditDoc::SetSpecifiedLinkProps(const LinkProps &iOld, const LinkProps &iNe
 	}
 }
 
-void iEditDoc::SetNodeRelax(CRelaxThrd *r, bool bDrwAll)
+void iEditDoc::SetNodeRelax(CRelaxThrd *r)
 {
 	////////////////////////////////////////////////
 	// 自動レイアウトアルゴリズム用のedgeデータ設定
@@ -1504,7 +1504,7 @@ void iEditDoc::SetNodeRelax(CRelaxThrd *r, bool bDrwAll)
 	for (; li != links_.end(); li++) {
 		if ((*li).getArrowStyle() != iLink::other) {
 			if ((*li).getKeyFrom() == (*li).getKeyTo()) continue;
-			if (!(*li).canDraw() && !bDrwAll) continue;
+			if (!(*li).canDraw()) continue;
 			iEdge e;
 			e.from = (*li).getKeyFrom();
 			e.to = (*li).getKeyTo();

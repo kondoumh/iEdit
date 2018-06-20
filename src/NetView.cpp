@@ -2081,13 +2081,12 @@ void NetView::OnAutoLayout()
 	if (!m_bLayouting) {
 		m_bLayouting = true;
 		CSize sz(GetDocument()->getMaxPt().x, GetDocument()->getMaxPt().y);
-		bool bDrwAll = false;
 		GetDocument()->BackupNodesForUndo();
 		GetDocument()->BackupLinksForUndo();
 
 		CRelaxThrd* pRelaxThrd = new CRelaxThrd(this, m_pDC->GetSafeHdc(), sz, false, GetScrollPosition());
 		pRelaxThrd->m_pThreadParams = NULL;
-		GetDocument()->SetNodeRelax(pRelaxThrd, bDrwAll);
+		GetDocument()->SetNodeRelax(pRelaxThrd);
 		if (!pRelaxThrd->CreateThread(CREATE_SUSPENDED))
 		{
 			AfxMessageBox(_T("Cannnot Create Thread"));

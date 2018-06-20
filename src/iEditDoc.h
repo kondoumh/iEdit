@@ -154,7 +154,7 @@ public:
 	bool LoadXml(const CString& filename, bool replace = false);
 	void AddNodeRoundedRect(const CString& name, const CPoint& pt);
 	void SetResultRelax(Bounds& bounds);
-	void SetNodeRelax(CRelaxThrd* r, bool bDrwAll = false);
+	void SetNodeRelax(CRelaxThrd* r);
 	BOOL IsSelectedNodeFixed() const;
 	void SetSelectedNodeFixed(BOOL f = TRUE);
 	void SetSelectedNodeTextStyle(int style);
