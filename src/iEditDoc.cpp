@@ -764,9 +764,9 @@ bool iEditDoc::setStartLink(const CPoint& pt)
 	return false;
 }
 
-bool iEditDoc::setEndLink(const CPoint &pt, int ArrowType, bool bDrwAll, bool bArrowSpecification)
+bool iEditDoc::setEndLink(const CPoint &pt, int ArrowType, bool bArrowSpecification)
 {
-	iNode* pNode = nodes_.hitTest2(pt, bDrwAll);
+	iNode* pNode = nodes_.hitTest2(pt, false);
 	if (pNode != NULL) {
 		rcLinkTo = pNode->getBound();
 		keyLinkTo = pNode->getKey();

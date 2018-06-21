@@ -1465,15 +1465,15 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	bool linked = false;
 	switch (m_addMode) {
 	case NetView::link0:
-		linked = GetDocument()->setEndLink(logPt, 0, false, true);
+		linked = GetDocument()->setEndLink(logPt, 0, true);
 		m_bStartAdd = false;
 		break;
 	case NetView::link1:
-		linked = GetDocument()->setEndLink(logPt, 1, false, true);
+		linked = GetDocument()->setEndLink(logPt, 1, true);
 		m_bStartAdd = false;
 		break;
 	case NetView::link2:
-		linked = GetDocument()->setEndLink(logPt, 2, false, true);
+		linked = GetDocument()->setEndLink(logPt, 2, true);
 		m_bStartAdd = false;
 		break;
 	}

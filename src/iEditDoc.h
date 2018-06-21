@@ -230,7 +230,7 @@ public:
 	void getSelectedNodeFont(LOGFONT& lf);
 	void setSelectedNodeFont(const LOGFONT& lf);
 	const CPoint& getMaxPt() const;
-	bool setEndLink(const CPoint& pt, int arrowType = iLink::line, bool bDrwAll = false, bool bArrowSpecification = false);
+	bool setEndLink(const CPoint& pt, int arrowType = iLink::line, bool bArrowSpecification = false);
 	bool setStartLink(const CPoint& pt);
 	void drawLinks(CDC* pDC, bool bDrwAll = false, bool clipbrd = false);
 	void setSelectedNodeBound(const CRect& r, bool widthLink = true, bool noBackup = false);
