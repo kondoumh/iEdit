@@ -745,7 +745,7 @@ void iEditDoc::calcMaxPt(CPoint &pt)
 	}
 }
 
-void iEditDoc::drawLinks(CDC *pDC, bool bDrwAll, bool clipbrd)
+void iEditDoc::drawLinks(CDC *pDC, bool clipbrd)
 {
 	links_.drawLines(pDC);
 	links_.drawArrows(pDC);
@@ -4810,7 +4810,7 @@ bool iEditDoc::SaveCurrentImage(const CString& pngPath)
 	pDC->FillRect(rc, &brush);
 
 	drawNodes(pDC);
-	drawLinks(pDC, false, true);
+	drawLinks(pDC, true);
 	image.ReleaseDC();
 	image.Save(pngPath, Gdiplus::ImageFormatPNG);
 	return true;

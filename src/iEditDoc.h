@@ -232,7 +232,7 @@ public:
 	const CPoint& getMaxPt() const;
 	bool setEndLink(const CPoint& pt, int arrowType = iLink::line, bool bArrowSpecification = false);
 	bool setStartLink(const CPoint& pt);
-	void drawLinks(CDC* pDC, bool bDrwAll = false, bool clipbrd = false);
+	void drawLinks(CDC* pDC, bool clipbrd = false);
 	void setSelectedNodeBound(const CRect& r, bool widthLink = true, bool noBackup = false);
 	void moveSelectedNode(const CSize& sz);
 	bool hitTest(const CPoint& pt, CRect& r);

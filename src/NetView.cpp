@@ -327,12 +327,11 @@ void NetView::OnDraw(CDC* pDC)
 	if (m_bLayouting) return;
 	iEditDoc* pDoc = GetDocument();
 
-	bool bDrwAll = false;
 	pDoc->drawNodes(pDC);
 	if (!m_bDragRelax) {
 		drawSelection(pDC);
 	}
-	pDoc->drawLinks(pDC, bDrwAll);
+	pDoc->drawLinks(pDC, false);
 
 	if (m_bStartAdd) {
 		drawAddLink(pDC);
@@ -2388,7 +2387,7 @@ void NetView::copyMFtoClpbrd()
 		mfDC.CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 
 		GetDocument()->drawNodes(&mfDC);
-		GetDocument()->drawLinks(&mfDC, false, true);
+		GetDocument()->drawLinks(&mfDC, true);
 
 		hmetafile = mfDC.CloseEnhanced();
 	}
@@ -2870,9 +2869,8 @@ void NetView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 	pDC->SetViewportExt(CSize(pt.x, pt.y));
 	pDC->SetViewportOrg(0, 0);
 
-	bool bDrwAll = false;
 	GetDocument()->drawNodes(pDC);
-	GetDocument()->drawLinks(pDC, bDrwAll);
+	GetDocument()->drawLinks(pDC);
 
 	pDC->SetWindowExt(oldWnExt);
 }
@@ -3026,8 +3024,6 @@ void NetView::OnCopyToClipbrd()
 	CPoint p1(0, 0);
 	CPoint p2 = GetDocument()->getMaxPt();
 
-	bool bDrwAll = false;
-
 	CMetaFileDC* pMfDC = new CMetaFileDC();
 	CRect rc(0, 0, (int)(abs(p2.x - p1.x)*m_mfWidth), (int)(abs(p2.y - p1.y)*m_mfHeight));
 	CClientDC dc(this);
@@ -3035,7 +3031,7 @@ void NetView::OnCopyToClipbrd()
 	pMfDC->SetAttribDC(dc);
 
 	GetDocument()->drawNodes(pMfDC);
-	GetDocument()->drawLinks(pMfDC, bDrwAll, true);
+	GetDocument()->drawLinks(pMfDC, true);
 	HENHMETAFILE hmetafile = pMfDC->CloseEnhanced();
 	delete pMfDC;
 
@@ -4357,8 +4353,6 @@ void NetView::OnExportEmf()
 	CPoint p1(0, 0);
 	CPoint p2 = GetDocument()->getMaxPt();
 
-	bool bDrwAll = false;
-
 	CMetaFileDC* pMfDC = new CMetaFileDC();
 	CRect rc(0, 0, (int)(abs(p2.x - p1.x)*m_mfWidth), (int)(abs(p2.y - p1.y)*m_mfHeight));
 	CClientDC dc(this);
@@ -4366,7 +4360,7 @@ void NetView::OnExportEmf()
 	pMfDC->SetAttribDC(dc);
 
 	GetDocument()->drawNodes(pMfDC);
-	GetDocument()->drawLinks(pMfDC, bDrwAll, true);
+	GetDocument()->drawLinks(pMfDC, true);
 	HENHMETAFILE hmetafile = pMfDC->CloseEnhanced();
 	delete pMfDC;
 }
