@@ -254,37 +254,6 @@ public:
 #endif
 
 protected:
-	CString procWikiNotation(const CString& text);
-	void beginUL(CString& str, int& level, int& prevLevel);
-	void endUL(CString& str, int& level);
-	CString makeInlineUrlLink(const CString& line);
-	OutlineView* getOutlineView() const;
-	template <class T>
-	void outStyleSheetLine(T &f);
-	void setConnectPoint2(); // 芋づるモードのリンク再配置用
-	void setConnectPoint3(); // visibleなリンクの再配置
-	bool loadFromXML(const CString& filename);
-	CPoint tags2pathPt(MSXML2::IXMLDOMNode* pNode);
-	COLORREF tags2linkColor(MSXML2::IXMLDOMNode* pNode);
-	void tags2linkStyle(MSXML2::IXMLDOMNode* pNode, int& style, int& width, int& arrow);
-	COLORREF tags2nodeLineColor(MSXML2::IXMLDOMNode* pNode);
-	void tags2nodeLine(MSXML2::IXMLDOMNode* pNode, int& style, int& width);
-	COLORREF tags2foreColor(MSXML2::IXMLDOMNode* pNode);
-	void tags2bound(MSXML2::IXMLDOMNode* pNode, CRect& rc);
-	int tag2Shape(const CString& tag);
-	int tag2Align(const CString& tag);
-	bool DomTree2Nodes2(MSXML2::IXMLDOMElement* node, CStdioFile* f);
-	bool DomTree2Nodes3(MSXML2::IXMLDOMElement* node);
-	bool isKeyInLabels(const NodePropsVec& labels, DWORD key);
-	double width2Len(int width);
-	void addImportData(bool brepRoot);
-	DWORD findPairKey(const DWORD first);
-	void calcMaxPt(CPoint& pt);
-	void InitDocument();
-	void saveOrderByTree(CArchive& ar);
-	void saveOrderByTreeEx(CArchive& ar, int version);
-	void saveTreeState(CArchive& ar, int version);
-	void loadTreeState(CArchive& ar, int version);
 
 	//{{AFX_MSG(iEditDoc)
 	afx_msg void OnFileSaveAs();
@@ -327,6 +296,37 @@ private:
 	CRect rcLinkFrom;
 	DWORD lastKey, lastLinkKey;
 
+	CString procWikiNotation(const CString& text);
+	void beginUL(CString& str, int& level, int& prevLevel);
+	void endUL(CString& str, int& level);
+	CString makeInlineUrlLink(const CString& line);
+	OutlineView* getOutlineView() const;
+	template <class T>
+	void outStyleSheetLine(T &f);
+	void setConnectPoint2(); // 芋づるモードのリンク再配置用
+	void setConnectPoint3(); // visibleなリンクの再配置
+	bool loadFromXML(const CString& filename);
+	CPoint tags2pathPt(MSXML2::IXMLDOMNode* pNode);
+	COLORREF tags2linkColor(MSXML2::IXMLDOMNode* pNode);
+	void tags2linkStyle(MSXML2::IXMLDOMNode* pNode, int& style, int& width, int& arrow);
+	COLORREF tags2nodeLineColor(MSXML2::IXMLDOMNode* pNode);
+	void tags2nodeLine(MSXML2::IXMLDOMNode* pNode, int& style, int& width);
+	COLORREF tags2foreColor(MSXML2::IXMLDOMNode* pNode);
+	void tags2bound(MSXML2::IXMLDOMNode* pNode, CRect& rc);
+	int tag2Shape(const CString& tag);
+	int tag2Align(const CString& tag);
+	bool DomTree2Nodes2(MSXML2::IXMLDOMElement* node, CStdioFile* f);
+	bool DomTree2Nodes3(MSXML2::IXMLDOMElement* node);
+	bool isKeyInLabels(const NodePropsVec& labels, DWORD key);
+	double width2Len(int width);
+	void addImportData(bool brepRoot);
+	DWORD findPairKey(const DWORD first);
+	void calcMaxPt(CPoint& pt);
+	void InitDocument();
+	void saveOrderByTree(CArchive& ar);
+	void saveOrderByTreeEx(CArchive& ar, int version);
+	void saveTreeState(CArchive& ar, int version);
+	void loadTreeState(CArchive& ar, int version);
 	const iNode& InsertNode(const int nodeType, const CString& name, const CPoint& pt);
 	void RelaxSingleStep2();
 	void desideLinkLineStyle(iLink& l);
