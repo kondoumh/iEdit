@@ -819,7 +819,7 @@ bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt)
 	return false;
 }
 
-void iEditDoc::setSelectedNodeFont(const LOGFONT &lf)
+void iEditDoc::SetSelectedNodeFont(const LOGFONT &lf)
 {
 	nodes_.setSelectedNodeFont(lf);
 	SetModifiedFlag();
@@ -830,17 +830,17 @@ void iEditDoc::setSelectedNodeFont(const LOGFONT &lf)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::getSelectedNodeFont(LOGFONT& lf)
+void iEditDoc::GetSelectedNodeFont(LOGFONT& lf)
 {
 	nodes_.getSelectedNodeFont(lf);
 }
 
-COLORREF iEditDoc::getSelectedNodeFontColor() const
+COLORREF iEditDoc::GetSelectedNodeFontColor() const
 {
 	return nodes_.getSelectedNodeFontColor();
 }
 
-void iEditDoc::setSelectedNodeFontColor(const COLORREF &c)
+void iEditDoc::SetSelectedNodeFontColor(const COLORREF &c)
 {
 	nodes_.setSelectedNodeFontColor(c);
 	SetModifiedFlag();
@@ -849,7 +849,7 @@ void iEditDoc::setSelectedNodeFontColor(const COLORREF &c)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-void iEditDoc::setSelectedNodeLineColor(const COLORREF &c)
+void iEditDoc::SetSelectedNodeLineColor(const COLORREF &c)
 {
 	nodes_.setSelectedNodeLineColor(c);
 	SetModifiedFlag();
@@ -877,7 +877,7 @@ void iEditDoc::SetSelectedNodeNoBrush(BOOL noBrush)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-COLORREF iEditDoc::getSelectedNodeLineColor() const
+COLORREF iEditDoc::GetSelectedNodeLineColor() const
 {
 	return nodes_.getSelectedNodeLineColor();
 }
@@ -887,7 +887,7 @@ COLORREF iEditDoc::GetSelectedNodeBrsColor() const
 	return nodes_.getSelectedNodeBrsColor();
 }
 
-void iEditDoc::setSelectedNodeLineStyle(int style)
+void iEditDoc::SetSelectedNodeLineStyle(int style)
 {
 	nodes_.setSelectedNodeLineStyle(style);
 	SetModifiedFlag();
@@ -897,12 +897,12 @@ void iEditDoc::setSelectedNodeLineStyle(int style)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-int iEditDoc::getSelectedNodeLineStyle() const
+int iEditDoc::GetSelectedNodeLineStyle() const
 {
 	return nodes_.getSelectedNodeLineStyle();
 }
 
-void iEditDoc::setSelectedNodeLineWidth(int w)
+void iEditDoc::SetSelectedNodeLineWidth(int w)
 {
 	nodes_.setSelectedNodeLineWidth(w);
 	SetModifiedFlag();
@@ -911,13 +911,13 @@ void iEditDoc::setSelectedNodeLineWidth(int w)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-int iEditDoc::getSelectedNodeLineWidth() const
+int iEditDoc::GetSelectedNodeLineWidth() const
 {
 	return nodes_.getSelectedNodeLineWidth();
 }
 
 
-bool iEditDoc::isSelectedNodeMultiLine() const
+bool iEditDoc::IsSelectedNodeMultiLine() const
 {
 	int style = nodes_.getSelectedNodeTextStyle();
 	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
@@ -926,7 +926,7 @@ bool iEditDoc::isSelectedNodeMultiLine() const
 	return false;
 }
 
-void iEditDoc::setSelectedNodeMultiLine(bool set)
+void iEditDoc::SetSelectedNodeMultiLine(bool set)
 {
 	int style;
 	if (set) {
@@ -946,7 +946,7 @@ void iEditDoc::setSelectedNodeMultiLine(bool set)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-int iEditDoc::selectNodesInBound(const CRect &r, CRect& selRect, bool drwAll)
+int iEditDoc::SelectNodesInBound(const CRect &r, CRect& selRect, bool drwAll)
 {
 	int cnt = nodes_.selectNodesInBound(r, selRect, drwAll);
 	if (cnt == 1) {
@@ -956,7 +956,7 @@ int iEditDoc::selectNodesInBound(const CRect &r, CRect& selRect, bool drwAll)
 	return cnt;
 }
 
-CRect iEditDoc::getSelectedNodeRect() const
+CRect iEditDoc::GetSelectedNodeRect() const
 {
 	CRect rc(CRect(0, 0, 0, 0));
 	const_niterator it = nodes_.getSelectedNodeR();
@@ -4157,7 +4157,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 
 CRect iEditDoc::GetChaindNodesBound() const
 {
-	CRect rc = getSelectedNodeRect();
+	CRect rc = GetSelectedNodeRect();
 	const_niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
 		if ((*it).second.isVisible() && (*it).second.isInChain()) {

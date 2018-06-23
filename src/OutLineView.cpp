@@ -746,7 +746,7 @@ void OutlineView::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
 	int style = GetDocument()->GetSelectedNodeTextStyle();
-	bool multiline = GetDocument()->isSelectedNodeMultiLine();
+	bool multiline = GetDocument()->IsSelectedNodeMultiLine();
 	CString label = GetDocument()->GetSelectedNodeLabel();
 	bool multilineActual = label.Find(_T("\n")) != -1;
 
