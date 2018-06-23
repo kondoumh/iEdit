@@ -770,7 +770,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 {
 	CRect old = m_selectRect; adjustRedrawBound(old);
 	CRect r;
-	if (GetDocument()->hitTestLinks(logPt, false)) {
+	if (GetDocument()->HitTestLinks(logPt, false)) {
 		// リンクの選択が更新された
 		m_selectStatus = NetView::link;
 		GetDocument()->GetSelectedLinkEndPoints(m_linkStart, m_linkEnd);
@@ -843,7 +843,7 @@ void NetView::doPostSelection(const CPoint &logPt, BOOL shiftPressed)
 			m_selectRect = selRect;
 			if (selcnt > 1) {
 				m_selectStatus = NetView::multi;
-				GetDocument()->selectLinksInBound(trackerRect, false);// 含まれるlinkも選択する
+				GetDocument()->SelectLinksInBound(trackerRect, false);// 含まれるlinkも選択する
 				m_selectRect |= GetDocument()->GetSelectedLinkBound();
 			}
 			else if (selcnt == 1) {
@@ -1273,7 +1273,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 		GetDocument()->setSelectedNodeBound(rc, false, true);
 		GetDocument()->SetConnectionPoint();
 
-		DWORD hitKey = GetDocument()->hitTestDropTarget(rc.CenterPoint(), GetDocument()->GetSelectedNodeKey());
+		DWORD hitKey = GetDocument()->HitTestDropTarget(rc.CenterPoint(), GetDocument()->GetSelectedNodeKey());
 		if (hitKey != -1) {
 			m_nodeKeyDrop = GetDocument()->GetSelectedNodeKey();
 		}
@@ -1391,7 +1391,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 			GetDocument()->SetConnectionPoint();
 		}
 		m_bLinkAction = false;
-		GetDocument()->hitTestDropTarget(CPoint(-1, -1), -1);
+		GetDocument()->HitTestDropTarget(CPoint(-1, -1), -1);
 		Invalidate();
 		return;
 	}
@@ -1499,7 +1499,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 	CRect old = m_selectRect; adjustRedrawBound(old);
 	if (m_selectStatus != NetView::multi) {
 		// hitTest, linkHitTest
-		if (pDoc->hitTestLinks(logPt, false)) {
+		if (pDoc->HitTestLinks(logPt, false)) {
 			m_selectStatus = NetView::link;
 			m_selectRect = GetDocument()->GetSelectedLinkBound();
 		}
@@ -1515,7 +1515,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 	else {
 		// m_selectRect hitTest, hitTest, linkHitTest
 		if (!m_selectRect.PtInRect(logPt)) {
-			if (pDoc->hitTestLinks(logPt, false)) {
+			if (pDoc->HitTestLinks(logPt, false)) {
 				m_selectStatus = NetView::link;
 				m_selectRect = GetDocument()->GetSelectedLinkBound();
 			}
@@ -1948,16 +1948,16 @@ void NetView::addNode(const CPoint &logPt, const CPoint& screenPt, const CString
 	}
 	GetDocument()->DisableUndo();
 	if (m_addMode == NetView::rect) {
-		GetDocument()->addNodeRect(dlg.m_strcn, logPt);
+		GetDocument()->AddNodeRect(dlg.m_strcn, logPt);
 	}
 	else if (m_addMode == NetView::arc) {
-		GetDocument()->addNodeArc(dlg.m_strcn, logPt);
+		GetDocument()->AddNodeArc(dlg.m_strcn, logPt);
 	}
 	else if (m_addMode == NetView::rRect) {
 		GetDocument()->AddNodeRoundedRect(dlg.m_strcn, logPt);
 	}
 	else if (m_addMode == NetView::label) {
-		GetDocument()->addNodeRect(dlg.m_strcn, logPt, true, true);
+		GetDocument()->AddNodeRect(dlg.m_strcn, logPt, true, true);
 	}
 	m_addMode = NetView::normal;
 }
@@ -2005,7 +2005,7 @@ void NetView::setLinkInfo()
 
 	CString sFrom, sTo, comment;
 	int arrowType = 0;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, comment, arrowType);
+	GetDocument()->GetSelectedLinkInfo(sFrom, sTo, comment, arrowType);
 	LinkPropertiesDlg dlg;
 	dlg.strFrom = sFrom;
 	dlg.strTo = sTo;
@@ -2020,7 +2020,7 @@ void NetView::setLinkInfo()
 	GetDocument()->DisableUndo();
 	GetDocument()->BackupLinksForUndo();
 
-	GetDocument()->setSelectedLinkInfo(dlg.strComment, dlg.styleArrow);
+	GetDocument()->SetSelectedLinkInfo(dlg.strComment, dlg.styleArrow);
 	GetDocument()->SetSelectedLinkFont(dlg.lf, bDrwAll);
 	GetDocument()->SetSelectedLinkLineColor(dlg.colorLine, bDrwAll);
 	GetDocument()->SetSelectedLinkLineStyle(dlg.styleLine, bDrwAll);
@@ -2377,7 +2377,7 @@ void NetView::copyMFtoClpbrd()
 		allR = CRect(CPoint(0, 0), GetDocument()->getMaxPt());
 		int selcnt = GetDocument()->selectNodesInBound(allR, selRect, false);
 		CRect nwBound = allR;
-		GetDocument()->selectLinksInBound(nwBound, false);
+		GetDocument()->SelectLinksInBound(nwBound, false);
 		selRect |= GetDocument()->GetSelectedLinkBound();
 
 		CMetaFileDC mfDC;
@@ -2406,7 +2406,7 @@ void NetView::copyMFtoClpbrd()
 
 		int selcnt = GetDocument()->selectNodesInBound(m_selectRect, selRect, false);
 		CRect nwBound = GetDocument()->GetRelatedBoundAnd(false);
-		GetDocument()->selectLinksInBound(nwBound, false);
+		GetDocument()->SelectLinksInBound(nwBound, false);
 		selRect |= GetDocument()->GetSelectedLinkBound();
 
 		CMetaFileDC mfDC;
@@ -2425,7 +2425,7 @@ void NetView::copyMFtoClpbrd()
 	if (m_selectStatus == NetView::none || m_selectStatus == NetView::link) {
 		CRect rc;
 		GetDocument()->selectNodesInBound(CRect(0, 0, 0, 0), rc, false);
-		GetDocument()->selectLinksInBound(CRect(0, 0, 0, 0), false);
+		GetDocument()->SelectLinksInBound(CRect(0, 0, 0, 0), false);
 	}
 
 	// ------------------------------
@@ -2936,7 +2936,7 @@ void NetView::selectAll()
 	m_selectRect = selRect;
 	if (selcnt > 1) {
 		m_selectStatus = NetView::multi;
-		GetDocument()->selectLinksInBound(allR, bDrwAll);
+		GetDocument()->SelectLinksInBound(allR, bDrwAll);
 		m_selectRect |= GetDocument()->GetSelectedLinkBound();
 	}
 	else if (selcnt == 1) {
@@ -3695,7 +3695,7 @@ void NetView::OnAddNodesFromCfText()
 		if (s2 != _T("") && s2 != _T("\n") && s2 != '\r') {
 			CString label;
 			m_ptPaste.x = initialX + 60 * (indent - 1);
-			GetDocument()->addNodeRect(s2, m_ptPaste, false);
+			GetDocument()->AddNodeRect(s2, m_ptPaste, false);
 			m_ptPaste.y += 40;
 			CPoint maxPt;
 			maxPt = GetDocument()->getMaxPt();
@@ -3713,8 +3713,8 @@ void NetView::OnSetLinkArrowNone()
 {
 	CString sFrom, sTo, sComment;
 	int arrowType;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-	GetDocument()->setSelectedLinkInfo(sComment, iLink::line);
+	GetDocument()->GetSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
+	GetDocument()->SetSelectedLinkInfo(sComment, iLink::line);
 }
 
 void NetView::OnUpdateSetLinkArrowNone(CCmdUI* pCmdUI)
@@ -3728,8 +3728,8 @@ void NetView::OnSetLinkArrowSingle()
 {
 	CString sFrom, sTo, sComment;
 	int arrowType;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-	GetDocument()->setSelectedLinkInfo(sComment, iLink::arrow);
+	GetDocument()->GetSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
+	GetDocument()->SetSelectedLinkInfo(sComment, iLink::arrow);
 }
 
 void NetView::OnUpdateSetLinkArrowSingle(CCmdUI* pCmdUI)
@@ -3743,8 +3743,8 @@ void NetView::OnSetLinkArrowDouble()
 {
 	CString sFrom, sTo, sComment;
 	int arrowType;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-	GetDocument()->setSelectedLinkInfo(sComment, iLink::arrow2);
+	GetDocument()->GetSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
+	GetDocument()->SetSelectedLinkInfo(sComment, iLink::arrow2);
 }
 
 void NetView::OnUpdateSetLinkArrowDouble(CCmdUI* pCmdUI)
@@ -3895,8 +3895,8 @@ void NetView::OnSetLinkDependSingle()
 {
 	CString sFrom, sTo, sComment;
 	int arrowType;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-	GetDocument()->setSelectedLinkInfo(sComment, iLink::depend);
+	GetDocument()->GetSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
+	GetDocument()->SetSelectedLinkInfo(sComment, iLink::depend);
 }
 
 void NetView::OnUpdateSetLinkDependSingle(CCmdUI *pCmdUI)
@@ -3910,8 +3910,8 @@ void NetView::OnSetLinkDependDouble()
 {
 	CString sFrom, sTo, sComment;
 	int arrowType;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-	GetDocument()->setSelectedLinkInfo(sComment, iLink::depend2);
+	GetDocument()->GetSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
+	GetDocument()->SetSelectedLinkInfo(sComment, iLink::depend2);
 }
 
 void NetView::OnUpdateSetLinkDependDouble(CCmdUI *pCmdUI)
@@ -3925,8 +3925,8 @@ void NetView::OnSetLinkInherit()
 {
 	CString sFrom, sTo, sComment;
 	int arrowType;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-	GetDocument()->setSelectedLinkInfo(sComment, iLink::inherit);
+	GetDocument()->GetSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
+	GetDocument()->SetSelectedLinkInfo(sComment, iLink::inherit);
 }
 
 
@@ -3941,8 +3941,8 @@ void NetView::OnSetLinkAgregat()
 {
 	CString sFrom, sTo, sComment;
 	int arrowType;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-	GetDocument()->setSelectedLinkInfo(sComment, iLink::aggregat);
+	GetDocument()->GetSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
+	GetDocument()->SetSelectedLinkInfo(sComment, iLink::aggregat);
 }
 
 void NetView::OnUpdateSetLinkAgregat(CCmdUI *pCmdUI)
@@ -3956,8 +3956,8 @@ void NetView::OnSetLinkComposit()
 {
 	CString sFrom, sTo, sComment;
 	int arrowType;
-	GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-	GetDocument()->setSelectedLinkInfo(sComment, iLink::composit);
+	GetDocument()->GetSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
+	GetDocument()->SetSelectedLinkInfo(sComment, iLink::composit);
 }
 
 void NetView::OnUpdateSetLinkComposit(CCmdUI *pCmdUI)
@@ -3972,8 +3972,8 @@ void NetView::changeSelectedLinkArrow()
 	if (m_selectStatus == NetView::link) {
 		CString sFrom, sTo, sComment;
 		int arrowType;
-		GetDocument()->getSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
-		GetDocument()->setSelectedLinkInfo(sComment, GetDocument()->GetAppLinkArrow());
+		GetDocument()->GetSelectedLinkInfo(sFrom, sTo, sComment, arrowType);
+		GetDocument()->SetSelectedLinkInfo(sComment, GetDocument()->GetAppLinkArrow());
 	}
 }
 
@@ -4267,7 +4267,7 @@ void NetView::OnUpdateAplyFormat(CCmdUI *pCmdUI)
 void NetView::aplyFormat(CPoint& pt)
 {
 	CRect r;
-	if (GetDocument()->hitTestLinks(pt)) {
+	if (GetDocument()->HitTestLinks(pt)) {
 		GetDocument()->ApplyFormatToSelectedLink();
 	}
 	else if (GetDocument()->hitTest(pt, r)) {

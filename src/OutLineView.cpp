@@ -1326,7 +1326,7 @@ void OutlineView::OnLButtonDown(UINT nFlags, CPoint point)
 		dlg.styleArrow = 0;
 		if (dlg.DoModal() == IDOK) {
 			// iEditDocのリンク追加処理
-			GetDocument()->setNewLinkInfo(tree().GetItemData(curItem()), tree().GetItemData(hitTestInfo.hItem),
+			GetDocument()->SetNewLinkInfo(tree().GetItemData(curItem()), tree().GetItemData(hitTestInfo.hItem),
 				dlg.strComment, dlg.styleArrow);
 		}
 		m_bAddingLink = false;

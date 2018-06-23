@@ -989,12 +989,12 @@ CRect iEditDoc::getRecentNodeRect()
 }
 
 // クリップボートからのノード一括作成のためにこのメソッドだけシグネチャを変えました。
-void iEditDoc::addNodeRect(const CString &name, const CPoint &pt, bool bSetMultiLineProcess, bool bNoBound)
+void iEditDoc::AddNodeRect(const CString &name, const CPoint &pt, bool bSetMultiLineProcess, bool bNoBound)
 {
 	AddNodeInternal(name, pt, iNode::rectangle, bSetMultiLineProcess, bNoBound);
 }
 
-void iEditDoc::addNodeArc(const CString &name, const CPoint &pt)
+void iEditDoc::AddNodeArc(const CString &name, const CPoint &pt)
 {
 	AddNodeInternal(name, pt, iNode::arc, true);
 }
@@ -1063,7 +1063,7 @@ void iEditDoc::AddShapeNode(const CString &name, const CPoint &pt, int mfIndex, 
 	UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
 }
 
-bool iEditDoc::hitTestLinks(const CPoint &pt, bool drwAll)
+bool iEditDoc::HitTestLinks(const CPoint &pt, bool drwAll)
 {
 	DWORD key; CString path;
 	bool hit = links_.hitTest(pt, key, path);
@@ -1074,7 +1074,7 @@ bool iEditDoc::hitTestLinks(const CPoint &pt, bool drwAll)
 	return hit;
 }
 
-DWORD iEditDoc::hitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey)
+DWORD iEditDoc::HitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey)
 {
 	return links_.hitTestDropTarget(pt, selectedNodeKey);
 }
@@ -1116,7 +1116,7 @@ void iEditDoc::DrawLinkSelectionTo(CDC *pDC)
 	links_.drawSelectionTo(pDC);
 }
 
-void iEditDoc::setNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment, int styleArrow)
+void iEditDoc::SetNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment, int styleArrow)
 {
 	niterator itFrom = nodes_.findNodeW(keyFrom);
 	niterator itTo = nodes_.findNodeW(keyTo);
@@ -1135,7 +1135,7 @@ void iEditDoc::setNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment
 	UpdateAllViews(NULL, (LPARAM)keyFrom, &h);
 }
 
-void iEditDoc::getSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComment, int &arrowType)
+void iEditDoc::GetSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComment, int &arrowType)
 {
 	const_literator li = links_.getSelectedLink();
 	if (li != links_.end()) {
@@ -1148,7 +1148,7 @@ void iEditDoc::getSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComme
 	}
 }
 
-void iEditDoc::setSelectedLinkInfo(const CString &sComment, int arrowType)
+void iEditDoc::SetSelectedLinkInfo(const CString &sComment, int arrowType)
 {
 	literator li = links_.getSelectedLinkW();
 	if (li != links_.end()) {
@@ -1161,7 +1161,7 @@ void iEditDoc::setSelectedLinkInfo(const CString &sComment, int arrowType)
 	}
 }
 
-void iEditDoc::selectLinksInBound(const CRect &r, bool drwAll)
+void iEditDoc::SelectLinksInBound(const CRect &r, bool drwAll)
 {
 	// HINT: ノードが選択されてるかの判断が必要なので、iEditDocで実装すべき
 	// 今のところcanDrawがtrueだと選択する
