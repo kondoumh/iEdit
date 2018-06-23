@@ -1168,7 +1168,7 @@ void iEditDoc::selectLinksInBound(const CRect &r, bool drwAll)
 	links_.selectLinksInBound(r);
 }
 
-int iEditDoc::getSelectedLinkWidth(bool drwAll) const
+int iEditDoc::GetSelectedLinkWidth(bool drwAll) const
 {
 	// links や nodesはdocのprivateメンバなのだから要素に関する演算は
 	// docでやってもかまわないとこの関数を書いていて気づいた。
@@ -1177,7 +1177,7 @@ int iEditDoc::getSelectedLinkWidth(bool drwAll) const
 	return links_.getSelectedLinkWidth();
 }
 
-void iEditDoc::setSelectedLinkWidth(int w, bool drwAll)
+void iEditDoc::SetSelectedLinkWidth(int w, bool drwAll)
 {
 	links_.setSelectedLinkWidth(w);
 	SetModifiedFlag();
@@ -1185,7 +1185,7 @@ void iEditDoc::setSelectedLinkWidth(int w, bool drwAll)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-void iEditDoc::setSelectedLinkLineStyle(int style, bool drwAll)
+void iEditDoc::SetSelectedLinkLineStyle(int style, bool drwAll)
 {
 	links_.setSelectedLinkLineStyle(style);
 	SetModifiedFlag();
@@ -1193,17 +1193,17 @@ void iEditDoc::setSelectedLinkLineStyle(int style, bool drwAll)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-int iEditDoc::getSelectedLinkLineStyle(bool drwAll)
+int iEditDoc::GetSelectedLinkLineStyle(bool drwAll)
 {
 	return links_.getSelectedLinkLineStyle(drwAll);
 }
 
-COLORREF iEditDoc::getSelectedLinkLineColor(bool drwAll) const
+COLORREF iEditDoc::GetSelectedLinkLineColor(bool drwAll) const
 {
 	return links_.getSelectedLinkLineColor();
 }
 
-void iEditDoc::setSelectedLinkLineColor(const COLORREF &c, bool drwAll)
+void iEditDoc::SetSelectedLinkLineColor(const COLORREF &c, bool drwAll)
 {
 	links_.setSelectedLinkLineColor(c);
 	SetModifiedFlag();
@@ -1211,7 +1211,7 @@ void iEditDoc::setSelectedLinkLineColor(const COLORREF &c, bool drwAll)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-void iEditDoc::setSelectedLinkFont(const LOGFONT &lf, bool drwAll)
+void iEditDoc::SetSelectedLinkFont(const LOGFONT &lf, bool drwAll)
 {
 	links_.setSelectedLinkFont(lf);
 	SetModifiedFlag();
@@ -1219,7 +1219,7 @@ void iEditDoc::setSelectedLinkFont(const LOGFONT &lf, bool drwAll)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-void iEditDoc::getSelectedLinkFont(LOGFONT &lf, bool drwAll)
+void iEditDoc::GetSelectedLinkFont(LOGFONT &lf, bool drwAll)
 {
 	links_.getSelectedLinkFont(lf);
 }

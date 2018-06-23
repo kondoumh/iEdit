@@ -1570,11 +1570,11 @@ void NetView::OnSetNodeFont()
 		GetDocument()->setSelectedNodeFontColor(dlg.GetColor());
 	}
 	else if (m_selectStatus == NetView::link) {
-		GetDocument()->getSelectedLinkFont(lf, false);
+		GetDocument()->GetSelectedLinkFont(lf, false);
 		CFontDialog dlg(&lf);
 		//dlg.m_cf.Flags |= CF_SELECTSCRIPT;
 		if (dlg.DoModal() != IDOK) return;
-		GetDocument()->setSelectedLinkFont(lf, false);
+		GetDocument()->SetSelectedLinkFont(lf, false);
 	}
 	else if (m_selectStatus == NetView::multi) {
 		CFontDialog dlg(&lf);
@@ -1582,7 +1582,7 @@ void NetView::OnSetNodeFont()
 		if (dlg.DoModal() != IDOK) return;
 		GetDocument()->setSelectedNodeFont(lf);
 		GetDocument()->setSelectedNodeFontColor(dlg.GetColor());
-		GetDocument()->setSelectedLinkFont(lf, false);
+		GetDocument()->SetSelectedLinkFont(lf, false);
 	}
 
 	Invalidate();
@@ -1603,15 +1603,15 @@ void NetView::OnSetNodeLineColor()
 		GetDocument()->setSelectedNodeLineColor(dlg.GetColor());
 	}
 	else if (m_selectStatus == NetView::link) {
-		CColorDialog dlg(GetDocument()->getSelectedLinkLineColor(bDrwAll));
+		CColorDialog dlg(GetDocument()->GetSelectedLinkLineColor(bDrwAll));
 		if (dlg.DoModal() != IDOK) return;
-		GetDocument()->setSelectedLinkLineColor(dlg.GetColor(), bDrwAll);
+		GetDocument()->SetSelectedLinkLineColor(dlg.GetColor(), bDrwAll);
 	}
 	else if (m_selectStatus == NetView::multi) {
 		CColorDialog dlg;
 		if (dlg.DoModal() != IDOK) return;
 		GetDocument()->setSelectedNodeLineColor(dlg.GetColor());
-		GetDocument()->setSelectedLinkLineColor(dlg.GetColor(), bDrwAll);
+		GetDocument()->SetSelectedLinkLineColor(dlg.GetColor(), bDrwAll);
 	}
 }
 
@@ -1646,14 +1646,14 @@ void NetView::OnSetLineSolid0()
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
 		break;
 	case NetView::link:
-		GetDocument()->setSelectedLinkWidth(0, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(0, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	case NetView::multi:
 		GetDocument()->setSelectedNodeLineWidth(0);
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
-		GetDocument()->setSelectedLinkWidth(0, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(0, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	}
 }
@@ -1666,8 +1666,8 @@ void NetView::OnUpdateSetLineSolid0(CCmdUI* pCmdUI)
 		pCmdUI->SetCheck(state);
 	}
 	else if (m_selectStatus == NetView::link) {
-		BOOL state = GetDocument()->getSelectedLinkLineStyle() == PS_SOLID &&
-			GetDocument()->getSelectedLinkWidth() == 0;
+		BOOL state = GetDocument()->GetSelectedLinkLineStyle() == PS_SOLID &&
+			GetDocument()->GetSelectedLinkWidth() == 0;
 		pCmdUI->SetCheck(state);
 	}
 }
@@ -1683,14 +1683,14 @@ void NetView::OnSetLineSolid1()
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
 		break;
 	case NetView::link:
-		GetDocument()->setSelectedLinkWidth(2, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(2, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	case NetView::multi:
 		GetDocument()->setSelectedNodeLineWidth(2);
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
-		GetDocument()->setSelectedLinkWidth(2, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(2, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	}
 }
@@ -1703,8 +1703,8 @@ void NetView::OnUpdateSetLineSolid1(CCmdUI* pCmdUI)
 		pCmdUI->SetCheck(state);
 	}
 	else if (m_selectStatus == NetView::link) {
-		BOOL state = GetDocument()->getSelectedLinkLineStyle() == PS_SOLID &&
-			GetDocument()->getSelectedLinkWidth() == 2;
+		BOOL state = GetDocument()->GetSelectedLinkLineStyle() == PS_SOLID &&
+			GetDocument()->GetSelectedLinkWidth() == 2;
 		pCmdUI->SetCheck(state);
 	}
 }
@@ -1720,14 +1720,14 @@ void NetView::OnSetLineSolid2()
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
 		break;
 	case NetView::link:
-		GetDocument()->setSelectedLinkWidth(3, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(3, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	case NetView::multi:
 		GetDocument()->setSelectedNodeLineWidth(3);
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
-		GetDocument()->setSelectedLinkWidth(3, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(3, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	}
 }
@@ -1740,8 +1740,8 @@ void NetView::OnUpdateSetLineSolid2(CCmdUI* pCmdUI)
 		pCmdUI->SetCheck(state);
 	}
 	else if (m_selectStatus == NetView::link) {
-		BOOL state = GetDocument()->getSelectedLinkLineStyle() == PS_SOLID &&
-			GetDocument()->getSelectedLinkWidth() == 3;
+		BOOL state = GetDocument()->GetSelectedLinkLineStyle() == PS_SOLID &&
+			GetDocument()->GetSelectedLinkWidth() == 3;
 		pCmdUI->SetCheck(state);
 	}
 }
@@ -1757,14 +1757,14 @@ void NetView::OnSetLineSolid3()
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
 		break;
 	case NetView::link:
-		GetDocument()->setSelectedLinkWidth(4, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(4, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	case NetView::multi:
 		GetDocument()->setSelectedNodeLineWidth(4);
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
-		GetDocument()->setSelectedLinkWidth(4, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(4, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	}
 }
@@ -1777,8 +1777,8 @@ void NetView::OnUpdateSetLineSolid3(CCmdUI* pCmdUI)
 		pCmdUI->SetCheck(state);
 	}
 	else if (m_selectStatus == NetView::link) {
-		BOOL state = GetDocument()->getSelectedLinkLineStyle() == PS_SOLID &&
-			GetDocument()->getSelectedLinkWidth() == 4;
+		BOOL state = GetDocument()->GetSelectedLinkLineStyle() == PS_SOLID &&
+			GetDocument()->GetSelectedLinkWidth() == 4;
 		pCmdUI->SetCheck(state);
 	}
 }
@@ -1794,14 +1794,14 @@ void NetView::OnSetLineSolid4()
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
 		break;
 	case NetView::link:
-		GetDocument()->setSelectedLinkWidth(5, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(5, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	case NetView::multi:
 		GetDocument()->setSelectedNodeLineWidth(5);
 		GetDocument()->setSelectedNodeLineStyle(PS_SOLID);
-		GetDocument()->setSelectedLinkWidth(5, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_SOLID, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(5, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_SOLID, bDrwAll);
 		break;
 	}
 }
@@ -1814,8 +1814,8 @@ void NetView::OnUpdateSetLineSolid4(CCmdUI* pCmdUI)
 		pCmdUI->SetCheck(state);
 	}
 	else if (m_selectStatus == NetView::link) {
-		BOOL state = GetDocument()->getSelectedLinkLineStyle() == PS_SOLID &&
-			GetDocument()->getSelectedLinkWidth() == 5;
+		BOOL state = GetDocument()->GetSelectedLinkLineStyle() == PS_SOLID &&
+			GetDocument()->GetSelectedLinkWidth() == 5;
 		pCmdUI->SetCheck(state);
 	}
 }
@@ -1831,14 +1831,14 @@ void NetView::OnSetLineDot()
 		GetDocument()->setSelectedNodeLineStyle(PS_DOT);
 		break;
 	case NetView::link:
-		GetDocument()->setSelectedLinkWidth(0, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_DOT, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(0, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_DOT, bDrwAll);
 		break;
 	case NetView::multi:
 		GetDocument()->setSelectedNodeLineWidth(0);
 		GetDocument()->setSelectedNodeLineStyle(PS_DOT);
-		GetDocument()->setSelectedLinkWidth(0, bDrwAll);
-		GetDocument()->setSelectedLinkLineStyle(PS_DOT, bDrwAll);
+		GetDocument()->SetSelectedLinkWidth(0, bDrwAll);
+		GetDocument()->SetSelectedLinkLineStyle(PS_DOT, bDrwAll);
 		break;
 	}
 }
@@ -1851,8 +1851,8 @@ void NetView::OnUpdateSetLineDot(CCmdUI* pCmdUI)
 		pCmdUI->SetCheck(state);
 	}
 	else if (m_selectStatus == NetView::link) {
-		BOOL state = GetDocument()->getSelectedLinkLineStyle() == PS_DOT &&
-			GetDocument()->getSelectedLinkWidth() == 0;
+		BOOL state = GetDocument()->GetSelectedLinkLineStyle() == PS_DOT &&
+			GetDocument()->GetSelectedLinkWidth() == 0;
 		pCmdUI->SetCheck(state);
 	}
 }
@@ -2011,20 +2011,20 @@ void NetView::setLinkInfo()
 	dlg.strTo = sTo;
 	dlg.strComment = comment;
 	dlg.styleArrow = arrowType;
-	dlg.lineWidth = GetDocument()->getSelectedLinkWidth(bDrwAll);
-	dlg.colorLine = GetDocument()->getSelectedLinkLineColor(bDrwAll);
-	dlg.styleLine = GetDocument()->getSelectedLinkLineStyle(bDrwAll);
-	GetDocument()->getSelectedLinkFont(dlg.lf, bDrwAll);
+	dlg.lineWidth = GetDocument()->GetSelectedLinkWidth(bDrwAll);
+	dlg.colorLine = GetDocument()->GetSelectedLinkLineColor(bDrwAll);
+	dlg.styleLine = GetDocument()->GetSelectedLinkLineStyle(bDrwAll);
+	GetDocument()->GetSelectedLinkFont(dlg.lf, bDrwAll);
 
 	if (dlg.DoModal() != IDOK) return;
 	GetDocument()->DisableUndo();
 	GetDocument()->BackupLinksForUndo();
 
 	GetDocument()->setSelectedLinkInfo(dlg.strComment, dlg.styleArrow);
-	GetDocument()->setSelectedLinkFont(dlg.lf, bDrwAll);
-	GetDocument()->setSelectedLinkLineColor(dlg.colorLine, bDrwAll);
-	GetDocument()->setSelectedLinkLineStyle(dlg.styleLine, bDrwAll);
-	GetDocument()->setSelectedLinkWidth(dlg.lineWidth, bDrwAll);
+	GetDocument()->SetSelectedLinkFont(dlg.lf, bDrwAll);
+	GetDocument()->SetSelectedLinkLineColor(dlg.colorLine, bDrwAll);
+	GetDocument()->SetSelectedLinkLineStyle(dlg.styleLine, bDrwAll);
+	GetDocument()->SetSelectedLinkWidth(dlg.lineWidth, bDrwAll);
 }
 
 void NetView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI)
@@ -3984,12 +3984,12 @@ void NetView::changeSelectedLineWidth()
 	GetDocument()->BackupLinksForUndo();
 	if (m_selectStatus == NetView::link) {
 		if (style == -1) {
-			GetDocument()->setSelectedLinkWidth(0);
-			GetDocument()->setSelectedLinkLineStyle(PS_DOT);
+			GetDocument()->SetSelectedLinkWidth(0);
+			GetDocument()->SetSelectedLinkLineStyle(PS_DOT);
 		}
 		else {
-			GetDocument()->setSelectedLinkWidth(style);
-			GetDocument()->setSelectedLinkLineStyle(PS_SOLID);
+			GetDocument()->SetSelectedLinkWidth(style);
+			GetDocument()->SetSelectedLinkLineStyle(PS_SOLID);
 		}
 	}
 	else if (m_selectStatus == NetView::single ||
@@ -4181,7 +4181,7 @@ void NetView::OnBtnLineColor()
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->BackupLinksForUndo();
 	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
-	GetDocument()->setSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
+	GetDocument()->SetSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 }
 
 void NetView::OnUpdateBtnLineColor(CCmdUI *pCmdUI)
@@ -4216,7 +4216,7 @@ void NetView::changeSelectedLineColor()
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->BackupLinksForUndo();
 	GetDocument()->setSelectedNodeLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
-	GetDocument()->setSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
+	GetDocument()->SetSelectedLinkLineColor(((CiEditApp*)AfxGetApp())->m_colorLineBtn);
 }
 void NetView::OnBtnLinkArrow()
 {
