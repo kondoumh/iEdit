@@ -966,28 +966,6 @@ CRect iEditDoc::getSelectedNodeRect() const
 	return rc;
 }
 
-////////////////////////////////////////////////////////////////////////////
-// treeview で追加されたノードに対し、適当な座標値を与えるための専用関数
-////////////////////////////////////////////////////////////////////////////
-CRect iEditDoc::getRecentNodeRect()
-{
-	CRect rc(CRect(0, 0, 50, 30));
-	DWORD curkey = nodes_.getSelKey();
-	const_niterator it = nodes_.begin();
-	DWORD pastkey = 0;
-	for (; it != nodes_.end(); it++) {
-		if (!(*it).second.isVisible()) continue;
-		if ((*it).second.getKey() > pastkey && (*it).second.getKey() < curkey) {
-			pastkey = (*it).second.getKey();
-		}
-	}
-	it = nodes_.findNode(pastkey);
-	if (it != nodes_.end()) {
-		rc = (*it).second.getBound();
-	}
-	return rc;
-}
-
 // クリップボートからのノード一括作成のためにこのメソッドだけシグネチャを変えました。
 void iEditDoc::AddNodeRect(const CString &name, const CPoint &pt, bool bSetMultiLineProcess, bool bNoBound)
 {

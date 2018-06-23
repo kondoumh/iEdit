@@ -214,7 +214,6 @@ public:
 	DWORD HitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey);
 	void AddNodeArc(const CString& name, const CPoint& pt);
 	void AddNodeRect(const CString& name, const CPoint& pt, bool bSetMultiLineProcess = true, bool bNoBound = false);
-	CRect getRecentNodeRect();
 	CRect getSelectedNodeRect() const;
 	int selectNodesInBound(const CRect& r, CRect& selRect, bool drwAll = false);
 	void setSelectedNodeMultiLine(bool set = true);
