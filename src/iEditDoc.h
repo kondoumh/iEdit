@@ -189,7 +189,7 @@ public:
 	DWORD GetSelectedNodeKey() const;
 	void AddUrlLink(const CString& url, const CString& comment);
 	void CollectLinkProps(LinkPropsVec& ls, bool drwAll = false);
-	bool canDeleteNode() const;
+	bool CanDeleteNode() const;
 	CString getSelectedLinkLabel(bool drawAll = false);
 	CString getSelectedNodeLabel();
 	void deleteSelectedNode();

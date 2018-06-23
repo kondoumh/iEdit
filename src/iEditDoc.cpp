@@ -1305,7 +1305,7 @@ CString iEditDoc::getSelectedLinkLabel(bool drawAll)
 }
 
 
-bool iEditDoc::canDeleteNode() const
+bool iEditDoc::CanDeleteNode() const
 {
 	return nodes_.getSelKey() != 0;
 }

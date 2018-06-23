@@ -2065,7 +2065,7 @@ void NetView::deleteSelectedNodes() {
 void NetView::OnUpdateDelete(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(
-		m_selectStatus == NetView::single &&  GetDocument()->canDeleteNode() ||
+		m_selectStatus == NetView::single &&  GetDocument()->CanDeleteNode() ||
 		m_selectStatus == NetView::multi ||
 		m_selectStatus == NetView::link);
 }
