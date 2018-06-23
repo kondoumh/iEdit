@@ -190,8 +190,8 @@ public:
 	void AddUrlLink(const CString& url, const CString& comment);
 	void CollectLinkProps(LinkPropsVec& ls, bool drwAll = false);
 	bool CanDeleteNode() const;
-	CString getSelectedLinkLabel(bool drawAll = false);
-	CString getSelectedNodeLabel();
+	CString GetSelectedLinkLabel(bool drawAll = false);
+	CString GetSelectedNodeLabel();
 	void deleteSelectedNode();
 	void deleteSelectedNodes();
 	void deleteSelectedLink();

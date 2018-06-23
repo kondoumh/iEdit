@@ -2041,7 +2041,7 @@ void NetView::OnDelete()
 		InvalidateRect(old);
 	}
 	else if (m_selectStatus == NetView::link) {
-		CString s = '<' + GetDocument()->getSelectedLinkLabel() + _T(">\n" + "削除しますか");
+		CString s = '<' + GetDocument()->GetSelectedLinkLabel() + _T(">\n" + "削除しますか");
 		if (MessageBox(s, _T("リンクの削除"), MB_YESNO) != IDYES) return;
 		GetDocument()->deleteSelectedLink();
 	}
@@ -2196,7 +2196,7 @@ void NetView::setNodeProp()
 	else {
 		dlg.vert = 1;
 	}
-	dlg.m_strLabel = GetDocument()->getSelectedNodeLabel();
+	dlg.m_strLabel = GetDocument()->GetSelectedNodeLabel();
 	GetDocument()->getSelectedNodeFont(dlg.lf);
 	GetDocument()->GetSelectedNodeMargin(
 		dlg.margins.l, dlg.margins.r, dlg.margins.t, dlg.margins.b);
@@ -3844,7 +3844,7 @@ void NetView::procRenameDialog(const CRect& nodeBound)
 	ViewLPtoDP(&spt, 1);
 	ClientToScreen(&spt);
 	dlg.m_initialPt = spt;
-	dlg.m_strcn = GetDocument()->getSelectedNodeLabel();
+	dlg.m_strcn = GetDocument()->GetSelectedNodeLabel();
 
 	if (dlg.DoModal() != IDOK) return;
 	if (dlg.m_strcn == _T("")) return;

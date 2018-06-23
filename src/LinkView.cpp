@@ -143,7 +143,7 @@ void LinkView::OnInitialUpdate()
 	doColorSetting();
 
 	m_preKey = GetDocument()->GetSelectedNodeKey();
-	CString s = GetDocument()->getSelectedNodeLabel();
+	CString s = GetDocument()->GetSelectedNodeLabel();
 	GetListCtrl().DeleteColumn(0);
 	GetListCtrl().InsertColumn(0, s);
 	CRect rc; GetClientRect(&rc);
@@ -168,7 +168,7 @@ void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		ph != NULL && ph->event == iHint::linkDeleteMulti) ||
 		(m_preKey != GetDocument()->GetSelectedNodeKey())) {
 
-		CString s = GetDocument()->getSelectedNodeLabel();
+		CString s = GetDocument()->GetSelectedNodeLabel();
 		GetListCtrl().DeleteColumn(0);
 		GetListCtrl().InsertColumn(0, s);
 		CRect rc; GetClientRect(&rc);
@@ -337,7 +337,7 @@ void LinkView::setLinkInfo()
 	if (type == LinkProps::linkSL || type == LinkProps::linkDL) {
 		LinkPropertiesDlg dlg;
 		dlg.strComment = i.comment;
-		dlg.strFrom = GetDocument()->getSelectedNodeLabel();
+		dlg.strFrom = GetDocument()->GetSelectedNodeLabel();
 		dlg.strTo = i.sTo;
 		dlg.styleArrow = i._arrowStyle;
 
@@ -364,7 +364,7 @@ void LinkView::setLinkInfo()
 		type == LinkProps::linkFolder || type == LinkProps::iedFile) {
 		LinkForPathDlg dlg;
 		dlg.strComment = i.comment;
-		dlg.strOrg = GetDocument()->getSelectedNodeLabel();
+		dlg.strOrg = GetDocument()->GetSelectedNodeLabel();
 		dlg.strPath = i.path;
 		if (dlg.DoModal() != IDOK) return;
 		i.comment = dlg.strComment;

@@ -1285,7 +1285,7 @@ void iEditDoc::deleteSelectedNodes()
 	}
 }
 
-CString iEditDoc::getSelectedNodeLabel()
+CString iEditDoc::GetSelectedNodeLabel()
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
@@ -1294,7 +1294,7 @@ CString iEditDoc::getSelectedNodeLabel()
 	return _T("");
 }
 
-CString iEditDoc::getSelectedLinkLabel(bool drawAll)
+CString iEditDoc::GetSelectedLinkLabel(bool drawAll)
 {
 	CString label(_T(""));
 	const_literator it = links_.getSelectedLink();
