@@ -170,7 +170,7 @@ void EditorView::UpdateTextExtent()
 void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
+	GetDocument()->SetCurrentNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 
 	if (nChar == VK_ESCAPE) {
 		GetDocument()->selChanged(m_preKey, false, GetDocument()->ShowSubBranch());
@@ -239,7 +239,7 @@ void EditorView::OnEditCut()
 {
 	GetEditCtrl().Cut();
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
+	GetDocument()->SetCurrentNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 void EditorView::OnUpdateEditCut(CCmdUI* pCmdUI)
@@ -253,7 +253,7 @@ void EditorView::OnEditPaste()
 {
 	GetEditCtrl().Paste();
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
+	GetDocument()->SetCurrentNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 void EditorView::OnUpdateEditPaste(CCmdUI* pCmdUI)
@@ -271,7 +271,7 @@ void EditorView::OnEditUndo()
 {
 	GetEditCtrl().Undo();
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
+	GetDocument()->SetCurrentNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 void EditorView::OnUpdateEditUndo(CCmdUI* pCmdUI)
@@ -283,7 +283,7 @@ void EditorView::OnEditClear()
 {
 	GetEditCtrl().Clear();
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
+	GetDocument()->SetCurrentNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 void EditorView::OnUpdateEditClear(CCmdUI* pCmdUI)
@@ -379,7 +379,7 @@ void EditorView::OnReplaceAll(LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase)
 	CString cText; GetEditCtrl().GetWindowText(cText);
 	int rep = cText.Replace(lpszFind, lpszReplace);
 	GetEditCtrl().SetWindowText(cText);
-	GetDocument()->setCurNodeText(cText, GetEditCtrl().GetFirstVisibleLine());
+	GetDocument()->SetCurrentNodeText(cText, GetEditCtrl().GetFirstVisibleLine());
 	GetDocument()->SetModifiedFlag();
 	CString mes; mes.Format(_T("%d個の文字列を置換しました"), rep);
 	MessageBox(mes, _T("置換の終了"), MB_OK);
@@ -403,7 +403,7 @@ void EditorView::OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR 
 		GetEditCtrl().ReplaceSel(lpszReplace);
 	}
 	CString t; GetEditCtrl().GetWindowText(t);
-	GetDocument()->setCurNodeText(t, GetEditCtrl().GetFirstVisibleLine());
+	GetDocument()->SetCurrentNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 }
 
 HBRUSH EditorView::CtlColor(CDC* pDC, UINT nCtlColor)

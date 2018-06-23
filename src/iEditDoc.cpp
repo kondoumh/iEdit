@@ -578,7 +578,7 @@ void iEditDoc::selChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 	}
 }
 
-void iEditDoc::setCurNodeText(CString &s, int scrollPos)
+void iEditDoc::SetCurrentNodeText(CString &s, int scrollPos)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {

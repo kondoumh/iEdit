@@ -236,7 +236,7 @@ public:
 	void MoveSelectedNode(const CSize& sz);
 	bool HitTest(const CPoint& pt, CRect& r);
 	void DrawNodes(CDC* pDC);
-	void setCurNodeText(CString& s, int scrollPos);
+	void SetCurrentNodeText(CString& s, int scrollPos);
 	void selChanged(DWORD key, bool reflesh = true, bool bShowSubBranch = false);
 	CString getSelectedNodeText();
 	void deleteKeyItem(DWORD key);
