@@ -946,9 +946,9 @@ void iEditDoc::SetSelectedNodeMultiLine(bool set)
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
-int iEditDoc::SelectNodesInBound(const CRect &r, CRect& selRect, bool drwAll)
+int iEditDoc::SelectNodesInBound(const CRect &r, CRect& selRect)
 {
-	int cnt = nodes_.selectNodesInBound(r, selRect, drwAll);
+	int cnt = nodes_.selectNodesInBound(r, selRect, false);
 	if (cnt == 1) {
 		CRect rc;
 		HitTest(selRect.CenterPoint(), rc);
@@ -1041,7 +1041,7 @@ void iEditDoc::AddShapeNode(const CString &name, const CPoint &pt, int mfIndex, 
 	UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
 }
 
-bool iEditDoc::HitTestLinks(const CPoint &pt, bool drwAll)
+bool iEditDoc::HitTestLinks(const CPoint &pt)
 {
 	DWORD key; CString path;
 	bool hit = links_.hitTest(pt, key, path);
@@ -1139,14 +1139,14 @@ void iEditDoc::SetSelectedLinkInfo(const CString &sComment, int arrowType)
 	}
 }
 
-void iEditDoc::SelectLinksInBound(const CRect &r, bool drwAll)
+void iEditDoc::SelectLinksInBound(const CRect &r)
 {
 	// HINT: ノードが選択されてるかの判断が必要なので、iEditDocで実装すべき
 	// 今のところcanDrawがtrueだと選択する
 	links_.selectLinksInBound(r);
 }
 
-int iEditDoc::GetSelectedLinkWidth(bool drwAll) const
+int iEditDoc::GetSelectedLinkWidth() const
 {
 	// links や nodesはdocのprivateメンバなのだから要素に関する演算は
 	// docでやってもかまわないとこの関数を書いていて気づいた。
@@ -1155,7 +1155,7 @@ int iEditDoc::GetSelectedLinkWidth(bool drwAll) const
 	return links_.getSelectedLinkWidth();
 }
 
-void iEditDoc::SetSelectedLinkWidth(int w, bool drwAll)
+void iEditDoc::SetSelectedLinkWidth(int w)
 {
 	links_.setSelectedLinkWidth(w);
 	SetModifiedFlag();
@@ -1163,7 +1163,7 @@ void iEditDoc::SetSelectedLinkWidth(int w, bool drwAll)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-void iEditDoc::SetSelectedLinkLineStyle(int style, bool drwAll)
+void iEditDoc::SetSelectedLinkLineStyle(int style)
 {
 	links_.setSelectedLinkLineStyle(style);
 	SetModifiedFlag();
@@ -1171,17 +1171,17 @@ void iEditDoc::SetSelectedLinkLineStyle(int style, bool drwAll)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-int iEditDoc::GetSelectedLinkLineStyle(bool drwAll)
+int iEditDoc::GetSelectedLinkLineStyle()
 {
-	return links_.getSelectedLinkLineStyle(drwAll);
+	return links_.getSelectedLinkLineStyle(false);
 }
 
-COLORREF iEditDoc::GetSelectedLinkLineColor(bool drwAll) const
+COLORREF iEditDoc::GetSelectedLinkLineColor() const
 {
 	return links_.getSelectedLinkLineColor();
 }
 
-void iEditDoc::SetSelectedLinkLineColor(const COLORREF &c, bool drwAll)
+void iEditDoc::SetSelectedLinkLineColor(const COLORREF &c)
 {
 	links_.setSelectedLinkLineColor(c);
 	SetModifiedFlag();
@@ -1189,7 +1189,7 @@ void iEditDoc::SetSelectedLinkLineColor(const COLORREF &c, bool drwAll)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-void iEditDoc::SetSelectedLinkFont(const LOGFONT &lf, bool drwAll)
+void iEditDoc::SetSelectedLinkFont(const LOGFONT &lf)
 {
 	links_.setSelectedLinkFont(lf);
 	SetModifiedFlag();
@@ -1197,7 +1197,7 @@ void iEditDoc::SetSelectedLinkFont(const LOGFONT &lf, bool drwAll)
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
-void iEditDoc::GetSelectedLinkFont(LOGFONT &lf, bool drwAll)
+void iEditDoc::GetSelectedLinkFont(LOGFONT &lf)
 {
 	links_.getSelectedLinkFont(lf);
 }
@@ -1289,7 +1289,7 @@ bool iEditDoc::CanDeleteNode() const
 }
 
 
-void iEditDoc::CollectLinkProps(LinkPropsVec &ls, bool drwAll)
+void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 {
 	DWORD curKey = nodes_.getSelKey();
 	literator it = links_.begin();

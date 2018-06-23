@@ -347,7 +347,7 @@ void LinkView::setLinkInfo()
 		dlg.lf = i.lf_;
 		::lstrcpy(dlg.lf.lfFaceName, i.lf_.lfFaceName);
 
-		GetDocument()->GetSelectedLinkFont(dlg.lf, true);
+		GetDocument()->GetSelectedLinkFont(dlg.lf);
 
 		if (dlg.DoModal() != IDOK) return;
 
