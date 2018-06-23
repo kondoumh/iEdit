@@ -789,7 +789,7 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 
 		NodeProps l;
 		l.name = tree().GetItemText(pTVDispInfo->item.hItem);
-		l.key = pDoc->getUniqKey();
+		l.key = pDoc->AssignNewKey();
 		//	tree().SetItemData(tree().GetSelectedItem(), l.key); // バグの温床 curItem() != NewItemの場合がある
 		tree().SetItemData(m_HNew, l.key);
 		l.parent = tree().GetItemData(tree().GetParentItem(m_HNew));
@@ -2258,7 +2258,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 			nodeCreated = true;
 			iNode node(label);
 			node.setText(text);
-			node.setKey(GetDocument()->getUniqKey());
+			node.setKey(GetDocument()->AssignNewKey());
 			node.setParent(tree().GetItemData(curItem()));
 			node.moveBound(mvSz);
 			node.setLevel(curLevel);
@@ -2280,7 +2280,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 		iNode node;
 		node.setName(label);
 		node.setText(text);
-		node.setKey(GetDocument()->getUniqKey());
+		node.setKey(GetDocument()->AssignNewKey());
 		node.setParent(tree().GetItemData(curItem()));
 		node.moveBound(mvSz);
 		node.setLevel(curLevel);
@@ -2446,7 +2446,7 @@ void OutlineView::OnAddChild2()
 	iEditDoc* pDoc = GetDocument();
 	NodeProps l;
 	l.name = dlg.m_strcn;
-	l.key = pDoc->getUniqKey();
+	l.key = pDoc->AssignNewKey();
 	tree().SetItemData(m_HNew, l.key);
 	l.parent = tree().GetItemData(tree().GetParentItem(m_HNew));
 

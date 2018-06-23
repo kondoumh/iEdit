@@ -244,7 +244,7 @@ public:
 	bool SetKeyNodeName(DWORD key, const CString& name);
 	CString GetKeyNodeChapterNumber(DWORD key);
 	void SetKeyNodeChapterNumber(DWORD key, const CString& chapterNumber);
-	DWORD getUniqKey();
+	DWORD AssignNewKey();
 	void addNode(const NodeProps& l, DWORD inheritKey = 0, bool bInherit = false);
 	void copyNodeLabels(NodePropsVec& v);
 	virtual ~iEditDoc();

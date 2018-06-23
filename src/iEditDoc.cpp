@@ -345,7 +345,7 @@ void iEditDoc::addNode2(const iNode &n)
 	SetModifiedFlag();
 }
 
-DWORD iEditDoc::getUniqKey()
+DWORD iEditDoc::AssignNewKey()
 {
 	return ++lastKey;
 }
@@ -985,7 +985,7 @@ void iEditDoc::AddNodeRoundedRect(const CString &name, const CPoint &pt)
 void iEditDoc::AddNodeInternal(const CString &name, const CPoint &pt, int nodeType, bool bEnableMultiLineProcess, bool bNoBound)
 {
 	iNode n(name);
-	n.setKey(getUniqKey());
+	n.setKey(AssignNewKey());
 	n.setParent(nodes_.getCurParent());
 	n.setNodeShape(nodeType);
 	n.moveBound(CSize(pt.x, pt.y));
@@ -1021,7 +1021,7 @@ void iEditDoc::AddNodeInternal(const CString &name, const CPoint &pt, int nodeTy
 void iEditDoc::AddShapeNode(const CString &name, const CPoint &pt, int mfIndex, HENHMETAFILE& mh)
 {
 	iNode n(name);
-	n.setKey(getUniqKey());
+	n.setKey(AssignNewKey());
 	n.setParent(nodes_.getCurParent());
 	n.setNodeShape(iNode::MetaFile);
 	n.moveBound(CSize(pt.x, pt.y));
@@ -1809,7 +1809,7 @@ void iEditDoc::DuplicateNodes(const CPoint& pt, bool useDefault)
 	for (unsigned int i = 0; i < copyOrg.size(); i++) {
 		niterator it = nodes_.findNodeW(copyOrg[i]);
 		iNode n((*it).second);
-		n.setKey(getUniqKey());
+		n.setKey(AssignNewKey());
 		n.setParent(nodes_.getCurParent());
 
 		if (!useDefault) {
@@ -2162,7 +2162,7 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		if (ename == _T("inode")) {
-			iNode n(_T("add")); n.setKey(getUniqKey());
+			iNode n(_T("add")); n.setKey(AssignNewKey());
 			n.setNoBrush(FALSE);
 			n.setBound(CRect(-1, -1, 0, 0));
 			nodesImport.push_back(n);
@@ -4329,7 +4329,7 @@ const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 const iNode& iEditDoc::InsertNode(const int nodeType, const CString &name, const CPoint &pt)
 {
 	iNode n(name);
-	n.setKey(getUniqKey());
+	n.setKey(AssignNewKey());
 	n.setParent(nodes_.getCurParent());
 	n.setNodeShape(nodeType);
 	n.moveBound(CSize(pt.x, pt.y));
@@ -4696,7 +4696,7 @@ DWORD iEditDoc::DuplicateKeyNode(DWORD key)
 {
 	const_niterator it = nodes_.findNode(key);
 	iNode n = (*it).second;
-	n.setKey(getUniqKey());
+	n.setKey(AssignNewKey());
 	nodes_[n.getKey()] = n;
 	return n.getKey();
 }
