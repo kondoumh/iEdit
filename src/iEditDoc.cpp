@@ -1236,7 +1236,7 @@ BOOL iEditDoc::RouteCmdToAllViews(CView *pView, UINT nID, int nCode, void *pExtr
 	return FALSE;
 }
 
-void iEditDoc::deleteSelectedLink()
+void iEditDoc::DeleteSelectedLink()
 {
 	literator it = links_.getSelectedLinkW();
 	if (it != links_.end()) {
@@ -1248,7 +1248,7 @@ void iEditDoc::deleteSelectedLink()
 	}
 }
 
-void iEditDoc::deleteSelectedLink2()
+void iEditDoc::DeleteSelectedLink2()
 {
 	literator it = links_.getSelectedLinkW2();
 	if (it != links_.end()) {
@@ -1260,7 +1260,7 @@ void iEditDoc::deleteSelectedLink2()
 	}
 }
 
-void iEditDoc::deleteSelectedNode()
+void iEditDoc::DeleteSelectedNode()
 {
 	DWORD delKey = nodes_.getSelKey();
 	SetModifiedFlag();
@@ -1268,7 +1268,7 @@ void iEditDoc::deleteSelectedNode()
 	UpdateAllViews(NULL, (LPARAM)delKey, &hint);
 }
 
-void iEditDoc::deleteSelectedNodes()
+void iEditDoc::DeleteSelectedNodes()
 {
 	SetModifiedFlag();
 	DWORD parentKey = nodes_.getCurParent();

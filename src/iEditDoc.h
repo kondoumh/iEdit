@@ -192,10 +192,10 @@ public:
 	bool CanDeleteNode() const;
 	CString GetSelectedLinkLabel(bool drawAll = false);
 	CString GetSelectedNodeLabel();
-	void deleteSelectedNode();
-	void deleteSelectedNodes();
-	void deleteSelectedLink();
-	void deleteSelectedLink2();
+	void DeleteSelectedNode();
+	void DeleteSelectedNodes();
+	void DeleteSelectedLink();
+	void DeleteSelectedLink2();
 	BOOL RouteCmdToAllViews(CView * pView, UINT nID, int nCode, void * pExtra, AFX_CMDHANDLERINFO * pHandlerInfo);
 	void getSelectedLinkFont(LOGFONT& lf, bool drwAll = false);
 	void setSelectedLinkFont(const LOGFONT& lf, bool drwAll = false);

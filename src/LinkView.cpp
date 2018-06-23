@@ -518,7 +518,7 @@ void LinkView::OnEditCut()
 	if (pEdit == NULL) {
 		notifySelLink();
 		GetDocument()->setCpLinkOrg();
-		GetDocument()->deleteSelectedLink2();
+		GetDocument()->DeleteSelectedLink2();
 	}
 	else {
 		pEdit->Cut();

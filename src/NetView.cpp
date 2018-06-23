@@ -2037,13 +2037,13 @@ void NetView::OnDelete()
 	GetDocument()->DisableUndo();
 	if (m_selectStatus == NetView::single) {
 		CRect old = GetDocument()->GetRelatedBound(); adjustRedrawBound(old);
-		GetDocument()->deleteSelectedNode();
+		GetDocument()->DeleteSelectedNode();
 		InvalidateRect(old);
 	}
 	else if (m_selectStatus == NetView::link) {
 		CString s = '<' + GetDocument()->GetSelectedLinkLabel() + _T(">\n" + "削除しますか");
 		if (MessageBox(s, _T("リンクの削除"), MB_YESNO) != IDYES) return;
-		GetDocument()->deleteSelectedLink();
+		GetDocument()->DeleteSelectedLink();
 	}
 	else if (m_selectStatus == NetView::multi) {
 		deleteSelectedNodes();
@@ -2058,7 +2058,7 @@ void NetView::deleteSelectedNodes() {
 		mes += _T("選択したノード以外にも表示されているノードが削除される可能性があります。\n続行しますか?");
 		if (MessageBox(mes, _T("選択範囲のノードを削除"), MB_YESNO) != IDYES) return;
 	}
-	GetDocument()->deleteSelectedNodes();
+	GetDocument()->DeleteSelectedNodes();
 	Invalidate();
 }
 
