@@ -284,7 +284,7 @@ int iEditDoc::GetInitialBranchMode() const
 	return m_initialBranchMode;
 }
 
-void iEditDoc::copyNodeLabels(NodePropsVec &v)
+void iEditDoc::CopyNodeLabels(NodePropsVec &v)
 {
 	for (unsigned int i = 0; i < sv.size(); i++) {
 		const_niterator it = nodes_.findNode(sv[i]);
@@ -302,7 +302,7 @@ void iEditDoc::copyNodeLabels(NodePropsVec &v)
 }
 
 // OutlineViewでのノード追加用メソッド
-void iEditDoc::addNode(const NodeProps &l, DWORD inheritKey, bool bInherit)
+void iEditDoc::AddNode(const NodeProps &l, DWORD inheritKey, bool bInherit)
 {
 	const_niterator it = nodes_.findNode(inheritKey);
 	iNode n(l.name);

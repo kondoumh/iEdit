@@ -245,8 +245,8 @@ public:
 	CString GetKeyNodeChapterNumber(DWORD key);
 	void SetKeyNodeChapterNumber(DWORD key, const CString& chapterNumber);
 	DWORD AssignNewKey();
-	void addNode(const NodeProps& l, DWORD inheritKey = 0, bool bInherit = false);
-	void copyNodeLabels(NodePropsVec& v);
+	void AddNode(const NodeProps& l, DWORD inheritKey = 0, bool bInherit = false);
+	void CopyNodeLabels(NodePropsVec& v);
 	virtual ~iEditDoc();
 #ifdef _DEBUG
 	virtual void AssertValid() const;

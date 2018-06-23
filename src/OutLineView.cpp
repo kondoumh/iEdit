@@ -422,7 +422,7 @@ void OutlineView::treeConstruct()
 {
 	iEditDoc* pDoc = GetDocument();
 	NodePropsVec ls;
-	pDoc->copyNodeLabels(ls);
+	pDoc->CopyNodeLabels(ls);
 
 	HTREEITEM hRoot = tree().InsertItem(ls[0].name, 0, 0);
 	tree().SetItemData(hRoot, ls[0].key);
@@ -452,7 +452,7 @@ void OutlineView::treeConstruct2()
 {
 	iEditDoc* pDoc = GetDocument();
 	NodePropsVec ls;
-	pDoc->copyNodeLabels(ls);
+	pDoc->CopyNodeLabels(ls);
 
 	HTREEITEM hRoot = tree().InsertItem(ls[0].name, 0, 0);
 	tree().SetItemData(hRoot, ls[0].key);
@@ -516,7 +516,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 {
 	iEditDoc* pDoc = GetDocument();
 	NodePropsVec ls;
-	pDoc->copyNodeLabels(ls);
+	pDoc->CopyNodeLabels(ls);
 
 	int loop = ls.size();
 	ASSERT(loop >= 0);
@@ -807,7 +807,7 @@ void OutlineView::OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 			binherit = true;
 		}
 
-		pDoc->addNode(l, keyInherit, binherit);
+		pDoc->AddNode(l, keyInherit, binherit);
 
 		m_bAdding = false;
 		int branchMode = getBranchMode();
@@ -2457,7 +2457,7 @@ void OutlineView::OnAddChild2()
 	if (pApp->m_rgsNode.bInheritParent) {
 		binherit = true;
 	}
-	pDoc->addNode(l, keyInherit, binherit);
+	pDoc->AddNode(l, keyInherit, binherit);
 	tree().Expand(curItem(), TVE_EXPAND);
 	tree().SelectItem(newItem);
 }
