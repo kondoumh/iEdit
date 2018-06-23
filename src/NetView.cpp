@@ -327,11 +327,11 @@ void NetView::OnDraw(CDC* pDC)
 	if (m_bLayouting) return;
 	iEditDoc* pDoc = GetDocument();
 
-	pDoc->drawNodes(pDC);
+	pDoc->DrawNodes(pDC);
 	if (!m_bDragRelax) {
 		drawSelection(pDC);
 	}
-	pDoc->drawLinks(pDC, false);
+	pDoc->DrawLinks(pDC, false);
 
 	if (m_bStartAdd) {
 		drawAddLink(pDC);
@@ -646,7 +646,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if (isAddingLink()) { // リンク追加開始の処理
 		CRect r;
-		if (GetDocument()->hitTest(logPt, r)) {
+		if (GetDocument()->HitTest(logPt, r)) {
 			m_ptPrePos = point;
 			startLink(logPt);
 		}
@@ -656,7 +656,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	// 芋づるモード開始
 	if (nFlags & MK_CONTROL) {
 		CRect r;
-		if (GetDocument()->hitTest(logPt, r)) {
+		if (GetDocument()->HitTest(logPt, r)) {
 			// ノードの矩形内のオフセットを計算
 			CPoint selTopLeft = GetDocument()->GetSelectedNodeRect().TopLeft();
 			m_dragOffset = selTopLeft - logPt;
@@ -680,7 +680,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	// リンク分割挿入アクション開始
 	if (GetAsyncKeyState(VK_MENU) & 0x8000) {
 		CRect r;
-		if (GetDocument()->hitTest(logPt, r)) {
+		if (GetDocument()->HitTest(logPt, r)) {
 			// ノードの矩形内のオフセットを計算
 			CPoint selTopLeft = GetDocument()->GetSelectedNodeRect().TopLeft();
 			m_dragOffset = selTopLeft - logPt;
@@ -797,7 +797,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 		InvalidateRect(old);
 		startAlterTo(logPt);
 	}
-	else if (GetDocument()->hitTest(logPt, r)) {
+	else if (GetDocument()->HitTest(logPt, r)) {
 		// ノードの選択が更新された
 		m_selectStatus = NetView::single;
 		m_selectRect = r;
@@ -884,7 +884,7 @@ void NetView::trackMulti(CPoint &logPt, CPoint &point, CDC *pDC)
 
 		GetDocument()->BackupNodesForUndo();
 		GetDocument()->BackupLinksForUndo();
-		GetDocument()->moveSelectedNode(CSize(moveX, moveY));
+		GetDocument()->MoveSelectedNode(CSize(moveX, moveY));
 		GetDocument()->MoveSelectedLink(CSize(moveX, moveY));
 		CRect nwrd = GetDocument()->GetRelatedBound(); adjustRedrawBound(nwrd);
 
@@ -936,7 +936,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 			resized = true;
 		}
 		m_selectRect = nw;
-		GetDocument()->setSelectedNodeBound(m_selectRect);
+		GetDocument()->SetSelectedNodeBound(m_selectRect);
 		int moveX = m_selectRect.left - org.left;
 		int moveY = m_selectRect.top - org.top;
 		GetDocument()->MoveSelectedLink(CSize(moveX, moveY));
@@ -1154,7 +1154,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 void NetView::startLink(const CPoint pt)
 {
 	iEditDoc* pDoc = GetDocument();
-	m_bStartAdd = pDoc->setStartLink(pt);
+	m_bStartAdd = pDoc->SetStartLink(pt);
 	if (m_bStartAdd) {
 		m_preRedrawBound = CRect(pt, pt);
 		m_ptLinkFrom = pt;
@@ -1270,7 +1270,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 			rc.top = 0;
 			rc.bottom = height;
 		}
-		GetDocument()->setSelectedNodeBound(rc, false, true);
+		GetDocument()->SetSelectedNodeBound(rc, false, true);
 		GetDocument()->SetConnectionPoint();
 
 		DWORD hitKey = GetDocument()->HitTestDropTarget(rc.CenterPoint(), GetDocument()->GetSelectedNodeKey());
@@ -1464,15 +1464,15 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	bool linked = false;
 	switch (m_addMode) {
 	case NetView::link0:
-		linked = GetDocument()->setEndLink(logPt, 0, true);
+		linked = GetDocument()->SetEndLink(logPt, 0, true);
 		m_bStartAdd = false;
 		break;
 	case NetView::link1:
-		linked = GetDocument()->setEndLink(logPt, 1, true);
+		linked = GetDocument()->SetEndLink(logPt, 1, true);
 		m_bStartAdd = false;
 		break;
 	case NetView::link2:
-		linked = GetDocument()->setEndLink(logPt, 2, true);
+		linked = GetDocument()->SetEndLink(logPt, 2, true);
 		m_bStartAdd = false;
 		break;
 	}
@@ -1498,12 +1498,12 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 	iEditDoc* pDoc = GetDocument();
 	CRect old = m_selectRect; adjustRedrawBound(old);
 	if (m_selectStatus != NetView::multi) {
-		// hitTest, linkHitTest
+		// HitTest, linkHitTest
 		if (pDoc->HitTestLinks(logPt, false)) {
 			m_selectStatus = NetView::link;
 			m_selectRect = GetDocument()->GetSelectedLinkBound();
 		}
-		else if (pDoc->hitTest(logPt, r)) {
+		else if (pDoc->HitTest(logPt, r)) {
 			m_selectStatus = NetView::single;
 			m_selectRect = r;
 		}
@@ -1513,13 +1513,13 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 	else {
-		// m_selectRect hitTest, hitTest, linkHitTest
+		// m_selectRect HitTest, HitTest, linkHitTest
 		if (!m_selectRect.PtInRect(logPt)) {
 			if (pDoc->HitTestLinks(logPt, false)) {
 				m_selectStatus = NetView::link;
 				m_selectRect = GetDocument()->GetSelectedLinkBound();
 			}
-			else if (pDoc->hitTest(logPt, r)) {
+			else if (pDoc->HitTest(logPt, r)) {
 				m_selectStatus = NetView::single;
 				m_selectRect = r;
 			}
@@ -2079,7 +2079,7 @@ void NetView::OnAutoLayout()
 
 	if (!m_bLayouting) {
 		m_bLayouting = true;
-		CSize sz(GetDocument()->getMaxPt().x, GetDocument()->getMaxPt().y);
+		CSize sz(GetDocument()->GetMaxPt().x, GetDocument()->GetMaxPt().y);
 		GetDocument()->BackupNodesForUndo();
 		GetDocument()->BackupLinksForUndo();
 
@@ -2294,7 +2294,7 @@ void NetView::OnGraspMode()
 void NetView::OnUpdateGraspMode(CCmdUI* pCmdUI)
 {
 	CPoint maxPt;
-	maxPt = GetDocument()->getMaxPt();
+	maxPt = GetDocument()->GetMaxPt();
 	CRect rc; CScrollView::GetWindowRect(&rc);
 
 	pCmdUI->Enable((rc.Width() < (int)(maxPt.x*m_fZoomScale)
@@ -2374,7 +2374,7 @@ void NetView::copyMFtoClpbrd()
 	if (m_selectStatus == NetView::none || m_selectStatus == NetView::link) {
 		CRect selRect;
 		CRect allR;
-		allR = CRect(CPoint(0, 0), GetDocument()->getMaxPt());
+		allR = CRect(CPoint(0, 0), GetDocument()->GetMaxPt());
 		int selcnt = GetDocument()->SelectNodesInBound(allR, selRect, false);
 		CRect nwBound = allR;
 		GetDocument()->SelectLinksInBound(nwBound, false);
@@ -2386,8 +2386,8 @@ void NetView::copyMFtoClpbrd()
 		CRect rc(0, 0, (int)((double)(p2.x)*m_mfWidth), (int)((double)(p2.y)*m_mfHeight));
 		mfDC.CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 
-		GetDocument()->drawNodes(&mfDC);
-		GetDocument()->drawLinks(&mfDC, true);
+		GetDocument()->DrawNodes(&mfDC);
+		GetDocument()->DrawLinks(&mfDC, true);
 
 		hmetafile = mfDC.CloseEnhanced();
 	}
@@ -2784,14 +2784,14 @@ void NetView::cursorMove(int dx, int dy)
 
 	if (m_selectStatus == NetView::single) {
 		tracker.m_nStyle = CRectTracker::resizeInside;
-		GetDocument()->setSelectedNodeBound(m_selectRect);
+		GetDocument()->SetSelectedNodeBound(m_selectRect);
 		int moveX = m_selectRect.left - org.left;
 		int moveY = m_selectRect.top - org.top;
 		GetDocument()->MoveSelectedLink(CSize(moveX, moveY));
 	}
 	else if (m_selectStatus == NetView::multi) {
 		tracker.m_nStyle = CRectTracker::hatchedBorder | CRectTracker::resizeInside;
-		GetDocument()->moveSelectedNode(CSize(dx, dy));
+		GetDocument()->MoveSelectedNode(CSize(dx, dy));
 		GetDocument()->MoveSelectedLink(CSize(dx, dy));
 	}
 	CRect rdnw = GetDocument()->GetRelatedBound(); adjustRedrawBound(rdnw);
@@ -2807,7 +2807,7 @@ void NetView::cursorMove(int dx, int dy)
 	}
 
 	CPoint maxPt;
-	maxPt = GetDocument()->getMaxPt();
+	maxPt = GetDocument()->GetMaxPt();
 	adjustScrollArea();
 }
 
@@ -2859,7 +2859,7 @@ void NetView::OnDestroy()
 void NetView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 {
 	pDC->SetMapMode(MM_ISOTROPIC);
-	CPoint pt = GetDocument()->getMaxPt();
+	CPoint pt = GetDocument()->GetMaxPt();
 	CRect pr = pInfo->m_rectDraw;
 
 	int wx = (int)(pt.x / ((pr.Width() / 2) / (double)pDC->GetDeviceCaps(LOGPIXELSX)));
@@ -2869,8 +2869,8 @@ void NetView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 	pDC->SetViewportExt(CSize(pt.x, pt.y));
 	pDC->SetViewportOrg(0, 0);
 
-	GetDocument()->drawNodes(pDC);
-	GetDocument()->drawLinks(pDC);
+	GetDocument()->DrawNodes(pDC);
+	GetDocument()->DrawLinks(pDC);
 
 	pDC->SetWindowExt(oldWnExt);
 }
@@ -2909,7 +2909,7 @@ void NetView::OnUpdateRandomize(CCmdUI* pCmdUI)
 
 void NetView::adjustScrollArea()
 {
-	CPoint maxPt = GetDocument()->getMaxPt();
+	CPoint maxPt = GetDocument()->GetMaxPt();
 	CSize sizeTotal;
 	sizeTotal.cx = (LONG)(maxPt.x*1.05);
 	sizeTotal.cy = (LONG)(maxPt.y*1.05);
@@ -2929,7 +2929,7 @@ void NetView::selectAll()
 	bool bDrwAll = false;
 	CRect selRect;
 	CRect allR;
-	allR = CRect(CPoint(0, 0), GetDocument()->getMaxPt());
+	allR = CRect(CPoint(0, 0), GetDocument()->GetMaxPt());
 	int selcnt = GetDocument()->SelectNodesInBound(allR, selRect, bDrwAll);
 	CRect old = m_selectRect; adjustRedrawBound(old);
 
@@ -3022,7 +3022,7 @@ LRESULT NetView::OnRegNodeMetaFile(UINT wParam, LONG lParam)
 void NetView::OnCopyToClipbrd()
 {
 	CPoint p1(0, 0);
-	CPoint p2 = GetDocument()->getMaxPt();
+	CPoint p2 = GetDocument()->GetMaxPt();
 
 	CMetaFileDC* pMfDC = new CMetaFileDC();
 	CRect rc(0, 0, (int)(abs(p2.x - p1.x)*m_mfWidth), (int)(abs(p2.y - p1.y)*m_mfHeight));
@@ -3030,8 +3030,8 @@ void NetView::OnCopyToClipbrd()
 	pMfDC->CreateEnhanced(&dc, NULL, &rc, _T("iEdit"));
 	pMfDC->SetAttribDC(dc);
 
-	GetDocument()->drawNodes(pMfDC);
-	GetDocument()->drawLinks(pMfDC, true);
+	GetDocument()->DrawNodes(pMfDC);
+	GetDocument()->DrawLinks(pMfDC, true);
 	HENHMETAFILE hmetafile = pMfDC->CloseEnhanced();
 	delete pMfDC;
 
@@ -3056,7 +3056,7 @@ void NetView::OnEditUndo()
 	Invalidate();
 
 	CPoint maxPt;
-	maxPt = GetDocument()->getMaxPt();
+	maxPt = GetDocument()->GetMaxPt();
 	adjustScrollArea();
 }
 
@@ -3437,7 +3437,7 @@ void NetView::OnSelchangeDropdown()
 		break;
 	case 8:
 		CPoint maxPt;
-		maxPt = GetDocument()->getMaxPt();
+		maxPt = GetDocument()->GetMaxPt();
 		CRect rc; CScrollView::GetWindowRect(&rc);
 		if (rc.Width() < (int)(maxPt.x*m_fZoomScale) ||
 			rc.Height() < (int)(maxPt.y*m_fZoomScale)) {
@@ -3564,7 +3564,7 @@ void NetView::OnMButtonDown(UINT nFlags, CPoint point)
 	CPoint logPt = point; ViewDPtoLP(&logPt);
 	m_ptPrePos = point;
 	CRect r;
-	if (GetDocument()->hitTest(logPt, r)) {
+	if (GetDocument()->HitTest(logPt, r)) {
 		m_addMode = NetView::link0;
 		startLink(logPt);
 	}
@@ -3588,7 +3588,7 @@ void NetView::PointedLinkEndPosition(CPoint point)
 	if (point == m_ptPrePos) return;
 
 	if (GetDocument()->HitTest2(logPt)) {
-		GetDocument()->setEndLink(logPt);
+		GetDocument()->SetEndLink(logPt);
 	}
 	else {
 		CMenu menu;
@@ -3698,7 +3698,7 @@ void NetView::OnAddNodesFromCfText()
 			GetDocument()->AddNodeRect(s2, m_ptPaste, false);
 			m_ptPaste.y += 40;
 			CPoint maxPt;
-			maxPt = GetDocument()->getMaxPt();
+			maxPt = GetDocument()->GetMaxPt();
 			adjustScrollArea();
 		}
 	}
@@ -4270,7 +4270,7 @@ void NetView::aplyFormat(CPoint& pt)
 	if (GetDocument()->HitTestLinks(pt)) {
 		GetDocument()->ApplyFormatToSelectedLink();
 	}
-	else if (GetDocument()->hitTest(pt, r)) {
+	else if (GetDocument()->HitTest(pt, r)) {
 		GetDocument()->ApplyFormatToSelectedNode();
 	}
 }
@@ -4351,7 +4351,7 @@ void NetView::OnExportEmf()
 	CString outfileName = dlg.GetPathName();
 
 	CPoint p1(0, 0);
-	CPoint p2 = GetDocument()->getMaxPt();
+	CPoint p2 = GetDocument()->GetMaxPt();
 
 	CMetaFileDC* pMfDC = new CMetaFileDC();
 	CRect rc(0, 0, (int)(abs(p2.x - p1.x)*m_mfWidth), (int)(abs(p2.y - p1.y)*m_mfHeight));
@@ -4359,8 +4359,8 @@ void NetView::OnExportEmf()
 	pMfDC->CreateEnhanced(&dc, outfileName, &rc, _T("iEdit"));
 	pMfDC->SetAttribDC(dc);
 
-	GetDocument()->drawNodes(pMfDC);
-	GetDocument()->drawLinks(pMfDC, true);
+	GetDocument()->DrawNodes(pMfDC);
+	GetDocument()->DrawLinks(pMfDC, true);
 	HENHMETAFILE hmetafile = pMfDC->CloseEnhanced();
 	delete pMfDC;
 }

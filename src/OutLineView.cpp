@@ -1991,10 +1991,10 @@ void OutlineView::OutputHTML()
 		nf.WriteString(_T("</head>\n"));
 		nf.WriteString(_T("<body>\n"));
 
-		CString sWidth; sWidth.Format(_T("width=\"%d\""), GetDocument()->getMaxPt().x);
-		CString sHeight; sHeight.Format(_T("height=\"%d\""), GetDocument()->getMaxPt().y);
-		CString sWidthMgn; sWidthMgn.Format(_T("width=\"%d\""), GetDocument()->getMaxPt().x + 50);
-		CString sHeightMgn; sHeightMgn.Format(_T("height=\"%d\""), GetDocument()->getMaxPt().y + 50);
+		CString sWidth; sWidth.Format(_T("width=\"%d\""), GetDocument()->GetMaxPt().x);
+		CString sHeight; sHeight.Format(_T("height=\"%d\""), GetDocument()->GetMaxPt().y);
+		CString sWidthMgn; sWidthMgn.Format(_T("width=\"%d\""), GetDocument()->GetMaxPt().x + 50);
+		CString sHeightMgn; sHeightMgn.Format(_T("height=\"%d\""), GetDocument()->GetMaxPt().y + 50);
 		if (eDlg.m_xvRdImg == 0) {
 			CString svgPath = outdir + _T("\\") + eDlg.m_pathSvg;
 			if (m_exportOption.textOption == 0) {

@@ -588,12 +588,12 @@ void iEditDoc::setCurNodeText(CString &s, int scrollPos)
 	// Undo 処理のためのメッセージを飛ばす方が良い。
 }
 
-void iEditDoc::drawNodes(CDC *pDC)
+void iEditDoc::DrawNodes(CDC *pDC)
 {
 	nodes_.drawNodes(pDC, false);
 }
 
-bool iEditDoc::hitTest(const CPoint& pt, CRect &r)
+bool iEditDoc::HitTest(const CPoint& pt, CRect &r)
 {
 	iNode* pNode = nodes_.hitTest(pt, false);
 	if (pNode != NULL) {
@@ -607,7 +607,7 @@ bool iEditDoc::hitTest(const CPoint& pt, CRect &r)
 	return false;
 }
 
-void iEditDoc::moveSelectedNode(const CSize &sz)
+void iEditDoc::MoveSelectedNode(const CSize &sz)
 {
 	nodes_.moveSelectedNode(sz);
 	SetConnectionPoint();
@@ -666,7 +666,7 @@ void iEditDoc::MoveSelectedLink(const CSize &sz)
 }
 
 
-void iEditDoc::setSelectedNodeBound(const CRect &r, bool withLink, bool noBackup)
+void iEditDoc::SetSelectedNodeBound(const CRect &r, bool withLink, bool noBackup)
 {
 	if (!noBackup) {
 		BackupNodesForUndo();
@@ -702,7 +702,7 @@ void iEditDoc::SetConnectionPoint()
 	}
 }
 
-const CPoint& iEditDoc::getMaxPt() const
+const CPoint& iEditDoc::GetMaxPt() const
 {
 	return m_maxPt;
 }
@@ -745,14 +745,14 @@ void iEditDoc::calcMaxPt(CPoint &pt)
 	}
 }
 
-void iEditDoc::drawLinks(CDC *pDC, bool clipbrd)
+void iEditDoc::DrawLinks(CDC *pDC, bool clipbrd)
 {
 	links_.drawLines(pDC);
 	links_.drawArrows(pDC);
 	links_.drawComments(pDC, clipbrd);
 }
 
-bool iEditDoc::setStartLink(const CPoint& pt)
+bool iEditDoc::SetStartLink(const CPoint& pt)
 {
 	iNode* pNode = nodes_.hitTest(pt);
 	if (pNode != NULL) {
@@ -764,7 +764,7 @@ bool iEditDoc::setStartLink(const CPoint& pt)
 	return false;
 }
 
-bool iEditDoc::setEndLink(const CPoint &pt, int ArrowType, bool bArrowSpecification)
+bool iEditDoc::SetEndLink(const CPoint &pt, int ArrowType, bool bArrowSpecification)
 {
 	iNode* pNode = nodes_.hitTest2(pt, false);
 	if (pNode != NULL) {
@@ -951,7 +951,7 @@ int iEditDoc::SelectNodesInBound(const CRect &r, CRect& selRect, bool drwAll)
 	int cnt = nodes_.selectNodesInBound(r, selRect, drwAll);
 	if (cnt == 1) {
 		CRect rc;
-		hitTest(selRect.CenterPoint(), rc);
+		HitTest(selRect.CenterPoint(), rc);
 	}
 	return cnt;
 }
@@ -3718,7 +3718,7 @@ void iEditDoc::ExportSvg(const CString &path, bool bEmbed,
 	else {
 		writer.setTextHtmlFilePrefix(textFileName);
 	}
-	writer.exportSVG(path, getMaxPt(), bEmbed);
+	writer.exportSVG(path, GetMaxPt(), bEmbed);
 }
 
 iNode iEditDoc::GetHitNode(const CPoint &pt)
@@ -4777,7 +4777,7 @@ CString iEditDoc::GetFileNameFromPath() const
 bool iEditDoc::SaveCurrentImage(const CString& pngPath)
 {
 	CPoint p1(0, 0);
-	CPoint p2 = getMaxPt();
+	CPoint p2 = GetMaxPt();
 	p2 += CSize(10, 10);
 	CRect rc(p1, p2);
 	CImage image;
@@ -4787,8 +4787,8 @@ bool iEditDoc::SaveCurrentImage(const CString& pngPath)
 	CBrush brush(RGB(255, 255, 255));
 	pDC->FillRect(rc, &brush);
 
-	drawNodes(pDC);
-	drawLinks(pDC, true);
+	DrawNodes(pDC);
+	DrawLinks(pDC, true);
 	image.ReleaseDC();
 	image.Save(pngPath, Gdiplus::ImageFormatPNG);
 	return true;
