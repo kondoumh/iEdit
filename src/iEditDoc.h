@@ -296,11 +296,11 @@ private:
 	CRect rcLinkFrom;
 	DWORD lastKey, lastLinkKey;
 
-	CString procWikiNotation(const CString& text);
-	void beginUL(CString& str, int& level, int& prevLevel);
-	void endUL(CString& str, int& level);
-	CString makeInlineUrlLink(const CString& line);
-	OutlineView* getOutlineView() const;
+	CString ParseWikiNotation(const CString& text);
+	void UlStart(CString& str, int& level, int& prevLevel);
+	void UlEnd(CString& str, int& level);
+	CString CreateInlineUrlLink(const CString& line);
+	OutlineView* GetOutlineView() const;
 	template <class T>
 	void outStyleSheetLine(T &f);
 	void setConnectPoint2(); // 芋づるモードのリンク再配置用

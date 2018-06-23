@@ -205,7 +205,7 @@ void iEditDoc::Serialize(CArchive& ar)
 
 void iEditDoc::saveOrderByTree(CArchive& ar)
 {
-	OutlineView* pView = getOutlineView();
+	OutlineView* pView = GetOutlineView();
 	NodePropsVec ls;
 	pView->treeToSequence0(ls);  // シリアライズ専用シーケンス取得
 	ar << lastKey;
@@ -221,7 +221,7 @@ void iEditDoc::saveOrderByTree(CArchive& ar)
 
 void iEditDoc::saveOrderByTreeEx(CArchive &ar, int version)
 {
-	OutlineView* pView = getOutlineView();
+	OutlineView* pView = GetOutlineView();
 	NodePropsVec ls;
 	pView->treeToSequence0(ls);  // シリアライズ専用シーケンス取得
 	ar << lastKey;
@@ -237,7 +237,7 @@ void iEditDoc::saveOrderByTreeEx(CArchive &ar, int version)
 
 void iEditDoc::saveTreeState(CArchive &ar, int version)
 {
-	OutlineView* pView = getOutlineView();
+	OutlineView* pView = GetOutlineView();
 	ar << pView->getBranchMode();
 	ar << m_dwBranchRootKey;
 }
@@ -541,7 +541,7 @@ void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 	DWORD parentOld = nodes_.getCurParent();
 	nodes_.setSelKey(key);
 
-	NodeKeyVec svec = getOutlineView()->getDrawOrder(bShowSubBranch);
+	NodeKeyVec svec = GetOutlineView()->getDrawOrder(bShowSubBranch);
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.orderDirection == 1) {
 		// 降順での描画オプションの場合は反転する
 		std::reverse(svec.begin(), svec.end());
@@ -2744,7 +2744,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 	}
 	CStdioFile f(fp);
 
-	OutlineView* pView = getOutlineView();
+	OutlineView* pView = GetOutlineView();
 
 	NodePropsVec ls;
 	if (bSerialize) {
@@ -3192,7 +3192,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 	// 内容書き込み
 	f->WriteString(_T("<h1>") + nameStr + _T("</h1>\n"));
 	f->WriteString(_T("<div class=\"text\">\n"));
-	f->WriteString(procWikiNotation((*it).second.getText()));
+	f->WriteString(ParseWikiNotation((*it).second.getText()));
 	f->WriteString(_T("</div>\n"));
 
 	// リンクの書き込み
@@ -3289,7 +3289,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 	f->WriteString(_T("</div>\n"));
 }
 
-CString iEditDoc::procWikiNotation(const CString &text)
+CString iEditDoc::ParseWikiNotation(const CString &text)
 {
 	const std::wregex h2(_T("^\\*\\s([^\\*].*)$")); //"^-.*$" "^[0-9].*$" "^\\*.*$"
 	const std::wregex h3(_T("^\\*\\*\\s([^\\*].*)$"));
@@ -3318,50 +3318,50 @@ CString iEditDoc::procWikiNotation(const CString &text)
 			continue;
 		}
 		if (std::regex_match(line, result, h2)) {
-			endUL(rtnStr, level);
+			UlEnd(rtnStr, level);
 			rtnStr += _T("<h2>");
-			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
+			rtnStr += CreateInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</h2>\n");
 		}
 		else if (std::regex_match(line, result, h3)) {
-			endUL(rtnStr, level);
+			UlEnd(rtnStr, level);
 			rtnStr += _T("<h3>");
-			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
+			rtnStr += CreateInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</h3>\n");
 		}
 		else if (std::regex_match(line, result, h4)) {
-			endUL(rtnStr, level);
+			UlEnd(rtnStr, level);
 			rtnStr += _T("<h4>");
-			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
+			rtnStr += CreateInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</h4>\n");
 		}
 		else if (std::regex_match(line, result, l1)) {
 			prevLevel = level;
 			level = 1;
-			beginUL(rtnStr, level, prevLevel);
+			UlStart(rtnStr, level, prevLevel);
 			rtnStr += _T("<li>");
-			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
+			rtnStr += CreateInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</li>\n");
 		}
 		else if (std::regex_match(line, result, l2)) {
 			prevLevel = level;
 			level = 2;
-			beginUL(rtnStr, level, prevLevel);
+			UlStart(rtnStr, level, prevLevel);
 			rtnStr += _T("<li>");
-			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
+			rtnStr += CreateInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</li>\n");
 		}
 		else if (std::regex_match(line, result, l3)) {
 			prevLevel = level;
 			level = 3;
-			beginUL(rtnStr, level, prevLevel);
+			UlStart(rtnStr, level, prevLevel);
 			rtnStr += _T("<li>");
-			rtnStr += makeInlineUrlLink(CString(result[1].str().c_str()));
+			rtnStr += CreateInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</li>\n");
 		}
 		else {
-			endUL(rtnStr, level);
-			rtnStr += makeInlineUrlLink(CString(line.c_str()));
+			UlEnd(rtnStr, level);
+			rtnStr += CreateInlineUrlLink(CString(line.c_str()));
 			rtnStr += _T("<br />\n");
 		}
 	}
@@ -3369,7 +3369,7 @@ CString iEditDoc::procWikiNotation(const CString &text)
 }
 
 // インラインのURLを検出する 今のところ最初の1個のみ
-CString iEditDoc::makeInlineUrlLink(const CString &line)
+CString iEditDoc::CreateInlineUrlLink(const CString &line)
 {
 	const std::wregex uri(_T("^(.*)(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)(.*)$"));
 	const std::wregex wikiLink(_T("^(.*)\\[\\[(.+):(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)\\]\\](.*)$"));
@@ -3398,7 +3398,7 @@ CString iEditDoc::makeInlineUrlLink(const CString &line)
 	return line;
 }
 
-void iEditDoc::beginUL(CString& str, int& level, int& prevLevel)
+void iEditDoc::UlStart(CString& str, int& level, int& prevLevel)
 {
 	if (prevLevel == level - 1) {
 		str += _T("<ul>\n");
@@ -3414,7 +3414,7 @@ void iEditDoc::beginUL(CString& str, int& level, int& prevLevel)
 	}
 }
 
-void iEditDoc::endUL(CString & str, int& level)
+void iEditDoc::UlEnd(CString & str, int& level)
 {
 	if (level == 1) {
 		str += _T("</ul>\n");
@@ -3710,7 +3710,7 @@ void iEditDoc::ViewSettingChanged()
 void iEditDoc::ExportSvg(const CString &path, bool bEmbed,
 	const CString& textFileName, bool textSingle)
 {
-	NodeKeyVec vec = getOutlineView()->getDrawOrder(ShowSubBranch());
+	NodeKeyVec vec = GetOutlineView()->getDrawOrder(ShowSubBranch());
 	SvgWriter writer(nodes_, links_, vec, false);
 	if (textSingle) {
 		writer.setTextHtmlFileName(textFileName);
@@ -4587,7 +4587,7 @@ void iEditDoc::setConnectPoint3()
 	}
 }
 
-OutlineView* iEditDoc::getOutlineView() const
+OutlineView* iEditDoc::GetOutlineView() const
 {
 	POSITION pos = GetFirstViewPosition();
 	OutlineView* pView = (OutlineView*)GetNextView(pos);
