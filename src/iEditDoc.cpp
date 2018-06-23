@@ -331,7 +331,7 @@ void iEditDoc::addNode(const NodeProps &l, DWORD inheritKey, bool bInherit)
 	}
 
 	nodes_[n.getKey()] = n;
-	selChanged(l.key, true, ShowSubBranch());
+	SelectionChanged(l.key, true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeAdd;
 	UpdateAllViews(NULL, (LPARAM)l.key, &hint);
@@ -350,7 +350,7 @@ DWORD iEditDoc::getUniqKey()
 	return ++lastKey;
 }
 
-bool iEditDoc::setKeyNodeName(DWORD key, const CString &name)
+bool iEditDoc::SetKeyNodeName(DWORD key, const CString &name)
 {
 	niterator it = nodes_.findNodeW(key);
 	if (it == nodes_.end()) {
@@ -362,7 +362,7 @@ bool iEditDoc::setKeyNodeName(DWORD key, const CString &name)
 	return true;
 }
 
-void iEditDoc::setKeyNodeParent(DWORD key, DWORD parent)
+void iEditDoc::SetKeyNodeParent(DWORD key, DWORD parent)
 {
 	niterator it = nodes_.findNodeW(key);
 	if (it != nodes_.end()) {
@@ -372,7 +372,7 @@ void iEditDoc::setKeyNodeParent(DWORD key, DWORD parent)
 	UpdateAllViews(NULL);
 }
 
-CString iEditDoc::getKeyNodeChapterNumber(DWORD key) {
+CString iEditDoc::GetKeyNodeChapterNumber(DWORD key) {
 	const_niterator it = nodes_.findNode(key);
 	if (it != nodes_.end()) {
 		return (*it).second.getChapterNumber();
@@ -380,7 +380,7 @@ CString iEditDoc::getKeyNodeChapterNumber(DWORD key) {
 	return _T("");
 }
 
-void iEditDoc::setKeyNodeChapterNumber(DWORD key, const CString& chapterNumber) {
+void iEditDoc::SetKeyNodeChapterNumber(DWORD key, const CString& chapterNumber) {
 	niterator it = nodes_.findNodeW(key);
 	if (it != nodes_.end()) {
 		(*it).second.setChapterNumber(chapterNumber);
@@ -388,7 +388,7 @@ void iEditDoc::setKeyNodeChapterNumber(DWORD key, const CString& chapterNumber) 
 	// transient 属性なので、DirtyFlag 立てたりビュー再描画したりは不要。
 }
 
-void iEditDoc::deleteKeyItem(DWORD key)
+void iEditDoc::DeleteKeyItem(DWORD key)
 {
 	DWORD parent = nodes_.getCurParent();
 	// 以下の行は、メタファイルの再描画不具合のため廃止iNode_eqの中でiNodeの参照を使うのが原因？
@@ -527,7 +527,7 @@ CString iEditDoc::GetFileNameFromOpenPath()
 	return _T("");
 }
 
-CString iEditDoc::getSelectedNodeText()
+CString iEditDoc::GetSelectedNodeText()
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
@@ -536,7 +536,7 @@ CString iEditDoc::getSelectedNodeText()
 	return _T("");
 }
 
-void iEditDoc::selChanged(DWORD key, bool reflesh, bool bShowSubBranch)
+void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 {
 	DWORD parentOld = nodes_.getCurParent();
 	nodes_.setSelKey(key);
@@ -1004,7 +1004,7 @@ void iEditDoc::AddNodeInternal(const CString &name, const CPoint &pt, int nodeTy
 		m_visibleKeys.insert(n.getKey());
 	}
 	calcMaxPt(m_maxPt);
-	selChanged(n.getKey(), true, ShowSubBranch());
+	SelectionChanged(n.getKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint;
 
@@ -1033,7 +1033,7 @@ void iEditDoc::AddShapeNode(const CString &name, const CPoint &pt, int mfIndex, 
 		m_visibleKeys.insert(n.getKey());
 	}
 
-	selChanged(n.getKey(), true, ShowSubBranch());
+	SelectionChanged(n.getKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint;
 	hint.event = iHint::rectAdd;
@@ -1829,7 +1829,7 @@ void iEditDoc::DuplicateNodes(const CPoint& pt, bool useDefault)
 			m_visibleKeys.insert(n.getKey());
 		}
 
-		selChanged(n.getKey(), true, ShowSubBranch());
+		SelectionChanged(n.getKey(), true, ShowSubBranch());
 		calcMaxPt(m_maxPt);
 		SetModifiedFlag();
 		iHint hint; hint.event = iHint::rectAdd;
@@ -3695,7 +3695,7 @@ void iEditDoc::ReverseSelectedLinkDirection()
 	DWORD keyTo = pl->getKeyTo();
 	links_.setSelectedLinkReverse();
 	SetModifiedFlag();
-	selChanged(keyTo, true, ShowSubBranch());
+	SelectionChanged(keyTo, true, ShowSubBranch());
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)GetSelectedNodeKey(), &h);
 }
@@ -4226,7 +4226,7 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 
 	DWORD newKey = nwNode.getKey();
 
-	selChanged(nwNode.getKey(), true, ShowSubBranch());
+	SelectionChanged(nwNode.getKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 
 	iHint hint;
@@ -4253,7 +4253,7 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 		nodes_.restoreNodesFixState(newKey); // Fix状態をリストア
 	}
 
-	selChanged(nwNode.getKey(), true, ShowSubBranch());
+	SelectionChanged(nwNode.getKey(), true, ShowSubBranch());
 
 	niterator nit = nodes_.find(nwNode.getKey());
 	return (*nit).second.getBound();
@@ -4293,7 +4293,7 @@ const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 	iNode nwNode = InsertNode(nodeType, _T("ノード"), ptTarget);
 	DWORD newKey = nwNode.getKey();
 
-	selChanged(nwNode.getKey(), true, ShowSubBranch());
+	SelectionChanged(nwNode.getKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 
 	iHint hint;
@@ -4318,7 +4318,7 @@ const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 		RelaxSingleStep2();
 	}
 	nodes_.restoreNodesFixState(newKey);
-	selChanged(nwNode.getKey(), true, ShowSubBranch());
+	SelectionChanged(nwNode.getKey(), true, ShowSubBranch());
 
 	niterator nit = nodes_.find(nwNode.getKey());
 	return (*nit).second.getBound();

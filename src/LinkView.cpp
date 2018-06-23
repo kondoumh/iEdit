@@ -449,7 +449,7 @@ void LinkView::jumpTo()
 	}
 	else {
 		kstack.push(GetDocument()->GetSelectedNodeKey());
-		GetDocument()->selChanged(items_[index].keyTo, true, GetDocument()->ShowSubBranch());
+		GetDocument()->SelectionChanged(items_[index].keyTo, true, GetDocument()->ShowSubBranch());
 	}
 }
 
@@ -458,7 +458,7 @@ void LinkView::jumpBack()
 	if (kstack.size() == 0) return;
 	DWORD prekey = kstack.top();
 	kstack.pop();
-	GetDocument()->selChanged(prekey, true, GetDocument()->ShowSubBranch());
+	GetDocument()->SelectionChanged(prekey, true, GetDocument()->ShowSubBranch());
 }
 
 void LinkView::OnContextMenu(CWnd* pWnd, CPoint point)
@@ -495,7 +495,7 @@ void LinkView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 		jumpBack();
 	}
 	if (nChar == VK_ESCAPE) {
-		GetDocument()->selChanged(m_preKey, true, GetDocument()->ShowSubBranch());
+		GetDocument()->SelectionChanged(m_preKey, true, GetDocument()->ShowSubBranch());
 	}
 	CListView::OnKeyUp(nChar, nRepCnt, nFlags);
 }

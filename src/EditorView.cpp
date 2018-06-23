@@ -102,7 +102,7 @@ BOOL EditorView::PreCreateWindow(CREATESTRUCT& cs)
 void EditorView::OnInitialUpdate()
 {
 	CEditView::OnInitialUpdate();
-	CString t = GetDocument()->getSelectedNodeText();
+	CString t = GetDocument()->GetSelectedNodeText();
 	GetEditCtrl().SetWindowText(t);
 	m_preKey = GetDocument()->GetSelectedNodeKey();
 	m_bDrawUnderLine = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Draw Underline"), TRUE);
@@ -117,7 +117,7 @@ void EditorView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		m_bPreUpdateReplace = true;
 		m_nCaretLine = GetCaretLine();
 		m_preKey = curKey;
-		CString t = GetDocument()->getSelectedNodeText();
+		CString t = GetDocument()->GetSelectedNodeText();
 		GetEditCtrl().SetWindowText(t);
 	}
 
@@ -173,7 +173,7 @@ void EditorView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	GetDocument()->SetCurrentNodeText(t, GetEditCtrl().GetFirstVisibleLine());
 
 	if (nChar == VK_ESCAPE) {
-		GetDocument()->selChanged(m_preKey, false, GetDocument()->ShowSubBranch());
+		GetDocument()->SelectionChanged(m_preKey, false, GetDocument()->ShowSubBranch());
 	}
 
 	CEditView::OnKeyUp(nChar, nRepCnt, nFlags);
