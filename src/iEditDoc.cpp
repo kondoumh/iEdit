@@ -149,7 +149,7 @@ void iEditDoc::Serialize(CArchive& ar)
 	{
 		// TODO: この位置に読み込み用のコードを追加してください。
 		if (m_bSerializeXML) {
-			loadFromXML(ar.GetFile()->GetFilePath());
+			LoadFromXml(ar.GetFile()->GetFilePath());
 		}
 		else {
 			if (m_bOldBinary) {
@@ -870,7 +870,7 @@ void iEditDoc::SetSelectedNodeBrush(const COLORREF &c)
 void iEditDoc::SetSelectedNodeNoBrush(BOOL noBrush)
 {
 	nodes_.setSelectedNodeNoBrush(noBrush);
-	setConnectPoint3();
+	SetConnectionPointVisibleLinks();
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -891,7 +891,7 @@ void iEditDoc::SetSelectedNodeLineStyle(int style)
 {
 	nodes_.setSelectedNodeLineStyle(style);
 	SetModifiedFlag();
-	setConnectPoint3();
+	SetConnectionPointVisibleLinks();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
@@ -938,7 +938,7 @@ void iEditDoc::SetSelectedNodeMultiLine(bool set)
 	BackupNodesForUndo();
 	BackupLinksForUndo();
 	nodes_.setSelectedNodeTextStyle(style);
-	setConnectPoint3();
+	SetConnectionPointVisibleLinks();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
@@ -2036,7 +2036,7 @@ bool iEditDoc::LoadXml(const CString &filename, bool replace)
 }
 
 // このLoadメソッドはシリアライズ用
-bool iEditDoc::loadFromXML(const CString &filename)
+bool iEditDoc::LoadFromXml(const CString &filename)
 {
 	MSXML2::IXMLDOMDocument		*pDoc = NULL;
 	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
@@ -2757,7 +2757,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 	_wsetlocale(LC_ALL, _T("jpn"));
 	// Header of XML file
 	f.WriteString(_T("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
-	outStyleSheetLine(f);
+	OutputStyleSheetLine(f);
 	f.WriteString(_T("<iEditDoc>\n"));
 
 	// iNodes -->iNode Data
@@ -4095,7 +4095,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 		if (!(*it).second.isInChain()) continue;
 		(*it).second.setBoundPre((*it).second.getBound());
 	}
-	setConnectPoint2();
+	SetConnectionPointForLayout();
 }
 
 /// 芋づる式に関連ノード・リンクにフラグを立てる
@@ -4171,7 +4171,7 @@ CRect iEditDoc::GetChaindNodesBound() const
 }
 
 // 芋づるモード用
-void iEditDoc::setConnectPoint2()
+void iEditDoc::SetConnectionPointForLayout()
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {
@@ -4196,7 +4196,7 @@ void iEditDoc::RecalcArea()
 }
 
 template <class T>
-void iEditDoc::outStyleSheetLine(T &f)
+void iEditDoc::OutputStyleSheetLine(T &f)
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	if (!pApp->m_rgsOther.bSetStylesheet) return;
@@ -4444,7 +4444,7 @@ void iEditDoc::RelaxSingleStep2()
 		if (!(*it).second.isInChain()) continue;
 		/*const_cast<iNode&>*/(*it).second.setBoundPre((*it).second.getBound());
 	}
-	setConnectPoint2();
+	SetConnectionPointForLayout();
 }
 
 int iEditDoc::GetKeyNodeLevelNumber(DWORD key)
@@ -4547,7 +4547,7 @@ void iEditDoc::ResizeSelectedNodeFont(bool bEnLarge)
 	BackupNodesForUndo();
 	BackupLinksForUndo();
 	nodes_.resizeSelectedNodeFont(bEnLarge);
-	setConnectPoint3();
+	SetConnectionPointVisibleLinks();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint;
@@ -4560,7 +4560,7 @@ void iEditDoc::ResizeSelectedLinkFont(bool bEnLarge)
 	BackupNodesForUndo();
 	BackupLinksForUndo();
 	links_.resizeSelectedLinkFont(bEnLarge);
-	setConnectPoint3();
+	SetConnectionPointVisibleLinks();
 	calcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint;
@@ -4569,7 +4569,7 @@ void iEditDoc::ResizeSelectedLinkFont(bool bEnLarge)
 }
 
 // スタイル変更の時に呼び出しているが・・？
-void iEditDoc::setConnectPoint3()
+void iEditDoc::SetConnectionPointVisibleLinks()
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {

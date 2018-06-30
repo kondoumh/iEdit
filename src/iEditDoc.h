@@ -302,10 +302,10 @@ private:
 	CString CreateInlineUrlLink(const CString& line);
 	OutlineView* GetOutlineView() const;
 	template <class T>
-	void outStyleSheetLine(T &f);
-	void setConnectPoint2(); // 芋づるモードのリンク再配置用
-	void setConnectPoint3(); // visibleなリンクの再配置
-	bool loadFromXML(const CString& filename);
+	void OutputStyleSheetLine(T &f);
+	void SetConnectionPointForLayout(); // 芋づるモードのリンク再配置用
+	void SetConnectionPointVisibleLinks(); // visibleなリンクの再配置
+	bool LoadFromXml(const CString& filename);
 	CPoint tags2pathPt(MSXML2::IXMLDOMNode* pNode);
 	COLORREF tags2linkColor(MSXML2::IXMLDOMNode* pNode);
 	void tags2linkStyle(MSXML2::IXMLDOMNode* pNode, int& style, int& width, int& arrow);
