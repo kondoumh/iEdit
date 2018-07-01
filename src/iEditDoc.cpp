@@ -1726,7 +1726,7 @@ BOOL iEditDoc::IsSelectedLinkSelfReferential() const
 	return FALSE;
 }
 
-void iEditDoc::setCpLinkOrg()
+void iEditDoc::CopyLinkForPaste()
 {
 	const_literator li = links_.getSelectedLink2();
 	if (li != links_.end()) {
@@ -1735,7 +1735,7 @@ void iEditDoc::setCpLinkOrg()
 	}
 }
 
-void iEditDoc::addSetLinkOrg()
+void iEditDoc::PasteCopiedLink()
 {
 	DWORD curKey = nodes_.getSelKey();
 	m_cpLinkOrg.setKeyFrom(curKey);
@@ -1764,7 +1764,7 @@ void iEditDoc::addSetLinkOrg()
 	UpdateAllViews(NULL, (LPARAM)curKey, &h);
 }
 
-BOOL iEditDoc::canCopyLink()
+BOOL iEditDoc::CanCopyLink()
 {
 	return canCpyLink;
 }

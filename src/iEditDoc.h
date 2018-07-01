@@ -173,9 +173,9 @@ public:
 	BOOL IsSelectedNodeFilled() const;
 	void SetSelectedNodeBrush(const COLORREF &c);
 	void MoveSelectedLink(const CSize &sz);
-	BOOL canCopyLink();
-	void addSetLinkOrg();
-	void setCpLinkOrg();
+	BOOL CanCopyLink();
+	void PasteCopiedLink();
+	void CopyLinkForPaste();
 	BOOL IsSelectedLinkCurved() const;
 	BOOL IsSelectedLinkSelfReferential() const;
 	void NotifyLinkSelected(const LinkPropsVec& ls, int index);

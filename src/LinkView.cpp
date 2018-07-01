@@ -517,7 +517,7 @@ void LinkView::OnEditCut()
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		notifySelLink();
-		GetDocument()->setCpLinkOrg();
+		GetDocument()->CopyLinkForPaste();
 		GetDocument()->DeleteSelectedLink2();
 	}
 	else {
@@ -536,7 +536,7 @@ void LinkView::OnEditCopy()
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
 		notifySelLink();
-		GetDocument()->setCpLinkOrg();
+		GetDocument()->CopyLinkForPaste();
 	}
 	else {
 		pEdit->Copy();
@@ -553,7 +553,7 @@ void LinkView::OnEditPaste()
 {
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
-		GetDocument()->addSetLinkOrg();
+		GetDocument()->PasteCopiedLink();
 	}
 	else {
 		pEdit->Paste();
@@ -563,7 +563,7 @@ void LinkView::OnEditPaste()
 void LinkView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 {
 	CEdit* pEdit = GetListCtrl().GetEditControl();
-	pCmdUI->Enable(GetDocument()->canCopyLink() || pEdit != NULL);
+	pCmdUI->Enable(GetDocument()->CanCopyLink() || pEdit != NULL);
 }
 
 void LinkView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
