@@ -122,7 +122,7 @@ void iEditDoc::Serialize(CArchive& ar)
 		// TODO: この位置に保存用のコードを追加してください。
 		if (!m_bSerializeXML) {
 			if (m_bOldBinary) {
-				saveOrderByTree(ar); // ノードの保存
+				SaveOrderByTree(ar); // ノードの保存
 				// リンクの保存
 				ar << links_.size();
 				literator li = links_.begin();
@@ -133,7 +133,7 @@ void iEditDoc::Serialize(CArchive& ar)
 			else {
 				const int SERIAL_VERSION = 5; // シリアル化バージョン番号
 				ar << SERIAL_VERSION;
-				saveOrderByTreeEx(ar, SERIAL_VERSION); // ノードの保存
+				SaveOrderByTreeEx(ar, SERIAL_VERSION); // ノードの保存
 				// リンクの保存
 				ar << links_.size();
 				literator li = links_.begin();
@@ -141,7 +141,7 @@ void iEditDoc::Serialize(CArchive& ar)
 					(*li).SerializeEx(ar, SERIAL_VERSION);
 				}
 				// OutlineView状態の書き込み
-				saveTreeState(ar, SERIAL_VERSION);
+				SaveTreeState(ar, SERIAL_VERSION);
 			}
 		}
 	}
@@ -197,13 +197,13 @@ void iEditDoc::Serialize(CArchive& ar)
 					links_.push_back(l);
 				}
 				// OutlineView状態の読み込み
-				loadTreeState(ar, version);
+				LoadTreeState(ar, version);
 			}
 		}
 	}
 }
 
-void iEditDoc::saveOrderByTree(CArchive& ar)
+void iEditDoc::SaveOrderByTree(CArchive& ar)
 {
 	OutlineView* pView = GetOutlineView();
 	NodePropsVec ls;
@@ -219,7 +219,7 @@ void iEditDoc::saveOrderByTree(CArchive& ar)
 	}
 }
 
-void iEditDoc::saveOrderByTreeEx(CArchive &ar, int version)
+void iEditDoc::SaveOrderByTreeEx(CArchive &ar, int version)
 {
 	OutlineView* pView = GetOutlineView();
 	NodePropsVec ls;
@@ -235,14 +235,14 @@ void iEditDoc::saveOrderByTreeEx(CArchive &ar, int version)
 	}
 }
 
-void iEditDoc::saveTreeState(CArchive &ar, int version)
+void iEditDoc::SaveTreeState(CArchive &ar, int version)
 {
 	OutlineView* pView = GetOutlineView();
 	ar << pView->getBranchMode();
 	ar << m_dwBranchRootKey;
 }
 
-void iEditDoc::loadTreeState(CArchive &ar, int version)
+void iEditDoc::LoadTreeState(CArchive &ar, int version)
 {
 	ar >> m_initialBranchMode;
 	if (m_initialBranchMode == 1 || m_initialBranchMode == 2) {
@@ -252,7 +252,7 @@ void iEditDoc::loadTreeState(CArchive &ar, int version)
 	ar >> branchRootKey;
 
 	m_dwBranchRootKey = branchRootKey;
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 }
 
 
@@ -504,7 +504,7 @@ void iEditDoc::InitDocument()
 	nodes_.initSelection();
 	curParent = nodes_.getCurParent();
 	nodes_.setVisibleNodes(nodes_.getSelKey());
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	canCpyLink = FALSE;
 }
 
@@ -558,7 +558,7 @@ void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 	DWORD parentNew = nodes_.getCurParent();
 
 	if (parentOld != parentNew || parentNew == 0) {
-		calcMaxPt(m_maxPt);
+		CalcMaxPt(m_maxPt);
 	}
 
 	if (!reflesh) {
@@ -611,7 +611,7 @@ void iEditDoc::MoveSelectedNode(const CSize &sz)
 {
 	nodes_.moveSelectedNode(sz);
 	SetConnectionPoint();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }
 
@@ -660,7 +660,7 @@ void iEditDoc::MoveSelectedLink(const CSize &sz)
 		if ((*itFrom).second.isSelected() && (*itTo).second.isSelected()) {
 			(*li).movePts(sz);
 			SetModifiedFlag();
-			calcMaxPt(m_maxPt);
+			CalcMaxPt(m_maxPt);
 		}
 	}
 }
@@ -675,7 +675,7 @@ void iEditDoc::SetSelectedNodeBound(const CRect &r, bool withLink, bool noBackup
 	if (withLink) {
 		SetConnectionPoint();
 	}
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -710,7 +710,7 @@ const CPoint& iEditDoc::GetMaxPt() const
 // TODO:このメソッドはパブリックのメソッドが呼ばれたときに暗黙のうちに呼ばれてると
 // 思われがちだが、実際は適切なタイミングで呼び出されないといけない。呼び出し忘れ
 // があると再描画領域の計算がおかしくなる。
-void iEditDoc::calcMaxPt(CPoint &pt)
+void iEditDoc::CalcMaxPt(CPoint &pt)
 {
 	NodeKeySet ks;
 	pt = CPoint(0, 0);
@@ -774,12 +774,12 @@ bool iEditDoc::SetEndLink(const CPoint &pt, int ArrowType, bool bArrowSpecificat
 		l.setNodes(rcLinkFrom, rcLinkTo, keyLinkFrom, keyLinkTo);
 		l.setDrawFlag();
 		l.setKey(lastLinkKey++);
-		desideLinkLineStyle(l);
+		ResolveLinkLineStyle(l);
 		if (bArrowSpecification) {
 			l.setArrowStyle(ArrowType);
 		}
 		else {
-			desideLinkArrow(l);
+			ResolveLinkArrowStyle(l);
 		}
 		links_.push_back(l);
 		SetModifiedFlag();
@@ -826,7 +826,7 @@ void iEditDoc::SetSelectedNodeFont(const LOGFONT &lf)
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
 	SetConnectionPoint();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -939,7 +939,7 @@ void iEditDoc::SetSelectedNodeMultiLine(bool set)
 	BackupLinksForUndo();
 	nodes_.setSelectedNodeTextStyle(style);
 	SetConnectionPointVisibleLinks();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -1003,7 +1003,7 @@ void iEditDoc::AddNodeInternal(const CString &name, const CPoint &pt, int nodeTy
 	if (ShowSubBranch()) {
 		m_visibleKeys.insert(n.getKey());
 	}
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SelectionChanged(n.getKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint;
@@ -1502,13 +1502,13 @@ void iEditDoc::SetNodeRelax(CRelaxThrd *r)
 			////////////////////////
 			double rate;
 			if (pApp->m_rgsLink.bSetStrength) {
-				rate = width2Len((*li).getLineWidth());
+				rate = LinkWidth2BondStrength((*li).getLineWidth());
 				if ((*li).getLineStyle() == PS_DOT) {
 					rate *= 1.5;
 				}
 			}
 			else {
-				rate = width2Len(0);
+				rate = LinkWidth2BondStrength(0);
 			}
 			rate *= (((double)pApp->m_rgsLink.strength) / 10.0);
 			e.len = sqrt((double)(sz.cx*sz.cx + sz.cy*sz.cy)) * 5 / 4 * rate;
@@ -1549,7 +1549,7 @@ void iEditDoc::SetNodeRelax(CRelaxThrd *r)
 	}
 }
 
-double iEditDoc::width2Len(int width)
+double iEditDoc::LinkWidth2BondStrength(int width)
 {
 	double l;
 	switch (width) {
@@ -1672,7 +1672,7 @@ void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 		}
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkCurved;
-		calcMaxPt(m_maxPt);
+		CalcMaxPt(m_maxPt);
 		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 	}
 }
@@ -1686,7 +1686,7 @@ void iEditDoc::AngleSelectedLink(bool angled)
 	(*li).angle(angled);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 }
 
@@ -1830,7 +1830,7 @@ void iEditDoc::DuplicateNodes(const CPoint& pt, bool useDefault)
 		}
 
 		SelectionChanged(n.getKey(), true, ShowSubBranch());
-		calcMaxPt(m_maxPt);
+		CalcMaxPt(m_maxPt);
 		SetModifiedFlag();
 		iHint hint; hint.event = iHint::rectAdd;
 		hint.str = n.getName();
@@ -1939,7 +1939,7 @@ void iEditDoc::SetResultRelax(Bounds &bounds)
 		niterator nit = nodes_.findNodeW((*it).key);
 		(*nit).second.setBound((*it).newBound);
 	}
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetConnectionPoint();
 	SetModifiedFlag();
 }
@@ -2028,7 +2028,7 @@ bool iEditDoc::LoadXml(const CString &filename, bool replace)
 			//	nodesImport.push_back(nodeImport);
 			//	linksImport.push_back(linkImport);
 
-			addImportData(replace);
+			AddImportedData(replace);
 		}
 		return ret;
 	}
@@ -2248,12 +2248,12 @@ bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				if (ename2 == _T("from")) {
 					childnode2->firstChild->get_text(&s);
 					CString from(s); int idfrom; swscanf_s((const wchar_t*)from.GetBuffer(), _T("%d"), &idfrom);
-					linksImport[linksImport.size() - 1].setKeyFrom(findPairKey((DWORD)idfrom));
+					linksImport[linksImport.size() - 1].setKeyFrom(FindPairKey((DWORD)idfrom));
 				}
 				else if (ename2 == _T("to")) {
 					childnode2->firstChild->get_text(&s);
 					CString to(s); int idto; swscanf_s((const wchar_t*)to.GetBuffer(), _T("%d"), &idto);
-					linksImport[linksImport.size() - 1].setKeyTo(findPairKey((DWORD)idto));
+					linksImport[linksImport.size() - 1].setKeyTo(FindPairKey((DWORD)idto));
 				}
 				else if (ename2 == _T("caption")) {
 					childnode2->firstChild->get_text(&s);
@@ -2949,7 +2949,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 	// iLinks --> iLink Data
 	const_literator li = links_.begin();
 	for (; li != links_.end(); li++) {
-		if (!isKeyInLabels(ls, (*li).getKeyFrom()) || !isKeyInLabels(ls, (*li).getKeyTo())) {
+		if (!NodePropsContainsKey(ls, (*li).getKeyFrom()) || !NodePropsContainsKey(ls, (*li).getKeyTo())) {
 			continue;
 		}
 
@@ -3067,7 +3067,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 	return true;
 }
 
-DWORD iEditDoc::findPairKey(const DWORD first)
+DWORD iEditDoc::FindPairKey(const DWORD first)
 {
 	for (unsigned int i = 0; i < idcVec.size(); i++) {
 		if (idcVec[i].first == first) {
@@ -3077,12 +3077,12 @@ DWORD iEditDoc::findPairKey(const DWORD first)
 	return -1;
 }
 
-void iEditDoc::addImportData(bool brepRoot)
+void iEditDoc::AddImportedData(bool brepRoot)
 {
 	//	sort(nodesImport.begin(), nodesImport.end());
 	unsigned int i;
 	for (i = 0; i < nodesImport.size(); i++) {
-		nodesImport[i].setParent(findPairKey(nodesImport[i].getParent()));
+		nodesImport[i].setParent(FindPairKey(nodesImport[i].getParent()));
 		if (nodesImport[i].getKey() == nodesImport[i].getParent()) {
 			nodesImport[i].setParent(nodes_.getSelKey());
 		}
@@ -3156,7 +3156,7 @@ void iEditDoc::addImportData(bool brepRoot)
 
 	iHint hint; hint.event = iHint::parentSel;
 	DWORD key = nodes_.getSelKey();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -3172,7 +3172,7 @@ void iEditDoc::RandomizeNodesPos(const CSize &area)
 		(*it).second.moveBound(CSize(rand() % area.cx, rand() % area.cy));
 	}
 	SetConnectionPoint();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }
 
@@ -3446,7 +3446,7 @@ CString iEditDoc::GetKeyNodeLabel(DWORD key)
 	return _T("");
 }
 
-bool iEditDoc::isKeyInLabels(const NodePropsVec &labels, DWORD key)
+bool iEditDoc::NodePropsContainsKey(const NodePropsVec &labels, DWORD key)
 {
 	if (labels.size() == nodes_.size()) return true;
 	for (unsigned int i = 0; i < labels.size(); i++) {
@@ -3564,7 +3564,7 @@ void iEditDoc::RestoreNodesForUndo()
 		}
 	}
 	//	SetConnectionPoint();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	nodes_undo.clear();
 	nodes_undo.resize(0);
 	SetModifiedFlag();
@@ -3614,7 +3614,7 @@ void iEditDoc::RestoreLinksForUndo()
 		links_.erase(remove_if(links_.begin(), links_.end(), iLink_eqkey(links_.getDividedLinkKey())), links_.end());
 		links_.clearDividedLinkKey();
 	}
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	links_undo.clear();
 	links_undo.resize(0);
 	SetModifiedFlag();
@@ -3647,7 +3647,7 @@ void iEditDoc::AlignNodesInBoundTo(const CString& side, const CRect& rect)
 		(*it).second.moveTo(pt);
 	}
 	SetConnectionPoint();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }
 
@@ -3675,7 +3675,7 @@ void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize)
 		(*it).second.setBound(rc);
 	}
 	SetConnectionPoint();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }
 
@@ -3746,7 +3746,7 @@ void iEditDoc::SetShowBranch(DWORD branchRootKey)
 	m_bShowBranch = true;
 	iHint hint; hint.event = iHint::showSubBranch;
 	DWORD key = nodes_.getSelKey();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -3756,7 +3756,7 @@ void iEditDoc::ResetShowBranch()
 	nodes_.setVisibleNodes(nodes_.getCurParent());
 	iHint hint; hint.event = iHint::resetShowSubBranch;
 	DWORD key = nodes_.getSelKey();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -3939,13 +3939,13 @@ void iEditDoc::CalcEdges()
 				sz.cy = ((*li).getRectFrom().Height() + (*li).getRectTo().Height()) / 2;
 				double rate;
 				if (pApp->m_rgsLink.bSetStrength) {
-					rate = width2Len((*li).getLineWidth());
+					rate = LinkWidth2BondStrength((*li).getLineWidth());
 					if ((*li).getLineStyle() == PS_DOT) {
 						rate *= 1.5;
 					}
 				}
 				else {
-					rate = width2Len(0);
+					rate = LinkWidth2BondStrength(0);
 				}
 				rate *= (((double)pApp->m_rgsLink.strength) / 10.0);
 				(*li).setLen(sqrt((double)(sz.cx*sz.cx + sz.cy*sz.cy)) * 5 / 4 * rate);
@@ -4192,7 +4192,7 @@ void iEditDoc::SetConnectionPointForLayout()
 
 void iEditDoc::RecalcArea()
 {
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 }
 
 template <class T>
@@ -4238,8 +4238,8 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 	l.setNodes((*it).second.getBound(), nwNode.getBound(), (*it).second.getKey(), nwNode.getKey());
 	l.setDrawFlag();
 	l.setKey(lastLinkKey++);
-	desideLinkLineStyle(l);
-	desideLinkArrow(l);
+	ResolveLinkLineStyle(l);
+	ResolveLinkArrowStyle(l);
 	links_.push_back(l);
 
 
@@ -4305,8 +4305,8 @@ const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 	l.setNodes((*itRoot).second.getBound(), nwNode.getBound(), (*itRoot).second.getKey(), nwNode.getKey());
 	l.setDrawFlag();
 	l.setKey(lastLinkKey++);
-	desideLinkLineStyle(l);
-	desideLinkArrow(l);
+	ResolveLinkLineStyle(l);
+	ResolveLinkArrowStyle(l);
 
 	links_.push_back(l);
 
@@ -4466,7 +4466,7 @@ bool iEditDoc::HitTest2(const CPoint& pt)
 	return false;
 }
 
-void iEditDoc::desideLinkLineStyle(iLink& l)
+void iEditDoc::ResolveLinkLineStyle(iLink& l)
 {
 	int lineStyle = ((CiEditApp*)AfxGetApp())->m_curLinkLineStyle;
 	l.setLineStyle(PS_SOLID);
@@ -4492,7 +4492,7 @@ void iEditDoc::desideLinkLineStyle(iLink& l)
 	}
 }
 
-void iEditDoc::desideLinkArrow(iLink& l)
+void iEditDoc::ResolveLinkArrowStyle(iLink& l)
 {
 	l.setArrowStyle(GetAppLinkArrow());
 }
@@ -4548,7 +4548,7 @@ void iEditDoc::ResizeSelectedNodeFont(bool bEnLarge)
 	BackupLinksForUndo();
 	nodes_.resizeSelectedNodeFont(bEnLarge);
 	SetConnectionPointVisibleLinks();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint;
 	hint.event = iHint::nodeFontResize;
@@ -4561,7 +4561,7 @@ void iEditDoc::ResizeSelectedLinkFont(bool bEnLarge)
 	BackupLinksForUndo();
 	links_.resizeSelectedLinkFont(bEnLarge);
 	SetConnectionPointVisibleLinks();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint;
 	hint.event = iHint::linkModified;
@@ -4658,7 +4658,7 @@ void iEditDoc::ApplyFormatToSelectedNode()
 	(*n).second.setMarginT(m_nodeForFormat.getMarginT());
 	(*n).second.setMarginB(m_nodeForFormat.getMarginB());
 	SetConnectionPoint();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &hint);
@@ -4812,7 +4812,7 @@ void iEditDoc::FitSelectedNodeSize()
 	}
 	SetModifiedFlag();
 	SetConnectionPoint();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	iHint hint; hint.event = iHint::reflesh;
 	DWORD key = nodes_.getSelKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
@@ -4839,7 +4839,7 @@ void iEditDoc::DivideTargetLink(DWORD key)
 {
 	links_.divideTargetLinks(key, lastLinkKey++);
 	SetConnectionPoint();
-	calcMaxPt(m_maxPt);
+	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 }
 
