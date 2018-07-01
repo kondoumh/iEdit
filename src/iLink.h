@@ -15,9 +15,6 @@ class iLink : public CObject
 public:
 	const bool isDropTarget() const;
 	void setDropTarget(bool dropTarget = true);
-	const bool isRectLink() const;
-	const bool isDual() const;
-	const bool isSingle() const;
 	const bool isTerminalNodeKey(const DWORD key) const;
 	void setInChain(bool bChain = true);
 	const bool isInChain() const;
@@ -132,6 +129,9 @@ private:
 	bool bChain_;
 	bool dropTarget_;
 
+	const bool isRectLink() const;
+	const bool isDual() const;
+	const bool isSingle() const;
 	void initCopy(const iLink& l);
 	void drawRectangles(CDC* pDC);
 	void drawTriangles(CDC* pDC);
