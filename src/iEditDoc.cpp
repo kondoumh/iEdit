@@ -3930,7 +3930,7 @@ void iEditDoc::CalcEdges()
 		if ((*li).getArrowStyle() != iLink::other) {
 			// 距離計算
 			if ((*li).getKeyFrom() == (*li).getKeyTo()) continue;
-			if (!(*li).canDraw() || !(*li).isInChain()) {
+			if (!(*li).canDraw() || !(*li).IsInChain()) {
 				(*li).setLen(-1.0);
 			}
 			else {
@@ -3951,7 +3951,7 @@ void iEditDoc::CalcEdges()
 				(*li).setLen(sqrt((double)(sz.cx*sz.cx + sz.cy*sz.cy)) * 5 / 4 * rate);
 			}
 			// preBoundの値を初期化
-			if (!(*li).isInChain()) continue;
+			if (!(*li).IsInChain()) continue;
 			niterator itFrom = nodes_.findNodeW((*li).getKeyFrom());
 			(*itFrom).second.setBoundPre((*itFrom).second.getBound());
 			(*itFrom).second.dx = 0.0;
@@ -4003,7 +4003,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 			!(*li).canDraw()) {
 			continue;
 		}
-		if (!(*li).isInChain()) continue;
+		if (!(*li).IsInChain()) continue;
 
 		niterator itFrom = nodes_.findNodeW((*li).getKeyFrom());
 		niterator itTo = nodes_.findNodeW((*li).getKeyTo());
@@ -4108,7 +4108,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 	}
 	literator linit = links_.begin();
 	for (; linit != links_.end(); linit++) {
-		(*linit).setInChain(false);
+		(*linit).SetInChain(false);
 	}
 
 	// links_から芋づる検索
@@ -4124,7 +4124,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 			}
 			literator li = links_.begin();
 			for (; li != links_.end(); li++) {
-				if ((*li).isTerminalNodeKey(*ki)) {
+				if ((*li).IsTerminalNodeKey(*ki)) {
 					if (!(*li).canDraw()) continue;
 					if ((*li).getArrowStyle() == iLink::other) continue;
 					if ((*li).getKeyFrom() == (*li).getKeyTo()) continue;
@@ -4136,7 +4136,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 						pairKey = (*li).getKeyFrom();
 					}
 					nodeChain.insert(pairKey);
-					(*li).setInChain();
+					(*li).SetInChain();
 					if (bResetLinkCurve) {
 						(*li).curve(false);
 					}
@@ -4175,7 +4175,7 @@ void iEditDoc::SetConnectionPointForLayout()
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {
-		if (!(*li).isInChain()) continue;
+		if (!(*li).IsInChain()) continue;
 
 		niterator itFrom = nodes_.findNodeW((*li).getKeyFrom());
 		niterator itTo = nodes_.findNodeW((*li).getKeyTo());
@@ -4353,7 +4353,7 @@ void iEditDoc::RelaxSingleStep2()
 			!(*li).canDraw()) {
 			continue;
 		}
-		if (!(*li).isInChain()) continue;
+		if (!(*li).IsInChain()) continue;
 
 		niterator itFrom = nodes_.findNodeW((*li).getKeyFrom());
 		niterator itTo = nodes_.findNodeW((*li).getKeyTo());

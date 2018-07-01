@@ -13,11 +13,11 @@ class iLink : public CObject
 {
 	DECLARE_SERIAL(iLink)
 public:
-	const bool isDropTarget() const;
-	void setDropTarget(bool dropTarget = true);
-	const bool isTerminalNodeKey(const DWORD key) const;
-	void setInChain(bool bChain = true);
-	const bool isInChain() const;
+	const bool IsDropTarget() const;
+	void SetAsDropTarget(bool dropTarget = true);
+	const bool IsTerminalNodeKey(const DWORD key) const;
+	void SetInChain(bool bChain = true);
+	const bool IsInChain() const;
 	const double getLen() const;
 	void setLen(double);
 	void drawSelectionTo(CDC* pDC);
@@ -378,27 +378,27 @@ inline void iLink::setLen(double len)
 	len_ = len;
 }
 
-inline void iLink::setInChain(bool bChain)
+inline void iLink::SetInChain(bool bChain)
 {
 	bChain_ = bChain;
 }
 
-inline const bool iLink::isInChain() const
+inline const bool iLink::IsInChain() const
 {
 	return bChain_;
 }
 
-inline const bool iLink::isTerminalNodeKey(const DWORD key) const
+inline const bool iLink::IsTerminalNodeKey(const DWORD key) const
 {
 	return (key == getKeyFrom() || key == getKeyTo());
 }
 
-inline const bool iLink::isDropTarget() const
+inline const bool iLink::IsDropTarget() const
 {
 	return dropTarget_;
 }
 
-inline void iLink::setDropTarget(bool dropTarget)
+inline void iLink::SetAsDropTarget(bool dropTarget)
 {
 	dropTarget_ = dropTarget;
 }

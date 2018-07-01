@@ -888,13 +888,13 @@ DWORD iLinks::hitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
 		}
 		if ((*it).hitTest(pt)) {
 			if (!hit) {
-				(*it).setDropTarget();
+				(*it).SetAsDropTarget();
 				hitKey = (*it).getKey();
 				hit = true;
 			}
 		}
 		else {
-			(*it).setDropTarget(false);
+			(*it).SetAsDropTarget(false);
 		}
 	}
 	return hitKey;
@@ -1250,7 +1250,7 @@ DWORD iLinks::getFirstVisiblePair(DWORD key) const
 		if (!(*it).canDraw()) continue;
 		if ((*it).getKeyFrom() == (*it).getKeyTo()) continue;
 		if ((*it).getArrowStyle() == iLink::other) continue;
-		if ((*it).isTerminalNodeKey(key)) {
+		if ((*it).IsTerminalNodeKey(key)) {
 			if ((*it).getKeyFrom() == key) {
 				return (*it).getKeyTo();
 			}
@@ -1311,12 +1311,12 @@ void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 {
 	literator li = begin();
 	for (; li != end(); li++) {
-		if ((*li).isDropTarget()) {
+		if ((*li).IsDropTarget()) {
 			(*li).curve(false);
 			iLink l((*li));
 			DWORD orgKeyTo = (*li).getKeyTo();
 			(*li).setKeyTo(dropNodeKey);
-			(*li).setDropTarget(false);
+			(*li).SetAsDropTarget(false);
 			l.setKey(newLinkKey);
 			l.setKeyTo(orgKeyTo);
 			l.setKeyFrom(dropNodeKey);
