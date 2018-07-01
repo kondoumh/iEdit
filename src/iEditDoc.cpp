@@ -2022,7 +2022,7 @@ bool iEditDoc::LoadXml(const CString &filename, bool replace)
 		if (!f.Open(_T("import.log"), CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
 			return false;
 		}
-		bool ret = DomTree2Nodes2(element, &f);
+		bool ret = Dom2Nodes2(element, &f);
 
 		if (ret) {
 			//	nodesImport.push_back(nodeImport);
@@ -2106,7 +2106,7 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 		linkImport.setLineWidth(0);
 		linkImport.setLinkColor(RGB(0, 0, 0));
 
-		bool ret = DomTree2Nodes3(element);
+		bool ret = Dom2Nodes3(element);
 
 		if (nodesImport.size() > 0 && nodesImport[0].getKey() != 0) {
 			CString mes = _T("部分的にエクスポートしたデータを直接開くことはできません。\n";
@@ -2147,7 +2147,7 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 
 
 // インポート時
-bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
+bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNodeList	*childs2 = NULL;
@@ -2208,31 +2208,31 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				else if (ename2 == _T("labelAlign")) {
 					childnode2->firstChild->get_text(&s);
 					CString align(s);
-					nodesImport[nodesImport.size() - 1].setTextStyle(tag2Align(align));
+					nodesImport[nodesImport.size() - 1].setTextStyle(Dom2TextAlign(align));
 				}
 				else if (ename2 == _T("shape")) {
 					childnode2->firstChild->get_text(&s);
 					CString shape(s);
-					nodesImport[nodesImport.size() - 1].setNodeShape(tag2Shape(shape));
+					nodesImport[nodesImport.size() - 1].setNodeShape(Dom2Shape(shape));
 				}
 				else if (ename2 == _T("bound")) {
 					CRect rc = nodesImport[nodesImport.size() - 1].getBound();
-					tags2bound(childnode2, rc);
+					Dom2Bound(childnode2, rc);
 					rc.NormalizeRect();
 					nodesImport[nodesImport.size() - 1].setBound(rc);
 				}
 				else if (ename2 == _T("ForColor")) {
-					COLORREF cr = tags2foreColor(childnode2);
+					COLORREF cr = Dom2ForeColor(childnode2);
 					nodesImport[nodesImport.size() - 1].setBrush(cr);
 				}
 				else if (ename2 == _T("nodeLine")) {
 					int lineStyle(PS_SOLID), lineWidth(0);
-					tags2nodeLine(childnode2, lineStyle, lineWidth);
+					Dom2NodeLine(childnode2, lineStyle, lineWidth);
 					nodesImport[nodesImport.size() - 1].setLineStyle(lineStyle);
 					nodesImport[nodesImport.size() - 1].setLineWidth(lineWidth);
 				}
 				else if (ename2 == _T("nodeLineColor")) {
-					COLORREF cr = tags2nodeLineColor(childnode2);
+					COLORREF cr = Dom2NodeLineColor(childnode2);
 					nodesImport[nodesImport.size() - 1].setLineColor(cr);
 				}
 			}
@@ -2261,17 +2261,17 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				}
 				else if (ename2 == _T("linkLine")) {
 					int style(PS_SOLID); int lineWidth(0); int arrow(iLink::line);
-					tags2linkStyle(childnode2, style, lineWidth, arrow);
+					Dom2LinkStyle(childnode2, style, lineWidth, arrow);
 					linksImport[linksImport.size() - 1].setLineStyle(style);
 					linksImport[linksImport.size() - 1].setLineWidth(lineWidth);
 					linksImport[linksImport.size() - 1].setArrowStyle(arrow);
 				}
 				else if (ename2 == _T("linkLineColor")) {
-					COLORREF rc = tags2linkColor(childnode2);
+					COLORREF rc = Dom2LinkColor(childnode2);
 					linksImport[linksImport.size() - 1].setLinkColor(rc);
 				}
 				else if (ename2 == _T("pathPt")) {
-					CPoint pt = tags2pathPt(childnode2);
+					CPoint pt = Dom2LinkPathPt(childnode2);
 					linksImport[linksImport.size() - 1].setPathPt(pt);
 				}
 				else if (ename2 == _T("locate")) {
@@ -2287,7 +2287,7 @@ bool iEditDoc::DomTree2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 }
 
 // シリアライズ用
-bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
+bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNodeList	*childs2 = NULL;
@@ -2356,31 +2356,31 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 				else if (ename2 == _T("labelAlign")) {
 					childnode2->firstChild->get_text(&s);
 					CString align(s);
-					nodesImport[nodesImport.size() - 1].setTextStyle(tag2Align(align));
+					nodesImport[nodesImport.size() - 1].setTextStyle(Dom2TextAlign(align));
 				}
 				else if (ename2 == _T("shape")) {
 					childnode2->firstChild->get_text(&s);
 					CString shape(s);
-					nodesImport[nodesImport.size() - 1].setNodeShape(tag2Shape(shape));
+					nodesImport[nodesImport.size() - 1].setNodeShape(Dom2Shape(shape));
 				}
 				else if (ename2 == _T("bound")) {
 					CRect rc = nodesImport[nodesImport.size() - 1].getBound();
-					tags2bound(childnode2, rc);
+					Dom2Bound(childnode2, rc);
 					rc.NormalizeRect();
 					nodesImport[nodesImport.size() - 1].setBound(rc);
 				}
 				else if (ename2 == _T("ForColor")) {
-					COLORREF cr = tags2foreColor(childnode2);
+					COLORREF cr = Dom2ForeColor(childnode2);
 					nodesImport[nodesImport.size() - 1].setBrush(cr);
 				}
 				else if (ename2 == _T("nodeLine")) {
 					int lineStyle(PS_SOLID), lineWidth(0);
-					tags2nodeLine(childnode2, lineStyle, lineWidth);
+					Dom2NodeLine(childnode2, lineStyle, lineWidth);
 					nodesImport[nodesImport.size() - 1].setLineStyle(lineStyle);
 					nodesImport[nodesImport.size() - 1].setLineWidth(lineWidth);
 				}
 				else if (ename2 == _T("nodeLineColor")) {
-					COLORREF cr = tags2nodeLineColor(childnode2);
+					COLORREF cr = Dom2NodeLineColor(childnode2);
 					nodesImport[nodesImport.size() - 1].setLineColor(cr);
 				}
 			}
@@ -2409,17 +2409,17 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 				}
 				else if (ename2 == _T("linkLine")) {
 					int style(PS_SOLID); int lineWidth(0); int arrow(iLink::line);
-					tags2linkStyle(childnode2, style, lineWidth, arrow);
+					Dom2LinkStyle(childnode2, style, lineWidth, arrow);
 					linksImport[linksImport.size() - 1].setLineStyle(style);
 					linksImport[linksImport.size() - 1].setLineWidth(lineWidth);
 					linksImport[linksImport.size() - 1].setArrowStyle(arrow);
 				}
 				else if (ename2 == _T("linkLineColor")) {
-					COLORREF rc = tags2linkColor(childnode2);
+					COLORREF rc = Dom2LinkColor(childnode2);
 					linksImport[linksImport.size() - 1].setLinkColor(rc);
 				}
 				else if (ename2 == _T("pathPt")) {
-					CPoint pt = tags2pathPt(childnode2);
+					CPoint pt = Dom2LinkPathPt(childnode2);
 					linksImport[linksImport.size() - 1].setPathPt(pt);
 				}
 				else if (ename2 == _T("locate")) {
@@ -2434,7 +2434,7 @@ bool iEditDoc::DomTree2Nodes3(MSXML2::IXMLDOMElement *node)
 	return true;
 }
 
-int iEditDoc::tag2Align(const CString &tag)
+int iEditDoc::Dom2TextAlign(const CString &tag)
 {
 	if (tag == _T("single-middle-center")) {
 		return iNode::s_cc;
@@ -2479,7 +2479,7 @@ int iEditDoc::tag2Align(const CString &tag)
 }
 
 
-int iEditDoc::tag2Shape(const CString &tag)
+int iEditDoc::Dom2Shape(const CString &tag)
 {
 	if (tag == _T("Rect")) {
 		return iNode::rectangle;
@@ -2499,7 +2499,7 @@ int iEditDoc::tag2Shape(const CString &tag)
 	return iNode::rectangle;
 }
 
-void iEditDoc::tags2bound(MSXML2::IXMLDOMNode *pNode, CRect &rc)
+void iEditDoc::Dom2Bound(MSXML2::IXMLDOMNode *pNode, CRect &rc)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNode		*childnode = NULL;
@@ -2531,7 +2531,7 @@ void iEditDoc::tags2bound(MSXML2::IXMLDOMNode *pNode, CRect &rc)
 	}
 }
 
-COLORREF iEditDoc::tags2foreColor(MSXML2::IXMLDOMNode *pNode)
+COLORREF iEditDoc::Dom2ForeColor(MSXML2::IXMLDOMNode *pNode)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNode		*childnode = NULL;
@@ -2560,7 +2560,7 @@ COLORREF iEditDoc::tags2foreColor(MSXML2::IXMLDOMNode *pNode)
 	return RGB(r, g, b);
 }
 
-void iEditDoc::tags2nodeLine(MSXML2::IXMLDOMNode *pNode, int &style, int &width)
+void iEditDoc::Dom2NodeLine(MSXML2::IXMLDOMNode *pNode, int &style, int &width)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNode		*childnode = NULL;
@@ -2593,7 +2593,7 @@ void iEditDoc::tags2nodeLine(MSXML2::IXMLDOMNode *pNode, int &style, int &width)
 }
 
 
-COLORREF iEditDoc::tags2nodeLineColor(MSXML2::IXMLDOMNode *pNode)
+COLORREF iEditDoc::Dom2NodeLineColor(MSXML2::IXMLDOMNode *pNode)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNode		*childnode = NULL;
@@ -2622,7 +2622,7 @@ COLORREF iEditDoc::tags2nodeLineColor(MSXML2::IXMLDOMNode *pNode)
 	return RGB(r, g, b);
 }
 
-void iEditDoc::tags2linkStyle(MSXML2::IXMLDOMNode *pNode, int &style, int &width, int &arrow)
+void iEditDoc::Dom2LinkStyle(MSXML2::IXMLDOMNode *pNode, int &style, int &width, int &arrow)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNode		*childnode = NULL;
@@ -2678,7 +2678,7 @@ void iEditDoc::tags2linkStyle(MSXML2::IXMLDOMNode *pNode, int &style, int &width
 	}
 }
 
-COLORREF iEditDoc::tags2linkColor(MSXML2::IXMLDOMNode *pNode)
+COLORREF iEditDoc::Dom2LinkColor(MSXML2::IXMLDOMNode *pNode)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNode		*childnode = NULL;
@@ -2708,7 +2708,7 @@ COLORREF iEditDoc::tags2linkColor(MSXML2::IXMLDOMNode *pNode)
 }
 
 
-CPoint iEditDoc::tags2pathPt(MSXML2::IXMLDOMNode *pNode)
+CPoint iEditDoc::Dom2LinkPathPt(MSXML2::IXMLDOMNode *pNode)
 {
 	CPoint pt(0, 0);
 	MSXML2::IXMLDOMNodeList	*childs = NULL;

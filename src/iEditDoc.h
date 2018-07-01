@@ -306,17 +306,17 @@ private:
 	void SetConnectionPointForLayout(); // 芋づるモードのリンク再配置用
 	void SetConnectionPointVisibleLinks(); // visibleなリンクの再配置
 	bool LoadFromXml(const CString& filename);
-	CPoint tags2pathPt(MSXML2::IXMLDOMNode* pNode);
-	COLORREF tags2linkColor(MSXML2::IXMLDOMNode* pNode);
-	void tags2linkStyle(MSXML2::IXMLDOMNode* pNode, int& style, int& width, int& arrow);
-	COLORREF tags2nodeLineColor(MSXML2::IXMLDOMNode* pNode);
-	void tags2nodeLine(MSXML2::IXMLDOMNode* pNode, int& style, int& width);
-	COLORREF tags2foreColor(MSXML2::IXMLDOMNode* pNode);
-	void tags2bound(MSXML2::IXMLDOMNode* pNode, CRect& rc);
-	int tag2Shape(const CString& tag);
-	int tag2Align(const CString& tag);
-	bool DomTree2Nodes2(MSXML2::IXMLDOMElement* node, CStdioFile* f);
-	bool DomTree2Nodes3(MSXML2::IXMLDOMElement* node);
+	CPoint Dom2LinkPathPt(MSXML2::IXMLDOMNode* pNode);
+	COLORREF Dom2LinkColor(MSXML2::IXMLDOMNode* pNode);
+	void Dom2LinkStyle(MSXML2::IXMLDOMNode* pNode, int& style, int& width, int& arrow);
+	COLORREF Dom2NodeLineColor(MSXML2::IXMLDOMNode* pNode);
+	void Dom2NodeLine(MSXML2::IXMLDOMNode* pNode, int& style, int& width);
+	COLORREF Dom2ForeColor(MSXML2::IXMLDOMNode* pNode);
+	void Dom2Bound(MSXML2::IXMLDOMNode* pNode, CRect& rc);
+	int Dom2Shape(const CString& tag);
+	int Dom2TextAlign(const CString& tag);
+	bool Dom2Nodes2(MSXML2::IXMLDOMElement* node, CStdioFile* f);
+	bool Dom2Nodes3(MSXML2::IXMLDOMElement* node);
 	bool isKeyInLabels(const NodePropsVec& labels, DWORD key);
 	double width2Len(int width);
 	void addImportData(bool brepRoot);
