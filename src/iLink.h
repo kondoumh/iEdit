@@ -18,11 +18,11 @@ public:
 	const bool IsTerminalNodeKey(const DWORD key) const;
 	void SetInChain(bool bChain = true);
 	const bool IsInChain() const;
-	const double getLen() const;
-	void setLen(double);
-	void drawSelectionTo(CDC* pDC);
-	void drawSelectionFrom(CDC* pDC);
-	void reverseDirection();
+	const double GetBoundStrength() const;
+	void SetBoundStrength(double);
+	void DrawSelectionTo(CDC* pDC);
+	void DrawSelectionFrom(CDC* pDC);
+	void ReverseDirection();
 	bool hitTestTo_c(const CPoint& pt) const;
 	bool hitTestFrom_c(const CPoint &pt) const;
 	void setKey(const DWORD key);
@@ -368,12 +368,12 @@ inline const COLORREF& iLink::getLinkColor() const
 	return colorLine;
 }
 
-inline const double iLink::getLen() const
+inline const double iLink::GetBoundStrength() const
 {
 	return len_;
 }
 
-inline void iLink::setLen(double len)
+inline void iLink::SetBoundStrength(double len)
 {
 	len_ = len;
 }

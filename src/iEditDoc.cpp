@@ -3931,7 +3931,7 @@ void iEditDoc::CalcEdges()
 			// 距離計算
 			if ((*li).getKeyFrom() == (*li).getKeyTo()) continue;
 			if (!(*li).canDraw() || !(*li).IsInChain()) {
-				(*li).setLen(-1.0);
+				(*li).SetBoundStrength(-1.0);
 			}
 			else {
 				CSize sz;
@@ -3948,7 +3948,7 @@ void iEditDoc::CalcEdges()
 					rate = LinkWidth2BondStrength(0);
 				}
 				rate *= (((double)pApp->m_rgsLink.strength) / 10.0);
-				(*li).setLen(sqrt((double)(sz.cx*sz.cx + sz.cy*sz.cy)) * 5 / 4 * rate);
+				(*li).SetBoundStrength(sqrt((double)(sz.cx*sz.cx + sz.cy*sz.cy)) * 5 / 4 * rate);
 			}
 			// preBoundの値を初期化
 			if (!(*li).IsInChain()) continue;
@@ -4017,7 +4017,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 		double vy = gyto - gyfrom;
 		double len = sqrt(vx*vx + vy * vy);
 		len = (len == 0) ? .0001 : len;
-		double f = ((*li).getLen() - len) / (len * 3);
+		double f = ((*li).GetBoundStrength() - len) / (len * 3);
 		double dx = f * vx;
 		double dy = f * vy;
 		/*const_cast<iNode&>*/(*itTo).second.dx += dx;
@@ -4367,7 +4367,7 @@ void iEditDoc::RelaxSingleStep2()
 		double vy = gyto - gyfrom;
 		double len = sqrt(vx*vx + vy * vy);
 		len = (len == 0) ? .0001 : len;
-		double f = ((*li).getLen() - len) / (len * 3);
+		double f = ((*li).GetBoundStrength() - len) / (len * 3);
 		double dx = f * vx;
 		double dy = f * vy;
 		(*itTo).second.dx += dx;

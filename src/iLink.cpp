@@ -727,7 +727,7 @@ void iLink::drawSelection(CDC *pDC)
 	}
 }
 
-void iLink::drawSelectionFrom(CDC *pDC)
+void iLink::DrawSelectionFrom(CDC *pDC)
 {
 	const int mrgn = 5;
 	CPoint topleft(ptFrom.x - mrgn, ptFrom.y - mrgn);
@@ -736,7 +736,7 @@ void iLink::drawSelectionFrom(CDC *pDC)
 	pDC->Arc(rc, topleft, topleft);
 }
 
-void iLink::drawSelectionTo(CDC *pDC)
+void iLink::DrawSelectionTo(CDC *pDC)
 {
 	const int mrgn = 5;
 	CPoint topleft(ptTo.x - mrgn, ptTo.y - mrgn);
@@ -792,7 +792,7 @@ CRect iLink::getBound() const
 	return rc;
 }
 
-void iLink::reverseDirection()
+void iLink::ReverseDirection()
 {
 	DWORD kfrom = keyFrom;
 	DWORD kto = keyTo;
@@ -963,7 +963,7 @@ void iLinks::drawSelectionFrom(CDC *pDC)
 			continue;
 		}
 		if ((*it).isSelected()) {
-			(*it).drawSelectionFrom(pDC);
+			(*it).DrawSelectionFrom(pDC);
 		}
 	}
 }
@@ -976,7 +976,7 @@ void iLinks::drawSelectionTo(CDC *pDC)
 			continue;
 		}
 		if ((*it).isSelected()) {
-			(*it).drawSelectionTo(pDC);
+			(*it).DrawSelectionTo(pDC);
 		}
 	}
 }
@@ -1239,7 +1239,7 @@ void iLinks::setSelectedLinkReverse()
 {
 	literator it = getSelectedLinkW();
 	if (it != end()) {
-		(*it).reverseDirection();
+		(*it).ReverseDirection();
 	}
 }
 
