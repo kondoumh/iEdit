@@ -54,7 +54,7 @@ class iLink_eqkey : public unary_function<iLink, bool>
 public:
 	explicit iLink_eqkey(DWORD key) : key_(key) { }
 	bool operator()(const iLink& l) const {
-		return (l.getKey() == key_);
+		return (l.GetKey() == key_);
 	}
 };
 
@@ -169,7 +169,7 @@ void iEditDoc::Serialize(CArchive& ar)
 				for (unsigned int i = 0; i < count; i++) {
 					iLink l;
 					l.Serialize(ar);
-					l.setKey(lastLinkKey++);
+					l.SetKey(lastLinkKey++);
 					links_.push_back(l);
 				}
 			}
@@ -193,7 +193,7 @@ void iEditDoc::Serialize(CArchive& ar)
 				for (unsigned int i = 0; i < count; i++) {
 					iLink l;
 					l.SerializeEx(ar, version);
-					l.setKey(lastLinkKey++);
+					l.SetKey(lastLinkKey++);
 					links_.push_back(l);
 				}
 				// OutlineView状態の読み込み
@@ -773,7 +773,7 @@ bool iEditDoc::SetEndLink(const CPoint &pt, int ArrowType, bool bArrowSpecificat
 		iLink l;
 		l.setNodes(rcLinkFrom, rcLinkTo, keyLinkFrom, keyLinkTo);
 		l.setDrawFlag();
-		l.setKey(lastLinkKey++);
+		l.SetKey(lastLinkKey++);
 		ResolveLinkLineStyle(l);
 		if (bArrowSpecification) {
 			l.setArrowStyle(ArrowType);
@@ -1106,7 +1106,7 @@ void iEditDoc::SetNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment
 	if ((*itFrom).second.isVisible() && (*itTo).second.isVisible()) {
 		l.setDrawFlag();
 	}
-	l.setKey(lastLinkKey++);
+	l.SetKey(lastLinkKey++);
 	links_.push_back(l);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkAdd;
@@ -1304,7 +1304,7 @@ void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 			i.keyTo = (*it).getKeyFrom();
 		}
 
-		i.path = (*it).getPath();
+		i.path = (*it).GetPath();
 
 		DWORD searchKey = 0;
 		if ((*it).getKeyFrom() == curKey) {
@@ -1336,7 +1336,7 @@ void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 			}
 		}
 		else {
-			CString url = (*it).getPath();
+			CString url = (*it).GetPath();
 			if (url.Find(_T("http://")) != -1 || url.Find(_T("https://")) != -1 || url.Find(_T("ftp://")) != -1) {
 				i.linkType = LinkProps::WebURL;
 			}
@@ -1354,11 +1354,11 @@ void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 				}
 			}
 		}
-		i.key = (*it).getKey();
+		i.key = (*it).GetKey();
 		i._arrowStyle = (*it).getArrowStyle();
 		i._keyFrom = (*it).getKeyFrom();
 		i.selected = (*it).isSelected();
-		i.linkColor_ = (*it).getLinkColor();
+		i.linkColor_ = (*it).GetLinkColor();
 		i.linkWidth_ = (*it).getLineWidth();
 		i.styleLine_ = (*it).getLineStyle();
 		i.lf_ = (*it).getFontInfo();
@@ -1377,7 +1377,7 @@ void iEditDoc::NotifyLinkSelected(const LinkPropsVec &ls, int index)
 		if ((*it).getKeyFrom() == ls[index]._keyFrom &&
 			(*it).getKeyTo() == ls[index].keyTo &&
 			(*it).getName() == ls[index].comment &&
-			(*it).getPath() == ls[index].path &&
+			(*it).GetPath() == ls[index].path &&
 			(*it).getArrowStyle() == ls[index]._arrowStyle) {
 			(*it).selectLink();
 			selected = true;
@@ -1403,9 +1403,9 @@ void iEditDoc::AddUrlLink(const CString &url, const CString& comment)
 	CRect r(CRect(0, 0, 0, 0));
 	l.setNodes(r, r, curKey, curKey);
 	l.setName(comment);
-	l.setPath(url);
+	l.SetPath(url);
 	l.setArrowStyle(iLink::other);
-	l.setKey(lastLinkKey++);
+	l.SetKey(lastLinkKey++);
 	links_.push_back(l);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkAdd;
@@ -1424,7 +1424,7 @@ void iEditDoc::DeleteSpecifidLink(const LinkProps &i)
 		if ((*it).getKeyFrom() == i._keyFrom &&
 			(*it).getKeyTo() == i.keyTo &&
 			(*it).getName() == i.comment &&
-			(*it).getPath() == i.path &&
+			(*it).GetPath() == i.path &&
 			(*it).getArrowStyle() == i._arrowStyle) {
 			break;
 		}
@@ -1445,9 +1445,9 @@ void iEditDoc::SetSpecifiedLinkProps(const LinkProps &iOld, const LinkProps &iNe
 		if ((*it).getKeyFrom() == iOld._keyFrom &&
 			(*it).getKeyTo() == iOld.keyTo &&
 			(*it).getName() == iOld.comment &&
-			(*it).getPath() == iOld.path &&
+			(*it).GetPath() == iOld.path &&
 			(*it).getArrowStyle() == iOld._arrowStyle &&
-			(*it).getLinkColor() == iOld.linkColor_ &&
+			(*it).GetLinkColor() == iOld.linkColor_ &&
 			(*it).getLineWidth() == iOld.linkWidth_ &&
 			(*it).getLineStyle() == iOld.styleLine_) {
 			break;
@@ -1456,8 +1456,8 @@ void iEditDoc::SetSpecifiedLinkProps(const LinkProps &iOld, const LinkProps &iNe
 	if (it != links_.end()) {
 		(*it).setName(iNew.comment);
 		(*it).setArrowStyle(iNew._arrowStyle);
-		(*it).setPath(iNew.path);
-		(*it).setLinkColor(iNew.linkColor_);
+		(*it).SetPath(iNew.path);
+		(*it).SetLinkColor(iNew.linkColor_);
 		(*it).setLineWidth(iNew.linkWidth_);
 		(*it).setLineStyle(iNew.styleLine_);
 		(*it).setFontInfo(iNew.lf_);
@@ -1747,7 +1747,7 @@ void iEditDoc::PasteCopiedLink()
 		m_cpLinkOrg.Curve(false);
 	}
 
-	m_cpLinkOrg.setKey(lastLinkKey++);
+	m_cpLinkOrg.SetKey(lastLinkKey++);
 	m_cpLinkOrg.selectLink();
 
 	const_niterator itFrom = nodes_.findNode(m_cpLinkOrg.getKeyFrom());
@@ -2010,10 +2010,10 @@ bool iEditDoc::LoadXml(const CString &filename, bool replace)
 		nodeImport.setText(_T(""));
 		nodeImport.setTreeState(TVIS_EXPANDED);
 		linkImport.setName(_T(""));
-		linkImport.setPath(_T(""));
+		linkImport.SetPath(_T(""));
 		linkImport.setArrowStyle(iLink::line);
 		linkImport.setLineWidth(0);
-		linkImport.setLinkColor(RGB(0, 0, 0));
+		linkImport.SetLinkColor(RGB(0, 0, 0));
 
 		CStdioFile f;
 		CFileStatus status;
@@ -2101,10 +2101,10 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 		nodeImport.setText("");
 		nodeImport.setTreeState(TVIS_EXPANDED);
 		linkImport.setName("");
-		linkImport.setPath("");
+		linkImport.SetPath("");
 		linkImport.setArrowStyle(iLink::line);
 		linkImport.setLineWidth(0);
-		linkImport.setLinkColor(RGB(0, 0, 0));
+		linkImport.SetLinkColor(RGB(0, 0, 0));
 
 		bool ret = Dom2Nodes3(element);
 
@@ -2127,7 +2127,7 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 			lastLinkKey = 0;
 			const_niterator it;
 			for (i = 0; i < linksImport.size(); i++) {
-				linksImport[i].setKey(lastLinkKey++);
+				linksImport[i].SetKey(lastLinkKey++);
 				it = nodes_.findNode(linksImport[i].getKeyFrom());
 				if (it != nodes_.end()) {
 					linksImport[i].setRFrom((*it).second.getBound());
@@ -2268,7 +2268,7 @@ bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				}
 				else if (ename2 == _T("linkLineColor")) {
 					COLORREF rc = Dom2LinkColor(childnode2);
-					linksImport[linksImport.size() - 1].setLinkColor(rc);
+					linksImport[linksImport.size() - 1].SetLinkColor(rc);
 				}
 				else if (ename2 == _T("pathPt")) {
 					CPoint pt = Dom2LinkPathPt(childnode2);
@@ -2277,7 +2277,7 @@ bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				else if (ename2 == _T("locate")) {
 					childnode2->firstChild->get_text(&s);
 					CString path(s);
-					linksImport[linksImport.size() - 1].setPath(path);
+					linksImport[linksImport.size() - 1].SetPath(path);
 					linksImport[linksImport.size() - 1].setArrowStyle(iLink::other);
 				}
 			}
@@ -2416,7 +2416,7 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 				}
 				else if (ename2 == _T("linkLineColor")) {
 					COLORREF rc = Dom2LinkColor(childnode2);
-					linksImport[linksImport.size() - 1].setLinkColor(rc);
+					linksImport[linksImport.size() - 1].SetLinkColor(rc);
 				}
 				else if (ename2 == _T("pathPt")) {
 					CPoint pt = Dom2LinkPathPt(childnode2);
@@ -2425,7 +2425,7 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 				else if (ename2 == _T("locate")) {
 					childnode2->firstChild->get_text(&s);
 					CString path(s);
-					linksImport[linksImport.size() - 1].setPath(path);
+					linksImport[linksImport.size() - 1].SetPath(path);
 					linksImport[linksImport.size() - 1].setArrowStyle(iLink::other);
 				}
 			}
@@ -2969,9 +2969,9 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 
 		int astyle = (*li).getArrowStyle();
 
-		if (astyle == iLink::other && (*li).getPath() != "") {
+		if (astyle == iLink::other && (*li).GetPath() != "") {
 			f.WriteString(_T("\t\t<locate>"));
-			CString path = _T("<![CDATA[") + (*li).getPath() + _T("]]>");
+			CString path = _T("<![CDATA[") + (*li).GetPath() + _T("]]>");
 			f.WriteString(path);
 			f.WriteString(_T("</locate>\n"));
 		}
@@ -3026,7 +3026,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 
 			f.WriteString(_T("\t\t<linkLineColor>\n"));
 			CString sc;
-			COLORREF nc = (*li).getLinkColor();
+			COLORREF nc = (*li).GetLinkColor();
 			BYTE nred = GetRValue(nc);
 			BYTE ngrn = GetGValue(nc);
 			BYTE nblu = GetBValue(nc);
@@ -3140,7 +3140,7 @@ void iEditDoc::AddImportedData(bool brepRoot)
 	// linkの格納
 	for (i = 0; i < linksImport.size(); i++) {
 		if (linksImport[i].getKeyFrom() != -1 && linksImport[i].getKeyTo() != -1) {
-			linksImport[i].setKey(lastLinkKey++);
+			linksImport[i].SetKey(lastLinkKey++);
 			links_.push_back(linksImport[i]);
 		}
 	}
@@ -3252,7 +3252,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 			}
 		}
 		else {
-			CString url = (*li).getPath();
+			CString url = (*li).GetPath();
 			if (url.Find(_T("http://")) == -1 && url.Find(_T("https://")) == -1 && url.Find(_T("ftp://")) == -1) {
 				if (!((CiEditApp*)AfxGetApp())->m_rgsOther.bOutputFileLinksOnExport) continue;
 				WCHAR drive[_MAX_DRIVE];
@@ -3492,7 +3492,7 @@ void iEditDoc::ListUpNodes(const CString &sfind, NodePropsVec &labels, BOOL bLab
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {
 		CString name = (*li).getName();
-		CString path = (*li).getPath();
+		CString path = (*li).GetPath();
 		if (bUpper) {
 			name.MakeUpper();
 			path.MakeUpper();
@@ -3507,7 +3507,7 @@ void iEditDoc::ListUpNodes(const CString &sfind, NodePropsVec &labels, BOOL bLab
 		if (bLinks && path.Find(sf) != -1) {
 			NodeProps l;
 			l.key = (*li).getKeyFrom();
-			l.name = (*li).getPath();
+			l.name = (*li).GetPath();
 			l.state = 3;
 			labels.push_back(l);
 		}
@@ -3604,7 +3604,7 @@ void iEditDoc::RestoreLinksForUndo()
 	for (unsigned int i = 0; i < links_undo.size(); i++) {
 		literator li = links_.begin();
 		for (; li != links_.end(); li++) {
-			if (links_undo[i].getKey() == (*li).getKey()) {
+			if (links_undo[i].GetKey() == (*li).GetKey()) {
 				(*li) = links_undo[i];
 				break;
 			}
@@ -4237,7 +4237,7 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 	iLink l;
 	l.setNodes((*it).second.getBound(), nwNode.getBound(), (*it).second.getKey(), nwNode.getKey());
 	l.setDrawFlag();
-	l.setKey(lastLinkKey++);
+	l.SetKey(lastLinkKey++);
 	ResolveLinkLineStyle(l);
 	ResolveLinkArrowStyle(l);
 	links_.push_back(l);
@@ -4304,7 +4304,7 @@ const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 	iLink l;
 	l.setNodes((*itRoot).second.getBound(), nwNode.getBound(), (*itRoot).second.getKey(), nwNode.getKey());
 	l.setDrawFlag();
-	l.setKey(lastLinkKey++);
+	l.SetKey(lastLinkKey++);
 	ResolveLinkLineStyle(l);
 	ResolveLinkArrowStyle(l);
 
@@ -4670,7 +4670,7 @@ void iEditDoc::SaveSelectedLinkFormat()
 	m_linkForFormat.setArrowStyle((*l).getArrowStyle());
 	m_linkForFormat.setLineStyle((*l).getLineStyle());
 	m_linkForFormat.setLineWidth((*l).getLineWidth());
-	m_linkForFormat.setLinkColor((*l).getLinkColor());
+	m_linkForFormat.SetLinkColor((*l).GetLinkColor());
 }
 
 void iEditDoc::ApplyFormatToSelectedLink()
@@ -4680,7 +4680,7 @@ void iEditDoc::ApplyFormatToSelectedLink()
 	(*l).setArrowStyle(m_linkForFormat.getArrowStyle());
 	(*l).setLineStyle(m_linkForFormat.getLineStyle());
 	(*l).setLineWidth(m_linkForFormat.getLineWidth());
-	(*l).setLinkColor(m_linkForFormat.getLinkColor());
+	(*l).SetLinkColor(m_linkForFormat.GetLinkColor());
 }
 
 void iEditDoc::DeleteLinksInBound(const CRect& bound)
@@ -4713,7 +4713,7 @@ void iEditDoc::DuplicateLinks(const NodeKeyMap& idm)
 					iLink l = (*li);
 					l.setKeyFrom((*it).second);
 					l.setKeyTo((*pr).second);
-					l.setKey(lastLinkKey++);
+					l.SetKey(lastLinkKey++);
 					links_.push_back(l);
 				}
 			}

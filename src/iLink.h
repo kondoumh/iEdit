@@ -25,8 +25,8 @@ public:
 	void ReverseDirection();
 	bool HitTestConnectionPtTo(const CPoint& pt) const;
 	bool HitTestConnectionPtFrom(const CPoint &pt) const;
-	void setKey(const DWORD key);
-	DWORD getKey() const;
+	void SetKey(const DWORD key);
+	DWORD GetKey() const;
 	void movePts(const CSize& sz);
 	void setKeyTo(const DWORD key);
 	void setKeyFrom(const DWORD key);
@@ -38,10 +38,10 @@ public:
 	bool IsAngled() const;
 	void Curve(bool c = true);
 	void Angle(bool a = true);
-	const COLORREF& getLinkColor() const;
-	void setLinkColor(const COLORREF& c);
-	const CString& getPath() const;
-	void setPath(const CString& path);
+	const COLORREF& GetLinkColor() const;
+	void SetLinkColor(const COLORREF& c);
+	const CString& GetPath() const;
+	void SetPath(const CString& path);
 	void setFontInfo(const LOGFONT& lf);
 	const LOGFONT& getFontInfo() const;
 	int getLineStyle() const;
@@ -140,12 +140,12 @@ private:
 	void setConnectPoint();
 };
 
-inline void iLink::setKey(const DWORD key)
+inline void iLink::SetKey(const DWORD key)
 {
 	key_ = key;
 }
 
-inline DWORD iLink::getKey() const
+inline DWORD iLink::GetKey() const
 {
 	return key_;
 }
@@ -348,22 +348,22 @@ inline const LOGFONT& iLink::getFontInfo() const
 	return lf_;
 }
 
-inline void iLink::setPath(const CString& path)
+inline void iLink::SetPath(const CString& path)
 {
 	path_ = path;
 }
 
-inline const CString& iLink::getPath() const
+inline const CString& iLink::GetPath() const
 {
 	return path_;
 }
 
-inline void iLink::setLinkColor(const COLORREF& c)
+inline void iLink::SetLinkColor(const COLORREF& c)
 {
 	colorLine = c;
 }
 
-inline const COLORREF& iLink::getLinkColor() const
+inline const COLORREF& iLink::GetLinkColor() const
 {
 	return colorLine;
 }

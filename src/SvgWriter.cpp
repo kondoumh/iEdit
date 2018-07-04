@@ -319,7 +319,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		for (; li != m_links.end(); li++) {
 			if ((*li).getKeyFrom() == node.getKey()) {
 				if ((*li).getArrowStyle() == iLink::other) {
-					CString name = (*li).getPath();
+					CString name = (*li).GetPath();
 					if (name.Find(_T("http://")) != -1 || name.Find(_T("https://")) != -1) {
 						url = name;
 						break;
@@ -456,7 +456,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2
 	CPoint ptFrom = link.getPtFrom();
 	CPoint ptTo = link.getPtTo();
 	CPoint ptPath = link.getPtPath();
-	COLORREF lineColor = link.getLinkColor();
+	COLORREF lineColor = link.GetLinkColor();
 	BYTE lRed GetRValue(lineColor);
 	BYTE lGreen GetGValue(lineColor);
 	BYTE lBlue GetBValue(lineColor);
@@ -531,7 +531,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MS
 	pLText->setAttribute(_T("y"), sCy.GetBuffer(sCy.GetLength()));
 
 	// スタイル設定
-	CString sStyle = createTextStyle(link.getFontInfo(), link.getLinkColor());
+	CString sStyle = createTextStyle(link.getFontInfo(), link.GetLinkColor());
 	pLText->setAttribute(_T("style"), sStyle.GetBuffer(sStyle.GetLength()));
 
 	// ラベル設定
@@ -630,7 +630,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 
 
 	CString sStyle;
-	COLORREF color = link.getLinkColor();
+	COLORREF color = link.GetLinkColor();
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);
@@ -712,7 +712,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, 
 
 
 	CString sStyle;
-	COLORREF color = link.getLinkColor();
+	COLORREF color = link.GetLinkColor();
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);
@@ -793,7 +793,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 	pArrow->setAttribute(_T("d"), sPath.GetBuffer(sPath.GetLength()));
 
 	CString sStyle;
-	COLORREF color = link.getLinkColor();
+	COLORREF color = link.GetLinkColor();
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);

@@ -864,7 +864,7 @@ bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path)
 		if ((*it).hitTest(pt)) {
 			(*it).selectLink();
 			key = (*it).getKeyFrom();
-			path = (*it).getPath();
+			path = (*it).GetPath();
 			hit = true;
 		}
 		else {
@@ -889,7 +889,7 @@ DWORD iLinks::hitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
 		if ((*it).hitTest(pt)) {
 			if (!hit) {
 				(*it).SetAsDropTarget();
-				hitKey = (*it).getKey();
+				hitKey = (*it).GetKey();
 				hit = true;
 			}
 		}
@@ -911,7 +911,7 @@ bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path)
 		if ((*it).HitTestConnectionPtFrom(pt)) {
 			(*it).selectLink();
 			key = (*it).getKeyFrom();
-			path = (*it).getPath();
+			path = (*it).GetPath();
 			hit = true;
 		}
 		else {
@@ -932,7 +932,7 @@ bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path)
 		if ((*it).HitTestConnectionPtTo(pt)) {
 			(*it).selectLink();
 			key = (*it).getKeyFrom();
-			path = (*it).getPath();
+			path = (*it).GetPath();
 			hit = true;
 		}
 		else {
@@ -1108,7 +1108,7 @@ void iLinks::setSelectedLinkLineColor(const COLORREF &c)
 			continue;
 		}
 		if ((*it).isSelected()) {
-			(*it).setLinkColor(c);
+			(*it).SetLinkColor(c);
 		}
 	}
 }
@@ -1122,7 +1122,7 @@ COLORREF iLinks::getSelectedLinkLineColor() const
 			continue;
 		}
 		if ((*it).isSelected()) {
-			c = (*it).getLinkColor();
+			c = (*it).GetLinkColor();
 		}
 	}
 	return c;
@@ -1286,7 +1286,7 @@ const_literator iLinks::findByKey(DWORD key) const
 {
 	const_literator li = begin();
 	for (; li != end(); li++) {
-		if ((*li).getKey() == key) return li;
+		if ((*li).GetKey() == key) return li;
 	}
 
 	return end();
@@ -1317,7 +1317,7 @@ void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 			DWORD orgKeyTo = (*li).getKeyTo();
 			(*li).setKeyTo(dropNodeKey);
 			(*li).SetAsDropTarget(false);
-			l.setKey(newLinkKey);
+			l.SetKey(newLinkKey);
 			l.setKeyTo(orgKeyTo);
 			l.setKeyFrom(dropNodeKey);
 			push_back(l);
