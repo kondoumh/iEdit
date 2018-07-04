@@ -1655,20 +1655,20 @@ void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 	literator li = links_.getSelectedLinkW();
 	if (li != links_.end()) {
 		if (!curve) {
-			(*li).curve(false);
+			(*li).Curve(false);
 			SetModifiedFlag();
 			iHint h; h.event = iHint::linkStraight;
 			UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
 			return;
 		}
 
-		if (!(*li).isCurved() && (*li).hitTest(pt)) {
+		if (!(*li).IsCurved() && (*li).hitTest(pt)) {
 			return;
 		}
-		(*li).setPathPt(pt);
-		(*li).curve();
+		(*li).SetPathPt(pt);
+		(*li).Curve();
 		if ((*li).hitTest2(pt) && (*li).getName() == _T("")) {
-			(*li).curve(false);
+			(*li).Curve(false);
 		}
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkCurved;
@@ -1682,8 +1682,8 @@ void iEditDoc::AngleSelectedLink(bool angled)
 	BackupLinksForUndo();
 	literator li = links_.getSelectedLinkW();
 	if (li == links_.end()) return;
-	if (!(*li).isCurved()) return;
-	(*li).angle(angled);
+	if (!(*li).IsCurved()) return;
+	(*li).Angle(angled);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	CalcMaxPt(m_maxPt);
@@ -1710,7 +1710,7 @@ void iEditDoc::GetSelectedLinkEndPoints(CPoint &start, CPoint &end)
 BOOL iEditDoc::IsSelectedLinkCurved() const
 {
 	const_literator li = links_.getSelectedLink();
-	if (li != links_.end() && (*li).isCurved()) {
+	if (li != links_.end() && (*li).IsCurved()) {
 		return TRUE;
 	}
 	return FALSE;
@@ -1744,7 +1744,7 @@ void iEditDoc::PasteCopiedLink()
 	}
 
 	if (m_cpLinkOrg.getKeyFrom() != m_cpLinkOrg.getKeyTo()) {
-		m_cpLinkOrg.curve(false);
+		m_cpLinkOrg.Curve(false);
 	}
 
 	m_cpLinkOrg.setKey(lastLinkKey++);
@@ -2272,7 +2272,7 @@ bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				}
 				else if (ename2 == _T("pathPt")) {
 					CPoint pt = Dom2LinkPathPt(childnode2);
-					linksImport[linksImport.size() - 1].setPathPt(pt);
+					linksImport[linksImport.size() - 1].SetPathPt(pt);
 				}
 				else if (ename2 == _T("locate")) {
 					childnode2->firstChild->get_text(&s);
@@ -2420,7 +2420,7 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 				}
 				else if (ename2 == _T("pathPt")) {
 					CPoint pt = Dom2LinkPathPt(childnode2);
-					linksImport[linksImport.size() - 1].setPathPt(pt);
+					linksImport[linksImport.size() - 1].SetPathPt(pt);
 				}
 				else if (ename2 == _T("locate")) {
 					childnode2->firstChild->get_text(&s);
@@ -3049,7 +3049,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 			f.WriteString(_T("\t\t</linkLineColor>\n"));
 
 
-			if ((*li).isCurved()) {
+			if ((*li).IsCurved()) {
 				f.WriteString(_T("\t\t<pathPt>\n"));
 				CString sp; sp.Format(_T("\t\t\t<path_x>%d</path_x>\n\t\t\t<path_y>%d</path_y>\n"),
 					(*li).getPtPath().x, (*li).getPtPath().y);
@@ -4138,7 +4138,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 					nodeChain.insert(pairKey);
 					(*li).SetInChain();
 					if (bResetLinkCurve) {
-						(*li).curve(false);
+						(*li).Curve(false);
 					}
 					iNode nodeFind;
 					niterator nf = nodes_.find(pairKey);

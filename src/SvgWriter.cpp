@@ -465,7 +465,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2
 	int width = link.getLineWidth();
 	if (width == 0) { width = 1; }
 
-	if (!link.isCurved() /* && link.getKeyFrom() != link.getKeyTo()*/) {
+	if (!link.IsCurved() /* && link.getKeyFrom() != link.getKeyTo()*/) {
 		pLink = pDoc->createElement(_T("line"));
 
 		CString sX1; sX1.Format(_T("%d"), ptFrom.x);
@@ -491,7 +491,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2
 	else {
 		pLink = pDoc->createElement(_T("path"));
 		CString sPath;
-		if (link.isAngled()) {
+		if (link.IsAngled()) {
 			sPath.Format(_T("M %d %d L %d %d %d %d"), ptFrom.x, ptFrom.y, ptPath.x, ptPath.y, ptTo.x, ptTo.y);
 		}
 		else {
@@ -551,7 +551,7 @@ CPoint SvgWriter::calcLinkLabelOrg(const iLink& link)
 	int height = size;
 
 	CPoint pt;
-	if (link.isCurved()) {
+	if (link.IsCurved()) {
 		pt = link.getPtPath();
 	}
 	else {
@@ -608,7 +608,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	pt[2].y = pt[0].y - ArrowWidth;
 
 
-	if (!link.isCurved()) {
+	if (!link.IsCurved()) {
 		rotateArrow(pt, 3, ptFrom, ptTo, ptTo);
 	}
 	else {
@@ -695,7 +695,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, 
 	pt[3].y = pt[0].y - ArrowWidth;
 
 
-	if (!link.isCurved()) {
+	if (!link.IsCurved()) {
 		rotateArrow(pt, 4, ptFrom, ptTo, ptTo);
 	}
 	else {
@@ -773,7 +773,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 	pt[2].x = pt[0].x + ArrowHeight;
 	pt[2].y = pt[0].y - ArrowWidth;
 
-	if (!link.isCurved()) {
+	if (!link.IsCurved()) {
 		rotateArrow(pt, 3, ptTo, ptFrom, ptFrom);
 	}
 	else {

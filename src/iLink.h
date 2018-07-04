@@ -23,8 +23,8 @@ public:
 	void DrawSelectionTo(CDC* pDC);
 	void DrawSelectionFrom(CDC* pDC);
 	void ReverseDirection();
-	bool hitTestTo_c(const CPoint& pt) const;
-	bool hitTestFrom_c(const CPoint &pt) const;
+	bool HitTestConnectionPtTo(const CPoint& pt) const;
+	bool HitTestConnectionPtFrom(const CPoint &pt) const;
 	void setKey(const DWORD key);
 	DWORD getKey() const;
 	void movePts(const CSize& sz);
@@ -33,11 +33,11 @@ public:
 	bool hitTest2(const CPoint& pt);
 	CRect getBound() const;
 	CRect getCommentRect() const;
-	void setPathPt(const CPoint& pt);
-	bool isCurved() const;
-	bool isAngled() const;
-	void curve(bool c = true);
-	void angle(bool a = true);
+	void SetPathPt(const CPoint& pt);
+	bool IsCurved() const;
+	bool IsAngled() const;
+	void Curve(bool c = true);
+	void Angle(bool a = true);
 	const COLORREF& getLinkColor() const;
 	void setLinkColor(const COLORREF& c);
 	const CString& getPath() const;
@@ -176,29 +176,29 @@ inline void iLink::setKeyTo(const DWORD key)
 	keyTo = key;
 }
 
-inline void iLink::setPathPt(const CPoint& pt)
+inline void iLink::SetPathPt(const CPoint& pt)
 {
 	ptPath = pt;
 	curved_ = true;
 }
 
-inline void iLink::curve(bool c)
+inline void iLink::Curve(bool c)
 {
 	curved_ = c;
 	setConnectPoint();
 }
 
-inline bool iLink::isCurved() const
+inline bool iLink::IsCurved() const
 {
 	return curved_;
 }
 
-inline bool iLink::isAngled() const
+inline bool iLink::IsAngled() const
 {
 	return angled_;
 }
 
-inline void iLink::angle(bool a)
+inline void iLink::Angle(bool a)
 {
 	this->angled_ = a;
 	setConnectPoint();

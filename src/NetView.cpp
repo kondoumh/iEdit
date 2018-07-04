@@ -4310,14 +4310,14 @@ void NetView::OnSetLinkAngled()
 {
 	const iLink* pLink = GetDocument()->GetSelectedLink();
 	if (pLink == NULL) return;
-	GetDocument()->AngleSelectedLink(!pLink->isAngled());
+	GetDocument()->AngleSelectedLink(!pLink->IsAngled());
 }
 
 void NetView::OnUpdateSetLinkAngled(CCmdUI *pCmdUI)
 {
 	const iLink* pLink = GetDocument()->GetSelectedLink();
-	pCmdUI->Enable(!GetDocument()->IsOldBinary() && pLink != NULL && pLink->isCurved());
-	pCmdUI->SetCheck(pLink != NULL && pLink->isAngled());
+	pCmdUI->Enable(!GetDocument()->IsOldBinary() && pLink != NULL && pLink->IsCurved());
+	pCmdUI->SetCheck(pLink != NULL && pLink->IsAngled());
 }
 
 void NetView::OnExportEmf()

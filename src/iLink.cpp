@@ -555,7 +555,7 @@ CPoint iLink::getClossPoint(const CRect &target, const CPoint &start)
 bool iLink::hitTest(const CPoint &pt)
 {
 	if (rcFrom.PtInRect(pt) || rcTo.PtInRect(pt)) return false;
-	if (hitTestFrom_c(pt) || hitTestTo_c(pt)) return false;
+	if (HitTestConnectionPtFrom(pt) || HitTestConnectionPtTo(pt)) return false;
 	if (!curved_) {
 		CPoint pts[4];
 		const int mrgn = 4;
@@ -626,7 +626,7 @@ bool iLink::hitTest(const CPoint &pt)
 	return selected_;
 }
 
-bool iLink::hitTestFrom_c(const CPoint &pt) const
+bool iLink::HitTestConnectionPtFrom(const CPoint &pt) const
 {
 	if (rcFrom.PtInRect(pt)) return false;
 	CPoint pts[4];
@@ -646,7 +646,7 @@ bool iLink::hitTestFrom_c(const CPoint &pt) const
 	return bIn == TRUE;
 }
 
-bool iLink::hitTestTo_c(const CPoint &pt) const
+bool iLink::HitTestConnectionPtTo(const CPoint &pt) const
 {
 	if (rcTo.PtInRect(pt)) return false;
 	CPoint pts[4];
@@ -669,7 +669,7 @@ bool iLink::hitTestTo_c(const CPoint &pt) const
 
 bool iLink::hitTest2(const CPoint &pt)
 {
-	if (hitTestFrom_c(pt) || hitTestTo_c(pt)) {
+	if (HitTestConnectionPtFrom(pt) || HitTestConnectionPtTo(pt)) {
 		return false;
 	}
 	CPoint pts[4];
@@ -908,7 +908,7 @@ bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path)
 		if (!(*it).canDraw()) {
 			continue;
 		}
-		if ((*it).hitTestFrom_c(pt)) {
+		if ((*it).HitTestConnectionPtFrom(pt)) {
 			(*it).selectLink();
 			key = (*it).getKeyFrom();
 			path = (*it).getPath();
@@ -929,7 +929,7 @@ bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path)
 		if (!(*it).canDraw()) {
 			continue;
 		}
-		if ((*it).hitTestTo_c(pt)) {
+		if ((*it).HitTestConnectionPtTo(pt)) {
 			(*it).selectLink();
 			key = (*it).getKeyFrom();
 			path = (*it).getPath();
@@ -1042,7 +1042,7 @@ void iLinks::selectLinksInBound(const CRect &r)
 		if (!(*it).canDraw()) {
 			continue;
 		}
-		if (!(*it).isCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
+		if (!(*it).IsCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
 			if (r.PtInRect((*it).getPtFrom()) && r.PtInRect((*it).getPtTo())) {
 				(*it).selectLink();
 			}
@@ -1050,7 +1050,7 @@ void iLinks::selectLinksInBound(const CRect &r)
 				(*it).selectLink(false);
 			}
 		}
-		else if ((*it).isCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
+		else if ((*it).IsCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
 			if (r.PtInRect((*it).getPtFrom()) && r.PtInRect((*it).getPtTo()) && r.PtInRect((*it).getPtPath())) {
 				(*it).selectLink();
 			}
@@ -1312,7 +1312,7 @@ void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 	literator li = begin();
 	for (; li != end(); li++) {
 		if ((*li).IsDropTarget()) {
-			(*li).curve(false);
+			(*li).Curve(false);
 			iLink l((*li));
 			DWORD orgKeyTo = (*li).getKeyTo();
 			(*li).setKeyTo(dropNodeKey);
