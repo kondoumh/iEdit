@@ -27,9 +27,9 @@ public:
 	bool HitTestConnectionPtFrom(const CPoint &pt) const;
 	void SetKey(const DWORD key);
 	DWORD GetKey() const;
-	void movePts(const CSize& sz);
-	void setKeyTo(const DWORD key);
-	void setKeyFrom(const DWORD key);
+	void MovePoints(const CSize& sz);
+	void SetKeyTo(const DWORD key);
+	void SetKeyFrom(const DWORD key);
 	bool hitTest2(const CPoint& pt);
 	CRect getBound() const;
 	CRect getCommentRect() const;
@@ -150,7 +150,7 @@ inline DWORD iLink::GetKey() const
 	return key_;
 }
 
-inline void iLink::movePts(const CSize& sz)
+inline void iLink::MovePoints(const CSize& sz)
 {
 	if (keyFrom != keyTo) {
 		ptFrom.x += sz.cx; ptFrom.y += sz.cy;
@@ -166,12 +166,12 @@ inline void iLink::movePts(const CSize& sz)
 	}
 }
 
-inline void iLink::setKeyFrom(const DWORD key)
+inline void iLink::SetKeyFrom(const DWORD key)
 {
 	keyFrom = key;
 }
 
-inline void iLink::setKeyTo(const DWORD key)
+inline void iLink::SetKeyTo(const DWORD key)
 {
 	keyTo = key;
 }

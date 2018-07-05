@@ -1218,7 +1218,7 @@ void iLinks::setSelectedNodeLinkFrom(DWORD key, const CRect &bound)
 	literator it = getSelectedLinkW();
 	if (it != end()) {
 		if (key != (*it).getKeyFrom()) {
-			(*it).setKeyFrom(key);
+			(*it).SetKeyFrom(key);
 			(*it).setRFrom(bound);
 		}
 	}
@@ -1229,7 +1229,7 @@ void iLinks::setSelectedNodeLinkTo(DWORD key, const CRect& bound)
 	literator it = getSelectedLinkW();
 	if (it != end()) {
 		if (key != (*it).getKeyTo()) {
-			(*it).setKeyTo(key);
+			(*it).SetKeyTo(key);
 			(*it).setRTo(bound);
 		}
 	}
@@ -1315,11 +1315,11 @@ void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 			(*li).Curve(false);
 			iLink l((*li));
 			DWORD orgKeyTo = (*li).getKeyTo();
-			(*li).setKeyTo(dropNodeKey);
+			(*li).SetKeyTo(dropNodeKey);
 			(*li).SetAsDropTarget(false);
 			l.SetKey(newLinkKey);
-			l.setKeyTo(orgKeyTo);
-			l.setKeyFrom(dropNodeKey);
+			l.SetKeyTo(orgKeyTo);
+			l.SetKeyFrom(dropNodeKey);
 			push_back(l);
 			dividedLinkKey_ = newLinkKey;
 			break;

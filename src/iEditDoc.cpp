@@ -640,7 +640,7 @@ void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 		for (; li != links_.end(); li++) {
 			if (keySet.find((*li).getKeyFrom()) != keySet.end() &&
 				keySet.find((*li).getKeyTo()) != keySet.end()) {
-				(*li).movePts(move);
+				(*li).MovePoints(move);
 			}
 		}
 		SetConnectionPoint();
@@ -658,7 +658,7 @@ void iEditDoc::MoveSelectedLink(const CSize &sz)
 		niterator itTo = nodes_.findNodeW((*li).getKeyTo());
 		if (itFrom == nodes_.end() || itTo == nodes_.end()) continue;
 		if ((*itFrom).second.isSelected() && (*itTo).second.isSelected()) {
-			(*li).movePts(sz);
+			(*li).MovePoints(sz);
 			SetModifiedFlag();
 			CalcMaxPt(m_maxPt);
 		}
@@ -1738,9 +1738,9 @@ void iEditDoc::CopyLinkForPaste()
 void iEditDoc::PasteCopiedLink()
 {
 	DWORD curKey = nodes_.getSelKey();
-	m_cpLinkOrg.setKeyFrom(curKey);
+	m_cpLinkOrg.SetKeyFrom(curKey);
 	if (m_cpLinkOrg.getArrowStyle() == iLink::other) {
-		m_cpLinkOrg.setKeyTo(curKey);
+		m_cpLinkOrg.SetKeyTo(curKey);
 	}
 
 	if (m_cpLinkOrg.getKeyFrom() != m_cpLinkOrg.getKeyTo()) {
@@ -1989,7 +1989,7 @@ bool iEditDoc::LoadXml(const CString &filename, bool replace)
 	else {
 		idcVec.clear(); idcVec.resize(0);
 		nodesImport.clear(); nodesImport.resize(0);
-		nodeImport.setKey(-1); linkImport.setKeyFrom(-1);
+		nodeImport.setKey(-1); linkImport.SetKeyFrom(-1);
 
 		CWaitCursor wc;
 		pDoc->get_documentElement(&element);
@@ -2080,7 +2080,7 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 	else {
 		idcVec.clear(); idcVec.resize(0);
 		nodesImport.clear(); nodesImport.resize(0);
-		nodeImport.setKey(-1); linkImport.setKeyFrom(-1);
+		nodeImport.setKey(-1); linkImport.SetKeyFrom(-1);
 
 		CWaitCursor wc;
 		pDoc->get_documentElement(&element);
@@ -2248,12 +2248,12 @@ bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 				if (ename2 == _T("from")) {
 					childnode2->firstChild->get_text(&s);
 					CString from(s); int idfrom; swscanf_s((const wchar_t*)from.GetBuffer(), _T("%d"), &idfrom);
-					linksImport[linksImport.size() - 1].setKeyFrom(FindPairKey((DWORD)idfrom));
+					linksImport[linksImport.size() - 1].SetKeyFrom(FindPairKey((DWORD)idfrom));
 				}
 				else if (ename2 == _T("to")) {
 					childnode2->firstChild->get_text(&s);
 					CString to(s); int idto; swscanf_s((const wchar_t*)to.GetBuffer(), _T("%d"), &idto);
-					linksImport[linksImport.size() - 1].setKeyTo(FindPairKey((DWORD)idto));
+					linksImport[linksImport.size() - 1].SetKeyTo(FindPairKey((DWORD)idto));
 				}
 				else if (ename2 == _T("caption")) {
 					childnode2->firstChild->get_text(&s);
@@ -2396,12 +2396,12 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 				if (ename2 == _T("from")) {
 					childnode2->firstChild->get_text(&s);
 					CString from(s); int idfrom; swscanf_s((const wchar_t*)from.GetBuffer(), _T("%d"), &idfrom);
-					linksImport[linksImport.size() - 1].setKeyFrom(((DWORD)idfrom));
+					linksImport[linksImport.size() - 1].SetKeyFrom(((DWORD)idfrom));
 				}
 				else if (ename2 == _T("to")) {
 					childnode2->firstChild->get_text(&s);
 					CString to(s); int idto; swscanf_s((const wchar_t*)to.GetBuffer(), _T("%d"), &idto);
-					linksImport[linksImport.size() - 1].setKeyTo(((DWORD)idto));
+					linksImport[linksImport.size() - 1].SetKeyTo(((DWORD)idto));
 				}
 				else if (ename2 == _T("caption")) {
 					childnode2->firstChild->get_text(&s);
@@ -3100,10 +3100,10 @@ void iEditDoc::AddImportedData(bool brepRoot)
 		}
 		for (i = 0; i < linksImport.size(); i++) {
 			if (linksImport[i].getKeyFrom() == start) {
-				linksImport[i].setKeyFrom(sel);
+				linksImport[i].SetKeyFrom(sel);
 			}
 			if (linksImport[i].getKeyTo() == start) {
-				linksImport[i].setKeyTo(sel);
+				linksImport[i].SetKeyTo(sel);
 			}
 		}
 		niterator it = nodes_.getSelectedNode();
@@ -4711,8 +4711,8 @@ void iEditDoc::DuplicateLinks(const NodeKeyMap& idm)
 				NodeKeyMap::const_iterator pr = idm.find((*li).getKeyTo());
 				if (pr != idm.end()) {
 					iLink l = (*li);
-					l.setKeyFrom((*it).second);
-					l.setKeyTo((*pr).second);
+					l.SetKeyFrom((*it).second);
+					l.SetKeyTo((*pr).second);
 					l.SetKey(lastLinkKey++);
 					links_.push_back(l);
 				}
