@@ -89,7 +89,7 @@ void iLink::initCopy(const iLink& l)
 
 IMPLEMENT_SERIAL(iLink, CObject, 0)
 
-void iLink::drawComment(CDC *pDC, bool clipbrd)
+void iLink::DrawComment(CDC *pDC, bool clipbrd)
 {
 	CRect rc = getCommentRect();
 
@@ -121,7 +121,7 @@ void iLink::drawComment(CDC *pDC, bool clipbrd)
 	font_.DeleteObject();
 }
 
-void iLink::drawLine(CDC *pDC)
+void iLink::DrawLine(CDC *pDC)
 {
 	penLine.CreatePen(styleLine, lineWidth, colorLine);
 	CPen* pOldPen = pDC->SelectObject(&penLine);
@@ -163,14 +163,14 @@ void iLink::drawLine(CDC *pDC)
 	}
 
 	if (dropTarget_) {
-		drawDropTarget(pDC);
+		DrawAsDropTarget(pDC);
 	}
 
 	pDC->SelectObject(pOldPen);
 	penLine.DeleteObject();
 }
 
-void iLink::drawDropTarget(CDC* pDC)
+void iLink::DrawAsDropTarget(CDC* pDC)
 {
 	penLine.CreatePen(PS_SOLID, 10, RGB(127, 127, 255));
 	CPen* pOldPen = pDC->SelectObject(&penLine);
@@ -215,7 +215,7 @@ void iLink::drawDropTarget(CDC* pDC)
 	penLine.DeleteObject();
 }
 
-void iLink::drawArrow(CDC *pDC)
+void iLink::DrawArrow(CDC *pDC)
 {
 	if (!this->isRectLink()) {
 		drawTriangles(pDC);
@@ -552,7 +552,7 @@ CPoint iLink::getClossPoint(const CRect &target, const CPoint &start)
 	return cpt;
 }
 
-bool iLink::hitTest(const CPoint &pt)
+bool iLink::HitTest(const CPoint &pt)
 {
 	if (rcFrom.PtInRect(pt) || rcTo.PtInRect(pt)) return false;
 	if (HitTestConnectionPtFrom(pt) || HitTestConnectionPtTo(pt)) return false;
@@ -706,7 +706,7 @@ bool iLink::hitTest2(const CPoint &pt)
 	return selected_;
 }
 
-void iLink::drawSelection(CDC *pDC)
+void iLink::DrawSelection(CDC *pDC)
 {
 	if (selected_) {
 		CBrush Brs(BLACK_BRUSH);
@@ -818,11 +818,11 @@ void iLinks::drawComments(CDC *pDC, bool clipbrd)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).getArrowStyle() != iLink::other) {
-			(*it).drawComment(pDC, clipbrd);
+		if ((*it).GetArrowStyle() != iLink::other) {
+			(*it).DrawComment(pDC, clipbrd);
 		}
 	}
 }
@@ -831,11 +831,11 @@ void iLinks::drawLines(CDC *pDC)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).getArrowStyle() != iLink::other) {
-			(*it).drawLine(pDC);
+		if ((*it).GetArrowStyle() != iLink::other) {
+			(*it).DrawLine(pDC);
 		}
 	}
 }
@@ -844,11 +844,11 @@ void iLinks::drawArrows(CDC *pDC)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).getArrowStyle() != iLink::other) {
-			(*it).drawArrow(pDC);
+		if ((*it).GetArrowStyle() != iLink::other) {
+			(*it).DrawArrow(pDC);
 		}
 	}
 }
@@ -858,17 +858,17 @@ bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path)
 	literator it = begin();
 	bool hit = false;
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).hitTest(pt)) {
-			(*it).selectLink();
-			key = (*it).getKeyFrom();
+		if ((*it).HitTest(pt)) {
+			(*it).Select();
+			key = (*it).GetFromNodeKey();
 			path = (*it).GetPath();
 			hit = true;
 		}
 		else {
-			(*it).selectLink(false);
+			(*it).Select(false);
 		}
 	}
 	return hit;
@@ -880,13 +880,13 @@ DWORD iLinks::hitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
 	bool hit = false;
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).getKeyFrom() == selectedNodeKey || (*it).getKeyTo() == selectedNodeKey) {
+		if ((*it).GetFromNodeKey() == selectedNodeKey || (*it).GetToNodeKey() == selectedNodeKey) {
 			continue;
 		}
-		if ((*it).hitTest(pt)) {
+		if ((*it).HitTest(pt)) {
 			if (!hit) {
 				(*it).SetAsDropTarget();
 				hitKey = (*it).GetKey();
@@ -905,17 +905,17 @@ bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path)
 	literator it = begin();
 	bool hit = false;
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
 		if ((*it).HitTestConnectionPtFrom(pt)) {
-			(*it).selectLink();
-			key = (*it).getKeyFrom();
+			(*it).Select();
+			key = (*it).GetFromNodeKey();
 			path = (*it).GetPath();
 			hit = true;
 		}
 		else {
-			(*it).selectLink(false);
+			(*it).Select(false);
 		}
 	}
 	return hit;
@@ -926,17 +926,17 @@ bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path)
 	literator it = begin();
 	bool hit = false;
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
 		if ((*it).HitTestConnectionPtTo(pt)) {
-			(*it).selectLink();
-			key = (*it).getKeyFrom();
+			(*it).Select();
+			key = (*it).GetFromNodeKey();
 			path = (*it).GetPath();
 			hit = true;
 		}
 		else {
-			(*it).selectLink(false);
+			(*it).Select(false);
 		}
 	}
 	return hit;
@@ -946,11 +946,11 @@ void iLinks::drawSelection(CDC *pDC)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).isSelected()) {
-			(*it).drawSelection(pDC);
+		if ((*it).IsSelected()) {
+			(*it).DrawSelection(pDC);
 		}
 	}
 }
@@ -959,10 +959,10 @@ void iLinks::drawSelectionFrom(CDC *pDC)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).isSelected()) {
+		if ((*it).IsSelected()) {
 			(*it).DrawSelectionFrom(pDC);
 		}
 	}
@@ -972,10 +972,10 @@ void iLinks::drawSelectionTo(CDC *pDC)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).isSelected()) {
+		if ((*it).IsSelected()) {
 			(*it).DrawSelectionTo(pDC);
 		}
 	}
@@ -985,11 +985,11 @@ const_literator iLinks::getSelectedLink() const
 {
 	const_literator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).getArrowStyle() != iLink::other) {
-			if (!(*it).canDraw()) {
+		if ((*it).GetArrowStyle() != iLink::other) {
+			if (!(*it).CanDraw()) {
 				continue;
 			}
-			if ((*it).isSelected()) {
+			if ((*it).IsSelected()) {
 				return it;
 			}
 		}
@@ -1001,7 +1001,7 @@ const_literator iLinks::getSelectedLink2() const
 {
 	const_literator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).isSelected()) {
+		if ((*it).IsSelected()) {
 			return it;
 		}
 	}
@@ -1012,11 +1012,11 @@ literator iLinks::getSelectedLinkW()
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).getArrowStyle() != iLink::other) {
-			if (!(*it).canDraw()) {
+		if ((*it).GetArrowStyle() != iLink::other) {
+			if (!(*it).CanDraw()) {
 				continue;
 			}
-			if ((*it).isSelected()) {
+			if ((*it).IsSelected()) {
 				return it;
 			}
 		}
@@ -1028,7 +1028,7 @@ literator iLinks::getSelectedLinkW2()
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).isSelected()) {
+		if ((*it).IsSelected()) {
 			return it;
 		}
 	}
@@ -1039,35 +1039,35 @@ void iLinks::selectLinksInBound(const CRect &r)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if (!(*it).IsCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
-			if (r.PtInRect((*it).getPtFrom()) && r.PtInRect((*it).getPtTo())) {
-				(*it).selectLink();
+		if (!(*it).IsCurved() && (*it).GetFromNodeKey() != (*it).GetToNodeKey() && (*it).GetArrowStyle() != iLink::other) {
+			if (r.PtInRect((*it).GetPtFrom()) && r.PtInRect((*it).GetPtTo())) {
+				(*it).Select();
 			}
 			else {
-				(*it).selectLink(false);
+				(*it).Select(false);
 			}
 		}
-		else if ((*it).IsCurved() && (*it).getKeyFrom() != (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
-			if (r.PtInRect((*it).getPtFrom()) && r.PtInRect((*it).getPtTo()) && r.PtInRect((*it).getPtPath())) {
-				(*it).selectLink();
+		else if ((*it).IsCurved() && (*it).GetFromNodeKey() != (*it).GetToNodeKey() && (*it).GetArrowStyle() != iLink::other) {
+			if (r.PtInRect((*it).GetPtFrom()) && r.PtInRect((*it).GetPtTo()) && r.PtInRect((*it).GetPtPath())) {
+				(*it).Select();
 			}
 			else {
-				(*it).selectLink(false);
+				(*it).Select(false);
 			}
 		}
-		else if ((*it).getKeyFrom() == (*it).getKeyTo() && (*it).getArrowStyle() != iLink::other) {
-			if (r.PtInRect((*it).getSelfRect().TopLeft()) && r.PtInRect((*it).getSelfRect().BottomRight())) {
-				(*it).selectLink();
+		else if ((*it).GetFromNodeKey() == (*it).GetToNodeKey() && (*it).GetArrowStyle() != iLink::other) {
+			if (r.PtInRect((*it).GetBound().TopLeft()) && r.PtInRect((*it).GetBound().BottomRight())) {
+				(*it).Select();
 			}
 			else {
-				(*it).selectLink(false);
+				(*it).Select(false);
 			}
 		}
 		else {
-			(*it).selectLink(false);
+			(*it).Select(false);
 		}
 	}
 }
@@ -1077,12 +1077,12 @@ void iLinks::getSelectedLinkFont(LOGFONT &lf)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).isSelected()) {
-			lf = (*it).getFontInfo();
-			::lstrcpy(lf.lfFaceName, (*it).getFontInfo().lfFaceName);
+		if ((*it).IsSelected()) {
+			lf = (*it).GetFontInfo();
+			::lstrcpy(lf.lfFaceName, (*it).GetFontInfo().lfFaceName);
 		}
 	}
 }
@@ -1091,11 +1091,11 @@ void iLinks::setSelectedLinkFont(const LOGFONT &lf)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).isSelected()) {
-			(*it).setFontInfo(lf);
+		if ((*it).IsSelected()) {
+			(*it).SetFontInfo(lf);
 		}
 	}
 }
@@ -1104,10 +1104,10 @@ void iLinks::setSelectedLinkLineColor(const COLORREF &c)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).isSelected()) {
+		if ((*it).IsSelected()) {
 			(*it).SetLinkColor(c);
 		}
 	}
@@ -1118,10 +1118,10 @@ COLORREF iLinks::getSelectedLinkLineColor() const
 	COLORREF c = RGB(0, 0, 0);
 	const_literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).isSelected()) {
+		if ((*it).IsSelected()) {
 			c = (*it).GetLinkColor();
 		}
 	}
@@ -1132,11 +1132,11 @@ void iLinks::setSelectedLinkWidth(int w)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).isSelected()) {
-			(*it).setLineWidth(w);
+		if ((*it).IsSelected()) {
+			(*it).SetLineWidth(w);
 		}
 	}
 }
@@ -1146,7 +1146,7 @@ int iLinks::getSelectedLinkWidth() const
 	int w = 0;
 	const_literator it = getSelectedLink();
 	if (it != end()) {
-		w = (*it).getLineWidth();
+		w = (*it).SetLineWidth();
 	}
 	return w;
 }
@@ -1155,11 +1155,11 @@ void iLinks::setSelectedLinkLineStyle(int style)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).isSelected()) {
-			(*it).setLineStyle(style);
+		if ((*it).IsSelected()) {
+			(*it).SetLineStyle(style);
 		}
 	}
 }
@@ -1169,11 +1169,11 @@ int iLinks::getSelectedLinkLineStyle(bool bDrawAll) const
 	int s = PS_SOLID;
 	const_literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw() && !bDrawAll) {
+		if (!(*it).CanDraw() && !bDrawAll) {
 			continue;
 		}
-		if ((*it).isSelected()) {
-			s = (*it).getLineStyle();
+		if ((*it).IsSelected()) {
+			s = (*it).GetLineStyle();
 		}
 	}
 	return s;
@@ -1183,10 +1183,10 @@ bool iLinks::isIsolated(DWORD key, bool bDrawAll) const
 {
 	const_literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw() && !bDrawAll) {
+		if (!(*it).CanDraw() && !bDrawAll) {
 			continue;
 		}
-		if ((*it).getKeyFrom() == key || (*it).getKeyTo() == key) {
+		if ((*it).GetFromNodeKey() == key || (*it).GetToNodeKey() == key) {
 			return false;
 		}
 	}
@@ -1201,13 +1201,13 @@ CRect iLinks::getSelectedLinkBound(bool bDrawAll) const
 	rc = (*it).getBound();
 	it = begin();
 	for (; it != end(); it++) {
-		if ((*it).canDraw() && !bDrawAll) {
+		if ((*it).CanDraw() && !bDrawAll) {
 			continue;
 		}
-		if ((*it).isSelected()) {
+		if ((*it).IsSelected()) {
 			rc |= (*it).getBound();
-			rc |= (*it).getRectFrom();
-			rc |= (*it).getRectTo();
+			rc |= (*it).GetFromNodeRect();
+			rc |= (*it).GetToNodeRect();
 		}
 	}
 	return rc;
@@ -1217,9 +1217,9 @@ void iLinks::setSelectedNodeLinkFrom(DWORD key, const CRect &bound)
 {
 	literator it = getSelectedLinkW();
 	if (it != end()) {
-		if (key != (*it).getKeyFrom()) {
+		if (key != (*it).GetFromNodeKey()) {
 			(*it).SetKeyFrom(key);
-			(*it).setRFrom(bound);
+			(*it).SetFromNodeRect(bound);
 		}
 	}
 }
@@ -1228,9 +1228,9 @@ void iLinks::setSelectedNodeLinkTo(DWORD key, const CRect& bound)
 {
 	literator it = getSelectedLinkW();
 	if (it != end()) {
-		if (key != (*it).getKeyTo()) {
+		if (key != (*it).GetToNodeKey()) {
 			(*it).SetKeyTo(key);
-			(*it).setRTo(bound);
+			(*it).SetToNodeRect(bound);
 		}
 	}
 }
@@ -1247,15 +1247,15 @@ DWORD iLinks::getFirstVisiblePair(DWORD key) const
 {
 	const_literator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).canDraw()) continue;
-		if ((*it).getKeyFrom() == (*it).getKeyTo()) continue;
-		if ((*it).getArrowStyle() == iLink::other) continue;
+		if (!(*it).CanDraw()) continue;
+		if ((*it).GetFromNodeKey() == (*it).GetToNodeKey()) continue;
+		if ((*it).GetArrowStyle() == iLink::other) continue;
 		if ((*it).IsTerminalNodeKey(key)) {
-			if ((*it).getKeyFrom() == key) {
-				return (*it).getKeyTo();
+			if ((*it).GetFromNodeKey() == key) {
+				return (*it).GetToNodeKey();
 			}
 			else {
-				return (*it).getKeyFrom();
+				return (*it).GetFromNodeKey();
 			}
 		}
 	}
@@ -1266,8 +1266,8 @@ void iLinks::resizeSelectedLinkFont(bool bEnlarge)
 {
 	literator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).isSelected()) {
-			LOGFONT lf = (*it).getFontInfo();
+		if ((*it).IsSelected()) {
+			LOGFONT lf = (*it).GetFontInfo();
 			LONG pre = lf.lfHeight;
 			if (bEnlarge) {
 				lf.lfHeight -= 2;
@@ -1277,7 +1277,7 @@ void iLinks::resizeSelectedLinkFont(bool bEnlarge)
 					lf.lfHeight += 2;
 				}
 			}
-			(*it).setFontInfo(lf);
+			(*it).SetFontInfo(lf);
 		}
 	}
 }
@@ -1314,7 +1314,7 @@ void iLinks::divideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 		if ((*li).IsDropTarget()) {
 			(*li).Curve(false);
 			iLink l((*li));
-			DWORD orgKeyTo = (*li).getKeyTo();
+			DWORD orgKeyTo = (*li).GetToNodeKey();
 			(*li).SetKeyTo(dropNodeKey);
 			(*li).SetAsDropTarget(false);
 			l.SetKey(newLinkKey);

@@ -42,43 +42,43 @@ public:
 	void SetLinkColor(const COLORREF& c);
 	const CString& GetPath() const;
 	void SetPath(const CString& path);
-	void setFontInfo(const LOGFONT& lf);
-	const LOGFONT& getFontInfo() const;
-	int getLineStyle() const;
-	void setLineStyle(int style);
-	int getLineWidth() const;
-	void setLineWidth(int width);
-	const CRect& getSelfRect() const;
-	const CPoint& getPtPath() const;
-	const CPoint& getPtFrom() const;
-	const CPoint& getPtTo() const;
-	void selectLink(bool sel = true);
-	bool isSelected() const;
-	void drawSelection(CDC* pDC);
-	bool hitTest(const CPoint& pt);
-	int getArrowStyle() const;
-	void setArrowStyle(int Style);
+	void SetFontInfo(const LOGFONT& lf);
+	const LOGFONT& GetFontInfo() const;
+	int GetLineStyle() const;
+	void SetLineStyle(int style);
+	int SetLineWidth() const;
+	void SetLineWidth(int width);
+	const CRect& GetBound() const;
+	const CPoint& GetPtPath() const;
+	const CPoint& GetPtFrom() const;
+	const CPoint& GetPtTo() const;
+	void Select(bool sel = true);
+	bool IsSelected() const;
+	void DrawSelection(CDC* pDC);
+	bool HitTest(const CPoint& pt);
+	int GetArrowStyle() const;
+	void SetArrowStyle(int Style);
 	virtual void Serialize(CArchive& ar);
 	void SerializeEx(CArchive& ar, int version);
-	const CString& getName() const;
-	void setName(const CString& name);
-	void setRTo(const CRect &rt);
-	void setRFrom(const CRect& rf);
+	const CString& GetName() const;
+	void SetName(const CString& name);
+	void SetToNodeRect(const CRect &rt);
+	void SetFromNodeRect(const CRect& rf);
 	iLink& operator=(const iLink& l);
-	const CRect& getRectTo() const;
-	const CRect& getRectFrom() const;
-	DWORD getKeyTo() const;
-	DWORD getKeyFrom() const;
+	const CRect& GetToNodeRect() const;
+	const CRect& GetFromNodeRect() const;
+	DWORD GetToNodeKey() const;
+	DWORD GetFromNodeKey() const;
 	iLink(const iLink& l);
-	bool canDraw() const;
-	void setDrawFlag(bool drw = true);
-	bool isDeleted() const;
-	void setDelete();
-	void setNodes(const CRect& rcf, const CRect& rct, DWORD keyf, DWORD keyt);
-	void drawArrow(CDC* pDC);
-	void drawLine(CDC* pDC);
-	void drawDropTarget(CDC* pDC);
-	void drawComment(CDC* pDC, bool clipbrd = false);
+	bool CanDraw() const;
+	void SetDrawable(bool drw = true);
+	bool Deleted() const;
+	void Delete();
+	void SetNodes(const CRect& rcf, const CRect& rct, DWORD keyf, DWORD keyt);
+	void DrawArrow(CDC* pDC);
+	void DrawLine(CDC* pDC);
+	void DrawAsDropTarget(CDC* pDC);
+	void DrawComment(CDC* pDC, bool clipbrd = false);
 	iLink();
 	virtual ~iLink();
 	// 矢印の種類
@@ -204,7 +204,7 @@ inline void iLink::Angle(bool a)
 	setConnectPoint();
 }
 
-inline void iLink::setNodes(const CRect &rcf, const CRect &rct, DWORD keyf, DWORD keyt)
+inline void iLink::SetNodes(const CRect &rcf, const CRect &rct, DWORD keyf, DWORD keyt)
 {
 	rcFrom = rcf; rcTo = rct; keyFrom = keyf; keyTo = keyt;
 	if (keyFrom == keyTo) {
@@ -215,135 +215,135 @@ inline void iLink::setNodes(const CRect &rcf, const CRect &rct, DWORD keyf, DWOR
 	setConnectPoint();
 }
 
-inline void iLink::setRFrom(const CRect &rf)
+inline void iLink::SetFromNodeRect(const CRect &rf)
 {
 	rcFrom = rf;
 	setConnectPoint();
 }
 
-inline void iLink::setRTo(const CRect &rt)
+inline void iLink::SetToNodeRect(const CRect &rt)
 {
 	rcTo = rt;
 	setConnectPoint();
 }
 
-inline void iLink::setDrawFlag(bool drw)
+inline void iLink::SetDrawable(bool drw)
 {
 	drwFlag = drw;
 }
 
-inline bool iLink::canDraw() const
+inline bool iLink::CanDraw() const
 {
 	return drwFlag;
 }
 
-inline bool iLink::isDeleted() const
+inline bool iLink::Deleted() const
 {
 	return deleted_;
 }
 
-inline void iLink::setDelete()
+inline void iLink::Delete()
 {
 	deleted_ = true;
 }
 
-inline DWORD iLink::getKeyFrom() const
+inline DWORD iLink::GetFromNodeKey() const
 {
 	return keyFrom;
 }
 
-inline DWORD iLink::getKeyTo() const
+inline DWORD iLink::GetToNodeKey() const
 {
 	return keyTo;
 }
 
-inline const CRect& iLink::getRectFrom() const
+inline const CRect& iLink::GetFromNodeRect() const
 {
 	return rcFrom;
 }
 
-inline const CRect& iLink::getRectTo() const
+inline const CRect& iLink::GetToNodeRect() const
 {
 	return rcTo;
 }
 
-inline const CRect& iLink::getSelfRect() const
+inline const CRect& iLink::GetBound() const
 {
 	return selfRect;
 }
 
-inline void iLink::setName(const CString &name)
+inline void iLink::SetName(const CString &name)
 {
 	name_ = name;
 }
 
-inline const CString& iLink::getName() const
+inline const CString& iLink::GetName() const
 {
 	return name_;
 }
 
-inline void iLink::setArrowStyle(int style)
+inline void iLink::SetArrowStyle(int style)
 {
 	styleArrow = style;
 }
 
-inline int iLink::getArrowStyle() const
+inline int iLink::GetArrowStyle() const
 {
 	return styleArrow;
 }
 
-inline bool iLink::isSelected() const
+inline bool iLink::IsSelected() const
 {
 	return selected_;
 }
 
-inline void iLink::selectLink(bool sel) {
+inline void iLink::Select(bool sel) {
 	selected_ = sel;
 }
 
-inline const CPoint& iLink::getPtFrom() const
+inline const CPoint& iLink::GetPtFrom() const
 {
 	return ptFrom;
 }
 
-inline const CPoint& iLink::getPtTo() const
+inline const CPoint& iLink::GetPtTo() const
 {
 	return ptTo;
 }
 
-inline const CPoint& iLink::getPtPath() const
+inline const CPoint& iLink::GetPtPath() const
 {
 	return ptPath;
 }
 
-inline void iLink::setLineWidth(int width)
+inline void iLink::SetLineWidth(int width)
 {
 	lineWidth = width;
 }
 
-inline int iLink::getLineWidth() const
+inline int iLink::SetLineWidth() const
 {
 	return lineWidth;
 }
 
-inline void iLink::setLineStyle(int style)
+inline void iLink::SetLineStyle(int style)
 {
 	styleLine = style;
 }
 
-inline int iLink::getLineStyle() const
+inline int iLink::GetLineStyle() const
 {
 	return styleLine;
 }
 
-inline void iLink::setFontInfo(const LOGFONT& lf)
+inline void iLink::SetFontInfo(const LOGFONT& lf)
 {
 	lf_ = lf;
 	::lstrcpy(lf_.lfFaceName, lf.lfFaceName);
 	font_.CreateFontIndirect(&lf);
 }
 
-inline const LOGFONT& iLink::getFontInfo() const
+inline const LOGFONT& iLink::GetFontInfo() const
 {
 	return lf_;
 }
@@ -390,7 +390,7 @@ inline const bool iLink::IsInChain() const
 
 inline const bool iLink::IsTerminalNodeKey(const DWORD key) const
 {
-	return (key == getKeyFrom() || key == getKeyTo());
+	return (key == GetFromNodeKey() || key == GetToNodeKey());
 }
 
 inline const bool iLink::IsDropTarget() const

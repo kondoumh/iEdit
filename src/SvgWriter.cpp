@@ -84,9 +84,9 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 	// リンクの列挙
 	const_literator li = m_links.begin();
 	for (; li != m_links.end(); li++) {
-		if (!m_bDrwAll && !(*li).canDraw()) continue;
+		if (!m_bDrwAll && !(*li).CanDraw()) continue;
 		iLink link = (*li);
-		if (link.getArrowStyle() == iLink::other) continue;
+		if (link.GetArrowStyle() == iLink::other) continue;
 
 		MSXML2::IXMLDOMElementPtr eGrp = doc->createElement(_T("g"));
 
@@ -98,17 +98,17 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 		if (eLText != NULL) {
 			eGrp->appendChild(eLText);
 		}
-		if (link.getArrowStyle() == iLink::arrow || link.getArrowStyle() == iLink::arrow2 ||
-			link.getArrowStyle() == iLink::depend || link.getArrowStyle() == iLink::depend2 ||
-			link.getArrowStyle() == iLink::inherit) {
+		if (link.GetArrowStyle() == iLink::arrow || link.GetArrowStyle() == iLink::arrow2 ||
+			link.GetArrowStyle() == iLink::depend || link.GetArrowStyle() == iLink::depend2 ||
+			link.GetArrowStyle() == iLink::inherit) {
 			MSXML2::IXMLDOMElementPtr eArrow = createLinkArrowElement(link, doc);
 			eGrp->appendChild(eArrow);
 		}
-		else if (link.getArrowStyle() == iLink::aggregat || link.getArrowStyle() == iLink::composit) {
+		else if (link.GetArrowStyle() == iLink::aggregat || link.GetArrowStyle() == iLink::composit) {
 			MSXML2::IXMLDOMElementPtr eSquare = createLinkSquareElement(link, doc);
 			eGrp->appendChild(eSquare);
 		}
-		if (link.getArrowStyle() == iLink::arrow2 || link.getArrowStyle() == iLink::depend2) {
+		if (link.GetArrowStyle() == iLink::arrow2 || link.GetArrowStyle() == iLink::depend2) {
 			MSXML2::IXMLDOMElementPtr eArrow2 = createLinkArrow2Element(link, doc);
 			eGrp->appendChild(eArrow2);
 		}
@@ -317,8 +317,8 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		CString url;
 		const_literator li = m_links.begin();
 		for (; li != m_links.end(); li++) {
-			if ((*li).getKeyFrom() == node.getKey()) {
-				if ((*li).getArrowStyle() == iLink::other) {
+			if ((*li).GetFromNodeKey() == node.getKey()) {
+				if ((*li).GetArrowStyle() == iLink::other) {
 					CString name = (*li).GetPath();
 					if (name.Find(_T("http://")) != -1 || name.Find(_T("https://")) != -1) {
 						url = name;
@@ -453,19 +453,19 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2
 {
 	MSXML2::IXMLDOMElementPtr pLink = NULL;
 
-	CPoint ptFrom = link.getPtFrom();
-	CPoint ptTo = link.getPtTo();
-	CPoint ptPath = link.getPtPath();
+	CPoint ptFrom = link.GetPtFrom();
+	CPoint ptTo = link.GetPtTo();
+	CPoint ptPath = link.GetPtPath();
 	COLORREF lineColor = link.GetLinkColor();
 	BYTE lRed GetRValue(lineColor);
 	BYTE lGreen GetGValue(lineColor);
 	BYTE lBlue GetBValue(lineColor);
 
-	int lineStyle = link.getLineStyle();
-	int width = link.getLineWidth();
+	int lineStyle = link.GetLineStyle();
+	int width = link.SetLineWidth();
 	if (width == 0) { width = 1; }
 
-	if (!link.IsCurved() /* && link.getKeyFrom() != link.getKeyTo()*/) {
+	if (!link.IsCurved() /* && link.GetFromNodeKey() != link.GetToNodeKey()*/) {
 		pLink = pDoc->createElement(_T("line"));
 
 		CString sX1; sX1.Format(_T("%d"), ptFrom.x);
@@ -519,7 +519,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2
 MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
 	MSXML2::IXMLDOMElementPtr pLText = NULL;
-	if (link.getName() == _T("")) return NULL;
+	if (link.GetName() == _T("")) return NULL;
 
 	// ラベル表示位置
 	CPoint ptOrg = calcLinkLabelOrg(link);
@@ -531,11 +531,11 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MS
 	pLText->setAttribute(_T("y"), sCy.GetBuffer(sCy.GetLength()));
 
 	// スタイル設定
-	CString sStyle = createTextStyle(link.getFontInfo(), link.GetLinkColor());
+	CString sStyle = createTextStyle(link.GetFontInfo(), link.GetLinkColor());
 	pLText->setAttribute(_T("style"), sStyle.GetBuffer(sStyle.GetLength()));
 
 	// ラベル設定
-	CString name = link.getName();
+	CString name = link.GetName();
 	pLText->Puttext(name.GetBuffer(name.GetLength()));
 
 	return pLText;
@@ -544,19 +544,19 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MS
 // リンクラベルの座標計算
 CPoint SvgWriter::calcLinkLabelOrg(const iLink& link)
 {
-	LOGFONT lf = link.getFontInfo();
+	LOGFONT lf = link.GetFontInfo();
 	int size = abs(lf.lfHeight);
 
-	int width = link.getName().GetLength()*size / 2;
+	int width = link.GetName().GetLength()*size / 2;
 	int height = size;
 
 	CPoint pt;
 	if (link.IsCurved()) {
-		pt = link.getPtPath();
+		pt = link.GetPtPath();
 	}
 	else {
-		pt.x = (link.getPtFrom().x + link.getPtTo().x) / 2;
-		pt.y = (link.getPtFrom().y + link.getPtTo().y) / 2;
+		pt.x = (link.GetPtFrom().x + link.GetPtTo().x) / 2;
+		pt.y = (link.GetPtFrom().y + link.GetPtTo().y) / 2;
 	}
 
 	pt.x -= width / 2;
@@ -567,11 +567,11 @@ CPoint SvgWriter::calcLinkLabelOrg(const iLink& link)
 
 MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
-	CPoint ptTo = link.getPtTo();
-	CPoint ptFrom = link.getPtFrom();
-	CPoint ptPath = link.getPtPath();
-	CRect selfRect = link.getSelfRect();
-	int width = link.getLineWidth();
+	CPoint ptTo = link.GetPtTo();
+	CPoint ptFrom = link.GetPtFrom();
+	CPoint ptPath = link.GetPtPath();
+	CRect selfRect = link.GetBound();
+	int width = link.SetLineWidth();
 	if (width == 0) width = 1;
 
 	int ArrowWidth = 5;
@@ -620,7 +620,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	pArrow = pDoc->createElement(_T("path"));
 	CString sPath;
 
-	if (link.getArrowStyle() == iLink::depend || link.getArrowStyle() == iLink::depend2) {
+	if (link.GetArrowStyle() == iLink::depend || link.GetArrowStyle() == iLink::depend2) {
 		sPath.Format(_T("M %d %d L %d %d L %d %d"), pt[1].x, pt[1].y, pt[0].x, pt[0].y, pt[2].x, pt[2].y);
 	}
 	else {
@@ -634,13 +634,13 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);
-	if (link.getArrowStyle() == iLink::arrow || link.getArrowStyle() == iLink::arrow2) {
+	if (link.GetArrowStyle() == iLink::arrow || link.GetArrowStyle() == iLink::arrow2) {
 		sStyle.Format(_T("fill:rgb(%d,%d,%d); "), bRed, bGreen, bBlue);
 	}
-	else if (link.getArrowStyle() == iLink::inherit) {
+	else if (link.GetArrowStyle() == iLink::inherit) {
 		sStyle = _T("fill:rgb(255,255,255); ");
 	}
-	else if (link.getArrowStyle() == iLink::depend || link.getArrowStyle() == iLink::depend2) {
+	else if (link.GetArrowStyle() == iLink::depend || link.GetArrowStyle() == iLink::depend2) {
 		sStyle = _T("fill:none; ");
 	}
 	CString sStroke;
@@ -652,11 +652,11 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 
 MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
-	CPoint ptTo = link.getPtTo();
-	CPoint ptFrom = link.getPtFrom();
-	CPoint ptPath = link.getPtPath();
-	CRect selfRect = link.getSelfRect();
-	int width = link.getLineWidth();
+	CPoint ptTo = link.GetPtTo();
+	CPoint ptFrom = link.GetPtFrom();
+	CPoint ptPath = link.GetPtPath();
+	CRect selfRect = link.GetBound();
+	int width = link.SetLineWidth();
 	if (width == 0) width = 1;
 
 	int ArrowWidth = 5;
@@ -716,10 +716,10 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, 
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);
-	if (link.getArrowStyle() == iLink::composit) {
+	if (link.GetArrowStyle() == iLink::composit) {
 		sStyle.Format(_T("fill:rgb(%d,%d,%d); "), bRed, bGreen, bBlue);
 	}
-	else if (link.getArrowStyle() == iLink::aggregat) {
+	else if (link.GetArrowStyle() == iLink::aggregat) {
 		sStyle = _T("fill:rgb(255,255,255); ");
 	}
 	CString sStroke;
@@ -731,13 +731,13 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, 
 
 MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
-	DWORD keyFrom = link.getKeyFrom();
-	DWORD keyTo = link.getKeyTo();
-	CPoint ptTo = link.getPtTo();
-	CPoint ptFrom = link.getPtFrom();
-	CPoint ptPath = link.getPtPath();
-	CRect selfRect = link.getSelfRect();
-	int width = link.getLineWidth();
+	DWORD keyFrom = link.GetFromNodeKey();
+	DWORD keyTo = link.GetToNodeKey();
+	CPoint ptTo = link.GetPtTo();
+	CPoint ptFrom = link.GetPtFrom();
+	CPoint ptPath = link.GetPtPath();
+	CRect selfRect = link.GetBound();
+	int width = link.SetLineWidth();
 	if (width == 0) width = 1;
 
 	int ArrowWidth = 5;
@@ -784,7 +784,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 
 	pArrow = pDoc->createElement(_T("path"));
 	CString sPath;
-	if (link.getArrowStyle() == iLink::depend || link.getArrowStyle() == iLink::depend2) {
+	if (link.GetArrowStyle() == iLink::depend || link.GetArrowStyle() == iLink::depend2) {
 		sPath.Format(_T("M %d %d L %d %d L %d %d"), pt[1].x, pt[1].y, pt[0].x, pt[0].y, pt[2].x, pt[2].y);
 	}
 	else {
@@ -797,10 +797,10 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 	BYTE bRed GetRValue(color);
 	BYTE bGreen GetGValue(color);
 	BYTE bBlue GetBValue(color);
-	if (link.getArrowStyle() == iLink::arrow2) {
+	if (link.GetArrowStyle() == iLink::arrow2) {
 		sStyle.Format(_T("fill:rgb(%d,%d,%d); "), bRed, bGreen, bBlue);
 	}
-	else if (link.getArrowStyle() == iLink::depend2) {
+	else if (link.GetArrowStyle() == iLink::depend2) {
 		sStyle = _T("fill:none; ");
 	}
 	CString sStroke;
