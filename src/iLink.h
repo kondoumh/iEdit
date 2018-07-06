@@ -129,15 +129,15 @@ private:
 	bool bChain_;
 	bool dropTarget_;
 
-	const bool isRectLink() const;
-	const bool isDual() const;
-	const bool isSingle() const;
-	void initCopy(const iLink& l);
-	void drawRectangles(CDC* pDC);
-	void drawTriangles(CDC* pDC);
-	void rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg);
-	CPoint getClossPoint(const CRect& target, const CPoint& start);
-	void setConnectPoint();
+	const bool IsRectTermLink() const;
+	const bool IsTwoWay() const;
+	const bool IsOneWay() const;
+	void CopyProps(const iLink& l);
+	void DrawRectArraws(CDC* pDC);
+	void DrawTriangleArrows(CDC* pDC);
+	void RotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg);
+	CPoint GetIntersection(const CRect& target, const CPoint& start);
+	void SetConnectionPoint();
 };
 
 inline void iLink::SetKey(const DWORD key)
@@ -162,7 +162,7 @@ inline void iLink::MovePoints(const CSize& sz)
 	}
 	else {
 		ptPath.x += sz.cx; ptPath.y += sz.cy;
-		setConnectPoint();
+		SetConnectionPoint();
 	}
 }
 
@@ -185,7 +185,7 @@ inline void iLink::SetPathPt(const CPoint& pt)
 inline void iLink::Curve(bool c)
 {
 	curved_ = c;
-	setConnectPoint();
+	SetConnectionPoint();
 }
 
 inline bool iLink::IsCurved() const
@@ -201,7 +201,7 @@ inline bool iLink::IsAngled() const
 inline void iLink::Angle(bool a)
 {
 	this->angled_ = a;
-	setConnectPoint();
+	SetConnectionPoint();
 }
 
 inline void iLink::SetNodes(const CRect &rcf, const CRect &rct, DWORD keyf, DWORD keyt)
@@ -212,19 +212,19 @@ inline void iLink::SetNodes(const CRect &rcf, const CRect &rct, DWORD keyf, DWOR
 		ptPath.x = pt.x + rcFrom.Width();
 		ptPath.y = pt.y - rcFrom.Height();
 	}
-	setConnectPoint();
+	SetConnectionPoint();
 }
 
 inline void iLink::SetFromNodeRect(const CRect &rf)
 {
 	rcFrom = rf;
-	setConnectPoint();
+	SetConnectionPoint();
 }
 
 inline void iLink::SetToNodeRect(const CRect &rt)
 {
 	rcTo = rt;
-	setConnectPoint();
+	SetConnectionPoint();
 }
 
 inline void iLink::SetDrawable(bool drw)

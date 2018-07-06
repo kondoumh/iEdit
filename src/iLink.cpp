@@ -50,16 +50,16 @@ iLink::~iLink()
 
 iLink::iLink(const iLink &l)
 {
-	initCopy(l);
+	CopyProps(l);
 }
 
 iLink& iLink::operator =(const iLink &l)
 {
-	initCopy(l);
+	CopyProps(l);
 	return *this;
 }
 
-void iLink::initCopy(const iLink& l)
+void iLink::CopyProps(const iLink& l)
 {
 	key_ = l.key_;
 	keyFrom = l.keyFrom;
@@ -217,15 +217,15 @@ void iLink::DrawAsDropTarget(CDC* pDC)
 
 void iLink::DrawArrow(CDC *pDC)
 {
-	if (!this->isRectLink()) {
-		drawTriangles(pDC);
+	if (!this->IsRectTermLink()) {
+		DrawTriangleArrows(pDC);
 	}
 	else {
-		drawRectangles(pDC);
+		DrawRectArraws(pDC);
 	}
 }
 
-const bool iLink::isRectLink() const
+const bool iLink::IsRectTermLink() const
 {
 	if (styleArrow == iLink::aggregat || styleArrow == iLink::composit) {
 		return true;
@@ -233,7 +233,7 @@ const bool iLink::isRectLink() const
 	return false;
 }
 
-void iLink::drawRectangles(CDC* pDC)
+void iLink::DrawRectArraws(CDC* pDC)
 {
 
 	CBrush* pOldBrs;
@@ -259,10 +259,10 @@ void iLink::drawRectangles(CDC* pDC)
 	pt[3].y = pt[0].y - ArrowWidth;
 
 	if (!curved_) {
-		rotateArrow(pt, 4, ptFrom, ptTo, ptTo);
+		RotateArrow(pt, 4, ptFrom, ptTo, ptTo);
 	}
 	else {
-		rotateArrow(pt, 4, ptPath, ptTo, ptTo);
+		RotateArrow(pt, 4, ptPath, ptTo, ptTo);
 	}
 
 	pDC->Polygon(pt, 4);
@@ -279,7 +279,7 @@ void iLink::drawRectangles(CDC* pDC)
 	penLine.DeleteObject();
 }
 
-void iLink::drawTriangles(CDC* pDC)
+void iLink::DrawTriangleArrows(CDC* pDC)
 {
 	CBrush* pOldBrs;
 	CBrush brs(colorLine);
@@ -318,7 +318,7 @@ void iLink::drawTriangles(CDC* pDC)
 		break;
 	}
 
-	if (isSingle() || isDual()) {
+	if (IsOneWay() || IsTwoWay()) {
 		CPoint pt[3];
 		pt[0].x = ptTo.x;
 		pt[0].y = ptTo.y;
@@ -329,14 +329,14 @@ void iLink::drawTriangles(CDC* pDC)
 
 		if (keyFrom != keyTo) {
 			if (!curved_) {
-				rotateArrow(pt, 3, ptFrom, ptTo, ptTo);
+				RotateArrow(pt, 3, ptFrom, ptTo, ptTo);
 			}
 			else {
-				rotateArrow(pt, 3, ptPath, ptTo, ptTo);
+				RotateArrow(pt, 3, ptPath, ptTo, ptTo);
 			}
 		}
 		else {
-			rotateArrow(pt, 3, ptPath, ptTo, ptTo);
+			RotateArrow(pt, 3, ptPath, ptTo, ptTo);
 		}
 		if (styleArrow == iLink::arrow || styleArrow == iLink::arrow2 ||
 			styleArrow == iLink::inherit) {
@@ -349,7 +349,7 @@ void iLink::drawTriangles(CDC* pDC)
 			pDC->LineTo(pt[2]);
 		}
 	}
-	if (isDual()) {
+	if (IsTwoWay()) {
 		CPoint pt[3];
 		pt[0].x = ptFrom.x;
 		pt[0].y = ptFrom.y;
@@ -360,14 +360,14 @@ void iLink::drawTriangles(CDC* pDC)
 
 		if (keyFrom != keyTo) {
 			if (!curved_) {
-				rotateArrow(pt, 3, ptTo, ptFrom, ptFrom);
+				RotateArrow(pt, 3, ptTo, ptFrom, ptFrom);
 			}
 			else {
-				rotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
+				RotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
 			}
 		}
 		else {
-			rotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
+			RotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
 		}
 		if (styleArrow == iLink::arrow2) {
 			pDC->Polygon(pt, 3);
@@ -385,7 +385,7 @@ void iLink::drawTriangles(CDC* pDC)
 	penLine.DeleteObject();
 }
 
-void iLink::rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg)
+void iLink::RotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg)
 {
 	double c, s;
 	double r = sqrt(pow((double)(pTo.x - pFrom.x), 2) + pow((double)(pTo.y - pFrom.y), 2));
@@ -405,31 +405,31 @@ void iLink::rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CP
 	}
 }
 
-const bool iLink::isDual() const
+const bool iLink::IsTwoWay() const
 {
 	return (styleArrow == iLink::arrow2 || styleArrow == iLink::depend2);
 }
 
-const bool iLink::isSingle() const
+const bool iLink::IsOneWay() const
 {
 	return (styleArrow == iLink::arrow || styleArrow == iLink::depend ||
 		styleArrow == iLink::inherit || styleArrow == iLink::aggregat ||
 		styleArrow == iLink::composit);
 }
 
-void iLink::setConnectPoint()
+void iLink::SetConnectionPoint()
 {
 	CPoint gFrom = rcFrom.CenterPoint();
 	CPoint gTo = rcTo.CenterPoint();
 
 	if (keyFrom != keyTo) {
 		if (!curved_) {
-			ptFrom = getClossPoint(rcFrom, gTo);
-			ptTo = getClossPoint(rcTo, gFrom);
+			ptFrom = GetIntersection(rcFrom, gTo);
+			ptTo = GetIntersection(rcTo, gFrom);
 		}
 		else {
-			ptFrom = getClossPoint(rcFrom, ptPath);
-			ptTo = getClossPoint(rcTo, ptPath);
+			ptFrom = GetIntersection(rcFrom, ptPath);
+			ptTo = GetIntersection(rcTo, ptPath);
 		}
 	}
 	else {
@@ -495,7 +495,7 @@ void iLink::Serialize(CArchive &ar)
 			curved_ = false;
 		}
 		if (keyFrom == keyTo) {
-			setConnectPoint();
+			SetConnectionPoint();
 		}
 	}
 }
@@ -532,12 +532,12 @@ void iLink::SerializeEx(CArchive& ar, int version)
 		}
 		curved_ = (curve > 0);
 		if (keyFrom == keyTo) {
-			setConnectPoint();
+			SetConnectionPoint();
 		}
 	}
 }
 
-CPoint iLink::getClossPoint(const CRect &target, const CPoint &start)
+CPoint iLink::GetIntersection(const CRect &target, const CPoint &start)
 {
 	CPoint g((target.left + target.right) / 2, (target.top + target.bottom) / 2);
 
@@ -802,7 +802,7 @@ void iLink::ReverseDirection()
 	keyTo = kfrom;
 	rcFrom = rto;
 	rcTo = rfrom;
-	setConnectPoint();
+	SetConnectionPoint();
 }
 
 // iLinks : iLinks クラスのインプリメンテーション
