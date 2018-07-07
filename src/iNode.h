@@ -13,23 +13,23 @@ class iNode : public CObject
 {
 	DECLARE_SERIAL(iNode)
 public:
-	bool isDragging() const;
-	void setDragging(bool dragging = true);
-	void fitSize();
-	int getScrollPos() const;
-	void setScrollPos(int pos);
-	int getMarginL() const;
-	int getMarginR() const;
-	int getMarginT() const;
-	int getMarginB() const;
-	void setMarginL(int margin);
-	void setMarginR(int margin);
-	void setMarginT(int margin);
-	void setMarginB(int margin);
-	void setTreeIconId(int id);
-	int getTreeIconId() const;
-	void setDrawOrder(int drawOrder);
-	int getDrawOrder() const;
+	bool Dragging() const;
+	void SetDragging(bool dragging = true);
+	void FitSizeToLabel();
+	int GetTextTopPos() const;
+	void SetTextTopPos(int pos);
+	int GetMarginLeft() const;
+	int GetMarginRight() const;
+	int GetMarginTop() const;
+	int GetMarginBottom() const;
+	void SetMarginLeft(int margin);
+	void SetMarginRight(int margin);
+	void SetMarginTop(int margin);
+	void SetMarginBottom(int margin);
+	void SetTreeIconId(int id);
+	int GetTreeIconId() const;
+	void SetDrawOrder(int drawOrder);
+	int GetDrawOrder() const;
 	void restoreState();
 	void backupState();
 	void setInChain(bool bChain = true);
@@ -177,73 +177,73 @@ private:
 	CSize getNodeTextSize();
 };
 
-inline int iNode::getScrollPos() const
+inline int iNode::GetTextTopPos() const
 {
 	return scrollpos_;
 }
 
-inline void iNode::setScrollPos(int pos)
+inline void iNode::SetTextTopPos(int pos)
 {
 	scrollpos_ = pos;
 }
 
-inline void iNode::setMarginB(int margin)
+inline void iNode::SetMarginBottom(int margin)
 {
 	margin_b_ = margin;
 }
 
-inline int iNode::getMarginB() const
+inline int iNode::GetMarginBottom() const
 {
 	return margin_b_;
 }
 
-inline void iNode::setMarginT(int margin)
+inline void iNode::SetMarginTop(int margin)
 {
 	margin_t_ = margin;
 }
 
-inline int iNode::getMarginT() const
+inline int iNode::GetMarginTop() const
 {
 	return margin_t_;
 }
 
-inline void iNode::setMarginR(int margin)
+inline void iNode::SetMarginRight(int margin)
 {
 	margin_r_ = margin;
 }
 
-inline int iNode::getMarginR() const
+inline int iNode::GetMarginRight() const
 {
 	return margin_r_;
 }
 
-inline void iNode::setMarginL(int margin)
+inline void iNode::SetMarginLeft(int margin)
 {
 	margin_l_ = margin;
 }
 
-inline int iNode::getMarginL() const
+inline int iNode::GetMarginLeft() const
 {
 	return margin_l_;
 }
 
-inline void iNode::setTreeIconId(int id)
+inline void iNode::SetTreeIconId(int id)
 {
 	treeIconId_ = id;
 }
 
-inline int iNode::getTreeIconId() const
+inline int iNode::GetTreeIconId() const
 {
 	return treeIconId_;
 }
 
 
-inline void iNode::setDrawOrder(int drawOrder)
+inline void iNode::SetDrawOrder(int drawOrder)
 {
 	drawOrder_ = drawOrder;
 }
 
-inline int iNode::getDrawOrder() const
+inline int iNode::GetDrawOrder() const
 {
 	return drawOrder_;
 }

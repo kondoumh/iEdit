@@ -391,7 +391,7 @@ void iNode::restoreState()
 	fixed_ = fixed_back_;
 }
 
-void iNode::fitSize()
+void iNode::FitSizeToLabel()
 {
 	double height = 20.0*((double)bound_.Height()) / ((double)bound_.Width());
 	bound_.right = bound_.left + 20;
@@ -399,12 +399,12 @@ void iNode::fitSize()
 	adjustFont();
 }
 
-void iNode::setDragging(bool dragging)
+void iNode::SetDragging(bool dragging)
 {
 	dragging_ = dragging;
 }
 
-bool iNode::isDragging() const
+bool iNode::Dragging() const
 {
 	return dragging_;
 }
@@ -422,7 +422,7 @@ void iNodeDrawer::draw(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 	drawShape(node, pDC);
 	adjustTextArea(node);
 	drawLabel(node, pDC, bDrawOrderInfo);
-	if (node.isDragging()) {
+	if (node.Dragging()) {
 		drawDraggingTracker(node, pDC);
 	}
 
@@ -502,7 +502,7 @@ void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 		font.CreatePointFont(90, _T("MS Gothic"), pDC);
 		pOldFont = pDC->SelectObject(&font);
 		preColor = pDC->SetTextColor(RGB(90, 90, 90));
-		CString test; test.Format(_T("%d"), node.getDrawOrder());
+		CString test; test.Format(_T("%d"), node.GetDrawOrder());
 		pDC->TextOut(node.getBound().left + 2, node.getBound().top + 2, test);
 		pDC->SelectObject(pOldFont);
 		pDC->SetTextColor(preColor);
@@ -517,83 +517,83 @@ void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
 	switch (styleText) {
 	case iNode::s_cc:
 		nFormat = DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX;
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::s_cl:
 		nFormat = DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX;
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::s_cr:
 		nFormat = DT_RIGHT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX;
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::s_tc:
 		nFormat = DT_CENTER | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
-		m_textRect.top += node.getMarginT();
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.top += node.GetMarginTop();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::s_tl:
 		nFormat = DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
-		m_textRect.top += node.getMarginT();
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.top += node.GetMarginTop();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::s_tr:
 		nFormat = DT_RIGHT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX;
-		m_textRect.top += node.getMarginT();
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.top += node.GetMarginTop();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::s_bc:
 		nFormat = DT_CENTER | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
-		m_textRect.bottom -= node.getMarginB();
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.bottom -= node.GetMarginBottom();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::s_bl:
 		nFormat = DT_LEFT | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
-		m_textRect.bottom -= node.getMarginB();
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.bottom -= node.GetMarginBottom();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::s_br:
 		nFormat = DT_RIGHT | DT_BOTTOM | DT_SINGLELINE | DT_NOPREFIX;
-		m_textRect.bottom -= node.getMarginB();
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.bottom -= node.GetMarginBottom();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::m_c:
 		nFormat = DT_CENTER | DT_WORDBREAK | DT_NOPREFIX;
-		m_textRect.top += node.getMarginT();
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.top += node.GetMarginTop();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::m_l:
 		nFormat = DT_LEFT | DT_WORDBREAK | DT_NOPREFIX;
-		m_textRect.top += node.getMarginT();
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.top += node.GetMarginTop();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 
 	case iNode::m_r:
 		nFormat = DT_RIGHT | DT_WORDBREAK | DT_NOPREFIX;
-		m_textRect.top += node.getMarginT();
-		m_textRect.left += node.getMarginL();
-		m_textRect.right -= node.getMarginR();
+		m_textRect.top += node.GetMarginTop();
+		m_textRect.left += node.GetMarginLeft();
+		m_textRect.right -= node.GetMarginRight();
 		break;
 	case iNode::notext:
 		break;
@@ -1046,7 +1046,7 @@ void iNodes::setSelectedNodeTreeIconId(int id)
 {
 	niterator it = findNodeW(selKey_);
 	if (it != end()) {
-		(*it).second.setTreeIconId(id);
+		(*it).second.SetTreeIconId(id);
 	}
 }
 
@@ -1091,7 +1091,7 @@ int iNodes::selectNodesInBound(const CRect &bound, CRect &selRect, bool bDrwAll)
 
 bool orderComp(const iNode* n1, const iNode* n2)
 {
-	return n1->getDrawOrder() < n2->getDrawOrder();
+	return n1->GetDrawOrder() < n2->GetDrawOrder();
 }
 
 CString iNodes::createClickableMapString(const CString& fileName, bool singleText)
@@ -1134,7 +1134,7 @@ void iNodes::setVisibleNodes(DWORD key)
 			if (ik != svec_.end()) {
 				order = std::distance(svec_.begin(), ik);
 			}
-			(*it).second.setDrawOrder(order);
+			(*it).second.SetDrawOrder(order);
 			nodesDraw_.push_back(&((*it).second));
 		}
 	}
@@ -1169,7 +1169,7 @@ void iNodes::setVisibleNodes(NodeKeySet& keySet)
 			if (ik != svec_.end()) {
 				order = std::distance(svec_.begin(), ik);
 			}
-			(*nit).second.setDrawOrder(order);
+			(*nit).second.SetDrawOrder(order);
 			nodesDraw_.push_back(&((*nit).second));
 		}
 	}
@@ -1380,10 +1380,10 @@ void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
 	niterator it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
-			(*it).second.setMarginL(l);
-			(*it).second.setMarginR(r);
-			(*it).second.setMarginT(t);
-			(*it).second.setMarginB(b);
+			(*it).second.SetMarginLeft(l);
+			(*it).second.SetMarginRight(r);
+			(*it).second.SetMarginTop(t);
+			(*it).second.SetMarginBottom(b);
 		}
 	}
 }
@@ -1393,7 +1393,7 @@ void iNodes::setSelectedLinkDragging(bool dragging)
 	niterator it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.isSelected()) {
-			(*it).second.setDragging(dragging);
+			(*it).second.SetDragging(dragging);
 			return;
 		}
 	}

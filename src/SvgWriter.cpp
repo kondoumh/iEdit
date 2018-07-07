@@ -185,18 +185,18 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	CSize textSize = getNodeTextSize(node);
 
 	// text alignment
-	CString sTop; sTop.Format(_T("%d"), node.getBound().top + textSize.cy / 2 + 1 + node.getMarginT());
-	CString sBottom; sBottom.Format(_T("%d"), node.getBound().bottom - 1 - node.getMarginB());
+	CString sTop; sTop.Format(_T("%d"), node.getBound().top + textSize.cy / 2 + 1 + node.GetMarginTop());
+	CString sBottom; sBottom.Format(_T("%d"), node.getBound().bottom - 1 - node.GetMarginBottom());
 
 	CRect bound = node.getBound();
 	int r = (bound.Width() < bound.Height()) ? bound.Width() : bound.Height();
-	int left = node.getBound().left + 1 + node.getMarginL();
+	int left = node.getBound().left + 1 + node.GetMarginLeft();
 	if (node.getNodeShape() == iNode::roundRect) {
 		left += r / 8;
 	}
 	CString sLeft; sLeft.Format(_T("%d"), left);
 
-	int right = node.getBound().right - 1 - node.getMarginR();
+	int right = node.getBound().right - 1 - node.GetMarginRight();
 	if (node.getNodeShape() == iNode::roundRect) {
 		right -= r / 8;
 	}
@@ -281,7 +281,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		CString sDx; sDx.Format(_T("%d"), textSize.cy);
 		vector<CString> lines = splitTSpan(node.getName(),
 			textSize.cx,
-			node.getBound().Width() - node.getMarginL() - node.getMarginR());
+			node.getBound().Width() - node.GetMarginLeft() - node.GetMarginRight());
 		for (unsigned int i = 0; i < lines.size(); i++) {
 			MSXML2::IXMLDOMElementPtr pNtspan = pDoc->createElement(_T("tspan"));
 			if (i > 0) {

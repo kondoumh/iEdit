@@ -294,7 +294,7 @@ void iEditDoc::CopyNodeLabels(NodePropsVec &v)
 		l.parent = (*it).second.getParent();
 		l.state = (*it).second.getTreeState();
 		l.level = (*it).second.getLevel();
-		l.treeIconId = (*it).second.getTreeIconId();
+		l.treeIconId = (*it).second.GetTreeIconId();
 		v.push_back(l);
 	}
 	sv.clear();
@@ -583,7 +583,7 @@ void iEditDoc::SetCurrentNodeText(CString &s, int scrollPos)
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
 		(*it).second.setText(s);
-		(*it).second.setScrollPos(scrollPos);
+		(*it).second.SetTextTopPos(scrollPos);
 	}
 	// Undo 処理のためのメッセージを飛ばす方が良い。
 }
@@ -627,7 +627,7 @@ void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 		BOOL bInBound = bound.PtInRect((*it).second.getBound().TopLeft()) &&
 			bound.PtInRect((*it).second.getBound().BottomRight());
 		if (bInBound) {
-			if ((*it).second.getDrawOrder() > (*itSelected).second.getDrawOrder()) {
+			if ((*it).second.GetDrawOrder() > (*itSelected).second.GetDrawOrder()) {
 				(*it).second.moveBound(move);
 				keySet.insert((*it).second.getKey());
 				moved = true;
@@ -1834,7 +1834,7 @@ void iEditDoc::DuplicateNodes(const CPoint& pt, bool useDefault)
 		SetModifiedFlag();
 		iHint hint; hint.event = iHint::rectAdd;
 		hint.str = n.getName();
-		hint.treeIconId = n.getTreeIconId();
+		hint.treeIconId = n.GetTreeIconId();
 		UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
 	}
 	copyOrg.clear();
@@ -4619,9 +4619,9 @@ void iEditDoc::MigrateGroup()
 		BOOL bInBound = bound.PtInRect(r.TopLeft()) &&
 			bound.PtInRect(r.BottomRight());
 		if (bInBound) {
-			if (drawOrder < (*itr).second.getDrawOrder()) {
+			if (drawOrder < (*itr).second.GetDrawOrder()) {
 				key = (*itr).second.getKey();
-				drawOrder = (*itr).second.getDrawOrder();
+				drawOrder = (*itr).second.GetDrawOrder();
 			}
 		}
 	}
@@ -4653,10 +4653,10 @@ void iEditDoc::ApplyFormatToSelectedNode()
 		(*n).second.setMetaFile(hMetaFile);
 	}
 	(*n).second.setNodeShape(m_nodeForFormat.getNodeShape());
-	(*n).second.setMarginL(m_nodeForFormat.getMarginL());
-	(*n).second.setMarginR(m_nodeForFormat.getMarginR());
-	(*n).second.setMarginT(m_nodeForFormat.getMarginT());
-	(*n).second.setMarginB(m_nodeForFormat.getMarginB());
+	(*n).second.SetMarginLeft(m_nodeForFormat.GetMarginLeft());
+	(*n).second.SetMarginRight(m_nodeForFormat.GetMarginRight());
+	(*n).second.SetMarginTop(m_nodeForFormat.GetMarginTop());
+	(*n).second.SetMarginBottom(m_nodeForFormat.GetMarginBottom());
 	SetConnectionPoint();
 	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
@@ -4730,10 +4730,10 @@ void iEditDoc::GetSelectedNodeMargin(int& l, int & r, int& t, int& b) const
 {
 	const_niterator nit = nodes_.getSelectedNodeR();
 	if (nit != nodes_.end()) {
-		l = (*nit).second.getMarginL();
-		r = (*nit).second.getMarginR();
-		t = (*nit).second.getMarginT();
-		b = (*nit).second.getMarginB();
+		l = (*nit).second.GetMarginLeft();
+		r = (*nit).second.GetMarginRight();
+		t = (*nit).second.GetMarginTop();
+		b = (*nit).second.GetMarginBottom();
 	}
 }
 
@@ -4807,7 +4807,7 @@ void iEditDoc::FitSelectedNodeSize()
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
 		if ((*it).second.isSelected()) {
-			(*it).second.fitSize();
+			(*it).second.FitSizeToLabel();
 		}
 	}
 	SetModifiedFlag();
@@ -4822,7 +4822,7 @@ int iEditDoc::GetSelectedNodeScrollPos() const
 {
 	const_niterator it = nodes_.getSelectedNodeR();
 	if (it != nodes_.end()) {
-		return (*it).second.getScrollPos();
+		return (*it).second.GetTextTopPos();
 	}
 	return 0;
 }
@@ -4831,7 +4831,7 @@ void iEditDoc::SetSelectedNodeScrollPos(int pos)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		(*it).second.setScrollPos(pos);
+		(*it).second.SetTextTopPos(pos);
 	}
 }
 
