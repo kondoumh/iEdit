@@ -72,8 +72,6 @@ public:
 	iLink(const iLink& l);
 	bool CanDraw() const;
 	void SetDrawable(bool drw = true);
-	bool Deleted() const;
-	void Delete();
 	void SetNodes(const CRect& rcf, const CRect& rct, DWORD keyf, DWORD keyt);
 	void DrawArrow(CDC* pDC);
 	void DrawLine(CDC* pDC);
@@ -129,6 +127,8 @@ private:
 	bool bChain_;
 	bool dropTarget_;
 
+	bool Deleted() const;
+	void Delete();
 	const bool IsRectTermLink() const;
 	const bool IsTwoWay() const;
 	const bool IsOneWay() const;
