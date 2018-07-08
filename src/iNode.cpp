@@ -363,7 +363,7 @@ bool iNode::operator <(iNode &n)
 	return key_ < n.key_;
 }
 
-void iNode::setMetaFile(HENHMETAFILE& hMF)
+void iNode::SetMetaFile(HENHMETAFILE& hMF)
 {
 	hMF_ = CopyEnhMetaFile(hMF, NULL);
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
@@ -376,7 +376,7 @@ void iNode::setMetaFile(HENHMETAFILE& hMF)
 }
 
 
-HENHMETAFILE iNode::getMetaFile() const
+HENHMETAFILE iNode::GetMetaFile() const
 {
 	return hMF_;
 }
@@ -742,7 +742,7 @@ void iNodeArcDrawer::adjustTextArea(const iNode &node)
 //////////////////////////////////////////////////////////////////////
 void iNodeMetafileDrawer::drawShape(const iNode &node, CDC *pDC)
 {
-	pDC->PlayMetaFile(node.getMetaFile(), node.getBound());
+	pDC->PlayMetaFile(node.GetMetaFile(), node.getBound());
 }
 
 void iNodeMetafileDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
@@ -1208,7 +1208,7 @@ void iNodes::setSelectedNodeShape(int shape)
 			(*it).second.setNodeShape(shape);
 			if (shape > 9) {
 				CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-				(*it).second.setMetaFile(pApp->m_hMetaFiles[shape - 10]);
+				(*it).second.SetMetaFile(pApp->m_hMetaFiles[shape - 10]);
 			}
 		}
 	}
@@ -1219,7 +1219,7 @@ BOOL iNodes::isSelectedNodeFixed() const
 	const_niterator it = findNode(selKey_);
 	BOOL fix = FALSE;
 	if (it != end()) {
-		fix = (*it).second.isFixed();
+		fix = (*it).second.Fixed();
 	}
 	return fix;
 }
@@ -1228,7 +1228,7 @@ void iNodes::setSelectedNodeFixed(BOOL f)
 {
 	niterator it = findNodeW(selKey_);
 	if (it != end()) {
-		(*it).second.fix(f);
+		(*it).second.Fix(f);
 	}
 }
 
@@ -1325,7 +1325,7 @@ void iNodes::fixNodesReversibly(DWORD keyExcluded)
 		if ((*it).second.IsInChain()) {
 			(*it).second.BackupFixState();
 			if ((*it).second.getKey() != keyExcluded) {
-				(*it).second.fix();
+				(*it).second.Fix();
 			}
 		}
 	}

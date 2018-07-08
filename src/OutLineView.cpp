@@ -574,14 +574,14 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 	DWORD preKey = rootKey;
 	HTREEITEM hParent = hRoot;
 	HTREEITEM hSel = hParent;
-	int prevLevel = addNodes[0].getLevel();
+	int prevLevel = addNodes[0].GetLevel();
 	HTREEITEM hPrevNew = hNew;
 	for (unsigned int i = 1; i < addNodes.size(); i++) {
 		preKey = addNodes[i - 1].getKey();
 		hPrevNew = hNew;
-		prevLevel = addNodes[i - 1].getLevel();
-		if (prevLevel > addNodes[i].getLevel()) {
-			unsigned int diff = prevLevel - addNodes[i].getLevel();
+		prevLevel = addNodes[i - 1].GetLevel();
+		if (prevLevel > addNodes[i].GetLevel()) {
+			unsigned int diff = prevLevel - addNodes[i].GetLevel();
 
 			HTREEITEM hIt = hPrevNew;
 			HTREEITEM hItParent = tree().GetParentItem(hIt);
@@ -592,7 +592,7 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hItParent);
 			hParent = hItParent;
 		}
-		else if (prevLevel < addNodes[i].getLevel()) {
+		else if (prevLevel < addNodes[i].GetLevel()) {
 			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hPrevNew);
 			hParent = hPrevNew;
 		}
@@ -2261,7 +2261,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 			node.setKey(GetDocument()->AssignNewKey());
 			node.setParent(tree().GetItemData(curItem()));
 			node.moveBound(mvSz);
-			node.setLevel(curLevel);
+			node.SetLevel(curLevel);
 			addNodes.push_back(node);
 
 			text = _T("");
@@ -2283,7 +2283,7 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 		node.setKey(GetDocument()->AssignNewKey());
 		node.setParent(tree().GetItemData(curItem()));
 		node.moveBound(mvSz);
-		node.setLevel(curLevel);
+		node.SetLevel(curLevel);
 		addNodes.push_back(node);
 	}
 

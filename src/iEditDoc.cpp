@@ -293,7 +293,7 @@ void iEditDoc::CopyNodeLabels(NodePropsVec &v)
 		l.key = (*it).second.getKey();
 		l.parent = (*it).second.getParent();
 		l.state = (*it).second.getTreeState();
-		l.level = (*it).second.getLevel();
+		l.level = (*it).second.GetLevel();
 		l.treeIconId = (*it).second.GetTreeIconId();
 		v.push_back(l);
 	}
@@ -1025,7 +1025,7 @@ void iEditDoc::AddShapeNode(const CString &name, const CPoint &pt, int mfIndex, 
 	n.setParent(nodes_.getCurParent());
 	n.setNodeShape(iNode::MetaFile);
 	n.moveBound(CSize(pt.x, pt.y));
-	n.setMetaFile(mh);
+	n.SetMetaFile(mh);
 	n.setTextStyle(iNode::notext);
 	nodes_[n.getKey()] = n;
 
@@ -1533,7 +1533,7 @@ void iEditDoc::SetNodeRelax(CRelaxThrd *r)
 			iBound b;
 			b.key = e.from;
 			b.label = (*itFrom).second.getName();
-			b.fixed = (*itFrom).second.isFixed();
+			b.fixed = (*itFrom).second.Fixed();
 			b.oldBound = (*itFrom).second.getBound();
 			b.newBound = b.oldBound;
 			r->bounds.insert(b);
@@ -1541,7 +1541,7 @@ void iEditDoc::SetNodeRelax(CRelaxThrd *r)
 			iBound b2;
 			b2.key = e.to;
 			b2.label = (*itTo).second.getName();
-			b2.fixed = (*itTo).second.isFixed();
+			b2.fixed = (*itTo).second.Fixed();
 			b2.oldBound = (*itTo).second.getBound();
 			b2.newBound = b2.oldBound;
 			r->bounds.insert(b2);
@@ -1863,7 +1863,7 @@ void iEditDoc::SetSelectedNodeShape(int shape, int mfIndex)
 		niterator it = nodes_.getSelectedNode();
 		if (it != nodes_.end()) {
 			CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-			(*it).second.setMetaFile(pApp->m_hMetaFiles[mfIndex]);
+			(*it).second.SetMetaFile(pApp->m_hMetaFiles[mfIndex]);
 			SetConnectionPoint();
 		}
 	}
@@ -1879,7 +1879,7 @@ void iEditDoc::SetSelectedNodeMetaFile(HENHMETAFILE metafile)
 		BackupNodesForUndo();
 		BackupLinksForUndo();
 		(*it).second.setNodeShape(iNode::MetaFile);
-		(*it).second.setMetaFile(metafile);
+		(*it).second.SetMetaFile(metafile);
 		SetConnectionPoint();
 		SetModifiedFlag();
 		iHint h; h.event = iHint::nodeStyleChanged;
@@ -2337,7 +2337,7 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 							CString sLevel(s);
 							int nLevel;
 							sscanf(sLevel, "%d", &nLevel);
-							nodesImport[nodesImport.size()-1].setLevel(nLevel); */
+							nodesImport[nodesImport.size()-1].SetLevel(nLevel); */
 				}
 				else if (ename2 == _T("label")) {
 					childnode2->firstChild->get_text(&s);
@@ -2776,7 +2776,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 		f.WriteString(ids);
 
 		CString sLevel;
-		sLevel.Format(_T("\t\t<level>%d</level>\n"), (*it).second.getLevel());
+		sLevel.Format(_T("\t\t<level>%d</level>\n"), (*it).second.GetLevel());
 		f.WriteString(sLevel);
 
 		f.WriteString(_T("\t\t<label>"));
@@ -3518,7 +3518,7 @@ HENHMETAFILE iEditDoc::GetSelectedNodeMetaFile()
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		return (*it).second.getMetaFile();
+		return (*it).second.GetMetaFile();
 	}
 	return NULL;
 }
@@ -3915,7 +3915,7 @@ void iEditDoc::SetNodeLevel(const DWORD key, const int nLevel)
 	if (it == nodes_.end()) {
 		return;
 	}
-	(*it).second.setLevel(nLevel);
+	(*it).second.SetLevel(nLevel);
 }
 
 
@@ -3953,12 +3953,12 @@ void iEditDoc::CalcEdges()
 			// preBoundの値を初期化
 			if (!(*li).IsInChain()) continue;
 			niterator itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-			(*itFrom).second.setBoundPre((*itFrom).second.getBound());
+			(*itFrom).second.SetPrevBound((*itFrom).second.getBound());
 			(*itFrom).second.dx = 0.0;
 			(*itFrom).second.dy = 0.0;
 
 			niterator itTo = nodes_.findNodeW((*li).GetToNodeKey());
-			(*itTo).second.setBoundPre((*itTo).second.getBound());
+			(*itTo).second.SetPrevBound((*itTo).second.getBound());
 			(*itTo).second.dx = 0.0;
 			(*itTo).second.dy = 0.0;
 		}
@@ -3989,7 +3989,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 				rc.bottom = height;
 			}
 
-			(*ni).second.setBoundPre((*ni).second.getBoundPre());
+			(*ni).second.SetPrevBound((*ni).second.GetPrevBound());
 			(*ni).second.setBound(rc);
 			break;
 		}
@@ -4008,10 +4008,10 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 		niterator itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
 		niterator itTo = nodes_.findNodeW((*li).GetToNodeKey());
 
-		double gxto = (*itTo).second.getBoundPre().CenterPoint().x;
-		double gyto = (*itTo).second.getBoundPre().CenterPoint().y;
-		double gxfrom = (*itFrom).second.getBoundPre().CenterPoint().x;
-		double gyfrom = (*itFrom).second.getBoundPre().CenterPoint().y;
+		double gxto = (*itTo).second.GetPrevBound().CenterPoint().x;
+		double gyto = (*itTo).second.GetPrevBound().CenterPoint().y;
+		double gxfrom = (*itFrom).second.GetPrevBound().CenterPoint().x;
+		double gyfrom = (*itFrom).second.GetPrevBound().CenterPoint().y;
 
 		double vx = gxto - gxfrom;
 		double vy = gyto - gyfrom;
@@ -4039,10 +4039,10 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 			if (!(*nit2).second.isVisible()) continue;
 			if (!(*nit2).second.IsInChain()) continue;
 
-			double gx1 = (*nit1).second.getBoundPre().CenterPoint().x;
-			double gy1 = (*nit1).second.getBoundPre().CenterPoint().y;
-			double gx2 = (*nit2).second.getBoundPre().CenterPoint().x;
-			double gy2 = (*nit2).second.getBoundPre().CenterPoint().y;
+			double gx1 = (*nit1).second.GetPrevBound().CenterPoint().x;
+			double gy1 = (*nit1).second.GetPrevBound().CenterPoint().y;
+			double gx2 = (*nit2).second.GetPrevBound().CenterPoint().x;
+			double gy2 = (*nit2).second.GetPrevBound().CenterPoint().y;
 
 			double vx = gx1 - gx2;
 			double vy = gy1 - gy2;
@@ -4071,18 +4071,18 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 		if ((*nit).second.isSelected()) continue;
 		double x = max(-5, min(5, (*nit).second.dx));
 		double y = max(-5, min(5, (*nit).second.dy));
-		CRect rc = (*nit).second.getBoundPre();
+		CRect rc = (*nit).second.GetPrevBound();
 		rc.OffsetRect((int)x, (int)y);
 		// 領域のチェック
 		if (rc.left < 0) {
-			rc.right = (*nit).second.getBoundPre().Width();
+			rc.right = (*nit).second.GetPrevBound().Width();
 			rc.left = 0;
 		}
 		if (rc.top < 0) {
-			rc.bottom = (*nit).second.getBoundPre().Height();
+			rc.bottom = (*nit).second.GetPrevBound().Height();
 			rc.top = 0;
 		}
-		if (!(*nit).second.isFixed() && !(*nit).second.isSelected()) {
+		if (!(*nit).second.Fixed() && !(*nit).second.isSelected()) {
 			(*nit).second.setBound(rc);
 		}
 		(*nit).second.dx /= 2;
@@ -4093,7 +4093,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 	for (; it != nodes_.end(); it++) {
 		if (!(*it).second.isVisible()) continue;
 		if (!(*it).second.IsInChain()) continue;
-		(*it).second.setBoundPre((*it).second.getBound());
+		(*it).second.SetPrevBound((*it).second.getBound());
 	}
 	SetConnectionPointForLayout();
 }
@@ -4358,10 +4358,10 @@ void iEditDoc::RelaxSingleStep2()
 		niterator itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
 		niterator itTo = nodes_.findNodeW((*li).GetToNodeKey());
 
-		double gxto = (*itTo).second.getBoundPre().CenterPoint().x;
-		double gyto = (*itTo).second.getBoundPre().CenterPoint().y;
-		double gxfrom = (*itFrom).second.getBoundPre().CenterPoint().x;
-		double gyfrom = (*itFrom).second.getBoundPre().CenterPoint().y;
+		double gxto = (*itTo).second.GetPrevBound().CenterPoint().x;
+		double gyto = (*itTo).second.GetPrevBound().CenterPoint().y;
+		double gxfrom = (*itFrom).second.GetPrevBound().CenterPoint().x;
+		double gyfrom = (*itFrom).second.GetPrevBound().CenterPoint().y;
 
 		double vx = gxto - gxfrom;
 		double vy = gyto - gyfrom;
@@ -4389,10 +4389,10 @@ void iEditDoc::RelaxSingleStep2()
 			if (!(*nit2).second.isVisible()) continue;
 			if (!(*nit2).second.IsInChain()) continue;
 
-			double gx1 = (*nit1).second.getBoundPre().CenterPoint().x;
-			double gy1 = (*nit1).second.getBoundPre().CenterPoint().y;
-			double gx2 = (*nit2).second.getBoundPre().CenterPoint().x;
-			double gy2 = (*nit2).second.getBoundPre().CenterPoint().y;
+			double gx1 = (*nit1).second.GetPrevBound().CenterPoint().x;
+			double gy1 = (*nit1).second.GetPrevBound().CenterPoint().y;
+			double gx2 = (*nit2).second.GetPrevBound().CenterPoint().x;
+			double gy2 = (*nit2).second.GetPrevBound().CenterPoint().y;
 
 			double vx = gx1 - gx2;
 			double vy = gy1 - gy2;
@@ -4420,18 +4420,18 @@ void iEditDoc::RelaxSingleStep2()
 		if (!(*nit).second.IsInChain()) continue;
 		double x = max(-5, min(5, (*nit).second.dx));
 		double y = max(-5, min(5, (*nit).second.dy));
-		CRect rc = (*nit).second.getBoundPre();
+		CRect rc = (*nit).second.GetPrevBound();
 		rc.OffsetRect((int)x, (int)y);
 		// 領域のチェック
 		if (rc.left < 0) {
-			rc.right = (*nit).second.getBoundPre().Width();
+			rc.right = (*nit).second.GetPrevBound().Width();
 			rc.left = 0;
 		}
 		if (rc.top < 0) {
-			rc.bottom = (*nit).second.getBoundPre().Height();
+			rc.bottom = (*nit).second.GetPrevBound().Height();
 			rc.top = 0;
 		}
-		if (!(*nit).second.isFixed()) {
+		if (!(*nit).second.Fixed()) {
 			/*const_cast<iNode&>*/(*nit).second.setBound(rc);
 		}
 		/*const_cast<iNode&>*/(*nit).second.dx /= 2;
@@ -4442,7 +4442,7 @@ void iEditDoc::RelaxSingleStep2()
 	for (; it != nodes_.end(); it++) {
 		if (!(*it).second.isVisible()) continue;
 		if (!(*it).second.IsInChain()) continue;
-		/*const_cast<iNode&>*/(*it).second.setBoundPre((*it).second.getBound());
+		/*const_cast<iNode&>*/(*it).second.SetPrevBound((*it).second.getBound());
 	}
 	SetConnectionPointForLayout();
 }
@@ -4451,7 +4451,7 @@ int iEditDoc::GetKeyNodeLevelNumber(DWORD key)
 {
 	const_niterator it = nodes_.findNode(key);
 	if (it != nodes_.end()) {
-		return (*it).second.getLevel();
+		return (*it).second.GetLevel();
 	}
 	return -1;
 }
@@ -4649,8 +4649,8 @@ void iEditDoc::ApplyFormatToSelectedNode()
 	(*n).second.setFontColor(m_nodeForFormat.getFontColor());
 	(*n).second.setFontInfo(m_nodeForFormat.getFontInfo());
 	if (m_nodeForFormat.getNodeShape() == iNode::MetaFile) {
-		HENHMETAFILE hMetaFile = m_nodeForFormat.getMetaFile();
-		(*n).second.setMetaFile(hMetaFile);
+		HENHMETAFILE hMetaFile = m_nodeForFormat.GetMetaFile();
+		(*n).second.SetMetaFile(hMetaFile);
 	}
 	(*n).second.setNodeShape(m_nodeForFormat.getNodeShape());
 	(*n).second.SetMarginLeft(m_nodeForFormat.GetMarginLeft());

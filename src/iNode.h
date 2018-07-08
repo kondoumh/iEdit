@@ -34,15 +34,15 @@ public:
 	void BackupFixState();
 	void SetInChain(bool bChain = true);
 	const bool IsInChain() const;
+	const CRect& GetPrevBound() const;
+	void SetPrevBound(const CRect& r);
+	HENHMETAFILE GetMetaFile() const;
+	void SetLevel(const int nLevel);
+	const int GetLevel() const;
+	void SetMetaFile(HENHMETAFILE& hMF);
+	void Fix(BOOL f = TRUE);
+	BOOL Fixed() const;
 
-	const CRect& getBoundPre() const;
-	void setBoundPre(const CRect& r);
-	HENHMETAFILE getMetaFile() const;
-	void setLevel(const int nLevel);
-	const int getLevel() const;
-	void setMetaFile(HENHMETAFILE& hMF);
-	void fix(BOOL f = TRUE);
-	BOOL isFixed() const;
 	iNode(const CString& name);
 	double dy;
 	double dx;
@@ -248,22 +248,22 @@ inline int iNode::GetDrawOrder() const
 	return drawOrder_;
 }
 
-inline void iNode::setLevel(const int nLevel)
+inline void iNode::SetLevel(const int nLevel)
 {
 	nLevel_ = nLevel;
 }
 
-inline const int iNode::getLevel() const
+inline const int iNode::GetLevel() const
 {
 	return nLevel_;
 }
 
-inline BOOL iNode::isFixed() const
+inline BOOL iNode::Fixed() const
 {
 	return fixed_;
 }
 
-inline void iNode::fix(BOOL f) {
+inline void iNode::Fix(BOOL f) {
 	fixed_ = f;
 }
 
@@ -449,12 +449,12 @@ inline void iNode::setNodeShape(int shape)
 	shape_ = shape;
 }
 
-inline const CRect& iNode::getBoundPre() const
+inline const CRect& iNode::GetPrevBound() const
 {
 	return boundPre_;
 }
 
-inline void iNode::setBoundPre(const CRect& r)
+inline void iNode::SetPrevBound(const CRect& r)
 {
 	boundPre_ = r;
 }
