@@ -30,10 +30,10 @@ public:
 	int GetTreeIconId() const;
 	void SetDrawOrder(int drawOrder);
 	int GetDrawOrder() const;
-	void restoreState();
-	void backupState();
-	void setInChain(bool bChain = true);
-	const bool isInChain() const;
+	void RestoreFixState();
+	void BackupFixState();
+	void SetInChain(bool bChain = true);
+	const bool IsInChain() const;
 
 	const CRect& getBoundPre() const;
 	void setBoundPre(const CRect& r);
@@ -459,12 +459,12 @@ inline void iNode::setBoundPre(const CRect& r)
 	boundPre_ = r;
 }
 
-inline void iNode::setInChain(bool bChain)
+inline void iNode::SetInChain(bool bChain)
 {
 	bChain_ = bChain;
 }
 
-inline const bool iNode::isInChain() const
+inline const bool iNode::IsInChain() const
 {
 	return bChain_;
 }

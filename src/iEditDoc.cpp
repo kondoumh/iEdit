@@ -4030,14 +4030,14 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 	niterator nit1 = nodes_.begin();
 	for (; nit1 != nodes_.end(); nit1++) {
 		if (!(*nit1).second.isVisible()) continue;
-		if (!(*nit1).second.isInChain()) continue;
+		if (!(*nit1).second.IsInChain()) continue;
 
 		double dx = 0; double dy = 0;
 		niterator nit2 = nodes_.begin();
 		for (; nit2 != nodes_.end(); nit2++) {
 			if (nit1 == nit2) { continue; }
 			if (!(*nit2).second.isVisible()) continue;
-			if (!(*nit2).second.isInChain()) continue;
+			if (!(*nit2).second.IsInChain()) continue;
 
 			double gx1 = (*nit1).second.getBoundPre().CenterPoint().x;
 			double gy1 = (*nit1).second.getBoundPre().CenterPoint().y;
@@ -4067,7 +4067,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 	niterator nit = nodes_.begin();
 	for (; nit != nodes_.end(); nit++) {
 		if (!(*nit).second.isVisible()) continue;
-		if (!(*nit).second.isInChain()) continue;
+		if (!(*nit).second.IsInChain()) continue;
 		if ((*nit).second.isSelected()) continue;
 		double x = max(-5, min(5, (*nit).second.dx));
 		double y = max(-5, min(5, (*nit).second.dy));
@@ -4092,7 +4092,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
 		if (!(*it).second.isVisible()) continue;
-		if (!(*it).second.isInChain()) continue;
+		if (!(*it).second.IsInChain()) continue;
 		(*it).second.setBoundPre((*it).second.getBound());
 	}
 	SetConnectionPointForLayout();
@@ -4104,7 +4104,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 	// 直前までのフラグをクリア
 	niterator nit = nodes_.begin();
 	for (; nit != nodes_.end(); nit++) {
-		(*nit).second.setInChain(false);
+		(*nit).second.SetInChain(false);
 	}
 	literator linit = links_.begin();
 	for (; linit != links_.end(); linit++) {
@@ -4143,7 +4143,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 					iNode nodeFind;
 					niterator nf = nodes_.find(pairKey);
 					if (nf != nodes_.end()) {
-						(*nf).second.setInChain();
+						(*nf).second.SetInChain();
 					}
 				}
 			}
@@ -4160,7 +4160,7 @@ CRect iEditDoc::GetChaindNodesBound() const
 	CRect rc = GetSelectedNodeRect();
 	const_niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if ((*it).second.isVisible() && (*it).second.isInChain()) {
+		if ((*it).second.isVisible() && (*it).second.IsInChain()) {
 			rc |= (*it).second.getBound();
 		}
 	}
@@ -4380,14 +4380,14 @@ void iEditDoc::RelaxSingleStep2()
 	niterator nit1 = nodes_.begin();
 	for (; nit1 != nodes_.end(); nit1++) {
 		if (!(*nit1).second.isVisible()) continue;
-		if (!(*nit1).second.isInChain()) continue;
+		if (!(*nit1).second.IsInChain()) continue;
 
 		double dx = 0; double dy = 0;
 		niterator nit2 = nodes_.begin();
 		for (; nit2 != nodes_.end(); nit2++) {
 			if (nit1 == nit2) { continue; }
 			if (!(*nit2).second.isVisible()) continue;
-			if (!(*nit2).second.isInChain()) continue;
+			if (!(*nit2).second.IsInChain()) continue;
 
 			double gx1 = (*nit1).second.getBoundPre().CenterPoint().x;
 			double gy1 = (*nit1).second.getBoundPre().CenterPoint().y;
@@ -4417,7 +4417,7 @@ void iEditDoc::RelaxSingleStep2()
 	niterator nit = nodes_.begin();
 	for (; nit != nodes_.end(); nit++) {
 		if (!(*nit).second.isVisible()) continue;
-		if (!(*nit).second.isInChain()) continue;
+		if (!(*nit).second.IsInChain()) continue;
 		double x = max(-5, min(5, (*nit).second.dx));
 		double y = max(-5, min(5, (*nit).second.dy));
 		CRect rc = (*nit).second.getBoundPre();
@@ -4441,7 +4441,7 @@ void iEditDoc::RelaxSingleStep2()
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
 		if (!(*it).second.isVisible()) continue;
-		if (!(*it).second.isInChain()) continue;
+		if (!(*it).second.IsInChain()) continue;
 		/*const_cast<iNode&>*/(*it).second.setBoundPre((*it).second.getBound());
 	}
 	SetConnectionPointForLayout();

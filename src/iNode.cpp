@@ -381,12 +381,12 @@ HENHMETAFILE iNode::getMetaFile() const
 	return hMF_;
 }
 
-void iNode::backupState()
+void iNode::BackupFixState()
 {
 	fixed_back_ = fixed_;
 }
 
-void iNode::restoreState()
+void iNode::RestoreFixState()
 {
 	fixed_ = fixed_back_;
 }
@@ -1322,8 +1322,8 @@ void iNodes::fixNodesReversibly(DWORD keyExcluded)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isInChain()) {
-			(*it).second.backupState();
+		if ((*it).second.IsInChain()) {
+			(*it).second.BackupFixState();
 			if ((*it).second.getKey() != keyExcluded) {
 				(*it).second.fix();
 			}
@@ -1335,9 +1335,9 @@ void iNodes::restoreNodesFixState(DWORD keyExcluded)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isInChain()) {
+		if ((*it).second.IsInChain()) {
 			if ((*it).second.getKey() != keyExcluded) {
-				(*it).second.restoreState();
+				(*it).second.RestoreFixState();
 			}
 		}
 	}
