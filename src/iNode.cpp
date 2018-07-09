@@ -24,17 +24,17 @@ static char THIS_FILE[] = __FILE__;
 
 iNode::iNode()
 {
-	init();
+	Init();
 }
 
 iNode::iNode(const CString &name)
 {
-	init();
+	Init();
 	name_ = name;
-	adjustFont(true);
+	AdjustFont(true);
 }
 
-void iNode::init()
+void iNode::Init()
 {
 	bound_.left = 0;
 	bound_.top = 0;
@@ -88,16 +88,16 @@ iNode::~iNode()
 
 iNode::iNode(const iNode & n)
 {
-	initCopy(n);
+	CopyProps(n);
 }
 
 iNode& iNode::operator =(const iNode &n)
 {
-	initCopy(n);
+	CopyProps(n);
 	return *this;
 }
 
-void iNode::initCopy(const iNode &n)
+void iNode::CopyProps(const iNode &n)
 {
 	bound_ = n.bound_;
 	key_ = n.key_;
@@ -244,20 +244,20 @@ void iNode::SetFontInfo(const LOGFONT &lf, bool resize)
 	double rate = (double)lf_.lfHeight / (double)pre;
 	double cx = ((double)(bound_.Width()))*rate;
 	double cy = ((double)(bound_.Height()))*rate;
-	adjustFont();
+	AdjustFont();
 }
 
 void iNode::SetName(const CString &name)
 {
 	name_ = name;
-	adjustFont();
+	AdjustFont();
 }
 
-void iNode::adjustFont(bool bForceResize)
+void iNode::AdjustFont(bool bForceResize)
 {
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize && !bForceResize) return;
 	if (styleText == iNode::notext) return;
-	CSize sz = getNodeTextSize();
+	CSize sz = GetNodeTextSize();
 	LONG hmargin = sz.cy * 4 / 7;
 	LONG wmargin = sz.cy;
 	if (!bfillcolor && styleLine == PS_NULL) {
@@ -279,17 +279,17 @@ void iNode::adjustFont(bool bForceResize)
 		int height = sz.cy + margin_t_;
 		if (bound_.Width()*bound_.Height() >= width * height) return;
 		if (name_.Find(_T("\n")) == -1) {
-			enhanceBoundGradualy(width*height);
+			ExpandBoundGradually(width*height);
 			bound_.bottom += (int)((double)hmargin);
 		}
 		else {
-			enhanceLineOriented(sz);
+			ExtendLineOriented(sz);
 		}
 		bound_.right += wmargin;
 	}
 }
 
-void iNode::enhanceBoundGradualy(int area)
+void iNode::ExpandBoundGradually(int area)
 {
 	double dw = bound_.Width();
 	double dh = bound_.Height();
@@ -303,10 +303,10 @@ void iNode::enhanceBoundGradualy(int area)
 	}
 }
 
-void iNode::enhanceLineOriented(const CSize& sz)
+void iNode::ExtendLineOriented(const CSize& sz)
 {
 	int lineCount, maxLength;
-	getInnerLineInfo(name_, lineCount, maxLength);
+	GetInnerLineInfo(name_, lineCount, maxLength);
 	int width = (int)((double)sz.cx*(((double)maxLength)) / ((double)(name_.GetLength())))
 		+ sz.cy + margin_l_ + margin_r_; // 1文字文余分にマージンをつけた
 	int height = sz.cy*(lineCount - 1) + margin_t_;
@@ -314,7 +314,7 @@ void iNode::enhanceLineOriented(const CSize& sz)
 	bound_.bottom = bound_.top + height;
 }
 
-void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
+void iNode::GetInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
 {
 	CToken tok(str + _T("\n"));
 	tok.SetToken(_T("\n"));
@@ -328,7 +328,7 @@ void iNode::getInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
 	}
 }
 
-CSize iNode::getNodeTextSize()
+CSize iNode::GetNodeTextSize()
 {
 	CWnd wnd;
 	CFont font; font.CreateFontIndirect(&lf_);
@@ -350,7 +350,7 @@ void iNode::SetTextStyle(int s)
 			bound_.bottom = bound_.top + 5;
 		}
 	}
-	adjustFont();
+	AdjustFont();
 }
 
 bool iNode::operator ==(iNode &n)
@@ -396,7 +396,7 @@ void iNode::FitSizeToLabel()
 	double height = 20.0*((double)bound_.Height()) / ((double)bound_.Width());
 	bound_.right = bound_.left + 20;
 	bound_.bottom = bound_.top + (int)height;
-	adjustFont();
+	AdjustFont();
 }
 
 void iNode::SetDragging(bool dragging)

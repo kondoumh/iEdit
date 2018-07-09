@@ -168,13 +168,13 @@ private:
 	bool dragging_;
 	CString chapterNumber_; // 章番号 transient な属性
 
-	void init();
-	void initCopy(const iNode& n);
-	void enhanceBoundGradualy(int area);
-	void enhanceLineOriented(const CSize& sz);
-	void getInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
-	void adjustFont(bool bForceResize = false);
-	CSize getNodeTextSize();
+	void Init();
+	void CopyProps(const iNode& n);
+	void ExpandBoundGradually(int area);
+	void ExtendLineOriented(const CSize& sz);
+	void GetInnerLineInfo(const CString& str, int& lineCount, int& maxLength);
+	void AdjustFont(bool bForceResize = false);
+	CSize GetNodeTextSize();
 };
 
 inline int iNode::GetTextTopPos() const
@@ -361,7 +361,7 @@ inline void iNode::SetLineStyle(int style)
 {
 	styleLine = style;
 	if (styleLine == PS_NULL) {
-		adjustFont();
+		AdjustFont();
 	}
 }
 
@@ -395,7 +395,7 @@ inline void iNode::ToggleFill(BOOL noBrush)
 {
 	bfillcolor = noBrush;
 	if (!bfillcolor) {
-		adjustFont();
+		AdjustFont();
 	}
 }
 
