@@ -554,11 +554,11 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 	HTREEITEM hRoot = findKeyItem(rootKey, tree().GetRootItem());
 	HTREEITEM hNew;
 	if (addNodes.size() > 0) {
-		hNew = tree().InsertItem(addNodes[0].getName(), 0, 0, hRoot);
-		tree().SetItemData(hNew, addNodes[0].getKey());
+		hNew = tree().InsertItem(addNodes[0].GetName(), 0, 0, hRoot);
+		tree().SetItemData(hNew, addNodes[0].GetKey());
 		tree().SetItemState(hNew, TVIS_EXPANDED, TVIS_EXPANDED);
 		tree().SetItemImage(hNew, 0, 0);
-		addNodes[0].setParent(tree().GetItemData(hRoot));
+		addNodes[0].SetParentKey(tree().GetItemData(hRoot));
 		GetDocument()->addNode2(addNodes[0]);
 	}
 
@@ -577,7 +577,7 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 	int prevLevel = addNodes[0].GetLevel();
 	HTREEITEM hPrevNew = hNew;
 	for (unsigned int i = 1; i < addNodes.size(); i++) {
-		preKey = addNodes[i - 1].getKey();
+		preKey = addNodes[i - 1].GetKey();
 		hPrevNew = hNew;
 		prevLevel = addNodes[i - 1].GetLevel();
 		if (prevLevel > addNodes[i].GetLevel()) {
@@ -589,19 +589,19 @@ void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
 				hItParent = tree().GetParentItem(hIt);
 				hIt = hItParent;
 			}
-			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hItParent);
+			hNew = tree().InsertItem(addNodes[i].GetName(), 0, 0, hItParent);
 			hParent = hItParent;
 		}
 		else if (prevLevel < addNodes[i].GetLevel()) {
-			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hPrevNew);
+			hNew = tree().InsertItem(addNodes[i].GetName(), 0, 0, hPrevNew);
 			hParent = hPrevNew;
 		}
 		else {
-			hNew = tree().InsertItem(addNodes[i].getName(), 0, 0, hParent, hPrevNew);
+			hNew = tree().InsertItem(addNodes[i].GetName(), 0, 0, hParent, hPrevNew);
 		}
-		addNodes[i].setParent(tree().GetItemData(hParent));
+		addNodes[i].SetParentKey(tree().GetItemData(hParent));
 		GetDocument()->addNode2(addNodes[i]);
-		tree().SetItemData(hNew, addNodes[i].getKey());
+		tree().SetItemData(hNew, addNodes[i].GetKey());
 		tree().SetItemImage(hNew, 0, 0);
 
 		prcdlg.m_ProgProc.StepIt(); // プログレスバーを更新
@@ -2257,10 +2257,10 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 			}
 			nodeCreated = true;
 			iNode node(label);
-			node.setText(text);
-			node.setKey(GetDocument()->AssignNewKey());
-			node.setParent(tree().GetItemData(curItem()));
-			node.moveBound(mvSz);
+			node.SetText(text);
+			node.SetKey(GetDocument()->AssignNewKey());
+			node.SetParentKey(tree().GetItemData(curItem()));
+			node.MoveBound(mvSz);
 			node.SetLevel(curLevel);
 			addNodes.push_back(node);
 
@@ -2278,11 +2278,11 @@ bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, cons
 
 	if (label != _T("")) {
 		iNode node;
-		node.setName(label);
-		node.setText(text);
-		node.setKey(GetDocument()->AssignNewKey());
-		node.setParent(tree().GetItemData(curItem()));
-		node.moveBound(mvSz);
+		node.SetName(label);
+		node.SetText(text);
+		node.SetKey(GetDocument()->AssignNewKey());
+		node.SetParentKey(tree().GetItemData(curItem()));
+		node.MoveBound(mvSz);
 		node.SetLevel(curLevel);
 		addNodes.push_back(node);
 	}

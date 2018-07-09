@@ -64,7 +64,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 	vector<DWORD>::iterator svIt = m_drawOrder.begin();
 	for (; svIt != m_drawOrder.end(); svIt++) {
 		const_niterator it = m_nodes.findNode(*svIt);
-		if (!m_bDrwAll && !(*it).second.isVisible()) continue;
+		if (!m_bDrwAll && !(*it).second.Visible()) continue;
 		MSXML2::IXMLDOMElementPtr eGrp = doc->createElement(_T("g"));
 
 		iNode node = (*it).second;
@@ -73,7 +73,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 			eGrp->appendChild(eNode);
 		}
 
-		if (node.getTextStyle() == iNode::notext && node.getNodeShape() != iNode::MetaFile) continue;
+		if (node.GetTextStyle() == iNode::notext && node.GetShape() != iNode::MetaFile) continue;
 		// メタファイルの場合は、notextでもテキストを描画するようにする
 		MSXML2::IXMLDOMElementPtr eNText = createNodeTextElement(node, doc, bEmbed);
 		if (eNText != NULL) {
@@ -124,7 +124,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2
 {
 	MSXML2::IXMLDOMElementPtr pNode = NULL;
 
-	int shape = node.getNodeShape();
+	int shape = node.GetShape();
 	CRect bound = node.getBound();
 	CString sCx; sCx.Format(_T("%d"), bound.left);
 	CString sCy; sCy.Format(_T("%d"), bound.top);
@@ -191,13 +191,13 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	CRect bound = node.getBound();
 	int r = (bound.Width() < bound.Height()) ? bound.Width() : bound.Height();
 	int left = node.getBound().left + 1 + node.GetMarginLeft();
-	if (node.getNodeShape() == iNode::roundRect) {
+	if (node.GetShape() == iNode::roundRect) {
 		left += r / 8;
 	}
 	CString sLeft; sLeft.Format(_T("%d"), left);
 
 	int right = node.getBound().right - 1 - node.GetMarginRight();
-	if (node.getNodeShape() == iNode::roundRect) {
+	if (node.GetShape() == iNode::roundRect) {
 		right -= r / 8;
 	}
 	CString sRight; sRight.Format(_T("%d"), right);
@@ -206,7 +206,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	CString sVCenter; sVCenter.Format(_T("%d"),
 		node.getBound().top + node.getBound().Height() / 2 + textSize.cy / 3);
 
-	switch (node.getTextStyle())
+	switch (node.GetTextStyle())
 	{
 	case iNode::s_bc:
 		pNText->setAttribute(_T("x"), sHCenter.GetBuffer(sHCenter.GetLength()));
@@ -271,15 +271,15 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	}
 
 	// フォントスタイル設定
-	CString sStyle = createTextStyle(node.getFontInfo(), node.getFontColor());
+	CString sStyle = createTextStyle(node.GetFontInfo(), node.GetFontColor());
 	pNText->setAttribute(_T("style"), sStyle.GetBuffer(sStyle.GetLength()));
 
 	// ラベル
-	CString name = node.getName();
-	int style = node.getTextStyle();
+	CString name = node.GetName();
+	int style = node.GetTextStyle();
 	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
 		CString sDx; sDx.Format(_T("%d"), textSize.cy);
-		vector<CString> lines = splitTSpan(node.getName(),
+		vector<CString> lines = splitTSpan(node.GetName(),
 			textSize.cx,
 			node.getBound().Width() - node.GetMarginLeft() - node.GetMarginRight());
 		for (unsigned int i = 0; i < lines.size(); i++) {
@@ -297,7 +297,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	}
 
 	if (bEmbed) {
-		CString sKey; sKey.Format(_T("%d"), node.getKey());
+		CString sKey; sKey.Format(_T("%d"), node.GetKey());
 		CString url = _T("text.html#") + sKey;
 		if (m_TextHtmlFileName != _T("")) {
 			url = m_TextHtmlFileName + _T("#") + sKey;
@@ -317,7 +317,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 		CString url;
 		const_literator li = m_links.begin();
 		for (; li != m_links.end(); li++) {
-			if ((*li).GetFromNodeKey() == node.getKey()) {
+			if ((*li).GetFromNodeKey() == node.GetKey()) {
 				if ((*li).GetArrowStyle() == iLink::other) {
 					CString name = (*li).GetPath();
 					if (name.Find(_T("http://")) != -1 || name.Find(_T("https://")) != -1) {
@@ -328,7 +328,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 			}
 		}
 		if (url == _T("")) {
-			url = extractfirstURLfromText(node.getText());
+			url = extractfirstURLfromText(node.GetText());
 		}
 		if (url != _T("")) {
 			MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
@@ -399,10 +399,10 @@ vector<CString> SvgWriter::splitByWidth(const CString& line, const int byte)
 CSize SvgWriter::getNodeTextSize(const iNode& node)
 {
 	CWnd wnd;
-	CFont font; font.CreateFontIndirect(&node.getFontInfo());
+	CFont font; font.CreateFontIndirect(&node.GetFontInfo());
 	CClientDC dc(&wnd);
 	CFont* pOldFont = dc.SelectObject(&font);
-	CSize sz = dc.GetTabbedTextExtent(node.getName(), -1, 0, NULL);
+	CSize sz = dc.GetTabbedTextExtent(node.GetName(), -1, 0, NULL);
 	dc.SelectObject(pOldFont);
 	return sz;
 }
@@ -410,11 +410,11 @@ CSize SvgWriter::getNodeTextSize(const iNode& node)
 CString SvgWriter::createNodeStyleAtrb(const iNode &node)
 {
 	///// Stroke Style /////
-	COLORREF lineColor = node.getLineColor();
+	COLORREF lineColor = node.GetLineColor();
 	BYTE lRed GetRValue(lineColor);
 	BYTE lGreen GetGValue(lineColor);
 	BYTE lBlue GetBValue(lineColor);
-	int lineStyle = node.getLineStyle();
+	int lineStyle = node.GetLineStyle();
 	CString strokeStyle;
 	if (lineStyle == PS_NULL) {
 		strokeStyle = _T("stroke:none;");
@@ -424,23 +424,23 @@ CString SvgWriter::createNodeStyleAtrb(const iNode &node)
 			lRed, lGreen, lBlue);
 	}
 	else if (lineStyle == PS_SOLID) {
-		int width = node.getLineWidth();
+		int width = node.GetLineWidth();
 		if (width == 0) { width = 1; }
 		strokeStyle.Format(_T("stroke:rgb(%d,%d,%d); stroke-width:%d;"), lRed, lGreen, lBlue, width);
 	}
 
-	if (node.getNodeShape() == iNode::MetaFile) {
+	if (node.GetShape() == iNode::MetaFile) {
 		strokeStyle.Format(_T("stroke:rgb(0,0,0); stroke-width:%d;"), 1);
 	}
 
 	// fillColor
-	COLORREF fill = node.getBrsColor();
+	COLORREF fill = node.GetFillColor();
 	BYTE bRed GetRValue(fill);
 	BYTE bGreen GetGValue(fill);
 	BYTE bBlue GetBValue(fill);
 
 	CString style;
-	if (node.isFilled()) {
+	if (node.Filled()) {
 		style.Format(_T("%s fill:rgb(%d,%d,%d)"), strokeStyle, bRed, bGreen, bBlue); // #%02x%02x%02x
 	}
 	else {

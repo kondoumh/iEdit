@@ -46,52 +46,52 @@ public:
 	iNode(const CString& name);
 	double dy;
 	double dx;
-	int getNodeShape() const;
-	void setNodeShape(int shape);
-	void moveBound(const CSize& sz);
-	bool isVisible() const;
-	bool isDeleted() const;
-	void setDelete();
-	void setVisible(bool v = true);
-	bool isSelected() const;
-	void selectNode(bool sel = true);
-	int getTextStyle() const;
-	void setTextStyle(int s);
-	int getLineWidth() const;
-	void setLineWidth(int width);
-	int getLineStyle() const;
-	void setLineStyle(int style);
-	const COLORREF& getLineColor() const;
-	void setLineColor(const COLORREF& c);
-	void setFontColor(const COLORREF& c);
-	void setBrush(const COLORREF& c);
-	const COLORREF& getBrsColor() const;
-	void setNoBrush(BOOL noBrush = TRUE);
-	BOOL isFilled() const;
-	const COLORREF& getFontColor() const;
-	const LOGFONT& getFontInfo() const;
-	void setFontInfo(const LOGFONT& lf, bool resize = true);
+	int GetShape() const;
+	void SetShape(int shape);
+	void MoveBound(const CSize& sz);
+	bool Visible() const;
+	bool Deleted() const;
+	void Delete();
+	void SetVisible(bool v = true);
+	bool Selected() const;
+	void Select(bool sel = true);
+	int GetTextStyle() const;
+	void SetTextStyle(int s);
+	int GetLineWidth() const;
+	void SetLineWidth(int width);
+	int GetLineStyle() const;
+	void SetLineStyle(int style);
+	const COLORREF& GetLineColor() const;
+	void SetLineColor(const COLORREF& c);
+	void SetFontColor(const COLORREF& c);
+	void SetFillColor(const COLORREF& c);
+	const COLORREF& GetFillColor() const;
+	void ToggleFill(BOOL noBrush = TRUE);
+	BOOL Filled() const;
+	const COLORREF& GetFontColor() const;
+	const LOGFONT& GetFontInfo() const;
+	void SetFontInfo(const LOGFONT& lf, bool resize = true);
 	bool operator ==(iNode &n);
 	bool operator <(iNode &n);
-	void setBound(const CRect& r);
+	void SetBound(const CRect& r);
 	void moveTo(const CPoint& pt);
 	iNode& operator=(const iNode& n);
 	iNode(const iNode& n);
 	virtual void Serialize(CArchive& ar);
 	void SerializeEx(CArchive& ar, int version);
 	const CRect& getBound() const;
-	void setParent(const DWORD& parent);
-	const DWORD& getParent() const;
-	void setKey(const DWORD& key);
-	const DWORD& getKey() const;
-	void setText(const CString& text);
-	const CString& getText() const;
-	void setName(const CString& name);
-	const CString& getName() const;
-	void setTreeState(UINT state);
-	UINT getTreeState() const;
-	void setChapterNumber(const CString& chapterNumber);
-	const CString& getChapterNumber() const;
+	void SetParentKey(const DWORD& parent);
+	const DWORD& GetParentKey() const;
+	void SetKey(const DWORD& key);
+	const DWORD& GetKey() const;
+	void SetText(const CString& text);
+	const CString& GetText() const;
+	void SetName(const CString& name);
+	const CString& GetName() const;
+	void SetTreeState(UINT state);
+	UINT GetTreeState() const;
+	void SetChapterNumber(const CString& chapterNumber);
+	const CString& GetChapterNumber() const;
 	iNode();
 	virtual ~iNode();
 
@@ -267,37 +267,37 @@ inline void iNode::Fix(BOOL f) {
 	fixed_ = f;
 }
 
-inline const CString& iNode::getName() const
+inline const CString& iNode::GetName() const
 {
 	return name_;
 }
 
-inline const CString& iNode::getText() const
+inline const CString& iNode::GetText() const
 {
 	return text_;
 }
 
-inline void iNode::setText(const CString &text)
+inline void iNode::SetText(const CString &text)
 {
 	text_ = text;
 }
 
-inline const DWORD& iNode::getKey() const
+inline const DWORD& iNode::GetKey() const
 {
 	return key_;
 }
 
-inline void iNode::setKey(const DWORD &key)
+inline void iNode::SetKey(const DWORD &key)
 {
 	key_ = key;
 }
 
-inline const DWORD& iNode::getParent() const
+inline const DWORD& iNode::GetParentKey() const
 {
 	return parent_;
 }
 
-inline void iNode::setParent(const DWORD& parent)
+inline void iNode::SetParentKey(const DWORD& parent)
 {
 	parent_ = parent;
 }
@@ -307,12 +307,12 @@ inline const CRect& iNode::getBound() const
 	return bound_;
 }
 
-inline void iNode::setTreeState(UINT state)
+inline void iNode::SetTreeState(UINT state)
 {
 	treeState_ = state;
 }
 
-inline UINT iNode::getTreeState() const
+inline UINT iNode::GetTreeState() const
 {
 	return treeState_;
 }
@@ -327,37 +327,37 @@ inline void iNode::moveTo(const CPoint &pt)
 	bound_.bottom = pt.y + height;
 }
 
-inline void iNode::setBound(const CRect &r)
+inline void iNode::SetBound(const CRect &r)
 {
 	bound_ = r;
 }
 
-inline const LOGFONT& iNode::getFontInfo() const
+inline const LOGFONT& iNode::GetFontInfo() const
 {
 	return lf_;
 }
 
-inline const COLORREF& iNode::getFontColor() const
+inline const COLORREF& iNode::GetFontColor() const
 {
 	return colorFont;
 }
 
-inline void iNode::setFontColor(const COLORREF &c)
+inline void iNode::SetFontColor(const COLORREF &c)
 {
 	colorFont = c;
 }
 
-inline void iNode::setLineColor(const COLORREF &c)
+inline void iNode::SetLineColor(const COLORREF &c)
 {
 	colorLine = c;
 }
 
-inline const COLORREF& iNode::getLineColor() const
+inline const COLORREF& iNode::GetLineColor() const
 {
 	return colorLine;
 }
 
-inline void iNode::setLineStyle(int style)
+inline void iNode::SetLineStyle(int style)
 {
 	styleLine = style;
 	if (styleLine == PS_NULL) {
@@ -365,33 +365,33 @@ inline void iNode::setLineStyle(int style)
 	}
 }
 
-inline int iNode::getLineStyle() const
+inline int iNode::GetLineStyle() const
 {
 	return styleLine;
 }
 
-inline void iNode::setLineWidth(int width)
+inline void iNode::SetLineWidth(int width)
 {
 	lineWidth = width;
 }
 
-inline int iNode::getLineWidth() const
+inline int iNode::GetLineWidth() const
 {
 	return lineWidth;
 }
 
-inline void iNode::setBrush(const COLORREF &c)
+inline void iNode::SetFillColor(const COLORREF &c)
 {
 	colorFill = c;
 	bfillcolor = TRUE;
 }
 
-inline const COLORREF& iNode::getBrsColor() const
+inline const COLORREF& iNode::GetFillColor() const
 {
 	return colorFill;
 }
 
-inline void iNode::setNoBrush(BOOL noBrush)
+inline void iNode::ToggleFill(BOOL noBrush)
 {
 	bfillcolor = noBrush;
 	if (!bfillcolor) {
@@ -399,37 +399,37 @@ inline void iNode::setNoBrush(BOOL noBrush)
 	}
 }
 
-inline BOOL iNode::isFilled() const
+inline BOOL iNode::Filled() const
 {
 	return bfillcolor;
 }
 
-inline int iNode::getTextStyle() const
+inline int iNode::GetTextStyle() const
 {
 	return styleText;
 }
 
-inline void iNode::selectNode(bool sel)
+inline void iNode::Select(bool sel)
 {
 	selected_ = sel;
 }
 
-inline bool iNode::isSelected() const
+inline bool iNode::Selected() const
 {
 	return selected_;
 }
 
-inline void iNode::setVisible(bool v)
+inline void iNode::SetVisible(bool v)
 {
 	visible = v;
 }
 
-inline bool iNode::isVisible() const
+inline bool iNode::Visible() const
 {
 	return visible;
 }
 
-inline void iNode::moveBound(const CSize& sz)
+inline void iNode::MoveBound(const CSize& sz)
 {
 	int width = bound_.Width();
 	int height = bound_.Height();
@@ -439,12 +439,12 @@ inline void iNode::moveBound(const CSize& sz)
 	bound_.bottom = bound_.top + height;
 }
 
-inline int iNode::getNodeShape() const
+inline int iNode::GetShape() const
 {
 	return shape_;
 }
 
-inline void iNode::setNodeShape(int shape)
+inline void iNode::SetShape(int shape)
 {
 	shape_ = shape;
 }
@@ -469,22 +469,22 @@ inline const bool iNode::IsInChain() const
 	return bChain_;
 }
 
-inline bool iNode::isDeleted() const
+inline bool iNode::Deleted() const
 {
 	return deleted_;
 }
 
-inline void iNode::setDelete()
+inline void iNode::Delete()
 {
 	deleted_ = true;
 }
 
-inline void iNode::setChapterNumber(const CString& chapterNumber)
+inline void iNode::SetChapterNumber(const CString& chapterNumber)
 {
 	chapterNumber_ = chapterNumber;
 }
 
-inline const CString& iNode::getChapterNumber() const
+inline const CString& iNode::GetChapterNumber() const
 {
 	return chapterNumber_;
 }

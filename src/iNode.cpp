@@ -236,7 +236,7 @@ void iNode::SerializeEx(CArchive& ar, int version)
 	}
 }
 
-void iNode::setFontInfo(const LOGFONT &lf, bool resize)
+void iNode::SetFontInfo(const LOGFONT &lf, bool resize)
 {
 	LONG pre = lf_.lfHeight;
 	lf_ = lf;
@@ -247,7 +247,7 @@ void iNode::setFontInfo(const LOGFONT &lf, bool resize)
 	adjustFont();
 }
 
-void iNode::setName(const CString &name)
+void iNode::SetName(const CString &name)
 {
 	name_ = name;
 	adjustFont();
@@ -339,7 +339,7 @@ CSize iNode::getNodeTextSize()
 	return sz;
 }
 
-void iNode::setTextStyle(int s)
+void iNode::SetTextStyle(int s)
 {
 	int pre = styleText;
 	styleText = s;
@@ -355,7 +355,7 @@ void iNode::setTextStyle(int s)
 
 bool iNode::operator ==(iNode &n)
 {
-	return key_ == n.getKey();
+	return key_ == n.GetKey();
 }
 
 bool iNode::operator <(iNode &n)
@@ -416,7 +416,7 @@ void iNodeDrawer::draw(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 {
 	int oldBkMode = pDC->SetBkMode(TRANSPARENT); // DCの背景色透明
 
-	if (node.isFilled()) {
+	if (node.Filled()) {
 		fillBound(node, pDC);
 	}
 	drawShape(node, pDC);
@@ -449,15 +449,15 @@ void iNodeDrawer::drawDraggingTracker(const iNode& node, CDC* pDC)
 void iNodeDrawer::adjustTextArea(const iNode &node)
 {
 	m_textRect = node.getBound();
-	m_textRect.left += node.getLineWidth() + 1;
-	m_textRect.right -= node.getLineWidth() + 1;
-	m_textRect.top += node.getLineWidth() + 1;
-	m_textRect.bottom -= node.getLineWidth() + 1;
+	m_textRect.left += node.GetLineWidth() + 1;
+	m_textRect.right -= node.GetLineWidth() + 1;
+	m_textRect.top += node.GetLineWidth() + 1;
+	m_textRect.bottom -= node.GetLineWidth() + 1;
 }
 
 void iNodeDrawer::fillBound(const iNode & node, CDC *pDC)
 {
-	CBrush brush(node.getBrsColor());	// ブラシ作成
+	CBrush brush(node.GetFillColor());	// ブラシ作成
 	CBrush* brsOld = pDC->SelectObject(&brush);  // DCのブラシ変更
 
 	fillBoundSpecific(node, pDC, &brush); // サブクラスで処理
@@ -469,8 +469,8 @@ void iNodeDrawer::fillBound(const iNode & node, CDC *pDC)
 void iNodeDrawer::drawShape(const iNode &node, CDC *pDC)
 {
 	CPen penLine;
-	penLine.CreatePen(node.getLineStyle(),
-		node.getLineWidth(), node.getLineColor()); // ペン作成
+	penLine.CreatePen(node.GetLineStyle(),
+		node.GetLineWidth(), node.GetLineColor()); // ペン作成
 	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCのペン変更
 
 	drawShapeSpecific(node, pDC, &penLine); // サブクラスで処理 メタファイルはここで再生
@@ -482,7 +482,7 @@ void iNodeDrawer::drawShape(const iNode &node, CDC *pDC)
 void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 {
 	// フォント作成
-	LOGFONT lf = node.getFontInfo();
+	LOGFONT lf = node.GetFontInfo();
 	CFont font;
 	font.CreateFont(lf.lfHeight, lf.lfWidth, 0, 0, lf.lfWeight, lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet,
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, lf.lfFaceName);
@@ -490,7 +490,7 @@ void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 
 	// デバイスコンテキストのフォント変更
 	CFont* pOldFont = pDC->SelectObject(&font);
-	COLORREF preColor = pDC->SetTextColor(node.getFontColor());
+	COLORREF preColor = pDC->SetTextColor(node.GetFontColor());
 
 	drawLabelSpecific(node, pDC);
 
@@ -512,7 +512,7 @@ void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 
 void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
 {
-	int styleText = node.getTextStyle();
+	int styleText = node.GetTextStyle();
 	UINT nFormat;
 	switch (styleText) {
 	case iNode::s_cc:
@@ -600,7 +600,7 @@ void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
 	}
 
 	if (styleText != iNode::notext) {
-		pDC->DrawText(node.getName(), &m_textRect, nFormat);
+		pDC->DrawText(node.GetName(), &m_textRect, nFormat);
 	}
 }
 
@@ -619,7 +619,7 @@ void iNodeDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush* brush)
 //////////////////////////////////////////////////////////////////////
 void iNodeRectDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
 {
-	if (node.isFilled()) {
+	if (node.Filled()) {
 		pDC->FillRect(node.getBound(), brush);
 	}
 }
@@ -640,14 +640,14 @@ void iNodeRectDrawer::drawShapeSpecific(const iNode &node, CDC *pDC, const CPen 
 void iNodeRoundRectDrawer::drawShape(const iNode &node, CDC *pDC)
 {
 	CPen penLine;
-	penLine.CreatePen(node.getLineStyle(),
-		node.getLineWidth(), node.getLineColor()); // ペン作成
+	penLine.CreatePen(node.GetLineStyle(),
+		node.GetLineWidth(), node.GetLineColor()); // ペン作成
 	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCのペン変更
 
 	CBrush* pBrsOld;
 	HGDIOBJ hGdiObj;
-	CBrush brs(node.getBrsColor());
-	if (node.isFilled()) {
+	CBrush brs(node.GetFillColor());
+	if (node.Filled()) {
 		pBrsOld = pDC->SelectObject(&brs);
 	}
 	else {
@@ -657,7 +657,7 @@ void iNodeRoundRectDrawer::drawShape(const iNode &node, CDC *pDC)
 	m_r = (bound.Width() < bound.Height()) ? bound.Width() : bound.Height();
 	pDC->RoundRect(bound, CPoint(m_r / 4, m_r / 4));
 
-	if (node.isFilled()) {
+	if (node.Filled()) {
 		pDC->SelectObject(pBrsOld);
 	}
 	else {
@@ -671,7 +671,7 @@ void iNodeRoundRectDrawer::drawShape(const iNode &node, CDC *pDC)
 void iNodeRoundRectDrawer::adjustTextArea(const iNode &node)
 {
 	iNodeDrawer::adjustTextArea(node);
-	switch (node.getTextStyle()) {
+	switch (node.GetTextStyle()) {
 	case iNode::s_tl:
 		m_textRect.left += m_r / 8;
 		break;
@@ -697,7 +697,7 @@ void iNodeRoundRectDrawer::adjustTextArea(const iNode &node)
 void iNodeArcDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
 {
 	CPen penArc;
-	penArc.CreatePen(node.getLineStyle(), node.getLineWidth(), node.getBrsColor());
+	penArc.CreatePen(node.GetLineStyle(), node.GetLineWidth(), node.GetFillColor());
 	CPen* pOldPen = pDC->SelectObject(&penArc);
 	pDC->Ellipse(node.getBound());
 	pDC->SelectObject(pOldPen);
@@ -718,7 +718,7 @@ void iNodeArcDrawer::adjustTextArea(const iNode &node)
 	m_textRect.top += node.getBound().Height() / 16;
 	m_textRect.bottom -= node.getBound().Height() / 16;
 
-	switch (node.getTextStyle()) {
+	switch (node.GetTextStyle()) {
 	case iNode::s_tl:
 		m_textRect.top += node.getBound().Height() * 3 / 16;
 		break;
@@ -767,12 +767,12 @@ void iNodes::setSelKey(DWORD key)
 	selKey_ = key;
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if (selKey_ == (*it).second.getKey()) {
-			(*it).second.selectNode();
-			curParent_ = (*it).second.getParent();
+		if (selKey_ == (*it).second.GetKey()) {
+			(*it).second.Select();
+			curParent_ = (*it).second.GetParentKey();
 		}
 		else {
-			(*it).second.selectNode(false);
+			(*it).second.Select(false);
 		}
 	}
 }
@@ -796,10 +796,10 @@ void iNodes::initSelection()
 	else {
 		const_niterator it = begin();
 		for (; it != end(); it++) {
-			if ((*it).second.getTreeState() & TVIS_SELECTED) {
+			if ((*it).second.GetTreeState() & TVIS_SELECTED) {
 				// TVIS_EXPANDEDと間違えてた
-				selKey_ = (*it).second.getKey();
-				curParent_ = (*it).second.getParent();
+				selKey_ = (*it).second.GetKey();
+				curParent_ = (*it).second.GetParentKey();
 				break;
 			}
 		}
@@ -819,7 +819,7 @@ iNode* iNodes::hitTest(const CPoint &pt, bool bTestAll)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		(*it).second.selectNode(false);
+		(*it).second.Select(false);
 	}
 
 	vector<iNode*>::reverse_iterator vit = nodesDraw_.rbegin();
@@ -846,9 +846,9 @@ iNode* iNodes::hitTest(const CPoint &pt, bool bTestAll)
 		}
 	}
 	if (vit_inner != nodesDraw_.rend()) {
-		(*vit_inner)->selectNode();
-		selKey_ = (*vit_inner)->getKey();
-		curParent_ = (*vit_inner)->getParent();
+		(*vit_inner)->Select();
+		selKey_ = (*vit_inner)->GetKey();
+		curParent_ = (*vit_inner)->GetParentKey();
 	}
 	if (vit_inner == nodesDraw_.rend()) return NULL;
 	return *vit_inner;
@@ -887,8 +887,8 @@ void iNodes::moveSelectedNode(const CSize &sz)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.moveBound(sz);
+		if ((*it).second.Selected()) {
+			(*it).second.MoveBound(sz);
 		}
 	}
 }
@@ -897,7 +897,7 @@ void iNodes::setSelectedNodeBound(const CRect &r)
 {
 	niterator it = findNodeW(selKey_);
 	if (it != end()) {
-		(*it).second.setBound(r);
+		(*it).second.SetBound(r);
 	}
 }
 
@@ -905,8 +905,8 @@ void iNodes::setSelectedNodeFont(const LOGFONT &lf)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.setFontInfo(lf);
+		if ((*it).second.Selected()) {
+			(*it).second.SetFontInfo(lf);
 		}
 	}
 }
@@ -915,8 +915,8 @@ void iNodes::getSelectedNodeFont(LOGFONT& lf)
 {
 	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		lf = (*it).second.getFontInfo();
-		::lstrcpy(lf.lfFaceName, (*it).second.getFontInfo().lfFaceName);
+		lf = (*it).second.GetFontInfo();
+		::lstrcpy(lf.lfFaceName, (*it).second.GetFontInfo().lfFaceName);
 	}
 }
 
@@ -926,7 +926,7 @@ COLORREF iNodes::getSelectedNodeFontColor() const
 	COLORREF c = RGB(0, 0, 0);
 	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		c = (*it).second.getFontColor();
+		c = (*it).second.GetFontColor();
 	}
 	return c;
 }
@@ -935,8 +935,8 @@ void iNodes::setSelectedNodeFontColor(const COLORREF &c)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.setFontColor(c);
+		if ((*it).second.Selected()) {
+			(*it).second.SetFontColor(c);
 		}
 	}
 }
@@ -945,8 +945,8 @@ void iNodes::setSelectedNodeBrush(const COLORREF &c)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.setBrush(c);
+		if ((*it).second.Selected()) {
+			(*it).second.SetFillColor(c);
 		}
 	}
 }
@@ -955,8 +955,8 @@ void iNodes::setSelectedNodeNoBrush(BOOL noBrush)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.setNoBrush(noBrush);
+		if ((*it).second.Selected()) {
+			(*it).second.ToggleFill(noBrush);
 		}
 	}
 }
@@ -965,8 +965,8 @@ void iNodes::setSelectedNodeLineColor(const COLORREF &c)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.setLineColor(c);
+		if ((*it).second.Selected()) {
+			(*it).second.SetLineColor(c);
 		}
 	}
 }
@@ -976,7 +976,7 @@ COLORREF iNodes::getSelectedNodeLineColor() const
 	COLORREF c = RGB(0, 0, 0);
 	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		c = (*it).second.getLineColor();
+		c = (*it).second.GetLineColor();
 	}
 	return c;
 }
@@ -986,7 +986,7 @@ COLORREF iNodes::getSelectedNodeBrsColor() const
 	COLORREF c = RGB(255, 255, 255);
 	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		c = (*it).second.getBrsColor();
+		c = (*it).second.GetFillColor();
 	}
 	return c;
 }
@@ -995,8 +995,8 @@ void iNodes::setSelectedNodeLineStyle(int style)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.setLineStyle(style);
+		if ((*it).second.Selected()) {
+			(*it).second.SetLineStyle(style);
 		}
 	}
 }
@@ -1006,7 +1006,7 @@ int iNodes::getSelectedNodeLineStyle() const
 	int s = PS_SOLID;
 	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		s = (*it).second.getLineStyle();
+		s = (*it).second.GetLineStyle();
 	}
 	return s;
 }
@@ -1015,8 +1015,8 @@ void iNodes::setSelectedNodeLineWidth(int w)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.setLineWidth(w);
+		if ((*it).second.Selected()) {
+			(*it).second.SetLineWidth(w);
 		}
 	}
 }
@@ -1027,7 +1027,7 @@ int iNodes::getSelectedNodeLineWidth() const
 	int w = 0;
 	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		w = (*it).second.getLineWidth();
+		w = (*it).second.GetLineWidth();
 	}
 	return w;
 }
@@ -1036,8 +1036,8 @@ void iNodes::setSelectedNodeTextStyle(int style)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.setTextStyle(style);
+		if ((*it).second.Selected()) {
+			(*it).second.SetTextStyle(style);
 		}
 	}
 }
@@ -1055,7 +1055,7 @@ int iNodes::getSelectedNodeTextStyle() const
 	int s = iNode::s_cc;
 	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		s = (*it).second.getTextStyle();
+		s = (*it).second.GetTextStyle();
 	}
 	return s;
 }
@@ -1066,20 +1066,20 @@ int iNodes::selectNodesInBound(const CRect &bound, CRect &selRect, bool bDrwAll)
 	int cnt = 0;
 	for (; it != end(); it++) {
 		CRect r = (*it).second.getBound();
-		if (!(*it).second.isVisible()) continue;
+		if (!(*it).second.Visible()) continue;
 		if ((r | bound) == bound) {
-			(*it).second.selectNode();
+			(*it).second.Select();
 			selRect = (*it).second.getBound();
 			cnt++;
 		}
 		else {
-			(*it).second.selectNode(false);
+			(*it).second.Select(false);
 		}
 	}
 
 	it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
+		if ((*it).second.Selected()) {
 			if ((*it).second.getBound().left < selRect.left) selRect.left = (*it).second.getBound().left;
 			if ((*it).second.getBound().right > selRect.right) selRect.right = (*it).second.getBound().right;
 			if ((*it).second.getBound().top < selRect.top) selRect.top = (*it).second.getBound().top;
@@ -1106,13 +1106,13 @@ CString iNodes::createClickableMapString(const CString& fileName, bool singleTex
 		coordsValue.Format(_T("%d,%d,%d,%d"), ptl.x, ptl.y, pbr.x, pbr.y);
 		CString href;
 		if (singleText) {
-			href.Format(fileName + _T("#%d"), (*it)->getKey());
+			href.Format(fileName + _T("#%d"), (*it)->GetKey());
 		}
 		else {
-			href.Format(_T("text/") + fileName + _T("%d.html"), (*it)->getKey());
+			href.Format(_T("text/") + fileName + _T("%d.html"), (*it)->GetKey());
 		}
 		mapString += _T("<area shape=\"rect\" coords=\"") + coordsValue
-			+ _T("\" href=\"") + href + _T("\" target=\"text\" alt=\"") + StringUtil::RemoveCr((*it)->getName()) + _T("\" />\n");
+			+ _T("\" href=\"") + href + _T("\" target=\"text\" alt=\"") + StringUtil::RemoveCr((*it)->GetName()) + _T("\" />\n");
 	}
 	return mapString;
 }
@@ -1124,13 +1124,13 @@ void iNodes::setVisibleNodes(DWORD key)
 
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.getParent() != curParent_) {
-			(*it).second.setVisible(false);
+		if ((*it).second.GetParentKey() != curParent_) {
+			(*it).second.SetVisible(false);
 		}
 		else {
-			(*it).second.setVisible();
+			(*it).second.SetVisible();
 			unsigned int order = 0;
-			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*it).second.getKey());
+			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*it).second.GetKey());
 			if (ik != svec_.end()) {
 				order = std::distance(svec_.begin(), ik);
 			}
@@ -1155,7 +1155,7 @@ void iNodes::setVisibleNodes(NodeKeySet& keySet)
 
 	niterator it = begin();
 	for (; it != end(); it++) {
-		(*it).second.setVisible(false);
+		(*it).second.SetVisible(false);
 	}
 
 	set<DWORD>::iterator itks = keySet.begin();
@@ -1163,9 +1163,9 @@ void iNodes::setVisibleNodes(NodeKeySet& keySet)
 	for (; itks != keySet.end(); itks++) {
 		nit = findNodeW(*itks);
 		if (nit != end()) {
-			(*nit).second.setVisible(true);
+			(*nit).second.SetVisible(true);
 			unsigned int order = 0;
-			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*nit).second.getKey());
+			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*nit).second.GetKey());
 			if (ik != svec_.end()) {
 				order = std::distance(svec_.begin(), ik);
 			}
@@ -1183,8 +1183,8 @@ BOOL iNodes::isSelectedNodeFilled() const
 {
 	const_niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			return ((*it).second.isFilled());
+		if ((*it).second.Selected()) {
+			return ((*it).second.Filled());
 		}
 	}
 	return FALSE;
@@ -1195,7 +1195,7 @@ int iNodes::getSelectedNodeShape() const
 	int shape = iNode::rectangle;
 	const_niterator it = findNode(selKey_);
 	if (it != end()) {
-		shape = (*it).second.getNodeShape();
+		shape = (*it).second.GetShape();
 	}
 	return shape;
 }
@@ -1204,8 +1204,8 @@ void iNodes::setSelectedNodeShape(int shape)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			(*it).second.setNodeShape(shape);
+		if ((*it).second.Selected()) {
+			(*it).second.SetShape(shape);
 			if (shape > 9) {
 				CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 				(*it).second.SetMetaFile(pApp->m_hMetaFiles[shape - 10]);
@@ -1248,11 +1248,11 @@ CSize iNodes::getMaxNodeSize(bool selection, bool bDrwAll) const
 
 	const_niterator it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).second.isVisible()) {
+		if (!(*it).second.Visible()) {
 			continue;
 		}
 		if (selection) {
-			if (!(*it).second.isSelected()) {
+			if (!(*it).second.Selected()) {
 				continue;
 			}
 		}
@@ -1288,7 +1288,7 @@ iNodes::~iNodes()
 
 iNodeDrawer* iNodes::getNodeDrawer(const iNode &node)
 {
-	int shape = node.getNodeShape();
+	int shape = node.GetShape();
 	if (shape == iNode::rectangle) {
 		return m_pNodeRectDrawer;
 	}
@@ -1311,7 +1311,7 @@ void iNodes::drawNodesSelected(CDC *pDC)
 {
 	vector<iNode*>::iterator it = nodesDraw_.begin();
 	for (; it != nodesDraw_.end(); it++) {
-		if ((*(*it)).isSelected()) {
+		if ((*(*it)).Selected()) {
 			iNodeDrawer* pDrawer = getNodeDrawer(*(*it));
 			pDrawer->draw(*(*it), pDC, m_bDrawOrderInfo);
 		}
@@ -1324,7 +1324,7 @@ void iNodes::fixNodesReversibly(DWORD keyExcluded)
 	for (; it != end(); it++) {
 		if ((*it).second.IsInChain()) {
 			(*it).second.BackupFixState();
-			if ((*it).second.getKey() != keyExcluded) {
+			if ((*it).second.GetKey() != keyExcluded) {
 				(*it).second.Fix();
 			}
 		}
@@ -1336,7 +1336,7 @@ void iNodes::restoreNodesFixState(DWORD keyExcluded)
 	niterator it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.IsInChain()) {
-			if ((*it).second.getKey() != keyExcluded) {
+			if ((*it).second.GetKey() != keyExcluded) {
 				(*it).second.RestoreFixState();
 			}
 		}
@@ -1347,8 +1347,8 @@ void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
-			LOGFONT lf = (*it).second.getFontInfo();
+		if ((*it).second.Selected()) {
+			LOGFONT lf = (*it).second.GetFontInfo();
 			LONG pre = lf.lfHeight;
 			if (bEnlarge) {
 				lf.lfHeight -= 2;
@@ -1358,7 +1358,7 @@ void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 					lf.lfHeight += 2;
 				}
 			}
-			(*it).second.setFontInfo(lf, false);
+			(*it).second.SetFontInfo(lf, false);
 		}
 	}
 }
@@ -1368,8 +1368,8 @@ NodeKeyVec iNodes::getSelectedNodeKeys() const
 	NodeKeyVec v;
 	const_niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected() && (*it).second.isVisible()) {
-			v.push_back((*it).second.getKey());
+		if ((*it).second.Selected() && (*it).second.Visible()) {
+			v.push_back((*it).second.GetKey());
 		}
 	}
 	return v;
@@ -1379,7 +1379,7 @@ void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
+		if ((*it).second.Selected()) {
 			(*it).second.SetMarginLeft(l);
 			(*it).second.SetMarginRight(r);
 			(*it).second.SetMarginTop(t);
@@ -1392,7 +1392,7 @@ void iNodes::setSelectedLinkDragging(bool dragging)
 {
 	niterator it = begin();
 	for (; it != end(); it++) {
-		if ((*it).second.isSelected()) {
+		if ((*it).second.Selected()) {
 			(*it).second.SetDragging(dragging);
 			return;
 		}

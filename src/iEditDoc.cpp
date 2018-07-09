@@ -32,7 +32,7 @@ class iNode_eq : public unary_function<iNode, bool>
 	DWORD key_;
 public:
 	explicit iNode_eq(DWORD key) : key_(key) { }
-	bool operator()(const iNode& n) const { return n.getKey() == key_; }
+	bool operator()(const iNode& n) const { return n.GetKey() == key_; }
 };
 
 
@@ -160,8 +160,8 @@ void iEditDoc::Serialize(CArchive& ar)
 				for (unsigned int i = 0; i < count; i++) {
 					iNode n;
 					n.Serialize(ar);
-					nodes_[n.getKey()] = n;
-					sv.push_back(n.getKey());
+					nodes_[n.GetKey()] = n;
+					sv.push_back(n.GetKey());
 				}
 				// リンクの読み込み
 				ar >> count;
@@ -184,8 +184,8 @@ void iEditDoc::Serialize(CArchive& ar)
 				for (unsigned int i = 0; i < count; i++) {
 					iNode n;
 					n.SerializeEx(ar, version);
-					nodes_[n.getKey()] = n;
-					sv.push_back(n.getKey());
+					nodes_[n.GetKey()] = n;
+					sv.push_back(n.GetKey());
 				}
 				// リンクの読み込み
 				ar >> count;
@@ -213,7 +213,7 @@ void iEditDoc::SaveOrderByTree(CArchive& ar)
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		niterator it = nodes_.findNodeW(ls[i].key);
 		if (it != nodes_.end()) {
-			(*it).second.setTreeState(ls[i].state);
+			(*it).second.SetTreeState(ls[i].state);
 			(*it).second.Serialize(ar);
 		}
 	}
@@ -229,7 +229,7 @@ void iEditDoc::SaveOrderByTreeEx(CArchive &ar, int version)
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		niterator it = nodes_.findNodeW(ls[i].key);
 		if (it != nodes_.end()) {
-			(*it).second.setTreeState(ls[i].state);
+			(*it).second.SetTreeState(ls[i].state);
 			(*it).second.SerializeEx(ar, version);
 		}
 	}
@@ -289,10 +289,10 @@ void iEditDoc::CopyNodeLabels(NodePropsVec &v)
 	for (unsigned int i = 0; i < sv.size(); i++) {
 		const_niterator it = nodes_.findNode(sv[i]);
 		NodeProps l;
-		l.name = (*it).second.getName();
-		l.key = (*it).second.getKey();
-		l.parent = (*it).second.getParent();
-		l.state = (*it).second.getTreeState();
+		l.name = (*it).second.GetName();
+		l.key = (*it).second.GetKey();
+		l.parent = (*it).second.GetParentKey();
+		l.state = (*it).second.GetTreeState();
 		l.level = (*it).second.GetLevel();
 		l.treeIconId = (*it).second.GetTreeIconId();
 		v.push_back(l);
@@ -306,31 +306,31 @@ void iEditDoc::AddNode(const NodeProps &l, DWORD inheritKey, bool bInherit)
 {
 	const_niterator it = nodes_.findNode(inheritKey);
 	iNode n(l.name);
-	n.setKey(l.key);
-	n.setParent(l.parent);
+	n.SetKey(l.key);
+	n.SetParentKey(l.parent);
 
 	if (ShowSubBranch()) {
 		m_visibleKeys.insert(l.key);
 	}
 
 	if (bInherit && it != nodes_.end()) {
-		n.setLineColor((*it).second.getLineColor());
-		n.setLineWidth((*it).second.getLineWidth());
-		n.setLineStyle((*it).second.getLineStyle());
-		n.setBrush((*it).second.getBrsColor());
-		n.setNoBrush((*it).second.isFilled());
-		n.setNodeShape((*it).second.getNodeShape());
-		n.setTextStyle((*it).second.getTextStyle());
-		n.setFontColor((*it).second.getFontColor());
-		n.setFontInfo((*it).second.getFontInfo());
+		n.SetLineColor((*it).second.GetLineColor());
+		n.SetLineWidth((*it).second.GetLineWidth());
+		n.SetLineStyle((*it).second.GetLineStyle());
+		n.SetFillColor((*it).second.GetFillColor());
+		n.ToggleFill((*it).second.Filled());
+		n.SetShape((*it).second.GetShape());
+		n.SetTextStyle((*it).second.GetTextStyle());
+		n.SetFontColor((*it).second.GetFontColor());
+		n.SetFontInfo((*it).second.GetFontInfo());
 	}
 
 	if (it != nodes_.end()) {
 		CRect rc = (*it).second.getBound();
-		n.moveBound(CSize(rc.left + 20, rc.top + 30));
+		n.MoveBound(CSize(rc.left + 20, rc.top + 30));
 	}
 
-	nodes_[n.getKey()] = n;
+	nodes_[n.GetKey()] = n;
 	SelectionChanged(l.key, true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeAdd;
@@ -340,8 +340,8 @@ void iEditDoc::AddNode(const NodeProps &l, DWORD inheritKey, bool bInherit)
 // OutlineViewのインポートテキストファイル専用に作ってる
 void iEditDoc::addNode2(const iNode &n)
 {
-	nodes_[n.getKey()] = n;
-	sv.push_back(n.getKey());
+	nodes_[n.GetKey()] = n;
+	sv.push_back(n.GetKey());
 	SetModifiedFlag();
 }
 
@@ -356,7 +356,7 @@ bool iEditDoc::SetKeyNodeName(DWORD key, const CString &name)
 	if (it == nodes_.end()) {
 		return false;
 	}
-	(*it).second.setName(name);
+	(*it).second.SetName(name);
 	SetModifiedFlag();
 	UpdateAllViews(NULL);
 	return true;
@@ -366,7 +366,7 @@ void iEditDoc::SetKeyNodeParent(DWORD key, DWORD parent)
 {
 	niterator it = nodes_.findNodeW(key);
 	if (it != nodes_.end()) {
-		/*const_cast<iNode&>*/(*it).second.setParent(parent);
+		/*const_cast<iNode&>*/(*it).second.SetParentKey(parent);
 	}
 	SetModifiedFlag();
 	UpdateAllViews(NULL);
@@ -375,7 +375,7 @@ void iEditDoc::SetKeyNodeParent(DWORD key, DWORD parent)
 CString iEditDoc::GetKeyNodeChapterNumber(DWORD key) {
 	const_niterator it = nodes_.findNode(key);
 	if (it != nodes_.end()) {
-		return (*it).second.getChapterNumber();
+		return (*it).second.GetChapterNumber();
 	}
 	return _T("");
 }
@@ -383,7 +383,7 @@ CString iEditDoc::GetKeyNodeChapterNumber(DWORD key) {
 void iEditDoc::SetKeyNodeChapterNumber(DWORD key, const CString& chapterNumber) {
 	niterator it = nodes_.findNodeW(key);
 	if (it != nodes_.end()) {
-		(*it).second.setChapterNumber(chapterNumber);
+		(*it).second.SetChapterNumber(chapterNumber);
 	}
 	// transient 属性なので、DirtyFlag 立てたりビュー再描画したりは不要。
 }
@@ -491,14 +491,14 @@ void iEditDoc::InitDocument()
 {
 	if (nodes_.size() == 0) {
 		lastKey = 0;
-		iNode i(_T("主題")); i.setKey(0); i.setParent(0);
-		i.moveBound(CSize(10, 10));
+		iNode i(_T("主題")); i.SetKey(0); i.SetParentKey(0);
+		i.MoveBound(CSize(10, 10));
 		CString title = GetFileNameFromOpenPath();
 		if (GetFileNameFromOpenPath() != _T("")) {
-			i.setName(title);
+			i.SetName(title);
 		}
-		nodes_[i.getKey()] = i;
-		sv.push_back(i.getKey());
+		nodes_[i.GetKey()] = i;
+		sv.push_back(i.GetKey());
 	}
 
 	nodes_.initSelection();
@@ -531,7 +531,7 @@ CString iEditDoc::GetSelectedNodeText()
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		return (*it).second.getText();
+		return (*it).second.GetText();
 	}
 	return _T("");
 }
@@ -582,7 +582,7 @@ void iEditDoc::SetCurrentNodeText(CString &s, int scrollPos)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		(*it).second.setText(s);
+		(*it).second.SetText(s);
 		(*it).second.SetTextTopPos(scrollPos);
 	}
 	// Undo 処理のためのメッセージを飛ばす方が良い。
@@ -600,7 +600,7 @@ bool iEditDoc::HitTest(const CPoint& pt, CRect &r)
 		r = pNode->getBound();
 		iHint hint;
 		hint.event = iHint::nodeSel;
-		UpdateAllViews(NULL, (LPARAM)pNode->getKey(), &hint);
+		UpdateAllViews(NULL, (LPARAM)pNode->GetKey(), &hint);
 
 		return true;
 	}
@@ -623,13 +623,13 @@ void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 	bool moved = false;
 	NodeKeySet keySet;
 	for (; it != nodes_.end(); it++) {
-		if (!(*it).second.isVisible()) continue;
+		if (!(*it).second.Visible()) continue;
 		BOOL bInBound = bound.PtInRect((*it).second.getBound().TopLeft()) &&
 			bound.PtInRect((*it).second.getBound().BottomRight());
 		if (bInBound) {
 			if ((*it).second.GetDrawOrder() > (*itSelected).second.GetDrawOrder()) {
-				(*it).second.moveBound(move);
-				keySet.insert((*it).second.getKey());
+				(*it).second.MoveBound(move);
+				keySet.insert((*it).second.GetKey());
 				moved = true;
 			}
 		}
@@ -657,7 +657,7 @@ void iEditDoc::MoveSelectedLink(const CSize &sz)
 		niterator itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
 		niterator itTo = nodes_.findNodeW((*li).GetToNodeKey());
 		if (itFrom == nodes_.end() || itTo == nodes_.end()) continue;
-		if ((*itFrom).second.isSelected() && (*itTo).second.isSelected()) {
+		if ((*itFrom).second.Selected() && (*itTo).second.Selected()) {
 			(*li).MovePoints(sz);
 			SetModifiedFlag();
 			CalcMaxPt(m_maxPt);
@@ -689,14 +689,14 @@ void iEditDoc::SetConnectionPoint()
 		niterator itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
 		niterator itTo = nodes_.findNodeW((*li).GetToNodeKey());
 		if (itFrom == nodes_.end() || itTo == nodes_.end()) continue;
-		if ((*itFrom).second.isSelected() && (*itTo).second.isSelected()) {
+		if ((*itFrom).second.Selected() && (*itTo).second.Selected()) {
 			if (itFrom != itTo) continue;
 		}
 
-		if ((*li).GetFromNodeKey() == (*itFrom).second.getKey()) {
+		if ((*li).GetFromNodeKey() == (*itFrom).second.GetKey()) {
 			(*li).SetFromNodeRect((*itFrom).second.getBound());
 		}
-		if ((*li).GetToNodeKey() == (*itTo).second.getKey()) {
+		if ((*li).GetToNodeKey() == (*itTo).second.GetKey()) {
 			(*li).SetToNodeRect((*itTo).second.getBound());
 		}
 	}
@@ -716,10 +716,10 @@ void iEditDoc::CalcMaxPt(CPoint &pt)
 	pt = CPoint(0, 0);
 	const_niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if (!(*it).second.isVisible()/* && !m_bShowAll*/) {
+		if (!(*it).second.Visible()/* && !m_bShowAll*/) {
 			continue;
 		} // この位置でフィルタをかけるべきだよね。これが、選択領域のバグの原因？
-		ks.insert((*it).second.getKey());
+		ks.insert((*it).second.GetKey());
 
 		if ((*it).second.getBound().BottomRight().x > pt.x) {
 			pt.x = (*it).second.getBound().BottomRight().x;
@@ -757,8 +757,8 @@ bool iEditDoc::SetStartLink(const CPoint& pt)
 	iNode* pNode = nodes_.hitTest(pt);
 	if (pNode != NULL) {
 		rcLinkFrom = pNode->getBound();
-		keyLinkFrom = pNode->getKey();
-		keyParentLinkFrom = pNode->getParent();
+		keyLinkFrom = pNode->GetKey();
+		keyParentLinkFrom = pNode->GetParentKey();
 		return true;
 	}
 	return false;
@@ -769,7 +769,7 @@ bool iEditDoc::SetEndLink(const CPoint &pt, int ArrowType, bool bArrowSpecificat
 	iNode* pNode = nodes_.hitTest2(pt, false);
 	if (pNode != NULL) {
 		rcLinkTo = pNode->getBound();
-		keyLinkTo = pNode->getKey();
+		keyLinkTo = pNode->GetKey();
 		iLink l;
 		l.SetNodes(rcLinkFrom, rcLinkTo, keyLinkFrom, keyLinkTo);
 		l.SetDrawable();
@@ -795,7 +795,7 @@ bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt)
 	iNode* pNode = nodes_.hitTest(pt, false); // リンク元を再選択
 	if (pNode != NULL) {
 		BackupLinksForUndo();
-		links_.setSelectedNodeLinkFrom(pNode->getKey(), pNode->getBound());
+		links_.setSelectedNodeLinkFrom(pNode->GetKey(), pNode->getBound());
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkModified;
 		UpdateAllViews(NULL, (LPARAM)GetSelectedNodeKey(), &h);
@@ -809,7 +809,7 @@ bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt)
 	iNode* pNode = nodes_.hitTest2(pt, false); // 再選択なし
 	if (pNode != NULL) {
 		BackupLinksForUndo();
-		links_.setSelectedNodeLinkTo(pNode->getKey(), pNode->getBound());
+		links_.setSelectedNodeLinkTo(pNode->GetKey(), pNode->getBound());
 		SetModifiedFlag();
 		UpdateAllViews(NULL);
 		iHint h; h.event = iHint::linkModified;
@@ -985,26 +985,26 @@ void iEditDoc::AddNodeRoundedRect(const CString &name, const CPoint &pt)
 void iEditDoc::AddNodeInternal(const CString &name, const CPoint &pt, int nodeType, bool bEnableMultiLineProcess, bool bNoBound)
 {
 	iNode n(name);
-	n.setKey(AssignNewKey());
-	n.setParent(nodes_.getCurParent());
-	n.setNodeShape(nodeType);
-	n.moveBound(CSize(pt.x, pt.y));
-	n.setVisible();
+	n.SetKey(AssignNewKey());
+	n.SetParentKey(nodes_.getCurParent());
+	n.SetShape(nodeType);
+	n.MoveBound(CSize(pt.x, pt.y));
+	n.SetVisible();
 
 	if (!bEnableMultiLineProcess) {
-		n.setTextStyle(iNode::s_cc);
+		n.SetTextStyle(iNode::s_cc);
 	}
 	if (bNoBound) {
-		n.setNoBrush(FALSE);
-		n.setLineStyle(PS_NULL);
+		n.ToggleFill(FALSE);
+		n.SetLineStyle(PS_NULL);
 	}
-	nodes_[n.getKey()] = n;
+	nodes_[n.GetKey()] = n;
 
 	if (ShowSubBranch()) {
-		m_visibleKeys.insert(n.getKey());
+		m_visibleKeys.insert(n.GetKey());
 	}
 	CalcMaxPt(m_maxPt);
-	SelectionChanged(n.getKey(), true, ShowSubBranch());
+	SelectionChanged(n.GetKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint;
 
@@ -1015,30 +1015,30 @@ void iEditDoc::AddNodeInternal(const CString &name, const CPoint &pt, int nodeTy
 	}
 
 	hint.str = name;
-	UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
+	UpdateAllViews(NULL, (LPARAM)n.GetKey(), &hint);
 }
 
 void iEditDoc::AddShapeNode(const CString &name, const CPoint &pt, int mfIndex, HENHMETAFILE& mh)
 {
 	iNode n(name);
-	n.setKey(AssignNewKey());
-	n.setParent(nodes_.getCurParent());
-	n.setNodeShape(iNode::MetaFile);
-	n.moveBound(CSize(pt.x, pt.y));
+	n.SetKey(AssignNewKey());
+	n.SetParentKey(nodes_.getCurParent());
+	n.SetShape(iNode::MetaFile);
+	n.MoveBound(CSize(pt.x, pt.y));
 	n.SetMetaFile(mh);
-	n.setTextStyle(iNode::notext);
-	nodes_[n.getKey()] = n;
+	n.SetTextStyle(iNode::notext);
+	nodes_[n.GetKey()] = n;
 
 	if (ShowSubBranch()) {
-		m_visibleKeys.insert(n.getKey());
+		m_visibleKeys.insert(n.GetKey());
 	}
 
-	SelectionChanged(n.getKey(), true, ShowSubBranch());
+	SelectionChanged(n.GetKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 	iHint hint;
 	hint.event = iHint::rectAdd;
 	hint.str = name;
-	UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
+	UpdateAllViews(NULL, (LPARAM)n.GetKey(), &hint);
 }
 
 bool iEditDoc::HitTestLinks(const CPoint &pt)
@@ -1103,7 +1103,7 @@ void iEditDoc::SetNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment
 	l.SetArrowStyle(styleArrow);
 	l.SetName(comment);
 	l.SetNodes((*itFrom).second.getBound(), (*itTo).second.getBound(), keyFrom, keyTo);
-	if ((*itFrom).second.isVisible() && (*itTo).second.isVisible()) {
+	if ((*itFrom).second.Visible() && (*itTo).second.Visible()) {
 		l.SetDrawable();
 	}
 	l.SetKey(lastLinkKey++);
@@ -1121,8 +1121,8 @@ void iEditDoc::GetSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComme
 		arrowType = (*li).GetArrowStyle();
 		const_niterator itFrom = nodes_.findNode((*li).GetFromNodeKey());
 		const_niterator itTo = nodes_.findNode((*li).GetToNodeKey());
-		if (itFrom != nodes_.end()) sFrom = (*itFrom).second.getName();
-		if (itTo != nodes_.end()) sTo = (*itTo).second.getName();
+		if (itFrom != nodes_.end()) sFrom = (*itFrom).second.GetName();
+		if (itTo != nodes_.end()) sTo = (*itTo).second.GetName();
 	}
 }
 
@@ -1267,7 +1267,7 @@ CString iEditDoc::GetSelectedNodeLabel()
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		return (*it).second.getName();
+		return (*it).second.GetName();
 	}
 	return _T("");
 }
@@ -1315,7 +1315,7 @@ void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 		}
 
 		const_niterator ni = nodes_.findNode(searchKey);
-		i.sTo = (*ni).second.getName();
+		i.sTo = (*ni).second.GetName();
 
 		if ((*it).GetArrowStyle() != iLink::other) {
 			if ((*it).CanDraw()) {
@@ -1532,7 +1532,7 @@ void iEditDoc::SetNodeRelax(CRelaxThrd *r)
 			//////////////////
 			iBound b;
 			b.key = e.from;
-			b.label = (*itFrom).second.getName();
+			b.label = (*itFrom).second.GetName();
 			b.fixed = (*itFrom).second.Fixed();
 			b.oldBound = (*itFrom).second.getBound();
 			b.newBound = b.oldBound;
@@ -1540,7 +1540,7 @@ void iEditDoc::SetNodeRelax(CRelaxThrd *r)
 
 			iBound b2;
 			b2.key = e.to;
-			b2.label = (*itTo).second.getName();
+			b2.label = (*itTo).second.GetName();
 			b2.fixed = (*itTo).second.Fixed();
 			b2.oldBound = (*itTo).second.getBound();
 			b2.newBound = b2.oldBound;
@@ -1590,7 +1590,7 @@ CRect iEditDoc::GetRelatedBound() const
 
 	const_niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if ((*it).second.isVisible() && (*it).second.isSelected()) {
+		if ((*it).second.Visible() && (*it).second.Selected()) {
 			rc = (*it).second.getBound();
 			break;
 		}
@@ -1598,14 +1598,14 @@ CRect iEditDoc::GetRelatedBound() const
 
 	it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if ((*it).second.isVisible() && (*it).second.isSelected()) {
+		if ((*it).second.Visible() && (*it).second.Selected()) {
 			rc |= (*it).second.getBound();
 			const_literator li = links_.begin();
 			for (; li != links_.end(); li++) {
 				if (!(*li).CanDraw()/* && !drwAll*/) {
 					continue;
 				}
-				if ((*it).second.getKey() == (*li).GetFromNodeKey() || (*it).second.getKey() == (*li).GetToNodeKey()) {
+				if ((*it).second.GetKey() == (*li).GetFromNodeKey() || (*it).second.GetKey() == (*li).GetToNodeKey()) {
 					rc |= (*li).getBound();
 				}
 			}
@@ -1621,7 +1621,7 @@ CRect iEditDoc::GetRelatedBoundAnd(bool drwAll)
 
 	const_niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if ((*it).second.isVisible() && (*it).second.isSelected()) {
+		if ((*it).second.Visible() && (*it).second.Selected()) {
 			rc = (*it).second.getBound();
 			break;
 		}
@@ -1629,7 +1629,7 @@ CRect iEditDoc::GetRelatedBoundAnd(bool drwAll)
 
 	it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if (/*!drwAll && */ (*it).second.isVisible() && (*it).second.isSelected() /*|| drwAll && (*it).IsSelected()*/) {
+		if (/*!drwAll && */ (*it).second.Visible() && (*it).second.Selected() /*|| drwAll && (*it).IsSelected()*/) {
 			rc |= (*it).second.getBound();
 		}
 	}
@@ -1642,7 +1642,7 @@ CRect iEditDoc::GetRelatedBoundAnd(bool drwAll)
 		niterator itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
 		niterator itTo = nodes_.findNodeW((*li).GetToNodeKey());
 
-		if ((*itFrom).second.isSelected() && (*itTo).second.isSelected()) {
+		if ((*itFrom).second.Selected() && (*itTo).second.Selected()) {
 			rc |= (*li).getBound();
 		}
 	}
@@ -1755,7 +1755,7 @@ void iEditDoc::PasteCopiedLink()
 
 	if (itFrom != nodes_.end() && itTo != nodes_.end()) {
 		m_cpLinkOrg.SetNodes((*itFrom).second.getBound(), (*itTo).second.getBound(),
-			(*itFrom).second.getKey(), (*itTo).second.getKey());
+			(*itFrom).second.GetKey(), (*itTo).second.GetKey());
 	}
 
 	links_.push_back(m_cpLinkOrg);
@@ -1792,8 +1792,8 @@ void iEditDoc::AddSelectedNodesToCopyOrg()
 	ptSelectMin = (*It).second.getBound().TopLeft();
 	const_niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if ((*it).second.isSelected()) {
-			copyOrg.push_back((*it).second.getKey());
+		if ((*it).second.Selected()) {
+			copyOrg.push_back((*it).second.GetKey());
 			if (ptSelectMin.x > (*it).second.getBound().TopLeft().x) {
 				ptSelectMin.x = (*it).second.getBound().TopLeft().x;
 			}
@@ -1809,8 +1809,8 @@ void iEditDoc::DuplicateNodes(const CPoint& pt, bool useDefault)
 	for (unsigned int i = 0; i < copyOrg.size(); i++) {
 		niterator it = nodes_.findNodeW(copyOrg[i]);
 		iNode n((*it).second);
-		n.setKey(AssignNewKey());
-		n.setParent(nodes_.getCurParent());
+		n.SetKey(AssignNewKey());
+		n.SetParentKey(nodes_.getCurParent());
 
 		if (!useDefault) {
 			CPoint ptNew = pt;
@@ -1820,22 +1820,22 @@ void iEditDoc::DuplicateNodes(const CPoint& pt, bool useDefault)
 			n.moveTo(ptNew);
 		}
 		else {
-			n.moveBound(CSize(20, 30));
+			n.MoveBound(CSize(20, 30));
 		}
 
-		nodes_[n.getKey()] = n;
+		nodes_[n.GetKey()] = n;
 
 		if (ShowSubBranch()) {
-			m_visibleKeys.insert(n.getKey());
+			m_visibleKeys.insert(n.GetKey());
 		}
 
-		SelectionChanged(n.getKey(), true, ShowSubBranch());
+		SelectionChanged(n.GetKey(), true, ShowSubBranch());
 		CalcMaxPt(m_maxPt);
 		SetModifiedFlag();
 		iHint hint; hint.event = iHint::rectAdd;
-		hint.str = n.getName();
+		hint.str = n.GetName();
 		hint.treeIconId = n.GetTreeIconId();
-		UpdateAllViews(NULL, (LPARAM)n.getKey(), &hint);
+		UpdateAllViews(NULL, (LPARAM)n.GetKey(), &hint);
 	}
 	copyOrg.clear();
 	copyOrg.resize(0);
@@ -1878,7 +1878,7 @@ void iEditDoc::SetSelectedNodeMetaFile(HENHMETAFILE metafile)
 		DisableUndo();
 		BackupNodesForUndo();
 		BackupLinksForUndo();
-		(*it).second.setNodeShape(iNode::MetaFile);
+		(*it).second.SetShape(iNode::MetaFile);
 		(*it).second.SetMetaFile(metafile);
 		SetConnectionPoint();
 		SetModifiedFlag();
@@ -1891,7 +1891,7 @@ void iEditDoc::SetSelectedNodeLabel(const CString &label)
 {
 	niterator it = nodes_.getSelectedNode();
 	if (it != nodes_.end()) {
-		(*it).second.setName(label);
+		(*it).second.SetName(label);
 		SetModifiedFlag();
 		iHint hint; hint.event = iHint::nodeLabelChanged;
 		hint.str = label;
@@ -1937,7 +1937,7 @@ void iEditDoc::SetResultRelax(Bounds &bounds)
 	Bounds::iterator it = bounds.begin();
 	for (; it != bounds.end(); it++) {
 		niterator nit = nodes_.findNodeW((*it).key);
-		(*nit).second.setBound((*it).newBound);
+		(*nit).second.SetBound((*it).newBound);
 	}
 	CalcMaxPt(m_maxPt);
 	SetConnectionPoint();
@@ -1989,7 +1989,7 @@ bool iEditDoc::LoadXml(const CString &filename, bool replace)
 	else {
 		idcVec.clear(); idcVec.resize(0);
 		nodesImport.clear(); nodesImport.resize(0);
-		nodeImport.setKey(-1); linkImport.SetKeyFrom(-1);
+		nodeImport.SetKey(-1); linkImport.SetKeyFrom(-1);
 
 		CWaitCursor wc;
 		pDoc->get_documentElement(&element);
@@ -2005,10 +2005,10 @@ bool iEditDoc::LoadXml(const CString &filename, bool replace)
 				return false;
 			}
 		}
-		nodeImport.setBound(CRect(-1, -1, 0, 0));
-		nodeImport.setName(_T(""));
-		nodeImport.setText(_T(""));
-		nodeImport.setTreeState(TVIS_EXPANDED);
+		nodeImport.SetBound(CRect(-1, -1, 0, 0));
+		nodeImport.SetName(_T(""));
+		nodeImport.SetText(_T(""));
+		nodeImport.SetTreeState(TVIS_EXPANDED);
 		linkImport.SetName(_T(""));
 		linkImport.SetPath(_T(""));
 		linkImport.SetArrowStyle(iLink::line);
@@ -2080,7 +2080,7 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 	else {
 		idcVec.clear(); idcVec.resize(0);
 		nodesImport.clear(); nodesImport.resize(0);
-		nodeImport.setKey(-1); linkImport.SetKeyFrom(-1);
+		nodeImport.SetKey(-1); linkImport.SetKeyFrom(-1);
 
 		CWaitCursor wc;
 		pDoc->get_documentElement(&element);
@@ -2096,10 +2096,10 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 				return false;
 			}
 		}
-		nodeImport.setBound(CRect(-1, -1, 0, 0));
-		nodeImport.setName("");
-		nodeImport.setText("");
-		nodeImport.setTreeState(TVIS_EXPANDED);
+		nodeImport.SetBound(CRect(-1, -1, 0, 0));
+		nodeImport.SetName("");
+		nodeImport.SetText("");
+		nodeImport.SetTreeState(TVIS_EXPANDED);
 		linkImport.SetName("");
 		linkImport.SetPath("");
 		linkImport.SetArrowStyle(iLink::line);
@@ -2108,7 +2108,7 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 
 		bool ret = Dom2Nodes3(element);
 
-		if (nodesImport.size() > 0 && nodesImport[0].getKey() != 0) {
+		if (nodesImport.size() > 0 && nodesImport[0].GetKey() != 0) {
 			CString mes = _T("部分的にエクスポートしたデータを直接開くことはできません。\n";
 			mes += _T("インポート機能を使用して取り込んでください。");
 			AfxMessageBox(mes));
@@ -2118,10 +2118,10 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 		if (ret) {
 			unsigned int i;
 			for (i = 0; i < nodesImport.size(); i++) {
-				nodes_[nodesImport[i].getKey()] = nodesImport[i];
-				sv.push_back(nodesImport[i].getKey());
-				if (nodesImport[i].getKey() > lastKey) {
-					lastKey = nodesImport[i].getKey();
+				nodes_[nodesImport[i].GetKey()] = nodesImport[i];
+				sv.push_back(nodesImport[i].GetKey());
+				if (nodesImport[i].GetKey() > lastKey) {
+					lastKey = nodesImport[i].GetKey();
 				}
 			}
 			lastLinkKey = 0;
@@ -2162,9 +2162,9 @@ bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		if (ename == _T("inode")) {
-			iNode n(_T("add")); n.setKey(AssignNewKey());
-			n.setNoBrush(FALSE);
-			n.setBound(CRect(-1, -1, 0, 0));
+			iNode n(_T("add")); n.SetKey(AssignNewKey());
+			n.ToggleFill(FALSE);
+			n.SetBound(CRect(-1, -1, 0, 0));
 			nodesImport.push_back(n);
 			childnode->get_childNodes(&childs2);
 			for (j = 0; j < childs2->Getlength(); j++) {
@@ -2178,7 +2178,7 @@ bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 					swscanf_s((const wchar_t*)ids.GetBuffer(), _T("%d"), &id);
 					NodeKeyPair idc;
 					idc.first = (DWORD)id;
-					idc.second = nodesImport[nodesImport.size() - 1].getKey();
+					idc.second = nodesImport[nodesImport.size() - 1].GetKey();
 					idcVec.push_back(idc);
 
 					ids += ' '; f->WriteString(ids); // log
@@ -2189,12 +2189,12 @@ bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 					CString pids(s);
 					int pid;
 					swscanf_s((const wchar_t*)pids.GetBuffer(), _T("%d"), &pid);
-					nodesImport[nodesImport.size() - 1].setParent((DWORD)pid);
+					nodesImport[nodesImport.size() - 1].SetParentKey((DWORD)pid);
 				}
 				else if (ename2 == _T("label")) {
 					childnode2->firstChild->get_text(&s);
 					CString name(s);
-					nodesImport[nodesImport.size() - 1].setName(name);
+					nodesImport[nodesImport.size() - 1].SetName(name);
 
 					name += '\n'; f->WriteString(name); // log
 
@@ -2203,37 +2203,37 @@ bool iEditDoc::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 					childnode2->firstChild->get_text(&s);
 					CString text(s);
 					text = StringUtil::ReplaceLfToCrlf(text);
-					nodesImport[nodesImport.size() - 1].setText(text);
+					nodesImport[nodesImport.size() - 1].SetText(text);
 				}
 				else if (ename2 == _T("labelAlign")) {
 					childnode2->firstChild->get_text(&s);
 					CString align(s);
-					nodesImport[nodesImport.size() - 1].setTextStyle(Dom2TextAlign(align));
+					nodesImport[nodesImport.size() - 1].SetTextStyle(Dom2TextAlign(align));
 				}
 				else if (ename2 == _T("shape")) {
 					childnode2->firstChild->get_text(&s);
 					CString shape(s);
-					nodesImport[nodesImport.size() - 1].setNodeShape(Dom2Shape(shape));
+					nodesImport[nodesImport.size() - 1].SetShape(Dom2Shape(shape));
 				}
 				else if (ename2 == _T("bound")) {
 					CRect rc = nodesImport[nodesImport.size() - 1].getBound();
 					Dom2Bound(childnode2, rc);
 					rc.NormalizeRect();
-					nodesImport[nodesImport.size() - 1].setBound(rc);
+					nodesImport[nodesImport.size() - 1].SetBound(rc);
 				}
 				else if (ename2 == _T("ForColor")) {
 					COLORREF cr = Dom2ForeColor(childnode2);
-					nodesImport[nodesImport.size() - 1].setBrush(cr);
+					nodesImport[nodesImport.size() - 1].SetFillColor(cr);
 				}
 				else if (ename2 == _T("nodeLine")) {
 					int lineStyle(PS_SOLID), lineWidth(0);
 					Dom2NodeLine(childnode2, lineStyle, lineWidth);
-					nodesImport[nodesImport.size() - 1].setLineStyle(lineStyle);
-					nodesImport[nodesImport.size() - 1].setLineWidth(lineWidth);
+					nodesImport[nodesImport.size() - 1].SetLineStyle(lineStyle);
+					nodesImport[nodesImport.size() - 1].SetLineWidth(lineWidth);
 				}
 				else if (ename2 == _T("nodeLineColor")) {
 					COLORREF cr = Dom2NodeLineColor(childnode2);
-					nodesImport[nodesImport.size() - 1].setLineColor(cr);
+					nodesImport[nodesImport.size() - 1].SetLineColor(cr);
 				}
 			}
 		}
@@ -2302,9 +2302,9 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 		BSTR name = childnode->nodeName;
 		CString ename(name);
 		if (ename == _T("inode")) {
-			iNode n(_T("add")); n.setKey(0);
-			n.setNoBrush(FALSE);
-			n.setBound(CRect(-1, -1, 0, 0));
+			iNode n(_T("add")); n.SetKey(0);
+			n.ToggleFill(FALSE);
+			n.SetBound(CRect(-1, -1, 0, 0));
 			nodesImport.push_back(n);
 			childnode->get_childNodes(&childs2);
 			for (j = 0; j < childs2->Getlength(); j++) {
@@ -2318,12 +2318,12 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 					swscanf_s((const wchar_t*)ids.GetBuffer(), _T("%d"), &id);
 
 					//	ids += ' '; f->WriteString(ids); // log
-					nodesImport[nodesImport.size() - 1].setKey((DWORD)id);
+					nodesImport[nodesImport.size() - 1].SetKey((DWORD)id);
 					if (id == 0) {
-						nodesImport[nodesImport.size() - 1].setTreeState(TVIS_EXPANDED | TVIS_SELECTED);
+						nodesImport[nodesImport.size() - 1].SetTreeState(TVIS_EXPANDED | TVIS_SELECTED);
 					}
 					else {
-						nodesImport[nodesImport.size() - 1].setTreeState(0);
+						nodesImport[nodesImport.size() - 1].SetTreeState(0);
 					}
 				}
 				else if (ename2 == _T("pid")) {
@@ -2331,7 +2331,7 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 					CString pids(s);
 					int pid;
 					swscanf_s((const wchar_t *)pids.GetBuffer(), _T("%d"), &pid);
-					nodesImport[nodesImport.size() - 1].setParent((DWORD)pid);
+					nodesImport[nodesImport.size() - 1].SetParentKey((DWORD)pid);
 					/*	} else if (ename2 == "level") {
 							childnode2->firstChild->get_text(&s);
 							CString sLevel(s);
@@ -2342,7 +2342,7 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 				else if (ename2 == _T("label")) {
 					childnode2->firstChild->get_text(&s);
 					CString name(s);
-					nodesImport[nodesImport.size() - 1].setName(name);
+					nodesImport[nodesImport.size() - 1].SetName(name);
 
 					//	name += '\n'; f->WriteString(name); // log
 
@@ -2351,37 +2351,37 @@ bool iEditDoc::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
 					childnode2->firstChild->get_text(&s);
 					CString text(s);
 					text = StringUtil::ReplaceLfToCrlf(text);
-					nodesImport[nodesImport.size() - 1].setText(text);
+					nodesImport[nodesImport.size() - 1].SetText(text);
 				}
 				else if (ename2 == _T("labelAlign")) {
 					childnode2->firstChild->get_text(&s);
 					CString align(s);
-					nodesImport[nodesImport.size() - 1].setTextStyle(Dom2TextAlign(align));
+					nodesImport[nodesImport.size() - 1].SetTextStyle(Dom2TextAlign(align));
 				}
 				else if (ename2 == _T("shape")) {
 					childnode2->firstChild->get_text(&s);
 					CString shape(s);
-					nodesImport[nodesImport.size() - 1].setNodeShape(Dom2Shape(shape));
+					nodesImport[nodesImport.size() - 1].SetShape(Dom2Shape(shape));
 				}
 				else if (ename2 == _T("bound")) {
 					CRect rc = nodesImport[nodesImport.size() - 1].getBound();
 					Dom2Bound(childnode2, rc);
 					rc.NormalizeRect();
-					nodesImport[nodesImport.size() - 1].setBound(rc);
+					nodesImport[nodesImport.size() - 1].SetBound(rc);
 				}
 				else if (ename2 == _T("ForColor")) {
 					COLORREF cr = Dom2ForeColor(childnode2);
-					nodesImport[nodesImport.size() - 1].setBrush(cr);
+					nodesImport[nodesImport.size() - 1].SetFillColor(cr);
 				}
 				else if (ename2 == _T("nodeLine")) {
 					int lineStyle(PS_SOLID), lineWidth(0);
 					Dom2NodeLine(childnode2, lineStyle, lineWidth);
-					nodesImport[nodesImport.size() - 1].setLineStyle(lineStyle);
-					nodesImport[nodesImport.size() - 1].setLineWidth(lineWidth);
+					nodesImport[nodesImport.size() - 1].SetLineStyle(lineStyle);
+					nodesImport[nodesImport.size() - 1].SetLineWidth(lineWidth);
 				}
 				else if (ename2 == _T("nodeLineColor")) {
 					COLORREF cr = Dom2NodeLineColor(childnode2);
-					nodesImport[nodesImport.size() - 1].setLineColor(cr);
+					nodesImport[nodesImport.size() - 1].SetLineColor(cr);
 				}
 			}
 		}
@@ -2768,7 +2768,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 
 		CString ids;
 		DWORD key, parent;
-		key = (*it).second.getKey(); parent = (*it).second.getParent();
+		key = (*it).second.GetKey(); parent = (*it).second.GetParentKey();
 		if (i == 0 && key != parent) {
 			parent = key;
 		}
@@ -2780,8 +2780,8 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 		f.WriteString(sLevel);
 
 		f.WriteString(_T("\t\t<label>"));
-		CString title = _T("<![CDATA[") + (*it).second.getName() + _T("]]>");
-		if ((*it).second.getTextStyle() >= iNode::m_c) {
+		CString title = _T("<![CDATA[") + (*it).second.GetName() + _T("]]>");
+		if ((*it).second.GetTextStyle() >= iNode::m_c) {
 			f.WriteString(StringUtil::ReplaceCrToLf(title));
 		}
 		else {
@@ -2790,13 +2790,13 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 		f.WriteString(_T("</label>\n"));
 
 		f.WriteString(_T("\t\t<text>"));
-		CString text = _T("<![CDATA[") + (*it).second.getText() + _T("]]>");
+		CString text = _T("<![CDATA[") + (*it).second.GetText() + _T("]]>");
 		f.WriteString(StringUtil::ReplaceCrToLf(text));
 		f.WriteString(_T("\n\t\t</text>\n"));
 
 		// ラベルのアライメント
 		f.WriteString(_T("\t\t<labelAlign>"));
-		int align = (*it).second.getTextStyle(); CString salign;
+		int align = (*it).second.GetTextStyle(); CString salign;
 		switch (align) {
 		case iNode::s_cc: salign = _T("single-middle-center"); break;
 		case iNode::s_cl: salign = _T("single-middle-left"); break;
@@ -2817,7 +2817,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 
 		// 形
 		f.WriteString(_T("\t\t<shape>"));
-		int shape = (*it).second.getNodeShape();
+		int shape = (*it).second.GetShape();
 		if (shape == iNode::rectangle) {
 			f.WriteString(_T("Rect"));
 		}
@@ -2867,9 +2867,9 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 
 		CString sc;
 		// 色(塗りつぶし)
-		if ((*it).second.isFilled()) {
+		if ((*it).second.Filled()) {
 			f.WriteString(_T("\t\t<ForColor>\n"));
-			COLORREF fc = (*it).second.getBrsColor();
+			COLORREF fc = (*it).second.GetFillColor();
 			BYTE fred = GetRValue(fc);
 			BYTE fgrn = GetGValue(fc);
 			BYTE fblu = GetBValue(fc);
@@ -2894,20 +2894,20 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 		// 線のスタイル
 		f.WriteString(_T("\t\t<nodeLine>\n"));
 		f.WriteString(_T("\t\t\t<nodeLineStyle>"));
-		if ((*it).second.getLineStyle() == PS_NULL) {
+		if ((*it).second.GetLineStyle() == PS_NULL) {
 			f.WriteString(_T("noLine"));
 		}
-		else if ((*it).second.getLineStyle() == PS_SOLID) {
+		else if ((*it).second.GetLineStyle() == PS_SOLID) {
 			f.WriteString(_T("solidLine"));
 		}
-		else if ((*it).second.getLineStyle() == PS_DOT) {
+		else if ((*it).second.GetLineStyle() == PS_DOT) {
 			f.WriteString(_T("dotedLine"));
 		}
 		f.WriteString(_T("</nodeLineStyle>\n"));
 
-		if ((*it).second.getLineStyle() == PS_SOLID) {
+		if ((*it).second.GetLineStyle() == PS_SOLID) {
 			f.WriteString(_T("\t\t\t<nodeLineWidth>"));
-			int width = (*it).second.getLineWidth();
+			int width = (*it).second.GetLineWidth();
 			if (width == 0) {
 				width = 1;
 			}
@@ -2918,9 +2918,9 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 		f.WriteString(_T("\t\t</nodeLine>\n"));
 
 		// 色(線)
-		if ((*it).second.getLineStyle() != PS_NULL) {
+		if ((*it).second.GetLineStyle() != PS_NULL) {
 			f.WriteString(_T("\t\t<nodeLineColor>\n"));
-			COLORREF lc = (*it).second.getLineColor();
+			COLORREF lc = (*it).second.GetLineColor();
 			BYTE lred = GetRValue(lc);
 			BYTE lgrn = GetGValue(lc);
 			BYTE lblu = GetBValue(lc);
@@ -3082,20 +3082,20 @@ void iEditDoc::AddImportedData(bool brepRoot)
 	//	sort(nodesImport.begin(), nodesImport.end());
 	unsigned int i;
 	for (i = 0; i < nodesImport.size(); i++) {
-		nodesImport[i].setParent(FindPairKey(nodesImport[i].getParent()));
-		if (nodesImport[i].getKey() == nodesImport[i].getParent()) {
-			nodesImport[i].setParent(nodes_.getSelKey());
+		nodesImport[i].SetParentKey(FindPairKey(nodesImport[i].GetParentKey()));
+		if (nodesImport[i].GetKey() == nodesImport[i].GetParentKey()) {
+			nodesImport[i].SetParentKey(nodes_.getSelKey());
 		}
 	}
 
 	// ノードを置き換える処理をここに書く
 	if (brepRoot) {
 		DWORD sel = nodes_.getSelKey();
-		DWORD start = nodesImport[0].getKey();
-		nodesImport[0].setKey(sel);
+		DWORD start = nodesImport[0].GetKey();
+		nodesImport[0].SetKey(sel);
 		for (i = 0; i < nodesImport.size(); i++) {
-			if (nodesImport[i].getParent() == start) {
-				nodesImport[i].setParent(sel);
+			if (nodesImport[i].GetParentKey() == start) {
+				nodesImport[i].SetParentKey(sel);
 			}
 		}
 		for (i = 0; i < linksImport.size(); i++) {
@@ -3107,9 +3107,9 @@ void iEditDoc::AddImportedData(bool brepRoot)
 			}
 		}
 		niterator it = nodes_.getSelectedNode();
-		(*it).second.setName(nodesImport[0].getName());
-		(*it).second.setText(nodesImport[0].getText());
-		(*it).second.setBound(nodesImport[0].getBound());
+		(*it).second.SetName(nodesImport[0].GetName());
+		(*it).second.SetText(nodesImport[0].GetText());
+		(*it).second.SetBound(nodesImport[0].getBound());
 	}
 
 	// nodeの格納
@@ -3123,16 +3123,16 @@ void iEditDoc::AddImportedData(bool brepRoot)
 			i = 0;
 		}
 		for (; i < nodesImport.size(); i++) {
-			niterator itp = nodes_.find(nodesImport[i].getParent());
-			niterator it = nodes_.find(nodesImport[i].getKey());
+			niterator itp = nodes_.find(nodesImport[i].GetParentKey());
+			niterator it = nodes_.find(nodesImport[i].GetKey());
 			if (itp != nodes_.end() && it == nodes_.end()) {
 				CRect rc = nodesImport[i].getBound();
 				if (rc.left < 0 && rc.top < 0) {
 					nodesImport[i].moveTo(CPoint(0, 0));
-					nodesImport[i].moveBound(CSize(rand() % 800, rand() % 600));
+					nodesImport[i].MoveBound(CSize(rand() % 800, rand() % 600));
 				}
-				nodes_[nodesImport[i].getKey()] = nodesImport[i];
-				sv.push_back(nodesImport[i].getKey());
+				nodes_[nodesImport[i].GetKey()] = nodesImport[i];
+				sv.push_back(nodesImport[i].GetKey());
 			}
 		}
 	}
@@ -3149,7 +3149,7 @@ void iEditDoc::AddImportedData(bool brepRoot)
 
 	if (brepRoot) {
 		iHint hint; hint.event = iHint::nodeLabelChanged;
-		hint.str = nodesImport[0].getName();
+		hint.str = nodesImport[0].GetName();
 		DWORD key = nodes_.getSelKey();
 		UpdateAllViews(NULL, (LPARAM)key, &hint);
 	}
@@ -3167,9 +3167,9 @@ void iEditDoc::RandomizeNodesPos(const CSize &area)
 	srand((unsigned)st.wMilliseconds);
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if (!(*it).second.isVisible()) continue;
+		if (!(*it).second.Visible()) continue;
 		(*it).second.moveTo(CPoint(0, 0));
-		(*it).second.moveBound(CSize(rand() % area.cx, rand() % area.cy));
+		(*it).second.MoveBound(CSize(rand() % area.cx, rand() % area.cy));
 	}
 	SetConnectionPoint();
 	CalcMaxPt(m_maxPt);
@@ -3180,19 +3180,19 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 {
 	const_niterator it = nodes_.findNode(key);
 
-	CString nameStr = StringUtil::RemoveCr((*it).second.getName());
+	CString nameStr = StringUtil::RemoveCr((*it).second.GetName());
 	// リンクタグの生成
 	f->WriteString(_T("<a id="));
 	f->WriteString(_T("\""));
 	CString keystr;
-	keystr.Format(_T("%d"), (*it).second.getKey());
+	keystr.Format(_T("%d"), (*it).second.GetKey());
 	f->WriteString(keystr);
 	f->WriteString(_T("\" />\n"));
 
 	// 内容書き込み
 	f->WriteString(_T("<h1>") + nameStr + _T("</h1>\n"));
 	f->WriteString(_T("<div class=\"text\">\n"));
-	f->WriteString(ParseWikiNotation((*it).second.getText()));
+	f->WriteString(ParseWikiNotation((*it).second.GetText()));
 	f->WriteString(_T("</div>\n"));
 
 	// リンクの書き込み
@@ -3201,12 +3201,12 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 	CString sLink(_T("<ul>\n"));
 	int cnt = 0;
 	for (; li != links_.end(); li++) {
-		if ((*li).GetFromNodeKey() != (*it).second.getKey() &&
-			(*li).GetToNodeKey() != (*it).second.getKey()) {
+		if ((*li).GetFromNodeKey() != (*it).second.GetKey() &&
+			(*li).GetToNodeKey() != (*it).second.GetKey()) {
 			continue;
 		}
 		if ((*li).GetArrowStyle() != iLink::other) {
-			if ((*it).second.getKey() == (*li).GetFromNodeKey()) {
+			if ((*it).second.GetKey() == (*li).GetFromNodeKey()) {
 				const_niterator itTo = nodes_.findNode((*li).GetToNodeKey());
 				if (itTo != nodes_.end()) {
 					CString keystr;
@@ -3220,7 +3220,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
 					}
 					sLink += _T("\">");
-					sLink += _T("▲") + StringUtil::RemoveCr((*itTo).second.getName());
+					sLink += _T("▲") + StringUtil::RemoveCr((*itTo).second.GetName());
 					if ((*li).GetName() != _T("")) {
 						sLink += _T("(") + (*li).GetName() + _T(")");
 					}
@@ -3228,7 +3228,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 					cnt++;
 				}
 			}
-			else if ((*it).second.getKey() == (*li).GetToNodeKey()) {
+			else if ((*it).second.GetKey() == (*li).GetToNodeKey()) {
 				const_niterator itFrom = nodes_.findNode((*li).GetFromNodeKey());
 				if (itFrom != nodes_.end()) {
 					CString keystr; \
@@ -3242,7 +3242,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
 					}
 					sLink += _T("\">");
-					sLink += _T("▽") + StringUtil::RemoveCr((*itFrom).second.getName());
+					sLink += _T("▽") + StringUtil::RemoveCr((*itFrom).second.GetName());
 					if ((*li).GetName() != "") {
 						sLink += _T("(") + (*li).GetName() + ")";
 					}
@@ -3432,7 +3432,7 @@ CString iEditDoc::GetKeyNodeText(DWORD key)
 {
 	const_niterator it = nodes_.findNode(key);
 	if (it != nodes_.end()) {
-		return (*it).second.getText();
+		return (*it).second.GetText();
 	}
 	return _T("");
 }
@@ -3441,7 +3441,7 @@ CString iEditDoc::GetKeyNodeLabel(DWORD key)
 {
 	const_niterator it = nodes_.findNode(key);
 	if (it != nodes_.end()) {
-		return (*it).second.getName();
+		return (*it).second.GetName();
 	}
 	return _T("");
 }
@@ -3466,24 +3466,24 @@ void iEditDoc::ListUpNodes(const CString &sfind, NodePropsVec &labels, BOOL bLab
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
 		bool done = false;
-		CString name = (*it).second.getName();
-		CString text = (*it).second.getText();
+		CString name = (*it).second.GetName();
+		CString text = (*it).second.GetText();
 		if (bUpper) {
 			name.MakeUpper();
 			text.MakeUpper();
 		}
 		if (bLabel && name.Find(sf) != -1) {
 			NodeProps l;
-			l.name = (*it).second.getName();
-			l.key = (*it).second.getKey();
+			l.name = (*it).second.GetName();
+			l.key = (*it).second.GetKey();
 			l.state = 0;
 			labels.push_back(l);
 			done = true;
 		}
 		if (bText && text.Find(sf) != -1) {
 			NodeProps l;
-			l.name = (*it).second.getName();
-			l.key = (*it).second.getKey();
+			l.name = (*it).second.GetName();
+			l.key = (*it).second.GetKey();
 			l.state = 1;
 			labels.push_back(l);
 		}
@@ -3534,7 +3534,7 @@ void iEditDoc::DrawLinksSelected(CDC *pDC, bool clipbrd)
 	for (; li != links_.end(); li++) {
 		niterator itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
 		niterator itTo = nodes_.findNodeW((*li).GetToNodeKey());
-		if ((*li).GetArrowStyle() != iLink::other && (*itFrom).second.isSelected() && (*itTo).second.isSelected()) {
+		if ((*li).GetArrowStyle() != iLink::other && (*itFrom).second.Selected() && (*itTo).second.Selected()) {
 			(*li).DrawArrow(pDC);
 			(*li).DrawLine(pDC);
 			(*li).DrawComment(pDC, clipbrd);
@@ -3548,7 +3548,7 @@ void iEditDoc::BackupNodesForUndo()
 	nodes_undo.resize(0);
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if ((*it).second.isVisible()) {
+		if ((*it).second.Visible()) {
 			iNode n((*it).second);
 			nodes_undo.push_back(n);
 		}
@@ -3558,7 +3558,7 @@ void iEditDoc::BackupNodesForUndo()
 void iEditDoc::RestoreNodesForUndo()
 {
 	for (unsigned int i = 0; i < nodes_undo.size(); i++) {
-		niterator it = nodes_.findNodeW(nodes_undo[i].getKey());
+		niterator it = nodes_.findNodeW(nodes_undo[i].GetKey());
 		if (it != nodes_.end()) {
 			(*it).second = nodes_undo[i];
 		}
@@ -3624,8 +3624,8 @@ void iEditDoc::AlignNodesInBoundTo(const CString& side, const CRect& rect)
 {
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if (!(*it).second.isVisible()) continue;
-		if (!(*it).second.isSelected()) continue;
+		if (!(*it).second.Visible()) continue;
+		if (!(*it).second.Selected()) continue;
 		CPoint pt;
 		if (side == _T("left")) {
 			pt.x = rect.left;
@@ -3658,9 +3658,9 @@ void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize)
 	CRect rc;
 	for (; it != nodes_.end(); it++) {
 		//		if (!bDrwAll) {
-		if (!(*it).second.isVisible()) continue;
+		if (!(*it).second.Visible()) continue;
 		//		}
-		if (!(*it).second.isSelected()) continue;
+		if (!(*it).second.Selected()) continue;
 		rc = (*it).second.getBound();
 		if (strSize == _T("height")) {
 			rc.bottom = rc.top + maxSz.cy;
@@ -3672,7 +3672,7 @@ void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize)
 			rc.bottom = rc.top + maxSz.cy;
 			rc.right = rc.left + maxSz.cx;
 		}
-		(*it).second.setBound(rc);
+		(*it).second.SetBound(rc);
 	}
 	SetConnectionPoint();
 	CalcMaxPt(m_maxPt);
@@ -3764,7 +3764,7 @@ CString iEditDoc::GetSubBranchRootLabel() const
 {
 	const_niterator n = nodes_.findNode(m_dwBranchRootKey);
 	if (n != nodes_.end()) {
-		return (*n).second.getName();
+		return (*n).second.GetName();
 	}
 	return _T("");
 }
@@ -3809,7 +3809,7 @@ void iEditDoc::OnFileSaveAs()
 	CString driveName = drive;
 	if (driveName == _T("")) {
 		const_niterator it = nodes_.find(0);
-		CString rootLabel = (*it).second.getName();
+		CString rootLabel = (*it).second.GetName();
 		if (rootLabel != _T("主題")) {
 			// TODO:ファイル名として不正な文字の除去
 			CString safeFileName = StringUtil::GetSafeFileName(rootLabel);
@@ -3970,7 +3970,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 	// ドラッグ中のノードの位置を変更
 	niterator ni = nodes_.begin();
 	for (; ni != nodes_.end(); ni++) {
-		if ((*ni).second.isSelected()) {
+		if ((*ni).second.Selected()) {
 			CRect rc = (*ni).second.getBound();
 			int height = rc.Height();
 			int width = rc.Width();
@@ -3990,7 +3990,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 			}
 
 			(*ni).second.SetPrevBound((*ni).second.GetPrevBound());
-			(*ni).second.setBound(rc);
+			(*ni).second.SetBound(rc);
 			break;
 		}
 	}
@@ -4029,14 +4029,14 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 	srand((unsigned)time(NULL));
 	niterator nit1 = nodes_.begin();
 	for (; nit1 != nodes_.end(); nit1++) {
-		if (!(*nit1).second.isVisible()) continue;
+		if (!(*nit1).second.Visible()) continue;
 		if (!(*nit1).second.IsInChain()) continue;
 
 		double dx = 0; double dy = 0;
 		niterator nit2 = nodes_.begin();
 		for (; nit2 != nodes_.end(); nit2++) {
 			if (nit1 == nit2) { continue; }
-			if (!(*nit2).second.isVisible()) continue;
+			if (!(*nit2).second.Visible()) continue;
 			if (!(*nit2).second.IsInChain()) continue;
 
 			double gx1 = (*nit1).second.GetPrevBound().CenterPoint().x;
@@ -4066,9 +4066,9 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 
 	niterator nit = nodes_.begin();
 	for (; nit != nodes_.end(); nit++) {
-		if (!(*nit).second.isVisible()) continue;
+		if (!(*nit).second.Visible()) continue;
 		if (!(*nit).second.IsInChain()) continue;
-		if ((*nit).second.isSelected()) continue;
+		if ((*nit).second.Selected()) continue;
 		double x = max(-5, min(5, (*nit).second.dx));
 		double y = max(-5, min(5, (*nit).second.dy));
 		CRect rc = (*nit).second.GetPrevBound();
@@ -4082,8 +4082,8 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 			rc.bottom = (*nit).second.GetPrevBound().Height();
 			rc.top = 0;
 		}
-		if (!(*nit).second.Fixed() && !(*nit).second.isSelected()) {
-			(*nit).second.setBound(rc);
+		if (!(*nit).second.Fixed() && !(*nit).second.Selected()) {
+			(*nit).second.SetBound(rc);
 		}
 		(*nit).second.dx /= 2;
 		(*nit).second.dy /= 2;
@@ -4091,7 +4091,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if (!(*it).second.isVisible()) continue;
+		if (!(*it).second.Visible()) continue;
 		if (!(*it).second.IsInChain()) continue;
 		(*it).second.SetPrevBound((*it).second.getBound());
 	}
@@ -4160,7 +4160,7 @@ CRect iEditDoc::GetChaindNodesBound() const
 	CRect rc = GetSelectedNodeRect();
 	const_niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if ((*it).second.isVisible() && (*it).second.IsInChain()) {
+		if ((*it).second.Visible() && (*it).second.IsInChain()) {
 			rc |= (*it).second.getBound();
 		}
 	}
@@ -4181,10 +4181,10 @@ void iEditDoc::SetConnectionPointForLayout()
 		niterator itTo = nodes_.findNodeW((*li).GetToNodeKey());
 		if (itFrom == nodes_.end() || itTo == nodes_.end()) continue;
 
-		if ((*li).GetFromNodeKey() == (*itFrom).second.getKey()) {
+		if ((*li).GetFromNodeKey() == (*itFrom).second.GetKey()) {
 			(*li).SetFromNodeRect((*itFrom).second.getBound());
 		}
-		if ((*li).GetToNodeKey() == (*itTo).second.getKey()) {
+		if ((*li).GetToNodeKey() == (*itTo).second.GetKey()) {
 			(*li).SetToNodeRect((*itTo).second.getBound());
 		}
 	}
@@ -4224,18 +4224,18 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 		nwNode = InsertNode(nodeType, _T("ノード"), pt);
 	}
 
-	DWORD newKey = nwNode.getKey();
+	DWORD newKey = nwNode.GetKey();
 
-	SelectionChanged(nwNode.getKey(), true, ShowSubBranch());
+	SelectionChanged(nwNode.GetKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 
 	iHint hint;
 	hint.event = iHint::rectAdd;
-	hint.str = nwNode.getName();
-	UpdateAllViews(NULL, (LPARAM)nwNode.getKey(), &hint);
+	hint.str = nwNode.GetName();
+	UpdateAllViews(NULL, (LPARAM)nwNode.GetKey(), &hint);
 
 	iLink l;
-	l.SetNodes((*it).second.getBound(), nwNode.getBound(), (*it).second.getKey(), nwNode.getKey());
+	l.SetNodes((*it).second.getBound(), nwNode.getBound(), (*it).second.GetKey(), nwNode.GetKey());
 	l.SetDrawable();
 	l.SetKey(lastLinkKey++);
 	ResolveLinkLineStyle(l);
@@ -4253,9 +4253,9 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 		nodes_.restoreNodesFixState(newKey); // Fix状態をリストア
 	}
 
-	SelectionChanged(nwNode.getKey(), true, ShowSubBranch());
+	SelectionChanged(nwNode.GetKey(), true, ShowSubBranch());
 
-	niterator nit = nodes_.find(nwNode.getKey());
+	niterator nit = nodes_.find(nwNode.GetKey());
 	return (*nit).second.getBound();
 }
 
@@ -4291,18 +4291,18 @@ const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 	}
 
 	iNode nwNode = InsertNode(nodeType, _T("ノード"), ptTarget);
-	DWORD newKey = nwNode.getKey();
+	DWORD newKey = nwNode.GetKey();
 
-	SelectionChanged(nwNode.getKey(), true, ShowSubBranch());
+	SelectionChanged(nwNode.GetKey(), true, ShowSubBranch());
 	SetModifiedFlag();
 
 	iHint hint;
 	hint.event = iHint::rectAdd;
-	hint.str = nwNode.getName();
-	UpdateAllViews(NULL, (LPARAM)nwNode.getKey(), &hint);
+	hint.str = nwNode.GetName();
+	UpdateAllViews(NULL, (LPARAM)nwNode.GetKey(), &hint);
 
 	iLink l;
-	l.SetNodes((*itRoot).second.getBound(), nwNode.getBound(), (*itRoot).second.getKey(), nwNode.getKey());
+	l.SetNodes((*itRoot).second.getBound(), nwNode.getBound(), (*itRoot).second.GetKey(), nwNode.GetKey());
 	l.SetDrawable();
 	l.SetKey(lastLinkKey++);
 	ResolveLinkLineStyle(l);
@@ -4318,9 +4318,9 @@ const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 		RelaxSingleStep2();
 	}
 	nodes_.restoreNodesFixState(newKey);
-	SelectionChanged(nwNode.getKey(), true, ShowSubBranch());
+	SelectionChanged(nwNode.GetKey(), true, ShowSubBranch());
 
-	niterator nit = nodes_.find(nwNode.getKey());
+	niterator nit = nodes_.find(nwNode.GetKey());
 	return (*nit).second.getBound();
 }
 
@@ -4329,17 +4329,17 @@ const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 const iNode& iEditDoc::InsertNode(const int nodeType, const CString &name, const CPoint &pt)
 {
 	iNode n(name);
-	n.setKey(AssignNewKey());
-	n.setParent(nodes_.getCurParent());
-	n.setNodeShape(nodeType);
-	n.moveBound(CSize(pt.x, pt.y));
-	n.setVisible();
-	nodes_[n.getKey()] = n;
+	n.SetKey(AssignNewKey());
+	n.SetParentKey(nodes_.getCurParent());
+	n.SetShape(nodeType);
+	n.MoveBound(CSize(pt.x, pt.y));
+	n.SetVisible();
+	nodes_[n.GetKey()] = n;
 
 	if (ShowSubBranch()) {
-		m_visibleKeys.insert(n.getKey());
+		m_visibleKeys.insert(n.GetKey());
 	}
-	const_niterator nit = nodes_.find(n.getKey());
+	const_niterator nit = nodes_.find(n.GetKey());
 	return ((*nit).second);
 }
 
@@ -4379,14 +4379,14 @@ void iEditDoc::RelaxSingleStep2()
 	srand((unsigned)time(NULL));
 	niterator nit1 = nodes_.begin();
 	for (; nit1 != nodes_.end(); nit1++) {
-		if (!(*nit1).second.isVisible()) continue;
+		if (!(*nit1).second.Visible()) continue;
 		if (!(*nit1).second.IsInChain()) continue;
 
 		double dx = 0; double dy = 0;
 		niterator nit2 = nodes_.begin();
 		for (; nit2 != nodes_.end(); nit2++) {
 			if (nit1 == nit2) { continue; }
-			if (!(*nit2).second.isVisible()) continue;
+			if (!(*nit2).second.Visible()) continue;
 			if (!(*nit2).second.IsInChain()) continue;
 
 			double gx1 = (*nit1).second.GetPrevBound().CenterPoint().x;
@@ -4416,7 +4416,7 @@ void iEditDoc::RelaxSingleStep2()
 
 	niterator nit = nodes_.begin();
 	for (; nit != nodes_.end(); nit++) {
-		if (!(*nit).second.isVisible()) continue;
+		if (!(*nit).second.Visible()) continue;
 		if (!(*nit).second.IsInChain()) continue;
 		double x = max(-5, min(5, (*nit).second.dx));
 		double y = max(-5, min(5, (*nit).second.dy));
@@ -4432,7 +4432,7 @@ void iEditDoc::RelaxSingleStep2()
 			rc.top = 0;
 		}
 		if (!(*nit).second.Fixed()) {
-			/*const_cast<iNode&>*/(*nit).second.setBound(rc);
+			/*const_cast<iNode&>*/(*nit).second.SetBound(rc);
 		}
 		/*const_cast<iNode&>*/(*nit).second.dx /= 2;
 		/*const_cast<iNode&>*/(*nit).second.dy /= 2;
@@ -4440,7 +4440,7 @@ void iEditDoc::RelaxSingleStep2()
 
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if (!(*it).second.isVisible()) continue;
+		if (!(*it).second.Visible()) continue;
 		if (!(*it).second.IsInChain()) continue;
 		/*const_cast<iNode&>*/(*it).second.SetPrevBound((*it).second.getBound());
 	}
@@ -4578,10 +4578,10 @@ void iEditDoc::SetConnectionPointVisibleLinks()
 		niterator itTo = nodes_.findNodeW((*li).GetToNodeKey());
 		if (itFrom == nodes_.end() || itTo == nodes_.end()) continue;
 
-		if ((*li).GetFromNodeKey() == (*itFrom).second.getKey()) {
+		if ((*li).GetFromNodeKey() == (*itFrom).second.GetKey()) {
 			(*li).SetFromNodeRect((*itFrom).second.getBound());
 		}
-		if ((*li).GetToNodeKey() == (*itTo).second.getKey()) {
+		if ((*li).GetToNodeKey() == (*itTo).second.GetKey()) {
 			(*li).SetToNodeRect((*itTo).second.getBound());
 		}
 	}
@@ -4614,20 +4614,20 @@ void iEditDoc::MigrateGroup()
 	int drawOrder = 0;
 	DWORD key = -1;
 	for (; itr != nodes_.end(); itr++) {
-		if (!(*itr).second.isVisible()) continue;
+		if (!(*itr).second.Visible()) continue;
 		CRect bound = (*itr).second.getBound();
 		BOOL bInBound = bound.PtInRect(r.TopLeft()) &&
 			bound.PtInRect(r.BottomRight());
 		if (bInBound) {
 			if (drawOrder < (*itr).second.GetDrawOrder()) {
-				key = (*itr).second.getKey();
+				key = (*itr).second.GetKey();
 				drawOrder = (*itr).second.GetDrawOrder();
 			}
 		}
 	}
 	iHint hint; hint.event = iHint::groupMigrate;
 	hint.keyTarget = key;
-	UpdateAllViews(NULL, (LPARAM)(*it).second.getKey(), &hint);
+	UpdateAllViews(NULL, (LPARAM)(*it).second.GetKey(), &hint);
 }
 
 void iEditDoc::SaveSelectedNodeFormat()
@@ -4640,19 +4640,19 @@ void iEditDoc::ApplyFormatToSelectedNode()
 {
 	BackupNodesForUndo();
 	niterator n = nodes_.getSelectedNode();
-	(*n).second.setLineColor(m_nodeForFormat.getLineColor());
-	(*n).second.setLineColor(m_nodeForFormat.getLineColor());
-	(*n).second.setLineStyle(m_nodeForFormat.getLineStyle());
-	(*n).second.setBrush(m_nodeForFormat.getBrsColor());
-	(*n).second.setNoBrush(m_nodeForFormat.isFilled());
-	(*n).second.setTextStyle(m_nodeForFormat.getTextStyle());
-	(*n).second.setFontColor(m_nodeForFormat.getFontColor());
-	(*n).second.setFontInfo(m_nodeForFormat.getFontInfo());
-	if (m_nodeForFormat.getNodeShape() == iNode::MetaFile) {
+	(*n).second.SetLineColor(m_nodeForFormat.GetLineColor());
+	(*n).second.SetLineColor(m_nodeForFormat.GetLineColor());
+	(*n).second.SetLineStyle(m_nodeForFormat.GetLineStyle());
+	(*n).second.SetFillColor(m_nodeForFormat.GetFillColor());
+	(*n).second.ToggleFill(m_nodeForFormat.Filled());
+	(*n).second.SetTextStyle(m_nodeForFormat.GetTextStyle());
+	(*n).second.SetFontColor(m_nodeForFormat.GetFontColor());
+	(*n).second.SetFontInfo(m_nodeForFormat.GetFontInfo());
+	if (m_nodeForFormat.GetShape() == iNode::MetaFile) {
 		HENHMETAFILE hMetaFile = m_nodeForFormat.GetMetaFile();
 		(*n).second.SetMetaFile(hMetaFile);
 	}
-	(*n).second.setNodeShape(m_nodeForFormat.getNodeShape());
+	(*n).second.SetShape(m_nodeForFormat.GetShape());
 	(*n).second.SetMarginLeft(m_nodeForFormat.GetMarginLeft());
 	(*n).second.SetMarginRight(m_nodeForFormat.GetMarginRight());
 	(*n).second.SetMarginTop(m_nodeForFormat.GetMarginTop());
@@ -4696,9 +4696,9 @@ DWORD iEditDoc::DuplicateKeyNode(DWORD key)
 {
 	const_niterator it = nodes_.findNode(key);
 	iNode n = (*it).second;
-	n.setKey(AssignNewKey());
-	nodes_[n.getKey()] = n;
-	return n.getKey();
+	n.SetKey(AssignNewKey());
+	nodes_[n.GetKey()] = n;
+	return n.GetKey();
 }
 
 void iEditDoc::DuplicateLinks(const NodeKeyMap& idm)
@@ -4806,7 +4806,7 @@ void iEditDoc::FitSelectedNodeSize()
 	BackupLinksForUndo();
 	niterator it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
-		if ((*it).second.isSelected()) {
+		if ((*it).second.Selected()) {
 			(*it).second.FitSizeToLabel();
 		}
 	}
