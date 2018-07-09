@@ -494,17 +494,17 @@ inline const CString& iNode::GetChapterNumber() const
 class iNodeDrawer {
 
 public:
-	void draw(const iNode& node, CDC* pDC, BOOL bDrawOrderInfo);
+	void Draw(const iNode& node, CDC* pDC, BOOL bDrawOrderInfo);
 protected:
-	void drawDraggingTracker(const iNode& node, CDC* pDC);
-	virtual void adjustTextArea(const iNode& node);
+	void DrawTracker(const iNode& node, CDC* pDC);
+	virtual void AdjustTextArea(const iNode& node);
 	CRect m_textRect;
-	virtual void drawLabelSpecific(const iNode& node, CDC* pDC);
-	virtual void fillBoundSpecific(const iNode& node, CDC* pDC, CBrush* brush);
-	virtual void drawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
-	virtual void drawLabel(const iNode& node, CDC* pDC, BOOL bDrawOrderInfo);
-	virtual void drawShape(const iNode& node, CDC* pDC);
-	virtual void fillBound(const iNode& node, CDC* pDC);
+	virtual void DrawLabelSpecific(const iNode& node, CDC* pDC);
+	virtual void FillBoundSpecific(const iNode& node, CDC* pDC, CBrush* brush);
+	virtual void DrawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
+	virtual void DrawLabel(const iNode& node, CDC* pDC, BOOL bDrawOrderInfo);
+	virtual void DrawShape(const iNode& node, CDC* pDC);
+	virtual void FillBound(const iNode& node, CDC* pDC);
 };
 
 
@@ -512,16 +512,16 @@ protected:
 ////////////////////////////////////////////////////////////////
 class iNodeRectDrawer : public iNodeDrawer {
 protected:
-	void drawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
-	void fillBoundSpecific(const iNode& node, CDC* pDC, CBrush* brush);
+	void DrawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
+	void FillBoundSpecific(const iNode& node, CDC* pDC, CBrush* brush);
 };
 
 // iNodeRoundRectDrawer 角丸矩形ノード描画クラス
 ////////////////////////////////////////////////////////////////
 class iNodeRoundRectDrawer : public iNodeDrawer {
 protected:
-	void drawShape(const iNode& node, CDC* pDC);
-	void adjustTextArea(const iNode& node);
+	void DrawShape(const iNode& node, CDC* pDC);
+	void AdjustTextArea(const iNode& node);
 private:
 	int m_r;
 };
@@ -530,9 +530,9 @@ private:
 ////////////////////////////////////////////////////////////////
 class iNodeArcDrawer : public iNodeDrawer {
 protected:
-	void fillBoundSpecific(const iNode& node, CDC* pDC, CBrush* brush);
-	void drawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
-	void adjustTextArea(const iNode& node);
+	void FillBoundSpecific(const iNode& node, CDC* pDC, CBrush* brush);
+	void DrawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
+	void AdjustTextArea(const iNode& node);
 };
 
 // iNodeMetafileDrawer メタファイルノード描画クラス
@@ -540,14 +540,14 @@ protected:
 class iNodeMetafileDrawer : public iNodeDrawer {
 
 protected:
-	void fillBoundSpecific(const iNode& node, CDC* pDC, CBrush* brush);
-	void drawShape(const iNode& node, CDC* pDC);
+	void FillBoundSpecific(const iNode& node, CDC* pDC, CBrush* brush);
+	void DrawShape(const iNode& node, CDC* pDC);
 };
 
 // MindMap形式ノード描画クラス
 ////////////////////////////////////////////////////////////////
 class iNodeMMNodeDrawer : public iNodeDrawer {
-	void drawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
+	void DrawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
 };
 
 typedef map<DWORD, iNode> nContena;

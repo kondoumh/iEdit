@@ -412,24 +412,24 @@ bool iNode::Dragging() const
 // iNodeDrawer クラスのインプリメンテーション
 //
 //////////////////////////////////////////////////////////////////////
-void iNodeDrawer::draw(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
+void iNodeDrawer::Draw(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 {
 	int oldBkMode = pDC->SetBkMode(TRANSPARENT); // DCの背景色透明
 
 	if (node.Filled()) {
-		fillBound(node, pDC);
+		FillBound(node, pDC);
 	}
-	drawShape(node, pDC);
-	adjustTextArea(node);
-	drawLabel(node, pDC, bDrawOrderInfo);
+	DrawShape(node, pDC);
+	AdjustTextArea(node);
+	DrawLabel(node, pDC, bDrawOrderInfo);
 	if (node.Dragging()) {
-		drawDraggingTracker(node, pDC);
+		DrawTracker(node, pDC);
 	}
 
 	pDC->SetBkMode(oldBkMode); // DCの背景リストア
 }
 
-void iNodeDrawer::drawDraggingTracker(const iNode& node, CDC* pDC)
+void iNodeDrawer::DrawTracker(const iNode& node, CDC* pDC)
 {
 	CPen penLine;
 	penLine.CreatePen(PS_SOLID, 10, RGB(127, 127, 255)); // ペン作成
@@ -446,7 +446,7 @@ void iNodeDrawer::drawDraggingTracker(const iNode& node, CDC* pDC)
 	penLine.DeleteObject();          // ペン開放
 }
 
-void iNodeDrawer::adjustTextArea(const iNode &node)
+void iNodeDrawer::AdjustTextArea(const iNode &node)
 {
 	m_textRect = node.getBound();
 	m_textRect.left += node.GetLineWidth() + 1;
@@ -455,31 +455,31 @@ void iNodeDrawer::adjustTextArea(const iNode &node)
 	m_textRect.bottom -= node.GetLineWidth() + 1;
 }
 
-void iNodeDrawer::fillBound(const iNode & node, CDC *pDC)
+void iNodeDrawer::FillBound(const iNode & node, CDC *pDC)
 {
 	CBrush brush(node.GetFillColor());	// ブラシ作成
 	CBrush* brsOld = pDC->SelectObject(&brush);  // DCのブラシ変更
 
-	fillBoundSpecific(node, pDC, &brush); // サブクラスで処理
+	FillBoundSpecific(node, pDC, &brush); // サブクラスで処理
 
 	pDC->SelectObject(brsOld);             // DCのブラシリストア
 	brush.DeleteObject();	                  // ブラシ開放
 }
 
-void iNodeDrawer::drawShape(const iNode &node, CDC *pDC)
+void iNodeDrawer::DrawShape(const iNode &node, CDC *pDC)
 {
 	CPen penLine;
 	penLine.CreatePen(node.GetLineStyle(),
 		node.GetLineWidth(), node.GetLineColor()); // ペン作成
 	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCのペン変更
 
-	drawShapeSpecific(node, pDC, &penLine); // サブクラスで処理 メタファイルはここで再生
+	DrawShapeSpecific(node, pDC, &penLine); // サブクラスで処理 メタファイルはここで再生
 
 	pDC->SelectObject(pOldPen);  // DCのペンリストア
 	penLine.DeleteObject();          // ペン開放
 }
 
-void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
+void iNodeDrawer::DrawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 {
 	// フォント作成
 	LOGFONT lf = node.GetFontInfo();
@@ -492,7 +492,7 @@ void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 	CFont* pOldFont = pDC->SelectObject(&font);
 	COLORREF preColor = pDC->SetTextColor(node.GetFontColor());
 
-	drawLabelSpecific(node, pDC);
+	DrawLabelSpecific(node, pDC);
 
 	pDC->SelectObject(pOldFont);
 	pDC->SetTextColor(preColor);
@@ -510,7 +510,7 @@ void iNodeDrawer::drawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 	}
 }
 
-void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
+void iNodeDrawer::DrawLabelSpecific(const iNode &node, CDC *pDC)
 {
 	int styleText = node.GetTextStyle();
 	UINT nFormat;
@@ -604,12 +604,12 @@ void iNodeDrawer::drawLabelSpecific(const iNode &node, CDC *pDC)
 	}
 }
 
-void iNodeDrawer::drawShapeSpecific(const iNode &node, CDC *pDC, const CPen* pen)
+void iNodeDrawer::DrawShapeSpecific(const iNode &node, CDC *pDC, const CPen* pen)
 {
 
 }
 
-void iNodeDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush* brush)
+void iNodeDrawer::FillBoundSpecific(const iNode &node, CDC *pDC, CBrush* brush)
 {
 
 }
@@ -617,14 +617,14 @@ void iNodeDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush* brush)
 // iNodeRectDrawer クラスのインプリメンテーション
 //
 //////////////////////////////////////////////////////////////////////
-void iNodeRectDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
+void iNodeRectDrawer::FillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
 {
 	if (node.Filled()) {
 		pDC->FillRect(node.getBound(), brush);
 	}
 }
 
-void iNodeRectDrawer::drawShapeSpecific(const iNode &node, CDC *pDC, const CPen *pen)
+void iNodeRectDrawer::DrawShapeSpecific(const iNode &node, CDC *pDC, const CPen *pen)
 {
 	CRect bound = node.getBound();
 	pDC->MoveTo(bound.TopLeft());
@@ -637,7 +637,7 @@ void iNodeRectDrawer::drawShapeSpecific(const iNode &node, CDC *pDC, const CPen 
 // iNodeRoundRectDrawer クラスのインプリメンテーション
 //
 //////////////////////////////////////////////////////////////////////
-void iNodeRoundRectDrawer::drawShape(const iNode &node, CDC *pDC)
+void iNodeRoundRectDrawer::DrawShape(const iNode &node, CDC *pDC)
 {
 	CPen penLine;
 	penLine.CreatePen(node.GetLineStyle(),
@@ -668,9 +668,9 @@ void iNodeRoundRectDrawer::drawShape(const iNode &node, CDC *pDC)
 	penLine.DeleteObject();          // ペン開放
 }
 
-void iNodeRoundRectDrawer::adjustTextArea(const iNode &node)
+void iNodeRoundRectDrawer::AdjustTextArea(const iNode &node)
 {
-	iNodeDrawer::adjustTextArea(node);
+	iNodeDrawer::AdjustTextArea(node);
 	switch (node.GetTextStyle()) {
 	case iNode::s_tl:
 		m_textRect.left += m_r / 8;
@@ -694,7 +694,7 @@ void iNodeRoundRectDrawer::adjustTextArea(const iNode &node)
 //
 //////////////////////////////////////////////////////////////////////
 
-void iNodeArcDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
+void iNodeArcDrawer::FillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
 {
 	CPen penArc;
 	penArc.CreatePen(node.GetLineStyle(), node.GetLineWidth(), node.GetFillColor());
@@ -704,13 +704,13 @@ void iNodeArcDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brus
 	penArc.DeleteObject();
 }
 
-void iNodeArcDrawer::drawShapeSpecific(const iNode &node, CDC *pDC, const CPen *pen)
+void iNodeArcDrawer::DrawShapeSpecific(const iNode &node, CDC *pDC, const CPen *pen)
 {
 	CRect bound = node.getBound();
 	pDC->Arc(&bound, bound.TopLeft(), bound.TopLeft());
 }
 
-void iNodeArcDrawer::adjustTextArea(const iNode &node)
+void iNodeArcDrawer::AdjustTextArea(const iNode &node)
 {
 	m_textRect = node.getBound();
 	m_textRect.left += node.getBound().Width() / 16;
@@ -740,19 +740,19 @@ void iNodeArcDrawer::adjustTextArea(const iNode &node)
 // iNodeMetafileDrawer クラスのインプリメンテーション
 //
 //////////////////////////////////////////////////////////////////////
-void iNodeMetafileDrawer::drawShape(const iNode &node, CDC *pDC)
+void iNodeMetafileDrawer::DrawShape(const iNode &node, CDC *pDC)
 {
 	pDC->PlayMetaFile(node.GetMetaFile(), node.getBound());
 }
 
-void iNodeMetafileDrawer::fillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
+void iNodeMetafileDrawer::FillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
 {
 	// Do Nothing
 }
 
 
 // iNodeMMNodeDrawer クラスのインプリメンテーション
-void iNodeMMNodeDrawer::drawShapeSpecific(const iNode &node, CDC* pDC, const CPen *pen)
+void iNodeMMNodeDrawer::DrawShapeSpecific(const iNode &node, CDC* pDC, const CPen *pen)
 {
 	pDC->MoveTo(node.getBound().left, node.getBound().bottom);
 	pDC->LineTo(node.getBound().right, node.getBound().bottom);
@@ -811,7 +811,7 @@ void iNodes::drawNodes(CDC *pDC, bool bDrwAll)
 	vector<iNode*>::iterator it = nodesDraw_.begin();
 	for (; it != nodesDraw_.end(); it++) {
 		iNodeDrawer* pDrawer = getNodeDrawer(*(*it));
-		pDrawer->draw(*(*it), pDC, m_bDrawOrderInfo);
+		pDrawer->Draw(*(*it), pDC, m_bDrawOrderInfo);
 	}
 }
 
@@ -1313,7 +1313,7 @@ void iNodes::drawNodesSelected(CDC *pDC)
 	for (; it != nodesDraw_.end(); it++) {
 		if ((*(*it)).Selected()) {
 			iNodeDrawer* pDrawer = getNodeDrawer(*(*it));
-			pDrawer->draw(*(*it), pDC, m_bDrawOrderInfo);
+			pDrawer->Draw(*(*it), pDC, m_bDrawOrderInfo);
 		}
 	}
 }
