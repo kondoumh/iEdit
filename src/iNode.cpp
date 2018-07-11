@@ -765,7 +765,7 @@ void iNodeMMNodeDrawer::DrawShapeSpecific(const iNode &node, CDC* pDC, const CPe
 void iNodes::setSelKey(DWORD key)
 {
 	selKey_ = key;
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if (selKey_ == (*it).second.GetKey()) {
 			(*it).second.Select();
@@ -777,12 +777,12 @@ void iNodes::setSelKey(DWORD key)
 	}
 }
 
-niterator iNodes::getSelectedNode()
+node_iter iNodes::getSelectedNode()
 {
 	return findNodeW(selKey_);
 }
 
-const_niterator iNodes::getSelectedNodeR() const
+node_c_iter iNodes::getSelectedNodeR() const
 {
 	return findNode(selKey_);
 }
@@ -794,7 +794,7 @@ void iNodes::initSelection()
 		setSelKey(selKey_);
 	}
 	else {
-		const_niterator it = begin();
+		node_c_iter it = begin();
 		for (; it != end(); it++) {
 			if ((*it).second.GetTreeState() & TVIS_SELECTED) {
 				// TVIS_EXPANDEDと間違えてた
@@ -817,7 +817,7 @@ void iNodes::drawNodes(CDC *pDC, bool bDrwAll)
 
 iNode* iNodes::hitTest(const CPoint &pt, bool bTestAll)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		(*it).second.Select(false);
 	}
@@ -885,7 +885,7 @@ iNode* iNodes::hitTest2(const CPoint &pt, bool bTestAll) const
 
 void iNodes::moveSelectedNode(const CSize &sz)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.MoveBound(sz);
@@ -895,7 +895,7 @@ void iNodes::moveSelectedNode(const CSize &sz)
 
 void iNodes::setSelectedNodeBound(const CRect &r)
 {
-	niterator it = findNodeW(selKey_);
+	node_iter it = findNodeW(selKey_);
 	if (it != end()) {
 		(*it).second.SetBound(r);
 	}
@@ -903,7 +903,7 @@ void iNodes::setSelectedNodeBound(const CRect &r)
 
 void iNodes::setSelectedNodeFont(const LOGFONT &lf)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetFontInfo(lf);
@@ -913,7 +913,7 @@ void iNodes::setSelectedNodeFont(const LOGFONT &lf)
 
 void iNodes::getSelectedNodeFont(LOGFONT& lf)
 {
-	const_niterator it = findNode(selKey_);
+	node_c_iter it = findNode(selKey_);
 	if (it != end()) {
 		lf = (*it).second.GetFontInfo();
 		::lstrcpy(lf.lfFaceName, (*it).second.GetFontInfo().lfFaceName);
@@ -924,7 +924,7 @@ void iNodes::getSelectedNodeFont(LOGFONT& lf)
 COLORREF iNodes::getSelectedNodeFontColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
-	const_niterator it = findNode(selKey_);
+	node_c_iter it = findNode(selKey_);
 	if (it != end()) {
 		c = (*it).second.GetFontColor();
 	}
@@ -933,7 +933,7 @@ COLORREF iNodes::getSelectedNodeFontColor() const
 
 void iNodes::setSelectedNodeFontColor(const COLORREF &c)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetFontColor(c);
@@ -943,7 +943,7 @@ void iNodes::setSelectedNodeFontColor(const COLORREF &c)
 
 void iNodes::setSelectedNodeBrush(const COLORREF &c)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetFillColor(c);
@@ -953,7 +953,7 @@ void iNodes::setSelectedNodeBrush(const COLORREF &c)
 
 void iNodes::setSelectedNodeNoBrush(BOOL noBrush)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.ToggleFill(noBrush);
@@ -963,7 +963,7 @@ void iNodes::setSelectedNodeNoBrush(BOOL noBrush)
 
 void iNodes::setSelectedNodeLineColor(const COLORREF &c)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetLineColor(c);
@@ -974,7 +974,7 @@ void iNodes::setSelectedNodeLineColor(const COLORREF &c)
 COLORREF iNodes::getSelectedNodeLineColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
-	const_niterator it = findNode(selKey_);
+	node_c_iter it = findNode(selKey_);
 	if (it != end()) {
 		c = (*it).second.GetLineColor();
 	}
@@ -984,7 +984,7 @@ COLORREF iNodes::getSelectedNodeLineColor() const
 COLORREF iNodes::getSelectedNodeBrsColor() const
 {
 	COLORREF c = RGB(255, 255, 255);
-	const_niterator it = findNode(selKey_);
+	node_c_iter it = findNode(selKey_);
 	if (it != end()) {
 		c = (*it).second.GetFillColor();
 	}
@@ -993,7 +993,7 @@ COLORREF iNodes::getSelectedNodeBrsColor() const
 
 void iNodes::setSelectedNodeLineStyle(int style)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetLineStyle(style);
@@ -1004,7 +1004,7 @@ void iNodes::setSelectedNodeLineStyle(int style)
 int iNodes::getSelectedNodeLineStyle() const
 {
 	int s = PS_SOLID;
-	const_niterator it = findNode(selKey_);
+	node_c_iter it = findNode(selKey_);
 	if (it != end()) {
 		s = (*it).second.GetLineStyle();
 	}
@@ -1013,7 +1013,7 @@ int iNodes::getSelectedNodeLineStyle() const
 
 void iNodes::setSelectedNodeLineWidth(int w)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetLineWidth(w);
@@ -1025,7 +1025,7 @@ void iNodes::setSelectedNodeLineWidth(int w)
 int iNodes::getSelectedNodeLineWidth() const
 {
 	int w = 0;
-	const_niterator it = findNode(selKey_);
+	node_c_iter it = findNode(selKey_);
 	if (it != end()) {
 		w = (*it).second.GetLineWidth();
 	}
@@ -1034,7 +1034,7 @@ int iNodes::getSelectedNodeLineWidth() const
 
 void iNodes::setSelectedNodeTextStyle(int style)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetTextStyle(style);
@@ -1044,7 +1044,7 @@ void iNodes::setSelectedNodeTextStyle(int style)
 
 void iNodes::setSelectedNodeTreeIconId(int id)
 {
-	niterator it = findNodeW(selKey_);
+	node_iter it = findNodeW(selKey_);
 	if (it != end()) {
 		(*it).second.SetTreeIconId(id);
 	}
@@ -1053,7 +1053,7 @@ void iNodes::setSelectedNodeTreeIconId(int id)
 int iNodes::getSelectedNodeTextStyle() const
 {
 	int s = iNode::s_cc;
-	const_niterator it = findNode(selKey_);
+	node_c_iter it = findNode(selKey_);
 	if (it != end()) {
 		s = (*it).second.GetTextStyle();
 	}
@@ -1062,7 +1062,7 @@ int iNodes::getSelectedNodeTextStyle() const
 
 int iNodes::selectNodesInBound(const CRect &bound, CRect &selRect, bool bDrwAll)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	int cnt = 0;
 	for (; it != end(); it++) {
 		CRect r = (*it).second.getBound();
@@ -1122,7 +1122,7 @@ void iNodes::setVisibleNodes(DWORD key)
 	nodesDraw_.clear();
 	nodesDraw_.resize(0);
 
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.GetParentKey() != curParent_) {
 			(*it).second.SetVisible(false);
@@ -1153,13 +1153,13 @@ void iNodes::setVisibleNodes(NodeKeySet& keySet)
 	nodesDraw_.clear();
 	nodesDraw_.resize(0);
 
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		(*it).second.SetVisible(false);
 	}
 
 	set<DWORD>::iterator itks = keySet.begin();
-	niterator nit;
+	node_iter nit;
 	for (; itks != keySet.end(); itks++) {
 		nit = findNodeW(*itks);
 		if (nit != end()) {
@@ -1181,7 +1181,7 @@ void iNodes::setVisibleNodes(NodeKeySet& keySet)
 
 BOOL iNodes::isSelectedNodeFilled() const
 {
-	const_niterator it = begin();
+	node_c_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			return ((*it).second.Filled());
@@ -1193,7 +1193,7 @@ BOOL iNodes::isSelectedNodeFilled() const
 int iNodes::getSelectedNodeShape() const
 {
 	int shape = iNode::rectangle;
-	const_niterator it = findNode(selKey_);
+	node_c_iter it = findNode(selKey_);
 	if (it != end()) {
 		shape = (*it).second.GetShape();
 	}
@@ -1202,7 +1202,7 @@ int iNodes::getSelectedNodeShape() const
 
 void iNodes::setSelectedNodeShape(int shape)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetShape(shape);
@@ -1216,7 +1216,7 @@ void iNodes::setSelectedNodeShape(int shape)
 
 BOOL iNodes::isSelectedNodeFixed() const
 {
-	const_niterator it = findNode(selKey_);
+	node_c_iter it = findNode(selKey_);
 	BOOL fix = FALSE;
 	if (it != end()) {
 		fix = (*it).second.Fixed();
@@ -1226,18 +1226,18 @@ BOOL iNodes::isSelectedNodeFixed() const
 
 void iNodes::setSelectedNodeFixed(BOOL f)
 {
-	niterator it = findNodeW(selKey_);
+	node_iter it = findNodeW(selKey_);
 	if (it != end()) {
 		(*it).second.Fix(f);
 	}
 }
 
-const_niterator iNodes::findNode(DWORD key) const
+node_c_iter iNodes::findNode(DWORD key) const
 {
 	return find(key);
 }
 
-niterator iNodes::findNodeW(DWORD key)
+node_iter iNodes::findNodeW(DWORD key)
 {
 	return find(key);
 }
@@ -1246,7 +1246,7 @@ CSize iNodes::getMaxNodeSize(bool selection, bool bDrwAll) const
 {
 	CSize sz(0, 0);
 
-	const_niterator it = begin();
+	node_c_iter it = begin();
 	for (; it != end(); it++) {
 		if (!(*it).second.Visible()) {
 			continue;
@@ -1320,7 +1320,7 @@ void iNodes::drawNodesSelected(CDC *pDC)
 
 void iNodes::fixNodesReversibly(DWORD keyExcluded)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.IsInChain()) {
 			(*it).second.BackupFixState();
@@ -1333,7 +1333,7 @@ void iNodes::fixNodesReversibly(DWORD keyExcluded)
 
 void iNodes::restoreNodesFixState(DWORD keyExcluded)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.IsInChain()) {
 			if ((*it).second.GetKey() != keyExcluded) {
@@ -1345,7 +1345,7 @@ void iNodes::restoreNodesFixState(DWORD keyExcluded)
 
 void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			LOGFONT lf = (*it).second.GetFontInfo();
@@ -1366,7 +1366,7 @@ void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 NodeKeyVec iNodes::getSelectedNodeKeys() const
 {
 	NodeKeyVec v;
-	const_niterator it = begin();
+	node_c_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected() && (*it).second.Visible()) {
 			v.push_back((*it).second.GetKey());
@@ -1377,7 +1377,7 @@ NodeKeyVec iNodes::getSelectedNodeKeys() const
 
 void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetMarginLeft(l);
@@ -1390,7 +1390,7 @@ void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
 
 void iNodes::setSelectedLinkDragging(bool dragging)
 {
-	niterator it = begin();
+	node_iter it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
 			(*it).second.SetDragging(dragging);

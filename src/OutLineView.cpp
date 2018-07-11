@@ -547,7 +547,7 @@ void OutlineView::treeAddBranch(const DWORD rootKey)
 	tree().Expand(hsel, TVIS_EXPANDED);
 }
 
-void OutlineView::treeAddBranch2(const DWORD rootKey, nVec &addNodes)
+void OutlineView::treeAddBranch2(const DWORD rootKey, node_vec &addNodes)
 {
 	iEditDoc* pDoc = GetDocument();
 
@@ -1716,7 +1716,7 @@ void OutlineView::OnImportData()
 	}
 	bool ret;
 	if (extent == _T(".txt")) {
-		nVec addNodes;
+		node_vec addNodes;
 		char levelChar = '.';
 		if (TextLevelCharNum == 1) {
 			levelChar = '\t';
@@ -2201,7 +2201,7 @@ void OutlineView::textOutTree(HTREEITEM hItem, CStdioFile *f, int tab)
 	}
 }
 
-bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char levelChar)
+bool OutlineView::ImportText(const CString &inPath, node_vec &addNodes, const char levelChar)
 {
 	_wsetlocale(LC_ALL, _T("jpn"));
 
@@ -2222,7 +2222,7 @@ bool OutlineView::ImportText(const CString &inPath, nVec &addNodes, const char l
 	return levelToNode(lines, addNodes, levelChar);
 }
 
-bool OutlineView::levelToNode(const vector<CString> &lines, nVec &addNodes, const char levelChar)
+bool OutlineView::levelToNode(const vector<CString> &lines, node_vec &addNodes, const char levelChar)
 {
 	ProceedingDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
@@ -2989,7 +2989,7 @@ void OutlineView::OnPasteTreeFromClipboard()
 		CString s = tok.GetNextToken();
 		lines.push_back(s);
 	}
-	nVec addNodes;
+	node_vec addNodes;
 
 	ImportTextDlg dlg;
 	dlg.m_fileName = _T("<クリップボードから>");

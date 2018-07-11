@@ -212,14 +212,14 @@ private:
 	void writeHtmlHeader(CStdioFile& f);
 	void writeTextStyle(CStdioFile& f, bool single = true);
 	bool ImportXML(const CString& inPath);
-	bool ImportText(const CString& inPath, nVec& addNodes, const char LevelChar);
-	bool levelToNode(const vector<CString>& lines, nVec& addNodes, const char levelChar = '.');
+	bool ImportText(const CString& inPath, node_vec& addNodes, const char LevelChar);
+	bool levelToNode(const vector<CString>& lines, node_vec& addNodes, const char levelChar = '.');
 	int countLineIndentLevel(const CString& line, const char levelChar) const;
 	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab);
 	void textOutTreeByNode(HTREEITEM hItem);
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
 	void treeAddBranch(const DWORD rootKey);
-	void treeAddBranch2(const DWORD rootKey, nVec& addNodes);
+	void treeAddBranch2(const DWORD rootKey, node_vec& addNodes);
 	void deleteNode();
 	void deleteKeyNode(DWORD key, DWORD parentKey);
 	void copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent);

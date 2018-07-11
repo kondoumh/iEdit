@@ -550,12 +550,12 @@ class iNodeMMNodeDrawer : public iNodeDrawer {
 	void DrawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
 };
 
-typedef map<DWORD, iNode> nContena;
-typedef nContena::const_iterator const_niterator;
-typedef nContena::iterator niterator;
-typedef vector<iNode> nVec;
+typedef map<DWORD, iNode> node_map;
+typedef node_map::const_iterator node_c_iter;
+typedef node_map::iterator node_iter;
+typedef vector<iNode> node_vec;
 
-class iNodes : public nContena {
+class iNodes : public node_map {
 public:
 	void setSelectedLinkDragging(bool dragging = true);
 	CString createClickableMapString(const CString& fileName, bool singleText = true);
@@ -571,9 +571,9 @@ public:
 	CSize getMaxNodeSize(bool selection = true, bool bDrwAll = false) const;
 	void setSelectedNodeFixed(BOOL f = TRUE);
 	BOOL isSelectedNodeFixed() const;
-	const_niterator getSelectedNodeR() const;
-	niterator findNodeW(DWORD key);
-	const_niterator findNode(DWORD key) const;
+	node_c_iter getSelectedNodeR() const;
+	node_iter findNodeW(DWORD key);
+	node_c_iter findNode(DWORD key) const;
 	void setSelectedNodeShape(int shape);
 	int getSelectedNodeShape() const;
 	void setSelectedNodeNoBrush(BOOL noBrush = TRUE);
@@ -604,7 +604,7 @@ public:
 	iNode* hitTest(const CPoint& pt, bool bTestAll = false);
 	void drawNodes(CDC* pDC, bool bDrwAll = false);
 	void initSelection();
-	niterator getSelectedNode();
+	node_iter getSelectedNode();
 	void setSelKey(DWORD key);
 	DWORD getSelKey() const;
 private:

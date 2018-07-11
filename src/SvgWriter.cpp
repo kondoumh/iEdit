@@ -63,7 +63,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 	// ノードの列挙
 	vector<DWORD>::iterator svIt = m_drawOrder.begin();
 	for (; svIt != m_drawOrder.end(); svIt++) {
-		const_niterator it = m_nodes.findNode(*svIt);
+		node_c_iter it = m_nodes.findNode(*svIt);
 		if (!m_bDrwAll && !(*it).second.Visible()) continue;
 		MSXML2::IXMLDOMElementPtr eGrp = doc->createElement(_T("g"));
 

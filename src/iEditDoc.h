@@ -53,7 +53,7 @@ class iEditDoc : public CDocument
 {
 	iNodes nodes_;
 	iLinks links_;
-	nVec nodes_undo;
+	node_vec nodes_undo;
 	iLinkVec links_undo;
 	int m_serialVersion;
 
@@ -278,7 +278,7 @@ private:
 	CRect m_boundImport;
 	bool m_bShowBranch;
 	iLinkVec linksImport;
-	nVec nodesImport;
+	node_vec nodesImport;
 	iLink linkImport;
 	iNode nodeImport;
 	NodeKeyPairs idcVec;
