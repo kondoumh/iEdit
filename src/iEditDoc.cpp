@@ -546,7 +546,7 @@ void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 		// 降順での描画オプションの場合は反転する
 		std::reverse(svec.begin(), svec.end());
 	}
-	nodes_.setDrawOrder(svec);
+	nodes_.SetDrawOrder(svec);
 
 	if (!bShowSubBranch) {
 		nodes_.setVisibleNodes(key);
@@ -1253,7 +1253,7 @@ void iEditDoc::DeleteSelectedNodes()
 	if (ShowSubBranch()) {
 		parentKey = m_dwBranchRootKey;
 	}
-	NodeKeyVec v = nodes_.getSelectedNodeKeys();
+	NodeKeyVec v = nodes_.GetSelectedKeys();
 	vector<DWORD>::iterator it = v.begin();
 	for (; it != v.end(); it++) {
 		DWORD delKey = (*it);
@@ -4752,7 +4752,7 @@ void iEditDoc::SwapLinkOrder(DWORD key1, DWORD key2)
 void iEditDoc::SetSelectedNodeMargin(int l, int r, int t, int b)
 {
 	BackupNodesForUndo();
-	nodes_.setSelectedNodeMargin(l, r, t, b);
+	nodes_.SetMarginToSelected(l, r, t, b);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -4796,7 +4796,7 @@ bool iEditDoc::SaveCurrentImage(const CString& pngPath)
 
 bool iEditDoc::WriteClickableMap(CStdioFile& f, const CString& textFileName, bool singleText)
 {
-	f.WriteString(nodes_.createClickableMapString(textFileName, singleText));
+	f.WriteString(nodes_.CreateClickableMapString(textFileName, singleText));
 	return true;
 }
 
@@ -4845,5 +4845,5 @@ void iEditDoc::DivideTargetLink(DWORD key)
 
 void iEditDoc::SetSelectedNodeDragging(bool dragging)
 {
-	nodes_.setSelectedLinkDragging(dragging);
+	nodes_.DragSelected(dragging);
 }

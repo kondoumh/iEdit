@@ -557,12 +557,13 @@ typedef vector<iNode> node_vec;
 
 class iNodes : public node_map {
 public:
-	void setSelectedLinkDragging(bool dragging = true);
-	CString createClickableMapString(const CString& fileName, bool singleText = true);
-	void setSelectedNodeMargin(int l, int r, int t, int b);
 	BOOL m_bDrawOrderInfo;
-	NodeKeyVec getSelectedNodeKeys() const;
-	void setDrawOrder(const NodeKeyVec svec);
+
+	void DragSelected(bool dragging = true);
+	CString CreateClickableMapString(const CString& fileName, bool singleText = true);
+	void SetMarginToSelected(int l, int r, int t, int b);
+	NodeKeyVec GetSelectedKeys() const;
+	void SetDrawOrder(const NodeKeyVec svec);
 	void restoreNodesFixState(DWORD keyExcluded);
 	void fixNodesReversibly(DWORD keyExcluded);
 	void drawNodesSelected(CDC *pDC);
@@ -624,7 +625,7 @@ public:
 	void resizeSelectedNodeFont(bool bEnlarge);
 };
 
-inline void iNodes::setDrawOrder(const NodeKeyVec svec)
+inline void iNodes::SetDrawOrder(const NodeKeyVec svec)
 {
 	svec_ = svec;
 }

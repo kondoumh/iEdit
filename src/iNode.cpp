@@ -1094,7 +1094,7 @@ bool orderComp(const iNode* n1, const iNode* n2)
 	return n1->GetDrawOrder() < n2->GetDrawOrder();
 }
 
-CString iNodes::createClickableMapString(const CString& fileName, bool singleText)
+CString iNodes::CreateClickableMapString(const CString& fileName, bool singleText)
 {
 	CString mapString;
 	vector<iNode*>::reverse_iterator it = nodesDraw_.rbegin();
@@ -1363,7 +1363,7 @@ void iNodes::resizeSelectedNodeFont(bool bEnlarge)
 	}
 }
 
-NodeKeyVec iNodes::getSelectedNodeKeys() const
+NodeKeyVec iNodes::GetSelectedKeys() const
 {
 	NodeKeyVec v;
 	node_c_iter it = begin();
@@ -1375,7 +1375,7 @@ NodeKeyVec iNodes::getSelectedNodeKeys() const
 	return v;
 }
 
-void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
+void iNodes::SetMarginToSelected(int l, int r, int t, int b)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -1388,7 +1388,7 @@ void iNodes::setSelectedNodeMargin(int l, int r, int t, int b)
 	}
 }
 
-void iNodes::setSelectedLinkDragging(bool dragging)
+void iNodes::DragSelected(bool dragging)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
