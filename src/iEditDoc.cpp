@@ -1923,13 +1923,13 @@ void iEditDoc::SetSelectedNodeTreeIconId(int id)
 
 void iEditDoc::SetSelectedNodeFixed(BOOL f)
 {
-	nodes_.setSelectedNodeFixed(f);
+	nodes_.FixSelected(f);
 	SetModifiedFlag();
 }
 
 BOOL iEditDoc::IsSelectedNodeFixed() const
 {
-	return nodes_.isSelectedNodeFixed();
+	return nodes_.IsSelectedFixed();
 }
 
 void iEditDoc::SetResultRelax(Bounds &bounds)
@@ -3525,7 +3525,7 @@ HENHMETAFILE iEditDoc::GetSelectedNodeMetaFile()
 
 void iEditDoc::DrawNodesSelected(CDC *pDC)
 {
-	nodes_.drawNodesSelected(pDC);
+	nodes_.DrawSelected(pDC);
 }
 
 void iEditDoc::DrawLinksSelected(CDC *pDC, bool clipbrd)
@@ -3653,7 +3653,7 @@ void iEditDoc::AlignNodesInBoundTo(const CString& side, const CRect& rect)
 
 void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize)
 {
-	CSize maxSz = nodes_.getMaxNodeSize(true, false);
+	CSize maxSz = nodes_.GetNodeSizeMax(true, false);
 	node_iter it = nodes_.begin();
 	CRect rc;
 	for (; it != nodes_.end(); it++) {
@@ -4246,11 +4246,11 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 	if (bMindmap) {
 		ListupChainNodes(false);
 		CalcEdges();
-		nodes_.fixNodesReversibly(newKey); // 新しいノード以外を固定
+		nodes_.FixReversibly(newKey); // 新しいノード以外を固定
 		for (int i = 0; i < 100; i++) {
 			RelaxSingleStep2();
 		}
-		nodes_.restoreNodesFixState(newKey); // Fix状態をリストア
+		nodes_.RestoreFixState(newKey); // Fix状態をリストア
 	}
 
 	SelectionChanged(nwNode.GetKey(), true, ShowSubBranch());
@@ -4313,11 +4313,11 @@ const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 	ListupChainNodes(false);
 	CalcEdges();
 
-	nodes_.fixNodesReversibly(newKey);
+	nodes_.FixReversibly(newKey);
 	for (int i = 0; i < 100; i++) {
 		RelaxSingleStep2();
 	}
-	nodes_.restoreNodesFixState(newKey);
+	nodes_.RestoreFixState(newKey);
 	SelectionChanged(nwNode.GetKey(), true, ShowSubBranch());
 
 	node_iter nit = nodes_.find(nwNode.GetKey());

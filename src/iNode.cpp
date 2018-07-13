@@ -1214,7 +1214,7 @@ void iNodes::setSelectedNodeShape(int shape)
 	}
 }
 
-BOOL iNodes::isSelectedNodeFixed() const
+BOOL iNodes::IsSelectedFixed() const
 {
 	node_c_iter it = findNode(selKey_);
 	BOOL fix = FALSE;
@@ -1224,7 +1224,7 @@ BOOL iNodes::isSelectedNodeFixed() const
 	return fix;
 }
 
-void iNodes::setSelectedNodeFixed(BOOL f)
+void iNodes::FixSelected(BOOL f)
 {
 	node_iter it = findNodeW(selKey_);
 	if (it != end()) {
@@ -1242,7 +1242,7 @@ node_iter iNodes::findNodeW(DWORD key)
 	return find(key);
 }
 
-CSize iNodes::getMaxNodeSize(bool selection, bool bDrwAll) const
+CSize iNodes::GetNodeSizeMax(bool selection, bool bDrwAll) const
 {
 	CSize sz(0, 0);
 
@@ -1307,7 +1307,7 @@ iNodeDrawer* iNodes::getNodeDrawer(const iNode &node)
 	return m_pNodeRectDrawer;
 }
 
-void iNodes::drawNodesSelected(CDC *pDC)
+void iNodes::DrawSelected(CDC *pDC)
 {
 	vector<iNode*>::iterator it = nodesDraw_.begin();
 	for (; it != nodesDraw_.end(); it++) {
@@ -1318,7 +1318,7 @@ void iNodes::drawNodesSelected(CDC *pDC)
 	}
 }
 
-void iNodes::fixNodesReversibly(DWORD keyExcluded)
+void iNodes::FixReversibly(DWORD keyExcluded)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -1331,7 +1331,7 @@ void iNodes::fixNodesReversibly(DWORD keyExcluded)
 	}
 }
 
-void iNodes::restoreNodesFixState(DWORD keyExcluded)
+void iNodes::RestoreFixState(DWORD keyExcluded)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
