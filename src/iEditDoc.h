@@ -101,7 +101,7 @@ public:
 	void SaveSelectedNodeFormat();
 	void ResizeSelectedNodeFont(bool bEnLarge);
 	void ResizeSelectedLinkFont(bool bEnLarge);
-	bool HitTestSilently(const CPoint& pt);
+	bool HitTestExcludePathPt(const CPoint& pt);
 	int GetKeyNodeLevelNumber(DWORD key);
 	const CRect AddNodeWithLink2(int nodeType, DWORD keyPrevSibling);
 	const CRect AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD keyPrevSibling = -1, const CPoint& pt = CPoint(0, 0), bool bMindMap = true);

@@ -806,7 +806,7 @@ void iNodes::initSelection()
 	}
 }
 
-void iNodes::drawNodes(CDC *pDC, bool bDrwAll)
+void iNodes::Draw(CDC *pDC)
 {
 	vector<iNode*>::iterator it = nodesDraw_.begin();
 	for (; it != nodesDraw_.end(); it++) {
@@ -854,7 +854,7 @@ iNode* iNodes::HitTest(const CPoint &pt)
 	return *vit_inner;
 }
 
-iNode* iNodes::HitTestSilently(const CPoint &pt) const
+iNode* iNodes::HitTestExcludePathPt(const CPoint &pt) const
 {
 	vector<iNode*>::const_reverse_iterator vit = nodesDraw_.rbegin();
 	CRect preRc(0, 0, 0, 0);

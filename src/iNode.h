@@ -599,15 +599,17 @@ public:
 	void GetSelectedFont(LOGFONT& lf);
 	void SetSelectedFont(const LOGFONT& lf);
 	DWORD GetCurrentParent() const;
-	iNode* HitTestSilently(const CPoint& pt) const;
+	iNode* HitTestExcludePathPt(const CPoint& pt) const;
 	void SetSelectedBound(const CRect& r);
 	void MoveSelected(const CSize& sz);
 	iNode* HitTest(const CPoint& pt);
-	void drawNodes(CDC* pDC, bool bDrwAll = false);
+	void Draw(CDC* pDC);
 	void initSelection();
 	node_iter getSelectedNode();
 	void setSelKey(DWORD key);
 	DWORD getSelKey() const;
+	void resizeSelectedNodeFont(bool bEnlarge);
+
 private:
 	vector<iNode*> nodesDraw_; // 描画用ノード配列
 	NodeKeyVec svec_; // 描画順序情報
@@ -619,10 +621,6 @@ private:
 	iNodeArcDrawer* m_pNodeArcDrawer;
 	iNodeMetafileDrawer* m_pMetafileDrawer;
 	iNodeMMNodeDrawer* m_pMMNodeDrawer;
-
-protected:
-public:
-	void resizeSelectedNodeFont(bool bEnlarge);
 };
 
 inline void iNodes::SetDrawOrder(const NodeKeyVec svec)
