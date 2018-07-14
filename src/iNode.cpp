@@ -1060,7 +1060,7 @@ int iNodes::getSelectedNodeTextStyle() const
 	return s;
 }
 
-int iNodes::selectNodesInBound(const CRect &bound, CRect &selRect, bool bDrwAll)
+int iNodes::SelectInBound(const CRect &bound, CRect &selRect)
 {
 	node_iter it = begin();
 	int cnt = 0;
@@ -1242,7 +1242,7 @@ node_iter iNodes::FindWrite(DWORD key)
 	return find(key);
 }
 
-CSize iNodes::GetNodeSizeMax(bool selection, bool bDrwAll) const
+CSize iNodes::GetNodeSizeMax(bool selection) const
 {
 	CSize sz(0, 0);
 

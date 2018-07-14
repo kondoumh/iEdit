@@ -569,7 +569,7 @@ public:
 	void DrawSelected(CDC *pDC);
 	iNodes();
 	~iNodes();
-	CSize GetNodeSizeMax(bool selection = true, bool bDrwAll = false) const;
+	CSize GetNodeSizeMax(bool selection = true) const;
 	void FixSelected(BOOL f = TRUE);
 	BOOL IsSelectedFixed() const;
 	node_c_iter GetSelectedConstIter() const;
@@ -584,7 +584,7 @@ public:
 	void PrepareVisibles(DWORD key);
 	vector<iNode*> GetVisibles() const;
 	void PrepareVisibles(NodeKeySet& keySet);
-	int selectNodesInBound(const CRect& bound, CRect& selRect, bool bDrwAll = false);
+	int SelectInBound(const CRect& bound, CRect& selRect);
 	int getSelectedNodeTextStyle() const;
 	void setSelectedNodeTextStyle(int style);
 	void setSelectedNodeTreeIconId(int id);

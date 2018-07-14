@@ -948,7 +948,7 @@ void iEditDoc::SetSelectedNodeMultiLine(bool set)
 
 int iEditDoc::SelectNodesInBound(const CRect &r, CRect& selRect)
 {
-	int cnt = nodes_.selectNodesInBound(r, selRect, false);
+	int cnt = nodes_.SelectInBound(r, selRect);
 	if (cnt == 1) {
 		CRect rc;
 		HitTest(selRect.CenterPoint(), rc);
@@ -3653,13 +3653,11 @@ void iEditDoc::AlignNodesInBoundTo(const CString& side, const CRect& rect)
 
 void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize)
 {
-	CSize maxSz = nodes_.GetNodeSizeMax(true, false);
+	CSize maxSz = nodes_.GetNodeSizeMax(true);
 	node_iter it = nodes_.begin();
 	CRect rc;
 	for (; it != nodes_.end(); it++) {
-		//		if (!bDrwAll) {
 		if (!(*it).second.Visible()) continue;
-		//		}
 		if (!(*it).second.Selected()) continue;
 		rc = (*it).second.getBound();
 		if (strSize == _T("height")) {
