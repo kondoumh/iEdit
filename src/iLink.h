@@ -421,12 +421,12 @@ public:
 	void DrawSelectionTo(CDC* pDC);
 	void DrawSelectionFrom(CDC* pDC);
 	void ReversetSelected();
-	void setSelectedNodeLinkTo(DWORD key, const CRect& bound);
-	void setSelectedNodeLinkFrom(DWORD key, const CRect& bound);
-	bool hitTestTo(const CPoint &pt, DWORD &key, CString &path);
-	bool hitTestFrom(const CPoint& pt, DWORD& key, CString& path);
-	CRect getSelectedLinkBound(bool bDrawAll) const;
-	bool isIsolated(DWORD key, bool bDrawAll) const;
+	void SetSelectedLinkNodeTo(DWORD key, const CRect& bound);
+	void SetSelectedLinkNodeFrom(DWORD key, const CRect& bound);
+	bool HitTestTo(const CPoint &pt, DWORD &key, CString &path);
+	bool HitTestFrom(const CPoint& pt, DWORD& key, CString& path);
+	CRect GetSelectedBound() const;
+	bool IsNodeIsolated(DWORD nodeKey) const;
 	int getSelectedLinkLineStyle(bool bDrawAll) const;
 	void setSelectedLinkLineStyle(int style);
 	int getSelectedLinkWidth() const;

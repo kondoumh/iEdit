@@ -795,7 +795,7 @@ bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt)
 	iNode* pNode = nodes_.HitTest(pt); // リンク元を再選択
 	if (pNode != NULL) {
 		BackupLinksForUndo();
-		links_.setSelectedNodeLinkFrom(pNode->GetKey(), pNode->getBound());
+		links_.SetSelectedLinkNodeFrom(pNode->GetKey(), pNode->getBound());
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkModified;
 		UpdateAllViews(NULL, (LPARAM)GetSelectedNodeKey(), &h);
@@ -809,7 +809,7 @@ bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt)
 	iNode* pNode = nodes_.HitTestSilently(pt);
 	if (pNode != NULL) {
 		BackupLinksForUndo();
-		links_.setSelectedNodeLinkTo(pNode->GetKey(), pNode->getBound());
+		links_.SetSelectedLinkNodeTo(pNode->GetKey(), pNode->getBound());
 		SetModifiedFlag();
 		UpdateAllViews(NULL);
 		iHint h; h.event = iHint::linkModified;
@@ -1060,7 +1060,7 @@ DWORD iEditDoc::HitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey)
 bool iEditDoc::SelectLinkStartIfHit(const CPoint &pt, bool drwAll)
 {
 	DWORD key; CString path;
-	bool hit = links_.hitTestFrom(pt, key, path);
+	bool hit = links_.HitTestFrom(pt, key, path);
 	if (hit) {
 		iHint h; h.event = iHint::linkSel; h.str = path;
 		UpdateAllViews(NULL, (LPARAM)key, &h);
@@ -1071,7 +1071,7 @@ bool iEditDoc::SelectLinkStartIfHit(const CPoint &pt, bool drwAll)
 bool iEditDoc::SelectLinkEndIfHit(const CPoint &pt, bool drwAll)
 {
 	DWORD key; CString path;
-	bool hit = links_.hitTestTo(pt, key, path);
+	bool hit = links_.HitTestTo(pt, key, path);
 	if (hit) {
 		iHint h; h.event = iHint::linkSel; h.str = path;
 		UpdateAllViews(NULL, (LPARAM)key, &h);
@@ -1579,7 +1579,7 @@ double iEditDoc::LinkWidth2BondStrength(int width)
 CRect iEditDoc::GetSelectedLinkBound() const
 {
 	CRect rc(CRect(0, 0, 0, 0));
-	rc = links_.getSelectedLinkBound(false);
+	rc = links_.GetSelectedBound();
 	return rc;
 }
 
@@ -4259,7 +4259,7 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 
 const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 {
-	if (links_.isIsolated(nodes_.GetSelectedKey(), false)) return CRect(0, 0, 0, 0);
+	if (links_.IsNodeIsolated(nodes_.GetSelectedKey())) return CRect(0, 0, 0, 0);
 	DWORD pairKey = links_.GetFirstVisiblePair(nodes_.GetSelectedKey());
 	if (pairKey == -1) return CRect(0, 0, 0, 0);
 

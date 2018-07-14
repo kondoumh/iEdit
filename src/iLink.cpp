@@ -900,7 +900,7 @@ DWORD iLinks::hitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
 	return hitKey;
 }
 
-bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path)
+bool iLinks::HitTestFrom(const CPoint &pt, DWORD &key, CString &path)
 {
 	link_iter it = begin();
 	bool hit = false;
@@ -921,7 +921,7 @@ bool iLinks::hitTestFrom(const CPoint &pt, DWORD &key, CString &path)
 	return hit;
 }
 
-bool iLinks::hitTestTo(const CPoint &pt, DWORD &key, CString &path)
+bool iLinks::HitTestTo(const CPoint &pt, DWORD &key, CString &path)
 {
 	link_iter it = begin();
 	bool hit = false;
@@ -1179,21 +1179,21 @@ int iLinks::getSelectedLinkLineStyle(bool bDrawAll) const
 	return s;
 }
 
-bool iLinks::isIsolated(DWORD key, bool bDrawAll) const
+bool iLinks::IsNodeIsolated(DWORD nodeKey) const
 {
 	link_c_iter it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).CanDraw() && !bDrawAll) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
-		if ((*it).GetFromNodeKey() == key || (*it).GetToNodeKey() == key) {
+		if ((*it).GetFromNodeKey() == nodeKey || (*it).GetToNodeKey() == nodeKey) {
 			return false;
 		}
 	}
 	return true;
 }
 
-CRect iLinks::getSelectedLinkBound(bool bDrawAll) const
+CRect iLinks::GetSelectedBound() const
 {
 	link_c_iter it = getSelectedLink();
 	CRect rc(0, 0, 0, 0);
@@ -1201,7 +1201,7 @@ CRect iLinks::getSelectedLinkBound(bool bDrawAll) const
 	rc = (*it).getBound();
 	it = begin();
 	for (; it != end(); it++) {
-		if ((*it).CanDraw() && !bDrawAll) {
+		if ((*it).CanDraw()) {
 			continue;
 		}
 		if ((*it).IsSelected()) {
@@ -1213,7 +1213,7 @@ CRect iLinks::getSelectedLinkBound(bool bDrawAll) const
 	return rc;
 }
 
-void iLinks::setSelectedNodeLinkFrom(DWORD key, const CRect &bound)
+void iLinks::SetSelectedLinkNodeFrom(DWORD key, const CRect &bound)
 {
 	link_iter it = getSelectedLinkW();
 	if (it != end()) {
@@ -1224,7 +1224,7 @@ void iLinks::setSelectedNodeLinkFrom(DWORD key, const CRect &bound)
 	}
 }
 
-void iLinks::setSelectedNodeLinkTo(DWORD key, const CRect& bound)
+void iLinks::SetSelectedLinkNodeTo(DWORD key, const CRect& bound)
 {
 	link_iter it = getSelectedLinkW();
 	if (it != end()) {
