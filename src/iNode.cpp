@@ -762,7 +762,7 @@ void iNodeMMNodeDrawer::DrawShapeSpecific(const iNode &node, CDC* pDC, const CPe
 //
 //////////////////////////////////////////////////////////////////////
 
-void iNodes::setSelKey(DWORD key)
+void iNodes::Select(DWORD key)
 {
 	selKey_ = key;
 	node_iter it = begin();
@@ -777,7 +777,7 @@ void iNodes::setSelKey(DWORD key)
 	}
 }
 
-node_iter iNodes::getSelectedNode()
+node_iter iNodes::GetSelectedIter()
 {
 	return FindWrite(selKey_);
 }
@@ -791,7 +791,7 @@ void iNodes::initSelection()
 {
 	if (size() == 1) {
 		selKey_ = 0;
-		setSelKey(selKey_);
+		Select(selKey_);
 	}
 	else {
 		node_c_iter it = begin();

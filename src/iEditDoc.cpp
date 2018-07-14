@@ -403,7 +403,7 @@ void iEditDoc::DeleteKeyItem(DWORD key)
 		nodes_.PrepareVisibles(m_visibleKeys);
 	}
 	else {
-		nodes_.PrepareVisibles(this->nodes_.getSelKey());
+		nodes_.PrepareVisibles(this->nodes_.GetSelectedKey());
 	}
 	SetModifiedFlag();
 	iHint h; h.event = iHint::nodeDeleteByKey;
@@ -503,7 +503,7 @@ void iEditDoc::InitDocument()
 
 	nodes_.initSelection();
 	curParent = nodes_.GetCurrentParent();
-	nodes_.PrepareVisibles(nodes_.getSelKey());
+	nodes_.PrepareVisibles(nodes_.GetSelectedKey());
 	CalcMaxPt(m_maxPt);
 	canCpyLink = FALSE;
 }
@@ -529,7 +529,7 @@ CString iEditDoc::GetFileNameFromOpenPath()
 
 CString iEditDoc::GetSelectedNodeText()
 {
-	node_iter it = nodes_.getSelectedNode();
+	node_iter it = nodes_.GetSelectedIter();
 	if (it != nodes_.end()) {
 		return (*it).second.GetText();
 	}
@@ -539,7 +539,7 @@ CString iEditDoc::GetSelectedNodeText()
 void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 {
 	DWORD parentOld = nodes_.GetCurrentParent();
-	nodes_.setSelKey(key);
+	nodes_.Select(key);
 
 	NodeKeyVec svec = GetOutlineView()->getDrawOrder(bShowSubBranch);
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.orderDirection == 1) {
@@ -580,7 +580,7 @@ void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 
 void iEditDoc::SetCurrentNodeText(CString &s, int scrollPos)
 {
-	node_iter it = nodes_.getSelectedNode();
+	node_iter it = nodes_.GetSelectedIter();
 	if (it != nodes_.end()) {
 		(*it).second.SetText(s);
 		(*it).second.SetTextTopPos(scrollPos);
@@ -617,7 +617,7 @@ void iEditDoc::MoveSelectedNode(const CSize &sz)
 
 void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 {
-	node_iter itSelected = nodes_.getSelectedNode();
+	node_iter itSelected = nodes_.GetSelectedIter();
 	if (itSelected == nodes_.end()) return;
 	node_iter it = nodes_.begin();
 	bool moved = false;
@@ -646,7 +646,7 @@ void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 		SetConnectionPoint();
 
 		iHint hint; hint.event = iHint::groupMoved;
-		UpdateAllViews(NULL, nodes_.getSelKey(), &hint);
+		UpdateAllViews(NULL, nodes_.GetSelectedKey(), &hint);
 	}
 }
 
@@ -678,7 +678,7 @@ void iEditDoc::SetSelectedNodeBound(const CRect &r, bool withLink, bool noBackup
 	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -824,7 +824,7 @@ void iEditDoc::SetSelectedNodeFont(const LOGFONT &lf)
 	nodes_.SetSelectedFont(lf);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	SetConnectionPoint();
 	CalcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
@@ -845,7 +845,7 @@ void iEditDoc::SetSelectedNodeFontColor(const COLORREF &c)
 	nodes_.SetSelectedFontColor(c);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -854,7 +854,7 @@ void iEditDoc::SetSelectedNodeLineColor(const COLORREF &c)
 	nodes_.SetSelectedLineColor(c);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -863,7 +863,7 @@ void iEditDoc::SetSelectedNodeBrush(const COLORREF &c)
 	nodes_.SetSelectedFillColor(c);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -873,7 +873,7 @@ void iEditDoc::SetSelectedNodeNoBrush(BOOL noBrush)
 	SetConnectionPointVisibleLinks();
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -893,7 +893,7 @@ void iEditDoc::SetSelectedNodeLineStyle(int style)
 	SetModifiedFlag();
 	SetConnectionPointVisibleLinks();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -907,7 +907,7 @@ void iEditDoc::SetSelectedNodeLineWidth(int w)
 	nodes_.SetSelectedLineWidth(w);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -942,7 +942,7 @@ void iEditDoc::SetSelectedNodeMultiLine(bool set)
 	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -1135,7 +1135,7 @@ void iEditDoc::SetSelectedLinkInfo(const CString &sComment, int arrowType)
 		(*li).SetArrowStyle(arrowType);
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkModified;
-		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+		UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 	}
 }
 
@@ -1160,7 +1160,7 @@ void iEditDoc::SetSelectedLinkWidth(int w)
 	links_.setSelectedLinkWidth(w);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 }
 
 void iEditDoc::SetSelectedLinkLineStyle(int style)
@@ -1168,7 +1168,7 @@ void iEditDoc::SetSelectedLinkLineStyle(int style)
 	links_.setSelectedLinkLineStyle(style);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 }
 
 int iEditDoc::GetSelectedLinkLineStyle()
@@ -1186,7 +1186,7 @@ void iEditDoc::SetSelectedLinkLineColor(const COLORREF &c)
 	links_.setSelectedLinkLineColor(c);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 }
 
 void iEditDoc::SetSelectedLinkFont(const LOGFONT &lf)
@@ -1194,7 +1194,7 @@ void iEditDoc::SetSelectedLinkFont(const LOGFONT &lf)
 	links_.setSelectedLinkFont(lf);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 }
 
 void iEditDoc::GetSelectedLinkFont(LOGFONT &lf)
@@ -1222,7 +1222,7 @@ void iEditDoc::DeleteSelectedLink()
 		links_.erase(it);
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkDelete;
-		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+		UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 	}
 }
 
@@ -1234,13 +1234,13 @@ void iEditDoc::DeleteSelectedLink2()
 		links_.erase(it);
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkDelete;
-		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+		UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 	}
 }
 
 void iEditDoc::DeleteSelectedNode()
 {
-	DWORD delKey = nodes_.getSelKey();
+	DWORD delKey = nodes_.GetSelectedKey();
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeDelete;
 	UpdateAllViews(NULL, (LPARAM)delKey, &hint);
@@ -1265,7 +1265,7 @@ void iEditDoc::DeleteSelectedNodes()
 
 CString iEditDoc::GetSelectedNodeLabel()
 {
-	node_iter it = nodes_.getSelectedNode();
+	node_iter it = nodes_.GetSelectedIter();
 	if (it != nodes_.end()) {
 		return (*it).second.GetName();
 	}
@@ -1285,13 +1285,13 @@ CString iEditDoc::GetSelectedLinkLabel(bool drawAll)
 
 bool iEditDoc::CanDeleteNode() const
 {
-	return nodes_.getSelKey() != 0;
+	return nodes_.GetSelectedKey() != 0;
 }
 
 
 void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 {
-	DWORD curKey = nodes_.getSelKey();
+	DWORD curKey = nodes_.GetSelectedKey();
 	literator it = links_.begin();
 	for (; it != links_.end(); it++) {
 		if ((*it).GetFromNodeKey() != curKey && (*it).GetToNodeKey() != curKey) continue;
@@ -1369,7 +1369,7 @@ void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 
 void iEditDoc::NotifyLinkSelected(const LinkPropsVec &ls, int index)
 {
-	DWORD curKey = nodes_.getSelKey();
+	DWORD curKey = nodes_.GetSelectedKey();
 	literator it = links_.begin();
 
 	bool selected = false;
@@ -1397,7 +1397,7 @@ void iEditDoc::NotifyLinkSelected(const LinkPropsVec &ls, int index)
 
 void iEditDoc::AddUrlLink(const CString &url, const CString& comment)
 {
-	DWORD curKey = nodes_.getSelKey();
+	DWORD curKey = nodes_.GetSelectedKey();
 	iLink l;
 	l.SetDrawable(false);
 	CRect r(CRect(0, 0, 0, 0));
@@ -1414,7 +1414,7 @@ void iEditDoc::AddUrlLink(const CString &url, const CString& comment)
 
 DWORD iEditDoc::GetSelectedNodeKey() const
 {
-	return nodes_.getSelKey();
+	return nodes_.GetSelectedKey();
 }
 
 void iEditDoc::DeleteSpecifidLink(const LinkProps &i)
@@ -1658,7 +1658,7 @@ void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 			(*li).Curve(false);
 			SetModifiedFlag();
 			iHint h; h.event = iHint::linkStraight;
-			UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+			UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 			return;
 		}
 
@@ -1673,7 +1673,7 @@ void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 		SetModifiedFlag();
 		iHint h; h.event = iHint::linkCurved;
 		CalcMaxPt(m_maxPt);
-		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+		UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 	}
 }
 
@@ -1687,7 +1687,7 @@ void iEditDoc::AngleSelectedLink(bool angled)
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	CalcMaxPt(m_maxPt);
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 }
 
 void iEditDoc::GetSelectedLinkEndPoints(CPoint &start, CPoint &end)
@@ -1737,7 +1737,7 @@ void iEditDoc::CopyLinkForPaste()
 
 void iEditDoc::PasteCopiedLink()
 {
-	DWORD curKey = nodes_.getSelKey();
+	DWORD curKey = nodes_.GetSelectedKey();
 	m_cpLinkOrg.SetKeyFrom(curKey);
 	if (m_cpLinkOrg.GetArrowStyle() == iLink::other) {
 		m_cpLinkOrg.SetKeyTo(curKey);
@@ -1788,7 +1788,7 @@ BOOL iEditDoc::LinksExist() const
 void iEditDoc::AddSelectedNodesToCopyOrg()
 {
 	copyOrg.clear(); copyOrg.resize(0);
-	node_iter It = nodes_.getSelectedNode();
+	node_iter It = nodes_.GetSelectedIter();
 	ptSelectMin = (*It).second.getBound().TopLeft();
 	node_c_iter it = nodes_.begin();
 	for (; it != nodes_.end(); it++) {
@@ -1860,7 +1860,7 @@ void iEditDoc::SetSelectedNodeShape(int shape, int mfIndex)
 	nodes_.SetSelectedShape(shape);
 	SetModifiedFlag();
 	if (shape == iNode::MetaFile) {
-		node_iter it = nodes_.getSelectedNode();
+		node_iter it = nodes_.GetSelectedIter();
 		if (it != nodes_.end()) {
 			CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 			(*it).second.SetMetaFile(pApp->m_hMetaFiles[mfIndex]);
@@ -1868,12 +1868,12 @@ void iEditDoc::SetSelectedNodeShape(int shape, int mfIndex)
 		}
 	}
 	iHint h; h.event = iHint::nodeStyleChanged;
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 }
 
 void iEditDoc::SetSelectedNodeMetaFile(HENHMETAFILE metafile)
 {
-	node_iter it = nodes_.getSelectedNode();
+	node_iter it = nodes_.GetSelectedIter();
 	if (it != nodes_.end()) {
 		DisableUndo();
 		BackupNodesForUndo();
@@ -1883,19 +1883,19 @@ void iEditDoc::SetSelectedNodeMetaFile(HENHMETAFILE metafile)
 		SetConnectionPoint();
 		SetModifiedFlag();
 		iHint h; h.event = iHint::nodeStyleChanged;
-		UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+		UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 	}
 }
 
 void iEditDoc::SetSelectedNodeLabel(const CString &label)
 {
-	node_iter it = nodes_.getSelectedNode();
+	node_iter it = nodes_.GetSelectedIter();
 	if (it != nodes_.end()) {
 		(*it).second.SetName(label);
 		SetModifiedFlag();
 		iHint hint; hint.event = iHint::nodeLabelChanged;
 		hint.str = label;
-		DWORD key = nodes_.getSelKey();
+		DWORD key = nodes_.GetSelectedKey();
 		UpdateAllViews(NULL, (LPARAM)key, &hint);
 	}
 }
@@ -1911,7 +1911,7 @@ void iEditDoc::SetSelectedNodeTextStyle(int style)
 	nodes_.SetSelectedTextStyle(style);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -3084,13 +3084,13 @@ void iEditDoc::AddImportedData(bool brepRoot)
 	for (i = 0; i < nodesImport.size(); i++) {
 		nodesImport[i].SetParentKey(FindPairKey(nodesImport[i].GetParentKey()));
 		if (nodesImport[i].GetKey() == nodesImport[i].GetParentKey()) {
-			nodesImport[i].SetParentKey(nodes_.getSelKey());
+			nodesImport[i].SetParentKey(nodes_.GetSelectedKey());
 		}
 	}
 
 	// ノードを置き換える処理をここに書く
 	if (brepRoot) {
-		DWORD sel = nodes_.getSelKey();
+		DWORD sel = nodes_.GetSelectedKey();
 		DWORD start = nodesImport[0].GetKey();
 		nodesImport[0].SetKey(sel);
 		for (i = 0; i < nodesImport.size(); i++) {
@@ -3106,7 +3106,7 @@ void iEditDoc::AddImportedData(bool brepRoot)
 				linksImport[i].SetKeyTo(sel);
 			}
 		}
-		node_iter it = nodes_.getSelectedNode();
+		node_iter it = nodes_.GetSelectedIter();
 		(*it).second.SetName(nodesImport[0].GetName());
 		(*it).second.SetText(nodesImport[0].GetText());
 		(*it).second.SetBound(nodesImport[0].getBound());
@@ -3150,12 +3150,12 @@ void iEditDoc::AddImportedData(bool brepRoot)
 	if (brepRoot) {
 		iHint hint; hint.event = iHint::nodeLabelChanged;
 		hint.str = nodesImport[0].GetName();
-		DWORD key = nodes_.getSelKey();
+		DWORD key = nodes_.GetSelectedKey();
 		UpdateAllViews(NULL, (LPARAM)key, &hint);
 	}
 
 	iHint hint; hint.event = iHint::parentSel;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	CalcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
@@ -3516,7 +3516,7 @@ void iEditDoc::ListUpNodes(const CString &sfind, NodePropsVec &labels, BOOL bLab
 
 HENHMETAFILE iEditDoc::GetSelectedNodeMetaFile()
 {
-	node_iter it = nodes_.getSelectedNode();
+	node_iter it = nodes_.GetSelectedIter();
 	if (it != nodes_.end()) {
 		return (*it).second.GetMetaFile();
 	}
@@ -3701,7 +3701,7 @@ void iEditDoc::ReverseSelectedLinkDirection()
 void iEditDoc::ViewSettingChanged()
 {
 	iHint hint; hint.event = iHint::viewSettingChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -3743,7 +3743,7 @@ void iEditDoc::SetShowBranch(DWORD branchRootKey)
 	m_dwBranchRootKey = branchRootKey;
 	m_bShowBranch = true;
 	iHint hint; hint.event = iHint::showSubBranch;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	CalcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
@@ -3753,7 +3753,7 @@ void iEditDoc::ResetShowBranch()
 	m_bShowBranch = false;
 	nodes_.PrepareVisibles(nodes_.GetCurrentParent());
 	iHint hint; hint.event = iHint::resetShowSubBranch;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	CalcMaxPt(m_maxPt);
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
@@ -4259,8 +4259,8 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 
 const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 {
-	if (links_.isIsolated(nodes_.getSelKey(), false)) return CRect(0, 0, 0, 0);
-	DWORD pairKey = links_.getFirstVisiblePair(nodes_.getSelKey());
+	if (links_.isIsolated(nodes_.GetSelectedKey(), false)) return CRect(0, 0, 0, 0);
+	DWORD pairKey = links_.getFirstVisiblePair(nodes_.GetSelectedKey());
 	if (pairKey == -1) return CRect(0, 0, 0, 0);
 
 	node_iter itRoot = nodes_.find(pairKey);
@@ -4549,7 +4549,7 @@ void iEditDoc::ResizeSelectedNodeFont(bool bEnLarge)
 	SetModifiedFlag();
 	iHint hint;
 	hint.event = iHint::nodeFontResize;
-	UpdateAllViews(NULL, (LPARAM)(nodes_.getSelKey()), &hint);
+	UpdateAllViews(NULL, (LPARAM)(nodes_.GetSelectedKey()), &hint);
 }
 
 void iEditDoc::ResizeSelectedLinkFont(bool bEnLarge)
@@ -4562,7 +4562,7 @@ void iEditDoc::ResizeSelectedLinkFont(bool bEnLarge)
 	SetModifiedFlag();
 	iHint hint;
 	hint.event = iHint::linkModified;
-	UpdateAllViews(NULL, (LPARAM)(nodes_.getSelKey()), &hint);
+	UpdateAllViews(NULL, (LPARAM)(nodes_.GetSelectedKey()), &hint);
 }
 
 // スタイル変更の時に呼び出しているが・・？
@@ -4605,7 +4605,7 @@ BOOL iEditDoc::DrawOrderInfo() const
 
 void iEditDoc::MigrateGroup()
 {
-	node_iter it = nodes_.getSelectedNode();
+	node_iter it = nodes_.GetSelectedIter();
 	CRect r = (*it).second.getBound();
 	node_iter itr = nodes_.begin();
 	int drawOrder = 0;
@@ -4629,14 +4629,14 @@ void iEditDoc::MigrateGroup()
 
 void iEditDoc::SaveSelectedNodeFormat()
 {
-	node_iter n = nodes_.getSelectedNode();
+	node_iter n = nodes_.GetSelectedIter();
 	m_nodeForFormat = iNode((*n).second);
 }
 
 void iEditDoc::ApplyFormatToSelectedNode()
 {
 	BackupNodesForUndo();
-	node_iter n = nodes_.getSelectedNode();
+	node_iter n = nodes_.GetSelectedIter();
 	(*n).second.SetLineColor(m_nodeForFormat.GetLineColor());
 	(*n).second.SetLineColor(m_nodeForFormat.GetLineColor());
 	(*n).second.SetLineStyle(m_nodeForFormat.GetLineStyle());
@@ -4658,7 +4658,7 @@ void iEditDoc::ApplyFormatToSelectedNode()
 	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &hint);
+	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &hint);
 }
 
 void iEditDoc::SaveSelectedLinkFormat()
@@ -4686,7 +4686,7 @@ void iEditDoc::DeleteLinksInBound(const CRect& bound)
 		iLink_inBound(bound)), links_.end());
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkDeleteMulti;
-	UpdateAllViews(NULL, (LPARAM)nodes_.getSelKey(), &h);
+	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
 }
 
 DWORD iEditDoc::DuplicateKeyNode(DWORD key)
@@ -4752,7 +4752,7 @@ void iEditDoc::SetSelectedNodeMargin(int l, int r, int t, int b)
 	nodes_.SetMarginToSelected(l, r, t, b);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -4811,7 +4811,7 @@ void iEditDoc::FitSelectedNodeSize()
 	SetConnectionPoint();
 	CalcMaxPt(m_maxPt);
 	iHint hint; hint.event = iHint::reflesh;
-	DWORD key = nodes_.getSelKey();
+	DWORD key = nodes_.GetSelectedKey();
 	UpdateAllViews(NULL, (LPARAM)key, &hint);
 }
 
@@ -4826,7 +4826,7 @@ int iEditDoc::GetSelectedNodeScrollPos() const
 
 void iEditDoc::SetSelectedNodeScrollPos(int pos)
 {
-	node_iter it = nodes_.getSelectedNode();
+	node_iter it = nodes_.GetSelectedIter();
 	if (it != nodes_.end()) {
 		(*it).second.SetTextTopPos(pos);
 	}

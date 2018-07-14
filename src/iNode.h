@@ -605,9 +605,9 @@ public:
 	iNode* HitTest(const CPoint& pt);
 	void Draw(CDC* pDC);
 	void initSelection();
-	node_iter getSelectedNode();
-	void setSelKey(DWORD key);
-	DWORD getSelKey() const;
+	node_iter GetSelectedIter();
+	void Select(DWORD key);
+	DWORD GetSelectedKey() const;
 	void ResizeSelectedFont(bool bEnlarge);
 
 private:
@@ -628,7 +628,7 @@ inline void iNodes::SetDrawOrder(const NodeKeyVec svec)
 	svec_ = svec;
 }
 
-inline DWORD iNodes::getSelKey() const
+inline DWORD iNodes::GetSelectedKey() const
 {
 	return selKey_;
 }
