@@ -30,7 +30,7 @@ public:
 	void MovePoints(const CSize& sz);
 	void SetKeyTo(const DWORD key);
 	void SetKeyFrom(const DWORD key);
-	bool hitTest2(const CPoint& pt);
+	bool HitTestSilently(const CPoint& pt);
 	CRect getBound() const;
 	CRect getCommentRect() const;
 	void SetPathPt(const CPoint& pt);

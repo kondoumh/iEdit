@@ -766,7 +766,7 @@ bool iEditDoc::SetStartLink(const CPoint& pt)
 
 bool iEditDoc::SetEndLink(const CPoint &pt, int ArrowType, bool bArrowSpecification)
 {
-	iNode* pNode = nodes_.hitTest2(pt, false);
+	iNode* pNode = nodes_.HitTestSilently(pt);
 	if (pNode != NULL) {
 		rcLinkTo = pNode->getBound();
 		keyLinkTo = pNode->GetKey();
@@ -806,7 +806,7 @@ bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt)
 
 bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt)
 {
-	iNode* pNode = nodes_.hitTest2(pt, false); // 再選択なし
+	iNode* pNode = nodes_.HitTestSilently(pt);
 	if (pNode != NULL) {
 		BackupLinksForUndo();
 		links_.setSelectedNodeLinkTo(pNode->GetKey(), pNode->getBound());
@@ -1667,7 +1667,7 @@ void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 		}
 		(*li).SetPathPt(pt);
 		(*li).Curve();
-		if ((*li).hitTest2(pt) && (*li).GetName() == _T("")) {
+		if ((*li).HitTestSilently(pt) && (*li).GetName() == _T("")) {
 			(*li).Curve(false);
 		}
 		SetModifiedFlag();
@@ -3721,7 +3721,7 @@ void iEditDoc::ExportSvg(const CString &path, bool bEmbed,
 
 iNode iEditDoc::GetHitNode(const CPoint &pt)
 {
-	iNode* pNode = nodes_.hitTest2(pt, false);
+	iNode* pNode = nodes_.HitTestSilently(pt);
 	if (pNode != NULL) {
 		iNode node = *pNode;
 		return node;
@@ -4454,10 +4454,9 @@ int iEditDoc::GetKeyNodeLevelNumber(DWORD key)
 	return -1;
 }
 
-// サイレントなHitTest
-bool iEditDoc::HitTest2(const CPoint& pt)
+bool iEditDoc::HitTestSilently(const CPoint& pt)
 {
-	iNode* pNode = nodes_.hitTest2(pt, false);
+	iNode* pNode = nodes_.HitTestSilently(pt);
 	if (pNode != NULL) {
 		return true;
 	}

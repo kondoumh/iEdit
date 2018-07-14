@@ -667,7 +667,7 @@ bool iLink::HitTestConnectionPtTo(const CPoint &pt) const
 }
 
 
-bool iLink::hitTest2(const CPoint &pt)
+bool iLink::HitTestSilently(const CPoint &pt)
 {
 	if (HitTestConnectionPtFrom(pt) || HitTestConnectionPtTo(pt)) {
 		return false;

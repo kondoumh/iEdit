@@ -3584,7 +3584,7 @@ void NetView::PointedLinkEndPosition(CPoint point)
 
 	if (point == m_ptPrePos) return;
 
-	if (GetDocument()->HitTest2(logPt)) {
+	if (GetDocument()->HitTestSilently(logPt)) {
 		GetDocument()->SetEndLink(logPt);
 	}
 	else {

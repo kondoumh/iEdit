@@ -599,7 +599,7 @@ public:
 	void GetSelectedFont(LOGFONT& lf);
 	void SetSelectedFont(const LOGFONT& lf);
 	DWORD GetCurrentParent() const;
-	iNode* hitTest2(const CPoint& pt, bool bTestAll = false) const;
+	iNode* HitTestSilently(const CPoint& pt) const;
 	void setSelectedNodeBound(const CRect& r);
 	void moveSelectedNode(const CSize& sz);
 	iNode* hitTest(const CPoint& pt, bool bTestAll = false);
