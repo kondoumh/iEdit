@@ -1117,7 +1117,7 @@ CString iNodes::CreateClickableMapString(const CString& fileName, bool singleTex
 	return mapString;
 }
 
-void iNodes::setVisibleNodes(DWORD key)
+void iNodes::PrepareVisibles(DWORD key)
 {
 	nodesDraw_.clear();
 	nodesDraw_.resize(0);
@@ -1143,12 +1143,12 @@ void iNodes::setVisibleNodes(DWORD key)
 	}
 }
 
-vector<iNode*> iNodes::getVisibleNodes() const
+vector<iNode*> iNodes::GetVisibles() const
 {
 	return nodesDraw_;
 }
 
-void iNodes::setVisibleNodes(NodeKeySet& keySet)
+void iNodes::PrepareVisibles(NodeKeySet& keySet)
 {
 	nodesDraw_.clear();
 	nodesDraw_.resize(0);

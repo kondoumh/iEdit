@@ -581,9 +581,9 @@ public:
 	COLORREF GetSelectedFillColor() const;
 	BOOL SelectedFilled() const;
 	void SetSelectedFillColor(const COLORREF& c);
-	void setVisibleNodes(DWORD key);
-	vector<iNode*> getVisibleNodes() const;
-	void setVisibleNodes(NodeKeySet& keySet);
+	void PrepareVisibles(DWORD key);
+	vector<iNode*> GetVisibles() const;
+	void PrepareVisibles(NodeKeySet& keySet);
 	int selectNodesInBound(const CRect& bound, CRect& selRect, bool bDrwAll = false);
 	int getSelectedNodeTextStyle() const;
 	void setSelectedNodeTextStyle(int style);

@@ -400,10 +400,10 @@ void iEditDoc::DeleteKeyItem(DWORD key)
 	}
 	links_.erase(remove_if(links_.begin(), links_.end(), iLink_eq(key)), links_.end());
 	if (m_bShowBranch) {
-		nodes_.setVisibleNodes(m_visibleKeys);
+		nodes_.PrepareVisibles(m_visibleKeys);
 	}
 	else {
-		nodes_.setVisibleNodes(this->nodes_.getSelKey());
+		nodes_.PrepareVisibles(this->nodes_.getSelKey());
 	}
 	SetModifiedFlag();
 	iHint h; h.event = iHint::nodeDeleteByKey;
@@ -503,7 +503,7 @@ void iEditDoc::InitDocument()
 
 	nodes_.initSelection();
 	curParent = nodes_.getCurParent();
-	nodes_.setVisibleNodes(nodes_.getSelKey());
+	nodes_.PrepareVisibles(nodes_.getSelKey());
 	CalcMaxPt(m_maxPt);
 	canCpyLink = FALSE;
 }
@@ -549,10 +549,10 @@ void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 	nodes_.SetDrawOrder(svec);
 
 	if (!bShowSubBranch) {
-		nodes_.setVisibleNodes(key);
+		nodes_.PrepareVisibles(key);
 	}
 	else {
-		nodes_.setVisibleNodes(m_visibleKeys);
+		nodes_.PrepareVisibles(m_visibleKeys);
 	}
 
 	DWORD parentNew = nodes_.getCurParent();
@@ -3737,7 +3737,7 @@ iNode iEditDoc::GetHitNode(const CPoint &pt)
 void iEditDoc::SetVisibleNodes(NodeKeySet& keySet)
 {
 	m_visibleKeys = keySet;
-	nodes_.setVisibleNodes(keySet);
+	nodes_.PrepareVisibles(keySet);
 }
 
 void iEditDoc::SetShowBranch(DWORD branchRootKey)
@@ -3753,7 +3753,7 @@ void iEditDoc::SetShowBranch(DWORD branchRootKey)
 void iEditDoc::ResetShowBranch()
 {
 	m_bShowBranch = false;
-	nodes_.setVisibleNodes(nodes_.getCurParent());
+	nodes_.PrepareVisibles(nodes_.getCurParent());
 	iHint hint; hint.event = iHint::resetShowSubBranch;
 	DWORD key = nodes_.getSelKey();
 	CalcMaxPt(m_maxPt);
