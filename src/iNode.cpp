@@ -901,7 +901,7 @@ void iNodes::setSelectedNodeBound(const CRect &r)
 	}
 }
 
-void iNodes::setSelectedNodeFont(const LOGFONT &lf)
+void iNodes::SetSelectedFont(const LOGFONT &lf)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -911,7 +911,7 @@ void iNodes::setSelectedNodeFont(const LOGFONT &lf)
 	}
 }
 
-void iNodes::getSelectedNodeFont(LOGFONT& lf)
+void iNodes::GetSelectedFont(LOGFONT& lf)
 {
 	node_c_iter it = FindRead(selKey_);
 	if (it != end()) {
@@ -921,7 +921,7 @@ void iNodes::getSelectedNodeFont(LOGFONT& lf)
 }
 
 
-COLORREF iNodes::getSelectedNodeFontColor() const
+COLORREF iNodes::GetSelectedFontColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
 	node_c_iter it = FindRead(selKey_);
@@ -931,7 +931,7 @@ COLORREF iNodes::getSelectedNodeFontColor() const
 	return c;
 }
 
-void iNodes::setSelectedNodeFontColor(const COLORREF &c)
+void iNodes::SetSelectedFontColor(const COLORREF &c)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -961,7 +961,7 @@ void iNodes::ToggleSelectedFill(BOOL noBrush)
 	}
 }
 
-void iNodes::setSelectedNodeLineColor(const COLORREF &c)
+void iNodes::SetSelectedLineColor(const COLORREF &c)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -971,7 +971,7 @@ void iNodes::setSelectedNodeLineColor(const COLORREF &c)
 	}
 }
 
-COLORREF iNodes::getSelectedNodeLineColor() const
+COLORREF iNodes::GetSelectedLineColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
 	node_c_iter it = FindRead(selKey_);
@@ -991,7 +991,7 @@ COLORREF iNodes::GetSelectedFillColor() const
 	return c;
 }
 
-void iNodes::setSelectedNodeLineStyle(int style)
+void iNodes::SetSelectedLineStyle(int style)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -1001,7 +1001,7 @@ void iNodes::setSelectedNodeLineStyle(int style)
 	}
 }
 
-int iNodes::getSelectedNodeLineStyle() const
+int iNodes::GetSelectedLineStyle() const
 {
 	int s = PS_SOLID;
 	node_c_iter it = FindRead(selKey_);
@@ -1011,7 +1011,7 @@ int iNodes::getSelectedNodeLineStyle() const
 	return s;
 }
 
-void iNodes::setSelectedNodeLineWidth(int w)
+void iNodes::SetSelectedLineWidth(int w)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -1022,7 +1022,7 @@ void iNodes::setSelectedNodeLineWidth(int w)
 }
 
 
-int iNodes::getSelectedNodeLineWidth() const
+int iNodes::GetSelectedLineWidth() const
 {
 	int w = 0;
 	node_c_iter it = FindRead(selKey_);
@@ -1032,7 +1032,7 @@ int iNodes::getSelectedNodeLineWidth() const
 	return w;
 }
 
-void iNodes::setSelectedNodeTextStyle(int style)
+void iNodes::SetSelectedTextStyle(int style)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -1042,7 +1042,7 @@ void iNodes::setSelectedNodeTextStyle(int style)
 	}
 }
 
-void iNodes::setSelectedNodeTreeIconId(int id)
+void iNodes::SetSelectedTreeIcon(int id)
 {
 	node_iter it = FindWrite(selKey_);
 	if (it != end()) {
@@ -1050,7 +1050,7 @@ void iNodes::setSelectedNodeTreeIconId(int id)
 	}
 }
 
-int iNodes::getSelectedNodeTextStyle() const
+int iNodes::GetSelectedTextStyle() const
 {
 	int s = iNode::s_cc;
 	node_c_iter it = FindRead(selKey_);

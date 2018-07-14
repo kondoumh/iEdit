@@ -390,7 +390,7 @@ void iEditDoc::SetKeyNodeChapterNumber(DWORD key, const CString& chapterNumber) 
 
 void iEditDoc::DeleteKeyItem(DWORD key)
 {
-	DWORD parent = nodes_.getCurParent();
+	DWORD parent = nodes_.GetCurrentParent();
 	// 以下の行は、メタファイルの再描画不具合のため廃止iNode_eqの中でiNodeの参照を使うのが原因？
 //	nodes_.erase(remove_if(nodes_.begin(), nodes_.end(), iNode_eq(key)), nodes_.end());
 
@@ -502,7 +502,7 @@ void iEditDoc::InitDocument()
 	}
 
 	nodes_.initSelection();
-	curParent = nodes_.getCurParent();
+	curParent = nodes_.GetCurrentParent();
 	nodes_.PrepareVisibles(nodes_.getSelKey());
 	CalcMaxPt(m_maxPt);
 	canCpyLink = FALSE;
@@ -538,7 +538,7 @@ CString iEditDoc::GetSelectedNodeText()
 
 void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 {
-	DWORD parentOld = nodes_.getCurParent();
+	DWORD parentOld = nodes_.GetCurrentParent();
 	nodes_.setSelKey(key);
 
 	NodeKeyVec svec = GetOutlineView()->getDrawOrder(bShowSubBranch);
@@ -555,7 +555,7 @@ void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 		nodes_.PrepareVisibles(m_visibleKeys);
 	}
 
-	DWORD parentNew = nodes_.getCurParent();
+	DWORD parentNew = nodes_.GetCurrentParent();
 
 	if (parentOld != parentNew || parentNew == 0) {
 		CalcMaxPt(m_maxPt);
@@ -821,7 +821,7 @@ bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt)
 
 void iEditDoc::SetSelectedNodeFont(const LOGFONT &lf)
 {
-	nodes_.setSelectedNodeFont(lf);
+	nodes_.SetSelectedFont(lf);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -832,17 +832,17 @@ void iEditDoc::SetSelectedNodeFont(const LOGFONT &lf)
 
 void iEditDoc::GetSelectedNodeFont(LOGFONT& lf)
 {
-	nodes_.getSelectedNodeFont(lf);
+	nodes_.GetSelectedFont(lf);
 }
 
 COLORREF iEditDoc::GetSelectedNodeFontColor() const
 {
-	return nodes_.getSelectedNodeFontColor();
+	return nodes_.GetSelectedFontColor();
 }
 
 void iEditDoc::SetSelectedNodeFontColor(const COLORREF &c)
 {
-	nodes_.setSelectedNodeFontColor(c);
+	nodes_.SetSelectedFontColor(c);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -851,7 +851,7 @@ void iEditDoc::SetSelectedNodeFontColor(const COLORREF &c)
 
 void iEditDoc::SetSelectedNodeLineColor(const COLORREF &c)
 {
-	nodes_.setSelectedNodeLineColor(c);
+	nodes_.SetSelectedLineColor(c);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -879,7 +879,7 @@ void iEditDoc::SetSelectedNodeNoBrush(BOOL noBrush)
 
 COLORREF iEditDoc::GetSelectedNodeLineColor() const
 {
-	return nodes_.getSelectedNodeLineColor();
+	return nodes_.GetSelectedLineColor();
 }
 
 COLORREF iEditDoc::GetSelectedNodeBrsColor() const
@@ -889,7 +889,7 @@ COLORREF iEditDoc::GetSelectedNodeBrsColor() const
 
 void iEditDoc::SetSelectedNodeLineStyle(int style)
 {
-	nodes_.setSelectedNodeLineStyle(style);
+	nodes_.SetSelectedLineStyle(style);
 	SetModifiedFlag();
 	SetConnectionPointVisibleLinks();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
@@ -899,12 +899,12 @@ void iEditDoc::SetSelectedNodeLineStyle(int style)
 
 int iEditDoc::GetSelectedNodeLineStyle() const
 {
-	return nodes_.getSelectedNodeLineStyle();
+	return nodes_.GetSelectedLineStyle();
 }
 
 void iEditDoc::SetSelectedNodeLineWidth(int w)
 {
-	nodes_.setSelectedNodeLineWidth(w);
+	nodes_.SetSelectedLineWidth(w);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -913,13 +913,13 @@ void iEditDoc::SetSelectedNodeLineWidth(int w)
 
 int iEditDoc::GetSelectedNodeLineWidth() const
 {
-	return nodes_.getSelectedNodeLineWidth();
+	return nodes_.GetSelectedLineWidth();
 }
 
 
 bool iEditDoc::IsSelectedNodeMultiLine() const
 {
-	int style = nodes_.getSelectedNodeTextStyle();
+	int style = nodes_.GetSelectedTextStyle();
 	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
 		return true;
 	}
@@ -937,7 +937,7 @@ void iEditDoc::SetSelectedNodeMultiLine(bool set)
 	}
 	BackupNodesForUndo();
 	BackupLinksForUndo();
-	nodes_.setSelectedNodeTextStyle(style);
+	nodes_.SetSelectedTextStyle(style);
 	SetConnectionPointVisibleLinks();
 	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
@@ -986,7 +986,7 @@ void iEditDoc::AddNodeInternal(const CString &name, const CPoint &pt, int nodeTy
 {
 	iNode n(name);
 	n.SetKey(AssignNewKey());
-	n.SetParentKey(nodes_.getCurParent());
+	n.SetParentKey(nodes_.GetCurrentParent());
 	n.SetShape(nodeType);
 	n.MoveBound(CSize(pt.x, pt.y));
 	n.SetVisible();
@@ -1022,7 +1022,7 @@ void iEditDoc::AddShapeNode(const CString &name, const CPoint &pt, int mfIndex, 
 {
 	iNode n(name);
 	n.SetKey(AssignNewKey());
-	n.SetParentKey(nodes_.getCurParent());
+	n.SetParentKey(nodes_.GetCurrentParent());
 	n.SetShape(iNode::MetaFile);
 	n.MoveBound(CSize(pt.x, pt.y));
 	n.SetMetaFile(mh);
@@ -1249,7 +1249,7 @@ void iEditDoc::DeleteSelectedNode()
 void iEditDoc::DeleteSelectedNodes()
 {
 	SetModifiedFlag();
-	DWORD parentKey = nodes_.getCurParent();
+	DWORD parentKey = nodes_.GetCurrentParent();
 	if (ShowSubBranch()) {
 		parentKey = m_dwBranchRootKey;
 	}
@@ -1810,7 +1810,7 @@ void iEditDoc::DuplicateNodes(const CPoint& pt, bool useDefault)
 		node_iter it = nodes_.FindWrite(copyOrg[i]);
 		iNode n((*it).second);
 		n.SetKey(AssignNewKey());
-		n.SetParentKey(nodes_.getCurParent());
+		n.SetParentKey(nodes_.GetCurrentParent());
 
 		if (!useDefault) {
 			CPoint ptNew = pt;
@@ -1903,12 +1903,12 @@ void iEditDoc::SetSelectedNodeLabel(const CString &label)
 
 int iEditDoc::GetSelectedNodeTextStyle() const
 {
-	return nodes_.getSelectedNodeTextStyle();
+	return nodes_.GetSelectedTextStyle();
 }
 
 void iEditDoc::SetSelectedNodeTextStyle(int style)
 {
-	nodes_.setSelectedNodeTextStyle(style);
+	nodes_.SetSelectedTextStyle(style);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -1917,7 +1917,7 @@ void iEditDoc::SetSelectedNodeTextStyle(int style)
 
 void iEditDoc::SetSelectedNodeTreeIconId(int id)
 {
-	nodes_.setSelectedNodeTreeIconId(id);
+	nodes_.SetSelectedTreeIcon(id);
 	SetModifiedFlag();
 }
 
@@ -3751,7 +3751,7 @@ void iEditDoc::SetShowBranch(DWORD branchRootKey)
 void iEditDoc::ResetShowBranch()
 {
 	m_bShowBranch = false;
-	nodes_.PrepareVisibles(nodes_.getCurParent());
+	nodes_.PrepareVisibles(nodes_.GetCurrentParent());
 	iHint hint; hint.event = iHint::resetShowSubBranch;
 	DWORD key = nodes_.getSelKey();
 	CalcMaxPt(m_maxPt);
@@ -4328,7 +4328,7 @@ const iNode& iEditDoc::InsertNode(const int nodeType, const CString &name, const
 {
 	iNode n(name);
 	n.SetKey(AssignNewKey());
-	n.SetParentKey(nodes_.getCurParent());
+	n.SetParentKey(nodes_.GetCurrentParent());
 	n.SetShape(nodeType);
 	n.MoveBound(CSize(pt.x, pt.y));
 	n.SetVisible();

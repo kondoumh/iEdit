@@ -585,20 +585,20 @@ public:
 	vector<iNode*> GetVisibles() const;
 	void PrepareVisibles(NodeKeySet& keySet);
 	int SelectInBound(const CRect& bound, CRect& selRect);
-	int getSelectedNodeTextStyle() const;
-	void setSelectedNodeTextStyle(int style);
-	void setSelectedNodeTreeIconId(int id);
-	int getSelectedNodeLineWidth() const;
-	int getSelectedNodeLineStyle() const;
-	void setSelectedNodeLineWidth(int w);
-	void setSelectedNodeLineStyle(int style);
-	COLORREF getSelectedNodeLineColor() const;
-	void setSelectedNodeLineColor(const COLORREF& c);
-	void setSelectedNodeFontColor(const COLORREF& c);
-	COLORREF getSelectedNodeFontColor() const;
-	void getSelectedNodeFont(LOGFONT& lf);
-	void setSelectedNodeFont(const LOGFONT& lf);
-	DWORD getCurParent() const;
+	int GetSelectedTextStyle() const;
+	void SetSelectedTextStyle(int style);
+	void SetSelectedTreeIcon(int id);
+	int GetSelectedLineWidth() const;
+	int GetSelectedLineStyle() const;
+	void SetSelectedLineWidth(int w);
+	void SetSelectedLineStyle(int style);
+	COLORREF GetSelectedLineColor() const;
+	void SetSelectedLineColor(const COLORREF& c);
+	void SetSelectedFontColor(const COLORREF& c);
+	COLORREF GetSelectedFontColor() const;
+	void GetSelectedFont(LOGFONT& lf);
+	void SetSelectedFont(const LOGFONT& lf);
+	DWORD GetCurrentParent() const;
 	iNode* hitTest2(const CPoint& pt, bool bTestAll = false) const;
 	void setSelectedNodeBound(const CRect& r);
 	void moveSelectedNode(const CSize& sz);
@@ -635,7 +635,7 @@ inline DWORD iNodes::getSelKey() const
 	return selKey_;
 }
 
-inline DWORD iNodes::getCurParent() const
+inline DWORD iNodes::GetCurrentParent() const
 {
 	return curParent_;
 }
