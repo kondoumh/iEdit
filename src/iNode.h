@@ -599,7 +599,7 @@ public:
 	void GetSelectedFont(LOGFONT& lf);
 	void SetSelectedFont(const LOGFONT& lf);
 	DWORD GetCurrentParent() const;
-	iNode* HitTestExcludePathPt(const CPoint& pt) const;
+	iNode* HitTestSilently(const CPoint& pt) const;
 	void SetSelectedBound(const CRect& r);
 	void MoveSelected(const CSize& sz);
 	iNode* HitTest(const CPoint& pt);

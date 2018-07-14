@@ -854,7 +854,7 @@ iNode* iNodes::HitTest(const CPoint &pt)
 	return *vit_inner;
 }
 
-iNode* iNodes::HitTestExcludePathPt(const CPoint &pt) const
+iNode* iNodes::HitTestSilently(const CPoint &pt) const
 {
 	vector<iNode*>::const_reverse_iterator vit = nodesDraw_.rbegin();
 	CRect preRc(0, 0, 0, 0);

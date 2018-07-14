@@ -766,7 +766,7 @@ bool iEditDoc::SetStartLink(const CPoint& pt)
 
 bool iEditDoc::SetEndLink(const CPoint &pt, int ArrowType, bool bArrowSpecification)
 {
-	iNode* pNode = nodes_.HitTestExcludePathPt(pt);
+	iNode* pNode = nodes_.HitTestSilently(pt);
 	if (pNode != NULL) {
 		rcLinkTo = pNode->getBound();
 		keyLinkTo = pNode->GetKey();
@@ -806,7 +806,7 @@ bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt)
 
 bool iEditDoc::SwitchLinkEndNodeAt(const CPoint &pt)
 {
-	iNode* pNode = nodes_.HitTestExcludePathPt(pt);
+	iNode* pNode = nodes_.HitTestSilently(pt);
 	if (pNode != NULL) {
 		BackupLinksForUndo();
 		links_.setSelectedNodeLinkTo(pNode->GetKey(), pNode->getBound());
@@ -3721,7 +3721,7 @@ void iEditDoc::ExportSvg(const CString &path, bool bEmbed,
 
 iNode iEditDoc::GetHitNode(const CPoint &pt)
 {
-	iNode* pNode = nodes_.HitTestExcludePathPt(pt);
+	iNode* pNode = nodes_.HitTestSilently(pt);
 	if (pNode != NULL) {
 		iNode node = *pNode;
 		return node;
@@ -4454,9 +4454,9 @@ int iEditDoc::GetKeyNodeLevelNumber(DWORD key)
 	return -1;
 }
 
-bool iEditDoc::HitTestExcludePathPt(const CPoint& pt)
+bool iEditDoc::HitTestSilently(const CPoint& pt)
 {
-	iNode* pNode = nodes_.HitTestExcludePathPt(pt);
+	iNode* pNode = nodes_.HitTestSilently(pt);
 	if (pNode != NULL) {
 		return true;
 	}
