@@ -1116,14 +1116,9 @@ void iLinks::SetSelectedLineColor(const COLORREF &c)
 COLORREF iLinks::GetSelectedLineColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
-	link_c_iter it = begin();
-	for (; it != end(); it++) {
-		if (!(*it).CanDraw()) {
-			continue;
-		}
-		if ((*it).IsSelected()) {
-			c = (*it).GetLinkColor();
-		}
+	link_c_iter it = GetSelectedRead();
+	if (it != end()) {
+		c = (*it).GetLinkColor();
 	}
 	return c;
 }
@@ -1166,16 +1161,10 @@ void iLinks::SetSelectedLineStyle(int style)
 
 int iLinks::GetSelectedLineStyle() const
 {
-	// TODO
 	int s = PS_SOLID;
-	link_c_iter it = begin();
-	for (; it != end(); it++) {
-		if (!(*it).CanDraw()) {
-			continue;
-		}
-		if ((*it).IsSelected()) {
-			s = (*it).GetLineStyle();
-		}
+	link_c_iter it = GetSelectedRead();
+	if (it != end()) {
+		s = (*it).GetLineStyle();
 	}
 	return s;
 }
