@@ -608,7 +608,7 @@ public:
 	node_iter getSelectedNode();
 	void setSelKey(DWORD key);
 	DWORD getSelKey() const;
-	void resizeSelectedNodeFont(bool bEnlarge);
+	void ResizeSelectedFont(bool bEnlarge);
 
 private:
 	vector<iNode*> nodesDraw_; // 描画用ノード配列

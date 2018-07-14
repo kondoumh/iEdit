@@ -4543,7 +4543,7 @@ void iEditDoc::ResizeSelectedNodeFont(bool bEnLarge)
 {
 	BackupNodesForUndo();
 	BackupLinksForUndo();
-	nodes_.resizeSelectedNodeFont(bEnLarge);
+	nodes_.ResizeSelectedFont(bEnLarge);
 	SetConnectionPointVisibleLinks();
 	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();

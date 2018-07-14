@@ -1343,7 +1343,7 @@ void iNodes::RestoreFixState(DWORD keyExcluded)
 	}
 }
 
-void iNodes::resizeSelectedNodeFont(bool bEnlarge)
+void iNodes::ResizeSelectedFont(bool bEnlarge)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
