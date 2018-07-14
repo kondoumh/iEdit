@@ -600,9 +600,9 @@ public:
 	void SetSelectedFont(const LOGFONT& lf);
 	DWORD GetCurrentParent() const;
 	iNode* HitTestSilently(const CPoint& pt) const;
-	void setSelectedNodeBound(const CRect& r);
-	void moveSelectedNode(const CSize& sz);
-	iNode* hitTest(const CPoint& pt, bool bTestAll = false);
+	void SetSelectedBound(const CRect& r);
+	void MoveSelected(const CSize& sz);
+	iNode* HitTest(const CPoint& pt);
 	void drawNodes(CDC* pDC, bool bDrwAll = false);
 	void initSelection();
 	node_iter getSelectedNode();

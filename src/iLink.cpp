@@ -853,7 +853,7 @@ void iLinks::drawArrows(CDC *pDC)
 	}
 }
 
-bool iLinks::hitTest(const CPoint &pt, DWORD& key, CString& path)
+bool iLinks::HitTest(const CPoint &pt, DWORD& key, CString& path)
 {
 	literator it = begin();
 	bool hit = false;

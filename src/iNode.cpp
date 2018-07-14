@@ -815,7 +815,7 @@ void iNodes::drawNodes(CDC *pDC, bool bDrwAll)
 	}
 }
 
-iNode* iNodes::hitTest(const CPoint &pt, bool bTestAll)
+iNode* iNodes::HitTest(const CPoint &pt)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -883,7 +883,7 @@ iNode* iNodes::HitTestSilently(const CPoint &pt) const
 	return *vit_inner;
 }
 
-void iNodes::moveSelectedNode(const CSize &sz)
+void iNodes::MoveSelected(const CSize &sz)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -893,7 +893,7 @@ void iNodes::moveSelectedNode(const CSize &sz)
 	}
 }
 
-void iNodes::setSelectedNodeBound(const CRect &r)
+void iNodes::SetSelectedBound(const CRect &r)
 {
 	node_iter it = FindWrite(selKey_);
 	if (it != end()) {

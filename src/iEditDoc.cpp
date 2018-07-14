@@ -595,7 +595,7 @@ void iEditDoc::DrawNodes(CDC *pDC)
 
 bool iEditDoc::HitTest(const CPoint& pt, CRect &r)
 {
-	iNode* pNode = nodes_.hitTest(pt, false);
+	iNode* pNode = nodes_.HitTest(pt);
 	if (pNode != NULL) {
 		r = pNode->getBound();
 		iHint hint;
@@ -609,7 +609,7 @@ bool iEditDoc::HitTest(const CPoint& pt, CRect &r)
 
 void iEditDoc::MoveSelectedNode(const CSize &sz)
 {
-	nodes_.moveSelectedNode(sz);
+	nodes_.MoveSelected(sz);
 	SetConnectionPoint();
 	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
@@ -671,7 +671,7 @@ void iEditDoc::SetSelectedNodeBound(const CRect &r, bool withLink, bool noBackup
 	if (!noBackup) {
 		BackupNodesForUndo();
 	}
-	nodes_.setSelectedNodeBound(r);
+	nodes_.SetSelectedBound(r);
 	if (withLink) {
 		SetConnectionPoint();
 	}
@@ -754,7 +754,7 @@ void iEditDoc::DrawLinks(CDC *pDC, bool clipbrd)
 
 bool iEditDoc::SetStartLink(const CPoint& pt)
 {
-	iNode* pNode = nodes_.hitTest(pt);
+	iNode* pNode = nodes_.HitTest(pt);
 	if (pNode != NULL) {
 		rcLinkFrom = pNode->getBound();
 		keyLinkFrom = pNode->GetKey();
@@ -792,7 +792,7 @@ bool iEditDoc::SetEndLink(const CPoint &pt, int ArrowType, bool bArrowSpecificat
 
 bool iEditDoc::SwitchLinkStartNodeAt(const CPoint &pt)
 {
-	iNode* pNode = nodes_.hitTest(pt, false); // リンク元を再選択
+	iNode* pNode = nodes_.HitTest(pt); // リンク元を再選択
 	if (pNode != NULL) {
 		BackupLinksForUndo();
 		links_.setSelectedNodeLinkFrom(pNode->GetKey(), pNode->getBound());
@@ -1044,7 +1044,7 @@ void iEditDoc::AddShapeNode(const CString &name, const CPoint &pt, int mfIndex, 
 bool iEditDoc::HitTestLinks(const CPoint &pt)
 {
 	DWORD key; CString path;
-	bool hit = links_.hitTest(pt, key, path);
+	bool hit = links_.HitTest(pt, key, path);
 	if (hit) {
 		iHint h; h.event = iHint::linkSel; h.str = path;
 		UpdateAllViews(NULL, (LPARAM)key, &h);
