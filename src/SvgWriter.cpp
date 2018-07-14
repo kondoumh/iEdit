@@ -82,7 +82,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 		eSvg->appendChild(eGrp);
 	}
 	// リンクの列挙
-	const_literator li = m_links.begin();
+	link_c_iter li = m_links.begin();
 	for (; li != m_links.end(); li++) {
 		if (!m_bDrwAll && !(*li).CanDraw()) continue;
 		iLink link = (*li);
@@ -315,7 +315,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	else {
 		// リンクかテキストの1行目からURLを抽出する)
 		CString url;
-		const_literator li = m_links.begin();
+		link_c_iter li = m_links.begin();
 		for (; li != m_links.end(); li++) {
 			if ((*li).GetFromNodeKey() == node.GetKey()) {
 				if ((*li).GetArrowStyle() == iLink::other) {

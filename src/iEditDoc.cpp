@@ -125,7 +125,7 @@ void iEditDoc::Serialize(CArchive& ar)
 				SaveOrderByTree(ar); // ノードの保存
 				// リンクの保存
 				ar << links_.size();
-				literator li = links_.begin();
+				link_iter li = links_.begin();
 				for (; li != links_.end(); li++) {
 					(*li).Serialize(ar);
 				}
@@ -136,7 +136,7 @@ void iEditDoc::Serialize(CArchive& ar)
 				SaveOrderByTreeEx(ar, SERIAL_VERSION); // ノードの保存
 				// リンクの保存
 				ar << links_.size();
-				literator li = links_.begin();
+				link_iter li = links_.begin();
 				for (; li != links_.end(); li++) {
 					(*li).SerializeEx(ar, SERIAL_VERSION);
 				}
@@ -636,7 +636,7 @@ void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 	}
 
 	if (moved) {
-		literator li = links_.begin();
+		link_iter li = links_.begin();
 		for (; li != links_.end(); li++) {
 			if (keySet.find((*li).GetFromNodeKey()) != keySet.end() &&
 				keySet.find((*li).GetToNodeKey()) != keySet.end()) {
@@ -652,7 +652,7 @@ void iEditDoc::MoveNodesInBound(const CRect& bound, const CSize move)
 
 void iEditDoc::MoveSelectedLink(const CSize &sz)
 {
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
 		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
@@ -684,7 +684,7 @@ void iEditDoc::SetSelectedNodeBound(const CRect &r, bool withLink, bool noBackup
 
 void iEditDoc::SetConnectionPoint()
 {
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
 		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
@@ -728,7 +728,7 @@ void iEditDoc::CalcMaxPt(CPoint &pt)
 			pt.y = (*it).second.getBound().BottomRight().y;
 		}
 	}
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if (ks.find((*li).GetFromNodeKey()) != ks.end() && ks.find((*li).GetToNodeKey()) != ks.end() && (*li).GetArrowStyle() != iLink::other) {
 			(*li).SetDrawable();
@@ -1086,12 +1086,12 @@ void iEditDoc::DrawLinkSelection(CDC *pDC)
 
 void iEditDoc::DrawLinkSelectionFrom(CDC *pDC)
 {
-	links_.drawSelectionFrom(pDC);
+	links_.DrawSelectionFrom(pDC);
 }
 
 void iEditDoc::DrawLinkSelectionTo(CDC *pDC)
 {
-	links_.drawSelectionTo(pDC);
+	links_.DrawSelectionTo(pDC);
 }
 
 void iEditDoc::SetNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment, int styleArrow)
@@ -1115,7 +1115,7 @@ void iEditDoc::SetNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment
 
 void iEditDoc::GetSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComment, int &arrowType)
 {
-	const_literator li = links_.getSelectedLink();
+	link_c_iter li = links_.getSelectedLink();
 	if (li != links_.end()) {
 		sComment = (*li).GetName();
 		arrowType = (*li).GetArrowStyle();
@@ -1128,7 +1128,7 @@ void iEditDoc::GetSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComme
 
 void iEditDoc::SetSelectedLinkInfo(const CString &sComment, int arrowType)
 {
-	literator li = links_.getSelectedLinkW();
+	link_iter li = links_.getSelectedLinkW();
 	if (li != links_.end()) {
 		BackupLinksForUndo();
 		(*li).SetName(sComment);
@@ -1216,7 +1216,7 @@ BOOL iEditDoc::RouteCmdToAllViews(CView *pView, UINT nID, int nCode, void *pExtr
 
 void iEditDoc::DeleteSelectedLink()
 {
-	literator it = links_.getSelectedLinkW();
+	link_iter it = links_.getSelectedLinkW();
 	if (it != links_.end()) {
 		m_deleteBound = (*it).getBound();
 		links_.erase(it);
@@ -1228,7 +1228,7 @@ void iEditDoc::DeleteSelectedLink()
 
 void iEditDoc::DeleteSelectedLink2()
 {
-	literator it = links_.getSelectedLinkW2();
+	link_iter it = links_.getSelectedLinkW2();
 	if (it != links_.end()) {
 		m_deleteBound = (*it).getBound();
 		links_.erase(it);
@@ -1275,7 +1275,7 @@ CString iEditDoc::GetSelectedNodeLabel()
 CString iEditDoc::GetSelectedLinkLabel(bool drawAll)
 {
 	CString label(_T(""));
-	const_literator it = links_.getSelectedLink();
+	link_c_iter it = links_.getSelectedLink();
 	if (it != links_.end()) {
 		label = (*it).GetName();
 	}
@@ -1292,7 +1292,7 @@ bool iEditDoc::CanDeleteNode() const
 void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 {
 	DWORD curKey = nodes_.GetSelectedKey();
-	literator it = links_.begin();
+	link_iter it = links_.begin();
 	for (; it != links_.end(); it++) {
 		if ((*it).GetFromNodeKey() != curKey && (*it).GetToNodeKey() != curKey) continue;
 		LinkProps i;
@@ -1370,7 +1370,7 @@ void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 void iEditDoc::NotifyLinkSelected(const LinkPropsVec &ls, int index)
 {
 	DWORD curKey = nodes_.GetSelectedKey();
-	literator it = links_.begin();
+	link_iter it = links_.begin();
 
 	bool selected = false;
 	for (; it != links_.end(); it++) {
@@ -1419,7 +1419,7 @@ DWORD iEditDoc::GetSelectedNodeKey() const
 
 void iEditDoc::DeleteSpecifidLink(const LinkProps &i)
 {
-	literator it = links_.begin();
+	link_iter it = links_.begin();
 	for (; it != links_.end(); it++) {
 		if ((*it).GetFromNodeKey() == i._keyFrom &&
 			(*it).GetToNodeKey() == i.keyTo &&
@@ -1440,7 +1440,7 @@ void iEditDoc::DeleteSpecifidLink(const LinkProps &i)
 
 void iEditDoc::SetSpecifiedLinkProps(const LinkProps &iOld, const LinkProps &iNew)
 {
-	literator it = links_.begin();
+	link_iter it = links_.begin();
 	for (; it != links_.end(); it++) {
 		if ((*it).GetFromNodeKey() == iOld._keyFrom &&
 			(*it).GetToNodeKey() == iOld.keyTo &&
@@ -1478,7 +1478,7 @@ void iEditDoc::SetNodeRelax(CRelaxThrd *r)
 	r->bounds.clear();
 	r->edges.clear();
 	r->edges.resize(0);
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if ((*li).GetArrowStyle() != iLink::other) {
 			if ((*li).GetFromNodeKey() == (*li).GetToNodeKey()) continue;
@@ -1600,7 +1600,7 @@ CRect iEditDoc::GetRelatedBound() const
 	for (; it != nodes_.end(); it++) {
 		if ((*it).second.Visible() && (*it).second.Selected()) {
 			rc |= (*it).second.getBound();
-			const_literator li = links_.begin();
+			link_c_iter li = links_.begin();
 			for (; li != links_.end(); li++) {
 				if (!(*li).CanDraw()/* && !drwAll*/) {
 					continue;
@@ -1634,7 +1634,7 @@ CRect iEditDoc::GetRelatedBoundAnd(bool drwAll)
 		}
 	}
 
-	const_literator li = links_.begin();
+	link_c_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if (!(*li).CanDraw()) {
 			continue;
@@ -1652,7 +1652,7 @@ CRect iEditDoc::GetRelatedBoundAnd(bool drwAll)
 
 void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 {
-	literator li = links_.getSelectedLinkW();
+	link_iter li = links_.getSelectedLinkW();
 	if (li != links_.end()) {
 		if (!curve) {
 			(*li).Curve(false);
@@ -1680,7 +1680,7 @@ void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 void iEditDoc::AngleSelectedLink(bool angled)
 {
 	BackupLinksForUndo();
-	literator li = links_.getSelectedLinkW();
+	link_iter li = links_.getSelectedLinkW();
 	if (li == links_.end()) return;
 	if (!(*li).IsCurved()) return;
 	(*li).Angle(angled);
@@ -1692,7 +1692,7 @@ void iEditDoc::AngleSelectedLink(bool angled)
 
 void iEditDoc::GetSelectedLinkEndPoints(CPoint &start, CPoint &end)
 {
-	const_literator li = links_.getSelectedLink();
+	link_c_iter li = links_.getSelectedLink();
 	if (li != links_.end()) {
 		node_c_iter itstart = nodes_.FindRead((*li).GetFromNodeKey());
 		node_c_iter itend = nodes_.FindRead((*li).GetToNodeKey());
@@ -1709,7 +1709,7 @@ void iEditDoc::GetSelectedLinkEndPoints(CPoint &start, CPoint &end)
 
 BOOL iEditDoc::IsSelectedLinkCurved() const
 {
-	const_literator li = links_.getSelectedLink();
+	link_c_iter li = links_.getSelectedLink();
 	if (li != links_.end() && (*li).IsCurved()) {
 		return TRUE;
 	}
@@ -1718,7 +1718,7 @@ BOOL iEditDoc::IsSelectedLinkCurved() const
 
 BOOL iEditDoc::IsSelectedLinkSelfReferential() const
 {
-	const_literator li = links_.getSelectedLink();
+	link_c_iter li = links_.getSelectedLink();
 
 	if (li == links_.end()) return FALSE;
 	if ((*li).GetArrowStyle() == iLink::other) return FALSE;
@@ -1728,7 +1728,7 @@ BOOL iEditDoc::IsSelectedLinkSelfReferential() const
 
 void iEditDoc::CopyLinkForPaste()
 {
-	const_literator li = links_.getSelectedLink2();
+	link_c_iter li = links_.getSelectedLink2();
 	if (li != links_.end()) {
 		m_cpLinkOrg = (*li);
 		canCpyLink = TRUE;
@@ -1776,7 +1776,7 @@ BOOL iEditDoc::IsSelectedNodeFilled() const
 
 BOOL iEditDoc::LinksExist() const
 {
-	const_literator li = links_.begin();
+	link_c_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if ((*li).CanDraw()) {
 			return TRUE;
@@ -2947,7 +2947,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 	}
 
 	// iLinks --> iLink Data
-	const_literator li = links_.begin();
+	link_c_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if (!NodePropsContainsKey(ls, (*li).GetFromNodeKey()) || !NodePropsContainsKey(ls, (*li).GetToNodeKey())) {
 			continue;
@@ -3197,7 +3197,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 
 	// リンクの書き込み
 	f->WriteString(_T("<div class=\"links\">\n"));
-	const_literator li = links_.begin();
+	link_c_iter li = links_.begin();
 	CString sLink(_T("<ul>\n"));
 	int cnt = 0;
 	for (; li != links_.end(); li++) {
@@ -3489,7 +3489,7 @@ void iEditDoc::ListUpNodes(const CString &sfind, NodePropsVec &labels, BOOL bLab
 		}
 	}
 
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		CString name = (*li).GetName();
 		CString path = (*li).GetPath();
@@ -3530,7 +3530,7 @@ void iEditDoc::DrawNodesSelected(CDC *pDC)
 
 void iEditDoc::DrawLinksSelected(CDC *pDC, bool clipbrd)
 {
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
 		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
@@ -3590,7 +3590,7 @@ void iEditDoc::BackupLinksForUndo()
 {
 	links_undo.clear();
 	links_undo.resize(0);
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if ((*li).CanDraw()) {
 			iLink l = (*li);
@@ -3602,7 +3602,7 @@ void iEditDoc::BackupLinksForUndo()
 void iEditDoc::RestoreLinksForUndo()
 {
 	for (unsigned int i = 0; i < links_undo.size(); i++) {
-		literator li = links_.begin();
+		link_iter li = links_.begin();
 		for (; li != links_.end(); li++) {
 			if (links_undo[i].GetKey() == (*li).GetKey()) {
 				(*li) = links_undo[i];
@@ -3610,9 +3610,9 @@ void iEditDoc::RestoreLinksForUndo()
 			}
 		}
 	}
-	if (links_.getDividedLinkKey() != -1) {
-		links_.erase(remove_if(links_.begin(), links_.end(), iLink_eqkey(links_.getDividedLinkKey())), links_.end());
-		links_.clearDividedLinkKey();
+	if (links_.GetDividedKey() != -1) {
+		links_.erase(remove_if(links_.begin(), links_.end(), iLink_eqkey(links_.GetDividedKey())), links_.end());
+		links_.ClearDividedKey();
 	}
 	CalcMaxPt(m_maxPt);
 	links_undo.clear();
@@ -3679,7 +3679,7 @@ void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize)
 
 const iLink* iEditDoc::GetSelectedLink(bool bDrawAll) const
 {
-	const_literator li = links_.getSelectedLink();
+	link_c_iter li = links_.getSelectedLink();
 	if (li == links_.end()) {
 		return NULL;
 	}
@@ -3691,7 +3691,7 @@ void iEditDoc::ReverseSelectedLinkDirection()
 	const iLink* pl = GetSelectedLink(false);
 	if (pl == NULL) return;
 	DWORD keyTo = pl->GetToNodeKey();
-	links_.setSelectedLinkReverse();
+	links_.ReversetSelected();
 	SetModifiedFlag();
 	SelectionChanged(keyTo, true, ShowSubBranch());
 	iHint h; h.event = iHint::linkModified;
@@ -3923,7 +3923,7 @@ void iEditDoc::CalcEdges()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if ((*li).GetArrowStyle() != iLink::other) {
 			// 距離計算
@@ -3994,7 +3994,7 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 	}
 
 	////// ばねモデル処理
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if ((*li).GetArrowStyle() == iLink::other ||
 			(*li).GetFromNodeKey() == (*li).GetToNodeKey() ||
@@ -4104,7 +4104,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 	for (; nit != nodes_.end(); nit++) {
 		(*nit).second.SetInChain(false);
 	}
-	literator linit = links_.begin();
+	link_iter linit = links_.begin();
 	for (; linit != links_.end(); linit++) {
 		(*linit).SetInChain(false);
 	}
@@ -4120,7 +4120,7 @@ void iEditDoc::ListupChainNodes(bool bResetLinkCurve)
 			if (nodeChainChecked.find(*ki) != nodeChainChecked.end()) {
 				continue;
 			}
-			literator li = links_.begin();
+			link_iter li = links_.begin();
 			for (; li != links_.end(); li++) {
 				if ((*li).IsTerminalNodeKey(*ki)) {
 					if (!(*li).CanDraw()) continue;
@@ -4171,7 +4171,7 @@ CRect iEditDoc::GetChaindNodesBound() const
 // 芋づるモード用
 void iEditDoc::SetConnectionPointForLayout()
 {
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if (!(*li).IsInChain()) continue;
 
@@ -4260,7 +4260,7 @@ const CRect iEditDoc::AddNodeWithLink(int nodeType, DWORD keyRoot, DWORD prevSib
 const CRect iEditDoc::AddNodeWithLink2(int nodeType, DWORD keyPrevSibling)
 {
 	if (links_.isIsolated(nodes_.GetSelectedKey(), false)) return CRect(0, 0, 0, 0);
-	DWORD pairKey = links_.getFirstVisiblePair(nodes_.GetSelectedKey());
+	DWORD pairKey = links_.GetFirstVisiblePair(nodes_.GetSelectedKey());
 	if (pairKey == -1) return CRect(0, 0, 0, 0);
 
 	node_iter itRoot = nodes_.find(pairKey);
@@ -4344,7 +4344,7 @@ const iNode& iEditDoc::InsertNode(const int nodeType, const CString &name, const
 void iEditDoc::RelaxSingleStep2()
 {
 	////// ばねモデル処理
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if ((*li).GetArrowStyle() == iLink::other ||
 			(*li).GetFromNodeKey() == (*li).GetToNodeKey() ||
@@ -4556,7 +4556,7 @@ void iEditDoc::ResizeSelectedLinkFont(bool bEnLarge)
 {
 	BackupNodesForUndo();
 	BackupLinksForUndo();
-	links_.resizeSelectedLinkFont(bEnLarge);
+	links_.ResizeSelectedFont(bEnLarge);
 	SetConnectionPointVisibleLinks();
 	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();
@@ -4568,7 +4568,7 @@ void iEditDoc::ResizeSelectedLinkFont(bool bEnLarge)
 // スタイル変更の時に呼び出しているが・・？
 void iEditDoc::SetConnectionPointVisibleLinks()
 {
-	literator li = links_.begin();
+	link_iter li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if (!(*li).CanDraw()) continue;
 		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
@@ -4663,7 +4663,7 @@ void iEditDoc::ApplyFormatToSelectedNode()
 
 void iEditDoc::SaveSelectedLinkFormat()
 {
-	const_literator l = links_.getSelectedLink();
+	link_c_iter l = links_.getSelectedLink();
 	m_linkForFormat.SetArrowStyle((*l).GetArrowStyle());
 	m_linkForFormat.SetLineStyle((*l).GetLineStyle());
 	m_linkForFormat.SetLineWidth((*l).SetLineWidth());
@@ -4673,7 +4673,7 @@ void iEditDoc::SaveSelectedLinkFormat()
 void iEditDoc::ApplyFormatToSelectedLink()
 {
 	BackupLinksForUndo();
-	literator l = links_.getSelectedLinkW();
+	link_iter l = links_.getSelectedLinkW();
 	(*l).SetArrowStyle(m_linkForFormat.GetArrowStyle());
 	(*l).SetLineStyle(m_linkForFormat.GetLineStyle());
 	(*l).SetLineWidth(m_linkForFormat.SetLineWidth());
@@ -4702,7 +4702,7 @@ void iEditDoc::DuplicateLinks(const NodeKeyMap& idm)
 {
 	NodeKeyMap::const_iterator it = idm.begin();
 	for (; it != idm.end(); it++) {
-		literator li = links_.begin();
+		link_iter li = links_.begin();
 		for (; li != links_.end(); li++) {
 			if ((*it).first == (*li).GetFromNodeKey()) {
 				NodeKeyMap::const_iterator pr = idm.find((*li).GetToNodeKey());
@@ -4736,8 +4736,8 @@ void iEditDoc::GetSelectedNodeMargin(int& l, int & r, int& t, int& b) const
 
 void iEditDoc::SwapLinkOrder(DWORD key1, DWORD key2)
 {
-	const_literator li1 = links_.findByKey(key1);
-	const_literator li2 = links_.findByKey(key2);
+	link_c_iter li1 = links_.findByKey(key1);
+	link_c_iter li2 = links_.findByKey(key2);
 	if (li1 != links_.end() && li2 != links_.end()) {
 		iLink link(*li2);
 		links_.insert(li1, link);
@@ -4834,7 +4834,7 @@ void iEditDoc::SetSelectedNodeScrollPos(int pos)
 
 void iEditDoc::DivideTargetLink(DWORD key)
 {
-	links_.divideTargetLinks(key, lastLinkKey++);
+	links_.DivideTargetLinks(key, lastLinkKey++);
 	SetConnectionPoint();
 	CalcMaxPt(m_maxPt);
 	SetModifiedFlag();

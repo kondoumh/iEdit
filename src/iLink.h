@@ -406,21 +406,21 @@ inline void iLink::SetAsDropTarget(bool dropTarget)
 // iLinks : iLink のコレクション
 // 
 /////////////////////////////////////////////////////////////////////
-typedef list<iLink> lContena;
-typedef list<iLink>::const_iterator const_literator;
-typedef list<iLink>::iterator literator;
+typedef list<iLink> link_list;
+typedef list<iLink>::const_iterator link_c_iter;
+typedef list<iLink>::iterator link_iter;
 
-class iLinks : public lContena {
+class iLinks : public link_list {
 public:
-	void clearDividedLinkKey();
-	DWORD getDividedLinkKey() const;
-	void divideTargetLinks(DWORD dropNodekey, DWORD newLinkKey);
-	const_literator findByKey(DWORD key) const;
-	void resizeSelectedLinkFont(bool bEnlarge);
-	DWORD getFirstVisiblePair(DWORD key) const;
-	void drawSelectionTo(CDC* pDC);
-	void drawSelectionFrom(CDC* pDC);
-	void setSelectedLinkReverse();
+	void ClearDividedKey();
+	DWORD GetDividedKey() const;
+	void DivideTargetLinks(DWORD dropNodekey, DWORD newLinkKey);
+	link_c_iter findByKey(DWORD key) const;
+	void ResizeSelectedFont(bool bEnlarge);
+	DWORD GetFirstVisiblePair(DWORD key) const;
+	void DrawSelectionTo(CDC* pDC);
+	void DrawSelectionFrom(CDC* pDC);
+	void ReversetSelected();
 	void setSelectedNodeLinkTo(DWORD key, const CRect& bound);
 	void setSelectedNodeLinkFrom(DWORD key, const CRect& bound);
 	bool hitTestTo(const CPoint &pt, DWORD &key, CString &path);
@@ -436,10 +436,10 @@ public:
 	void setSelectedLinkFont(const LOGFONT& lf);
 	void getSelectedLinkFont(LOGFONT& lf);
 	void selectLinksInBound(const CRect& r);
-	literator getSelectedLinkW();
-	literator getSelectedLinkW2();
-	const_literator getSelectedLink() const;
-	const_literator getSelectedLink2() const;
+	link_iter getSelectedLinkW();
+	link_iter getSelectedLinkW2();
+	link_c_iter getSelectedLink() const;
+	link_c_iter getSelectedLink2() const;
 	void drawSelection(CDC* pDC);
 	bool HitTest(const CPoint& pt, DWORD& key, CString& path);
 	DWORD hitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey);
