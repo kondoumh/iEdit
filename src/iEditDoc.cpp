@@ -501,7 +501,7 @@ void iEditDoc::InitDocument()
 		sv.push_back(i.GetKey());
 	}
 
-	nodes_.initSelection();
+	nodes_.InitSelection();
 	curParent = nodes_.GetCurrentParent();
 	nodes_.PrepareVisibles(nodes_.GetSelectedKey());
 	CalcMaxPt(m_maxPt);

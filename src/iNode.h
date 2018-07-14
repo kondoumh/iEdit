@@ -604,7 +604,7 @@ public:
 	void MoveSelected(const CSize& sz);
 	iNode* HitTest(const CPoint& pt);
 	void Draw(CDC* pDC);
-	void initSelection();
+	void InitSelection();
 	node_iter GetSelectedIter();
 	void Select(DWORD key);
 	DWORD GetSelectedKey() const;

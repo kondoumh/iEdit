@@ -787,7 +787,7 @@ node_c_iter iNodes::GetSelectedConstIter() const
 	return FindRead(selKey_);
 }
 
-void iNodes::initSelection()
+void iNodes::InitSelection()
 {
 	if (size() == 1) {
 		selKey_ = 0;
