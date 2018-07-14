@@ -211,7 +211,7 @@ void iEditDoc::SaveOrderByTree(CArchive& ar)
 	ar << lastKey;
 	ar << ls.size();
 	for (unsigned int i = 0; i < ls.size(); i++) {
-		node_iter it = nodes_.findNodeW(ls[i].key);
+		node_iter it = nodes_.FindWrite(ls[i].key);
 		if (it != nodes_.end()) {
 			(*it).second.SetTreeState(ls[i].state);
 			(*it).second.Serialize(ar);
@@ -227,7 +227,7 @@ void iEditDoc::SaveOrderByTreeEx(CArchive &ar, int version)
 	ar << lastKey;
 	ar << ls.size();
 	for (unsigned int i = 0; i < ls.size(); i++) {
-		node_iter it = nodes_.findNodeW(ls[i].key);
+		node_iter it = nodes_.FindWrite(ls[i].key);
 		if (it != nodes_.end()) {
 			(*it).second.SetTreeState(ls[i].state);
 			(*it).second.SerializeEx(ar, version);
@@ -287,7 +287,7 @@ int iEditDoc::GetInitialBranchMode() const
 void iEditDoc::CopyNodeLabels(NodePropsVec &v)
 {
 	for (unsigned int i = 0; i < sv.size(); i++) {
-		node_c_iter it = nodes_.findNode(sv[i]);
+		node_c_iter it = nodes_.FindRead(sv[i]);
 		NodeProps l;
 		l.name = (*it).second.GetName();
 		l.key = (*it).second.GetKey();
@@ -304,7 +304,7 @@ void iEditDoc::CopyNodeLabels(NodePropsVec &v)
 // OutlineViewでのノード追加用メソッド
 void iEditDoc::AddNode(const NodeProps &l, DWORD inheritKey, bool bInherit)
 {
-	node_c_iter it = nodes_.findNode(inheritKey);
+	node_c_iter it = nodes_.FindRead(inheritKey);
 	iNode n(l.name);
 	n.SetKey(l.key);
 	n.SetParentKey(l.parent);
@@ -352,7 +352,7 @@ DWORD iEditDoc::AssignNewKey()
 
 bool iEditDoc::SetKeyNodeName(DWORD key, const CString &name)
 {
-	node_iter it = nodes_.findNodeW(key);
+	node_iter it = nodes_.FindWrite(key);
 	if (it == nodes_.end()) {
 		return false;
 	}
@@ -364,7 +364,7 @@ bool iEditDoc::SetKeyNodeName(DWORD key, const CString &name)
 
 void iEditDoc::SetKeyNodeParent(DWORD key, DWORD parent)
 {
-	node_iter it = nodes_.findNodeW(key);
+	node_iter it = nodes_.FindWrite(key);
 	if (it != nodes_.end()) {
 		/*const_cast<iNode&>*/(*it).second.SetParentKey(parent);
 	}
@@ -373,7 +373,7 @@ void iEditDoc::SetKeyNodeParent(DWORD key, DWORD parent)
 }
 
 CString iEditDoc::GetKeyNodeChapterNumber(DWORD key) {
-	node_c_iter it = nodes_.findNode(key);
+	node_c_iter it = nodes_.FindRead(key);
 	if (it != nodes_.end()) {
 		return (*it).second.GetChapterNumber();
 	}
@@ -381,7 +381,7 @@ CString iEditDoc::GetKeyNodeChapterNumber(DWORD key) {
 }
 
 void iEditDoc::SetKeyNodeChapterNumber(DWORD key, const CString& chapterNumber) {
-	node_iter it = nodes_.findNodeW(key);
+	node_iter it = nodes_.FindWrite(key);
 	if (it != nodes_.end()) {
 		(*it).second.SetChapterNumber(chapterNumber);
 	}
@@ -394,7 +394,7 @@ void iEditDoc::DeleteKeyItem(DWORD key)
 	// 以下の行は、メタファイルの再描画不具合のため廃止iNode_eqの中でiNodeの参照を使うのが原因？
 //	nodes_.erase(remove_if(nodes_.begin(), nodes_.end(), iNode_eq(key)), nodes_.end());
 
-	node_iter it = nodes_.findNodeW(key);
+	node_iter it = nodes_.FindWrite(key);
 	if (it != nodes_.end()) {
 		nodes_.erase(it);
 	}
@@ -654,8 +654,8 @@ void iEditDoc::MoveSelectedLink(const CSize &sz)
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {
-		node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-		node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
+		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 		if (itFrom == nodes_.end() || itTo == nodes_.end()) continue;
 		if ((*itFrom).second.Selected() && (*itTo).second.Selected()) {
 			(*li).MovePoints(sz);
@@ -686,8 +686,8 @@ void iEditDoc::SetConnectionPoint()
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {
-		node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-		node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
+		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 		if (itFrom == nodes_.end() || itTo == nodes_.end()) continue;
 		if ((*itFrom).second.Selected() && (*itTo).second.Selected()) {
 			if (itFrom != itTo) continue;
@@ -860,7 +860,7 @@ void iEditDoc::SetSelectedNodeLineColor(const COLORREF &c)
 
 void iEditDoc::SetSelectedNodeBrush(const COLORREF &c)
 {
-	nodes_.setSelectedNodeBrush(c);
+	nodes_.SetSelectedFillColor(c);
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
 	DWORD key = nodes_.getSelKey();
@@ -869,7 +869,7 @@ void iEditDoc::SetSelectedNodeBrush(const COLORREF &c)
 
 void iEditDoc::SetSelectedNodeNoBrush(BOOL noBrush)
 {
-	nodes_.setSelectedNodeNoBrush(noBrush);
+	nodes_.ToggleSelectedFill(noBrush);
 	SetConnectionPointVisibleLinks();
 	SetModifiedFlag();
 	iHint hint; hint.event = iHint::nodeStyleChanged;
@@ -884,7 +884,7 @@ COLORREF iEditDoc::GetSelectedNodeLineColor() const
 
 COLORREF iEditDoc::GetSelectedNodeBrsColor() const
 {
-	return nodes_.getSelectedNodeBrsColor();
+	return nodes_.GetSelectedFillColor();
 }
 
 void iEditDoc::SetSelectedNodeLineStyle(int style)
@@ -959,7 +959,7 @@ int iEditDoc::SelectNodesInBound(const CRect &r, CRect& selRect)
 CRect iEditDoc::GetSelectedNodeRect() const
 {
 	CRect rc(CRect(0, 0, 0, 0));
-	node_c_iter it = nodes_.getSelectedNodeR();
+	node_c_iter it = nodes_.GetSelectedConstIter();
 	if (it != nodes_.end()) {
 		rc = (*it).second.getBound();
 	}
@@ -1096,8 +1096,8 @@ void iEditDoc::DrawLinkSelectionTo(CDC *pDC)
 
 void iEditDoc::SetNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment, int styleArrow)
 {
-	node_iter itFrom = nodes_.findNodeW(keyFrom);
-	node_iter itTo = nodes_.findNodeW(keyTo);
+	node_iter itFrom = nodes_.FindWrite(keyFrom);
+	node_iter itTo = nodes_.FindWrite(keyTo);
 	if (itFrom == nodes_.end() || itTo == nodes_.end()) return;
 	iLink l;
 	l.SetArrowStyle(styleArrow);
@@ -1119,8 +1119,8 @@ void iEditDoc::GetSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComme
 	if (li != links_.end()) {
 		sComment = (*li).GetName();
 		arrowType = (*li).GetArrowStyle();
-		node_c_iter itFrom = nodes_.findNode((*li).GetFromNodeKey());
-		node_c_iter itTo = nodes_.findNode((*li).GetToNodeKey());
+		node_c_iter itFrom = nodes_.FindRead((*li).GetFromNodeKey());
+		node_c_iter itTo = nodes_.FindRead((*li).GetToNodeKey());
 		if (itFrom != nodes_.end()) sFrom = (*itFrom).second.GetName();
 		if (itTo != nodes_.end()) sTo = (*itTo).second.GetName();
 	}
@@ -1314,7 +1314,7 @@ void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 			searchKey = (*it).GetFromNodeKey();
 		}
 
-		node_c_iter ni = nodes_.findNode(searchKey);
+		node_c_iter ni = nodes_.FindRead(searchKey);
 		i.sTo = (*ni).second.GetName();
 
 		if ((*it).GetArrowStyle() != iLink::other) {
@@ -1487,8 +1487,8 @@ void iEditDoc::SetNodeRelax(CRelaxThrd *r)
 			e.from = (*li).GetFromNodeKey();
 			e.to = (*li).GetToNodeKey();
 
-			node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-			node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+			node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
+			node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 
 			CRect rFrom = (*itFrom).second.getBound();
 			CRect rTo = (*itTo).second.getBound();
@@ -1639,8 +1639,8 @@ CRect iEditDoc::GetRelatedBoundAnd(bool drwAll)
 		if (!(*li).CanDraw()) {
 			continue;
 		}
-		node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-		node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
+		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 
 		if ((*itFrom).second.Selected() && (*itTo).second.Selected()) {
 			rc |= (*li).getBound();
@@ -1694,8 +1694,8 @@ void iEditDoc::GetSelectedLinkEndPoints(CPoint &start, CPoint &end)
 {
 	const_literator li = links_.getSelectedLink();
 	if (li != links_.end()) {
-		node_c_iter itstart = nodes_.findNode((*li).GetFromNodeKey());
-		node_c_iter itend = nodes_.findNode((*li).GetToNodeKey());
+		node_c_iter itstart = nodes_.FindRead((*li).GetFromNodeKey());
+		node_c_iter itend = nodes_.FindRead((*li).GetToNodeKey());
 		if (itstart == nodes_.end() || itend == nodes_.end()) {
 			start = CPoint(0, 0); end = CPoint(0, 0);
 			return;
@@ -1750,8 +1750,8 @@ void iEditDoc::PasteCopiedLink()
 	m_cpLinkOrg.SetKey(lastLinkKey++);
 	m_cpLinkOrg.Select();
 
-	node_c_iter itFrom = nodes_.findNode(m_cpLinkOrg.GetFromNodeKey());
-	node_c_iter itTo = nodes_.findNode(m_cpLinkOrg.GetToNodeKey());
+	node_c_iter itFrom = nodes_.FindRead(m_cpLinkOrg.GetFromNodeKey());
+	node_c_iter itTo = nodes_.FindRead(m_cpLinkOrg.GetToNodeKey());
 
 	if (itFrom != nodes_.end() && itTo != nodes_.end()) {
 		m_cpLinkOrg.SetNodes((*itFrom).second.getBound(), (*itTo).second.getBound(),
@@ -1771,7 +1771,7 @@ BOOL iEditDoc::CanCopyLink()
 
 BOOL iEditDoc::IsSelectedNodeFilled() const
 {
-	return nodes_.isSelectedNodeFilled();
+	return nodes_.SelectedFilled();
 }
 
 BOOL iEditDoc::LinksExist() const
@@ -1807,7 +1807,7 @@ void iEditDoc::AddSelectedNodesToCopyOrg()
 void iEditDoc::DuplicateNodes(const CPoint& pt, bool useDefault)
 {
 	for (unsigned int i = 0; i < copyOrg.size(); i++) {
-		node_iter it = nodes_.findNodeW(copyOrg[i]);
+		node_iter it = nodes_.FindWrite(copyOrg[i]);
 		iNode n((*it).second);
 		n.SetKey(AssignNewKey());
 		n.SetParentKey(nodes_.getCurParent());
@@ -1849,7 +1849,7 @@ BOOL iEditDoc::CanDuplicateNodes()
 
 int iEditDoc::GetSelectedNodeShape() const
 {
-	return nodes_.getSelectedNodeShape();
+	return nodes_.GetSelectedShape();
 }
 
 void iEditDoc::SetSelectedNodeShape(int shape, int mfIndex)
@@ -1857,7 +1857,7 @@ void iEditDoc::SetSelectedNodeShape(int shape, int mfIndex)
 	DisableUndo();
 	BackupNodesForUndo();
 	BackupLinksForUndo();
-	nodes_.setSelectedNodeShape(shape);
+	nodes_.SetSelectedShape(shape);
 	SetModifiedFlag();
 	if (shape == iNode::MetaFile) {
 		node_iter it = nodes_.getSelectedNode();
@@ -1936,7 +1936,7 @@ void iEditDoc::SetResultRelax(Bounds &bounds)
 {
 	Bounds::iterator it = bounds.begin();
 	for (; it != bounds.end(); it++) {
-		node_iter nit = nodes_.findNodeW((*it).key);
+		node_iter nit = nodes_.FindWrite((*it).key);
 		(*nit).second.SetBound((*it).newBound);
 	}
 	CalcMaxPt(m_maxPt);
@@ -2128,11 +2128,11 @@ bool iEditDoc::LoadFromXml(const CString &filename)
 			node_c_iter it;
 			for (i = 0; i < linksImport.size(); i++) {
 				linksImport[i].SetKey(lastLinkKey++);
-				it = nodes_.findNode(linksImport[i].GetFromNodeKey());
+				it = nodes_.FindRead(linksImport[i].GetFromNodeKey());
 				if (it != nodes_.end()) {
 					linksImport[i].SetFromNodeRect((*it).second.getBound());
 				}
-				it = nodes_.findNode(linksImport[i].GetToNodeKey());
+				it = nodes_.FindRead(linksImport[i].GetToNodeKey());
 				if (it != nodes_.end()) {
 					linksImport[i].SetToNodeRect((*it).second.getBound());
 				}
@@ -2762,7 +2762,7 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 
 	// iNodes -->iNode Data
 	for (unsigned int i = 0; i < ls.size(); i++) {
-		node_c_iter it = nodes_.findNode(ls[i].key);
+		node_c_iter it = nodes_.FindRead(ls[i].key);
 
 		f.WriteString(_T("\t<inode>\n"));
 
@@ -3178,7 +3178,7 @@ void iEditDoc::RandomizeNodesPos(const CSize &area)
 
 void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, const CString& textPrefix)
 {
-	node_c_iter it = nodes_.findNode(key);
+	node_c_iter it = nodes_.FindRead(key);
 
 	CString nameStr = StringUtil::RemoveCr((*it).second.GetName());
 	// リンクタグの生成
@@ -3207,7 +3207,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 		}
 		if ((*li).GetArrowStyle() != iLink::other) {
 			if ((*it).second.GetKey() == (*li).GetFromNodeKey()) {
-				node_c_iter itTo = nodes_.findNode((*li).GetToNodeKey());
+				node_c_iter itTo = nodes_.FindRead((*li).GetToNodeKey());
 				if (itTo != nodes_.end()) {
 					CString keystr;
 					keystr.Format(_T("%d"), (*li).GetToNodeKey());
@@ -3229,7 +3229,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 				}
 			}
 			else if ((*it).second.GetKey() == (*li).GetToNodeKey()) {
-				node_c_iter itFrom = nodes_.findNode((*li).GetFromNodeKey());
+				node_c_iter itFrom = nodes_.FindRead((*li).GetFromNodeKey());
 				if (itFrom != nodes_.end()) {
 					CString keystr; \
 						keystr.Format(_T("%d"), (*li).GetFromNodeKey());
@@ -3430,7 +3430,7 @@ void iEditDoc::UlEnd(CString & str, int& level)
 
 CString iEditDoc::GetKeyNodeText(DWORD key)
 {
-	node_c_iter it = nodes_.findNode(key);
+	node_c_iter it = nodes_.FindRead(key);
 	if (it != nodes_.end()) {
 		return (*it).second.GetText();
 	}
@@ -3439,7 +3439,7 @@ CString iEditDoc::GetKeyNodeText(DWORD key)
 
 CString iEditDoc::GetKeyNodeLabel(DWORD key)
 {
-	node_c_iter it = nodes_.findNode(key);
+	node_c_iter it = nodes_.FindRead(key);
 	if (it != nodes_.end()) {
 		return (*it).second.GetName();
 	}
@@ -3532,8 +3532,8 @@ void iEditDoc::DrawLinksSelected(CDC *pDC, bool clipbrd)
 {
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {
-		node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-		node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
+		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 		if ((*li).GetArrowStyle() != iLink::other && (*itFrom).second.Selected() && (*itTo).second.Selected()) {
 			(*li).DrawArrow(pDC);
 			(*li).DrawLine(pDC);
@@ -3558,7 +3558,7 @@ void iEditDoc::BackupNodesForUndo()
 void iEditDoc::RestoreNodesForUndo()
 {
 	for (unsigned int i = 0; i < nodes_undo.size(); i++) {
-		node_iter it = nodes_.findNodeW(nodes_undo[i].GetKey());
+		node_iter it = nodes_.FindWrite(nodes_undo[i].GetKey());
 		if (it != nodes_.end()) {
 			(*it).second = nodes_undo[i];
 		}
@@ -3762,7 +3762,7 @@ void iEditDoc::ResetShowBranch()
 
 CString iEditDoc::GetSubBranchRootLabel() const
 {
-	node_c_iter n = nodes_.findNode(m_dwBranchRootKey);
+	node_c_iter n = nodes_.FindRead(m_dwBranchRootKey);
 	if (n != nodes_.end()) {
 		return (*n).second.GetName();
 	}
@@ -3911,7 +3911,7 @@ void iEditDoc::BackupDeleteBound()
 
 void iEditDoc::SetNodeLevel(const DWORD key, const int nLevel)
 {
-	node_iter it = nodes_.findNodeW(key);
+	node_iter it = nodes_.FindWrite(key);
 	if (it == nodes_.end()) {
 		return;
 	}
@@ -3952,12 +3952,12 @@ void iEditDoc::CalcEdges()
 			}
 			// preBoundの値を初期化
 			if (!(*li).IsInChain()) continue;
-			node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
+			node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
 			(*itFrom).second.SetPrevBound((*itFrom).second.getBound());
 			(*itFrom).second.dx = 0.0;
 			(*itFrom).second.dy = 0.0;
 
-			node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+			node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 			(*itTo).second.SetPrevBound((*itTo).second.getBound());
 			(*itTo).second.dx = 0.0;
 			(*itTo).second.dy = 0.0;
@@ -4005,8 +4005,8 @@ void iEditDoc::RelaxSingleStep(const CPoint &point, const CPoint& dragOffset)
 		}
 		if (!(*li).IsInChain()) continue;
 
-		node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-		node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
+		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 
 		double gxto = (*itTo).second.GetPrevBound().CenterPoint().x;
 		double gyto = (*itTo).second.GetPrevBound().CenterPoint().y;
@@ -4177,8 +4177,8 @@ void iEditDoc::SetConnectionPointForLayout()
 	for (; li != links_.end(); li++) {
 		if (!(*li).IsInChain()) continue;
 
-		node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-		node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
+		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 		if (itFrom == nodes_.end() || itTo == nodes_.end()) continue;
 
 		if ((*li).GetFromNodeKey() == (*itFrom).second.GetKey()) {
@@ -4355,8 +4355,8 @@ void iEditDoc::RelaxSingleStep2()
 		}
 		if (!(*li).IsInChain()) continue;
 
-		node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-		node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
+		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 
 		double gxto = (*itTo).second.GetPrevBound().CenterPoint().x;
 		double gyto = (*itTo).second.GetPrevBound().CenterPoint().y;
@@ -4449,7 +4449,7 @@ void iEditDoc::RelaxSingleStep2()
 
 int iEditDoc::GetKeyNodeLevelNumber(DWORD key)
 {
-	node_c_iter it = nodes_.findNode(key);
+	node_c_iter it = nodes_.FindRead(key);
 	if (it != nodes_.end()) {
 		return (*it).second.GetLevel();
 	}
@@ -4574,8 +4574,8 @@ void iEditDoc::SetConnectionPointVisibleLinks()
 	literator li = links_.begin();
 	for (; li != links_.end(); li++) {
 		if (!(*li).CanDraw()) continue;
-		node_iter itFrom = nodes_.findNodeW((*li).GetFromNodeKey());
-		node_iter itTo = nodes_.findNodeW((*li).GetToNodeKey());
+		node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
+		node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
 		if (itFrom == nodes_.end() || itTo == nodes_.end()) continue;
 
 		if ((*li).GetFromNodeKey() == (*itFrom).second.GetKey()) {
@@ -4694,7 +4694,7 @@ void iEditDoc::DeleteLinksInBound(const CRect& bound)
 
 DWORD iEditDoc::DuplicateKeyNode(DWORD key)
 {
-	node_c_iter it = nodes_.findNode(key);
+	node_c_iter it = nodes_.FindRead(key);
 	iNode n = (*it).second;
 	n.SetKey(AssignNewKey());
 	nodes_[n.GetKey()] = n;
@@ -4728,7 +4728,7 @@ int iEditDoc::GetSerialVersion() const
 
 void iEditDoc::GetSelectedNodeMargin(int& l, int & r, int& t, int& b) const
 {
-	node_c_iter nit = nodes_.getSelectedNodeR();
+	node_c_iter nit = nodes_.GetSelectedConstIter();
 	if (nit != nodes_.end()) {
 		l = (*nit).second.GetMarginLeft();
 		r = (*nit).second.GetMarginRight();
@@ -4820,7 +4820,7 @@ void iEditDoc::FitSelectedNodeSize()
 
 int iEditDoc::GetSelectedNodeScrollPos() const
 {
-	node_c_iter it = nodes_.getSelectedNodeR();
+	node_c_iter it = nodes_.GetSelectedConstIter();
 	if (it != nodes_.end()) {
 		return (*it).second.GetTextTopPos();
 	}

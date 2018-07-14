@@ -779,12 +779,12 @@ void iNodes::setSelKey(DWORD key)
 
 node_iter iNodes::getSelectedNode()
 {
-	return findNodeW(selKey_);
+	return FindWrite(selKey_);
 }
 
-node_c_iter iNodes::getSelectedNodeR() const
+node_c_iter iNodes::GetSelectedConstIter() const
 {
-	return findNode(selKey_);
+	return FindRead(selKey_);
 }
 
 void iNodes::initSelection()
@@ -895,7 +895,7 @@ void iNodes::moveSelectedNode(const CSize &sz)
 
 void iNodes::setSelectedNodeBound(const CRect &r)
 {
-	node_iter it = findNodeW(selKey_);
+	node_iter it = FindWrite(selKey_);
 	if (it != end()) {
 		(*it).second.SetBound(r);
 	}
@@ -913,7 +913,7 @@ void iNodes::setSelectedNodeFont(const LOGFONT &lf)
 
 void iNodes::getSelectedNodeFont(LOGFONT& lf)
 {
-	node_c_iter it = findNode(selKey_);
+	node_c_iter it = FindRead(selKey_);
 	if (it != end()) {
 		lf = (*it).second.GetFontInfo();
 		::lstrcpy(lf.lfFaceName, (*it).second.GetFontInfo().lfFaceName);
@@ -924,7 +924,7 @@ void iNodes::getSelectedNodeFont(LOGFONT& lf)
 COLORREF iNodes::getSelectedNodeFontColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
-	node_c_iter it = findNode(selKey_);
+	node_c_iter it = FindRead(selKey_);
 	if (it != end()) {
 		c = (*it).second.GetFontColor();
 	}
@@ -941,7 +941,7 @@ void iNodes::setSelectedNodeFontColor(const COLORREF &c)
 	}
 }
 
-void iNodes::setSelectedNodeBrush(const COLORREF &c)
+void iNodes::SetSelectedFillColor(const COLORREF &c)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -951,7 +951,7 @@ void iNodes::setSelectedNodeBrush(const COLORREF &c)
 	}
 }
 
-void iNodes::setSelectedNodeNoBrush(BOOL noBrush)
+void iNodes::ToggleSelectedFill(BOOL noBrush)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -974,17 +974,17 @@ void iNodes::setSelectedNodeLineColor(const COLORREF &c)
 COLORREF iNodes::getSelectedNodeLineColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
-	node_c_iter it = findNode(selKey_);
+	node_c_iter it = FindRead(selKey_);
 	if (it != end()) {
 		c = (*it).second.GetLineColor();
 	}
 	return c;
 }
 
-COLORREF iNodes::getSelectedNodeBrsColor() const
+COLORREF iNodes::GetSelectedFillColor() const
 {
 	COLORREF c = RGB(255, 255, 255);
-	node_c_iter it = findNode(selKey_);
+	node_c_iter it = FindRead(selKey_);
 	if (it != end()) {
 		c = (*it).second.GetFillColor();
 	}
@@ -1004,7 +1004,7 @@ void iNodes::setSelectedNodeLineStyle(int style)
 int iNodes::getSelectedNodeLineStyle() const
 {
 	int s = PS_SOLID;
-	node_c_iter it = findNode(selKey_);
+	node_c_iter it = FindRead(selKey_);
 	if (it != end()) {
 		s = (*it).second.GetLineStyle();
 	}
@@ -1025,7 +1025,7 @@ void iNodes::setSelectedNodeLineWidth(int w)
 int iNodes::getSelectedNodeLineWidth() const
 {
 	int w = 0;
-	node_c_iter it = findNode(selKey_);
+	node_c_iter it = FindRead(selKey_);
 	if (it != end()) {
 		w = (*it).second.GetLineWidth();
 	}
@@ -1044,7 +1044,7 @@ void iNodes::setSelectedNodeTextStyle(int style)
 
 void iNodes::setSelectedNodeTreeIconId(int id)
 {
-	node_iter it = findNodeW(selKey_);
+	node_iter it = FindWrite(selKey_);
 	if (it != end()) {
 		(*it).second.SetTreeIconId(id);
 	}
@@ -1053,7 +1053,7 @@ void iNodes::setSelectedNodeTreeIconId(int id)
 int iNodes::getSelectedNodeTextStyle() const
 {
 	int s = iNode::s_cc;
-	node_c_iter it = findNode(selKey_);
+	node_c_iter it = FindRead(selKey_);
 	if (it != end()) {
 		s = (*it).second.GetTextStyle();
 	}
@@ -1161,7 +1161,7 @@ void iNodes::setVisibleNodes(NodeKeySet& keySet)
 	set<DWORD>::iterator itks = keySet.begin();
 	node_iter nit;
 	for (; itks != keySet.end(); itks++) {
-		nit = findNodeW(*itks);
+		nit = FindWrite(*itks);
 		if (nit != end()) {
 			(*nit).second.SetVisible(true);
 			unsigned int order = 0;
@@ -1179,7 +1179,7 @@ void iNodes::setVisibleNodes(NodeKeySet& keySet)
 	}
 }
 
-BOOL iNodes::isSelectedNodeFilled() const
+BOOL iNodes::SelectedFilled() const
 {
 	node_c_iter it = begin();
 	for (; it != end(); it++) {
@@ -1190,17 +1190,17 @@ BOOL iNodes::isSelectedNodeFilled() const
 	return FALSE;
 }
 
-int iNodes::getSelectedNodeShape() const
+int iNodes::GetSelectedShape() const
 {
 	int shape = iNode::rectangle;
-	node_c_iter it = findNode(selKey_);
+	node_c_iter it = FindRead(selKey_);
 	if (it != end()) {
 		shape = (*it).second.GetShape();
 	}
 	return shape;
 }
 
-void iNodes::setSelectedNodeShape(int shape)
+void iNodes::SetSelectedShape(int shape)
 {
 	node_iter it = begin();
 	for (; it != end(); it++) {
@@ -1216,7 +1216,7 @@ void iNodes::setSelectedNodeShape(int shape)
 
 BOOL iNodes::IsSelectedFixed() const
 {
-	node_c_iter it = findNode(selKey_);
+	node_c_iter it = FindRead(selKey_);
 	BOOL fix = FALSE;
 	if (it != end()) {
 		fix = (*it).second.Fixed();
@@ -1226,18 +1226,18 @@ BOOL iNodes::IsSelectedFixed() const
 
 void iNodes::FixSelected(BOOL f)
 {
-	node_iter it = findNodeW(selKey_);
+	node_iter it = FindWrite(selKey_);
 	if (it != end()) {
 		(*it).second.Fix(f);
 	}
 }
 
-node_c_iter iNodes::findNode(DWORD key) const
+node_c_iter iNodes::FindRead(DWORD key) const
 {
 	return find(key);
 }
 
-node_iter iNodes::findNodeW(DWORD key)
+node_iter iNodes::FindWrite(DWORD key)
 {
 	return find(key);
 }
