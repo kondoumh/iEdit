@@ -747,9 +747,9 @@ void iEditDoc::CalcMaxPt(CPoint &pt)
 
 void iEditDoc::DrawLinks(CDC *pDC, bool clipbrd)
 {
-	links_.drawLines(pDC);
-	links_.drawArrows(pDC);
-	links_.drawComments(pDC, clipbrd);
+	links_.DrawLines(pDC);
+	links_.DrawArrows(pDC);
+	links_.DrawComments(pDC, clipbrd);
 }
 
 bool iEditDoc::SetStartLink(const CPoint& pt)
@@ -1054,7 +1054,7 @@ bool iEditDoc::HitTestLinks(const CPoint &pt)
 
 DWORD iEditDoc::HitTestDropTarget(const CPoint& pt, const DWORD selectedNodeKey)
 {
-	return links_.hitTestDropTarget(pt, selectedNodeKey);
+	return links_.HitTestDropTarget(pt, selectedNodeKey);
 }
 
 bool iEditDoc::SelectLinkStartIfHit(const CPoint &pt, bool drwAll)
@@ -1081,7 +1081,7 @@ bool iEditDoc::SelectLinkEndIfHit(const CPoint &pt, bool drwAll)
 
 void iEditDoc::DrawLinkSelection(CDC *pDC)
 {
-	links_.drawSelection(pDC);
+	links_.DrawSelection(pDC);
 }
 
 void iEditDoc::DrawLinkSelectionFrom(CDC *pDC)
@@ -1115,7 +1115,7 @@ void iEditDoc::SetNewLinkInfo(DWORD keyFrom, DWORD keyTo, const CString &comment
 
 void iEditDoc::GetSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComment, int &arrowType)
 {
-	link_c_iter li = links_.getSelectedLink();
+	link_c_iter li = links_.GetSelectedRead();
 	if (li != links_.end()) {
 		sComment = (*li).GetName();
 		arrowType = (*li).GetArrowStyle();
@@ -1128,7 +1128,7 @@ void iEditDoc::GetSelectedLinkInfo(CString &sFrom, CString &sTo, CString &sComme
 
 void iEditDoc::SetSelectedLinkInfo(const CString &sComment, int arrowType)
 {
-	link_iter li = links_.getSelectedLinkW();
+	link_iter li = links_.GetSelectedWrite();
 	if (li != links_.end()) {
 		BackupLinksForUndo();
 		(*li).SetName(sComment);
@@ -1143,7 +1143,7 @@ void iEditDoc::SelectLinksInBound(const CRect &r)
 {
 	// HINT: ノードが選択されてるかの判断が必要なので、iEditDocで実装すべき
 	// 今のところCanDrawがtrueだと選択する
-	links_.selectLinksInBound(r);
+	links_.SelectInBound(r);
 }
 
 int iEditDoc::GetSelectedLinkWidth() const
@@ -1152,12 +1152,12 @@ int iEditDoc::GetSelectedLinkWidth() const
 	// docでやってもかまわないとこの関数を書いていて気づいた。
 	// 方針変更しようと思ったが、inlineで同じメソッド名を使用している
 	// とリンカがうまくいかないのでやはり...
-	return links_.getSelectedLinkWidth();
+	return links_.GetSelectedWidth();
 }
 
 void iEditDoc::SetSelectedLinkWidth(int w)
 {
-	links_.setSelectedLinkWidth(w);
+	links_.SetSelectedWidth(w);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
@@ -1165,7 +1165,7 @@ void iEditDoc::SetSelectedLinkWidth(int w)
 
 void iEditDoc::SetSelectedLinkLineStyle(int style)
 {
-	links_.setSelectedLinkLineStyle(style);
+	links_.SetSelectedLineStyle(style);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
@@ -1173,17 +1173,17 @@ void iEditDoc::SetSelectedLinkLineStyle(int style)
 
 int iEditDoc::GetSelectedLinkLineStyle()
 {
-	return links_.getSelectedLinkLineStyle(false);
+	return links_.GetSelectedLineStyle();
 }
 
 COLORREF iEditDoc::GetSelectedLinkLineColor() const
 {
-	return links_.getSelectedLinkLineColor();
+	return links_.GetSelectedLineColor();
 }
 
 void iEditDoc::SetSelectedLinkLineColor(const COLORREF &c)
 {
-	links_.setSelectedLinkLineColor(c);
+	links_.SetSelectedLineColor(c);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
@@ -1191,7 +1191,7 @@ void iEditDoc::SetSelectedLinkLineColor(const COLORREF &c)
 
 void iEditDoc::SetSelectedLinkFont(const LOGFONT &lf)
 {
-	links_.setSelectedLinkFont(lf);
+	links_.SetSelectedFont(lf);
 	SetModifiedFlag();
 	iHint h; h.event = iHint::linkModified;
 	UpdateAllViews(NULL, (LPARAM)nodes_.GetSelectedKey(), &h);
@@ -1199,7 +1199,7 @@ void iEditDoc::SetSelectedLinkFont(const LOGFONT &lf)
 
 void iEditDoc::GetSelectedLinkFont(LOGFONT &lf)
 {
-	links_.getSelectedLinkFont(lf);
+	links_.GetSelectedFont(lf);
 }
 
 BOOL iEditDoc::RouteCmdToAllViews(CView *pView, UINT nID, int nCode, void *pExtra, AFX_CMDHANDLERINFO *pHandlerInfo)
@@ -1216,7 +1216,7 @@ BOOL iEditDoc::RouteCmdToAllViews(CView *pView, UINT nID, int nCode, void *pExtr
 
 void iEditDoc::DeleteSelectedLink()
 {
-	link_iter it = links_.getSelectedLinkW();
+	link_iter it = links_.GetSelectedWrite();
 	if (it != links_.end()) {
 		m_deleteBound = (*it).getBound();
 		links_.erase(it);
@@ -1228,7 +1228,7 @@ void iEditDoc::DeleteSelectedLink()
 
 void iEditDoc::DeleteSelectedLink2()
 {
-	link_iter it = links_.getSelectedLinkW2();
+	link_iter it = links_.GetSelectedWrite2();
 	if (it != links_.end()) {
 		m_deleteBound = (*it).getBound();
 		links_.erase(it);
@@ -1275,7 +1275,7 @@ CString iEditDoc::GetSelectedNodeLabel()
 CString iEditDoc::GetSelectedLinkLabel(bool drawAll)
 {
 	CString label(_T(""));
-	link_c_iter it = links_.getSelectedLink();
+	link_c_iter it = links_.GetSelectedRead();
 	if (it != links_.end()) {
 		label = (*it).GetName();
 	}
@@ -1652,7 +1652,7 @@ CRect iEditDoc::GetRelatedBoundAnd(bool drwAll)
 
 void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 {
-	link_iter li = links_.getSelectedLinkW();
+	link_iter li = links_.GetSelectedWrite();
 	if (li != links_.end()) {
 		if (!curve) {
 			(*li).Curve(false);
@@ -1680,7 +1680,7 @@ void iEditDoc::CurveSelectedLink(CPoint pt, bool curve)
 void iEditDoc::AngleSelectedLink(bool angled)
 {
 	BackupLinksForUndo();
-	link_iter li = links_.getSelectedLinkW();
+	link_iter li = links_.GetSelectedWrite();
 	if (li == links_.end()) return;
 	if (!(*li).IsCurved()) return;
 	(*li).Angle(angled);
@@ -1692,7 +1692,7 @@ void iEditDoc::AngleSelectedLink(bool angled)
 
 void iEditDoc::GetSelectedLinkEndPoints(CPoint &start, CPoint &end)
 {
-	link_c_iter li = links_.getSelectedLink();
+	link_c_iter li = links_.GetSelectedRead();
 	if (li != links_.end()) {
 		node_c_iter itstart = nodes_.FindRead((*li).GetFromNodeKey());
 		node_c_iter itend = nodes_.FindRead((*li).GetToNodeKey());
@@ -1709,7 +1709,7 @@ void iEditDoc::GetSelectedLinkEndPoints(CPoint &start, CPoint &end)
 
 BOOL iEditDoc::IsSelectedLinkCurved() const
 {
-	link_c_iter li = links_.getSelectedLink();
+	link_c_iter li = links_.GetSelectedRead();
 	if (li != links_.end() && (*li).IsCurved()) {
 		return TRUE;
 	}
@@ -1718,7 +1718,7 @@ BOOL iEditDoc::IsSelectedLinkCurved() const
 
 BOOL iEditDoc::IsSelectedLinkSelfReferential() const
 {
-	link_c_iter li = links_.getSelectedLink();
+	link_c_iter li = links_.GetSelectedRead();
 
 	if (li == links_.end()) return FALSE;
 	if ((*li).GetArrowStyle() == iLink::other) return FALSE;
@@ -1728,7 +1728,7 @@ BOOL iEditDoc::IsSelectedLinkSelfReferential() const
 
 void iEditDoc::CopyLinkForPaste()
 {
-	link_c_iter li = links_.getSelectedLink2();
+	link_c_iter li = links_.GetSelectedRead2();
 	if (li != links_.end()) {
 		m_cpLinkOrg = (*li);
 		canCpyLink = TRUE;
@@ -3679,7 +3679,7 @@ void iEditDoc::AlignSelectedNodesToSameSize(const CString &strSize)
 
 const iLink* iEditDoc::GetSelectedLink(bool bDrawAll) const
 {
-	link_c_iter li = links_.getSelectedLink();
+	link_c_iter li = links_.GetSelectedRead();
 	if (li == links_.end()) {
 		return NULL;
 	}
@@ -4663,7 +4663,7 @@ void iEditDoc::ApplyFormatToSelectedNode()
 
 void iEditDoc::SaveSelectedLinkFormat()
 {
-	link_c_iter l = links_.getSelectedLink();
+	link_c_iter l = links_.GetSelectedRead();
 	m_linkForFormat.SetArrowStyle((*l).GetArrowStyle());
 	m_linkForFormat.SetLineStyle((*l).GetLineStyle());
 	m_linkForFormat.SetLineWidth((*l).SetLineWidth());
@@ -4673,7 +4673,7 @@ void iEditDoc::SaveSelectedLinkFormat()
 void iEditDoc::ApplyFormatToSelectedLink()
 {
 	BackupLinksForUndo();
-	link_iter l = links_.getSelectedLinkW();
+	link_iter l = links_.GetSelectedWrite();
 	(*l).SetArrowStyle(m_linkForFormat.GetArrowStyle());
 	(*l).SetLineStyle(m_linkForFormat.GetLineStyle());
 	(*l).SetLineWidth(m_linkForFormat.SetLineWidth());

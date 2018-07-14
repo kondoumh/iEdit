@@ -814,7 +814,7 @@ iLinks::iLinks()
 	dividedLinkKey_ = -1;
 }
 
-void iLinks::drawComments(CDC *pDC, bool clipbrd)
+void iLinks::DrawComments(CDC *pDC, bool clipbrd)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -827,7 +827,7 @@ void iLinks::drawComments(CDC *pDC, bool clipbrd)
 	}
 }
 
-void iLinks::drawLines(CDC *pDC)
+void iLinks::DrawLines(CDC *pDC)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -840,7 +840,7 @@ void iLinks::drawLines(CDC *pDC)
 	}
 }
 
-void iLinks::drawArrows(CDC *pDC)
+void iLinks::DrawArrows(CDC *pDC)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -874,7 +874,7 @@ bool iLinks::HitTest(const CPoint &pt, DWORD& key, CString& path)
 	return hit;
 }
 
-DWORD iLinks::hitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
+DWORD iLinks::HitTestDropTarget(const CPoint &pt, const DWORD selectedNodeKey)
 {
 	DWORD hitKey = -1;
 	bool hit = false;
@@ -942,7 +942,7 @@ bool iLinks::HitTestTo(const CPoint &pt, DWORD &key, CString &path)
 	return hit;
 }
 
-void iLinks::drawSelection(CDC *pDC)
+void iLinks::DrawSelection(CDC *pDC)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -981,7 +981,7 @@ void iLinks::DrawSelectionTo(CDC *pDC)
 	}
 }
 
-link_c_iter iLinks::getSelectedLink() const
+link_c_iter iLinks::GetSelectedRead() const
 {
 	link_c_iter it = begin();
 	for (; it != end(); it++) {
@@ -997,7 +997,7 @@ link_c_iter iLinks::getSelectedLink() const
 	return end();
 }
 
-link_c_iter iLinks::getSelectedLink2() const
+link_c_iter iLinks::GetSelectedRead2() const
 {
 	link_c_iter it = begin();
 	for (; it != end(); it++) {
@@ -1008,7 +1008,7 @@ link_c_iter iLinks::getSelectedLink2() const
 	return end();
 }
 
-link_iter iLinks::getSelectedLinkW()
+link_iter iLinks::GetSelectedWrite()
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -1024,7 +1024,7 @@ link_iter iLinks::getSelectedLinkW()
 	return end();
 }
 
-link_iter iLinks::getSelectedLinkW2()
+link_iter iLinks::GetSelectedWrite2()
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -1035,7 +1035,7 @@ link_iter iLinks::getSelectedLinkW2()
 	return end();
 }
 
-void iLinks::selectLinksInBound(const CRect &r)
+void iLinks::SelectInBound(const CRect &r)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -1073,7 +1073,7 @@ void iLinks::selectLinksInBound(const CRect &r)
 }
 
 
-void iLinks::getSelectedLinkFont(LOGFONT &lf)
+void iLinks::GetSelectedFont(LOGFONT &lf)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -1087,7 +1087,7 @@ void iLinks::getSelectedLinkFont(LOGFONT &lf)
 	}
 }
 
-void iLinks::setSelectedLinkFont(const LOGFONT &lf)
+void iLinks::SetSelectedFont(const LOGFONT &lf)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -1100,7 +1100,7 @@ void iLinks::setSelectedLinkFont(const LOGFONT &lf)
 	}
 }
 
-void iLinks::setSelectedLinkLineColor(const COLORREF &c)
+void iLinks::SetSelectedLineColor(const COLORREF &c)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -1113,7 +1113,7 @@ void iLinks::setSelectedLinkLineColor(const COLORREF &c)
 	}
 }
 
-COLORREF iLinks::getSelectedLinkLineColor() const
+COLORREF iLinks::GetSelectedLineColor() const
 {
 	COLORREF c = RGB(0, 0, 0);
 	link_c_iter it = begin();
@@ -1128,7 +1128,7 @@ COLORREF iLinks::getSelectedLinkLineColor() const
 	return c;
 }
 
-void iLinks::setSelectedLinkWidth(int w)
+void iLinks::SetSelectedWidth(int w)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -1141,17 +1141,17 @@ void iLinks::setSelectedLinkWidth(int w)
 	}
 }
 
-int iLinks::getSelectedLinkWidth() const
+int iLinks::GetSelectedWidth() const
 {
 	int w = 0;
-	link_c_iter it = getSelectedLink();
+	link_c_iter it = GetSelectedRead();
 	if (it != end()) {
 		w = (*it).SetLineWidth();
 	}
 	return w;
 }
 
-void iLinks::setSelectedLinkLineStyle(int style)
+void iLinks::SetSelectedLineStyle(int style)
 {
 	link_iter it = begin();
 	for (; it != end(); it++) {
@@ -1164,12 +1164,13 @@ void iLinks::setSelectedLinkLineStyle(int style)
 	}
 }
 
-int iLinks::getSelectedLinkLineStyle(bool bDrawAll) const
+int iLinks::GetSelectedLineStyle() const
 {
+	// TODO
 	int s = PS_SOLID;
 	link_c_iter it = begin();
 	for (; it != end(); it++) {
-		if (!(*it).CanDraw() && !bDrawAll) {
+		if (!(*it).CanDraw()) {
 			continue;
 		}
 		if ((*it).IsSelected()) {
@@ -1195,7 +1196,7 @@ bool iLinks::IsNodeIsolated(DWORD nodeKey) const
 
 CRect iLinks::GetSelectedBound() const
 {
-	link_c_iter it = getSelectedLink();
+	link_c_iter it = GetSelectedRead();
 	CRect rc(0, 0, 0, 0);
 	if (it == end()) return rc;
 	rc = (*it).getBound();
@@ -1215,7 +1216,7 @@ CRect iLinks::GetSelectedBound() const
 
 void iLinks::SetSelectedLinkNodeFrom(DWORD key, const CRect &bound)
 {
-	link_iter it = getSelectedLinkW();
+	link_iter it = GetSelectedWrite();
 	if (it != end()) {
 		if (key != (*it).GetFromNodeKey()) {
 			(*it).SetKeyFrom(key);
@@ -1226,7 +1227,7 @@ void iLinks::SetSelectedLinkNodeFrom(DWORD key, const CRect &bound)
 
 void iLinks::SetSelectedLinkNodeTo(DWORD key, const CRect& bound)
 {
-	link_iter it = getSelectedLinkW();
+	link_iter it = GetSelectedWrite();
 	if (it != end()) {
 		if (key != (*it).GetToNodeKey()) {
 			(*it).SetKeyTo(key);
@@ -1237,7 +1238,7 @@ void iLinks::SetSelectedLinkNodeTo(DWORD key, const CRect& bound)
 
 void iLinks::ReversetSelected()
 {
-	link_iter it = getSelectedLinkW();
+	link_iter it = GetSelectedWrite();
 	if (it != end()) {
 		(*it).ReverseDirection();
 	}
