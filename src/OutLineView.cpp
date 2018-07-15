@@ -1442,7 +1442,7 @@ void OutlineView::setViewFont()
 	}
 	CString defaultFont = _T("MS UI Gothic");
 	SystemConfiguration sc;
-	if (sc.isMeiryoUiEnabled()) {
+	if (sc.IsMeiryoUiAvailable()) {
 		defaultFont = _T("Meiryo UI");
 	}
 	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font1 Name"), defaultFont));

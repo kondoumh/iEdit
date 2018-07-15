@@ -216,7 +216,7 @@ CString SystemConfiguration::GetConfigurationName() const
 	return name;
 }
 
-bool SystemConfiguration::isMeiryoEnabled()
+bool SystemConfiguration::IsMeiryoAvailable() const
 {
 	return m_OsVersion == SystemConfiguration::WindowsVista ||
 		m_OsVersion == SystemConfiguration::Windows2008 ||
@@ -226,10 +226,41 @@ bool SystemConfiguration::isMeiryoEnabled()
 		m_OsVersion == SystemConfiguration::Windows10;
 }
 
-bool SystemConfiguration::isMeiryoUiEnabled()
+bool SystemConfiguration::IsMeiryoUiAvailable() const
 {
 	return m_OsVersion == SystemConfiguration::Windows7 ||
 		m_OsVersion == SystemConfiguration::Windows8 ||
 		m_OsVersion == SystemConfiguration::Windows8_1 ||
 		m_OsVersion == SystemConfiguration::Windows10;
+}
+
+const CSize SystemConfiguration::GetMetafileSize() const
+{
+	int mfWidth = 267;
+	int mfHeight = 267;
+
+	switch (m_OsVersion) {
+	case SystemConfiguration::WindowsNT35:
+	case SystemConfiguration::WindowsNT40:
+		mfWidth = 253;
+		mfHeight = 238;
+		break;
+	case SystemConfiguration::Windows2000:
+		mfWidth = 253;
+		mfHeight = 238;
+		break;
+	case SystemConfiguration::WindowsXP:
+		mfWidth = 260;
+		mfHeight = 255;
+		break;
+	case SystemConfiguration::WindowsVista:
+	case SystemConfiguration::Windows7:
+	case SystemConfiguration::Windows8:
+	case SystemConfiguration::Windows8_1:
+	case SystemConfiguration::Windows10:
+		mfWidth = 353;
+		mfHeight = 353;
+		break;
+	}
+	return CSize(mfWidth, mfHeight);
 }

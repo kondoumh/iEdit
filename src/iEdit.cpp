@@ -227,7 +227,7 @@ void CiEditApp::getNodeProfile()
 {
 	SystemConfiguration sc;
 	CString defaultFontName = _T("MS UI Gothic");
-	if (sc.isMeiryoEnabled()) {
+	if (sc.IsMeiryoAvailable()) {
 		defaultFontName = _T("メイリオ");
 	}
 	m_rgsNode.colorFill = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Fill Color"), RGB(255, 255, 255));
@@ -264,7 +264,7 @@ void CiEditApp::getLinkProfile()
 {
 	SystemConfiguration sc;
 	CString defaultFontName = _T("MS UI Gothic");
-	if (sc.isMeiryoEnabled()) {
+	if (sc.IsMeiryoAvailable()) {
 		defaultFontName = _T("メイリオ");
 	}
 	m_rgsLink.colorLine = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Color"), RGB(0, 0, 0));

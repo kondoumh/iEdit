@@ -337,7 +337,7 @@ void OptionSettingsDlg::initPageFrame()
 {
 	SystemConfiguration sc;
 	CString defaultFontName = _T("MS UI Gothic");
-	if (sc.isMeiryoUiEnabled()) {
+	if (sc.IsMeiryoUiAvailable()) {
 		defaultFontName = _T("Meiryo UI");
 	}
 	CiEditApp* app = (CiEditApp*)AfxGetApp();

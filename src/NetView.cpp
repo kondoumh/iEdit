@@ -1546,7 +1546,7 @@ void NetView::OnSetNodeFont()
 
 	CString defaultFont = _T("MS UI Gothic");
 	SystemConfiguration sc;
-	if (sc.isMeiryoEnabled()) {
+	if (sc.IsMeiryoAvailable()) {
 		defaultFont = _T("メイリオ");
 	}
 
