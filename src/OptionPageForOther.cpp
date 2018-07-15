@@ -5,7 +5,7 @@
 #include "iEdit.h"
 #include "OptionPageForOther.h"
 #include "MetafileSettingsDlg.h"
-#include "MfSizer.h"
+#include "SystemConfiguration.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -142,7 +142,8 @@ void OptionPageForOther::OnBtnSetmfsize()
 		dlg.m_ry = mfHeight;
 	}
 	else {
-		CSize szMF = MfSizer::getMFSize();
+		SystemConfiguration sc;
+		CSize szMF = sc.GetMetafileSize();
 		dlg.m_rx = ((double)szMF.cx) / 10.0;
 		dlg.m_ry = ((double)szMF.cy) / 10.0;;
 	}

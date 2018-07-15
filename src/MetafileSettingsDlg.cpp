@@ -3,8 +3,8 @@
 
 #include "stdafx.h"
 #include "iEdit.h"
+#include "SystemConfiguration.h"
 #include "MetafileSettingsDlg.h"
-#include "MfSizer.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -51,11 +51,9 @@ BOOL MetafileSettingsDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO: この位置に初期化の補足処理を追加してください
 	m_stMF.SetEnhMetaFile(createMF());
 	showSizeInfo();
-	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
-				  // 例外: OCX プロパティ ページの戻り値は FALSE となります
+	return TRUE;
 }
 
 HENHMETAFILE MetafileSettingsDlg::createMF()
@@ -78,7 +76,6 @@ void MetafileSettingsDlg::showSizeInfo()
 
 void MetafileSettingsDlg::OnBtnLeft()
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rx -= 0.1;
 	if (m_rx <= 0) {
 		m_rx = 0.1;
@@ -89,7 +86,6 @@ void MetafileSettingsDlg::OnBtnLeft()
 
 void MetafileSettingsDlg::OnBtnRight()
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_rx += 0.1;
 	m_stMF.SetEnhMetaFile(createMF());
 	showSizeInfo();
@@ -97,7 +93,6 @@ void MetafileSettingsDlg::OnBtnRight()
 
 void MetafileSettingsDlg::OnBtnDown()
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_ry -= 0.1;
 	if (m_ry <= 0) {
 		m_ry = 0.1;
@@ -108,7 +103,6 @@ void MetafileSettingsDlg::OnBtnDown()
 
 void MetafileSettingsDlg::OnBtnUp()
 {
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
 	m_ry += 0.1;
 	m_stMF.SetEnhMetaFile(createMF());
 	showSizeInfo();
@@ -116,8 +110,9 @@ void MetafileSettingsDlg::OnBtnUp()
 
 void MetafileSettingsDlg::OnBnClickedBtnReset()
 {
-	// TODO : ここにコントロール通知ハンドラ コードを追加します。
-	CSize szMF = MfSizer::getMFSize();
+
+	SystemConfiguration sc;
+	CSize szMF = sc.GetMetafileSize();
 	m_rx = ((double)szMF.cx) / 10.0;
 	m_ry = ((double)szMF.cy) / 10.0;;
 	m_stMF.SetEnhMetaFile(createMF());

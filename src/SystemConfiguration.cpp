@@ -242,9 +242,6 @@ const CSize SystemConfiguration::GetMetafileSize() const
 	switch (m_OsVersion) {
 	case SystemConfiguration::WindowsNT35:
 	case SystemConfiguration::WindowsNT40:
-		mfWidth = 253;
-		mfHeight = 238;
-		break;
 	case SystemConfiguration::Windows2000:
 		mfWidth = 253;
 		mfHeight = 238;

@@ -12,7 +12,6 @@
 #include "RelaxThrd.h"
 #include "ShapesManagementDlg.h"
 #include "MainFrm.h"
-#include "MfSizer.h"
 #include "Token.h"
 #include "imm.h"
 #include "RectTrackerPlus.h"
@@ -3509,7 +3508,8 @@ void NetView::setMFSize()
 
 	if (m_mfWidth != 0 && m_mfHeight != 0) return; // レジストリの値を採用
 
-	CSize szMF = MfSizer::getMFSize();
+	SystemConfiguration sc;
+	CSize szMF = sc.GetMetafileSize();
 	m_mfWidth = ((double)szMF.cx) / 10.0;
 	m_mfHeight = ((double)szMF.cy) / 10.0;
 }
