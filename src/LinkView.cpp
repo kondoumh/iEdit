@@ -9,6 +9,7 @@
 #include "LinkForPathDlg.h"
 #include "FileDropActionDlg.h"
 #include "SystemConfiguration.h"
+#include "StringUtil.h"
 #include <algorithm>
 
 #ifdef _DEBUG
@@ -140,7 +141,7 @@ void LinkView::OnInitialUpdate()
 {
 	CListView::OnInitialUpdate();
 
-	doColorSetting();
+	ApplyColorSetting();
 
 	m_preKey = GetDocument()->GetSelectedNodeKey();
 	CString s = GetDocument()->GetSelectedNodeLabel();
@@ -151,8 +152,8 @@ void LinkView::OnInitialUpdate()
 	GetListCtrl().SetColumnWidth(1, rc.Width() / 2);
 	m_preWidth = rc.Width();
 
-	reflesh();
-	setSelection(0);
+	Reflesh();
+	SelectRow(0);
 }
 
 void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
@@ -175,8 +176,8 @@ void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		GetListCtrl().SetColumnWidth(0, rc.Width() / 2);
 		GetListCtrl().SetColumnWidth(1, rc.Width() / 2);
 
-		reflesh();
-		setSelection(0);
+		Reflesh();
+		SelectRow(0);
 
 		if (GetListCtrl().GetItemCount() == 0) return;
 		int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED) - 1;
@@ -186,11 +187,11 @@ void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	}
 	if (ph != NULL && ph->event == iHint::viewSettingChanged) {
 		setViewFont();
-		doColorSetting();
+		ApplyColorSetting();
 	}
 }
 
-void LinkView::listConstruct()
+void LinkView::ConstructLinkLIst()
 {
 	int selindex = 0;
 	for (unsigned int i = 0; i < items_.size(); i++) {
@@ -282,7 +283,7 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 void LinkView::OnJumpTo()
 {
-	jumpTo();
+	JumpTo();
 }
 
 void LinkView::OnUpdateJumpTo(CCmdUI* pCmdUI)
@@ -326,10 +327,10 @@ void LinkView::OnUpdateDelete(CCmdUI* pCmdUI)
 
 void LinkView::OnSetLinkInfo()
 {
-	setLinkInfo();
+	AddLinkInfo();
 }
 
-void LinkView::setLinkInfo()
+void LinkView::AddLinkInfo()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	int type = items_[index].linkType;
@@ -394,11 +395,11 @@ void LinkView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI)
 
 void LinkView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-	jumpTo();
+	JumpTo();
 	CListView::OnLButtonDblClk(nFlags, point);
 }
 
-void LinkView::jumpTo()
+void LinkView::JumpTo()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	if (index == -1) {
@@ -485,7 +486,7 @@ void LinkView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void LinkView::OnReturn(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	jumpTo();
+	JumpTo();
 	*pResult = 0;
 }
 
@@ -500,7 +501,7 @@ void LinkView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	CListView::OnKeyUp(nChar, nRepCnt, nFlags);
 }
 
-void LinkView::notifySelLink()
+void LinkView::NotifySelected()
 {
 	for (unsigned int i = 0; i < items_.size(); i++) {
 		items_[i].selected = false;
@@ -516,7 +517,7 @@ void LinkView::OnEditCut()
 {
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
-		notifySelLink();
+		NotifySelected();
 		GetDocument()->CopyLinkForPaste();
 		GetDocument()->DeleteSelectedLink2();
 	}
@@ -535,7 +536,7 @@ void LinkView::OnEditCopy()
 {
 	CEdit* pEdit = GetListCtrl().GetEditControl();
 	if (pEdit == NULL) {
-		notifySelLink();
+		NotifySelected();
 		GetDocument()->CopyLinkForPaste();
 	}
 	else {
@@ -572,7 +573,7 @@ void LinkView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
 	int index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
 	if (index != curSel && index != -1) {
 		curSel = index;
-		notifySelLink();
+		NotifySelected();
 	}
 
 	*pResult = 0;
@@ -616,8 +617,8 @@ void LinkView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	sort(items_.begin(), items_.end());
 	GetListCtrl().DeleteAllItems();
-	listConstruct();
-	setSelection(0);
+	ConstructLinkLIst();
+	SelectRow(0);
 	*pResult = 0;
 }
 
@@ -712,7 +713,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		LPSTR str = (LPSTR)buffer.GetBufferSetLength(::GlobalSize(hmem));
 		sf.Read(str, ::GlobalSize(hmem));
 		::GlobalUnlock(hmem);
-		if (isURLStr(str)) {
+		if (StringUtil::IsUrl(str)) {
 			GetDocument()->AddUrlLink(str, _T("URLリンク"));
 		}
 		return TRUE;
@@ -741,7 +742,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		CString extention(ext);
 		extention.MakeLower();
 		if (extention == _T(".url")) {
-			CString url = getLocationFromURLFile(path);
+			CString url = GetLocationFromUrlFile(path);
 			GetDocument()->AddUrlLink(url, CString(fname));
 			continue;
 		}
@@ -766,7 +767,7 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 	return TRUE;
 }
 
-CString LinkView::getLocationFromURLFile(LPCTSTR path)
+CString LinkView::GetLocationFromUrlFile(LPCTSTR path)
 {
 	CStdioFile f;
 	CFileStatus status;
@@ -799,18 +800,7 @@ CString LinkView::getLocationFromURLFile(LPCTSTR path)
 	return url;
 }
 
-bool LinkView::isURLStr(const CString &str) const
-{
-	if (str.Find(_T("http://")) != 0 && str.Find(_T("https://")) != 0 && str.Find(_T("ftp://")) != 0) {
-		return false;
-	}
-
-	if (str.Find(_T("\r")) != -1 || str.Find(_T("\n")) != -1) return false;
-
-	return true;
-}
-
-void LinkView::doColorSetting()
+void LinkView::ApplyColorSetting()
 {
 	CiEditApp* app = (CiEditApp*)AfxGetApp();
 	COLORREF colorBG = app->GetProfileInt(REGS_FRAME, _T("Link bgColor"), app->m_colorLinkViewBg);
@@ -820,16 +810,16 @@ void LinkView::doColorSetting()
 	ListView_SetTextColor(m_hWnd, colorFor);
 }
 
-void LinkView::reflesh()
+void LinkView::Reflesh()
 {
 	GetListCtrl().DeleteAllItems();
 	items_.clear();
 	items_.resize(0);
 	GetDocument()->CollectLinkProps(items_);
-	listConstruct();
+	ConstructLinkLIst();
 }
 
-void LinkView::setSelection(int index)
+void LinkView::SelectRow(int index)
 {
 	GetListCtrl().SetItemState(index,
 		LVIS_SELECTED | LVIS_FOCUSED, LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM | LVIF_STATE);
@@ -840,8 +830,8 @@ void LinkView::OnLinkMoveUp()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetDocument()->SwapLinkOrder(items_[index - 1].key, items_[index].key);
-	reflesh();
-	setSelection(index - 1);
+	Reflesh();
+	SelectRow(index - 1);
 }
 
 void LinkView::OnUpdateLinkMoveUp(CCmdUI *pCmdUI)
@@ -854,8 +844,8 @@ void LinkView::OnLinkMoveDown()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	GetDocument()->SwapLinkOrder(items_[index].key, items_[index + 1].key);
-	reflesh();
-	setSelection(index + 1);
+	Reflesh();
+	SelectRow(index + 1);
 }
 
 void LinkView::OnUpdateLinkMoveDown(CCmdUI *pCmdUI)

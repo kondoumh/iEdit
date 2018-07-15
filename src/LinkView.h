@@ -32,29 +32,19 @@ public:
 	virtual void OnDragLeave();
 	virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
 	virtual BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
+
 protected:
 	virtual void OnDraw(CDC* pDC);      // このビューを描画するためにオーバーライドしました。
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-	//}}AFX_VIRTUAL
-
-protected:
 	virtual ~LinkView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
+	//}}AFX_VIRTUAL
 
 protected:
-	void reflesh();
-	void setSelection(int index);
-	void doColorSetting();
-	bool isURLStr(const CString& str) const;
-	CString getLocationFromURLFile(LPCTSTR path);
-	void listConstruct();
-	void setLinkInfo();
-	void notifySelLink();
-	void jumpTo();
 	//{{AFX_MSG(LinkView)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -85,8 +75,13 @@ protected:
 	afx_msg void OnUpdateEditUndo(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditLabel(CCmdUI* pCmdUI);
 	afx_msg void OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnLinkMoveUp();
+	afx_msg void OnUpdateLinkMoveUp(CCmdUI *pCmdUI);
+	afx_msg void OnLinkMoveDown();
+	afx_msg void OnUpdateLinkMoveDown(CCmdUI *pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
 private:
 	COleDropTarget m_oleDropTarget;
 	CFont m_font;
@@ -95,11 +90,15 @@ private:
 	keyStack kstack;
 	LinkPropsVec items_;
 	CImageList m_imageList;
-public:
-	afx_msg void OnLinkMoveUp();
-	afx_msg void OnUpdateLinkMoveUp(CCmdUI *pCmdUI);
-	afx_msg void OnLinkMoveDown();
-	afx_msg void OnUpdateLinkMoveDown(CCmdUI *pCmdUI);
+
+	void SelectRow(int index);
+	void ApplyColorSetting();
+	CString GetLocationFromUrlFile(LPCTSTR path);
+	void ConstructLinkLIst();
+	void AddLinkInfo();
+	void NotifySelected();
+	void JumpTo();
+	void Reflesh();
 };
 
 /////////////////////////////////////////////////////////////////////////////

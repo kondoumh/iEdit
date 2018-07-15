@@ -176,3 +176,14 @@ CString StringUtil::ReplaceLfToCrlf(const CString &str)
 	}
 	return toStr;
 }
+
+bool StringUtil::IsUrl(const CString &str)
+{
+	if (str.Find(_T("http://")) != 0 && str.Find(_T("https://")) != 0 && str.Find(_T("ftp://")) != 0) {
+		return false;
+	}
+
+	if (str.Find(_T("\r")) != -1 || str.Find(_T("\n")) != -1) return false;
+
+	return true;
+}

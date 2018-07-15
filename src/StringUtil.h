@@ -12,4 +12,5 @@ public:
 	static CString RemoveMachineDependentChar(LPCTSTR moji);
 	static CString ReplaceLfToCrlf(const CString& str);
 	static CString ReplaceCrToLf(const CString& str);
+	static bool IsUrl(const CString& str);
 };
