@@ -186,7 +186,7 @@ void LinkView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		GetListCtrl().Scroll(sz);
 	}
 	if (ph != NULL && ph->event == iHint::viewSettingChanged) {
-		setViewFont();
+		SetViewFont();
 		ApplyColorSetting();
 	}
 }
@@ -220,7 +220,7 @@ int LinkView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	GetListCtrl().InsertColumn(1, _T("リンク先"), LVCFMT_LEFT, 100);
 	m_imageList.Create(IDB_LINKS, 16, 1, RGB(255, 0, 255));
 	GetListCtrl().SetImageList(&m_imageList, LVSIL_SMALL);
-	setViewFont();
+	SetViewFont();
 	return 0;
 }
 
@@ -283,7 +283,7 @@ void LinkView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 void LinkView::OnJumpTo()
 {
-	JumpTo();
+	GoForward();
 }
 
 void LinkView::OnUpdateJumpTo(CCmdUI* pCmdUI)
@@ -294,7 +294,7 @@ void LinkView::OnUpdateJumpTo(CCmdUI* pCmdUI)
 
 void LinkView::OnJumpBack()
 {
-	jumpBack();
+	GoBack();
 }
 
 void LinkView::OnUpdateJumpBack(CCmdUI* pCmdUI)
@@ -395,11 +395,11 @@ void LinkView::OnUpdateSetLinkInfo(CCmdUI* pCmdUI)
 
 void LinkView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-	JumpTo();
+	GoForward();
 	CListView::OnLButtonDblClk(nFlags, point);
 }
 
-void LinkView::JumpTo()
+void LinkView::GoForward()
 {
 	int index = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	if (index == -1) {
@@ -454,7 +454,7 @@ void LinkView::JumpTo()
 	}
 }
 
-void LinkView::jumpBack()
+void LinkView::GoBack()
 {
 	if (kstack.size() == 0) return;
 	DWORD prekey = kstack.top();
@@ -486,14 +486,14 @@ void LinkView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void LinkView::OnReturn(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	JumpTo();
+	GoForward();
 	*pResult = 0;
 }
 
 void LinkView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_BACK) {
-		jumpBack();
+		GoBack();
 	}
 	if (nChar == VK_ESCAPE) {
 		GetDocument()->SelectionChanged(m_preKey, true, GetDocument()->ShowSubBranch());
@@ -579,7 +579,7 @@ void LinkView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void LinkView::setViewFont()
+void LinkView::SetViewFont()
 {
 	LOGFONT lf;
 	CFont *pFont = GetFont();

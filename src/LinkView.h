@@ -20,12 +20,8 @@ protected:
 	DECLARE_DYNCREATE(LinkView)
 
 public:
-	int m_preWidth;
-	void setViewFont();
-	void jumpBack();
 	iEditDoc* GetDocument();
 
-public:
 	//{{AFX_VIRTUAL(LinkView)
 	virtual void OnInitialUpdate();
 	virtual DROPEFFECT OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
@@ -34,7 +30,7 @@ public:
 	virtual BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
 
 protected:
-	virtual void OnDraw(CDC* pDC);      // このビューを描画するためにオーバーライドしました。
+	virtual void OnDraw(CDC* pDC);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	virtual ~LinkView();
@@ -44,7 +40,6 @@ protected:
 #endif
 	//}}AFX_VIRTUAL
 
-protected:
 	//{{AFX_MSG(LinkView)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -83,6 +78,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
+	int m_preWidth;
 	COleDropTarget m_oleDropTarget;
 	CFont m_font;
 	int curSel;
@@ -91,13 +87,15 @@ private:
 	LinkPropsVec items_;
 	CImageList m_imageList;
 
+	void SetViewFont();
 	void SelectRow(int index);
 	void ApplyColorSetting();
 	CString GetLocationFromUrlFile(LPCTSTR path);
 	void ConstructLinkLIst();
 	void AddLinkInfo();
 	void NotifySelected();
-	void JumpTo();
+	void GoBack();
+	void GoForward();
 	void Reflesh();
 };
 
