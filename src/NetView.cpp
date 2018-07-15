@@ -12,7 +12,6 @@
 #include "RelaxThrd.h"
 #include "ShapesManagementDlg.h"
 #include "MainFrm.h"
-#include "Token.h"
 #include "StringUtil.h"
 #include "imm.h"
 #include "RectTrackerPlus.h"
@@ -3677,28 +3676,28 @@ void NetView::OnAddNodesFromCfText()
 		GlobalUnlock(hData);
 		::CloseClipboard();
 	}
-	ClipText += _T("\n");
-	CToken tok(ClipText);
-	tok.SetToken(_T("\n"));
 
 	if (m_ptPaste.x <= 0) {
 		m_ptPaste.x = 70;
 	}
 
+	ClipText += _T("\n");
+
+	int pos = 0;
 	int initialX = m_ptPaste.x;
-	while (tok.MoreTokens()) {
-		CString s = tok.GetNextToken();
-		int indent = StringUtil::GetIndent(s);
-		CString s2 = StringUtil::TrimLeft(s);
-		if (s2 != _T("") && s2 != _T("\n") && s2 != '\r') {
+	for (CString token = ClipText.Tokenize(_T("\n"), pos); !token.IsEmpty(); ) {
+		int indent = StringUtil::GetIndent(token);
+		CString s = StringUtil::TrimLeft(token);
+		if (s != _T("") && s != _T("\n") && s != '\r') {
 			CString label;
 			m_ptPaste.x = initialX + 60 * (indent - 1);
-			GetDocument()->AddNodeRect(s2, m_ptPaste, false);
+			GetDocument()->AddNodeRect(s, m_ptPaste, false);
 			m_ptPaste.y += 40;
 			CPoint maxPt;
 			maxPt = GetDocument()->GetMaxPt();
 			adjustScrollArea();
 		}
+		token = ClipText.Tokenize(_T("\n"), pos);
 	}
 }
 

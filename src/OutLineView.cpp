@@ -16,7 +16,6 @@
 #include "NodeSearchDlg.h"
 #include "FoldingSettingsDlg.h"
 #include "CreateNodeDlg.h"
-#include "Token.h"
 #include "ExportHtmlDlg.h"
 #include "ExportTextDlg.h"
 #include "StringUtil.h"
@@ -2982,13 +2981,13 @@ void OutlineView::OnPasteTreeFromClipboard()
 	}
 
 	ClipText += _T("\n");
-	CToken tok(ClipText);
-	tok.SetToken(_T("\n"));
+	int pos = 0;
 	vector<CString> lines;
-	while (tok.MoreTokens()) {
-		CString s = tok.GetNextToken();
-		lines.push_back(s);
+	for (CString token = ClipText.Tokenize(_T("\n"), pos); !token.IsEmpty(); ) {
+		lines.push_back(token);
+		token = ClipText.Tokenize(_T("\n"), pos);
 	}
+
 	node_vec addNodes;
 
 	ImportTextDlg dlg;

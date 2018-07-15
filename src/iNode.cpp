@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "iEdit.h"
 #include "iNode.h"
-#include "Token.h"
 #include "iEdit.h"
 #include "StringUtil.h"
 #include <algorithm>
@@ -316,15 +315,17 @@ void iNode::ExtendLineOriented(const CSize& sz)
 
 void iNode::GetInnerLineInfo(const CString& str, int& lineCount, int& maxLength)
 {
-	CToken tok(str + _T("\n"));
-	tok.SetToken(_T("\n"));
-	lineCount = 1;
+	CString buf = str + _T("\n");
+	CString sep = _T("\n");
+	int pos = 0;
 	maxLength = 0;
-	for (; tok.MoreTokens(); lineCount++) {
-		CString line = tok.GetNextToken();
-		if (maxLength < line.GetLength()) {
-			maxLength = line.GetLength();
+	lineCount = 1;
+
+	for (CString token = buf.Tokenize(sep, pos); !token.IsEmpty(); lineCount++) {
+		if (maxLength < token.GetLength()) {
+			maxLength = token.GetLength();
 		}
+		token = buf.Tokenize(sep, pos);
 	}
 }
 
