@@ -194,7 +194,6 @@
     <ClCompile Include="SvgWriter.cpp" />
     <ClCompile Include="SystemConfiguration.cpp" />
     <ClCompile Include="TabSeet.cpp" />
-    <ClCompile Include="Token.cpp" />
     <ClCompile Include="WndTransparencySettingsDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -244,7 +243,6 @@
     <ClInclude Include="SvgWriter.h" />
     <ClInclude Include="SystemConfiguration.h" />
     <ClInclude Include="TabSeet.h" />
-    <ClInclude Include="Token.h" />
     <ClInclude Include="WndTransparencySettingsDlg.h" />
   </ItemGroup>
   <ItemGroup>

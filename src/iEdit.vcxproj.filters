@@ -69,9 +69,6 @@
     <ClCompile Include="TabSeet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Token.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NodeSearchDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -209,9 +206,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TabSeet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NodeSearchDlg.h">

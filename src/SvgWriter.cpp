@@ -6,7 +6,6 @@
 #include "iEdit.h"
 #include "SvgWriter.h"
 #include "math.h"
-#include "Token.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
