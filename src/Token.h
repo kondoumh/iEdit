@@ -35,8 +35,6 @@
 class CToken
 {
 public:
-	static CString TrimLeft(const CString& string);
-	static int GetIndent(const CString& string);
 	virtual CString GetNextToken(); // Returns the next token
 	virtual BOOL MoreTokens();				// Do we have any more tokens to retrieve
 	void SetToken(CString tok) { m_strToken = tok; };

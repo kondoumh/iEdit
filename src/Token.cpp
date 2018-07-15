@@ -100,32 +100,3 @@ CString CToken::GetNextToken()
 	return newtok;
 
 }
-
-int CToken::GetIndent(const CString &string)
-{
-	CString res = string.SpanIncluding(_T("\t 　."));
-
-	if (res.IsEmpty()) {
-		return 0;
-	}
-	else {
-		if (res.Find(_T("　"), 0) == 0) {
-			return res.GetLength() / 2;
-		}
-		else {
-			return res.GetLength();
-		}
-	}
-	return 0;
-}
-
-CString CToken::TrimLeft(const CString &string)
-{
-	CString str = string;
-	str.TrimLeft(_T("\t ."));
-	if (str.Find(_T("　"), 0) == 0) {
-		CString res = str.SpanIncluding(_T("　"));
-		return str.Right(str.GetLength() - res.GetLength());
-	}
-	return str;
-}

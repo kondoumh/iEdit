@@ -13,6 +13,7 @@
 #include "ShapesManagementDlg.h"
 #include "MainFrm.h"
 #include "Token.h"
+#include "StringUtil.h"
 #include "imm.h"
 #include "RectTrackerPlus.h"
 #include "NodeMarginSettingsDlg.h"
@@ -3687,8 +3688,8 @@ void NetView::OnAddNodesFromCfText()
 	int initialX = m_ptPaste.x;
 	while (tok.MoreTokens()) {
 		CString s = tok.GetNextToken();
-		int indent = CToken::GetIndent(s);
-		CString s2 = CToken::TrimLeft(s);
+		int indent = StringUtil::GetIndent(s);
+		CString s2 = StringUtil::TrimLeft(s);
 		if (s2 != _T("") && s2 != _T("\n") && s2 != '\r') {
 			CString label;
 			m_ptPaste.x = initialX + 60 * (indent - 1);

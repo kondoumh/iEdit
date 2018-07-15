@@ -13,4 +13,6 @@ public:
 	static CString ReplaceLfToCrlf(const CString& str);
 	static CString ReplaceCrToLf(const CString& str);
 	static bool IsUrl(const CString& str);
+	static CString TrimLeft(const CString& string);
+	static int GetIndent(const CString& string);
 };
