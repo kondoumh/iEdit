@@ -1154,7 +1154,7 @@ BEGIN
     CONTROL         "Slider1",IDC_SLID,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOP | WS_TABSTOP,17,116,157,27
     LTEXT           "線種",IDC_STATIC,107,29,15,8
     GROUPBOX        "デフォルトの表示属性",IDC_STATIC,7,7,176,47
-    GROUPBOX        "自動レイアウト・芋づるモードの設定",IDC_STATIC,7,61,176,86
+    GROUPBOX        "芋づるモードの設定",IDC_STATIC,7,61,176,86
     LTEXT           "デフォルトのノード間距離",IDC_STATIC,27,99,74,8
     CTEXT           "",IDC_STRN,106,98,20,12,SS_CENTERIMAGE | SS_SUNKEN
 END
@@ -1850,6 +1850,11 @@ END
 //
 
 IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PG_LINK AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
