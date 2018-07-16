@@ -530,7 +530,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "書式を保存",                       ID_SAVE_FORMAT
         MENUITEM SEPARATOR
-        MENUITEM "自動レイアウト時固定する(&I)",            ID_FIX_NODE
+        MENUITEM "芋づるモード時固定する(&I)",             ID_FIX_NODE
         MENUITEM SEPARATOR
         MENUITEM "クリップボードの画像と置き換える",            ID_REPLACE_METAFILE
         MENUITEM SEPARATOR
@@ -2023,7 +2023,6 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_AUTO_LAYOUT          "自動レイアウトモード\n自動レイアウトモード"
     ID_SET_NODE_PROP        "ノードのプロパティをダイアログで設定する"
     ID_GRASP_MODE           "図をつかんでスクロール\nつかんでスクロール"
     ID_SELECT_CHILD         "アウトライン上で子供の階層を表示する"

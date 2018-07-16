@@ -2041,15 +2041,6 @@ void NetView::OnUpdateDelete(CCmdUI* pCmdUI)
 		m_selectStatus == NetView::link);
 }
 
-void NetView::OnAutoLayout()
-{
-}
-
-void NetView::OnUpdateAutoLayout(CCmdUI* pCmdUI)
-{
-	pCmdUI->Enable(GetDocument()->LinksExist() && m_addMode == NetView::normal && !m_bGrasp);
-}
-
 void NetView::AdjustRedrawBound(CRect &rc)
 {
 	rc.InflateRect(5, 5);

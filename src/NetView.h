@@ -95,8 +95,6 @@ protected:
 	afx_msg void OnUpdateSetLinkInfo(CCmdUI* pCmdUI);
 	afx_msg void OnDelete();
 	afx_msg void OnUpdateDelete(CCmdUI* pCmdUI);
-	afx_msg void OnAutoLayout();
-	afx_msg void OnUpdateAutoLayout(CCmdUI* pCmdUI);
 	afx_msg void OnSetNodeProp();
 	afx_msg void OnUpdateSetNodeProp(CCmdUI* pCmdUI);
 	afx_msg void OnGraspMode();

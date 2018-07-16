@@ -140,7 +140,7 @@ private:
 	int treeIconId_;
 	unsigned int drawOrder_; // 描画順序を保持
 	bool bChain_;  // 芋づる
-	CRect boundPre_; // AutoLayout用に・・
+	CRect boundPre_;
 	int nLevel_;
 	HENHMETAFILE hMF_;
 	BOOL fixed_;
