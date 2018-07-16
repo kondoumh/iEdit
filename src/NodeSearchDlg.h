@@ -17,7 +17,7 @@
 class NodeSearchDlg : public CDialog
 {
 public:
-	void displayResult();
+	void ShowResult();
 	NodePropsVec m_labels;
 	CString m_srchString;
 	NodeSearchDlg(CWnd* pParent = NULL);

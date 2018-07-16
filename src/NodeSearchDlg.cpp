@@ -148,7 +148,7 @@ BOOL NodeSearchDlg::OnInitDialog()
 	return TRUE;
 }
 
-void NodeSearchDlg::displayResult()
+void NodeSearchDlg::ShowResult()
 {
 	m_lcResult.DeleteAllItems();
 	for (unsigned int i = 0; i < m_labels.size(); i++) {

@@ -2347,7 +2347,7 @@ LRESULT OutlineView::OnListUpNodes(UINT wParam, LONG lParam)
 	GetDocument()->ListUpNodes(m_pSrchDlg->m_srchString, m_pSrchDlg->m_labels,
 		m_pSrchDlg->m_bLabel, m_pSrchDlg->m_bText, m_pSrchDlg->m_bLinks,
 		m_pSrchDlg->m_bUpper);
-	m_pSrchDlg->displayResult();
+	m_pSrchDlg->ShowResult();
 	return 0;
 }
 
