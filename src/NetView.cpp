@@ -2017,11 +2017,11 @@ void NetView::OnDelete()
 		GetDocument()->DeleteSelectedLink();
 	}
 	else if (m_selectStatus == NetView::multi) {
-		deleteSelectedNodes();
+		DeleteSelectedNodes();
 	}
 }
 
-void NetView::deleteSelectedNodes() {
+void NetView::DeleteSelectedNodes() {
 	if (MessageBox(_T("選択したノードおよび配下のノードがすべて削除されます"), _T("ノードの削除"), MB_YESNO) != IDYES) return;
 	if (GetDocument()->ShowSubBranch()) {
 		CString mes = _T("「") + GetDocument()->GetSubBranchRootLabel() + _T("」");
@@ -4198,7 +4198,7 @@ void NetView::OnUpdateGrpOlCoupled(CCmdUI *pCmdUI)
 
 void NetView::OnDeleteSelectedNodes()
 {
-	deleteSelectedNodes();
+	DeleteSelectedNodes();
 }
 
 void NetView::OnUpdateDeleteSelectedNodes(CCmdUI *pCmdUI)

@@ -262,7 +262,6 @@ private:
 	bool m_bLinkAction;
 	CPoint m_curveStartPt;
 	CPoint m_alterLinkStartPt;
-	void deleteSelectedNodes();
 	BOOL m_bGrpOlCoupled;
 	BOOL m_bFormCopied;
 	bool m_bAplyForm;
@@ -317,6 +316,7 @@ private:
 	CToolTipCtrl m_toolTip;
 	CString m_strTip;
 
+	void DeleteSelectedNodes();
 	void EditNodeProps();
 	CPoint GetLogicalCenterPt();
 	void ZoomOut(CPoint *point = NULL, double delta = 0.01);
