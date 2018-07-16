@@ -664,7 +664,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 			GetDocument()->BackupNodesForUndo();
 			GetDocument()->BackupLinksForUndo();
 			m_bDragRelax = true;
-			prepareDragRelax();
+			PrepareDragRelax();
 		}
 		return;
 	}
@@ -1370,7 +1370,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 
 	// 芋蔓モードの解除
 	if (m_bDragRelax) {
-		cancelDragRelax();
+		CancelDragRelax();
 		return;
 	}
 
@@ -2662,7 +2662,7 @@ void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	else if (nChar == VK_CONTROL) {
 		if (m_bDragRelax) {
-			cancelDragRelax();
+			CancelDragRelax();
 		}
 	}
 	else if (nChar >= 0x30 && nChar <= 0x5A || nChar == VK_SPACE) {
@@ -3536,7 +3536,7 @@ void NetView::OnTipDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 
-void NetView::prepareDragRelax()
+void NetView::PrepareDragRelax()
 {
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->BackupLinksForUndo();
@@ -3546,7 +3546,7 @@ void NetView::prepareDragRelax()
 }
 
 
-void NetView::cancelDragRelax()
+void NetView::CancelDragRelax()
 {
 	m_bDragRelax = false;
 	m_selectRect = GetDocument()->GetSelectedNodeRect();

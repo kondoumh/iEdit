@@ -334,8 +334,8 @@ private:
 	void DPtoLP(LPPOINT lpPoints, int nCount = 1);
 	void CopyEmf();
 	void SendEmfToClipboard(HENHMETAFILE emf);
-	void cancelDragRelax();
-	void prepareDragRelax();
+	void CancelDragRelax();
+	void PrepareDragRelax();
 	void SetMetaFileSize();
 	void ApplyColorSetting();
 	void CenterOnLogicalPoint(CPoint ptCenter);
