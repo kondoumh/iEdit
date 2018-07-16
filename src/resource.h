@@ -309,7 +309,6 @@
 #define ID_ADD_URL                      32813
 #define ID_JUMP_TO                      32814
 #define ID_JUMP_BACK                    32815
-#define ID_AUTO_LAYOUT                  32816
 #define ID_SET_NODE_PROP                32818
 #define ID_GRASP_MODE                   32819
 #define ID_SELECT_CHILD                 32820
