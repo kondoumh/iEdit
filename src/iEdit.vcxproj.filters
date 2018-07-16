@@ -51,9 +51,6 @@
     <ClCompile Include="RectTrackerPlus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RelaxThrd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Splash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -185,9 +182,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RectTrackerPlus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RelaxThrd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">

@@ -10,10 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // NetView ビュー
 class iEditDoc;
-class CRelaxThrd;
 class ShapesManagementDlg;
-
-typedef stack<CRelaxThrd*> RelaxStack;
 
 class NetView : public CScrollView
 {
@@ -285,7 +282,6 @@ private:
 	int m_cntUp, m_cntDown, m_cntRight, m_cntLeft;
 	ShapesManagementDlg* m_pShapesDlg;
 	CClientDC* m_pDC;
-	RelaxStack m_relaxStack;
 	CPoint m_ptNew;
 	CPoint m_ptPaste;
 	CPen m_linkPen;
@@ -297,7 +293,6 @@ private:
 	CPoint m_linkStart, m_linkEnd, m_linkPath;
 	bool m_bLinkCurving;
 	CRect m_preRedrawBound;
-	bool m_bLayouting;
 	CPoint m_ptLinkTo;
 	CPoint m_ptLinkFrom;
 	CPoint m_ptAlterLinkTo;
@@ -344,7 +339,6 @@ private:
 	bool AddingLink() const;
 	bool AddingNode() const;
 	void PreparePastePoint(const CPoint& point);
-	void stopLayouting();
 	bool IsScaleChanged() const;
 	void UpdateViewport(CPoint * ptNewCenter);
 	void ReCalcBars();
@@ -357,7 +351,6 @@ private:
 	void SelectAll();
 	void MoveByCursorKey(int dx, int dy);
 	void AdjustScrollArea();
-	void KillRelaxThrd();
 	void EditLinkProps();
 	CRect GetCurveBound(const CPoint& pt);
 	void DrawCurve(CDC* pDC);

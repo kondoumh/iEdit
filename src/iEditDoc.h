@@ -11,7 +11,6 @@
 
 #include "iNode.h"
 #include "iLink.h"
-#include "RelaxThrd.h"
 #include "StdAfx.h"
 #include <stack>
 
@@ -153,8 +152,6 @@ public:
 	bool SaveXml(const CString& outPath, bool bSerialize = false);
 	bool LoadXml(const CString& filename, bool replace = false);
 	void AddNodeRoundedRect(const CString& name, const CPoint& pt);
-	void SetResultRelax(Bounds& bounds);
-	void SetNodeRelax(CRelaxThrd* r);
 	BOOL IsSelectedNodeFixed() const;
 	void SetSelectedNodeFixed(BOOL f = TRUE);
 	void SetSelectedNodeTextStyle(int style);

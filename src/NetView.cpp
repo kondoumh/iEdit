@@ -9,7 +9,6 @@
 #include "LinkPropertiesDlg.h"
 #include "NodePropertiesDlg.h"
 #include "ProceedingDlg.h"
-#include "RelaxThrd.h"
 #include "ShapesManagementDlg.h"
 #include "MainFrm.h"
 #include "StringUtil.h"
@@ -46,7 +45,6 @@ NetView::NetView()
 	m_hLayout = AfxGetApp()->LoadCursor(IDC_LAYOUT);
 	m_hZoomCsr = AfxGetApp()->LoadCursor(IDC_ZOOM);
 	m_hLabelCsr = AfxGetApp()->LoadCursor(IDC_LABELONLY);
-	m_bLayouting = false;
 	m_pShapesDlg = NULL;
 	m_fZoomScale = 1.0f; // 0.0fよりよいんじゃ？
 	m_fZoomScalePrev = 1.0f;
@@ -120,8 +118,6 @@ BEGIN_MESSAGE_MAP(NetView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_SET_LINK_INFO, OnUpdateSetLinkInfo)
 	ON_COMMAND(ID_DELETE, OnDelete)
 	ON_UPDATE_COMMAND_UI(ID_DELETE, OnUpdateDelete)
-	ON_COMMAND(ID_AUTO_LAYOUT, OnAutoLayout)
-	ON_UPDATE_COMMAND_UI(ID_AUTO_LAYOUT, OnUpdateAutoLayout)
 	ON_COMMAND(ID_SET_NODE_PROP, OnSetNodeProp)
 	ON_UPDATE_COMMAND_UI(ID_SET_NODE_PROP, OnUpdateSetNodeProp)
 	ON_COMMAND(ID_GRASP_MODE, OnGraspMode)
@@ -323,7 +319,6 @@ void NetView::OnInitialUpdate()
 
 void NetView::OnDraw(CDC* pDC)
 {
-	if (m_bLayouting) return;
 	iEditDoc* pDoc = GetDocument();
 
 	pDoc->DrawNodes(pDC);
@@ -352,22 +347,17 @@ void NetView::OnDraw(CDC* pDC)
 
 BOOL NetView::OnEraseBkgnd(CDC* pDC)
 {
-	if (!m_bLayouting) {
-		CBrush backBrush(m_bkColor);
+	CBrush backBrush(m_bkColor);
 
-		// 古いブラシを保存する。
-		CBrush* pOldBrush = pDC->SelectObject(&backBrush);
-		CRect rect;
-		pDC->GetClipBox(&rect);     // 対象領域を消去。
+	// 古いブラシを保存する。
+	CBrush* pOldBrush = pDC->SelectObject(&backBrush);
+	CRect rect;
+	pDC->GetClipBox(&rect);     // 対象領域を消去。
 
-		pDC->PatBlt(rect.left, rect.top, rect.Width(),
-			rect.Height(), PATCOPY);
-		pDC->SelectObject(pOldBrush);
-		return TRUE;
-	}
-	else {
-		return CScrollView::OnEraseBkgnd(pDC);
-	}
+	pDC->PatBlt(rect.left, rect.top, rect.Width(),
+		rect.Height(), PATCOPY);
+	pDC->SelectObject(pOldBrush);
+	return TRUE;
 }
 
 void NetView::DrawSelection(CDC *pDC)
@@ -486,9 +476,6 @@ void NetView::Dump(CDumpContext& dc) const
 
 void NetView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-	if (m_bLayouting) {
-		return;
-	}
 	if (m_bZooming) {
 		return;
 	}
@@ -595,10 +582,6 @@ BOOL NetView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 			return TRUE;
 		}
 	}
-	if (m_bLayouting) {
-		::SetCursor(m_hLayout);
-		return TRUE;
-	}
 	return CScrollView::OnSetCursor(pWnd, nHitTest, message);
 }
 
@@ -610,12 +593,6 @@ iEditDoc* NetView::GetDocument()
 
 void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// 左ボタン押下時処理
-	if (m_bLayouting) { // 自動レイアウト中なら止めてリターン
-		stopLayouting();
-		return;
-	}
-
 	CPoint logPt = point; DPtoLP(&logPt);
 
 	PreparePastePoint(logPt); // ノードのペースト先を用意しておく
@@ -975,13 +952,12 @@ void NetView::OnAddLink0()
 
 void NetView::OnUpdateAddLink0(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::link0);
 }
 
 void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	stopLayouting();
 	AdjustScrollArea();
 
 	int prevSelectStatus = m_selectStatus; // 事前の選択状態保持
@@ -1190,7 +1166,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	/////////////////////
 	// ツールチップ表示用
 	/////////////////////
-	if (m_addMode == normal && !m_bLayouting && m_selectStatus != NetView::multi
+	if (m_addMode == normal && m_selectStatus != NetView::multi
 		&& !m_bDragRelax) {
 		CRect r;
 		iEditDoc* pDoc = GetDocument();
@@ -1484,7 +1460,6 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 
 void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	if (m_bLayouting) return;
 	CPoint logPt = point;
 	DPtoLP(&logPt);
 
@@ -1889,7 +1864,7 @@ void NetView::OnAddRect()
 
 void NetView::OnUpdateAddRect(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::rect);
 }
 
@@ -1905,7 +1880,7 @@ void NetView::OnAddRoundRect()
 
 void NetView::OnUpdateAddRoundRect(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::rRect);
 }
 
@@ -1921,7 +1896,7 @@ void NetView::OnAddArc()
 
 void NetView::OnUpdateAddArc(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::arc);
 }
 
@@ -1972,7 +1947,7 @@ void NetView::OnAddLink1()
 
 void NetView::OnUpdateAddLink1(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::link1);
 }
 
@@ -1988,7 +1963,7 @@ void NetView::OnAddLink2()
 
 void NetView::OnUpdateAddLink2(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::link2);
 }
 
@@ -2068,53 +2043,11 @@ void NetView::OnUpdateDelete(CCmdUI* pCmdUI)
 
 void NetView::OnAutoLayout()
 {
-	if (m_bLayouting) {
-		stopLayouting();
-		return;
-	}
-
-	if (!m_bLayouting) {
-		m_bLayouting = true;
-		CSize sz(GetDocument()->GetMaxPt().x, GetDocument()->GetMaxPt().y);
-		GetDocument()->BackupNodesForUndo();
-		GetDocument()->BackupLinksForUndo();
-
-		CRelaxThrd* pRelaxThrd = new CRelaxThrd(this, m_pDC->GetSafeHdc(), sz, false, GetScrollPosition());
-		pRelaxThrd->m_pThreadParams = NULL;
-		GetDocument()->SetNodeRelax(pRelaxThrd);
-		if (!pRelaxThrd->CreateThread(CREATE_SUSPENDED))
-		{
-			AfxMessageBox(_T("Cannnot Create Thread"));
-			delete pRelaxThrd;
-			return;
-		}
-
-		VERIFY(pRelaxThrd->SetThreadPriority(THREAD_PRIORITY_IDLE));
-		m_relaxStack.push(pRelaxThrd);
-		Invalidate();
-
-		pRelaxThrd->ResumeThread();
-	}
 }
 
 void NetView::OnUpdateAutoLayout(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(GetDocument()->LinksExist() && m_addMode == NetView::normal && !m_bGrasp);
-	pCmdUI->SetCheck(m_bLayouting);
-}
-
-void NetView::stopLayouting()
-{
-	if (m_bLayouting) {
-		m_bLayouting = false;
-		CRelaxThrd* pRelaxThrd = m_relaxStack.top();
-		GetDocument()->SetResultRelax(pRelaxThrd->bounds);
-		SetEvent(pRelaxThrd->m_hEventKill);
-		Sleep(10);
-		m_selectRect = CRect(0, 0, 0, 0);
-		AdjustScrollArea();
-		Invalidate();
-	}
 }
 
 void NetView::AdjustRedrawBound(CRect &rc)
@@ -2295,7 +2228,7 @@ void NetView::OnUpdateGraspMode(CCmdUI* pCmdUI)
 
 	pCmdUI->Enable((rc.Width() < (int)(maxPt.x*m_fZoomScale)
 		|| rc.Height() < (int)(maxPt.y*m_fZoomScale))
-		&& !m_bLayouting && m_addMode == NetView::normal);
+		&& m_addMode == NetView::normal);
 	pCmdUI->SetCheck(m_bGrasp);
 }
 
@@ -2474,7 +2407,7 @@ void NetView::OnEditCopy()
 
 void NetView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting);
+	pCmdUI->Enable(TRUE);
 }
 
 void NetView::OnEditPaste()
@@ -2638,10 +2571,6 @@ void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 			AdjustRedrawBound(m_preRedrawBound);
 			InvalidateRect(m_preRedrawBound);
 		}
-		if (m_bLayouting) {
-			stopLayouting();
-			Invalidate();
-		}
 	}
 	else if (nChar == VK_TAB) {
 		bool bDrwAll = false;
@@ -2692,9 +2621,6 @@ void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void NetView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (m_bLayouting) {
-		return;
-	}
 	int dif;
 	if (nChar == VK_UP) {
 		if (m_cntUp == 0) {
@@ -2832,21 +2758,10 @@ int NetView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void NetView::KillRelaxThrd()
-{
-	while (m_relaxStack.size() != 0) {
-		CRelaxThrd* pThrd = m_relaxStack.top();
-		SetEvent(pThrd->m_hEventKill);
-		Sleep(2);
-		m_relaxStack.pop();
-	}
-}
-
 void NetView::OnDestroy()
 {
 	CScrollView::OnDestroy();
 
-	KillRelaxThrd();
 	m_pDC = NULL;
 	m_pShapesDlg->DestroyWindow();
 	delete m_pShapesDlg;
@@ -2878,12 +2793,12 @@ BOOL NetView::OnPreparePrinting(CPrintInfo* pInfo)
 
 void NetView::OnUpdateFilePrint(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting);
+	pCmdUI->Enable(TRUE);
 }
 
 void NetView::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting);
+	pCmdUI->Enable(TRUE);
 }
 
 void NetView::OnRandomize()
@@ -2900,7 +2815,7 @@ void NetView::OnRandomize()
 
 void NetView::OnUpdateRandomize(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting);
+	pCmdUI->Enable(TRUE);
 }
 
 void NetView::AdjustScrollArea()
@@ -2945,7 +2860,7 @@ void NetView::SelectAll()
 
 void NetView::OnUpdateEditSelectAll(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && m_addMode == NetView::normal);
+	pCmdUI->Enable(m_addMode == NetView::normal);
 }
 
 void NetView::OnRefreshNetView()
@@ -2956,7 +2871,7 @@ void NetView::OnRefreshNetView()
 
 void NetView::OnUpdateRefreshNetView(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting);
+	pCmdUI->Enable(TRUE);
 }
 
 void NetView::OnShowNodeShapes()
@@ -2971,7 +2886,6 @@ void NetView::OnUpdateShowNodeShapes(CCmdUI* pCmdUI)
 
 LRESULT NetView::OnAddMetaFileID(UINT wParam, LONG lParam)
 {
-	if (m_bLayouting) return 0;
 	if (m_selectStatus == NetView::multi || m_selectStatus == NetView::link) return 0;
 
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
@@ -3004,7 +2918,6 @@ void NetView::HideChildWindow()
 
 LRESULT NetView::OnRegNodeMetaFile(UINT wParam, LONG lParam)
 {
-	if (m_bLayouting) return 0;
 	if (m_selectStatus == NetView::multi || m_selectStatus == NetView::link) return 0;
 	if (GetDocument()->GetSelectedNodeShape() == iNode::MetaFile) {
 		m_pShapesDlg->regNodeShape(GetDocument()->GetSelectedNodeMetaFile());
@@ -3037,7 +2950,7 @@ void NetView::OnCopyToClipbrd()
 
 void NetView::OnUpdateCopyToClipbrd(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting);
+	pCmdUI->Enable(TRUE);
 }
 
 void NetView::OnEditUndo()
@@ -3058,7 +2971,7 @@ void NetView::OnEditUndo()
 
 void NetView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && GetDocument()->CanUndo());
+	pCmdUI->Enable(GetDocument()->CanUndo());
 }
 
 void NetView::OnAdjustTop()
@@ -3068,7 +2981,7 @@ void NetView::OnAdjustTop()
 
 void NetView::OnUpdateAdjustTop(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
+	pCmdUI->Enable(m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAdjustBottom()
@@ -3078,7 +2991,7 @@ void NetView::OnAdjustBottom()
 
 void NetView::OnUpdateAdjustBottom(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
+	pCmdUI->Enable(m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAdjustLeft()
@@ -3088,7 +3001,7 @@ void NetView::OnAdjustLeft()
 
 void NetView::OnUpdateAdjustLeft(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
+	pCmdUI->Enable(m_selectStatus == NetView::multi);
 }
 
 void NetView::OnAdjustRight()
@@ -3098,7 +3011,7 @@ void NetView::OnAdjustRight()
 
 void NetView::OnUpdateAdjustRight(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
+	pCmdUI->Enable(m_selectStatus == NetView::multi);
 }
 
 void NetView::AlignNodesSide(const CString& side)
@@ -3132,7 +3045,7 @@ void NetView::OnSameHeight()
 
 void NetView::OnUpdateSameHeight(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
+	pCmdUI->Enable(m_selectStatus == NetView::multi);
 }
 
 void NetView::OnSameRect()
@@ -3142,7 +3055,7 @@ void NetView::OnSameRect()
 
 void NetView::OnUpdateSameRect(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
+	pCmdUI->Enable(m_selectStatus == NetView::multi);
 }
 
 void NetView::OnSameWidth()
@@ -3152,7 +3065,7 @@ void NetView::OnSameWidth()
 
 void NetView::OnUpdateSameWidth(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && m_selectStatus == NetView::multi);
+	pCmdUI->Enable(m_selectStatus == NetView::multi);
 }
 
 void NetView::AlignNodesSize(const CString &strSize)
@@ -3498,7 +3411,7 @@ void NetView::OnExportSvg()
 
 void NetView::OnUpdateExportSvg(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 }
 
 void NetView::SetMetaFileSize()
@@ -3861,7 +3774,7 @@ void NetView::OnAddLabelOnly()
 
 void NetView::OnUpdateAddLabelOnly(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 	pCmdUI->SetCheck(m_addMode == NetView::label);
 }
 
@@ -4364,7 +4277,7 @@ void NetView::OnExportEmf()
 
 void NetView::OnUpdateExportEmf(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 }
 
 void NetView::OnExportPng()
@@ -4398,7 +4311,7 @@ void NetView::OnExportPng()
 
 void NetView::OnUpdateExportPng(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
+	pCmdUI->Enable(!m_bGrasp && !m_bZooming);
 }
 
 void NetView::OnSetMargin()

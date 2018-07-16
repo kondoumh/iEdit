@@ -182,7 +182,6 @@
     <ClCompile Include="OutLineView.cpp" />
     <ClCompile Include="ProceedingDlg.cpp" />
     <ClCompile Include="RectTrackerPlus.cpp" />
-    <ClCompile Include="RelaxThrd.cpp" />
     <ClCompile Include="ShapeRegistrationDlg.cpp" />
     <ClCompile Include="ShapesManagementDlg.cpp" />
     <ClCompile Include="Splash.cpp" />
@@ -233,7 +232,6 @@
     <ClInclude Include="OutLineView.h" />
     <ClInclude Include="ProceedingDlg.h" />
     <ClInclude Include="RectTrackerPlus.h" />
-    <ClInclude Include="RelaxThrd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShapeRegistrationDlg.h" />
     <ClInclude Include="ShapesManagementDlg.h" />

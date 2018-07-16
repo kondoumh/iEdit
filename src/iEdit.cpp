@@ -10,7 +10,6 @@
 #include "OutLineView.h"
 #include "SystemConfiguration.h"
 #include "Splash.h"
-#include "RelaxThrd.h"
 #include "afxwin.h"
 
 #include "FiletypeSettingsDlg.h"
@@ -96,9 +95,6 @@ BOOL CiEditApp::InitInstance()
 	getOtherProfile();
 	getOptionsProfile();
 	m_bShapeModified = false;
-
-	// Initialize static members of CGDIThread
-	InitializeCriticalSection(&CRelaxThrd::m_csGDILock);
 
 	m_pDocTemplate = new CMultiDocTemplate(
 		IDR_IEDITTYPE,
@@ -291,9 +287,6 @@ void CiEditApp::getOptionsProfile()
 
 int CiEditApp::ExitInstance()
 {
-	DeleteCriticalSection(&CRelaxThrd::m_csGDILock);
-	CloseHandle(CRelaxThrd::m_hAnotherDead);
-
 	return CWinApp::ExitInstance();
 }
 

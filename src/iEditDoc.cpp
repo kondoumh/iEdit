@@ -1468,87 +1468,6 @@ void iEditDoc::SetSpecifiedLinkProps(const LinkProps &iOld, const LinkProps &iNe
 	}
 }
 
-void iEditDoc::SetNodeRelax(CRelaxThrd *r)
-{
-	////////////////////////////////////////////////
-	// 自動レイアウトアルゴリズム用のedgeデータ設定
-	////////////////////////////////////////////////
-	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
-
-	r->bounds.clear();
-	r->edges.clear();
-	r->edges.resize(0);
-	link_iter li = links_.begin();
-	for (; li != links_.end(); li++) {
-		if ((*li).GetArrowStyle() != iLink::other) {
-			if ((*li).GetFromNodeKey() == (*li).GetToNodeKey()) continue;
-			if (!(*li).CanDraw()) continue;
-			iEdge e;
-			e.from = (*li).GetFromNodeKey();
-			e.to = (*li).GetToNodeKey();
-
-			node_iter itFrom = nodes_.FindWrite((*li).GetFromNodeKey());
-			node_iter itTo = nodes_.FindWrite((*li).GetToNodeKey());
-
-			CRect rFrom = (*itFrom).second.getBound();
-			CRect rTo = (*itTo).second.getBound();
-
-			CSize sz;
-			sz.cx = (rFrom.Width() + rTo.Width()) / 2;
-			sz.cy = (rFrom.Height() + rTo.Height()) / 2;
-
-			////////////////////////
-			// アイコン間の距離設定
-			////////////////////////
-			double rate;
-			if (pApp->m_rgsLink.bSetStrength) {
-				rate = LinkWidth2BondStrength((*li).SetLineWidth());
-				if ((*li).GetLineStyle() == PS_DOT) {
-					rate *= 1.5;
-				}
-			}
-			else {
-				rate = LinkWidth2BondStrength(0);
-			}
-			rate *= (((double)pApp->m_rgsLink.strength) / 10.0);
-			e.len = sqrt((double)(sz.cx*sz.cx + sz.cy*sz.cy)) * 5 / 4 * rate;
-
-			///////////////////
-			// edges への登録
-			///////////////////
-			bool already = false; // 登録されているedgeとの重複をチェック
-			for (unsigned int i = 0; i < r->edges.size(); i++) {
-				if (r->edges[i].from == e.from && r->edges[i].to == e.to ||
-					r->edges[i].from == e.to && r->edges[i].to == e.from) {
-					already = true;
-					break;
-				}
-			}
-			if (!already) {
-				r->edges.push_back(e);
-			}
-			//////////////////
-			// bounds への登録
-			//////////////////
-			iBound b;
-			b.key = e.from;
-			b.label = (*itFrom).second.GetName();
-			b.fixed = (*itFrom).second.Fixed();
-			b.oldBound = (*itFrom).second.getBound();
-			b.newBound = b.oldBound;
-			r->bounds.insert(b);
-
-			iBound b2;
-			b2.key = e.to;
-			b2.label = (*itTo).second.GetName();
-			b2.fixed = (*itTo).second.Fixed();
-			b2.oldBound = (*itTo).second.getBound();
-			b2.newBound = b2.oldBound;
-			r->bounds.insert(b2);
-		}
-	}
-}
-
 double iEditDoc::LinkWidth2BondStrength(int width)
 {
 	double l;
@@ -1930,18 +1849,6 @@ void iEditDoc::SetSelectedNodeFixed(BOOL f)
 BOOL iEditDoc::IsSelectedNodeFixed() const
 {
 	return nodes_.IsSelectedFixed();
-}
-
-void iEditDoc::SetResultRelax(Bounds &bounds)
-{
-	Bounds::iterator it = bounds.begin();
-	for (; it != bounds.end(); it++) {
-		node_iter nit = nodes_.FindWrite((*it).key);
-		(*nit).second.SetBound((*it).newBound);
-	}
-	CalcMaxPt(m_maxPt);
-	SetConnectionPoint();
-	SetModifiedFlag();
 }
 
 // このloadメソッドはインポート用
