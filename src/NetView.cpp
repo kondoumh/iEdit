@@ -618,7 +618,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	CPoint logPt = point; DPtoLP(&logPt);
 
-	preparePastePoint(logPt); // ノードのペースト先を用意しておく
+	PreparePastePoint(logPt); // ノードのペースト先を用意しておく
 	m_ptScreen = point + GetScrollPosition(); // スクリーン座標も保持しておく
 
 	if (m_bGrasp) {     // ハンドモードの処理
@@ -636,14 +636,14 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	if (isAddingNode()) { // ノード追加の処理
+	if (AddingNode()) { // ノード追加の処理
 		CPoint spt(point);
 		ClientToScreen(&spt);
 		addNode(logPt, spt);
 		return;
 	}
 
-	if (isAddingLink()) { // リンク追加開始の処理
+	if (AddingLink()) { // リンク追加開始の処理
 		CRect r;
 		if (GetDocument()->HitTest(logPt, r)) {
 			m_ptPrePos = point;
@@ -726,15 +726,15 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 
 	// 選択が更新された場合
-	doUpdateSelection(logPt);
+	DoUpdateSelection(logPt);
 
 	// 選択更新後のトラック処理及び選択用ラバーバンドの処理
-	doPostSelection(logPt, nFlags & MK_SHIFT);
+	DoPostSelection(logPt, nFlags & MK_SHIFT);
 
 	CScrollView::OnLButtonDown(nFlags, point);
 }
 
-bool NetView::isAddingNode() const
+bool NetView::AddingNode() const
 {
 	return (m_addMode == NetView::rect ||
 		m_addMode == NetView::rRect ||
@@ -742,14 +742,14 @@ bool NetView::isAddingNode() const
 		m_addMode == NetView::label);
 }
 
-bool NetView::isAddingLink() const
+bool NetView::AddingLink() const
 {
 	return (m_addMode == NetView::link0 ||
 		m_addMode == NetView::link1 ||
 		m_addMode == NetView::link2);
 }
 
-void NetView::preparePastePoint(const CPoint &point)
+void NetView::PreparePastePoint(const CPoint &point)
 {
 	if (GetDocument()->CanDuplicateNodes() ||
 		::IsClipboardFormatAvailable(CF_ENHMETAFILE) ||
@@ -765,7 +765,7 @@ void NetView::preparePastePoint(const CPoint &point)
 }
 
 // 選択が更新される場合の処理
-void NetView::doUpdateSelection(const CPoint &logPt)
+void NetView::DoUpdateSelection(const CPoint &logPt)
 {
 	CRect old = m_selectRect; adjustRedrawBound(old);
 	CRect r;
@@ -814,7 +814,7 @@ void NetView::doUpdateSelection(const CPoint &logPt)
 }
 
 // 選択が更新された後の処理 --トラック処理とラバーバンド処理
-void NetView::doPostSelection(const CPoint &logPt, BOOL shiftPressed)
+void NetView::DoPostSelection(const CPoint &logPt, BOOL shiftPressed)
 {
 	CPoint logicalPt = logPt;
 	CPoint point = logPt;
@@ -991,7 +991,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	CRect oldBound = m_selectRect;
 	adjustRedrawBound(oldBound);
 
-	if (isScaleChanged()) {
+	if (IsScaleChanged()) {
 		UpdateViewport(NULL);
 		m_fZoomScalePrev = m_fZoomScale;
 	}
@@ -1027,7 +1027,7 @@ void NetView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	if (ph == NULL) return;
 	switch (ph->event) {
 	case iHint::viewSettingChanged:
-		doColorSetting();
+		ApplyColorSetting();
 		Invalidate();
 		break;
 
@@ -1336,7 +1336,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	///////////////////
 	// link の追加
 	///////////////////
-	if (isAddingLink()) {
+	if (AddingLink()) {
 		if (!nFlags & MK_LBUTTON) {
 			CScrollView::OnMouseMove(nFlags, point);
 			m_bStartAdd = false;
@@ -2826,8 +2826,8 @@ int NetView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_bAccel = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("Accel Move"), TRUE);
 	m_pShapesDlg = new ShapesManagementDlg;
 	m_pShapesDlg->Create(_T(""), _T(""), SW_HIDE, CRect(0, 0, 0, 0), this, IDD_SHAPES);
-	doColorSetting();
-	setMFSize();
+	ApplyColorSetting();
+	SetMetaFileSize();
 	EnableToolTips();
 	return 0;
 }
@@ -3227,7 +3227,7 @@ void NetView::SetScrollSizes(int nMapMode, SIZE sizeTotal, const SIZE &sizePage,
 	m_szOrigTotalDev = m_totalDev;
 	m_szOrigPageDev = sizePage;
 	m_szOrigLineDev = sizeLine;
-	if (isScaleChanged()) {
+	if (IsScaleChanged()) {
 		ReCalcBars(); // 毎回全再描画になってしまうので条件付き
 	}
 }
@@ -3282,7 +3282,7 @@ void NetView::ReCalcBars()
 	if (m_lineDev.cy == 0) m_lineDev.cy = m_pageDev.cy / 10;
 
 	if (m_hWnd != NULL) {
-		if (isScaleChanged()) {
+		if (IsScaleChanged()) {
 			UpdateBars();
 			Invalidate(TRUE);
 		}
@@ -3349,7 +3349,7 @@ void NetView::UpdateViewport(CPoint *ptNewCenter)
 	}
 }
 
-bool NetView::isScaleChanged() const
+bool NetView::IsScaleChanged() const
 {
 	return (m_fZoomScale != m_fZoomScalePrev && m_fZoomScale != 1.0f);
 }
@@ -3458,7 +3458,7 @@ void NetView::OnSelchangeDropdown()
 	}
 }
 
-void NetView::doColorSetting()
+void NetView::ApplyColorSetting()
 {
 	CiEditApp* app = (CiEditApp*)AfxGetApp();
 	m_bkColor = app->GetProfileInt(REGS_FRAME, _T("Net bgColor"), app->m_colorNetViewBg);
@@ -3501,7 +3501,7 @@ void NetView::OnUpdateExportSvg(CCmdUI* pCmdUI)
 	pCmdUI->Enable(!m_bLayouting && !m_bGrasp && !m_bZooming);
 }
 
-void NetView::setMFSize()
+void NetView::SetMetaFileSize()
 {
 	m_mfWidth = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rWidth"), 0) / 10.0;
 	m_mfHeight = AfxGetApp()->GetProfileInt(REGS_OTHER, _T("MF rHeight"), 0) / 10.0;
