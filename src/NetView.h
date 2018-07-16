@@ -369,8 +369,8 @@ private:
 	void StartAddingLink(const CPoint pt);
 	void DrawSelection(CDC* pDC);
 	void PointedLinkEndPosition(CPoint point);
-	void aplyFormat(CPoint& pt);
-	void procRenameDialog(const CRect& nodeBound);
+	void ApplyFormat(CPoint& pt);
+	void RenameNewlyLinkedNode(const CRect& nodeBound);
 };
 
 /////////////////////////////////////////////////////////////////////////////

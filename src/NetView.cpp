@@ -632,7 +632,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 
 	if (m_bAplyForm) {
-		aplyFormat(logPt);
+		ApplyFormat(logPt);
 		return;
 	}
 
@@ -3609,7 +3609,7 @@ void NetView::OnInsertChild()
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
 	CRect nwRect = GetDocument()->AddNodeWithLink(shape, GetDocument()->GetSelectedNodeKey());
 	if (!nwRect.IsRectEmpty()) {
-		procRenameDialog(nwRect);
+		RenameNewlyLinkedNode(nwRect);
 	}
 }
 
@@ -3624,7 +3624,7 @@ void NetView::OnInsertSibling()
 	int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
 	CRect nwRect = GetDocument()->AddNodeWithLink2(shape, GetDocument()->GetSelectedNodeKey());
 	if (!nwRect.IsRectEmpty()) {
-		procRenameDialog(nwRect);
+		RenameNewlyLinkedNode(nwRect);
 	}
 }
 
@@ -3795,7 +3795,7 @@ void NetView::OnAddlinkednodeArc()
 	GetDocument()->DisableUndo();
 	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::arc, GetDocument()->GetSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
-		procRenameDialog(nwRect);
+		RenameNewlyLinkedNode(nwRect);
 	}
 }
 
@@ -3808,7 +3808,7 @@ void NetView::OnAddlinkednodeRect()
 	GetDocument()->DisableUndo();
 	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::rectangle, GetDocument()->GetSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
-		procRenameDialog(nwRect);
+		RenameNewlyLinkedNode(nwRect);
 
 	}
 }
@@ -3822,7 +3822,7 @@ void NetView::OnAddlinkednodeRndrect()
 	GetDocument()->DisableUndo();
 	CRect nwRect = GetDocument()->AddNodeWithLink(iNode::roundRect, GetDocument()->GetSelectedNodeKey(), -1, m_ptNew, false);
 	if (!nwRect.IsRectEmpty()) {
-		procRenameDialog(nwRect);
+		RenameNewlyLinkedNode(nwRect);
 	}
 }
 
@@ -3830,7 +3830,7 @@ void NetView::OnUpdateAddlinkednodeRndrect(CCmdUI *pCmdUI)
 {
 }
 
-void NetView::procRenameDialog(const CRect& nodeBound)
+void NetView::RenameNewlyLinkedNode(const CRect& nodeBound)
 {
 	GetDocument()->RecalcArea();
 	AdjustScrollArea();
@@ -4261,7 +4261,7 @@ void NetView::OnUpdateAplyFormat(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(m_bAplyForm);
 }
 
-void NetView::aplyFormat(CPoint& pt)
+void NetView::ApplyFormat(CPoint& pt)
 {
 	CRect r;
 	if (GetDocument()->HitTestLinks(pt)) {
