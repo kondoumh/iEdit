@@ -197,7 +197,7 @@ void CChildFrame::OnMDIActivate(BOOL bActivate, CWnd* pActivateWnd, CWnd* pDeact
 		NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
 		EditorView* pEditorView = (EditorView*)pDoc->GetNextView(pos);
 		pOutlineView->hideModeless();
-		pNetView->hideModeless();
+		pNetView->HideChildWindow();
 	}
 }
 
@@ -208,7 +208,7 @@ void CChildFrame::ChangeSelectedLinkArrow()
 	pDoc->GetNextView(pos);
 	pDoc->GetNextView(pos);
 	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
-	pNetView->changeSelectedLinkArrow();
+	pNetView->ChangeSelectedLinkArrow();
 }
 
 void CChildFrame::ChangeSelectedLineWidth()
@@ -218,7 +218,7 @@ void CChildFrame::ChangeSelectedLineWidth()
 	pDoc->GetNextView(pos);
 	pDoc->GetNextView(pos);
 	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
-	pNetView->changeSelectedLineWidth();
+	pNetView->ChangeSelectedLineWidth();
 }
 
 void CChildFrame::ChangeSelectedNodeColor()
@@ -228,7 +228,7 @@ void CChildFrame::ChangeSelectedNodeColor()
 	pDoc->GetNextView(pos);
 	pDoc->GetNextView(pos);
 	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
-	pNetView->changeSelectedNodeColor();
+	pNetView->ChangeSelectedNodeColor();
 }
 
 void CChildFrame::ChangeSelectedLineColor()
@@ -238,7 +238,7 @@ void CChildFrame::ChangeSelectedLineColor()
 	pDoc->GetNextView(pos);
 	pDoc->GetNextView(pos);
 	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
-	pNetView->changeSelectedLineColor();
+	pNetView->ChangeSelectedLineColor();
 }
 
 void CChildFrame::ChangeSelectedFontColor()
@@ -248,5 +248,5 @@ void CChildFrame::ChangeSelectedFontColor()
 	pDoc->GetNextView(pos);
 	pDoc->GetNextView(pos);
 	NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
-	pNetView->changeSelectedFontColor();
+	pNetView->ChangeSelectedFontColor();
 }

@@ -567,7 +567,7 @@ BOOL NetView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	if (m_selectStatus == NetView::single && m_addMode == NetView::normal) {
 		CRectTracker tracker; tracker.m_rect = m_selectRect;
 
-		ViewLPtoDP(tracker.m_rect);
+		LPtoDP(tracker.m_rect);
 
 		tracker.m_nStyle = CRectTracker::resizeInside;
 		if (pWnd == this && tracker.SetCursor(this, nHitTest)) {
@@ -616,7 +616,7 @@ void NetView::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	CPoint logPt = point; ViewDPtoLP(&logPt);
+	CPoint logPt = point; DPtoLP(&logPt);
 
 	preparePastePoint(logPt); // ノードのペースト先を用意しておく
 	m_ptScreen = point + GetScrollPosition(); // スクリーン座標も保持しておく
@@ -818,7 +818,7 @@ void NetView::doPostSelection(const CPoint &logPt, BOOL shiftPressed)
 {
 	CPoint logicalPt = logPt;
 	CPoint point = logPt;
-	ViewLPtoDP(&point);
+	LPtoDP(&point);
 	if (m_selectStatus == NetView::single) {
 		// 単独選択の場合 → トラック処理にすぐ入る
 		CWindowDC dc(this);
@@ -905,7 +905,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 	CRectTrackerPlus tracker;
 	CRect org = m_selectRect;
 	CRect selectRect = m_selectRect;
-	ViewLPtoDP(selectRect);
+	LPtoDP(selectRect);
 
 	tracker.m_rect = selectRect;
 	if (keepRatio) {
@@ -920,7 +920,7 @@ void NetView::trackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 		GetDocument()->BackupLinksForUndo();
 
 		CRect nw;
-		ViewDPtoLP(tracker.m_rect);
+		DPtoLP(tracker.m_rect);
 		tracker.GetTrueRect(&nw);
 		if (nw.left < 0) {
 			nw.left = 0;
@@ -1185,7 +1185,7 @@ void NetView::startAlterTo(const CPoint &pt)
 void NetView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	CPoint logPt = point;
-	ViewDPtoLP(&logPt);
+	DPtoLP(&logPt);
 
 	/////////////////////
 	// ツールチップ表示用
@@ -1242,7 +1242,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 	if (nFlags & MK_CONTROL && m_bDragRelax) {
 		GetDocument()->RelaxSingleStep(logPt, m_dragOffset);
 		CRect rBound = GetDocument()->GetChaindNodesBound();
-		ViewLPtoDP(rBound);
+		LPtoDP(rBound);
 		InvalidateRect(rBound);
 		return;
 	}
@@ -1280,7 +1280,7 @@ void NetView::OnMouseMove(UINT nFlags, CPoint point)
 			m_nodeKeyDrop = -1;
 		}
 		CRect rBound = prevRc + rc;
-		ViewLPtoDP(rBound);
+		LPtoDP(rBound);
 		InvalidateRect(rBound);
 		return;
 	}
@@ -1366,7 +1366,7 @@ void NetView::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 
 	CPoint logPt = point;
-	ViewDPtoLP(&logPt);
+	DPtoLP(&logPt);
 
 	// 芋蔓モードの解除
 	if (m_bDragRelax) {
@@ -1486,7 +1486,7 @@ void NetView::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	if (m_bLayouting) return;
 	CPoint logPt = point;
-	ViewDPtoLP(&logPt);
+	DPtoLP(&logPt);
 
 	if (m_bZooming) {
 		ZoomOut(&logPt, 0.1f);
@@ -2120,12 +2120,12 @@ void NetView::stopLayouting()
 void NetView::adjustRedrawBound(CRect &rc)
 {
 	rc.InflateRect(5, 5);
-	ViewLPtoDP(rc);
+	LPtoDP(rc);
 }
 
 void NetView::OnSetNodeProp()
 {
-	setNodeProp();
+	EditNodeProps();
 }
 
 void NetView::OnUpdateSetNodeProp(CCmdUI* pCmdUI)
@@ -2133,7 +2133,7 @@ void NetView::OnUpdateSetNodeProp(CCmdUI* pCmdUI)
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
-void NetView::setNodeProp()
+void NetView::EditNodeProps()
 {
 	NodePropertiesDlg dlg;
 	dlg.colorLine = GetDocument()->GetSelectedNodeLineColor();
@@ -2311,19 +2311,19 @@ void NetView::OnSize(UINT nType, int cx, int cy)
 void NetView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	if (m_bZooming) {
-		CPoint logPt = point; ViewDPtoLP(&logPt);
+		CPoint logPt = point; DPtoLP(&logPt);
 		ZoomIn(&logPt, 0.1f);
 		return;
 	}
 
 	if (m_selectStatus == NetView::single) {
-		setNodeProp();
+		EditNodeProps();
 	}
 	else if (m_selectStatus == NetView::link) {
 		setLinkInfo();
 	}
 	else if (m_selectStatus == NetView::none) {
-		CPoint logPt = point; ViewDPtoLP(&logPt);
+		CPoint logPt = point; DPtoLP(&logPt);
 		CPoint spt(point);
 		ClientToScreen(&spt);
 		int shape = ((CiEditApp*)AfxGetApp())->m_rgsNode.shape;
@@ -2428,7 +2428,7 @@ void NetView::copyMFtoClpbrd()
 	// クリップボードにデータをセット
 	// ------------------------------
 	if (hmetafile == NULL) return;
-	setEMF2Clpbrd(hmetafile);
+	CopyEmfToClipboard(hmetafile);
 }
 
 void NetView::OnNoBrush()
@@ -2680,7 +2680,7 @@ void NetView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 		CPoint logPt = m_ptScreen;
 		logPt -= GetScrollPosition();
-		ViewDPtoLP(&logPt);
+		DPtoLP(&logPt);
 		CPoint spt(m_ptScreen);
 		ClientToScreen(&spt);
 		spt -= GetScrollPosition();
@@ -2997,7 +2997,7 @@ void NetView::OnEditReplace()
 {
 }
 
-void NetView::hideModeless()
+void NetView::HideChildWindow()
 {
 	m_pShapesDlg->ShowWindow(SW_HIDE);
 }
@@ -3032,7 +3032,7 @@ void NetView::OnCopyToClipbrd()
 	delete pMfDC;
 
 	// クリップボードにデータをセット
-	setEMF2Clpbrd(hmetafile);
+	CopyEmfToClipboard(hmetafile);
 }
 
 void NetView::OnUpdateCopyToClipbrd(CCmdUI* pCmdUI)
@@ -3289,7 +3289,7 @@ void NetView::ReCalcBars()
 	}
 }
 
-CPoint NetView::GetLogicalCenterPoint()
+CPoint NetView::GetLogicalCenterPt()
 {
 	CPoint pt;
 	CRect rect;
@@ -3298,25 +3298,25 @@ CPoint NetView::GetLogicalCenterPoint()
 	pt.x = (rect.Width() / 2);
 	pt.y = (rect.Height() / 2);
 
-	ViewDPtoLP(&pt);
+	DPtoLP(&pt);
 	return pt;
 }
 
-void NetView::ViewDPtoLP(LPPOINT lpPoints, int nCount)
+void NetView::DPtoLP(LPPOINT lpPoints, int nCount)
 {
 	CWindowDC dc(this);
 	OnPrepareDC(&dc);
 	dc.DPtoLP(lpPoints, nCount);
 }
 
-void NetView::ViewLPtoDP(LPPOINT lpPoints, int nCount)
+void NetView::LPtoDP(LPPOINT lpPoints, int nCount)
 {
 	CWindowDC dc(this);
 	OnPrepareDC(&dc);
 	dc.LPtoDP(lpPoints, nCount);
 }
 
-void NetView::ViewLPtoDP(CRect& rect)
+void NetView::LPtoDP(CRect& rect)
 {
 	CClientDC dc(this);
 	OnPrepareDC(&dc);
@@ -3324,7 +3324,7 @@ void NetView::ViewLPtoDP(CRect& rect)
 }
 
 
-void NetView::ViewDPtoLP(CRect &rect)
+void NetView::DPtoLP(CRect &rect)
 {
 	CClientDC dc(this);
 	OnPrepareDC(&dc);
@@ -3336,7 +3336,7 @@ void NetView::UpdateViewport(CPoint *ptNewCenter)
 	CPoint ptCenter;
 
 	if (!ptNewCenter)
-		ptCenter = GetLogicalCenterPoint();
+		ptCenter = GetLogicalCenterPt();
 	else
 		ptCenter = *ptNewCenter;
 
@@ -3357,7 +3357,7 @@ bool NetView::isScaleChanged() const
 BOOL NetView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
 	if (m_bZooming || nFlags & MK_CONTROL) {
-		CPoint logPt = pt; ViewDPtoLP(&logPt);
+		CPoint logPt = pt; DPtoLP(&logPt);
 		if (zDelta < 0) {
 			ZoomIn(/*NULL*/&pt, 0.05);
 		}
@@ -3377,7 +3377,7 @@ BOOL NetView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 
 void NetView::CenterOnLogicalPoint(CPoint ptCenter)
 {
-	ViewLPtoDP(&ptCenter);
+	LPtoDP(&ptCenter);
 	CScrollView::CenterOnPoint(ptCenter);
 }
 
@@ -3394,7 +3394,7 @@ void NetView::OnZoomMode()
 void NetView::OnRButtonDblClk(UINT nFlags, CPoint point)
 {
 	if (m_bZooming) {
-		CPoint logPt = point; ViewDPtoLP(&logPt);
+		CPoint logPt = point; DPtoLP(&logPt);
 		ZoomOut(&logPt);
 	}
 	CScrollView::OnRButtonDblClk(nFlags, point);
@@ -3558,7 +3558,7 @@ void NetView::cancelDragRelax()
 
 void NetView::OnMButtonDown(UINT nFlags, CPoint point)
 {
-	CPoint logPt = point; ViewDPtoLP(&logPt);
+	CPoint logPt = point; DPtoLP(&logPt);
 	m_ptPrePos = point;
 	CRect r;
 	if (GetDocument()->HitTest(logPt, r)) {
@@ -3580,7 +3580,7 @@ void NetView::OnMButtonUp(UINT nFlags, CPoint point)
 void NetView::PointedLinkEndPosition(CPoint point)
 {
 	m_bStartAdd = false;
-	CPoint logPt = point; ViewDPtoLP(&logPt);
+	CPoint logPt = point; DPtoLP(&logPt);
 
 	if (point == m_ptPrePos) return;
 
@@ -3635,7 +3635,7 @@ void NetView::OnUpdateInsertSibling(CCmdUI* pCmdUI)
 
 // 描画済みメタファイルをクリップボードにセットする
 // メタファイルハンドルのdeleteはこのメソッド内で行う
-void NetView::setEMF2Clpbrd(HENHMETAFILE emf)
+void NetView::CopyEmfToClipboard(HENHMETAFILE emf)
 {
 	if (!OpenClipboard()) {
 		::showLastErrorMessage();
@@ -3765,7 +3765,7 @@ void NetView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 			m_addMode = NetView::rect;
 			CPoint logPt = m_ptScreen;
 			logPt -= GetScrollPosition();
-			ViewDPtoLP(&logPt);
+			DPtoLP(&logPt);
 			CPoint spt(m_ptScreen);
 			ClientToScreen(&spt);
 			spt -= GetScrollPosition();
@@ -3838,7 +3838,7 @@ void NetView::procRenameDialog(const CRect& nodeBound)
 	CreateNodeDlg dlg;
 
 	CPoint spt(nodeBound.CenterPoint());
-	ViewLPtoDP(&spt, 1);
+	LPtoDP(&spt, 1);
 	ClientToScreen(&spt);
 	dlg.m_initialPt = spt;
 	dlg.m_strcn = GetDocument()->GetSelectedNodeLabel();
@@ -3964,7 +3964,7 @@ void NetView::OnUpdateSetLinkComposit(CCmdUI *pCmdUI)
 		GetDocument()->GetSelectedLink()->GetArrowStyle() != iLink::composit);
 }
 
-void NetView::changeSelectedLinkArrow()
+void NetView::ChangeSelectedLinkArrow()
 {
 	if (m_selectStatus == NetView::link) {
 		CString sFrom, sTo, sComment;
@@ -3974,7 +3974,7 @@ void NetView::changeSelectedLinkArrow()
 	}
 }
 
-void NetView::changeSelectedLineWidth()
+void NetView::ChangeSelectedLineWidth()
 {
 	int style = GetDocument()->GetAppLinkWidth();
 	GetDocument()->BackupNodesForUndo();
@@ -4197,18 +4197,18 @@ void NetView::OnUpdateBtnTextColor(CCmdUI *pCmdUI)
 	pCmdUI->Enable(m_selectStatus == NetView::single || m_selectStatus == NetView::multi);
 }
 
-void NetView::changeSelectedNodeColor()
+void NetView::ChangeSelectedNodeColor()
 {
 	GetDocument()->SetSelectedNodeBrush(((CiEditApp*)AfxGetApp())->m_colorNodeBtn);
 }
 
-void NetView::changeSelectedFontColor()
+void NetView::ChangeSelectedFontColor()
 {
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->SetSelectedNodeFontColor(((CiEditApp*)AfxGetApp())->m_colorFontBtn);
 }
 
-void NetView::changeSelectedLineColor()
+void NetView::ChangeSelectedLineColor()
 {
 	GetDocument()->BackupNodesForUndo();
 	GetDocument()->BackupLinksForUndo();
@@ -4217,7 +4217,7 @@ void NetView::changeSelectedLineColor()
 }
 void NetView::OnBtnLinkArrow()
 {
-	changeSelectedLinkArrow();
+	ChangeSelectedLinkArrow();
 }
 
 void NetView::OnUpdateBtnLinkArrow(CCmdUI *pCmdUI)
@@ -4226,7 +4226,7 @@ void NetView::OnUpdateBtnLinkArrow(CCmdUI *pCmdUI)
 
 void NetView::OnBtnLinkLineStyle()
 {
-	this->changeSelectedLineWidth();
+	this->ChangeSelectedLineWidth();
 }
 
 void NetView::OnUpdateBtnLinkLineStyle(CCmdUI *pCmdUI)

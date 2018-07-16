@@ -22,22 +22,12 @@ protected:
 	DECLARE_DYNCREATE(NetView)
 
 public:
-	void changeSelectedFontColor();
-	void changeSelectedLineColor();
-	void changeSelectedNodeColor();
-	void changeSelectedLineWidth();
-	void changeSelectedLinkArrow();
-	void ViewDPtoLP(CRect& rect);
-	void ViewLPtoDP(CRect& rect);
-	void ViewLPtoDP(LPPOINT lpPoints, int nCount = 1);
-	void ViewDPtoLP(LPPOINT lpPoints, int nCount = 1);
-	CPoint GetLogicalCenterPoint();
-	void ZoomOut(CPoint *point = NULL, double delta = 0.01);
-	void ZoomIn(CPoint *point = NULL, double delta = 0.01);
-	double GetZoomLevel();
-	void SetScrollSizes(int nMapMode, SIZE sizeTotal, const SIZE& sizePage = sizeDefault, const SIZE& sizeLine = sizeDefault);
-	void setNodeProp();
-	void hideModeless();
+	void ChangeSelectedFontColor();
+	void ChangeSelectedLineColor();
+	void ChangeSelectedNodeColor();
+	void ChangeSelectedLineWidth();
+	void ChangeSelectedLinkArrow();
+	void HideChildWindow();
 	iEditDoc* GetDocument();
 	enum { none, single, multi, link, linkTermFrom, linkTermTo };
 	enum { normal, rect, rRect, arc, link0, link1, link2, label };
@@ -55,8 +45,6 @@ protected:
 	virtual void SetZoomLevel(double fNewScale);
 	virtual ~NetView();
 	//}}AFX_VIRTUAL
-
-protected:
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -334,7 +322,17 @@ private:
 	CToolTipCtrl m_toolTip;
 	CString m_strTip;
 
-	void setEMF2Clpbrd(HENHMETAFILE emf);
+	void EditNodeProps();
+	CPoint GetLogicalCenterPt();
+	void ZoomOut(CPoint *point = NULL, double delta = 0.01);
+	void ZoomIn(CPoint *point = NULL, double delta = 0.01);
+	double GetZoomLevel();
+	void SetScrollSizes(int nMapMode, SIZE sizeTotal, const SIZE& sizePage = sizeDefault, const SIZE& sizeLine = sizeDefault);
+	void DPtoLP(CRect& rect);
+	void LPtoDP(CRect& rect);
+	void LPtoDP(LPPOINT lpPoints, int nCount = 1);
+	void DPtoLP(LPPOINT lpPoints, int nCount = 1);
+	void CopyEmfToClipboard(HENHMETAFILE emf);
 	void cancelDragRelax();
 	void prepareDragRelax();
 	void setMFSize();
