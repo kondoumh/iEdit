@@ -1519,8 +1519,7 @@ void NetView::OnSetNodeFont()
 	memset(&lf, 0, sizeof(LOGFONT));
 
 	CString defaultFont = _T("MS UI Gothic");
-	SystemConfiguration sc;
-	if (sc.IsMeiryoAvailable()) {
+	if (SystemConfiguration::IsMeiryoAvailable()) {
 		defaultFont = _T("メイリオ");
 	}
 
@@ -3412,8 +3411,7 @@ void NetView::SetMetaFileSize()
 
 	if (m_mfWidth != 0 && m_mfHeight != 0) return; // レジストリの値を採用
 
-	SystemConfiguration sc;
-	CSize szMF = sc.GetMetafileSize();
+	CSize szMF = SystemConfiguration::GetMetafileSize();
 	m_mfWidth = ((double)szMF.cx) / 10.0;
 	m_mfHeight = ((double)szMF.cy) / 10.0;
 }

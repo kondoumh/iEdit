@@ -350,8 +350,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	if (!CMDIFrameWnd::PreCreateWindow(cs))
 		return FALSE;
 
-	SystemConfiguration sc;
-	m_bCanBeTransparent = sc.WndTransparencyAvailable();
+	m_bCanBeTransparent = SystemConfiguration::WndTransparencyAvailable();
 
 	m_bTransparent = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Transparent Mode"), FALSE);
 	m_nAlphaValue = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Alpha Value"), 200);

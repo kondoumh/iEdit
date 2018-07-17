@@ -212,8 +212,7 @@ void EditorView::SetViewFont()
 		::GetObject(GetStockObject(SYSTEM_FIXED_FONT), sizeof(LOGFONT), &lf);
 	}
 	CString defaultFont = _T("MS UI Gothic");
-	SystemConfiguration sc;
-	if (sc.IsMeiryoUiAvailable()) {
+	if (SystemConfiguration::IsMeiryoUiAvailable()) {
 		defaultFont = _T("Meiryo UI");
 	}
 	::lstrcpy(lf.lfFaceName, AfxGetApp()->GetProfileString(REGS_FRAME, _T("Font3 Name"), defaultFont));

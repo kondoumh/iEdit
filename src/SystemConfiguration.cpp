@@ -12,17 +12,17 @@ SystemConfiguration::~SystemConfiguration(void)
 {
 }
 
-bool SystemConfiguration::IsMeiryoAvailable() const
+bool SystemConfiguration::IsMeiryoAvailable()
 {
 	return IsWindowsVistaOrGreater();
 }
 
-bool SystemConfiguration::IsMeiryoUiAvailable() const
+bool SystemConfiguration::IsMeiryoUiAvailable()
 {
 	return IsWindows7OrGreater();
 }
 
-const CSize SystemConfiguration::GetMetafileSize() const
+const CSize SystemConfiguration::GetMetafileSize()
 {
 	int width = 353;
 	int height = 353;
@@ -38,7 +38,7 @@ const CSize SystemConfiguration::GetMetafileSize() const
 	return CSize(width, height);
 }
 
-bool SystemConfiguration::WndTransparencyAvailable() const
+bool SystemConfiguration::WndTransparencyAvailable()
 {
 	return IsWindowsXPOrGreater();
 }

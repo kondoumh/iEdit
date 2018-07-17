@@ -142,8 +142,7 @@ void OptionPageForOther::OnBtnSetmfsize()
 		dlg.m_ry = mfHeight;
 	}
 	else {
-		SystemConfiguration sc;
-		CSize szMF = sc.GetMetafileSize();
+		CSize szMF = SystemConfiguration::GetMetafileSize();
 		dlg.m_rx = ((double)szMF.cx) / 10.0;
 		dlg.m_ry = ((double)szMF.cy) / 10.0;;
 	}

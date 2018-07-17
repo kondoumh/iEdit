@@ -110,9 +110,7 @@ void MetafileSettingsDlg::OnBtnUp()
 
 void MetafileSettingsDlg::OnBnClickedBtnReset()
 {
-
-	SystemConfiguration sc;
-	CSize szMF = sc.GetMetafileSize();
+	CSize szMF = SystemConfiguration::GetMetafileSize();
 	m_rx = ((double)szMF.cx) / 10.0;
 	m_ry = ((double)szMF.cy) / 10.0;;
 	m_stMF.SetEnhMetaFile(createMF());
