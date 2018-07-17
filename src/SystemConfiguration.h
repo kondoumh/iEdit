@@ -13,6 +13,7 @@ public:
 	bool IsMeiryoAvailable() const;
 	bool IsMeiryoUiAvailable() const;
 	const CSize GetMetafileSize() const;
+	bool WndTransparencyAvailable() const;
 
 private:
 	// OSのバージョンのenum

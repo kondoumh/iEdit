@@ -261,3 +261,21 @@ const CSize SystemConfiguration::GetMetafileSize() const
 	}
 	return CSize(mfWidth, mfHeight);
 }
+
+bool SystemConfiguration::WndTransparencyAvailable() const
+{
+	switch (m_OsVersion) {
+	case SystemConfiguration::WindowsNT35:
+	case SystemConfiguration::WindowsNT40:
+		return false;
+	case SystemConfiguration::Windows2000:
+	case SystemConfiguration::WindowsXP:
+	case SystemConfiguration::WindowsVista:
+	case SystemConfiguration::Windows7:
+	case SystemConfiguration::Windows8:
+	case SystemConfiguration::Windows8_1:
+	case SystemConfiguration::Windows10:
+		return true;
+	}
+	return true;
+}

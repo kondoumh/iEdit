@@ -10,6 +10,7 @@
 #include "OptionSettingsDlg.h"
 #include "NodeSearchDlg.h"
 #include "WndTransparencySettingsDlg.h"
+#include "SystemConfiguration.h"
 #include "ChildFrm.h"
 
 #ifdef _DEBUG
@@ -349,15 +350,8 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	if (!CMDIFrameWnd::PreCreateWindow(cs))
 		return FALSE;
 
-	OSVERSIONINFO vinfo;
-	vinfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	::GetVersionEx(&vinfo);
-	if (vinfo.dwMajorVersion >= 5) {
-		m_bCanBeTransparent = TRUE;
-	}
-	else {
-		m_bCanBeTransparent = FALSE;
-	}
+	SystemConfiguration sc;
+	m_bCanBeTransparent = sc.WndTransparencyAvailable();
 
 	m_bTransparent = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Transparent Mode"), FALSE);
 	m_nAlphaValue = AfxGetApp()->GetProfileInt(REGS_FRAME, _T("Alpha Value"), 200);
