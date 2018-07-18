@@ -72,10 +72,10 @@ BOOL OptionSettingsDlg::OnInitDialog()
 	m_tabSeet.addPage(pLink = new OptionPageForLink);
 	m_tabSeet.addPage(pOther = new OptionPageForOther);
 
-	initPageFrame();
-	initPageNode();
-	initPageLink();
-	initPageOther();
+	InitPageFrame();
+	InitPageNode();
+	InitPageLink();
+	InitPageOther();
 
 	// タブシート開始!
 	m_tabSeet.beginService();
@@ -86,10 +86,10 @@ BOOL OptionSettingsDlg::OnInitDialog()
 void OptionSettingsDlg::OnOK()
 {
 	// レジストリへの設定値書き込み
-	writePageFrame();
-	writePageNode();
-	writePageLink();
-	writePageOther();
+	WriteFrameSettings();
+	WriteNodeSettings();
+	WriteLinkSettings();
+	WriteOtherSettings();
 
 	m_tabSeet.endService(true);
 	CDialog::OnOK();
@@ -101,7 +101,7 @@ void OptionSettingsDlg::OnCancel()
 	CDialog::OnCancel();
 }
 
-void OptionSettingsDlg::initPageNode()
+void OptionSettingsDlg::InitPageNode()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pNode->colorFill = pApp->m_rgsNode.colorFill;
@@ -175,7 +175,7 @@ void OptionSettingsDlg::initPageNode()
 	pNode->m_bPriorSelectionDragging = pApp->m_rgsNode.bPriorSelectionDragging;
 }
 
-void OptionSettingsDlg::initPageLink()
+void OptionSettingsDlg::InitPageLink()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pLink->colorLine = pApp->m_rgsLink.colorLine;
@@ -188,7 +188,7 @@ void OptionSettingsDlg::initPageLink()
 	::lstrcpy(pLink->lf.lfFaceName, pApp->m_rgsLink.lf.lfFaceName);
 }
 
-void OptionSettingsDlg::writePageNode()
+void OptionSettingsDlg::WriteNodeSettings()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->WriteProfileInt(REGS_NODE, _T("Fill Color"), pNode->colorFill);
@@ -273,7 +273,7 @@ void OptionSettingsDlg::writePageNode()
 	pApp->getNodeProfile(); // アプリケーションオブジェクトの再設定
 }
 
-void OptionSettingsDlg::writePageLink()
+void OptionSettingsDlg::WriteLinkSettings()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->WriteProfileInt(REGS_LINK, _T("Line Color"), pLink->colorLine);
@@ -294,7 +294,7 @@ void OptionSettingsDlg::writePageLink()
 	pApp->getLinkProfile();
 }
 
-void OptionSettingsDlg::initPageOther()
+void OptionSettingsDlg::InitPageOther()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pOther->m_bShowHS = pApp->GetProfileInt(REGS_OTHER, _T("Show HScroll"), FALSE);
@@ -310,7 +310,7 @@ void OptionSettingsDlg::initPageOther()
 	pOther->m_strStylesheet = pApp->GetProfileString(REGS_OTHER, _T("XML StyleSheet Name"), _T("iedit.xsl"));
 }
 
-void OptionSettingsDlg::writePageOther()
+void OptionSettingsDlg::WriteOtherSettings()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	pApp->WriteProfileInt(REGS_OTHER, _T("Show HScroll"), pOther->m_bShowHS);
@@ -333,7 +333,7 @@ void OptionSettingsDlg::writePageOther()
 	pApp->m_rgsOther.bOutputFileLinksOnExport = pOther->m_bOutputFileLinksOnExport;
 }
 
-void OptionSettingsDlg::initPageFrame()
+void OptionSettingsDlg::InitPageFrame()
 {
 	CString defaultFontName = _T("MS UI Gothic");
 	if (SystemConfiguration::IsMeiryoUiAvailable()) {
@@ -399,7 +399,7 @@ void OptionSettingsDlg::initPageFrame()
 	pFrame->m_bSaveBarState = app->GetProfileInt(REGS_FRAME, _T("Save bar status"), TRUE);
 }
 
-void OptionSettingsDlg::writePageFrame()
+void OptionSettingsDlg::WriteFrameSettings()
 {
 	// OullineView Font
 	AfxGetApp()->WriteProfileString(REGS_FRAME, _T("Font1 Name"), pFrame->lfOutline.lfFaceName);

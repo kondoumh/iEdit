@@ -19,7 +19,6 @@ class OptionPageForOther;
 class OptionSettingsDlg : public CDialog
 {
 public:
-	void initPageOther();
 	OptionSettingsDlg(CWnd* pParent = NULL);
 
 	//{{AFX_DATA(OptionSettingsDlg)
@@ -45,14 +44,15 @@ private:
 	OptionPageForLink* pLink;
 	OptionPageForFrame* pFrame;
 	OptionPageForOther* pOther;
-	void writePageOther();
-	void writePageLink();
-	void writePageNode();
-	void writePageFrame();
-	void initPageLink();
-	void initPageFrame();
-	void initPageNode();
 
+	void InitPageFrame();
+	void InitPageNode();
+	void InitPageLink();
+	void InitPageOther();
+	void WriteFrameSettings();
+	void WriteNodeSettings();
+	void WriteLinkSettings();
+	void WriteOtherSettings();
 };
 
 //{{AFX_INSERT_LOCATION}}
