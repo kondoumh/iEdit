@@ -207,7 +207,7 @@ void iEditDoc::SaveOrderByTree(CArchive& ar)
 {
 	OutlineView* pView = GetOutlineView();
 	NodePropsVec ls;
-	pView->treeToSequence0(ls);  // シリアライズ専用シーケンス取得
+	pView->SerializeTree0(ls);  // シリアライズ専用シーケンス取得
 	ar << lastKey;
 	ar << ls.size();
 	for (unsigned int i = 0; i < ls.size(); i++) {
@@ -223,7 +223,7 @@ void iEditDoc::SaveOrderByTreeEx(CArchive &ar, int version)
 {
 	OutlineView* pView = GetOutlineView();
 	NodePropsVec ls;
-	pView->treeToSequence0(ls);  // シリアライズ専用シーケンス取得
+	pView->SerializeTree0(ls);  // シリアライズ専用シーケンス取得
 	ar << lastKey;
 	ar << ls.size();
 	for (unsigned int i = 0; i < ls.size(); i++) {
@@ -238,7 +238,7 @@ void iEditDoc::SaveOrderByTreeEx(CArchive &ar, int version)
 void iEditDoc::SaveTreeState(CArchive &ar, int version)
 {
 	OutlineView* pView = GetOutlineView();
-	ar << pView->getBranchMode();
+	ar << pView->GetBranchMode();
 	ar << m_dwBranchRootKey;
 }
 
@@ -541,7 +541,7 @@ void iEditDoc::SelectionChanged(DWORD key, bool reflesh, bool bShowSubBranch)
 	DWORD parentOld = nodes_.GetCurrentParent();
 	nodes_.Select(key);
 
-	NodeKeyVec svec = GetOutlineView()->getDrawOrder(bShowSubBranch);
+	NodeKeyVec svec = GetOutlineView()->GetDrawOrder(bShowSubBranch);
 	if (((CiEditApp*)AfxGetApp())->m_rgsNode.orderDirection == 1) {
 		// 降順での描画オプションの場合は反転する
 		std::reverse(svec.begin(), svec.end());
@@ -2655,10 +2655,10 @@ bool iEditDoc::SaveXml(const CString &outPath, bool bSerialize)
 
 	NodePropsVec ls;
 	if (bSerialize) {
-		pView->treeToSequence0(ls);
+		pView->SerializeTree0(ls);
 	}
 	else {
-		pView->treeToSequence(ls);
+		pView->SerializeTree(ls);
 	}
 
 	_wsetlocale(LC_ALL, _T("jpn"));
@@ -3615,7 +3615,7 @@ void iEditDoc::ViewSettingChanged()
 void iEditDoc::ExportSvg(const CString &path, bool bEmbed,
 	const CString& textFileName, bool textSingle)
 {
-	NodeKeyVec vec = GetOutlineView()->getDrawOrder(ShowSubBranch());
+	NodeKeyVec vec = GetOutlineView()->GetDrawOrder(ShowSubBranch());
 	SvgWriter writer(nodes_, links_, vec, false);
 	if (textSingle) {
 		writer.setTextHtmlFileName(textFileName);

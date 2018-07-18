@@ -39,13 +39,11 @@ protected:
 	//}}AFX_VIRTUAL
 
 public:
-	int getBranchMode() const;
-	NodeKeyVec getDrawOrder(const bool bShowSubBranch) const;
-	void hideModeless();
-	void treeToSequence0(NodePropsVec& ls);
-	void OutputHTML();
-	void setViewFont();
-	void treeToSequence(NodePropsVec& ls);
+	int GetBranchMode() const;
+	NodeKeyVec GetDrawOrder(const bool bShowSubBranch) const;
+	void HideChildWindow();
+	void SerializeTree(NodePropsVec& ls);
+	void SerializeTree0(NodePropsVec& ls);
 	virtual ~OutlineView();
 
 protected:
@@ -203,14 +201,16 @@ private:
 	bool m_bAdding;
 	bool m_bHitR;
 
-	void cloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, NodeKeyMap& idm);
-	void resetShowBranch();
-	void doColorSetting();
-	void foldUpTree(HTREEITEM hItem, int curLevel, int levelSet);
-	void clearUndo();
-	void htmlOutTree(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile* foutline, CStdioFile* ftext);
-	void writeHtmlHeader(CStdioFile& f);
-	void writeTextStyle(CStdioFile& f, bool single = true);
+	void OutputHtml();
+	void SetViewFont();
+	void CloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, NodeKeyMap& idm);
+	void ResetBranchMode();
+	void ApplyColorSetting();
+	void FoldupTree(HTREEITEM hItem, int curLevel, int levelSet);
+	void DisableUndo();
+	void OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile* foutline, CStdioFile* ftext);
+	void WriteHtmlHeader(CStdioFile& f);
+	void WriteTextStyle(CStdioFile& f, bool single = true);
 	bool ImportXML(const CString& inPath);
 	bool ImportText(const CString& inPath, node_vec& addNodes, const char LevelChar);
 	bool levelToNode(const vector<CString>& lines, node_vec& addNodes, const char levelChar = '.');

@@ -196,7 +196,7 @@ void CChildFrame::OnMDIActivate(BOOL bActivate, CWnd* pActivateWnd, CWnd* pDeact
 		LinkView* pLinkView = (LinkView*)pDoc->GetNextView(pos);
 		NetView* pNetView = (NetView*)pDoc->GetNextView(pos);
 		EditorView* pEditorView = (EditorView*)pDoc->GetNextView(pos);
-		pOutlineView->hideModeless();
+		pOutlineView->HideChildWindow();
 		pNetView->HideChildWindow();
 	}
 }
