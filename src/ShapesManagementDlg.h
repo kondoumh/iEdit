@@ -39,10 +39,6 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
 
-protected:
-	void decideShapef();
-	void getFromView();
-	void editCatName();
 
 	//{{AFX_MSG(ShapesManagementDlg)
 	virtual BOOL OnInitDialog();
@@ -78,6 +74,10 @@ private:
 	CRect m_bounds[20];
 	CRect m_selRect;
 	CWnd* m_pParent;
+
+	void SpecifyShapefile();
+	void TakeoutShapeFromView();
+	void EditCategoryName();
 };
 
 //{{AFX_INSERT_LOCATION}}

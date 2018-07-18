@@ -170,15 +170,15 @@ void ShapesManagementDlg::OnSelchangeCatlist()
 
 void ShapesManagementDlg::OnDblclkCatlist()
 {
-	editCatName();
+	EditCategoryName();
 }
 
 void ShapesManagementDlg::OnEditCatName()
 {
-	editCatName();
+	EditCategoryName();
 }
 
-void ShapesManagementDlg::editCatName()
+void ShapesManagementDlg::EditCategoryName()
 {
 	EditShapeCategoryDlg dlg;
 	CString s; m_catListBox.GetText(m_catListBox.GetCurSel(), s);
@@ -192,7 +192,7 @@ void ShapesManagementDlg::editCatName()
 		CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 		pApp->m_mfCategories[index] = dlg.m_name;
 		pApp->m_bShapeModified = true;
-		decideShapef();
+		SpecifyShapefile();
 	}
 }
 
@@ -217,7 +217,7 @@ void ShapesManagementDlg::OnNewShape()
 	pApp->m_hMetaFiles[index] = hm;
 	pApp->m_bShapeModified = true;
 	InvalidateRect(m_selRect);
-	decideShapef();
+	SpecifyShapefile();
 }
 
 void ShapesManagementDlg::OnDeleteShape()
@@ -233,7 +233,7 @@ void ShapesManagementDlg::OnDeleteShape()
 	pApp->m_hMetaFiles[index] = NULL;
 	pApp->m_bShapeModified = true;
 	InvalidateRect(m_selRect);
-	decideShapef();
+	SpecifyShapefile();
 }
 
 void ShapesManagementDlg::OnPaint()
@@ -388,15 +388,15 @@ void ShapesManagementDlg::OnOpenShapeFile()
 
 void ShapesManagementDlg::OnBtnget()
 {
-	getFromView();
+	TakeoutShapeFromView();
 }
 
 void ShapesManagementDlg::OnRegistNodeshape()
 {
-	getFromView();
+	TakeoutShapeFromView();
 }
 
-void ShapesManagementDlg::getFromView()
+void ShapesManagementDlg::TakeoutShapeFromView()
 {
 	if (m_selRect == CRect(0, 0, 0, 0)) {
 		AfxMessageBox(_T("シェイプを選択してください"));
@@ -417,7 +417,7 @@ void ShapesManagementDlg::regNodeShape(HENHMETAFILE hMF)
 	pApp->m_bShapeModified = true;
 
 	InvalidateRect(m_selRect);
-	decideShapef();
+	SpecifyShapefile();
 }
 
 void ShapesManagementDlg::OnPasteFromClpbrd()
@@ -440,7 +440,7 @@ void ShapesManagementDlg::OnPasteFromClpbrd()
 		pApp->m_hMetaFiles[index] = CopyEnhMetaFile(hm, NULL);
 		pApp->m_bShapeModified = true;
 		InvalidateRect(m_selRect);
-		decideShapef();
+		SpecifyShapefile();
 	}
 }
 
@@ -448,7 +448,7 @@ void ShapesManagementDlg::OnUpdatePasteFromClpbrd(CCmdUI* pCmdUI)
 {
 }
 
-void ShapesManagementDlg::decideShapef()
+void ShapesManagementDlg::SpecifyShapefile()
 {
 	CiEditApp* pApp = (CiEditApp*)AfxGetApp();
 	CString mfname = pApp->GetProfileString(REGS_SHAPES, _T("recent file"), _T(""));
