@@ -33,11 +33,11 @@ END_MESSAGE_MAP()
 
 void CTabSeet::OnSelchange(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	setPage();
+	SetPage();
 	*pResult = 0;
 }
 
-bool CTabSeet::setPage(int page)
+bool CTabSeet::SetPage(int page)
 {
 	CDialog* d;
 	if (page < 0 || page >(int)page_.size())
@@ -66,15 +66,15 @@ bool CTabSeet::setPage(int page)
 	return true;
 }
 
-void CTabSeet::beginService(int start)
+void CTabSeet::BeginService(int start)
 {
 	curr_ = -1;
 	GetClientRect(rect_);
 	AdjustRect(FALSE, rect_);
-	setPage(start);
+	SetPage(start);
 }
 
-void CTabSeet::endService(bool deletePage)
+void CTabSeet::EndService(bool deletePage)
 {
 	while (!page_.empty()) {
 		CDialog* d = page_.back().first;

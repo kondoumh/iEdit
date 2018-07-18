@@ -67,10 +67,10 @@ BOOL OptionSettingsDlg::OnInitDialog()
 	m_tabSeet.InsertItem(3, &item);
 
 	// タブシートにページを追加
-	m_tabSeet.addPage(pFrame = new OptionPageForFrame);
-	m_tabSeet.addPage(pNode = new OptionPageForNode);
-	m_tabSeet.addPage(pLink = new OptionPageForLink);
-	m_tabSeet.addPage(pOther = new OptionPageForOther);
+	m_tabSeet.AddPage(pFrame = new OptionPageForFrame);
+	m_tabSeet.AddPage(pNode = new OptionPageForNode);
+	m_tabSeet.AddPage(pLink = new OptionPageForLink);
+	m_tabSeet.AddPage(pOther = new OptionPageForOther);
 
 	InitPageFrame();
 	InitPageNode();
@@ -78,7 +78,7 @@ BOOL OptionSettingsDlg::OnInitDialog()
 	InitPageOther();
 
 	// タブシート開始!
-	m_tabSeet.beginService();
+	m_tabSeet.BeginService();
 
 	return TRUE;
 }
@@ -91,13 +91,13 @@ void OptionSettingsDlg::OnOK()
 	WriteLinkSettings();
 	WriteOtherSettings();
 
-	m_tabSeet.endService(true);
+	m_tabSeet.EndService(true);
 	CDialog::OnOK();
 }
 
 void OptionSettingsDlg::OnCancel()
 {
-	m_tabSeet.endService(true);
+	m_tabSeet.EndService(true);
 	CDialog::OnCancel();
 }
 

@@ -20,13 +20,13 @@ class CTabSeet : public CTabCtrl
 public:
 	CTabSeet();
 	template<class Dialog>
-	void addPage(Dialog* dialog) {
+	void AddPage(Dialog* dialog) {
 		page_.push_back(page(dialog, Dialog::IDD));
 	}
-	void endService(bool deletePage);
-	void beginService(int start = 0);
-	bool setPage(int page);
-	bool setPage();
+	void EndService(bool deletePage);
+	void BeginService(int start = 0);
+	bool SetPage(int page);
+	bool SetPage();
 	virtual ~CTabSeet();
 
 protected:
@@ -41,8 +41,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-inline bool CTabSeet::setPage() {
-	return setPage(GetCurSel());
+inline bool CTabSeet::SetPage() {
+	return SetPage(GetCurSel());
 }
 
 /////////////////////////////////////////////////////////////////////////////
