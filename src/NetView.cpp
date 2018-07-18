@@ -886,8 +886,8 @@ void NetView::TrackSingle(CPoint &logPt, CPoint& point, CDC* pDC, BOOL keepRatio
 
 	tracker.m_rect = selectRect;
 	if (keepRatio) {
-		tracker.setKeepRatio();
-		tracker.setInitialRect(selectRect);
+		tracker.SetKeepRatio();
+		tracker.SetInitialRect(selectRect);
 	}
 
 	tracker.m_nStyle = CRectTracker::resizeInside;
