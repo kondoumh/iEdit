@@ -63,12 +63,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	void drawNWPreView(CDC* pDC);
-	void drawLNPreView(CDC* pDC);
-	void drawOLPreView(CDC* pDC);
-	void drawTextPreView(CDC* pDC);
-	void updateFont(LOGFONT* plf, CFont& font);
-	void drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor);
+	void PreviewNetView(CDC* pDC);
+	void PreviewLinkView(CDC* pDC);
+	void PreviewOutlineView(CDC* pDC);
+	void PreviewEditorView(CDC* pDC);
+	void UpdateFont(LOGFONT* plf, CFont& font);
+	void PreviewFont(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor);
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -65,20 +65,20 @@ void OptionPageForFrame::OnCancel()
 
 void OptionPageForFrame::OnBtnLink()
 {
-	updateFont(&lfLink, fntLink);
+	UpdateFont(&lfLink, fntLink);
 }
 
 void OptionPageForFrame::OnBtnOutline()
 {
-	updateFont(&lfOutline, fntOutline);
+	UpdateFont(&lfOutline, fntOutline);
 }
 
 void OptionPageForFrame::OnBtnText()
 {
-	updateFont(&lfText, fntText);
+	UpdateFont(&lfText, fntText);
 }
 
-void OptionPageForFrame::updateFont(LOGFONT* plf, CFont& font)
+void OptionPageForFrame::UpdateFont(LOGFONT* plf, CFont& font)
 {
 	CFontDialog dlg(plf);
 	if (dlg.DoModal() != IDOK) return;
@@ -100,31 +100,31 @@ void OptionPageForFrame::OnPaint()
 {
 	CPaintDC dc(this);
 
-	drawOLPreView(&dc);
-	drawLNPreView(&dc);
-	drawTextPreView(&dc);
-	drawNWPreView(&dc);
+	PreviewOutlineView(&dc);
+	PreviewLinkView(&dc);
+	PreviewEditorView(&dc);
+	PreviewNetView(&dc);
 }
 
-void OptionPageForFrame::drawOLPreView(CDC *pDC)
+void OptionPageForFrame::PreviewOutlineView(CDC *pDC)
 {
 	CRect rc(200, 28, 310, 78);
-	drawFontPreview(pDC, rc, fntOutline, m_colorOLBG, m_colorOLFor);
+	PreviewFont(pDC, rc, fntOutline, m_colorOLBG, m_colorOLFor);
 }
 
-void OptionPageForFrame::drawLNPreView(CDC *pDC)
+void OptionPageForFrame::PreviewLinkView(CDC *pDC)
 {
 	CRect rc(200, 103, 310, 153);
-	drawFontPreview(pDC, rc, fntLink, m_colorLNBG, m_colorLNFor);
+	PreviewFont(pDC, rc, fntLink, m_colorLNBG, m_colorLNFor);
 }
 
-void OptionPageForFrame::drawTextPreView(CDC *pDC)
+void OptionPageForFrame::PreviewEditorView(CDC *pDC)
 {
 	CRect rc(200, 180, 310, 230);
-	drawFontPreview(pDC, rc, fntText, m_colorEditBG, m_colorEditFor);
+	PreviewFont(pDC, rc, fntText, m_colorEditBG, m_colorEditFor);
 }
 
-void OptionPageForFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor) {
+void OptionPageForFrame::PreviewFont(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor) {
 
 	CBrush brs(bgColor);
 	CBrush* brsOld = pDC->SelectObject(&brs);
@@ -155,7 +155,7 @@ void OptionPageForFrame::drawFontPreview(CDC *pDC, CRect& rc, CFont& font, COLOR
 	pDC->SetBkMode(oldBkMode);
 }
 
-void OptionPageForFrame::drawNWPreView(CDC *pDC)
+void OptionPageForFrame::PreviewNetView(CDC *pDC)
 {
 	CRect rc(200, 255, 310, 280);
 
