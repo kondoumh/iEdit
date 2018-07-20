@@ -232,11 +232,11 @@ private:
 	void ConstructTree2();
 	void CreateNodeTextFile(const CString& title, const CString& text);
 	void MoveNodes(DWORD keyTarget, DWORD keyMove);
-	void catTreeLabel(HTREEITEM hItem, CString& text);
-	void setSubNodeLevels();
-	void setAllNodeLevels();
-	void setNodeLevels(HTREEITEM hItem, int curLevel);
-	BOOL isPosterityOF(HTREEITEM hRoot, HTREEITEM hChild) const;
+	void TreeToText(HTREEITEM hItem, CString& text);
+	void RecalcSubNodeLevels();
+	void RecalcAllNodeLevels();
+	void RecalcNodeLevels(HTREEITEM hItem, int curLevel);
+	BOOL IsPosterityOF(HTREEITEM hRoot, HTREEITEM hChild) const;
 };
 
 inline CTreeCtrl& OutlineView::Tree() const
