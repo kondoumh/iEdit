@@ -213,25 +213,25 @@ private:
 	void WriteTextStyle(CStdioFile& f, bool single = true);
 	bool ImportXML(const CString& inPath);
 	bool ImportText(const CString& inPath, node_vec& addNodes, const char LevelChar);
-	bool levelToNode(const vector<CString>& lines, node_vec& addNodes, const char levelChar = '.');
-	int countLineIndentLevel(const CString& line, const char levelChar) const;
-	void textOutTree(HTREEITEM hItem, CStdioFile* f, int tab);
-	void textOutTreeByNode(HTREEITEM hItem);
+	bool AddTreeAcordingToLevel(const vector<CString>& lines, node_vec& addNodes, const char levelChar = '.');
+	int GetIndentCount(const CString& line, const char levelChar) const;
+	void OutputOutlineText(HTREEITEM hItem, CStdioFile* f, int tab);
+	void OutputOutlineTextByNode(HTREEITEM hItem);
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
-	void treeAddBranch(const DWORD rootKey);
-	void treeAddBranch2(const DWORD rootKey, node_vec& addNodes);
-	void deleteNode();
-	void deleteKeyNode(DWORD key, DWORD parentKey);
-	void copySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent);
-	void setChapterNumbers();
-	void setChapterNumber(vector<int>& numbers, const char separator, HTREEITEM hItem);
-	HTREEITEM findKeyItem(DWORD key, HTREEITEM item);
-	CTreeCtrl& tree() const;
-	HTREEITEM curItem() const;
-	void treeConstruct();
-	void treeConstruct2();
-	void createNodeTextFile(const CString& title, const CString& text);
-	void moveNodes(DWORD keyTarget, DWORD keyMove);
+	void AddBranch(const DWORD rootKey);
+	void AddBranch2(const DWORD rootKey, node_vec& addNodes);
+	void DeleteNode();
+	void DeleteKeyNode(DWORD key, DWORD parentKey);
+	void CopySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent);
+	void AssignChapterNumbers();
+	void AssignChapterNumber(vector<int>& numbers, const char separator, HTREEITEM hItem);
+	HTREEITEM FindKeyItem(DWORD key, HTREEITEM item);
+	CTreeCtrl& Tree() const;
+	HTREEITEM Selected() const;
+	void ConstructTree();
+	void ConstructTree2();
+	void CreateNodeTextFile(const CString& title, const CString& text);
+	void MoveNodes(DWORD keyTarget, DWORD keyMove);
 	void catTreeLabel(HTREEITEM hItem, CString& text);
 	void setSubNodeLevels();
 	void setAllNodeLevels();
@@ -239,12 +239,12 @@ private:
 	BOOL isPosterityOF(HTREEITEM hRoot, HTREEITEM hChild) const;
 };
 
-inline CTreeCtrl& OutlineView::tree() const
+inline CTreeCtrl& OutlineView::Tree() const
 {
 	return GetTreeCtrl();
 }
 
-inline HTREEITEM OutlineView::curItem() const
+inline HTREEITEM OutlineView::Selected() const
 {
 	return GetTreeCtrl().GetSelectedItem();
 }
