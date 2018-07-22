@@ -3616,14 +3616,14 @@ void iEditDoc::ExportSvg(const CString &path, bool bEmbed,
 	const CString& textFileName, bool textSingle)
 {
 	NodeKeyVec vec = GetOutlineView()->GetDrawOrder(ShowSubBranch());
-	SvgWriter writer(nodes_, links_, vec, false);
+	SvgWriter writer(nodes_, links_, vec);
 	if (textSingle) {
-		writer.setTextHtmlFileName(textFileName);
+		writer.SetTextHtmlFileName(textFileName);
 	}
 	else {
-		writer.setTextHtmlFilePrefix(textFileName);
+		writer.SetTextHtmlFilePrefix(textFileName);
 	}
-	writer.exportSVG(path, GetMaxPt(), bEmbed);
+	writer.Write(path, GetMaxPt(), bEmbed);
 }
 
 iNode iEditDoc::GetHitNode(const CPoint &pt)

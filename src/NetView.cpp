@@ -3394,7 +3394,6 @@ void NetView::OnExportSvg()
 	if (dlg.DoModal() != IDOK) return;
 	CString outfileName = dlg.GetPathName();
 
-	bool bDrwAll = false;
 	GetDocument()->ExportSvg(outfileName);
 	MessageBox(_T("終了しました"), _T("SVG出力"));
 }

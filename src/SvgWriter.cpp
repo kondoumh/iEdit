@@ -17,8 +17,8 @@ static char THIS_FILE[] = __FILE__;
 // 構築/消滅
 //////////////////////////////////////////////////////////////////////
 
-SvgWriter::SvgWriter(iNodes& nodes, iLinks& links, NodeKeyVec& drawOrder, bool bDrwAll) :
-	m_nodes(nodes), m_links(links), m_drawOrder(drawOrder), m_bDrwAll(bDrwAll),
+SvgWriter::SvgWriter(iNodes& nodes, iLinks& links, NodeKeyVec& drawOrder) :
+	m_nodes(nodes), m_links(links), m_drawOrder(drawOrder),
 	m_TextHtmlFileName(_T("")), m_TextHtmlFilePrefix(_T(""))
 {
 }
@@ -28,17 +28,17 @@ SvgWriter::~SvgWriter()
 
 }
 
-void SvgWriter::setTextHtmlFileName(const CString& fileName)
+void SvgWriter::SetTextHtmlFileName(const CString& fileName)
 {
 	m_TextHtmlFileName = fileName;
 }
 
-void SvgWriter::setTextHtmlFilePrefix(const CString& prefix)
+void SvgWriter::SetTextHtmlFilePrefix(const CString& prefix)
 {
 	m_TextHtmlFilePrefix = prefix;
 }
 
-void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
+void SvgWriter::Write(const CString& path, const CPoint& maxPt, bool bEmbed)
 {
 	CWaitCursor wc;
 
@@ -63,18 +63,18 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 	vector<DWORD>::iterator svIt = m_drawOrder.begin();
 	for (; svIt != m_drawOrder.end(); svIt++) {
 		node_c_iter it = m_nodes.FindRead(*svIt);
-		if (!m_bDrwAll && !(*it).second.Visible()) continue;
+		if (!(*it).second.Visible()) continue;
 		MSXML2::IXMLDOMElementPtr eGrp = doc->createElement(_T("g"));
 
 		iNode node = (*it).second;
-		MSXML2::IXMLDOMElementPtr eNode = createNodeElement(node, doc);
+		MSXML2::IXMLDOMElementPtr eNode = CreateNodeElement(node, doc);
 		if (eNode != NULL) {
 			eGrp->appendChild(eNode);
 		}
 
 		if (node.GetTextStyle() == iNode::notext && node.GetShape() != iNode::MetaFile) continue;
 		// メタファイルの場合は、notextでもテキストを描画するようにする
-		MSXML2::IXMLDOMElementPtr eNText = createNodeTextElement(node, doc, bEmbed);
+		MSXML2::IXMLDOMElementPtr eNText = CreateNodeTextElement(node, doc, bEmbed);
 		if (eNText != NULL) {
 			eGrp->appendChild(eNText);
 		}
@@ -83,32 +83,32 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 	// リンクの列挙
 	link_c_iter li = m_links.begin();
 	for (; li != m_links.end(); li++) {
-		if (!m_bDrwAll && !(*li).CanDraw()) continue;
+		if (!(*li).CanDraw()) continue;
 		iLink link = (*li);
 		if (link.GetArrowStyle() == iLink::other) continue;
 
 		MSXML2::IXMLDOMElementPtr eGrp = doc->createElement(_T("g"));
 
-		MSXML2::IXMLDOMElementPtr eLink = createLinkElement(link, doc);
+		MSXML2::IXMLDOMElementPtr eLink = CreateLinkElement(link, doc);
 		if (eLink != NULL) {
 			eGrp->appendChild(eLink);
 		}
-		MSXML2::IXMLDOMElementPtr eLText = createLinkTextElement(link, doc);
+		MSXML2::IXMLDOMElementPtr eLText = CreateLinkTextElement(link, doc);
 		if (eLText != NULL) {
 			eGrp->appendChild(eLText);
 		}
 		if (link.GetArrowStyle() == iLink::arrow || link.GetArrowStyle() == iLink::arrow2 ||
 			link.GetArrowStyle() == iLink::depend || link.GetArrowStyle() == iLink::depend2 ||
 			link.GetArrowStyle() == iLink::inherit) {
-			MSXML2::IXMLDOMElementPtr eArrow = createLinkArrowElement(link, doc);
+			MSXML2::IXMLDOMElementPtr eArrow = CreateLinkArrowElement(link, doc);
 			eGrp->appendChild(eArrow);
 		}
 		else if (link.GetArrowStyle() == iLink::aggregat || link.GetArrowStyle() == iLink::composit) {
-			MSXML2::IXMLDOMElementPtr eSquare = createLinkSquareElement(link, doc);
+			MSXML2::IXMLDOMElementPtr eSquare = CreateLinkSquareElement(link, doc);
 			eGrp->appendChild(eSquare);
 		}
 		if (link.GetArrowStyle() == iLink::arrow2 || link.GetArrowStyle() == iLink::depend2) {
-			MSXML2::IXMLDOMElementPtr eArrow2 = createLinkArrow2Element(link, doc);
+			MSXML2::IXMLDOMElementPtr eArrow2 = CreateLinkArrow2Element(link, doc);
 			eGrp->appendChild(eArrow2);
 		}
 		eSvg->appendChild(eGrp);
@@ -119,7 +119,7 @@ void SvgWriter::exportSVG(const CString& path, const CPoint& maxPt, bool bEmbed)
 	//	ShellExecute(NULL, "open", spath, NULL, NULL, SW_SHOW);
 }
 
-MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::CreateNodeElement(const iNode &node, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
 	MSXML2::IXMLDOMElementPtr pNode = NULL;
 
@@ -170,18 +170,18 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeElement(const iNode &node, MSXML2
 		pNode->setAttribute(_T("y2"), sY2.GetBuffer(sY2.GetLength()));
 	}
 
-	CString sNodeStyle = createNodeStyleAtrb(node);
+	CString sNodeStyle = CreateNodeStyleAttrib(node);
 	pNode->setAttribute(_T("style"), sNodeStyle.GetBuffer(sNodeStyle.GetLength()));
 
 	return pNode;
 }
 
-MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MSXML2::IXMLDOMDocumentPtr pDoc, bool bEmbed)
+MSXML2::IXMLDOMElementPtr SvgWriter::CreateNodeTextElement(const iNode &node, MSXML2::IXMLDOMDocumentPtr pDoc, bool bEmbed)
 {
 	MSXML2::IXMLDOMElementPtr pNText = NULL;
 
 	pNText = pDoc->createElement(_T("text"));
-	CSize textSize = getNodeTextSize(node);
+	CSize textSize = GetNodeTextSize(node);
 
 	// text alignment
 	CString sTop; sTop.Format(_T("%d"), node.getBound().top + textSize.cy / 2 + 1 + node.GetMarginTop());
@@ -270,7 +270,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	}
 
 	// フォントスタイル設定
-	CString sStyle = createTextStyle(node.GetFontInfo(), node.GetFontColor());
+	CString sStyle = CreateTextStyle(node.GetFontInfo(), node.GetFontColor());
 	pNText->setAttribute(_T("style"), sStyle.GetBuffer(sStyle.GetLength()));
 
 	// ラベル
@@ -278,7 +278,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	int style = node.GetTextStyle();
 	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
 		CString sDx; sDx.Format(_T("%d"), textSize.cy);
-		vector<CString> lines = splitTSpan(node.GetName(),
+		vector<CString> lines = SplitTSpan(node.GetName(),
 			textSize.cx,
 			node.getBound().Width() - node.GetMarginLeft() - node.GetMarginRight());
 		for (unsigned int i = 0; i < lines.size(); i++) {
@@ -327,7 +327,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 			}
 		}
 		if (url == _T("")) {
-			url = extractfirstURLfromText(node.GetText());
+			url = FindFirstUrl(node.GetText());
 		}
 		if (url != _T("")) {
 			MSXML2::IXMLDOMElementPtr pNodeRef = NULL;
@@ -345,7 +345,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createNodeTextElement(const iNode &node, MS
 	return pNText;
 }
 
-CString SvgWriter::extractfirstURLfromText(const CString& text)
+CString SvgWriter::FindFirstUrl(const CString& text)
 {
 	int pos = 0;
 	CString firstline = text.Tokenize(_T("\n"), pos);
@@ -355,7 +355,7 @@ CString SvgWriter::extractfirstURLfromText(const CString& text)
 	return _T("");
 }
 
-vector<CString> SvgWriter::splitTSpan(const CString& label, const int labelWidth, const int boundWidth)
+vector<CString> SvgWriter::SplitTSpan(const CString& label, const int labelWidth, const int boundWidth)
 {
 	vector<CString> v;
 	int bytePerLine = (boundWidth / (labelWidth / label.GetLength())) - 1;
@@ -364,7 +364,7 @@ vector<CString> SvgWriter::splitTSpan(const CString& label, const int labelWidth
 	CString token = _T(" ");
 	while (token != _T("")) {
 		token = label.Tokenize(_T("\n"), pos);
-		vector<CString> lines = splitByWidth(token, bytePerLine);
+		vector<CString> lines = SplitByWidth(token, bytePerLine);
 		for (unsigned int i = 0; i < lines.size(); i++) {
 			v.push_back(lines[i]);
 		}
@@ -372,7 +372,7 @@ vector<CString> SvgWriter::splitTSpan(const CString& label, const int labelWidth
 	return v;
 }
 
-vector<CString> SvgWriter::splitByWidth(const CString& line, const int byte)
+vector<CString> SvgWriter::SplitByWidth(const CString& line, const int byte)
 {
 	vector<CString> v;
 	int j = 0;
@@ -395,7 +395,7 @@ vector<CString> SvgWriter::splitByWidth(const CString& line, const int byte)
 }
 
 // TODO:Utilitiesへ移動
-CSize SvgWriter::getNodeTextSize(const iNode& node)
+CSize SvgWriter::GetNodeTextSize(const iNode& node)
 {
 	CWnd wnd;
 	CFont font; font.CreateFontIndirect(&node.GetFontInfo());
@@ -406,7 +406,7 @@ CSize SvgWriter::getNodeTextSize(const iNode& node)
 	return sz;
 }
 
-CString SvgWriter::createNodeStyleAtrb(const iNode &node)
+CString SvgWriter::CreateNodeStyleAttrib(const iNode &node)
 {
 	///// Stroke Style /////
 	COLORREF lineColor = node.GetLineColor();
@@ -448,7 +448,7 @@ CString SvgWriter::createNodeStyleAtrb(const iNode &node)
 	return style;
 }
 
-MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
 	MSXML2::IXMLDOMElementPtr pLink = NULL;
 
@@ -515,13 +515,13 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkElement(const iLink &link, MSXML2
 	return pLink;
 }
 
-MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkTextElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
 	MSXML2::IXMLDOMElementPtr pLText = NULL;
 	if (link.GetName() == _T("")) return NULL;
 
 	// ラベル表示位置
-	CPoint ptOrg = calcLinkLabelOrg(link);
+	CPoint ptOrg = CalcLinkLabelOrg(link);
 	CString sCx; sCx.Format(_T("%d"), ptOrg.x);
 	CString sCy; sCy.Format(_T("%d"), ptOrg.y);
 
@@ -530,7 +530,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MS
 	pLText->setAttribute(_T("y"), sCy.GetBuffer(sCy.GetLength()));
 
 	// スタイル設定
-	CString sStyle = createTextStyle(link.GetFontInfo(), link.GetLinkColor());
+	CString sStyle = CreateTextStyle(link.GetFontInfo(), link.GetLinkColor());
 	pLText->setAttribute(_T("style"), sStyle.GetBuffer(sStyle.GetLength()));
 
 	// ラベル設定
@@ -541,7 +541,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkTextElement(const iLink &link, MS
 }
 
 // リンクラベルの座標計算
-CPoint SvgWriter::calcLinkLabelOrg(const iLink& link)
+CPoint SvgWriter::CalcLinkLabelOrg(const iLink& link)
 {
 	LOGFONT lf = link.GetFontInfo();
 	int size = abs(lf.lfHeight);
@@ -564,7 +564,7 @@ CPoint SvgWriter::calcLinkLabelOrg(const iLink& link)
 	return pt;
 }
 
-MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkArrowElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
 	CPoint ptTo = link.GetPtTo();
 	CPoint ptFrom = link.GetPtFrom();
@@ -608,10 +608,10 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 
 
 	if (!link.IsCurved()) {
-		rotateArrow(pt, 3, ptFrom, ptTo, ptTo);
+		RotateArrow(pt, 3, ptFrom, ptTo, ptTo);
 	}
 	else {
-		rotateArrow(pt, 3, ptPath, ptTo, ptTo);
+		RotateArrow(pt, 3, ptPath, ptTo, ptTo);
 	}
 
 	MSXML2::IXMLDOMElementPtr pArrow = NULL;
@@ -649,7 +649,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrowElement(const iLink &link, M
 	return pArrow;
 }
 
-MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkSquareElement(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
 	CPoint ptTo = link.GetPtTo();
 	CPoint ptFrom = link.GetPtFrom();
@@ -695,10 +695,10 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, 
 
 
 	if (!link.IsCurved()) {
-		rotateArrow(pt, 4, ptFrom, ptTo, ptTo);
+		RotateArrow(pt, 4, ptFrom, ptTo, ptTo);
 	}
 	else {
-		rotateArrow(pt, 4, ptPath, ptTo, ptTo);
+		RotateArrow(pt, 4, ptPath, ptTo, ptTo);
 	}
 
 	MSXML2::IXMLDOMElementPtr pArrow = NULL;
@@ -728,7 +728,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkSquareElement(const iLink &link, 
 	return pArrow;
 }
 
-MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
+MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkArrow2Element(const iLink &link, MSXML2::IXMLDOMDocumentPtr pDoc)
 {
 	DWORD keyFrom = link.GetFromNodeKey();
 	DWORD keyTo = link.GetToNodeKey();
@@ -773,10 +773,10 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 	pt[2].y = pt[0].y - ArrowWidth;
 
 	if (!link.IsCurved()) {
-		rotateArrow(pt, 3, ptTo, ptFrom, ptFrom);
+		RotateArrow(pt, 3, ptTo, ptFrom, ptFrom);
 	}
 	else {
-		rotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
+		RotateArrow(pt, 3, ptPath, ptFrom, ptFrom);
 	}
 
 	MSXML2::IXMLDOMElementPtr pArrow = NULL;
@@ -810,7 +810,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::createLinkArrow2Element(const iLink &link, 
 	return pArrow;
 }
 
-void SvgWriter::rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg)
+void SvgWriter::RotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo, CPoint &ptOrg)
 {
 	double c, s;
 	double r = sqrt(pow((double)(pTo.x - pFrom.x), 2) + pow((double)(pTo.y - pFrom.y), 2));
@@ -830,7 +830,7 @@ void SvgWriter::rotateArrow(CPoint *pPoint, int size, CPoint &pFrom, CPoint &pTo
 	}
 }
 
-CString SvgWriter::createTextStyle(const LOGFONT& lf, COLORREF fontColor)
+CString SvgWriter::CreateTextStyle(const LOGFONT& lf, COLORREF fontColor)
 {
 	CString sStyle;
 
