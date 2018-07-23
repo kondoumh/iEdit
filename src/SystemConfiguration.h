@@ -10,8 +10,8 @@ class SystemConfiguration
 public:
 	SystemConfiguration(void);
 	~SystemConfiguration(void);
-	static bool IsMeiryoAvailable();
-	static bool IsMeiryoUiAvailable();
+	static bool MeiryoAvailable();
+	static bool MeiryoUiAvailable();
 	static const CSize GetMetafileSize();
 	static bool WndTransparencyAvailable();
 };

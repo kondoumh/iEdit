@@ -1519,7 +1519,7 @@ void NetView::OnSetNodeFont()
 	memset(&lf, 0, sizeof(LOGFONT));
 
 	CString defaultFont = _T("MS UI Gothic");
-	if (SystemConfiguration::IsMeiryoAvailable()) {
+	if (SystemConfiguration::MeiryoAvailable()) {
 		defaultFont = _T("メイリオ");
 	}
 

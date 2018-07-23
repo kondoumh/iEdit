@@ -12,12 +12,12 @@ SystemConfiguration::~SystemConfiguration(void)
 {
 }
 
-bool SystemConfiguration::IsMeiryoAvailable()
+bool SystemConfiguration::MeiryoAvailable()
 {
 	return IsWindowsVistaOrGreater();
 }
 
-bool SystemConfiguration::IsMeiryoUiAvailable()
+bool SystemConfiguration::MeiryoUiAvailable()
 {
 	return IsWindows7OrGreater();
 }

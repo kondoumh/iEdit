@@ -222,7 +222,7 @@ BOOL CiEditApp::PreTranslateMessage(MSG* pMsg)
 void CiEditApp::getNodeProfile()
 {
 	CString defaultFontName = _T("MS UI Gothic");
-	if (SystemConfiguration::IsMeiryoAvailable()) {
+	if (SystemConfiguration::MeiryoAvailable()) {
 		defaultFontName = _T("メイリオ");
 	}
 	m_rgsNode.colorFill = AfxGetApp()->GetProfileInt(REGS_NODE, _T("Fill Color"), RGB(255, 255, 255));
@@ -258,7 +258,7 @@ void CiEditApp::getNodeProfile()
 void CiEditApp::getLinkProfile()
 {
 	CString defaultFontName = _T("MS UI Gothic");
-	if (SystemConfiguration::IsMeiryoAvailable()) {
+	if (SystemConfiguration::MeiryoAvailable()) {
 		defaultFontName = _T("メイリオ");
 	}
 	m_rgsLink.colorLine = AfxGetApp()->GetProfileInt(REGS_LINK, _T("Line Color"), RGB(0, 0, 0));
