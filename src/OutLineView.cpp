@@ -31,29 +31,10 @@ static char THIS_FILE[] = __FILE__;
 
 #define REGS_FRAME _T("Frame Options")
 
-// 関数オブジェクト 関数ポインタ版
-int labelMessage(CTreeCtrl& tree, HTREEITEM item) {
-	CString s = tree.GetItemText(item);
-	AfxMessageBox(s);
-	return 0;
-};
-
-typedef pointer_to_binary_function<CTreeCtrl&, HTREEITEM, int> OnNode;
-OnNode test(labelMessage);
-
-// 関数オブジェクト binary_function 版
-struct treeTest : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
-	int operator() (const CTreeCtrl& tree, HTREEITEM item) const {
-		CString s = tree.GetItemText(item);
-		AfxMessageBox(s);
-		return 0;
-	}
-};
-
 // vector にラベルとキーを詰め込む関数オブジェクト
-struct copyLabels : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
+struct copy_key_label_vec : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	NodePropsVec& ls_;
-	copyLabels(NodePropsVec& ls) : ls_(ls) {}
+	copy_key_label_vec(NodePropsVec& ls) : ls_(ls) {}
 	int operator() (const CTreeCtrl& tree, HTREEITEM item) const {
 		NodeProps l;
 		l.key = tree.GetItemData(item);
@@ -71,9 +52,9 @@ struct copyLabels : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 };
 
 // NodeKeySetにキーを詰め込む関数オブジェクト
-struct copyKeys : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
+struct copy_key_set : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	NodeKeySet& ks_;
-	copyKeys(NodeKeySet& ks) : ks_(ks) {}
+	copy_key_set(NodeKeySet& ks) : ks_(ks) {}
 	int operator() (const CTreeCtrl& tree, HTREEITEM item) const {
 		DWORD key;
 		key = tree.GetItemData(item);
@@ -83,9 +64,9 @@ struct copyKeys : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 };
 
 // vector にキーを詰め込む関数オブジェクト
-struct copyKeyVec : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
+struct copy_key_vec : std::binary_function<CTreeCtrl&, HTREEITEM, int> {
 	NodeKeyVec& svec_;
-	copyKeyVec(NodeKeyVec& svec) : svec_(svec) {}
+	copy_key_vec(NodeKeyVec& svec) : svec_(svec) {}
 	int operator() (const CTreeCtrl& tree, HTREEITEM item) const {
 		DWORD key = tree.GetItemData(item);
 		svec_.push_back(key);
@@ -343,13 +324,13 @@ void OutlineView::OnInitialUpdate()
 		NodeKeySet ks;
 		ks.insert(Tree().GetItemData(m_hItemShowRoot));
 		if (branchMode == 1) {
-			treeview_for_each2(Tree(), copyKeys(ks), Tree().GetChildItem(m_hItemShowRoot));
+			treeview_for_each2(Tree(), copy_key_set(ks), Tree().GetChildItem(m_hItemShowRoot));
 			GetDocument()->SetVisibleNodes(ks);
 			GetDocument()->SetShowBranch(Tree().GetItemData(m_hItemShowRoot));
 			Tree().SetItemImage(m_hItemShowRoot, 1, 1);
 		}
 		else if (branchMode == 2) {
-			treeview_for_each(Tree(), copyKeys(ks), Tree().GetChildItem(m_hItemShowRoot));
+			treeview_for_each(Tree(), copy_key_set(ks), Tree().GetChildItem(m_hItemShowRoot));
 			GetDocument()->SetVisibleNodes(ks);
 			GetDocument()->SetShowBranch(Tree().GetItemData(m_hItemShowRoot));
 			Tree().SetItemImage(m_hItemShowRoot, 2, 2);
@@ -829,7 +810,7 @@ void OutlineView::SerializeTree(NodePropsVec &ls)
 {
 	if (m_opTreeOut == 0) {
 		RecalcAllNodeLevels(); // level 設定
-		treeview_for_each(Tree(), copyLabels(ls), Tree().GetRootItem());
+		treeview_for_each(Tree(), copy_key_label_vec(ls), Tree().GetRootItem());
 	}
 	else if (m_opTreeOut == 1) {
 		RecalcSubNodeLevels(); // level 設定
@@ -842,7 +823,7 @@ void OutlineView::SerializeTree(NodePropsVec &ls)
 		l.state = Tree().GetItemState(Tree().GetSelectedItem(), TVIS_EXPANDED | TVIS_SELECTED);
 		ls.push_back(l);
 		if (Tree().ItemHasChildren(Tree().GetSelectedItem())) {
-			treeview_for_each(Tree(), copyLabels(ls), Tree().GetChildItem(Tree().GetSelectedItem()));
+			treeview_for_each(Tree(), copy_key_label_vec(ls), Tree().GetChildItem(Tree().GetSelectedItem()));
 		}
 	}
 	else if (m_opTreeOut == 2) {
@@ -856,7 +837,7 @@ void OutlineView::SerializeTree(NodePropsVec &ls)
 		l.state = Tree().GetItemState(Tree().GetSelectedItem(), TVIS_EXPANDED | TVIS_SELECTED);
 		ls.push_back(l);
 		if (Tree().ItemHasChildren(Tree().GetSelectedItem())) {
-			treeview_for_each2(Tree(), copyLabels(ls), Tree().GetChildItem(Tree().GetSelectedItem()));
+			treeview_for_each2(Tree(), copy_key_label_vec(ls), Tree().GetChildItem(Tree().GetSelectedItem()));
 		}
 	}
 }
@@ -864,7 +845,7 @@ void OutlineView::SerializeTree(NodePropsVec &ls)
 void OutlineView::SerializeTree0(NodePropsVec &ls)
 {
 	RecalcAllNodeLevels();
-	treeview_for_each(Tree(), copyLabels(ls), Tree().GetRootItem());
+	treeview_for_each(Tree(), copy_key_label_vec(ls), Tree().GetRootItem());
 }
 
 NodeKeyVec OutlineView::GetDrawOrder(const bool bShowSubBranch) const
@@ -873,23 +854,23 @@ NodeKeyVec OutlineView::GetDrawOrder(const bool bShowSubBranch) const
 	if (!bShowSubBranch) {
 		if (Tree().GetRootItem() == Tree().GetSelectedItem()) {
 			vec.push_back(0);
-			treeview_for_each2(Tree(), copyKeyVec(vec), Tree().GetChildItem(Tree().GetSelectedItem()));
+			treeview_for_each2(Tree(), copy_key_vec(vec), Tree().GetChildItem(Tree().GetSelectedItem()));
 		}
 		else {
 			HTREEITEM hParent = Tree().GetParentItem(Tree().GetSelectedItem());
 			if (hParent == Tree().GetRootItem()) {
 				vec.push_back(0);
 			}
-			treeview_for_each2(Tree(), copyKeyVec(vec), Tree().GetChildItem(hParent));
+			treeview_for_each2(Tree(), copy_key_vec(vec), Tree().GetChildItem(hParent));
 		}
 	}
 	else {
 		int branchMode = GetBranchMode();
 		if (branchMode == 2) {
-			treeview_for_each(Tree(), copyKeyVec(vec), m_hItemShowRoot);
+			treeview_for_each(Tree(), copy_key_vec(vec), m_hItemShowRoot);
 		}
 		else if (branchMode == 1) {
-			treeview_for_each2(Tree(), copyKeyVec(vec), Tree().GetChildItem(m_hItemShowRoot));
+			treeview_for_each2(Tree(), copy_key_vec(vec), Tree().GetChildItem(m_hItemShowRoot));
 		}
 	}
 	return vec;
@@ -1356,7 +1337,7 @@ void OutlineView::DeleteNode()
 	GetDocument()->DeleteKeyItem(Tree().GetItemData(hcur));
 	if (Tree().ItemHasChildren(hcur)) {
 		NodePropsVec ls;
-		treeview_for_each(Tree(), copyLabels(ls), Tree().GetChildItem(hcur));
+		treeview_for_each(Tree(), copy_key_label_vec(ls), Tree().GetChildItem(hcur));
 		for (unsigned int i = 0; i < ls.size(); i++) {
 			GetDocument()->DeleteKeyItem(ls[i].key);
 		}
@@ -1374,7 +1355,7 @@ void OutlineView::DeleteKeyNode(DWORD key, DWORD parentKey)
 	GetDocument()->DeleteKeyItem(Tree().GetItemData(hDeleteItem));
 	if (Tree().ItemHasChildren(hDeleteItem)) {
 		NodePropsVec ls;
-		treeview_for_each(Tree(), copyLabels(ls), Tree().GetChildItem(hDeleteItem));
+		treeview_for_each(Tree(), copy_key_label_vec(ls), Tree().GetChildItem(hDeleteItem));
 		for (unsigned int i = 0; i < ls.size(); i++) {
 			GetDocument()->DeleteKeyItem(ls[i].key);
 		}
@@ -2469,7 +2450,7 @@ void OutlineView::OnShowSelectedBranch()
 {
 	NodeKeySet ks;
 	ks.insert(Tree().GetItemData(Tree().GetSelectedItem()));
-	treeview_for_each(Tree(), copyKeys(ks), Tree().GetChildItem(Selected()));
+	treeview_for_each(Tree(), copy_key_set(ks), Tree().GetChildItem(Selected()));
 	GetDocument()->SetVisibleNodes(ks);
 	GetDocument()->SetShowBranch(Tree().GetItemData(Selected()));
 	int branchMode = GetBranchMode();
@@ -2518,7 +2499,7 @@ void OutlineView::OnShowSelectedChildren()
 {
 	NodeKeySet ks;
 	ks.insert(Tree().GetItemData(Tree().GetSelectedItem()));
-	treeview_for_each2(Tree(), copyKeys(ks), Tree().GetChildItem(Selected()));
+	treeview_for_each2(Tree(), copy_key_set(ks), Tree().GetChildItem(Selected()));
 	GetDocument()->SetVisibleNodes(ks);
 	GetDocument()->SetShowBranch(Tree().GetItemData(Selected()));
 	int branchMode = GetBranchMode();
@@ -2754,7 +2735,7 @@ void OutlineView::OnCreateClone()
 	if (GetDocument()->ShowSubBranch()) {
 		NodeKeySet ks;
 		ks.insert(Tree().GetItemData(m_hItemShowRoot));
-		treeview_for_each(Tree(), copyKeys(ks), Tree().GetChildItem(m_hItemShowRoot));
+		treeview_for_each(Tree(), copy_key_set(ks), Tree().GetChildItem(m_hItemShowRoot));
 		iEditDoc* pDoc = GetDocument();
 		pDoc->SetVisibleNodes(ks);
 		pDoc->SetShowBranch(Tree().GetItemData(m_hItemShowRoot));
