@@ -13,7 +13,6 @@
 #include <shlwapi.h>
 #include "StringUtil.h"
 #include <atlimage.h>
-#include <regex>
 #include <locale>
 #include "StringUtil.h"
 #include "MarkdownParser.h"
