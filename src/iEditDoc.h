@@ -293,7 +293,7 @@ private:
 	CRect rcLinkFrom;
 	DWORD lastKey, lastLinkKey;
 
-	CString ParseWikiNotation(const CString& text);
+	CString ParseMarkdown(const CString& text);
 	void UlStart(CString& str, int& level, int& prevLevel);
 	void UlEnd(CString& str, int& level);
 	CString CreateInlineUrlLink(const CString& line);

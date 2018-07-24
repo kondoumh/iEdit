@@ -3099,7 +3099,7 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 	// 内容書き込み
 	f->WriteString(_T("<h1>") + nameStr + _T("</h1>\n"));
 	f->WriteString(_T("<div class=\"text\">\n"));
-	f->WriteString(ParseWikiNotation((*it).second.GetText()));
+	f->WriteString(ParseMarkdown((*it).second.GetText()));
 	f->WriteString(_T("</div>\n"));
 
 	// リンクの書き込み
@@ -3196,31 +3196,35 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 	f->WriteString(_T("</div>\n"));
 }
 
-CString iEditDoc::ParseWikiNotation(const CString &text)
+CString iEditDoc::ParseMarkdown(const CString &text)
 {
-	const std::wregex h2(_T("^\\*\\s([^\\*].*)$")); //"^-.*$" "^[0-9].*$" "^\\*.*$"
-	const std::wregex h3(_T("^\\*\\*\\s([^\\*].*)$"));
-	const std::wregex h4(_T("^\\*\\*\\*\\s([^\\*].*)$"));
-	const std::wregex l1(_T("^-\\s([^-].*)$"));
-	const std::wregex l2(_T("^--\\s([^-].*)"));
-	const std::wregex l3(_T("^---\\s([^-].*)"));
-	const std::wregex uri(_T("^.*(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+).*$"));
+	const std::wregex h2(_T("^#{1} ([^#].+)$"));
+	const std::wregex h3(_T("^#{2} ([^#].+)$"));
+	const std::wregex h4(_T("^#{3} ([^#].+)$"));
+	const std::wregex h5(_T("^#{4,} ([^#].+)$"));
+	const std::wregex l1(_T("^- ([^-].+)$"));
+	const std::wregex l2(_T("^ - ([^-].+)"));
+	const std::wregex l3(_T("^  - ([^-].+)"));
+	const std::wregex bq(_T("^```$"));
 	std::match_results<std::wstring::const_iterator> result;
-	// TODO:wstring使うようにしてみたが、処理が動くか検証
 	vector<CString> lines = StringUtil::GetLines(text);
 	int level = 0;
 	int prevLevel = 0;
 	CString rtnStr;
-	bool pre = false;
+	bool qt = false;
 	for (unsigned int i = 0; i < lines.size(); i++) {
 		std::wstring line = static_cast<LPCTSTR>(lines[i]);
-		if (line.find(_T("<pre>")) != -1) {
-			pre = true;
+		if (!qt && std::regex_match(line, result, bq)) {
+			qt = true;
+			rtnStr += _T("<div style=\"background:#fff; padding:3px; border:1px solid #a1d8e2; \"><pre>");
+			continue;
 		}
-		else if (line.find(_T("</pre>")) != -1) {
-			pre = false;
+		else if (qt && std::regex_match(line, result, bq)) {
+			qt = false;
+			rtnStr += _T("</pre></div>");
+			continue;
 		}
-		if (pre) {
+		if (qt) {
 			rtnStr += lines[i] + _T("\n");
 			continue;
 		}
@@ -3241,6 +3245,12 @@ CString iEditDoc::ParseWikiNotation(const CString &text)
 			rtnStr += _T("<h4>");
 			rtnStr += CreateInlineUrlLink(CString(result[1].str().c_str()));
 			rtnStr += _T("</h4>\n");
+		}
+		else if (std::regex_match(line, result, h5)) {
+			UlEnd(rtnStr, level);
+			rtnStr += _T("<h5>");
+			rtnStr += CreateInlineUrlLink(CString(result[1].str().c_str()));
+			rtnStr += _T("</h5>\n");
 		}
 		else if (std::regex_match(line, result, l1)) {
 			prevLevel = level;
@@ -3280,9 +3290,19 @@ CString iEditDoc::CreateInlineUrlLink(const CString &line)
 {
 	const std::wregex uri(_T("^(.*)(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)(.*)$"));
 	const std::wregex wikiLink(_T("^(.*)\\[\\[(.+):(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)\\]\\](.*)$"));
+	const std::wregex mdLink(_T("^(.*)\\[(.+)\\]\\((https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)\\)$"));
 	std::wstring sLine = static_cast<LPCTSTR>(line);
 	std::match_results<std::wstring::const_iterator> result;
-	if (std::regex_match(sLine, result, wikiLink)) {
+	if (std::regex_match(sLine, result, mdLink)) {
+		CString rtnStr = result[1].str().c_str();
+		rtnStr += _T("<a href=\"");
+		rtnStr += result[3].str().c_str();
+		rtnStr += _T("\" target=\"_blank\">");
+		rtnStr += result[2].str().c_str();
+		rtnStr += _T("</a>");
+		return rtnStr;
+	}
+	else if (std::regex_match(sLine, result, wikiLink)) {
 		CString rtnStr = result[1].str().c_str();
 		rtnStr += _T("<a href=\"");
 		rtnStr += result[3].str().c_str();
