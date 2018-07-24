@@ -293,10 +293,6 @@ private:
 	CRect rcLinkFrom;
 	DWORD lastKey, lastLinkKey;
 
-	CString ParseMarkdown(const CString& text);
-	void UlStart(CString& str, int& level, int& prevLevel);
-	void UlEnd(CString& str, int& level);
-	CString CreateInlineUrlLink(const CString& line);
 	OutlineView* GetOutlineView() const;
 	template <class T>
 	void OutputStyleSheetLine(T &f);

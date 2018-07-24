@@ -169,6 +169,7 @@
     <ClCompile Include="LinkPropertiesDlg.cpp" />
     <ClCompile Include="LinkView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MarkdownParser.cpp" />
     <ClCompile Include="MetafileSettingsDlg.cpp" />
     <ClCompile Include="NetView.cpp" />
     <ClCompile Include="NodeMarginSettingsDlg.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="LinkPropertiesDlg.h" />
     <ClInclude Include="LinkView.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MarkdownParser.h" />
     <ClInclude Include="MetafileSettingsDlg.h" />
     <ClInclude Include="NetView.h" />
     <ClInclude Include="NodeMarginSettingsDlg.h" />
