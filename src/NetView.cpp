@@ -3350,7 +3350,7 @@ void NetView::OnSelchangeDropdown()
 	SetZoomLevel(zoomScale);
 	UpdateViewport(NULL);
 
-	if (zoomScale = 1.0f) { // 等倍の時だけ独自にスクロールバーを再描画
+	if (zoomScale == 1.0f) { // 等倍の時だけ独自にスクロールバーを再描画
 		ReCalcBars();
 		UpdateBars();
 		Invalidate();

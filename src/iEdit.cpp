@@ -327,7 +327,7 @@ void CiEditApp::saveMetaFiles(const CString &fname)
 				for (unsigned int i = 0; i < hBits; i++) {
 					ar << pData[i];
 				}
-				delete pData;
+				delete[] pData;
 			}
 		}
 	}
@@ -352,7 +352,7 @@ void CiEditApp::LoadShapeMetafile(CArchive &ar)
 					ar >> pData[i];
 				}
 				hm = SetEnhMetaFileBits(hBits, pData);
-				delete pData;
+				delete[] pData;
 			}
 			m_hMetaFiles[i * 100 + j] = hm;
 		}

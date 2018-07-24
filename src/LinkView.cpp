@@ -434,7 +434,7 @@ void LinkView::GoForward()
 			ZeroMemory(ext2, _MAX_EXT);
 			_wsplitpath_s((const wchar_t *)ieditFilePath, drive2, _MAX_DRIVE, dir2, _MAX_DIR, fileName2, _MAX_FNAME, ext2, _MAX_EXT);
 			CString combPath; combPath.Format(_T("%s%s%s%s%s"), drive2, dir2, dir, fileName, ext);
-			workdir.Format(_T("%s%s"), drive2, dir2, dir2);
+			workdir.Format(_T("%s%s"), drive2, dir2);
 			path = combPath;
 		}
 		CString extention(ext);

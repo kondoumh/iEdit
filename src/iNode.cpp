@@ -154,7 +154,7 @@ void iNode::Serialize(CArchive &ar)
 			for (unsigned int i = 0; i < hBits; i++) {
 				ar << pData[i];
 			}
-			delete pData;
+			delete[] pData;
 		}
 	}
 	else {
@@ -172,7 +172,7 @@ void iNode::Serialize(CArchive &ar)
 				ar >> pData[i];
 			}
 			hMF_ = SetEnhMetaFileBits(hBits, pData);
-			delete pData;
+			delete[] pData;
 		}
 	}
 }
@@ -203,7 +203,7 @@ void iNode::SerializeEx(CArchive& ar, int version)
 			for (unsigned int i = 0; i < hBits; i++) {
 				ar << pData[i];
 			}
-			delete pData;
+			delete[] pData;
 		}
 	}
 	else {
@@ -230,7 +230,7 @@ void iNode::SerializeEx(CArchive& ar, int version)
 				ar >> pData[i];
 			}
 			hMF_ = SetEnhMetaFileBits(hBits, pData);
-			delete pData;
+			delete[] pData;
 		}
 	}
 }
