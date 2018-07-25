@@ -38,12 +38,15 @@ CString MarkdownParser::Parse(const CString &text)
 		}
 		else if (qt && std::regex_match(line, result, bq)) {
 			qt = false;
-			rtnStr += _T("</pre></div>");
+			rtnStr += _T("</pre></div><br />");
 			continue;
 		}
 		if (qt) {
-			rtnStr += lines[i] + _T("\n");
+			rtnStr += StringUtil::EscapeHtmlSpecialCharPre(lines[i]) + _T("\n");
 			continue;
+		}
+		else {
+			line = StringUtil::EscapeHtmlSpecialChar(lines[i]);
 		}
 		if (std::regex_match(line, result, h2)) {
 			UlEnd(rtnStr, level);

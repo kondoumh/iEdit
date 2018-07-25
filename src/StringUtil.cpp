@@ -10,13 +10,13 @@ StringUtil::~StringUtil(void)
 {
 }
 
-CString StringUtil::GetSafeFileName(const CString& str)
+CString StringUtil::GetSafeFileName(const CString& target)
 {
 	CString rs;
-	for (int i = 0; i < str.GetLength(); i++) {
-		TCHAR a = str.GetAt(i);
+	for (int i = 0; i < target.GetLength(); i++) {
+		TCHAR a = target.GetAt(i);
 		if ((a == '|' || a == '\\') && i > 0) {
-			if (_ismbblead(str.GetAt(i - 1))) {
+			if (_ismbblead(target.GetAt(i - 1))) {
 				rs += a;
 				continue;
 			}
@@ -29,32 +29,32 @@ CString StringUtil::GetSafeFileName(const CString& str)
 	return rs;
 }
 
-CString StringUtil::RemoveCr(const CString &str)
+CString StringUtil::RemoveCr(const CString &target)
 {
 	CString toStr;
-	for (int i = 0; i < str.GetLength(); i++) {
-		if (str[i] == '\n') {
+	for (int i = 0; i < target.GetLength(); i++) {
+		if (target[i] == '\n') {
 			;
 		}
-		else if (str[i] == '\r') {
+		else if (target[i] == '\r') {
 			toStr += " ";
 		}
 		else {
-			toStr += str[i];
+			toStr += target[i];
 		}
 	}
 	return toStr;
 }
 
-vector<CString> StringUtil::GetLines(const CString &text)
+vector<CString> StringUtil::GetLines(const CString &target)
 {
 	vector<CString> lines;
 	CString line;
-	for (int i = 0; i < text.GetLength(); i++) {
-		if (text[i] != '\r' && text[i] != '\n') {
-			line += text[i];
+	for (int i = 0; i < target.GetLength(); i++) {
+		if (target[i] != '\r' && target[i] != '\n') {
+			line += target[i];
 		}
-		else if (text[i] == '\n') {
+		else if (target[i] == '\n') {
 			lines.push_back(line);
 			line = "";
 		}
@@ -101,10 +101,10 @@ bool StringUtil::IsMachineDependentChar(int nByte)
 	return false;
 }
 
-CString StringUtil::RemoveMachineDependentChar(LPCTSTR moji)
+CString StringUtil::RemoveMachineDependentChar(LPCTSTR target)
 {
 	CString strChkMoji;  // 検証対象の文字列
-	strChkMoji.Format(_T("%s"), moji);
+	strChkMoji.Format(_T("%s"), target);
 	INT nLen = strChkMoji.GetLength();
 	INT nByte; // 文字コード 
 	CString strOKWords;
@@ -143,54 +143,54 @@ CString StringUtil::RemoveMachineDependentChar(LPCTSTR moji)
 	return strOKWords;
 }
 
-CString StringUtil::ReplaceCrToLf(const CString &str)
+CString StringUtil::ReplaceCrToLf(const CString &target)
 {
 	CString toStr;
-	for (int i = 0; i < str.GetLength(); i++) {
-		if (str[i] == '\n') {
+	for (int i = 0; i < target.GetLength(); i++) {
+		if (target[i] == '\n') {
 			;
 		}
-		else if (str[i] == '\r') {
+		else if (target[i] == '\r') {
 			toStr += _T("\n");
 		}
 		else {
-			toStr += str[i];
+			toStr += target[i];
 		}
 	}
 	return toStr;
 }
 
-CString StringUtil::ReplaceLfToCrlf(const CString &str)
+CString StringUtil::ReplaceLfToCrlf(const CString &target)
 {
 	CString toStr;
-	for (int i = 0; i < str.GetLength(); i++) {
-		if (str[i] == '\r') {
+	for (int i = 0; i < target.GetLength(); i++) {
+		if (target[i] == '\r') {
 			;
 		}
-		else if (str[i] == '\n') {
+		else if (target[i] == '\n') {
 			toStr += _T("\r\n");
 		}
 		else {
-			toStr += str[i];
+			toStr += target[i];
 		}
 	}
 	return toStr;
 }
 
-bool StringUtil::IsUrl(const CString &str)
+bool StringUtil::IsUrl(const CString &target)
 {
-	if (str.Find(_T("http://")) != 0 && str.Find(_T("https://")) != 0 && str.Find(_T("ftp://")) != 0) {
+	if (target.Find(_T("http://")) != 0 && target.Find(_T("https://")) != 0 && target.Find(_T("ftp://")) != 0) {
 		return false;
 	}
 
-	if (str.Find(_T("\r")) != -1 || str.Find(_T("\n")) != -1) return false;
+	if (target.Find(_T("\r")) != -1 || target.Find(_T("\n")) != -1) return false;
 
 	return true;
 }
 
-int StringUtil::GetIndent(const CString &string)
+int StringUtil::GetIndent(const CString &target)
 {
-	CString res = string.SpanIncluding(_T("\t 　."));
+	CString res = target.SpanIncluding(_T("\t 　."));
 
 	if (res.IsEmpty()) {
 		return 0;
@@ -206,13 +206,31 @@ int StringUtil::GetIndent(const CString &string)
 	return 0;
 }
 
-CString StringUtil::TrimLeft(const CString &string)
+CString StringUtil::TrimLeft(const CString &target)
 {
-	CString str = string;
+	CString str(target);
 	str.TrimLeft(_T("\t ."));
 	if (str.Find(_T("　"), 0) == 0) {
 		CString res = str.SpanIncluding(_T("　"));
 		return str.Right(str.GetLength() - res.GetLength());
 	}
+	return str;
+}
+
+CString StringUtil::EscapeHtmlSpecialChar(const CString &target)
+{
+	CString str(target);
+	str.Replace(_T("&"), _T("&amp;"));
+	str.Replace(_T("<"), _T("&lt;"));
+	str.Replace(_T(">"), _T("&gt;"));
+	str.Replace(_T("\""), _T("&quot;"));
+	return str;
+}
+
+CString StringUtil::EscapeHtmlSpecialCharPre(const CString &target)
+{
+	CString str(target);
+	str.Replace(_T("<"), _T("&lt;"));
+	str.Replace(_T(">"), _T("&gt;"));
 	return str;
 }
