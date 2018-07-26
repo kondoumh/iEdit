@@ -195,6 +195,7 @@
     <ClCompile Include="SystemConfiguration.cpp" />
     <ClCompile Include="TabSeet.cpp" />
     <ClCompile Include="WndTransparencySettingsDlg.cpp" />
+    <ClCompile Include="XmlProcessor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc" />
@@ -244,6 +245,7 @@
     <ClInclude Include="SystemConfiguration.h" />
     <ClInclude Include="TabSeet.h" />
     <ClInclude Include="WndTransparencySettingsDlg.h" />
+    <ClInclude Include="XmlProcessor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\arc.cur" />
