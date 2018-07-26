@@ -14,9 +14,6 @@
 #include "StdAfx.h"
 #include <stack>
 
-typedef pair<DWORD, DWORD> NodeKeyPair;
-typedef vector<NodeKeyPair> NodeKeyPairs;
-
 // View への更新Hintオブジェクト
 //////////////////////////////////
 class iHint : public CObject {

@@ -1854,6 +1854,9 @@ BOOL iEditDoc::IsSelectedNodeFixed() const
 
 bool iEditDoc::ImportXml(const CString &filename, bool replace)
 {
+	prepareImport();
+	CWaitCursor wc;
+
 	MSXML2::IXMLDOMDocument		*pDoc = NULL;
 	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
 	MSXML2::IXMLDOMElement		*element = NULL;
@@ -1862,7 +1865,6 @@ bool iEditDoc::ImportXml(const CString &filename, bool replace)
 
 	BSTR	bstr = NULL;
 	HRESULT hr;
-	int     rc = 0;
 
 	hr = CoInitialize(NULL);
 	if (!SUCCEEDED(hr))
@@ -1894,8 +1896,6 @@ bool iEditDoc::ImportXml(const CString &filename, bool replace)
 		return false;
 	}
 	else {
-		CWaitCursor wc;
-		prepareImport();
 		pDoc->get_documentElement(&element);
 
 		BSTR s = NULL;

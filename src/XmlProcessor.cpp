@@ -3,8 +3,12 @@
 #include "StringUtil.h"
 #include <locale>
 
-XmlProcessor::XmlProcessor()
+XmlProcessor::XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD assignKey, NodeKeyPairs& idcVec)
 {
+	this->nodesImport = nodesImport;
+	this->linksImport = linksImport;
+	this->idcVec = idcVec;
+	this->assignKey = assignKey;
 }
 
 
@@ -12,12 +16,14 @@ XmlProcessor::~XmlProcessor()
 {
 }
 
-bool XmlProcessor::ValidateXmlFile(const CString &fileName)
+bool XmlProcessor::ImportXml(const CString &fileName)
 {
 	HRESULT hr;
 	hr = CoInitialize(NULL);
-	if (!SUCCEEDED(hr))
+	if (!SUCCEEDED(hr)) {
+		AfxMessageBox(_T("XML パーサーを利用できません。"));
 		return false;
+	}
 
 	MSXML2::IXMLDOMDocument		*pDoc = NULL;
 	hr = CoCreateInstance(MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
@@ -66,311 +72,455 @@ bool XmlProcessor::ValidateXmlFile(const CString &fileName)
 	return true;
 }
 
-bool XmlProcessor::Import(node_vec& nodesImport, link_vec& linksImport)
+bool XmlProcessor::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 {
-	return false;
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNodeList	*childs2 = NULL;
+	MSXML2::IXMLDOMNodeList	*childs3 = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNode		*childnode2 = NULL;
+	node->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i, j;
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		if (ename == _T("inode")) {
+			iNode n(_T("add")); n.SetKey(++assignKey);
+			n.ToggleFill(FALSE);
+			n.SetBound(CRect(-1, -1, 0, 0));
+			nodesImport.push_back(n);
+			childnode->get_childNodes(&childs2);
+			for (j = 0; j < childs2->Getlength(); j++) {
+				childs2->get_item(j, &childnode2);
+				BSTR name2 = childnode2->nodeName;
+				CString ename2(name2);
+				if (ename2 == _T("id")) {
+					childnode2->firstChild->get_text(&s);
+					CString ids(s);
+					int id;
+					swscanf_s((const wchar_t*)ids.GetBuffer(), _T("%d"), &id);
+					NodeKeyPair idc;
+					idc.first = (DWORD)id;
+					idc.second = nodesImport[nodesImport.size() - 1].GetKey();
+					idcVec.push_back(idc);
+
+					ids += ' '; f->WriteString(ids); // log
+
+				}
+				else if (ename2 == _T("pid")) {
+					childnode2->firstChild->get_text(&s);
+					CString pids(s);
+					int pid;
+					swscanf_s((const wchar_t*)pids.GetBuffer(), _T("%d"), &pid);
+					nodesImport[nodesImport.size() - 1].SetParentKey((DWORD)pid);
+				}
+				else if (ename2 == _T("label")) {
+					childnode2->firstChild->get_text(&s);
+					CString name(s);
+					nodesImport[nodesImport.size() - 1].SetName(name);
+
+					name += '\n'; f->WriteString(name); // log
+
+				}
+				else if (ename2 == _T("text")) {
+					childnode2->firstChild->get_text(&s);
+					CString text(s);
+					text = StringUtil::ReplaceLfToCrlf(text);
+					nodesImport[nodesImport.size() - 1].SetText(text);
+				}
+				else if (ename2 == _T("labelAlign")) {
+					childnode2->firstChild->get_text(&s);
+					CString align(s);
+					nodesImport[nodesImport.size() - 1].SetTextStyle(Dom2TextAlign(align));
+				}
+				else if (ename2 == _T("shape")) {
+					childnode2->firstChild->get_text(&s);
+					CString shape(s);
+					nodesImport[nodesImport.size() - 1].SetShape(Dom2Shape(shape));
+				}
+				else if (ename2 == _T("bound")) {
+					CRect rc = nodesImport[nodesImport.size() - 1].getBound();
+					Dom2Bound(childnode2, rc);
+					rc.NormalizeRect();
+					nodesImport[nodesImport.size() - 1].SetBound(rc);
+				}
+				else if (ename2 == _T("ForColor")) {
+					COLORREF cr = Dom2ForeColor(childnode2);
+					nodesImport[nodesImport.size() - 1].SetFillColor(cr);
+				}
+				else if (ename2 == _T("nodeLine")) {
+					int lineStyle(PS_SOLID), lineWidth(0);
+					Dom2NodeLine(childnode2, lineStyle, lineWidth);
+					nodesImport[nodesImport.size() - 1].SetLineStyle(lineStyle);
+					nodesImport[nodesImport.size() - 1].SetLineWidth(lineWidth);
+				}
+				else if (ename2 == _T("nodeLineColor")) {
+					COLORREF cr = Dom2NodeLineColor(childnode2);
+					nodesImport[nodesImport.size() - 1].SetLineColor(cr);
+				}
+			}
+		}
+		else if (ename == _T("ilink")) {
+			iLink l;
+			linksImport.push_back(l);
+			childnode->get_childNodes(&childs2);
+			for (j = 0; j < childs2->Getlength(); j++) {
+				childs2->get_item(j, &childnode2);
+				BSTR name2 = childnode2->nodeName;
+				CString ename2(name2);
+				if (ename2 == _T("from")) {
+					childnode2->firstChild->get_text(&s);
+					CString from(s); int idfrom; swscanf_s((const wchar_t*)from.GetBuffer(), _T("%d"), &idfrom);
+					linksImport[linksImport.size() - 1].SetKeyFrom(FindPairKey((DWORD)idfrom));
+				}
+				else if (ename2 == _T("to")) {
+					childnode2->firstChild->get_text(&s);
+					CString to(s); int idto; swscanf_s((const wchar_t*)to.GetBuffer(), _T("%d"), &idto);
+					linksImport[linksImport.size() - 1].SetKeyTo(FindPairKey((DWORD)idto));
+				}
+				else if (ename2 == _T("caption")) {
+					childnode2->firstChild->get_text(&s);
+					linksImport[linksImport.size() - 1].SetName(CString(s));
+				}
+				else if (ename2 == _T("linkLine")) {
+					int style(PS_SOLID); int lineWidth(0); int arrow(iLink::line);
+					Dom2LinkStyle(childnode2, style, lineWidth, arrow);
+					linksImport[linksImport.size() - 1].SetLineStyle(style);
+					linksImport[linksImport.size() - 1].SetLineWidth(lineWidth);
+					linksImport[linksImport.size() - 1].SetArrowStyle(arrow);
+				}
+				else if (ename2 == _T("linkLineColor")) {
+					COLORREF rc = Dom2LinkColor(childnode2);
+					linksImport[linksImport.size() - 1].SetLinkColor(rc);
+				}
+				else if (ename2 == _T("pathPt")) {
+					CPoint pt = Dom2LinkPathPt(childnode2);
+					linksImport[linksImport.size() - 1].SetPathPt(pt);
+				}
+				else if (ename2 == _T("locate")) {
+					childnode2->firstChild->get_text(&s);
+					CString path(s);
+					linksImport[linksImport.size() - 1].SetPath(path);
+					linksImport[linksImport.size() - 1].SetArrowStyle(iLink::other);
+				}
+			}
+		}
+	}
+	return true;
+}
+
+int XmlProcessor::Dom2TextAlign(const CString &tag)
+{
+	if (tag == _T("single-middle-center")) {
+		return iNode::s_cc;
+	}
+	else if (tag == _T("single-middle-left")) {
+		return iNode::s_cl;
+	}
+	else if (tag == _T("single-midele-right")) {
+		return iNode::s_cr;
+	}
+	else if (tag == _T("single-top-center")) {
+		return iNode::s_tc;
+	}
+	else if (tag == _T("single-top-left")) {
+		return iNode::s_tl;
+	}
+	else if (tag == _T("single-top-right")) {
+		return iNode::s_tr;
+	}
+	else if (tag == _T("single-bottom-center")) {
+		return iNode::s_bc;
+	}
+	else if (tag == _T("single-bottom-left")) {
+		return iNode::s_bl;
+	}
+	else if (tag == _T("single-bottom-right")) {
+		return iNode::s_br;
+	}
+	else if (tag == _T("multi-center")) {
+		return iNode::m_c;
+	}
+	else if (tag == _T("multi-left")) {
+		return iNode::m_l;
+	}
+	else if (tag == _T("multi-right")) {
+		return iNode::m_r;
+	}
+	else if (tag == _T("hidden")) {
+		return iNode::notext;
+	}
+	return iNode::s_cc;
 }
 
 
-//int XmlProcessor::Dom2TextAlign(const CString &tag)
-//{
-//	if (tag == _T("single-middle-center")) {
-//		return iNode::s_cc;
-//	}
-//	else if (tag == _T("single-middle-left")) {
-//		return iNode::s_cl;
-//	}
-//	else if (tag == _T("single-midele-right")) {
-//		return iNode::s_cr;
-//	}
-//	else if (tag == _T("single-top-center")) {
-//		return iNode::s_tc;
-//	}
-//	else if (tag == _T("single-top-left")) {
-//		return iNode::s_tl;
-//	}
-//	else if (tag == _T("single-top-right")) {
-//		return iNode::s_tr;
-//	}
-//	else if (tag == _T("single-bottom-center")) {
-//		return iNode::s_bc;
-//	}
-//	else if (tag == _T("single-bottom-left")) {
-//		return iNode::s_bl;
-//	}
-//	else if (tag == _T("single-bottom-right")) {
-//		return iNode::s_br;
-//	}
-//	else if (tag == _T("multi-center")) {
-//		return iNode::m_c;
-//	}
-//	else if (tag == _T("multi-left")) {
-//		return iNode::m_l;
-//	}
-//	else if (tag == _T("multi-right")) {
-//		return iNode::m_r;
-//	}
-//	else if (tag == _T("hidden")) {
-//		return iNode::notext;
-//	}
-//	return iNode::s_cc;
-//}
-//
-//
-//int XmlProcessor::Dom2Shape(const CString &tag)
-//{
-//	if (tag == _T("Rect")) {
-//		return iNode::rectangle;
-//	}
-//	else if (tag == _T("Oval")) {
-//		return iNode::arc;
-//	}
-//	else if (tag == _T("RoundRect")) {
-//		return iNode::roundRect;
-//	}
-//	else if (tag == _T("MetaFile")) {
-//		return iNode::MetaFile;
-//	}
-//	else if (tag == _T("MMNode")) {
-//		return (iNode::MindMapNode);
-//	}
-//	return iNode::rectangle;
-//}
-//
-//void XmlProcessor::Dom2Bound(MSXML2::IXMLDOMNode *pNode, CRect &rc)
-//{
-//	MSXML2::IXMLDOMNodeList	*childs = NULL;
-//	MSXML2::IXMLDOMNode		*childnode = NULL;
-//	pNode->get_childNodes(&childs);
-//	BSTR s = NULL;
-//	LONG i;
-//	for (i = 0; i < childs->Getlength(); i++) {
-//		childs->get_item(i, &childnode);
-//		BSTR name = childnode->nodeName;
-//		CString ename(name);
-//		childnode->firstChild->get_text(&s);
-//		if (ename == _T("left")) {
-//			CString left(s);
-//			swscanf_s((const wchar_t*)left.GetBuffer(), _T("%d"), &rc.left);
-//		}
-//		else if (ename == _T("right")) {
-//			CString right(s);
-//			swscanf_s((const wchar_t*)right.GetBuffer(), _T("%d"), &rc.right);
-//		}
-//		else if (ename == _T("top")) {
-//			CString top(s);
-//			swscanf_s((const wchar_t*)top.GetBuffer(), _T("%d"), &rc.top);
-//		}
-//		else if (ename == _T("bottom")) {
-//			childnode->firstChild->get_text(&s);
-//			CString bottom(s);
-//			swscanf_s((const wchar_t*)bottom.GetBuffer(), _T("%d"), &rc.bottom);
-//		}
-//	}
-//}
-//
-//COLORREF XmlProcessor::Dom2ForeColor(MSXML2::IXMLDOMNode *pNode)
-//{
-//	MSXML2::IXMLDOMNodeList	*childs = NULL;
-//	MSXML2::IXMLDOMNode		*childnode = NULL;
-//	pNode->get_childNodes(&childs);
-//	BSTR s = NULL;
-//	LONG i;
-//	int r(255), g(255), b(255);
-//	for (i = 0; i < childs->Getlength(); i++) {
-//		childs->get_item(i, &childnode);
-//		BSTR name = childnode->nodeName;
-//		CString ename(name);
-//		childnode->firstChild->get_text(&s);
-//		if (ename == _T("f_red")) {
-//			CString red(s);
-//			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
-//		}
-//		else if (ename == _T("f_green")) {
-//			CString green(s);
-//			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
-//		}
-//		else if (ename == _T("f_blue")) {
-//			CString blue(s);
-//			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
-//		}
-//	}
-//	return RGB(r, g, b);
-//}
-//
-//void XmlProcessor::Dom2NodeLine(MSXML2::IXMLDOMNode *pNode, int &style, int &width)
-//{
-//	MSXML2::IXMLDOMNodeList	*childs = NULL;
-//	MSXML2::IXMLDOMNode		*childnode = NULL;
-//	pNode->get_childNodes(&childs);
-//	BSTR s = NULL;
-//	LONG i;
-//	for (i = 0; i < childs->Getlength(); i++) {
-//		childs->get_item(i, &childnode);
-//		BSTR name = childnode->nodeName;
-//		CString ename(name);
-//		childnode->firstChild->get_text(&s);
-//		if (ename == _T("nodeLineStyle")) {
-//			CString lstyle(s);
-//			if (lstyle == _T("solidLine")) {
-//				style = PS_SOLID;
-//			}
-//			else if (lstyle == _T("dotedLine")) {
-//				style = PS_DOT;
-//			}
-//			else if (lstyle == _T("noLine")) {
-//				style = PS_NULL;
-//			}
-//		}
-//		else if (ename == _T("nodeLineWidth")) {
-//			CString lwidth(s); int w; swscanf_s((const wchar_t*)lwidth.GetBuffer(), _T("%d"), &w);
-//			if (w == 1) w = 0;
-//			width = w;
-//		}
-//	}
-//}
-//
-//
-//COLORREF XmlProcessor::Dom2NodeLineColor(MSXML2::IXMLDOMNode *pNode)
-//{
-//	MSXML2::IXMLDOMNodeList	*childs = NULL;
-//	MSXML2::IXMLDOMNode		*childnode = NULL;
-//	pNode->get_childNodes(&childs);
-//	BSTR s = NULL;
-//	LONG i;
-//	int r(255), g(255), b(255);
-//	for (i = 0; i < childs->Getlength(); i++) {
-//		childs->get_item(i, &childnode);
-//		BSTR name = childnode->nodeName;
-//		CString ename(name);
-//		childnode->firstChild->get_text(&s);
-//		if (ename == _T("l_red")) {
-//			CString red(s);
-//			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
-//		}
-//		else if (ename == _T("l_green")) {
-//			CString green(s);
-//			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
-//		}
-//		else if (ename == _T("l_blue")) {
-//			CString blue(s);
-//			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
-//		}
-//	}
-//	return RGB(r, g, b);
-//}
-//
-//void XmlProcessor::Dom2LinkStyle(MSXML2::IXMLDOMNode *pNode, int &style, int &width, int &arrow)
-//{
-//	MSXML2::IXMLDOMNodeList	*childs = NULL;
-//	MSXML2::IXMLDOMNode		*childnode = NULL;
-//	pNode->get_childNodes(&childs);
-//	BSTR s = NULL;
-//	LONG i;
-//	for (i = 0; i < childs->Getlength(); i++) {
-//		childs->get_item(i, &childnode);
-//		BSTR name = childnode->nodeName;
-//		CString ename(name);
-//		childnode->firstChild->get_text(&s);
-//		if (ename == _T("linkLineStyle")) {
-//			CString lstyle(s);
-//			if (lstyle == _T("solidLine")) {
-//				style = PS_SOLID;
-//			}
-//			else if (lstyle == _T("dotedLine")) {
-//				style = PS_DOT;
-//			}
-//		}
-//		else if (ename == _T("linkLineWidth")) {
-//			CString lwidth(s); int w; swscanf_s((const wchar_t*)lwidth.GetBuffer(), _T("%d"), &w);
-//			if (w == 1) w = 0;
-//			width = w;
-//		}
-//		else if (ename == _T("arrow")) {
-//			CString astyle(s);
-//			if (astyle == _T("a_none")) {
-//				arrow = iLink::line;
-//			}
-//			else if (astyle == _T("a_single")) {
-//				arrow = iLink::arrow;
-//			}
-//			else if (astyle == _T("a_double")) {
-//				arrow = iLink::arrow2;
-//			}
-//			else if (astyle == _T("a_depend")) {
-//				arrow = iLink::depend;
-//			}
-//			else if (astyle == _T("a_depend_double")) {
-//				arrow = iLink::depend2;
-//			}
-//			else if (astyle == _T("a_inherit")) {
-//				arrow = iLink::inherit;
-//			}
-//			else if (astyle == _T("a_aggregat")) {
-//				arrow = iLink::aggregat;
-//			}
-//			else if (astyle == _T("a_composit")) {
-//				arrow = iLink::composit;
-//			}
-//		}
-//	}
-//}
-//
-//COLORREF XmlProcessor::Dom2LinkColor(MSXML2::IXMLDOMNode *pNode)
-//{
-//	MSXML2::IXMLDOMNodeList	*childs = NULL;
-//	MSXML2::IXMLDOMNode		*childnode = NULL;
-//	pNode->get_childNodes(&childs);
-//	BSTR s = NULL;
-//	LONG i;
-//	int r(255), g(255), b(255);
-//	for (i = 0; i < childs->Getlength(); i++) {
-//		childs->get_item(i, &childnode);
-//		BSTR name = childnode->nodeName;
-//		CString ename(name);
-//		childnode->firstChild->get_text(&s);
-//		if (ename == _T("n_red")) {
-//			CString red(s);
-//			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
-//		}
-//		else if (ename == _T("n_green")) {
-//			CString green(s);
-//			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
-//		}
-//		else if (ename == _T("n_blue")) {
-//			CString blue(s);
-//			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
-//		}
-//	}
-//	return RGB(r, g, b);
-//}
-//
-//
-//CPoint XmlProcessor::Dom2LinkPathPt(MSXML2::IXMLDOMNode *pNode)
-//{
-//	CPoint pt(0, 0);
-//	MSXML2::IXMLDOMNodeList	*childs = NULL;
-//	MSXML2::IXMLDOMNode		*childnode = NULL;
-//	pNode->get_childNodes(&childs);
-//	BSTR s = NULL;
-//	LONG i;
-//	for (i = 0; i < childs->Getlength(); i++) {
-//		childs->get_item(i, &childnode);
-//		BSTR name = childnode->nodeName;
-//		CString ename(name);
-//		childnode->firstChild->get_text(&s);
-//		if (ename == _T("path_x")) {
-//			CString x(s);
-//			swscanf_s((const wchar_t*)x.GetBuffer(), _T("%d"), &pt.x);
-//		}
-//		else if (ename == _T("path_y")) {
-//			CString y(s);
-//			swscanf_s((const wchar_t*)y.GetBuffer(), _T("%d"), &pt.y);
-//		}
-//
-//	}
-//	return pt;
-//}
+int XmlProcessor::Dom2Shape(const CString &tag)
+{
+	if (tag == _T("Rect")) {
+		return iNode::rectangle;
+	}
+	else if (tag == _T("Oval")) {
+		return iNode::arc;
+	}
+	else if (tag == _T("RoundRect")) {
+		return iNode::roundRect;
+	}
+	else if (tag == _T("MetaFile")) {
+		return iNode::MetaFile;
+	}
+	else if (tag == _T("MMNode")) {
+		return (iNode::MindMapNode);
+	}
+	return iNode::rectangle;
+}
+
+void XmlProcessor::Dom2Bound(MSXML2::IXMLDOMNode *pNode, CRect &rc)
+{
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	pNode->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i;
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		childnode->firstChild->get_text(&s);
+		if (ename == _T("left")) {
+			CString left(s);
+			swscanf_s((const wchar_t*)left.GetBuffer(), _T("%d"), &rc.left);
+		}
+		else if (ename == _T("right")) {
+			CString right(s);
+			swscanf_s((const wchar_t*)right.GetBuffer(), _T("%d"), &rc.right);
+		}
+		else if (ename == _T("top")) {
+			CString top(s);
+			swscanf_s((const wchar_t*)top.GetBuffer(), _T("%d"), &rc.top);
+		}
+		else if (ename == _T("bottom")) {
+			childnode->firstChild->get_text(&s);
+			CString bottom(s);
+			swscanf_s((const wchar_t*)bottom.GetBuffer(), _T("%d"), &rc.bottom);
+		}
+	}
+}
+
+COLORREF XmlProcessor::Dom2ForeColor(MSXML2::IXMLDOMNode *pNode)
+{
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	pNode->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i;
+	int r(255), g(255), b(255);
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		childnode->firstChild->get_text(&s);
+		if (ename == _T("f_red")) {
+			CString red(s);
+			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
+		}
+		else if (ename == _T("f_green")) {
+			CString green(s);
+			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
+		}
+		else if (ename == _T("f_blue")) {
+			CString blue(s);
+			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
+		}
+	}
+	return RGB(r, g, b);
+}
+
+void XmlProcessor::Dom2NodeLine(MSXML2::IXMLDOMNode *pNode, int &style, int &width)
+{
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	pNode->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i;
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		childnode->firstChild->get_text(&s);
+		if (ename == _T("nodeLineStyle")) {
+			CString lstyle(s);
+			if (lstyle == _T("solidLine")) {
+				style = PS_SOLID;
+			}
+			else if (lstyle == _T("dotedLine")) {
+				style = PS_DOT;
+			}
+			else if (lstyle == _T("noLine")) {
+				style = PS_NULL;
+			}
+		}
+		else if (ename == _T("nodeLineWidth")) {
+			CString lwidth(s); int w; swscanf_s((const wchar_t*)lwidth.GetBuffer(), _T("%d"), &w);
+			if (w == 1) w = 0;
+			width = w;
+		}
+	}
+}
+
+
+COLORREF XmlProcessor::Dom2NodeLineColor(MSXML2::IXMLDOMNode *pNode)
+{
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	pNode->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i;
+	int r(255), g(255), b(255);
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		childnode->firstChild->get_text(&s);
+		if (ename == _T("l_red")) {
+			CString red(s);
+			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
+		}
+		else if (ename == _T("l_green")) {
+			CString green(s);
+			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
+		}
+		else if (ename == _T("l_blue")) {
+			CString blue(s);
+			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
+		}
+	}
+	return RGB(r, g, b);
+}
+
+void XmlProcessor::Dom2LinkStyle(MSXML2::IXMLDOMNode *pNode, int &style, int &width, int &arrow)
+{
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	pNode->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i;
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		childnode->firstChild->get_text(&s);
+		if (ename == _T("linkLineStyle")) {
+			CString lstyle(s);
+			if (lstyle == _T("solidLine")) {
+				style = PS_SOLID;
+			}
+			else if (lstyle == _T("dotedLine")) {
+				style = PS_DOT;
+			}
+		}
+		else if (ename == _T("linkLineWidth")) {
+			CString lwidth(s); int w; swscanf_s((const wchar_t*)lwidth.GetBuffer(), _T("%d"), &w);
+			if (w == 1) w = 0;
+			width = w;
+		}
+		else if (ename == _T("arrow")) {
+			CString astyle(s);
+			if (astyle == _T("a_none")) {
+				arrow = iLink::line;
+			}
+			else if (astyle == _T("a_single")) {
+				arrow = iLink::arrow;
+			}
+			else if (astyle == _T("a_double")) {
+				arrow = iLink::arrow2;
+			}
+			else if (astyle == _T("a_depend")) {
+				arrow = iLink::depend;
+			}
+			else if (astyle == _T("a_depend_double")) {
+				arrow = iLink::depend2;
+			}
+			else if (astyle == _T("a_inherit")) {
+				arrow = iLink::inherit;
+			}
+			else if (astyle == _T("a_aggregat")) {
+				arrow = iLink::aggregat;
+			}
+			else if (astyle == _T("a_composit")) {
+				arrow = iLink::composit;
+			}
+		}
+	}
+}
+
+COLORREF XmlProcessor::Dom2LinkColor(MSXML2::IXMLDOMNode *pNode)
+{
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	pNode->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i;
+	int r(255), g(255), b(255);
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		childnode->firstChild->get_text(&s);
+		if (ename == _T("n_red")) {
+			CString red(s);
+			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
+		}
+		else if (ename == _T("n_green")) {
+			CString green(s);
+			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
+		}
+		else if (ename == _T("n_blue")) {
+			CString blue(s);
+			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
+		}
+	}
+	return RGB(r, g, b);
+}
+
+
+CPoint XmlProcessor::Dom2LinkPathPt(MSXML2::IXMLDOMNode *pNode)
+{
+	CPoint pt(0, 0);
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	pNode->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i;
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		childnode->firstChild->get_text(&s);
+		if (ename == _T("path_x")) {
+			CString x(s);
+			swscanf_s((const wchar_t*)x.GetBuffer(), _T("%d"), &pt.x);
+		}
+		else if (ename == _T("path_y")) {
+			CString y(s);
+			swscanf_s((const wchar_t*)y.GetBuffer(), _T("%d"), &pt.y);
+		}
+
+	}
+	return pt;
+}
+
+DWORD XmlProcessor::FindPairKey(const DWORD first)
+{
+	for (unsigned int i = 0; i < idcVec.size(); i++) {
+		if (idcVec[i].first == first) {
+			return idcVec[i].second;
+		}
+	}
+	return -1;
+}
+
 //
 //// エクスポート時のXML出力関数
 //bool XmlProcessor::SaveXml(const CString &outPath, bool bSerialize)

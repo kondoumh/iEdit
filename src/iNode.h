@@ -554,6 +554,8 @@ typedef map<DWORD, iNode> node_map;
 typedef node_map::const_iterator node_c_iter;
 typedef node_map::iterator node_iter;
 typedef vector<iNode> node_vec;
+typedef pair<DWORD, DWORD> NodeKeyPair;
+typedef vector<NodeKeyPair> NodeKeyPairs;
 
 class iNodes : public node_map {
 public:
