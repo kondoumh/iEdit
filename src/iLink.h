@@ -409,6 +409,7 @@ inline void iLink::SetAsDropTarget(bool dropTarget)
 typedef list<iLink> link_list;
 typedef list<iLink>::const_iterator link_c_iter;
 typedef list<iLink>::iterator link_iter;
+typedef vector<iLink> link_vec;
 
 class iLinks : public link_list {
 public:

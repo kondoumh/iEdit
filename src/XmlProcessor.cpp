@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "XmlProcessor.h"
 #include "StringUtil.h"
-#include "iNode.h"
-#include "iLink.h"
 #include <locale>
 
 XmlProcessor::XmlProcessor()
@@ -14,22 +12,14 @@ XmlProcessor::~XmlProcessor()
 {
 }
 
-bool XmlProcessor::prepareLoad(const CString &fileName)
+bool XmlProcessor::ValidateXmlFile(const CString &fileName)
 {
-	MSXML2::IXMLDOMDocument		*pDoc = NULL;
-	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
-	MSXML2::IXMLDOMElement		*element = NULL;
-	MSXML2::IXMLDOMNodeList		*childs = NULL;
-	MSXML2::IXMLDOMNode			*node = NULL;
-
-	BSTR	bstr = NULL;
 	HRESULT hr;
-	int     rc = 0;
-
 	hr = CoInitialize(NULL);
 	if (!SUCCEEDED(hr))
 		return false;
 
+	MSXML2::IXMLDOMDocument		*pDoc = NULL;
 	hr = CoCreateInstance(MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
 		MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if (!pDoc) {
@@ -37,10 +27,12 @@ bool XmlProcessor::prepareLoad(const CString &fileName)
 		return false;
 	}
 	pDoc->put_async(VARIANT_FALSE);
+	BSTR	bstr = NULL;
 	bstr = fileName.AllocSysString();
 	hr = pDoc->load(bstr);
 	SysFreeString(bstr);
 
+	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
 	if (!hr) {
 		long line, linePos;
 		BSTR reason = NULL;
@@ -56,6 +48,7 @@ bool XmlProcessor::prepareLoad(const CString &fileName)
 		return false;
 	}
 	else {
+		MSXML2::IXMLDOMElement		*element = NULL;
 		pDoc->get_documentElement(&element);
 
 		BSTR s = NULL;
@@ -71,6 +64,11 @@ bool XmlProcessor::prepareLoad(const CString &fileName)
 		}
 	}
 	return true;
+}
+
+bool XmlProcessor::Import(node_vec& nodesImport, link_vec& linksImport)
+{
+	return false;
 }
 
 
@@ -706,3 +704,5 @@ bool XmlProcessor::prepareLoad(const CString &fileName)
 //	_wsetlocale(LC_ALL, _T(""));
 //	return true;
 //}
+
+

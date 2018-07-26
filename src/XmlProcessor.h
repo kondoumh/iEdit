@@ -1,6 +1,6 @@
 #pragma once
-
-
+#include "iNode.h"
+#include "iLink.h"
 
 class XmlProcessor
 {
@@ -8,7 +8,8 @@ public:
 	XmlProcessor();
 	~XmlProcessor();
 
-	bool prepareLoad(const CString& fileName);
+	static bool ValidateXmlFile(const CString& fileName);
+	static bool Import(node_vec& nodesImport, link_vec& linksImport);
 
 	//CPoint Dom2LinkPathPt(MSXML2::IXMLDOMNode* pNode);
 	//COLORREF Dom2LinkColor(MSXML2::IXMLDOMNode* pNode);

@@ -45,7 +45,6 @@ struct ColorRef {
 	BYTE b;
 };
 
-typedef vector<iLink> iLinkVec;
 class OutlineView;
 
 class iEditDoc : public CDocument
@@ -53,7 +52,7 @@ class iEditDoc : public CDocument
 	iNodes nodes_;
 	iLinks links_;
 	node_vec nodes_undo;
-	iLinkVec links_undo;
+	link_vec links_undo;
 	int m_serialVersion;
 
 protected:
@@ -274,7 +273,7 @@ private:
 	ColorRef m_fcolorImport, m_lcolorImport, m_ncolorImport;
 	CRect m_boundImport;
 	bool m_bShowBranch;
-	iLinkVec linksImport;
+	link_vec linksImport;
 	node_vec nodesImport;
 	iLink linkImport;
 	iNode nodeImport;
@@ -293,6 +292,7 @@ private:
 	CRect rcLinkFrom;
 	DWORD lastKey, lastLinkKey;
 
+	void prepareImport();
 	OutlineView* GetOutlineView() const;
 	template <class T>
 	void OutputStyleSheetLine(T &f);

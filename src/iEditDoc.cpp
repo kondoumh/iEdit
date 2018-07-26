@@ -1894,11 +1894,8 @@ bool iEditDoc::ImportXml(const CString &filename, bool replace)
 		return false;
 	}
 	else {
-		idcVec.clear(); idcVec.resize(0);
-		nodesImport.clear(); nodesImport.resize(0);
-		nodeImport.SetKey(-1); linkImport.SetKeyFrom(-1);
-
 		CWaitCursor wc;
+		prepareImport();
 		pDoc->get_documentElement(&element);
 
 		BSTR s = NULL;
@@ -1912,18 +1909,8 @@ bool iEditDoc::ImportXml(const CString &filename, bool replace)
 				return false;
 			}
 		}
-		nodeImport.SetBound(CRect(-1, -1, 0, 0));
-		nodeImport.SetName(_T(""));
-		nodeImport.SetText(_T(""));
-		nodeImport.SetTreeState(TVIS_EXPANDED);
-		linkImport.SetName(_T(""));
-		linkImport.SetPath(_T(""));
-		linkImport.SetArrowStyle(iLink::line);
-		linkImport.SetLineWidth(0);
-		linkImport.SetLinkColor(RGB(0, 0, 0));
 
 		CStdioFile f;
-		CFileStatus status;
 		CFileException e;
 
 		if (!f.Open(_T("import.log"), CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
@@ -1940,6 +1927,23 @@ bool iEditDoc::ImportXml(const CString &filename, bool replace)
 		return ret;
 	}
 	return false;
+}
+
+void iEditDoc::prepareImport()
+{
+	idcVec.clear(); idcVec.resize(0);
+	nodesImport.clear(); nodesImport.resize(0);
+	linksImport.clear(); linksImport.resize(0);
+	nodeImport.SetKey(-1); linkImport.SetKeyFrom(-1);
+	nodeImport.SetBound(CRect(-1, -1, 0, 0));
+	nodeImport.SetName(_T(""));
+	nodeImport.SetText(_T(""));
+	nodeImport.SetTreeState(TVIS_EXPANDED);
+	linkImport.SetName(_T(""));
+	linkImport.SetPath(_T(""));
+	linkImport.SetArrowStyle(iLink::line);
+	linkImport.SetLineWidth(0);
+	linkImport.SetLinkColor(RGB(0, 0, 0));
 }
 
 bool iEditDoc::SerializeFromXml(const CString &filename)
