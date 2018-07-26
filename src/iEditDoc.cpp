@@ -16,6 +16,7 @@
 #include <locale>
 #include "StringUtil.h"
 #include "MarkdownParser.h"
+#include "XmlProcessor.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -149,7 +150,7 @@ void iEditDoc::Serialize(CArchive& ar)
 	{
 		// TODO: この位置に読み込み用のコードを追加してください。
 		if (m_bSerializeXML) {
-			LoadFromXml(ar.GetFile()->GetFilePath());
+			SerializeFromXml(ar.GetFile()->GetFilePath());
 		}
 		else {
 			if (m_bOldBinary) {
@@ -1851,8 +1852,7 @@ BOOL iEditDoc::IsSelectedNodeFixed() const
 	return nodes_.IsSelectedFixed();
 }
 
-// このloadメソッドはインポート用
-bool iEditDoc::LoadXml(const CString &filename, bool replace)
+bool iEditDoc::ImportXml(const CString &filename, bool replace)
 {
 	MSXML2::IXMLDOMDocument		*pDoc = NULL;
 	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
@@ -1942,8 +1942,7 @@ bool iEditDoc::LoadXml(const CString &filename, bool replace)
 	return false;
 }
 
-// このLoadメソッドはシリアライズ用
-bool iEditDoc::LoadFromXml(const CString &filename)
+bool iEditDoc::SerializeFromXml(const CString &filename)
 {
 	MSXML2::IXMLDOMDocument		*pDoc = NULL;
 	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;

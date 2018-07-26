@@ -150,7 +150,7 @@ public:
 	void WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = _T(""));
 	void RandomizeNodesPos(const CSize& area);
 	bool SaveXml(const CString& outPath, bool bSerialize = false);
-	bool LoadXml(const CString& filename, bool replace = false);
+	bool ImportXml(const CString& filename, bool replace = false);
 	void AddNodeRoundedRect(const CString& name, const CPoint& pt);
 	BOOL IsSelectedNodeFixed() const;
 	void SetSelectedNodeFixed(BOOL f = TRUE);
@@ -298,7 +298,7 @@ private:
 	void OutputStyleSheetLine(T &f);
 	void SetConnectionPointForLayout(); // 芋づるモードのリンク再配置用
 	void SetConnectionPointVisibleLinks(); // visibleなリンクの再配置
-	bool LoadFromXml(const CString& filename);
+	bool SerializeFromXml(const CString& filename);
 	CPoint Dom2LinkPathPt(MSXML2::IXMLDOMNode* pNode);
 	COLORREF Dom2LinkColor(MSXML2::IXMLDOMNode* pNode);
 	void Dom2LinkStyle(MSXML2::IXMLDOMNode* pNode, int& style, int& width, int& arrow);
