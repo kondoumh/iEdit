@@ -63,21 +63,15 @@ bool XmlProcessor::ImportXml(const CString &fileName)
 			return false;
 		}
 	}
-	CStdioFile f;
-	CFileException e;
 
-	if (!f.Open(_T("import.log"), CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-		return false;
-	}
-
-	return Dom2Nodes2(element, &f);
+	ComvertToImportData(element);
+	return true;
 }
 
-bool XmlProcessor::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
+void XmlProcessor::ComvertToImportData(MSXML2::IXMLDOMElement *node)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNodeList	*childs2 = NULL;
-	MSXML2::IXMLDOMNodeList	*childs3 = NULL;
 	MSXML2::IXMLDOMNode		*childnode = NULL;
 	MSXML2::IXMLDOMNode		*childnode2 = NULL;
 	node->get_childNodes(&childs);
@@ -106,9 +100,6 @@ bool XmlProcessor::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 					idc.first = (DWORD)id;
 					idc.second = nodesImport[nodesImport.size() - 1].GetKey();
 					idcVec.push_back(idc);
-
-					ids += ' '; f->WriteString(ids); // log
-
 				}
 				else if (ename2 == _T("pid")) {
 					childnode2->firstChild->get_text(&s);
@@ -121,9 +112,6 @@ bool XmlProcessor::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 					childnode2->firstChild->get_text(&s);
 					CString name(s);
 					nodesImport[nodesImport.size() - 1].SetName(name);
-
-					name += '\n'; f->WriteString(name); // log
-
 				}
 				else if (ename2 == _T("text")) {
 					childnode2->firstChild->get_text(&s);
@@ -209,7 +197,6 @@ bool XmlProcessor::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
 			}
 		}
 	}
-	return true;
 }
 
 int XmlProcessor::Dom2TextAlign(const CString &tag)

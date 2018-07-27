@@ -9,12 +9,13 @@ class XmlProcessor
 	DWORD& assignKey;
 	NodeKeyPairs& idcVec;
 
+	void ComvertToImportData(MSXML2::IXMLDOMElement* node);
+
 public:
 	XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
 	~XmlProcessor();
 
 	bool ImportXml(const CString& fileName);
-	bool Dom2Nodes2(MSXML2::IXMLDOMElement* node, CStdioFile* f);
 
 	CPoint Dom2LinkPathPt(MSXML2::IXMLDOMNode* pNode);
 	COLORREF Dom2LinkColor(MSXML2::IXMLDOMNode* pNode);
