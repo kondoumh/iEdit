@@ -8,15 +8,9 @@ class XmlProcessor
 	link_vec& linksImport;
 	DWORD& assignKey;
 	NodeKeyPairs& idcVec;
+
 	void ComvertToImportData(MSXML2::IXMLDOMElement* node);
 	bool Dom2Nodes3(MSXML2::IXMLDOMElement* node);
-
-public:
-	XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
-	~XmlProcessor();
-
-	bool ImportXml(const CString& fileName);
-	bool SerializeFromXml(const CString& filename);
 
 	CPoint Dom2LinkPathPt(MSXML2::IXMLDOMNode* pNode);
 	COLORREF Dom2LinkColor(MSXML2::IXMLDOMNode* pNode);
@@ -30,6 +24,16 @@ public:
 
 	DWORD FindPairKey(const DWORD first);
 
-	//bool Dom2Nodes3(MSXML2::IXMLDOMElement* node);
+	template <class T>
+	static void OutputStyleSheetLine(T &f);
+	static bool NodePropsContainsKey(const iNodes& nodes, const NodePropsVec& labels, DWORD key);
+
+public:
+	XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
+	~XmlProcessor();
+
+	bool ImportXml(const CString& fileName);
+	bool SerializeFromXml(const CString& filename);
+	static bool Save(const CString &outPath, bool bSerialize, iNodes& nodes, iLinks & links, NodePropsVec& ls);
 };
 
