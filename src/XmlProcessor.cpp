@@ -199,6 +199,224 @@ void XmlProcessor::ComvertToImportData(MSXML2::IXMLDOMElement *node)
 	}
 }
 
+bool XmlProcessor::SerializeFromXml(const CString& filename)
+{
+	MSXML2::IXMLDOMDocument		*pDoc = NULL;
+	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
+	MSXML2::IXMLDOMElement		*element = NULL;
+	MSXML2::IXMLDOMNodeList		*childs = NULL;
+	MSXML2::IXMLDOMNode			*node = NULL;
+
+	BSTR	bstr = NULL;
+	HRESULT hr;
+	int     rc = 0;
+
+	hr = CoInitialize(NULL);
+	if (!SUCCEEDED(hr)) {
+		AfxMessageBox(_T("XML パーサーを利用できません。"));
+		return false;
+	}
+
+	hr = CoCreateInstance(MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
+		MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
+	if (!pDoc) {
+		AfxMessageBox(_T("XML ドキュメントをパースできません。"));
+		return false;
+	}
+	pDoc->put_async(VARIANT_FALSE);
+	bstr = filename.AllocSysString();
+	hr = pDoc->load(bstr);
+	SysFreeString(bstr);
+
+	if (!hr) {
+		long line, linePos;
+		BSTR reason = NULL;
+
+		pDoc->get_parseError(&pParsingErr);
+
+		pParsingErr->get_line(&line);
+		pParsingErr->get_linepos(&linePos);
+		pParsingErr->get_reason(&reason);
+		pParsingErr->get_errorCode(&hr);
+
+		SysFreeString(reason);
+		return false;
+	}
+	idcVec.clear(); idcVec.resize(0);
+	nodesImport.clear(); nodesImport.resize(0);
+	pDoc->get_documentElement(&element);
+
+	BSTR s = NULL;
+	element->get_nodeTypeString(&s);
+
+	if (!wcscmp(s, L"element")) {
+		element->get_nodeName(&s);
+		CString elems(s);
+		if (elems != _T("iEditDoc")) {
+			AfxMessageBox(_T("これはiEdit用のXMLファイルではありません"));
+			return false;
+		}
+	}
+
+	bool ret = Dom2Nodes3(element);
+
+	if (nodesImport.size() > 0 && nodesImport[0].GetKey() != 0) {
+		CString mes = _T("部分的にエクスポートしたデータを直接開くことはできません。\n";
+		mes += _T("インポート機能を使用して取り込んでください。");
+		AfxMessageBox(mes));
+		return false;
+	}
+	return true;
+}
+
+bool XmlProcessor::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
+{
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNodeList	*childs2 = NULL;
+	MSXML2::IXMLDOMNodeList	*childs3 = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	MSXML2::IXMLDOMNode		*childnode2 = NULL;
+	node->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i, j;
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		if (ename == _T("inode")) {
+			iNode n(_T("add")); n.SetKey(0);
+			n.ToggleFill(FALSE);
+			n.SetBound(CRect(-1, -1, 0, 0));
+			nodesImport.push_back(n);
+			childnode->get_childNodes(&childs2);
+			for (j = 0; j < childs2->Getlength(); j++) {
+				childs2->get_item(j, &childnode2);
+				BSTR name2 = childnode2->nodeName;
+				CString ename2(name2);
+				if (ename2 == _T("id")) {
+					childnode2->firstChild->get_text(&s);
+					CString ids(s);
+					int id;
+					swscanf_s((const wchar_t*)ids.GetBuffer(), _T("%d"), &id);
+
+					//	ids += ' '; f->WriteString(ids); // log
+					nodesImport[nodesImport.size() - 1].SetKey((DWORD)id);
+					if (id == 0) {
+						nodesImport[nodesImport.size() - 1].SetTreeState(TVIS_EXPANDED | TVIS_SELECTED);
+					}
+					else {
+						nodesImport[nodesImport.size() - 1].SetTreeState(0);
+					}
+				}
+				else if (ename2 == _T("pid")) {
+					childnode2->firstChild->get_text(&s);
+					CString pids(s);
+					int pid;
+					swscanf_s((const wchar_t *)pids.GetBuffer(), _T("%d"), &pid);
+					nodesImport[nodesImport.size() - 1].SetParentKey((DWORD)pid);
+					/*	} else if (ename2 == "level") {
+					childnode2->firstChild->get_text(&s);
+					CString sLevel(s);
+					int nLevel;
+					sscanf(sLevel, "%d", &nLevel);
+					nodesImport[nodesImport.size()-1].SetLevel(nLevel); */
+				}
+				else if (ename2 == _T("label")) {
+					childnode2->firstChild->get_text(&s);
+					CString name(s);
+					nodesImport[nodesImport.size() - 1].SetName(name);
+
+					//	name += '\n'; f->WriteString(name); // log
+
+				}
+				else if (ename2 == _T("text")) {
+					childnode2->firstChild->get_text(&s);
+					CString text(s);
+					text = StringUtil::ReplaceLfToCrlf(text);
+					nodesImport[nodesImport.size() - 1].SetText(text);
+				}
+				else if (ename2 == _T("labelAlign")) {
+					childnode2->firstChild->get_text(&s);
+					CString align(s);
+					nodesImport[nodesImport.size() - 1].SetTextStyle(Dom2TextAlign(align));
+				}
+				else if (ename2 == _T("shape")) {
+					childnode2->firstChild->get_text(&s);
+					CString shape(s);
+					nodesImport[nodesImport.size() - 1].SetShape(Dom2Shape(shape));
+				}
+				else if (ename2 == _T("bound")) {
+					CRect rc = nodesImport[nodesImport.size() - 1].getBound();
+					Dom2Bound(childnode2, rc);
+					rc.NormalizeRect();
+					nodesImport[nodesImport.size() - 1].SetBound(rc);
+				}
+				else if (ename2 == _T("ForColor")) {
+					COLORREF cr = Dom2ForeColor(childnode2);
+					nodesImport[nodesImport.size() - 1].SetFillColor(cr);
+				}
+				else if (ename2 == _T("nodeLine")) {
+					int lineStyle(PS_SOLID), lineWidth(0);
+					Dom2NodeLine(childnode2, lineStyle, lineWidth);
+					nodesImport[nodesImport.size() - 1].SetLineStyle(lineStyle);
+					nodesImport[nodesImport.size() - 1].SetLineWidth(lineWidth);
+				}
+				else if (ename2 == _T("nodeLineColor")) {
+					COLORREF cr = Dom2NodeLineColor(childnode2);
+					nodesImport[nodesImport.size() - 1].SetLineColor(cr);
+				}
+			}
+		}
+		else if (ename == _T("ilink")) {
+			iLink l;
+			linksImport.push_back(l);
+			childnode->get_childNodes(&childs2);
+			for (j = 0; j < childs2->Getlength(); j++) {
+				childs2->get_item(j, &childnode2);
+				BSTR name2 = childnode2->nodeName;
+				CString ename2(name2);
+				if (ename2 == _T("from")) {
+					childnode2->firstChild->get_text(&s);
+					CString from(s); int idfrom; swscanf_s((const wchar_t*)from.GetBuffer(), _T("%d"), &idfrom);
+					linksImport[linksImport.size() - 1].SetKeyFrom(((DWORD)idfrom));
+				}
+				else if (ename2 == _T("to")) {
+					childnode2->firstChild->get_text(&s);
+					CString to(s); int idto; swscanf_s((const wchar_t*)to.GetBuffer(), _T("%d"), &idto);
+					linksImport[linksImport.size() - 1].SetKeyTo(((DWORD)idto));
+				}
+				else if (ename2 == _T("caption")) {
+					childnode2->firstChild->get_text(&s);
+					linksImport[linksImport.size() - 1].SetName(CString(s));
+				}
+				else if (ename2 == _T("linkLine")) {
+					int style(PS_SOLID); int lineWidth(0); int arrow(iLink::line);
+					Dom2LinkStyle(childnode2, style, lineWidth, arrow);
+					linksImport[linksImport.size() - 1].SetLineStyle(style);
+					linksImport[linksImport.size() - 1].SetLineWidth(lineWidth);
+					linksImport[linksImport.size() - 1].SetArrowStyle(arrow);
+				}
+				else if (ename2 == _T("linkLineColor")) {
+					COLORREF rc = Dom2LinkColor(childnode2);
+					linksImport[linksImport.size() - 1].SetLinkColor(rc);
+				}
+				else if (ename2 == _T("pathPt")) {
+					CPoint pt = Dom2LinkPathPt(childnode2);
+					linksImport[linksImport.size() - 1].SetPathPt(pt);
+				}
+				else if (ename2 == _T("locate")) {
+					childnode2->firstChild->get_text(&s);
+					CString path(s);
+					linksImport[linksImport.size() - 1].SetPath(path);
+					linksImport[linksImport.size() - 1].SetArrowStyle(iLink::other);
+				}
+			}
+		}
+	}
+	return true;
+}
+
+
 int XmlProcessor::Dom2TextAlign(const CString &tag)
 {
 	if (tag == _T("single-middle-center")) {
