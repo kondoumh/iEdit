@@ -10,7 +10,7 @@ class XmlProcessor
 	NodeKeyPairs& idcVec;
 
 	void ComvertToImportData(MSXML2::IXMLDOMElement* node);
-	bool Dom2Nodes3(MSXML2::IXMLDOMElement* node);
+	bool ConvertToSerializeData(MSXML2::IXMLDOMElement* node);
 
 	CPoint Dom2LinkPathPt(MSXML2::IXMLDOMNode* pNode);
 	COLORREF Dom2LinkColor(MSXML2::IXMLDOMNode* pNode);

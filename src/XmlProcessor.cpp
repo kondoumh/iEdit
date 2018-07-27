@@ -259,7 +259,7 @@ bool XmlProcessor::SerializeFromXml(const CString& filename)
 		}
 	}
 
-	bool ret = Dom2Nodes3(element);
+	bool ret = ConvertToSerializeData(element);
 
 	if (nodesImport.size() > 0 && nodesImport[0].GetKey() != 0) {
 		CString mes = _T("部分的にエクスポートしたデータを直接開くことはできません。\n";
@@ -270,7 +270,7 @@ bool XmlProcessor::SerializeFromXml(const CString& filename)
 	return true;
 }
 
-bool XmlProcessor::Dom2Nodes3(MSXML2::IXMLDOMElement *node)
+bool XmlProcessor::ConvertToSerializeData(MSXML2::IXMLDOMElement *node)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNodeList	*childs2 = NULL;
@@ -741,7 +741,7 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 	// Header of XML file
 	f.WriteString(_T("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
 	OutputStyleSheetLine(f);
-	f.WriteString(_T("<XmlProcessor>\n"));
+	f.WriteString(_T("<iEditDoc>\n"));
 
 	// iNodes -->iNode Data
 	for (unsigned int i = 0; i < ls.size(); i++) {
@@ -1006,7 +1006,6 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 
 			f.WriteString(_T("\t\t</linkLine>\n"));
 
-
 			f.WriteString(_T("\t\t<linkLineColor>\n"));
 			CString sc;
 			COLORREF nc = (*li).GetLinkColor();
@@ -1031,7 +1030,6 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 
 			f.WriteString(_T("\t\t</linkLineColor>\n"));
 
-
 			if ((*li).IsCurved()) {
 				f.WriteString(_T("\t\t<pathPt>\n"));
 				CString sp; sp.Format(_T("\t\t\t<path_x>%d</path_x>\n\t\t\t<path_y>%d</path_y>\n"),
@@ -1043,7 +1041,7 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 		f.WriteString(_T("\t</ilink>\n"));
 	}
 
-	f.WriteString(_T("</XmlProcessor>\n"));
+	f.WriteString(_T("</iEditDoc>\n"));
 	f.Flush();
 	f.Close();
 	_wsetlocale(LC_ALL, _T(""));

@@ -291,12 +291,9 @@ private:
 
 	void prepareImport();
 	OutlineView* GetOutlineView() const;
-	template <class T>
-	void OutputStyleSheetLine(T &f);
 	void SetConnectionPointForLayout(); // 芋づるモードのリンク再配置用
 	void SetConnectionPointVisibleLinks(); // visibleなリンクの再配置
 	bool SerializeFromXml(const CString& filename);
-	bool NodePropsContainsKey(const NodePropsVec& labels, DWORD key);
 	double LinkWidth2BondStrength(int width);
 	void AddImportedData(bool brepRoot);
 	DWORD FindPairKey(const DWORD first);
