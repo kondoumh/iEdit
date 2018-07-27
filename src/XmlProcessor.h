@@ -4,16 +4,16 @@
 
 class XmlProcessor
 {
-	node_vec nodesImport;
-	link_vec linksImport;
-	DWORD assignKey;
-	NodeKeyPairs idcVec;
+	node_vec& nodesImport;
+	link_vec& linksImport;
+	DWORD& assignKey;
+	NodeKeyPairs& idcVec;
 
 public:
-	XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD assignKey, NodeKeyPairs& idcVec);
+	XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
 	~XmlProcessor();
 
-		static bool ImportXml(const CString& fileName);
+	bool ImportXml(const CString& fileName);
 	bool Dom2Nodes2(MSXML2::IXMLDOMElement* node, CStdioFile* f);
 
 	CPoint Dom2LinkPathPt(MSXML2::IXMLDOMNode* pNode);

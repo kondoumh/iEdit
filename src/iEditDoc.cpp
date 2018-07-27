@@ -1856,75 +1856,10 @@ bool iEditDoc::ImportXml(const CString &filename, bool replace)
 {
 	prepareImport();
 	CWaitCursor wc;
-
-	MSXML2::IXMLDOMDocument		*pDoc = NULL;
-	MSXML2::IXMLDOMParseError	*pParsingErr = NULL;
-	MSXML2::IXMLDOMElement		*element = NULL;
-	MSXML2::IXMLDOMNodeList		*childs = NULL;
-	MSXML2::IXMLDOMNode			*node = NULL;
-
-	BSTR	bstr = NULL;
-	HRESULT hr;
-
-	hr = CoInitialize(NULL);
-	if (!SUCCEEDED(hr))
-		return false;
-
-	hr = CoCreateInstance(MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
-		MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
-	if (!pDoc) {
-		AfxMessageBox(_T("XML ドキュメントをパースできません。"));
-		return false;
-	}
-	pDoc->put_async(VARIANT_FALSE);
-	bstr = filename.AllocSysString();
-	hr = pDoc->load(bstr);
-	SysFreeString(bstr);
-
-	if (!hr) {
-		long line, linePos;
-		BSTR reason = NULL;
-
-		pDoc->get_parseError(&pParsingErr);
-
-		pParsingErr->get_line(&line);
-		pParsingErr->get_linepos(&linePos);
-		pParsingErr->get_reason(&reason);
-		pParsingErr->get_errorCode(&hr);
-
-		SysFreeString(reason);
-		return false;
-	}
-	else {
-		pDoc->get_documentElement(&element);
-
-		BSTR s = NULL;
-		element->get_nodeTypeString(&s);
-
-		if (!wcscmp(s, L"element")) {
-			element->get_nodeName(&s);
-			CString elems(s);
-			if (elems != _T("iEditDoc")) {
-				AfxMessageBox(_T("これはiEdit用のXMLファイルではありません"));
-				return false;
-			}
-		}
-
-		CStdioFile f;
-		CFileException e;
-
-		if (!f.Open(_T("import.log"), CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
-			return false;
-		}
-		bool ret = Dom2Nodes2(element, &f);
-
-		if (ret) {
-			//	nodesImport.push_back(nodeImport);
-			//	linksImport.push_back(linkImport);
-
-			AddImportedData(replace);
-		}
-		return ret;
+	XmlProcessor processor(nodesImport, linksImport, lastKey, idcVec);
+	if (processor.ImportXml(filename)) {
+		AddImportedData(replace);
+		return true;
 	}
 	return false;
 }

@@ -3,14 +3,10 @@
 #include "StringUtil.h"
 #include <locale>
 
-XmlProcessor::XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD assignKey, NodeKeyPairs& idcVec)
+XmlProcessor::XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec) : 
+	nodesImport(nodesImport), linksImport(linksImport), assignKey(assignKey), idcVec(idcVec)
 {
-	this->nodesImport = nodesImport;
-	this->linksImport = linksImport;
-	this->idcVec = idcVec;
-	this->assignKey = assignKey;
 }
-
 
 XmlProcessor::~XmlProcessor()
 {
@@ -53,23 +49,28 @@ bool XmlProcessor::ImportXml(const CString &fileName)
 		SysFreeString(reason);
 		return false;
 	}
-	else {
-		MSXML2::IXMLDOMElement		*element = NULL;
-		pDoc->get_documentElement(&element);
+	MSXML2::IXMLDOMElement		*element = NULL;
+	pDoc->get_documentElement(&element);
 
-		BSTR s = NULL;
-		element->get_nodeTypeString(&s);
+	BSTR s = NULL;
+	element->get_nodeTypeString(&s);
 
-		if (!wcscmp(s, L"element")) {
-			element->get_nodeName(&s);
-			CString elems(s);
-			if (elems != _T("iEditDoc")) {
-				AfxMessageBox(_T("これは iEdit 用の XML ファイルではありません"));
-				return false;
-			}
+	if (!wcscmp(s, L"element")) {
+		element->get_nodeName(&s);
+		CString elems(s);
+		if (elems != _T("iEditDoc")) {
+			AfxMessageBox(_T("これは iEdit 用の XML ファイルではありません"));
+			return false;
 		}
 	}
-	return true;
+	CStdioFile f;
+	CFileException e;
+
+	if (!f.Open(_T("import.log"), CFile::typeText | CFile::modeCreate | CFile::modeWrite, &e)) {
+		return false;
+	}
+
+	return Dom2Nodes2(element, &f);
 }
 
 bool XmlProcessor::Dom2Nodes2(MSXML2::IXMLDOMElement *node, CStdioFile* f)
