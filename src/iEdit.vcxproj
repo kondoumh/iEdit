@@ -159,6 +159,7 @@
     <ClCompile Include="FileDropActionDlg.cpp" />
     <ClCompile Include="FiletypeSettingsDlg.cpp" />
     <ClCompile Include="FoldingSettingsDlg.cpp" />
+    <ClCompile Include="HtmlWriter.cpp" />
     <ClCompile Include="iEdit.cpp" />
     <ClCompile Include="iEditDoc.cpp" />
     <ClCompile Include="iLink.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="FileDropActionDlg.h" />
     <ClInclude Include="FiletypeSettingsDlg.h" />
     <ClInclude Include="FoldingSettingsDlg.h" />
+    <ClInclude Include="HtmlWriter.h" />
     <ClInclude Include="iEdit.h" />
     <ClInclude Include="iEditDoc.h" />
     <ClInclude Include="iLink.h" />

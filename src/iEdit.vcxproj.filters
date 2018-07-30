@@ -147,6 +147,9 @@
     <ClCompile Include="XmlProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HtmlWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iEdit.rc">
@@ -287,6 +290,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="XmlProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
