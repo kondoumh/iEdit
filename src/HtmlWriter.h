@@ -33,5 +33,6 @@ public:
 	static void WriteTextStart(CStdioFile& tf);
 	static void WriteRootTextStart(CStdioFile& rootTf);
 	static void WriteRootTextEnd(CStdioFile& rootTf);
+	static void WriteOutline(const CString& keyStr, const CString& itemStr, CStdioFile& olf, const ExportOptions& options);
 };
 

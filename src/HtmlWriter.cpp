@@ -106,3 +106,22 @@ void HtmlWriter::WriteTextStyle(CStdioFile &f, bool single)
 	f.WriteString(_T("</style>\n"));
 }
 
+void HtmlWriter::WriteOutline(const CString& keyStr, const CString& itemStr, CStdioFile& olf, const ExportOptions& options)
+{
+	// アウトライン書き込み
+	if (options.navOption != 1) {
+		olf.WriteString(_T("<li>"));
+		olf.WriteString(_T("<a href="));
+		if (options.textOption == 0) {
+			olf.WriteString(_T("\"") + options.pathTextSingle + _T("#"));
+			olf.WriteString(keyStr);
+		}
+		else {
+			olf.WriteString(_T("\"text/") + options.prfTextEverynode + keyStr + _T(".html"));
+		}
+		olf.WriteString(_T("\" target=text>"));
+		// 見出し書き込み
+		olf.WriteString(itemStr);
+		olf.WriteString(_T("</a>"));
+	}
+}
