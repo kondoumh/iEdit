@@ -3,6 +3,7 @@
 #include <locale>
 #include "iEdit.h"
 #include "StringUtil.h"
+#include "MarkdownParser.h"
 
 HtmlWriter::HtmlWriter()
 {
@@ -108,7 +109,6 @@ void HtmlWriter::WriteTextStyle(CStdioFile &f, bool single)
 
 void HtmlWriter::WriteOutline(const CString& keyStr, const CString& itemStr, CStdioFile& olf, const ExportOptions& options)
 {
-	// アウトライン書き込み
 	if (options.navOption != 1) {
 		olf.WriteString(_T("<li>"));
 		olf.WriteString(_T("<a href="));
@@ -124,4 +124,25 @@ void HtmlWriter::WriteOutline(const CString& keyStr, const CString& itemStr, CSt
 		olf.WriteString(itemStr);
 		olf.WriteString(_T("</a>"));
 	}
+}
+
+void HtmlWriter::WriteOutlineEnd(CStdioFile& olf)
+{
+	olf.WriteString(_T("</li>\n"));
+}
+
+void HtmlWriter::WriteText(CStdioFile& tf, const CString& keyStr, const CString& label, const CString& text)
+{
+	// リンクタグの生成
+	tf.WriteString(_T("<a id="));
+	tf.WriteString(_T("\""));
+
+	tf.WriteString(keyStr);
+	tf.WriteString(_T("\" />\n"));
+
+	// 内容書き込み
+	tf.WriteString(_T("<h1>") + StringUtil::RemoveCr(label) + _T("</h1>\n"));
+	tf.WriteString(_T("<div class=\"text\">\n"));
+	tf.WriteString(MarkdownParser::Parse(text));
+	tf.WriteString(_T("</div>\n"));
 }

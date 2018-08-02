@@ -21,9 +21,6 @@ struct ExportOptions {
 
 class HtmlWriter
 {
-	static void WriteHtmlHeader(CStdioFile& f);
-	static void WriteTextStyle(CStdioFile& f, bool single = true);
-
 public:
 	HtmlWriter();
 	~HtmlWriter();
@@ -34,5 +31,10 @@ public:
 	static void WriteRootTextStart(CStdioFile& rootTf);
 	static void WriteRootTextEnd(CStdioFile& rootTf);
 	static void WriteOutline(const CString& keyStr, const CString& itemStr, CStdioFile& olf, const ExportOptions& options);
-};
 
+	static void WriteHtmlHeader(CStdioFile& f);
+	static void WriteTextStyle(CStdioFile& f, bool single = true);
+	static void WriteOutlineEnd(CStdioFile& f);
+
+	static void WriteText(CStdioFile& f, const CString& keyStr, const CString& label, const CString& text);
+};
