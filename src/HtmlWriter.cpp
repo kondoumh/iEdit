@@ -146,3 +146,61 @@ void HtmlWriter::WriteText(CStdioFile& tf, const CString& keyStr, const CString&
 	tf.WriteString(MarkdownParser::Parse(text));
 	tf.WriteString(_T("</div>\n"));
 }
+
+void HtmlWriter::WriteLinkStart(CStdioFile& tf)
+{
+	// ÉäÉìÉNóp div
+	tf.WriteString(_T("<div class=\"links\">\n"));
+}
+
+void HtmlWriter::WriteLinkTo(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix) {
+	strLinks += _T("<li><a href=");
+	if (!textIsolated) {
+		strLinks += _T("\"#");
+		strLinks += keyStr;
+	}
+	else {
+		strLinks += _T("\"") + textPrefix + keyStr + _T(".html\"");
+	}
+	strLinks += _T("\">");
+	strLinks += _T("Å£") + StringUtil::RemoveCr(nodeLabel);
+	if (linkLabel != _T("")) {
+		strLinks += _T("(") + linkLabel + _T(")");
+	}
+	strLinks += _T("</a></li>\n");
+}
+
+void HtmlWriter::WriteLinkFrom(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix) {
+	strLinks += _T("<li><a href=");
+	if (!textIsolated) {
+		strLinks += _T("\"#");
+		strLinks += keyStr;
+	}
+	else {
+		strLinks += _T("\"") + textPrefix + keyStr + _T(".html\"");
+	}
+	strLinks += _T("\">");
+	strLinks += _T("Å§") + StringUtil::RemoveCr(nodeLabel);
+	if (linkLabel != "") {
+		strLinks += _T("(") + linkLabel + ")";
+	}
+	strLinks += _T("</a></li>\n");
+}
+
+void HtmlWriter::WriteUrlLink(CString& strLinks, bool exportFileLinks, const CString& url, const CString& label) {
+	strLinks += _T("<li><a href=\"");
+	strLinks += url;
+	strLinks += _T("\" target=\"_top\">");
+	if (label != _T("")) {
+		strLinks += label;
+	}
+	else {
+		strLinks += url;
+	}
+	strLinks += _T("</a></li>\n");
+}
+
+void HtmlWriter::WriteLinkEnd(CStdioFile& tf)
+{
+	tf.WriteString(_T("</div>\n"));
+}

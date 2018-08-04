@@ -37,4 +37,9 @@ public:
 	static void WriteOutlineEnd(CStdioFile& f);
 
 	static void WriteText(CStdioFile& f, const CString& keyStr, const CString& label, const CString& text);
+	static void WriteLinkStart(CStdioFile& f);
+	void WriteLinkTo(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix);
+	void WriteLinkFrom(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix);
+	void WriteUrlLink(CString& strLinks, bool exportFileLinks, const CString& url, const CString& label);
+	static void WriteLinkEnd(CStdioFile& f);
 };
