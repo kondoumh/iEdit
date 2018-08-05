@@ -2045,26 +2045,11 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile& f, bool textIsolated, c
 {
 	node_c_iter it = nodes_.FindRead(key);
 
-	CString nameStr = StringUtil::RemoveCr((*it).second.GetName());
-	// リンクタグの生成
-	f.WriteString(_T("<a id="));
-	f.WriteString(_T("\""));
-	CString keystr;
-	keystr.Format(_T("%d"), (*it).second.GetKey());
-	f.WriteString(keystr);
-	f.WriteString(_T("\" />\n"));
+	CString keystr; keystr.Format(_T("%d"), (*it).second.GetKey());
+	HtmlWriter::WriteText(f, keystr, (*it).second.GetName(), (*it).second.GetText());
 
-	// 内容書き込み
-	f.WriteString(_T("<h1>") + nameStr + _T("</h1>\n"));
-	f.WriteString(_T("<div class=\"text\">\n"));
-	f.WriteString(MarkdownParser::Parse((*it).second.GetText()));
-	f.WriteString(_T("</div>\n"));
-
-	// リンクの書き込み
-	f.WriteString(_T("<div class=\"links\">\n"));
 	link_c_iter li = links_.begin();
-	CString sLink(_T("<ul>\n"));
-	int cnt = 0;
+	CString sLink;
 	for (; li != links_.end(); li++) {
 		if ((*li).GetFromNodeKey() != (*it).second.GetKey() &&
 			(*li).GetToNodeKey() != (*it).second.GetKey()) {
@@ -2076,43 +2061,15 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile& f, bool textIsolated, c
 				if (itTo != nodes_.end()) {
 					CString keystr;
 					keystr.Format(_T("%d"), (*li).GetToNodeKey());
-					sLink += _T("<li><a href=");
-					if (!textIsolated) {
-						sLink += _T("\"#");
-						sLink += keystr;
-					}
-					else {
-						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
-					}
-					sLink += _T("\">");
-					sLink += _T("▲") + StringUtil::RemoveCr((*itTo).second.GetName());
-					if ((*li).GetName() != _T("")) {
-						sLink += _T("(") + (*li).GetName() + _T(")");
-					}
-					sLink += _T("</a></li>\n");
-					cnt++;
+					HtmlWriter::BuildLinkTo(sLink, keystr, textIsolated, (*itTo).second.GetName(), (*li).GetName(), textPrefix);
 				}
 			}
 			else if ((*it).second.GetKey() == (*li).GetToNodeKey()) {
 				node_c_iter itFrom = nodes_.FindRead((*li).GetFromNodeKey());
 				if (itFrom != nodes_.end()) {
-					CString keystr; \
-						keystr.Format(_T("%d"), (*li).GetFromNodeKey());
-					sLink += _T("<li><a href=");
-					if (!textIsolated) {
-						sLink += _T("\"#");
-						sLink += keystr;
-					}
-					else {
-						sLink += _T("\"") + textPrefix + keystr + _T(".html\"");
-					}
-					sLink += _T("\">");
-					sLink += _T("▽") + StringUtil::RemoveCr((*itFrom).second.GetName());
-					if ((*li).GetName() != "") {
-						sLink += _T("(") + (*li).GetName() + ")";
-					}
-					sLink += _T("</a></li>\n");
-					cnt++;
+					CString keystr;
+					keystr.Format(_T("%d"), (*li).GetFromNodeKey());
+					HtmlWriter::BuildLinkFrom(sLink, keystr, textIsolated, (*itFrom).second.GetName(), (*li).GetName(), textPrefix);
 				}
 			}
 		}
@@ -2134,24 +2091,10 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile& f, bool textIsolated, c
 					url = _T("file:///") + url;
 				}
 			}
-			sLink += _T("<li><a href=\"");
-			sLink += url;
-			sLink += _T("\" target=\"_top\">");
-			if ((*li).GetName() != _T("")) {
-				sLink += (*li).GetName();
-			}
-			else {
-				sLink += url;
-			}
-			sLink += _T("</a></li>\n");
-			cnt++;
+			HtmlWriter::BuildUrlLink(sLink, url, (*li).GetName());
 		}
 	}
-	sLink += _T("</ul>\n");
-	if (cnt > 0) {
-		f.WriteString(sLink);
-	}
-	f.WriteString(_T("</div>\n"));
+	HtmlWriter::WriteLinks(f, sLink);
 }
 
 CString iEditDoc::GetKeyNodeText(DWORD key)

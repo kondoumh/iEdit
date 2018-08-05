@@ -147,13 +147,7 @@ void HtmlWriter::WriteText(CStdioFile& tf, const CString& keyStr, const CString&
 	tf.WriteString(_T("</div>\n"));
 }
 
-void HtmlWriter::WriteLinkStart(CStdioFile& tf)
-{
-	// ƒŠƒ“ƒN—p div
-	tf.WriteString(_T("<div class=\"links\">\n"));
-}
-
-void HtmlWriter::WriteLinkTo(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix) {
+void HtmlWriter::BuildLinkTo(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix) {
 	strLinks += _T("<li><a href=");
 	if (!textIsolated) {
 		strLinks += _T("\"#");
@@ -170,7 +164,7 @@ void HtmlWriter::WriteLinkTo(CString& strLinks, const CString& keyStr, bool text
 	strLinks += _T("</a></li>\n");
 }
 
-void HtmlWriter::WriteLinkFrom(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix) {
+void HtmlWriter::BuildLinkFrom(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix) {
 	strLinks += _T("<li><a href=");
 	if (!textIsolated) {
 		strLinks += _T("\"#");
@@ -187,7 +181,7 @@ void HtmlWriter::WriteLinkFrom(CString& strLinks, const CString& keyStr, bool te
 	strLinks += _T("</a></li>\n");
 }
 
-void HtmlWriter::WriteUrlLink(CString& strLinks, bool exportFileLinks, const CString& url, const CString& label) {
+void HtmlWriter::BuildUrlLink(CString& strLinks, const CString& url, const CString& label) {
 	strLinks += _T("<li><a href=\"");
 	strLinks += url;
 	strLinks += _T("\" target=\"_top\">");
@@ -200,7 +194,14 @@ void HtmlWriter::WriteUrlLink(CString& strLinks, bool exportFileLinks, const CSt
 	strLinks += _T("</a></li>\n");
 }
 
-void HtmlWriter::WriteLinkEnd(CStdioFile& tf)
+void HtmlWriter::WriteLinks(CStdioFile& f, const CString& strLinks)
 {
-	tf.WriteString(_T("</div>\n"));
+	if (strLinks.GetLength() == 0) {
+		return;
+	}
+	f.WriteString(_T("<div class=\"links\">\n"));
+	f.WriteString(_T("<ul>\n"));
+	f.WriteString(strLinks);
+	f.WriteString(_T("</ul>\n"));
+	f.WriteString(_T("</div>\n"));
 }
