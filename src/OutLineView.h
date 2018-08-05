@@ -208,7 +208,7 @@ private:
 	void ApplyColorSetting();
 	void FoldupTree(HTREEITEM hItem, int curLevel, int levelSet);
 	void DisableUndo();
-	void OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile* foutline, CStdioFile* ftext);
+	void OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile& foutline, CStdioFile& ftext);
 	void WriteHtmlHeader(CStdioFile& f);
 	void WriteTextStyle(CStdioFile& f, bool single = true);
 	bool ImportXML(const CString& inPath);

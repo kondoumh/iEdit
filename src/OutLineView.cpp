@@ -1923,7 +1923,7 @@ void OutlineView::OutputHtml()
 		WriteHtmlHeader(tf);
 		WriteTextStyle(tf);
 		tf.WriteString(_T("</head>\n<body>\n"));
-		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), &tf);
+		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), tf);
 	}
 	else {
 		CString arName = textDir + _T("\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
@@ -1936,14 +1936,14 @@ void OutlineView::OutputHtml()
 		WriteHtmlHeader(rootTf);
 		WriteTextStyle(rootTf, false);
 		rootTf.WriteString(_T("</head>\n<body>\n"));
-		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), &rootTf, true, m_exportOption.prfTextEverynode);
+		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), rootTf, true, m_exportOption.prfTextEverynode);
 		rootTf.WriteString(_T("</body>\n</html>\n"));
 		rootTf.Close();
 	}
 	/////////////////// output SubTree
 	if (Tree().ItemHasChildren(root)) {
 		HTREEITEM child = Tree().GetNextItem(root, TVGN_CHILD);
-		OutputOutlineHtml(root, child, &olf, &tf);
+		OutputOutlineHtml(root, child, olf, tf);
 	}
 
 	if (eDlg.m_xvRdNav != 1) {
@@ -2013,26 +2013,26 @@ void OutlineView::OutputHtml()
 	}
 }
 
-void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile *foutline, CStdioFile* ftext)
+void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile& foutline, CStdioFile& ftext)
 {
 	CString keystr;
 	keystr.Format(_T("%d"), Tree().GetItemData(hItem));
 	// アウトライン書き込み
 	if (m_exportOption.navOption != 1) {
-		foutline->WriteString(_T("<li>"));
+		foutline.WriteString(_T("<li>"));
 		CString itemStr = StringUtil::RemoveCr(GetDocument()->GetKeyNodeLabel(Tree().GetItemData(hItem)));
-		foutline->WriteString(_T("<a href="));
+		foutline.WriteString(_T("<a href="));
 		if (m_exportOption.textOption == 0) {
-			foutline->WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#"));
-			foutline->WriteString(keystr);
+			foutline.WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#"));
+			foutline.WriteString(keystr);
 		}
 		else {
-			foutline->WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
+			foutline.WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
 		}
-		foutline->WriteString(_T("\" target=text>"));
+		foutline.WriteString(_T("\" target=text>"));
 		// 見出し書き込み
-		foutline->WriteString(itemStr);
-		foutline->WriteString(_T("</a>"));
+		foutline.WriteString(itemStr);
+		foutline.WriteString(_T("</a>"));
 	}
 
 	// Text出力
@@ -2052,7 +2052,7 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 		WriteHtmlHeader(tf);
 		WriteTextStyle(tf, false);
 		tf.WriteString(_T("</head>\n<body>\n"));
-		GetDocument()->WriteKeyNodeToHtml(key, &tf, true, m_exportOption.prfTextEverynode);
+		GetDocument()->WriteKeyNodeToHtml(key, tf, true, m_exportOption.prfTextEverynode);
 		tf.WriteString(_T("</body>\n</html>\n"));
 		tf.Close();
 	}
@@ -2061,13 +2061,13 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 		m_exportOption.htmlOutOption == 1 && GetDocument()->ShowSubBranch();
 	if (Tree().ItemHasChildren(hItem) && nested) {
 		if (m_exportOption.navOption != 1) {
-			foutline->WriteString(_T("\n<ul>\n"));
+			foutline.WriteString(_T("\n<ul>\n"));
 		}
 		HTREEITEM hchildItem = Tree().GetNextItem(hItem, TVGN_CHILD);
 		OutputOutlineHtml(hRoot, hchildItem, foutline, ftext);
 	}
 	else {
-		foutline->WriteString(_T("</li>\n"));
+		foutline.WriteString(_T("</li>\n"));
 		HTREEITEM hnextItem = Tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {    // 次に兄弟がいない
 			HTREEITEM hi = hItem;
@@ -2076,7 +2076,7 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 				hParent = Tree().GetParentItem(hi);
 				HTREEITEM hnextParent;
 				if (m_exportOption.navOption != 1) {
-					foutline->WriteString(_T("</ul></li>\n"));
+					foutline.WriteString(_T("</ul></li>\n"));
 				}
 				if ((hnextParent = Tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
 					OutputOutlineHtml(hRoot, hnextParent, foutline, ftext);

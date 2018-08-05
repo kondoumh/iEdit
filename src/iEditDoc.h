@@ -143,7 +143,7 @@ public:
 	void AddShapeNode(const CString& name, const CPoint& pt, int mfIndex, HENHMETAFILE& mh);
 	void SetConnectionPoint();
 	CString GetKeyNodeText(DWORD key);
-	void WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated = false, const CString& textPrefix = _T(""));
+	void WriteKeyNodeToHtml(DWORD key, CStdioFile& f, bool textIsolated = false, const CString& textPrefix = _T(""));
 	void RandomizeNodesPos(const CSize& area);
 	bool SaveXml(const CString& outPath, bool bSerialize = false);
 	bool ImportXml(const CString& filename, bool replace = false);

@@ -17,6 +17,7 @@
 #include "StringUtil.h"
 #include "MarkdownParser.h"
 #include "XmlProcessor.h"
+#include "HtmlWriter.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -2040,27 +2041,27 @@ void iEditDoc::RandomizeNodesPos(const CSize &area)
 	SetModifiedFlag();
 }
 
-void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, const CString& textPrefix)
+void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile& f, bool textIsolated, const CString& textPrefix)
 {
 	node_c_iter it = nodes_.FindRead(key);
 
 	CString nameStr = StringUtil::RemoveCr((*it).second.GetName());
 	// リンクタグの生成
-	f->WriteString(_T("<a id="));
-	f->WriteString(_T("\""));
+	f.WriteString(_T("<a id="));
+	f.WriteString(_T("\""));
 	CString keystr;
 	keystr.Format(_T("%d"), (*it).second.GetKey());
-	f->WriteString(keystr);
-	f->WriteString(_T("\" />\n"));
+	f.WriteString(keystr);
+	f.WriteString(_T("\" />\n"));
 
 	// 内容書き込み
-	f->WriteString(_T("<h1>") + nameStr + _T("</h1>\n"));
-	f->WriteString(_T("<div class=\"text\">\n"));
-	f->WriteString(MarkdownParser::Parse((*it).second.GetText()));
-	f->WriteString(_T("</div>\n"));
+	f.WriteString(_T("<h1>") + nameStr + _T("</h1>\n"));
+	f.WriteString(_T("<div class=\"text\">\n"));
+	f.WriteString(MarkdownParser::Parse((*it).second.GetText()));
+	f.WriteString(_T("</div>\n"));
 
 	// リンクの書き込み
-	f->WriteString(_T("<div class=\"links\">\n"));
+	f.WriteString(_T("<div class=\"links\">\n"));
 	link_c_iter li = links_.begin();
 	CString sLink(_T("<ul>\n"));
 	int cnt = 0;
@@ -2148,9 +2149,9 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile* f, bool textIsolated, c
 	}
 	sLink += _T("</ul>\n");
 	if (cnt > 0) {
-		f->WriteString(sLink);
+		f.WriteString(sLink);
 	}
-	f->WriteString(_T("</div>\n"));
+	f.WriteString(_T("</div>\n"));
 }
 
 CString iEditDoc::GetKeyNodeText(DWORD key)
