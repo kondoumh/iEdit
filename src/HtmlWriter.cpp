@@ -121,6 +121,47 @@ void HtmlWriter::WriteOutlineEnd(CStdioFile& olf)
 	olf.WriteString(_T("</ul>\n</body>\n</html>\n"));
 }
 
+void HtmlWriter::WriteNetworkStart(CStdioFile& nf)
+{
+	HtmlWriter::WriteHtmlHeader(nf);
+	nf.WriteString(_T("</head>\n"));
+	nf.WriteString(_T("<body>\n"));
+}
+
+void HtmlWriter::WriteNetworkEnd(CStdioFile& nf)
+{
+	nf.WriteString(_T("</body>\n</html>\n"));
+}
+
+void HtmlWriter::WriteSvgNetwork(CStdioFile& nf, const CPoint& maxPt, const CString& pathSvg)
+{
+	CString sWidth; sWidth.Format(_T("width=\"%d\""), maxPt.x);
+	CString sHeight; sHeight.Format(_T("height=\"%d\""), maxPt.y);
+	CString sWidthMgn; sWidthMgn.Format(_T("width=\"%d\""), maxPt.x + 50);
+	CString sHeightMgn; sHeightMgn.Format(_T("height=\"%d\""), maxPt.y + 50);
+
+	nf.WriteString(_T("<object type=\"image/svg+xml\" data=\"")
+		+ pathSvg +
+		_T("\" classid=\"clsid:377B5106-3B4E-4A2D-8520-8767590CAC86 ")
+		+ sWidth + " " + sHeight + _T(" />\n"));
+	nf.WriteString(_T("<embed src=\"")
+		+ pathSvg + _T("\"") +
+		_T("type=\"image/svg+xml\" ")
+		+ sWidthMgn + " " + sHeightMgn + _T(" />\n"));
+
+}
+
+void HtmlWriter::WritePngNetworkStart(CStdioFile& nf, const CString& pathPng)
+{
+	nf.WriteString(_T("<img src=\"") + pathPng + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
+	nf.WriteString(_T("<map name=\"nodes\">\n"));
+}
+
+void HtmlWriter::WritePngNetworkEnd(CStdioFile& nf)
+{
+	nf.WriteString(_T("</map>\n"));
+}
+
 void HtmlWriter::WriteText(CStdioFile& tf, const CString& keyStr, const CString& label, const CString& text)
 {
 	// ÉäÉìÉNÉ^ÉOÇÃê∂ê¨

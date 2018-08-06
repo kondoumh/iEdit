@@ -1827,14 +1827,8 @@ void OutlineView::OutputHtml()
 		FILE* pNf;
 		if ((pNf = CreateStdioFile(nName)) == NULL) return;
 		CStdioFile nf(pNf);
-		HtmlWriter::WriteHtmlHeader(nf);
-		nf.WriteString(_T("</head>\n"));
-		nf.WriteString(_T("<body>\n"));
+		HtmlWriter::WriteNetworkStart(nf);
 
-		CString sWidth; sWidth.Format(_T("width=\"%d\""), GetDocument()->GetMaxPt().x);
-		CString sHeight; sHeight.Format(_T("height=\"%d\""), GetDocument()->GetMaxPt().y);
-		CString sWidthMgn; sWidthMgn.Format(_T("width=\"%d\""), GetDocument()->GetMaxPt().x + 50);
-		CString sHeightMgn; sHeightMgn.Format(_T("height=\"%d\""), GetDocument()->GetMaxPt().y + 50);
 		if (m_exportOption.imgOption == 0) {
 			CString svgPath = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathSvg;
 			if (m_exportOption.textOption == 0) {
@@ -1843,28 +1837,20 @@ void OutlineView::OutputHtml()
 			else {
 				GetDocument()->ExportSvg(svgPath, true, m_exportOption.prfTextEverynode, false);
 			}
-			nf.WriteString(_T("<object type=\"image/svg+xml\" data=\"")
-				+ m_exportOption.pathSvg +
-				_T("\" classid=\"clsid:377B5106-3B4E-4A2D-8520-8767590CAC86 ")
-				+ sWidth + " " + sHeight + _T(" />\n"));
-			nf.WriteString(_T("<embed src=\"")
-				+ m_exportOption.pathSvg + _T("\"") +
-				_T("type=\"image/svg+xml\" ")
-				+ sWidthMgn + " " + sHeightMgn + _T(" />\n"));
+			HtmlWriter::WriteSvgNetwork(nf, GetDocument()->GetMaxPt(), m_exportOption.pathSvg);
 		}
 		else {
 			GetDocument()->SaveCurrentImage(m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathPng);
-			nf.WriteString(_T("<img src=\"") + m_exportOption.pathPng + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
-			nf.WriteString(_T("<map name=\"nodes\">\n"));
+			HtmlWriter::WritePngNetworkStart(nf, m_exportOption.pathPng);
 			if (m_exportOption.textOption == 0) {
 				GetDocument()->WriteClickableMap(nf, m_exportOption.pathTextSingle);
 			}
 			else {
 				GetDocument()->WriteClickableMap(nf, m_exportOption.prfTextEverynode, false);
 			}
-			nf.WriteString(_T("</map>\n"));
+			HtmlWriter::WritePngNetworkEnd(nf);
 		}
-		nf.WriteString(_T("</body>\n</html>\n"));
+		HtmlWriter::WriteNetworkEnd(nf);
 		nf.Close();
 	}
 	_wsetlocale(LC_ALL, _T(""));

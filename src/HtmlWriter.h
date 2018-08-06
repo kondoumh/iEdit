@@ -16,6 +16,12 @@ public:
 	static void WriteHtmlHeader(CStdioFile& f);
 	static void WriteTextStyle(CStdioFile& f, bool single = true);
 
+	static void WriteSvgNetwork(CStdioFile& f, const CPoint& maxPt, const CString& pathSvg);
+	static void WritePngNetworkStart(CStdioFile& nf, const CString& pathPng);
+	static void WritePngNetworkEnd(CStdioFile& nf);
+	static void WriteNetworkStart(CStdioFile& nf);
+	static void WriteNetworkEnd(CStdioFile& nf);
+
 	static void WriteText(CStdioFile& f, const CString& keyStr, const CString& label, const CString& text);
 	static void BuildLinkTo(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix);
 	static void BuildLinkFrom(CString& strLinks, const CString& keyStr, bool textIsolated, const CString& nodeLabel, const CString& linkLabel, const CString& textPrefix);
