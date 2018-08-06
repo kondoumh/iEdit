@@ -1854,7 +1854,7 @@ void OutlineView::OutputHtml()
 		}
 		else {
 			GetDocument()->SaveCurrentImage(m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathPng);
-			nf.WriteString(_T("<img src=\"") + m_exportOption.pathSvg + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
+			nf.WriteString(_T("<img src=\"") + m_exportOption.pathPng + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
 			nf.WriteString(_T("<map name=\"nodes\">\n"));
 			if (m_exportOption.textOption == 0) {
 				GetDocument()->WriteClickableMap(nf, m_exportOption.pathTextSingle);
