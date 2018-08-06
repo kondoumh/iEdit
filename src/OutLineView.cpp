@@ -1786,28 +1786,8 @@ void OutlineView::OutputHtml()
 		return;
 	}
 	CStdioFile olf(pOf);
-	if (m_exportOption.navOption != 1) {
-		HtmlWriter::WriteHtmlHeader(olf);
-		olf.WriteString(_T("<style type=\"text/css\">\n"));
-		olf.WriteString(_T(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n"));
-		olf.WriteString(_T(" li {font-size: 95%; padding: 0px;}\n"));
-		olf.WriteString(_T("</style>\n"));
-		olf.WriteString(_T("<title>Outline</title>\n"));
-		olf.WriteString(_T("</head>\n"));
-		olf.WriteString(_T("<body>\n<h1>"));
-		olf.WriteString(_T("<a href="));
-		if (m_exportOption.textOption == 0) {
-			olf.WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#") + keystr);
-		}
-		else {
-			olf.WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
-		}
-		olf.WriteString(_T("\" target=text>"));
-		CString rootStr = StringUtil::RemoveCr(GetDocument()->GetKeyNodeLabel(Tree().GetItemData(root)));
-		olf.WriteString(rootStr);
-		olf.WriteString(_T("</a></h1>\n"));
-		olf.WriteString(_T("<ul>\n"));
-	}
+	HtmlWriter::WriteOutlineHeader(olf, keystr, GetDocument()->GetKeyNodeLabel(Tree().GetItemData(root)), m_exportOption);
+
 	CString arName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathTextSingle;
 	FILE* pf;
 	if (_tfopen_s(&pf, arName, _T("w, ccs=UTF-8")) != 0) {

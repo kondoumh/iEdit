@@ -58,7 +58,7 @@ void HtmlWriter::WriteOutlineHeader(CStdioFile& olf, const CString& keystr, cons
 			olf.WriteString(_T("\"text/") + options.prfTextEverynode + keystr + _T(".html"));
 		}
 		olf.WriteString(_T("\" target=text>"));
-		olf.WriteString(rootStr);
+		olf.WriteString(StringUtil::RemoveCr(rootStr));
 		olf.WriteString(_T("</a></h1>\n"));
 		olf.WriteString(_T("<ul>\n"));
 	}
