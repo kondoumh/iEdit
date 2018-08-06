@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "HtmlWriter.h"
-#include <locale>
 #include "iEdit.h"
 #include "StringUtil.h"
 #include "MarkdownParser.h"
