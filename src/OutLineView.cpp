@@ -1771,7 +1771,7 @@ void OutlineView::OutputHtml()
 		return;
 	}
 	CStdioFile f(pFp);
-	WriteHtmlHeader(f);
+	HtmlWriter::WriteHtmlHeader(f);
 	CString title = GetDocument()->GetFileNameFromPath();
 	if (m_exportOption.prfIndex != _T("")) {
 		title = m_exportOption.prfIndex;
@@ -1808,7 +1808,7 @@ void OutlineView::OutputHtml()
 	}
 	CStdioFile olf(pOf);
 	if (m_exportOption.navOption != 1) {
-		WriteHtmlHeader(olf);
+		HtmlWriter::WriteHtmlHeader(olf);
 		olf.WriteString(_T("<style type=\"text/css\">\n"));
 		olf.WriteString(_T(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n"));
 		olf.WriteString(_T(" li {font-size: 95%; padding: 0px;}\n"));
@@ -1837,8 +1837,8 @@ void OutlineView::OutputHtml()
 	}
 	CStdioFile tf(pf);
 	if (m_exportOption.textOption == 0) {
-		WriteHtmlHeader(tf);
-		WriteTextStyle(tf);
+		HtmlWriter::WriteHtmlHeader(tf);
+		HtmlWriter::WriteTextStyle(tf);
 		tf.WriteString(_T("</head>\n<body>\n"));
 		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), tf);
 	}
@@ -1850,8 +1850,8 @@ void OutlineView::OutputHtml()
 			return;
 		}
 		CStdioFile rootTf(pRf);
-		WriteHtmlHeader(rootTf);
-		WriteTextStyle(rootTf, false);
+		HtmlWriter::WriteHtmlHeader(rootTf);
+		HtmlWriter::WriteTextStyle(rootTf, false);
 		rootTf.WriteString(_T("</head>\n<body>\n"));
 		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), rootTf, true, m_exportOption.prfTextEverynode);
 		rootTf.WriteString(_T("</body>\n</html>\n"));
@@ -1883,7 +1883,7 @@ void OutlineView::OutputHtml()
 			return;
 		}
 		CStdioFile nf(pNf);
-		WriteHtmlHeader(nf);
+		HtmlWriter::WriteHtmlHeader(nf);
 		nf.WriteString(_T("</head>\n"));
 		nf.WriteString(_T("<body>\n"));
 
@@ -2072,8 +2072,8 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 			return;
 		}
 		CStdioFile tf(pRf);
-		WriteHtmlHeader(tf);
-		WriteTextStyle(tf, false);
+		HtmlWriter::WriteHtmlHeader(tf);
+		HtmlWriter::WriteTextStyle(tf, false);
 		tf.WriteString(_T("</head>\n<body>\n"));
 		GetDocument()->WriteKeyNodeToHtml(key, tf, true, m_exportOption.prfTextEverynode);
 		tf.WriteString(_T("</body>\n</html>\n"));
@@ -2112,29 +2112,6 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 			OutputOutlineHtml(hRoot, hnextItem, foutline, ftext);
 		}                                       // 兄弟に移動
 	}
-}
-
-void OutlineView::WriteHtmlHeader(CStdioFile &f)
-{
-	f.WriteString(_T("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"));
-	f.WriteString(_T("<html lang=\"ja\">\n<head>\n"));
-	f.WriteString(_T("<meta http-equiv=\"content-Type\" content=\"text/html; charset=UTF-8\">\n"));
-}
-
-void OutlineView::WriteTextStyle(CStdioFile &f, bool single)
-{
-	f.WriteString(_T("<style type=\"text/css\">\n"));
-	if (single) {
-		f.WriteString(_T(" h1 {font-size: 120%; border-bottom:2pt solid #9999FF; border-left:7pt solid #9999FF; padding: 5px 5px 5px;}\n"));
-	}
-	else {
-		f.WriteString(_T(" h1 {font-size: 120%; background: #F3F3F3; padding: 5px 5px 5px;}\n"));
-	}
-	f.WriteString(_T(" h2 {font-size: 110%; border-bottom:2pt solid #9999FF; border-left:3pt solid #9999FF; padding: 5px 5px 5px;}\n"));
-	f.WriteString(_T(" h3 {font-size: 100%; border-bottom:1pt solid #9999FF; padding: 5px 5px 5px;}\n"));
-	f.WriteString(_T(" h4 {font-size: 100%; border-bottom: 1px dashed #999999; padding: 5px 5px 5px;}\n"));
-	f.WriteString(_T(" li {font-size: 80%; padding: 0px;}\n"));
-	f.WriteString(_T("</style>\n"));
 }
 
 void OutlineView::OutputOutlineText(HTREEITEM hItem, CStdioFile *f, int tab)
