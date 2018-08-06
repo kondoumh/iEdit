@@ -1776,28 +1776,7 @@ void OutlineView::OutputHtml()
 	if (m_exportOption.prfIndex != _T("")) {
 		title = m_exportOption.prfIndex;
 	}
-	f.WriteString(_T("<title>") + title + _T("</title>\n"));
-	f.WriteString(_T("</head>\n"));
-	if (m_exportOption.navOption != 1) {
-		f.WriteString(_T("  <frameset cols=\"35%,*\" >\n"));
-		f.WriteString(_T("    <frame src=\"") + m_exportOption.pathOutline + _T("\" name=\"outline\">\n"));
-	}
-	if (m_exportOption.navOption == 1 || m_exportOption.navOption == 2) {
-		f.WriteString(_T("    <frameset rows=\"65%,*\">\n"));
-		f.WriteString(_T("      <frame src=\"") + m_exportOption.pathNetwork + _T("\" name=\"network\">\n  "));
-	}
-	CString textLink = m_exportOption.pathTextSingle;
-	if (m_exportOption.textOption == 1) {
-		textLink = _T("text/") + m_exportOption.prfTextEverynode + keystr + _T(".html");
-	}
-	f.WriteString(_T("    <frame src=\"") + textLink + _T("\" name=\"text\">\n"));
-	if (m_exportOption.navOption == 1 || m_exportOption.navOption == 2) {
-		f.WriteString(_T("    </frameset>\n"));
-	}
-	if (m_exportOption.navOption != 1) {
-		f.WriteString(_T("  </frameset>\n"));
-	}
-	f.WriteString(_T("</html>\n"));
+	HtmlWriter::CreateFrame(f, title, keystr, m_exportOption);
 	f.Close();
 
 	CString olName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathOutline;
