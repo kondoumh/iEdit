@@ -20,6 +20,7 @@
 #include "ExportTextDlg.h"
 #include "StringUtil.h"
 #include "SystemConfiguration.h"
+#include "HtmlWriter.h"
 #include <shlobj.h>
 #include <locale>
 
@@ -1734,43 +1735,7 @@ void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI)
 
 void OutlineView::OutputHtml()
 {
-	ExportHtmlDlg eDlg;
-	eDlg.m_xvRdTree = m_exportOption.htmlOutOption;
-	eDlg.m_xvRdNav = m_exportOption.navOption;
-	eDlg.m_xvRdImg = m_exportOption.imgOption;
-	eDlg.m_xvRdText = m_exportOption.textOption;
-	eDlg.m_xvEdPrfIndex = m_exportOption.prfIndex;
-	eDlg.m_xvEdPrfToc = m_exportOption.prfToc;
-	eDlg.m_xvEdPrfNet = m_exportOption.prfNet;
-	eDlg.m_xvEdPrfTextSingle = m_exportOption.prfTextSingle;
-	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
-	eDlg.m_pathTextSingle = m_exportOption.pathTextSingle;
-	eDlg.m_docTitle = GetDocument()->GetFileNameFromPath();
-	eDlg.m_nameOfRoot = Tree().GetItemText(Tree().GetRootItem());
-	if (GetDocument()->ShowSubBranch()) {
-		eDlg.m_nameOfVisibleRoot = Tree().GetItemText(m_hItemShowRoot);
-		eDlg.m_xvRdTree = 1;
-	}
-	else {
-		if (Tree().GetSelectedItem() == Tree().GetRootItem()) {
-			eDlg.m_nameOfVisibleRoot = Tree().GetItemText(Tree().GetRootItem());
-		}
-		else {
-			eDlg.m_nameOfVisibleRoot =
-				Tree().GetItemText(Tree().GetParentItem(Tree().GetSelectedItem()));
-		}
-	}
-	if (eDlg.DoModal() != IDOK) return;
-	m_exportOption.htmlOutOption = eDlg.m_xvRdTree;
-	m_exportOption.navOption = eDlg.m_xvRdNav;
-	m_exportOption.imgOption = eDlg.m_xvRdImg;
-	m_exportOption.textOption = eDlg.m_xvRdText;
-	m_exportOption.prfIndex = eDlg.m_xvEdPrfIndex;
-	m_exportOption.prfToc = eDlg.m_xvEdPrfToc;
-	m_exportOption.prfNet = eDlg.m_xvEdPrfNet;
-	m_exportOption.prfTextSingle = eDlg.m_xvEdPrfTextSingle;
-	m_exportOption.prfTextEverynode = eDlg.m_xvEdPrfTextEverynode;
-	m_exportOption.pathTextSingle = eDlg.m_pathTextSingle;
+	if (!InputExportOptions()) return;
 
 	TCHAR szBuff[MAX_PATH];
 	BROWSEINFO bi;
@@ -1805,7 +1770,7 @@ void OutlineView::OutputHtml()
 	CWaitCursor wc;
 	_wsetlocale(LC_ALL, _T("jpn"));
 
-	CString indexFilePath = outdir + _T("\\") + eDlg.m_pathIndex;
+	CString indexFilePath = outdir + _T("\\") + m_exportOption.pathIndex;
 	CFileFind find;
 	if (find.FindFile(indexFilePath)) {
 		if (MessageBox(
@@ -1861,36 +1826,36 @@ void OutlineView::OutputHtml()
 	}
 	f.WriteString(_T("<title>") + title + _T("</title>\n"));
 	f.WriteString(_T("</head>\n"));
-	if (eDlg.m_xvRdNav != 1) {
+	if (m_exportOption.navOption != 1) {
 		f.WriteString(_T("  <frameset cols=\"35%,*\" >\n"));
-		f.WriteString(_T("    <frame src=\"") + eDlg.m_pathOutline + _T("\" name=\"outline\">\n"));
+		f.WriteString(_T("    <frame src=\"") + m_exportOption.pathOutline + _T("\" name=\"outline\">\n"));
 	}
-	if (eDlg.m_xvRdNav == 1 || eDlg.m_xvRdNav == 2) {
+	if (m_exportOption.navOption == 1 || m_exportOption.navOption == 2) {
 		f.WriteString(_T("    <frameset rows=\"65%,*\">\n"));
-		f.WriteString(_T("      <frame src=\"") + eDlg.m_pathNetwork + _T("\" name=\"network\">\n  "));
+		f.WriteString(_T("      <frame src=\"") + m_exportOption.pathNetwork + _T("\" name=\"network\">\n  "));
 	}
-	CString textLink = eDlg.m_pathTextSingle;
+	CString textLink = m_exportOption.pathTextSingle;
 	if (m_exportOption.textOption == 1) {
-		textLink = _T("text/") + eDlg.m_xvEdPrfTextEverynode + keystr + _T(".html");
+		textLink = _T("text/") + m_exportOption.prfTextEverynode + keystr + _T(".html");
 	}
 	f.WriteString(_T("    <frame src=\"") + textLink + _T("\" name=\"text\">\n"));
-	if (eDlg.m_xvRdNav == 1 || eDlg.m_xvRdNav == 2) {
+	if (m_exportOption.navOption == 1 || m_exportOption.navOption == 2) {
 		f.WriteString(_T("    </frameset>\n"));
 	}
-	if (eDlg.m_xvRdNav != 1) {
+	if (m_exportOption.navOption != 1) {
 		f.WriteString(_T("  </frameset>\n"));
 	}
 	f.WriteString(_T("</html>\n"));
 	f.Close();
 
-	CString olName = outdir + _T("\\") + eDlg.m_pathOutline;
+	CString olName = outdir + _T("\\") + m_exportOption.pathOutline;
 	FILE* pOf;
 	if (_tfopen_s(&pOf, olName, _T("w, ccs=UTF-8")) != 0) {
 		AfxMessageBox(_T("coud not open file. ") + olName);
 		return;
 	}
 	CStdioFile olf(pOf);
-	if (eDlg.m_xvRdNav != 1) {
+	if (m_exportOption.navOption != 1) {
 		WriteHtmlHeader(olf);
 		olf.WriteString(_T("<style type=\"text/css\">\n"));
 		olf.WriteString(_T(" h1 {font-size: 100%; background: #F3F3F3; padding: 5px 5px 5px;}\n"));
@@ -1946,7 +1911,7 @@ void OutlineView::OutputHtml()
 		OutputOutlineHtml(root, child, olf, tf);
 	}
 
-	if (eDlg.m_xvRdNav != 1) {
+	if (m_exportOption.navOption != 1) {
 		olf.WriteString(_T("</ul>\n</body>\n</html>\n"));
 		olf.Close();
 		if (m_exportOption.textOption == 0) {
@@ -1958,8 +1923,8 @@ void OutlineView::OutputHtml()
 	tf.Close();
 
 	///////////////////// create network.html
-	if (eDlg.m_xvRdNav > 0) {
-		CString nName = outdir + _T("\\") + eDlg.m_pathNetwork;
+	if (m_exportOption.navOption > 0) {
+		CString nName = outdir + _T("\\") + m_exportOption.pathNetwork;
 		FILE* pNf;
 		if (_tfopen_s(&pNf, nName, _T("w, ccs=UTF-8")) != 0) {
 			AfxMessageBox(_T("coud not open file. ") + nName);
@@ -1974,8 +1939,8 @@ void OutlineView::OutputHtml()
 		CString sHeight; sHeight.Format(_T("height=\"%d\""), GetDocument()->GetMaxPt().y);
 		CString sWidthMgn; sWidthMgn.Format(_T("width=\"%d\""), GetDocument()->GetMaxPt().x + 50);
 		CString sHeightMgn; sHeightMgn.Format(_T("height=\"%d\""), GetDocument()->GetMaxPt().y + 50);
-		if (eDlg.m_xvRdImg == 0) {
-			CString svgPath = outdir + _T("\\") + eDlg.m_pathSvg;
+		if (m_exportOption.imgOption == 0) {
+			CString svgPath = outdir + _T("\\") + m_exportOption.pathSvg;
 			if (m_exportOption.textOption == 0) {
 				GetDocument()->ExportSvg(svgPath, true, m_exportOption.pathTextSingle);
 			}
@@ -1983,17 +1948,17 @@ void OutlineView::OutputHtml()
 				GetDocument()->ExportSvg(svgPath, true, m_exportOption.prfTextEverynode, false);
 			}
 			nf.WriteString(_T("<object type=\"image/svg+xml\" data=\"")
-				+ eDlg.m_pathSvg +
+				+ m_exportOption.pathSvg +
 				_T("\" classid=\"clsid:377B5106-3B4E-4A2D-8520-8767590CAC86 ")
 				+ sWidth + " " + sHeight + _T(" />\n"));
 			nf.WriteString(_T("<embed src=\"")
-				+ eDlg.m_pathSvg + _T("\"") +
+				+ m_exportOption.pathSvg + _T("\"") +
 				_T("type=\"image/svg+xml\" ")
 				+ sWidthMgn + " " + sHeightMgn + _T(" />\n"));
 		}
 		else {
-			GetDocument()->SaveCurrentImage(outdir + _T("\\") + eDlg.m_pathPng);
-			nf.WriteString(_T("<img src=\"") + eDlg.m_pathPng + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
+			GetDocument()->SaveCurrentImage(outdir + _T("\\") + m_exportOption.pathSvg);
+			nf.WriteString(_T("<img src=\"") + m_exportOption.pathSvg + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
 			nf.WriteString(_T("<map name=\"nodes\">\n"));
 			if (m_exportOption.textOption == 0) {
 				GetDocument()->WriteClickableMap(nf, m_exportOption.pathTextSingle);
@@ -2011,6 +1976,57 @@ void OutlineView::OutputHtml()
 	if (((CiEditApp*)AfxGetApp())->m_rgsOther.bOpenFilesAfterExport) {
 		ShellExecute(m_hWnd, _T("open"), indexFilePath, NULL, NULL, SW_SHOW);
 	}
+}
+
+bool OutlineView::InputExportOptions() {
+	ExportHtmlDlg eDlg;
+
+	eDlg.m_xvRdTree = m_exportOption.htmlOutOption;
+	eDlg.m_xvRdNav = m_exportOption.navOption;
+	eDlg.m_xvRdImg = m_exportOption.imgOption;
+	eDlg.m_xvRdText = m_exportOption.textOption;
+	eDlg.m_xvEdPrfIndex = m_exportOption.prfIndex;
+	eDlg.m_xvEdPrfToc = m_exportOption.prfToc;
+	eDlg.m_xvEdPrfNet = m_exportOption.prfNet;
+	eDlg.m_xvEdPrfTextSingle = m_exportOption.prfTextSingle;
+	eDlg.m_xvEdPrfTextEverynode = m_exportOption.prfTextEverynode;
+	eDlg.m_pathIndex = m_exportOption.pathIndex;
+	eDlg.m_pathTextSingle = m_exportOption.pathTextSingle;
+	eDlg.m_pathNetwork = m_exportOption.pathNetwork;
+	eDlg.m_pathOutline = m_exportOption.pathOutline;
+	eDlg.m_pathSvg = m_exportOption.pathSvg;
+	eDlg.m_docTitle = GetDocument()->GetFileNameFromPath();
+	eDlg.m_nameOfRoot = Tree().GetItemText(Tree().GetRootItem());
+	if (GetDocument()->ShowSubBranch()) {
+		eDlg.m_nameOfVisibleRoot = Tree().GetItemText(m_hItemShowRoot);
+		eDlg.m_xvRdTree = 1;
+	}
+	else {
+		if (Tree().GetSelectedItem() == Tree().GetRootItem()) {
+			eDlg.m_nameOfVisibleRoot = Tree().GetItemText(Tree().GetRootItem());
+		}
+		else {
+			eDlg.m_nameOfVisibleRoot =
+				Tree().GetItemText(Tree().GetParentItem(Tree().GetSelectedItem()));
+		}
+	}
+	if (eDlg.DoModal() != IDOK) return false;
+	m_exportOption.htmlOutOption = eDlg.m_xvRdTree;
+	m_exportOption.navOption = eDlg.m_xvRdNav;
+	m_exportOption.imgOption = eDlg.m_xvRdImg;
+	m_exportOption.textOption = eDlg.m_xvRdText;
+	m_exportOption.prfIndex = eDlg.m_xvEdPrfIndex;
+	m_exportOption.prfToc = eDlg.m_xvEdPrfToc;
+	m_exportOption.prfNet = eDlg.m_xvEdPrfNet;
+	m_exportOption.prfTextSingle = eDlg.m_xvEdPrfTextSingle;
+	m_exportOption.prfTextEverynode = eDlg.m_xvEdPrfTextEverynode;
+	m_exportOption.pathIndex = eDlg.m_pathIndex;
+	m_exportOption.pathNetwork = eDlg.m_pathNetwork;
+	m_exportOption.pathOutline = eDlg.m_pathOutline;
+	m_exportOption.pathSvg = eDlg.m_pathSvg;
+	m_exportOption.pathTextSingle = eDlg.m_pathTextSingle;
+
+	return true;
 }
 
 void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile& foutline, CStdioFile& ftext)

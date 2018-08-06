@@ -152,20 +152,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	struct ExportOption {
-		int treeOption;
-		int htmlOutOption;
-		int navOption;
-		int imgOption;
-		int textOption;
-		CString prfIndex;
-		CString prfNet;
-		CString prfToc;
-		CString prfTextSingle;
-		CString prfTextEverynode;
-		CString pathTextSingle;
-		CString htmlOutDir;
-	} m_exportOption;
+	ExportOptions m_exportOption;
 
 	struct TextExportOption {
 		int treeOption;
@@ -202,6 +189,7 @@ private:
 	bool m_bHitR;
 
 	void OutputHtml();
+	bool InputExportOptions();
 	void SetViewFont();
 	void CloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, NodeKeyMap& idm);
 	void ResetBranchMode();

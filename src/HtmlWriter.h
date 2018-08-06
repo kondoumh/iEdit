@@ -1,24 +1,5 @@
 #pragma once
 
-struct ExportOptions {
-	int treeOption;
-	int htmlOutOption;
-	int navOption;
-	int imgOption;
-	int textOption;
-	CString prfIndex;
-	CString prfNet;
-	CString prfToc;
-	CString prfTextSingle;
-	CString prfTextEverynode;
-	CString pathTextSingle;
-	CString pathNetwork;
-	CString pathOutline;
-	CString pathSvg;
-	CString pathPng;
-	CString htmlOutDir;
-};
-
 class HtmlWriter
 {
 public:

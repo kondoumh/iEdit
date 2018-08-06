@@ -97,6 +97,26 @@ struct NodeProps {
 	int treeIconId;
 };
 
+struct ExportOptions {
+	int treeOption;
+	int htmlOutOption;
+	int navOption;
+	int imgOption;
+	int textOption;
+	CString prfIndex;
+	CString prfNet;
+	CString prfToc;
+	CString prfTextSingle;
+	CString prfTextEverynode;
+	CString pathIndex;
+	CString pathTextSingle;
+	CString pathNetwork;
+	CString pathOutline;
+	CString pathSvg;
+	CString pathPng;
+	CString htmlOutDir;
+};
+
 typedef vector<NodeProps> NodePropsVec;
 typedef vector<LinkProps> LinkPropsVec;
 typedef set<DWORD> NodeKeySet;
