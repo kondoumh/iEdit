@@ -1736,60 +1736,8 @@ void OutlineView::OnUpdateImportData(CCmdUI* pCmdUI)
 void OutlineView::OutputHtml()
 {
 	if (!InputExportOptions()) return;
+	if (!InputHtmlExportFolder()) return;
 
-	TCHAR szBuff[MAX_PATH];
-	BROWSEINFO bi;
-	bi.hwndOwner = m_hWnd;
-
-	bi.pidlRoot = NULL;
-	bi.pszDisplayName = szBuff;
-	bi.lpszTitle = _T("HTML出力先フォルダー選択");
-
-	bi.ulFlags = BIF_RETURNONLYFSDIRS;
-	bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
-	bi.lParam = (LPARAM)m_exportOption.htmlOutDir.GetBuffer();
-	bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
-	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
-	bi.iImage = 0;
-	CString folder = AfxGetApp()->GetProfileString(_T("Settings"), _T("HTML OutputDir"), _T(""));
-	bi.lParam = (LPARAM)folder.GetBuffer(folder.GetLength());
-
-	CString outdir;
-	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
-	if (pList == NULL) return;
-	if (::SHGetPathFromIDList(pList, szBuff)) {
-		//szBuffに選択したフォルダ名が入る
-		outdir = CString(szBuff);
-	}
-	else {
-		MessageBox(_T("出力先フォルダーを指定して下さい"));
-		return;
-	}
-	m_exportOption.htmlOutDir = outdir;
-
-	CWaitCursor wc;
-	_wsetlocale(LC_ALL, _T("jpn"));
-
-	CString indexFilePath = outdir + _T("\\") + m_exportOption.pathIndex;
-	CFileFind find;
-	if (find.FindFile(indexFilePath)) {
-		if (MessageBox(
-			indexFilePath + _T("\n既存のファイルを上書きしてよいですか"), _T("HTML出力"),
-			MB_YESNO) != IDYES) {
-			return;
-		}
-	}
-	CString textDir = outdir + _T("\\text");
-	if (m_exportOption.textOption == 1) {
-		if (!find.FindFile(textDir)) {
-			if (!::CreateDirectory(textDir, NULL)) {
-				MessageBox(_T("フォルダー作成に失敗しました"));
-				return;
-			}
-		}
-	}
-
-	AfxGetApp()->WriteProfileString(_T("Settings"), _T("HTML OutputDir"), outdir);
 	HTREEITEM root;
 	if (m_exportOption.htmlOutOption == 0) {
 		root = Tree().GetRootItem();
@@ -1810,10 +1758,14 @@ void OutlineView::OutputHtml()
 	CString keystr;
 	keystr.Format(_T("%d"), Tree().GetItemData(root));
 
+	CWaitCursor wc;
+	_wsetlocale(LC_ALL, _T("jpn"));
+
 	////////////////////////
 	////// create frame
 	////////////////////////
 	FILE* pFp;
+	CString indexFilePath = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathIndex;
 	if (_tfopen_s(&pFp, indexFilePath, _T("w, ccs=UTF-8")) != 0) {
 		AfxMessageBox(_T("coud not open file. ") + indexFilePath);
 		return;
@@ -1848,7 +1800,7 @@ void OutlineView::OutputHtml()
 	f.WriteString(_T("</html>\n"));
 	f.Close();
 
-	CString olName = outdir + _T("\\") + m_exportOption.pathOutline;
+	CString olName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathOutline;
 	FILE* pOf;
 	if (_tfopen_s(&pOf, olName, _T("w, ccs=UTF-8")) != 0) {
 		AfxMessageBox(_T("coud not open file. ") + olName);
@@ -1877,7 +1829,7 @@ void OutlineView::OutputHtml()
 		olf.WriteString(_T("</a></h1>\n"));
 		olf.WriteString(_T("<ul>\n"));
 	}
-	CString arName = outdir + _T("\\") + m_exportOption.pathTextSingle;
+	CString arName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathTextSingle;
 	FILE* pf;
 	if (_tfopen_s(&pf, arName, _T("w, ccs=UTF-8")) != 0) {
 		AfxMessageBox(_T("coud not open file. ") + arName);
@@ -1891,7 +1843,7 @@ void OutlineView::OutputHtml()
 		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), tf);
 	}
 	else {
-		CString arName = textDir + _T("\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
+		CString arName = m_exportOption.htmlOutDir + _T("\\text\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
 		FILE* pRf;
 		if (_tfopen_s(&pRf, arName, _T("w, ccs=UTF-8")) != 0) {
 			AfxMessageBox(_T("coud not open file. ") + arName);
@@ -1924,7 +1876,7 @@ void OutlineView::OutputHtml()
 
 	///////////////////// create network.html
 	if (m_exportOption.navOption > 0) {
-		CString nName = outdir + _T("\\") + m_exportOption.pathNetwork;
+		CString nName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathNetwork;
 		FILE* pNf;
 		if (_tfopen_s(&pNf, nName, _T("w, ccs=UTF-8")) != 0) {
 			AfxMessageBox(_T("coud not open file. ") + nName);
@@ -1940,7 +1892,7 @@ void OutlineView::OutputHtml()
 		CString sWidthMgn; sWidthMgn.Format(_T("width=\"%d\""), GetDocument()->GetMaxPt().x + 50);
 		CString sHeightMgn; sHeightMgn.Format(_T("height=\"%d\""), GetDocument()->GetMaxPt().y + 50);
 		if (m_exportOption.imgOption == 0) {
-			CString svgPath = outdir + _T("\\") + m_exportOption.pathSvg;
+			CString svgPath = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathSvg;
 			if (m_exportOption.textOption == 0) {
 				GetDocument()->ExportSvg(svgPath, true, m_exportOption.pathTextSingle);
 			}
@@ -1957,7 +1909,7 @@ void OutlineView::OutputHtml()
 				+ sWidthMgn + " " + sHeightMgn + _T(" />\n"));
 		}
 		else {
-			GetDocument()->SaveCurrentImage(outdir + _T("\\") + m_exportOption.pathSvg);
+			GetDocument()->SaveCurrentImage(m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathSvg);
 			nf.WriteString(_T("<img src=\"") + m_exportOption.pathSvg + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
 			nf.WriteString(_T("<map name=\"nodes\">\n"));
 			if (m_exportOption.textOption == 0) {
@@ -2025,6 +1977,61 @@ bool OutlineView::InputExportOptions() {
 	m_exportOption.pathOutline = eDlg.m_pathOutline;
 	m_exportOption.pathSvg = eDlg.m_pathSvg;
 	m_exportOption.pathTextSingle = eDlg.m_pathTextSingle;
+
+	return true;
+}
+
+bool OutlineView::InputHtmlExportFolder()
+{
+	TCHAR szBuff[MAX_PATH];
+	BROWSEINFO bi;
+	bi.hwndOwner = m_hWnd;
+
+	bi.pidlRoot = NULL;
+	bi.pszDisplayName = szBuff;
+	bi.lpszTitle = _T("HTML出力先フォルダー選択");
+
+	bi.ulFlags = BIF_RETURNONLYFSDIRS;
+	bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
+	bi.lParam = (LPARAM)m_exportOption.htmlOutDir.GetBuffer();
+	bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
+	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
+	bi.iImage = 0;
+	CString folder = AfxGetApp()->GetProfileString(_T("Settings"), _T("HTML OutputDir"), _T(""));
+	bi.lParam = (LPARAM)folder.GetBuffer(folder.GetLength());
+
+	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
+	if (pList == NULL) return false;
+	if (::SHGetPathFromIDList(pList, szBuff)) {
+		//szBuffに選択したフォルダ名が入る
+		m_exportOption.htmlOutDir = CString(szBuff);
+	}
+	else {
+		MessageBox(_T("出力先フォルダーを指定して下さい"));
+		return false;
+	}
+
+	CString indexFilePath = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathIndex;
+	CFileFind find;
+	if (find.FindFile(indexFilePath)) {
+		if (MessageBox(
+			indexFilePath + _T("\n既存のファイルを上書きしてよいですか"), _T("HTML出力"),
+			MB_YESNO) != IDYES) {
+			return false;
+		}
+	}
+
+	CString textDir = m_exportOption.htmlOutDir + _T("\\text");
+	if (m_exportOption.textOption == 1) {
+		if (!find.FindFile(textDir)) {
+			if (!::CreateDirectory(textDir, NULL)) {
+				MessageBox(_T("フォルダー作成に失敗しました"));
+				return false;
+			}
+		}
+	}
+
+	AfxGetApp()->WriteProfileString(_T("Settings"), _T("HTML OutputDir"), m_exportOption.htmlOutDir);
 
 	return true;
 }

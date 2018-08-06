@@ -190,6 +190,7 @@ private:
 
 	void OutputHtml();
 	bool InputExportOptions();
+	bool InputHtmlExportFolder();
 	void SetViewFont();
 	void CloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, NodeKeyMap& idm);
 	void ResetBranchMode();
