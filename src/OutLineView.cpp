@@ -1780,7 +1780,7 @@ void OutlineView::OutputHtml()
 	FILE* pOf;
 	if ((pOf = CreateStdioFile(olName)) == NULL) return;
 	CStdioFile olf(pOf);
-	HtmlWriter::WriteOutlineHeader(olf, keystr, GetDocument()->GetKeyNodeLabel(Tree().GetItemData(root)), m_exportOption);
+	HtmlWriter::WriteOutlineStart(olf, keystr, GetDocument()->GetKeyNodeLabel(Tree().GetItemData(root)), m_exportOption);
 
 	CString arName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathTextSingle;
 	FILE* pf;
@@ -1789,7 +1789,7 @@ void OutlineView::OutputHtml()
 	if (m_exportOption.textOption == 0) {
 		HtmlWriter::WriteHtmlHeader(tf);
 		HtmlWriter::WriteTextStyle(tf);
-		tf.WriteString(_T("</head>\n<body>\n"));
+		HtmlWriter::WriteTextStart(tf);
 		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), tf);
 	}
 	else {
@@ -1799,9 +1799,9 @@ void OutlineView::OutputHtml()
 		CStdioFile rootTf(pRf);
 		HtmlWriter::WriteHtmlHeader(rootTf);
 		HtmlWriter::WriteTextStyle(rootTf, false);
-		rootTf.WriteString(_T("</head>\n<body>\n"));
+		HtmlWriter::WriteTextStart(rootTf);
 		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), rootTf, true, m_exportOption.prfTextEverynode);
-		rootTf.WriteString(_T("</body>\n</html>\n"));
+		HtmlWriter::WriteTextEnd(rootTf);
 		rootTf.Close();
 	}
 	/////////////////// output SubTree
@@ -1811,10 +1811,10 @@ void OutlineView::OutputHtml()
 	}
 
 	if (m_exportOption.navOption != 1) {
-		olf.WriteString(_T("</ul>\n</body>\n</html>\n"));
+		HtmlWriter::WriteOutlineEnd(olf);
 		olf.Close();
 		if (m_exportOption.textOption == 0) {
-			tf.WriteString(_T("</body>\n</html>\n"));
+			HtmlWriter::WriteTextEnd(tf);
 			tf.Close();
 		}
 	}

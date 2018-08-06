@@ -39,7 +39,7 @@ void HtmlWriter::CreateFrame(CStdioFile& f, const CString& title, const CString&
 	f.WriteString(_T("</html>\n"));
 }
 
-void HtmlWriter::WriteOutlineHeader(CStdioFile& olf, const CString& keystr, const CString& rootStr, const ExportOptions& options)
+void HtmlWriter::WriteOutlineStart(CStdioFile& olf, const CString& keystr, const CString& rootStr, const ExportOptions& options)
 {
 	if (options.navOption != 1) {
 		WriteHtmlHeader(olf);
@@ -73,19 +73,10 @@ void HtmlWriter::WriteHtmlHeader(CStdioFile &f)
 
 void HtmlWriter::WriteTextStart(CStdioFile& tf)
 {
-	WriteHtmlHeader(tf);
-	WriteTextStyle(tf);
 	tf.WriteString(_T("</head>\n<body>\n"));
 }
 
-void HtmlWriter::WriteRootTextStart(CStdioFile& rootTf)
-{
-	WriteHtmlHeader(rootTf);
-	WriteTextStyle(rootTf, false);
-	rootTf.WriteString(_T("</head>\n<body>\n"));
-}
-
-void HtmlWriter::WriteRootTextEnd(CStdioFile& rootTf)
+void HtmlWriter::WriteTextEnd(CStdioFile& rootTf)
 {
 	rootTf.WriteString(_T("</body>\n</html>\n"));
 }
@@ -127,7 +118,7 @@ void HtmlWriter::WriteOutline(const CString& keyStr, const CString& itemStr, CSt
 
 void HtmlWriter::WriteOutlineEnd(CStdioFile& olf)
 {
-	olf.WriteString(_T("</li>\n"));
+	olf.WriteString(_T("</ul>\n</body>\n</html>\n"));
 }
 
 void HtmlWriter::WriteText(CStdioFile& tf, const CString& keyStr, const CString& label, const CString& text)
