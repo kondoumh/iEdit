@@ -1764,12 +1764,9 @@ void OutlineView::OutputHtml()
 	////////////////////////
 	////// create frame
 	////////////////////////
-	FILE* pFp;
 	CString indexFilePath = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathIndex;
-	if (_tfopen_s(&pFp, indexFilePath, _T("w, ccs=UTF-8")) != 0) {
-		AfxMessageBox(_T("coud not open file. ") + indexFilePath);
-		return;
-	}
+	FILE* pFp;
+	if ((pFp = CreateStdioFile(indexFilePath)) == NULL) return;
 	CStdioFile f(pFp);
 	HtmlWriter::WriteHtmlHeader(f);
 	CString title = GetDocument()->GetFileNameFromPath();
@@ -1781,19 +1778,13 @@ void OutlineView::OutputHtml()
 
 	CString olName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathOutline;
 	FILE* pOf;
-	if (_tfopen_s(&pOf, olName, _T("w, ccs=UTF-8")) != 0) {
-		AfxMessageBox(_T("coud not open file. ") + olName);
-		return;
-	}
+	if ((pOf = CreateStdioFile(olName)) == NULL) return;
 	CStdioFile olf(pOf);
 	HtmlWriter::WriteOutlineHeader(olf, keystr, GetDocument()->GetKeyNodeLabel(Tree().GetItemData(root)), m_exportOption);
 
 	CString arName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathTextSingle;
 	FILE* pf;
-	if (_tfopen_s(&pf, arName, _T("w, ccs=UTF-8")) != 0) {
-		AfxMessageBox(_T("coud not open file. ") + arName);
-		return;
-	}
+	if ((pf = CreateStdioFile(arName)) == NULL) return;
 	CStdioFile tf(pf);
 	if (m_exportOption.textOption == 0) {
 		HtmlWriter::WriteHtmlHeader(tf);
@@ -1804,10 +1795,7 @@ void OutlineView::OutputHtml()
 	else {
 		CString arName = m_exportOption.htmlOutDir + _T("\\text\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
 		FILE* pRf;
-		if (_tfopen_s(&pRf, arName, _T("w, ccs=UTF-8")) != 0) {
-			AfxMessageBox(_T("coud not open file. ") + arName);
-			return;
-		}
+		if ((pRf = CreateStdioFile(arName)) == NULL) return;
 		CStdioFile rootTf(pRf);
 		HtmlWriter::WriteHtmlHeader(rootTf);
 		HtmlWriter::WriteTextStyle(rootTf, false);
@@ -1837,10 +1825,7 @@ void OutlineView::OutputHtml()
 	if (m_exportOption.navOption > 0) {
 		CString nName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathNetwork;
 		FILE* pNf;
-		if (_tfopen_s(&pNf, nName, _T("w, ccs=UTF-8")) != 0) {
-			AfxMessageBox(_T("coud not open file. ") + nName);
-			return;
-		}
+		if ((pNf = CreateStdioFile(nName)) == NULL) return;
 		CStdioFile nf(pNf);
 		HtmlWriter::WriteHtmlHeader(nf);
 		nf.WriteString(_T("</head>\n"));
@@ -1993,6 +1978,16 @@ bool OutlineView::InputHtmlExportFolder()
 	AfxGetApp()->WriteProfileString(_T("Settings"), _T("HTML OutputDir"), m_exportOption.htmlOutDir);
 
 	return true;
+}
+
+FILE* OutlineView::CreateStdioFile(const CString& path) {
+	FILE* fp;
+	if (_tfopen_s(&fp, path, _T("w, ccs=UTF-8")) != 0) {
+		AfxMessageBox(_T("coud not open file. ") + path);
+		return NULL;
+	}
+
+	return fp;
 }
 
 void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile& foutline, CStdioFile& ftext)
