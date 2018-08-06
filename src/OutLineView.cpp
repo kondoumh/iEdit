@@ -1853,7 +1853,7 @@ void OutlineView::OutputHtml()
 				+ sWidthMgn + " " + sHeightMgn + _T(" />\n"));
 		}
 		else {
-			GetDocument()->SaveCurrentImage(m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathSvg);
+			GetDocument()->SaveCurrentImage(m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathPng);
 			nf.WriteString(_T("<img src=\"") + m_exportOption.pathSvg + _T("\" border=\"0\" usemap=\"#nodes\" />\n"));
 			nf.WriteString(_T("<map name=\"nodes\">\n"));
 			if (m_exportOption.textOption == 0) {
@@ -1891,6 +1891,7 @@ bool OutlineView::InputExportOptions() {
 	eDlg.m_pathNetwork = m_exportOption.pathNetwork;
 	eDlg.m_pathOutline = m_exportOption.pathOutline;
 	eDlg.m_pathSvg = m_exportOption.pathSvg;
+	eDlg.m_pathPng = m_exportOption.pathPng;
 	eDlg.m_docTitle = GetDocument()->GetFileNameFromPath();
 	eDlg.m_nameOfRoot = Tree().GetItemText(Tree().GetRootItem());
 	if (GetDocument()->ShowSubBranch()) {
@@ -1920,6 +1921,7 @@ bool OutlineView::InputExportOptions() {
 	m_exportOption.pathNetwork = eDlg.m_pathNetwork;
 	m_exportOption.pathOutline = eDlg.m_pathOutline;
 	m_exportOption.pathSvg = eDlg.m_pathSvg;
+	m_exportOption.pathPng = eDlg.m_pathPng;
 	m_exportOption.pathTextSingle = eDlg.m_pathTextSingle;
 
 	return true;
