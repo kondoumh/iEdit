@@ -1788,7 +1788,7 @@ void OutlineView::OutputHtml()
 	if (m_exportOption.textOption == 0) {
 		HtmlWriter::WriteHtmlHeader(tf);
 		HtmlWriter::WriteTextStyle(tf);
-		HtmlWriter::WriteTextStart(tf);
+		HtmlWriter::WriteBodyStart(tf);
 		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), tf);
 	}
 	else {
@@ -1798,9 +1798,9 @@ void OutlineView::OutputHtml()
 		CStdioFile rootTf(pRf);
 		HtmlWriter::WriteHtmlHeader(rootTf);
 		HtmlWriter::WriteTextStyle(rootTf, false);
-		HtmlWriter::WriteTextStart(rootTf);
+		HtmlWriter::WriteBodyStart(rootTf);
 		GetDocument()->WriteKeyNodeToHtml(Tree().GetItemData(root), rootTf, true, m_exportOption.prfTextEverynode);
-		HtmlWriter::WriteTextEnd(rootTf);
+		HtmlWriter::WriteBodyEnd(rootTf);
 		rootTf.Close();
 	}
 
@@ -1814,7 +1814,7 @@ void OutlineView::OutputHtml()
 		HtmlWriter::WriteOutlineEnd(olf);
 		olf.Close();
 		if (m_exportOption.textOption == 0) {
-			HtmlWriter::WriteTextEnd(tf);
+			HtmlWriter::WriteBodyEnd(tf);
 			tf.Close();
 		}
 	}
@@ -1983,22 +1983,7 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 	CString keystr;
 	keystr.Format(_T("%d"), Tree().GetItemData(hItem));
 	// アウトライン書き込み
-	if (m_exportOption.navOption != 1) {
-		foutline.WriteString(_T("<li>"));
-		CString itemStr = StringUtil::RemoveCr(GetDocument()->GetKeyNodeLabel(Tree().GetItemData(hItem)));
-		foutline.WriteString(_T("<a href="));
-		if (m_exportOption.textOption == 0) {
-			foutline.WriteString(_T("\"") + m_exportOption.pathTextSingle + _T("#"));
-			foutline.WriteString(keystr);
-		}
-		else {
-			foutline.WriteString(_T("\"text/") + m_exportOption.prfTextEverynode + keystr + _T(".html"));
-		}
-		foutline.WriteString(_T("\" target=text>"));
-		// 見出し書き込み
-		foutline.WriteString(itemStr);
-		foutline.WriteString(_T("</a>"));
-	}
+	HtmlWriter::WriteSubTree(foutline, keystr, GetDocument()->GetKeyNodeLabel(Tree().GetItemData(hItem)), m_exportOption);
 
 	// Text出力
 	DWORD key = Tree().GetItemData(hItem);
@@ -2013,9 +1998,9 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 		CStdioFile tf(pRf);
 		HtmlWriter::WriteHtmlHeader(tf);
 		HtmlWriter::WriteTextStyle(tf, false);
-		tf.WriteString(_T("</head>\n<body>\n"));
+		HtmlWriter::WriteBodyStart(tf);
 		GetDocument()->WriteKeyNodeToHtml(key, tf, true, m_exportOption.prfTextEverynode);
-		tf.WriteString(_T("</body>\n</html>\n"));
+		HtmlWriter::WriteBodyEnd(tf);
 		tf.Close();
 	}
 
@@ -2023,13 +2008,13 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 		m_exportOption.htmlOutOption == 1 && GetDocument()->ShowSubBranch();
 	if (Tree().ItemHasChildren(hItem) && nested) {
 		if (m_exportOption.navOption != 1) {
-			foutline.WriteString(_T("\n<ul>\n"));
+			HtmlWriter::WriteChildrenStart(foutline);
 		}
 		HTREEITEM hchildItem = Tree().GetNextItem(hItem, TVGN_CHILD);
 		OutputOutlineHtml(hRoot, hchildItem, foutline, ftext);
 	}
 	else {
-		foutline.WriteString(_T("</li>\n"));
+		HtmlWriter::WriteSiblingEnd(foutline);
 		HTREEITEM hnextItem = Tree().GetNextItem(hItem, TVGN_NEXT);
 		if (hnextItem == NULL) {    // 次に兄弟がいない
 			HTREEITEM hi = hItem;
@@ -2038,7 +2023,7 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 				hParent = Tree().GetParentItem(hi);
 				HTREEITEM hnextParent;
 				if (m_exportOption.navOption != 1) {
-					foutline.WriteString(_T("</ul></li>\n"));
+					HtmlWriter::WriteSiblingStart(foutline);
 				}
 				if ((hnextParent = Tree().GetNextItem(hParent, TVGN_NEXT)) != NULL) {
 					OutputOutlineHtml(hRoot, hnextParent, foutline, ftext);

@@ -71,14 +71,14 @@ void HtmlWriter::WriteHtmlHeader(CStdioFile &f)
 	f.WriteString(_T("<meta http-equiv=\"content-Type\" content=\"text/html; charset=UTF-8\">\n"));
 }
 
-void HtmlWriter::WriteTextStart(CStdioFile& tf)
+void HtmlWriter::WriteBodyStart(CStdioFile& tf)
 {
 	tf.WriteString(_T("</head>\n<body>\n"));
 }
 
-void HtmlWriter::WriteTextEnd(CStdioFile& rootTf)
+void HtmlWriter::WriteBodyEnd(CStdioFile& f)
 {
-	rootTf.WriteString(_T("</body>\n</html>\n"));
+	f.WriteString(_T("</body>\n</html>\n"));
 }
 
 void HtmlWriter::WriteTextStyle(CStdioFile &f, bool single)
@@ -119,6 +119,26 @@ void HtmlWriter::WriteOutline(const CString& keyStr, const CString& itemStr, CSt
 void HtmlWriter::WriteOutlineEnd(CStdioFile& olf)
 {
 	olf.WriteString(_T("</ul>\n</body>\n</html>\n"));
+}
+
+void HtmlWriter::WriteSubTree(CStdioFile& olf, const CString& keystr, const CString& label, const ExportOptions& options)
+{
+	if (options.navOption != 1) {
+		olf.WriteString(_T("<li>"));
+		CString itemStr = StringUtil::RemoveCr(label);
+		olf.WriteString(_T("<a href="));
+		if (options.textOption == 0) {
+			olf.WriteString(_T("\"") + options.pathTextSingle + _T("#"));
+			olf.WriteString(keystr);
+		}
+		else {
+			olf.WriteString(_T("\"text/") + options.prfTextEverynode + keystr + _T(".html"));
+		}
+		olf.WriteString(_T("\" target=text>"));
+		// å©èoÇµèëÇ´çûÇ›
+		olf.WriteString(itemStr);
+		olf.WriteString(_T("</a>"));
+	}
 }
 
 void HtmlWriter::WriteNetworkStart(CStdioFile& nf)
@@ -235,4 +255,19 @@ void HtmlWriter::WriteLinks(CStdioFile& f, const CString& strLinks)
 	f.WriteString(strLinks);
 	f.WriteString(_T("</ul>\n"));
 	f.WriteString(_T("</div>\n"));
+}
+
+void HtmlWriter::WriteChildrenStart(CStdioFile& f)
+{
+	f.WriteString(_T("\n<ul>\n"));
+}
+
+void HtmlWriter::WriteSiblingStart(CStdioFile& f)
+{
+	f.WriteString(_T("</ul></li>\n"));
+}
+
+void HtmlWriter::WriteSiblingEnd(CStdioFile& f)
+{
+	f.WriteString(_T("</li>\n"));
 }
