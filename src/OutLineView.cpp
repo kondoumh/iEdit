@@ -1761,9 +1761,7 @@ void OutlineView::OutputHtml()
 	CWaitCursor wc;
 	_wsetlocale(LC_ALL, _T("jpn"));
 
-	////////////////////////
-	////// create frame
-	////////////////////////
+	/////////////////// create frame
 	CString indexFilePath = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathIndex;
 	FILE* pFp;
 	if ((pFp = CreateStdioFile(indexFilePath)) == NULL) return;
@@ -1782,6 +1780,7 @@ void OutlineView::OutputHtml()
 	CStdioFile olf(pOf);
 	HtmlWriter::WriteOutlineStart(olf, keystr, GetDocument()->GetKeyNodeLabel(Tree().GetItemData(root)), m_exportOption);
 
+	/////////////////// output text
 	CString arName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathTextSingle;
 	FILE* pf;
 	if ((pf = CreateStdioFile(arName)) == NULL) return;
@@ -1804,6 +1803,7 @@ void OutlineView::OutputHtml()
 		HtmlWriter::WriteTextEnd(rootTf);
 		rootTf.Close();
 	}
+
 	/////////////////// output SubTree
 	if (Tree().ItemHasChildren(root)) {
 		HTREEITEM child = Tree().GetNextItem(root, TVGN_CHILD);
@@ -1821,7 +1821,7 @@ void OutlineView::OutputHtml()
 	olf.Close();
 	tf.Close();
 
-	///////////////////// create network.html
+	///////////////////// create network
 	if (m_exportOption.navOption > 0) {
 		CString nName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathNetwork;
 		FILE* pNf;
