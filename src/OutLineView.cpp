@@ -1827,7 +1827,8 @@ void OutlineView::OutputHtml()
 		FILE* pNf;
 		if ((pNf = CreateStdioFile(nName)) == NULL) return;
 		CStdioFile nf(pNf);
-		HtmlWriter::WriteNetworkStart(nf);
+		HtmlWriter::WriteHtmlHeader(nf);
+		HtmlWriter::WriteBodyStart(nf);
 
 		if (m_exportOption.imgOption == 0) {
 			CString svgPath = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathSvg;
@@ -1850,7 +1851,7 @@ void OutlineView::OutputHtml()
 			}
 			HtmlWriter::WritePngNetworkEnd(nf);
 		}
-		HtmlWriter::WriteNetworkEnd(nf);
+		HtmlWriter::WriteBodyEnd(nf);
 		nf.Close();
 	}
 	_wsetlocale(LC_ALL, _T(""));

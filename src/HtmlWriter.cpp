@@ -141,18 +141,6 @@ void HtmlWriter::WriteSubTree(CStdioFile& olf, const CString& keystr, const CStr
 	}
 }
 
-void HtmlWriter::WriteNetworkStart(CStdioFile& nf)
-{
-	HtmlWriter::WriteHtmlHeader(nf);
-	nf.WriteString(_T("</head>\n"));
-	nf.WriteString(_T("<body>\n"));
-}
-
-void HtmlWriter::WriteNetworkEnd(CStdioFile& nf)
-{
-	nf.WriteString(_T("</body>\n</html>\n"));
-}
-
 void HtmlWriter::WriteSvgNetwork(CStdioFile& nf, const CPoint& maxPt, const CString& pathSvg)
 {
 	CString sWidth; sWidth.Format(_T("width=\"%d\""), maxPt.x);
