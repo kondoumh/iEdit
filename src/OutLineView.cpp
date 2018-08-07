@@ -2009,10 +2009,7 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 		CString fName = m_exportOption.htmlOutDir + _T("\\text\\")
 			+ m_exportOption.prfTextEverynode + keystr + _T(".html");
 		FILE* pRf;
-		if (_tfopen_s(&pRf, fName, _T("w, ccs=UTF-8")) != 0) {
-			MessageBox(fName + _T(" : 作成に失敗しました"));
-			return;
-		}
+		if ((pRf = CreateStdioFile(fName)) == NULL) return;
 		CStdioFile tf(pRf);
 		HtmlWriter::WriteHtmlHeader(tf);
 		HtmlWriter::WriteTextStyle(tf, false);
