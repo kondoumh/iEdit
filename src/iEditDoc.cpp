@@ -17,6 +17,7 @@
 #include "MarkdownParser.h"
 #include "XmlProcessor.h"
 #include "HtmlWriter.h"
+#include "FileUtil.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -414,16 +415,8 @@ void iEditDoc::DeleteKeyItem(DWORD key)
 BOOL iEditDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
 	m_openFilePath = lpszPathName;
-	WCHAR drive[_MAX_DRIVE];
-	WCHAR dir[_MAX_DIR];
-	WCHAR fileName[_MAX_FNAME];
-	WCHAR ext[_MAX_EXT];
-	ZeroMemory(drive, _MAX_DRIVE);
-	ZeroMemory(dir, _MAX_DIR);
-	ZeroMemory(fileName, _MAX_FNAME);
-	ZeroMemory(ext, _MAX_EXT);
-	_wsplitpath_s((const wchar_t *)m_openFilePath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
-	CString extent = ext;
+	CString drive, dir, file, extent;
+	FileUtil::SplitPath(m_openFilePath, drive, dir, file, extent);
 	extent.MakeLower();
 	if (extent != _T(".iedx") && extent != _T(".ied") && extent != _T(".xml")) {
 		AfxMessageBox(_T("iEditファイルではありません"));
@@ -455,17 +448,8 @@ BOOL iEditDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 BOOL iEditDoc::OnSaveDocument(LPCTSTR lpszPathName)
 {
-	// TODO: この位置に固有の処理を追加するか、または基本クラスを呼び出してください
-	WCHAR drive[_MAX_DRIVE];
-	WCHAR dir[_MAX_DIR];
-	WCHAR fileName[_MAX_FNAME];
-	WCHAR ext[_MAX_EXT];
-	ZeroMemory(drive, _MAX_DRIVE);
-	ZeroMemory(dir, _MAX_DIR);
-	ZeroMemory(fileName, _MAX_FNAME);
-	ZeroMemory(ext, _MAX_EXT);
-	_wsplitpath_s((const wchar_t *)lpszPathName, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
-	CString extent = ext;
+	CString drive, dir, file, extent;
+	FileUtil::SplitPath(lpszPathName, drive, dir, file, extent);
 	if (extent != _T(".iedx") && extent != _T(".ied") && extent != _T(".xml")) {
 		extent = _T(".iedx");
 	}
