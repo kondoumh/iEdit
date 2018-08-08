@@ -21,6 +21,7 @@
 #include "StringUtil.h"
 #include "SystemConfiguration.h"
 #include "HtmlWriter.h"
+#include "FileUtil.h"
 #include <shlobj.h>
 #include <locale>
 
@@ -1372,16 +1373,8 @@ void OutlineView::OnAddUrl()
 	GetDocument()->DisableUndo();
 	DisableUndo();
 	if (dlg.strComment == _T("") && dlg.strPath != _T("")) {
-		WCHAR drive[_MAX_DRIVE];
-		WCHAR dir[_MAX_DIR];
-		WCHAR fileName[_MAX_FNAME];
-		WCHAR ext[_MAX_EXT];
-		ZeroMemory(drive, _MAX_DRIVE);
-		ZeroMemory(dir, _MAX_DIR);
-		ZeroMemory(fileName, _MAX_FNAME);
-		ZeroMemory(ext, _MAX_EXT);
-
-		_wsplitpath_s((const wchar_t *)dlg.strPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+		CString drive, dir, fileName, ext;
+		FileUtil::SplitPath(dlg.strPath, drive, dir, fileName, ext);
 		dlg.strComment.Format(_T("%s%s"), fileName, ext);
 	}
 	GetDocument()->AddUrlLink(dlg.strPath, dlg.strComment);
@@ -1651,25 +1644,15 @@ void OutlineView::OnImportData()
 	CFileDialog dlg(TRUE, _T("txt"), txtpath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
-
-	WCHAR drive[_MAX_DRIVE];
-	WCHAR dir[_MAX_DIR];
-	WCHAR fileName[_MAX_FNAME];
-	WCHAR ext[_MAX_EXT];
-	ZeroMemory(drive, _MAX_DRIVE);
-	ZeroMemory(dir, _MAX_DIR);
-	ZeroMemory(fileName, _MAX_FNAME);
-	ZeroMemory(ext, _MAX_EXT);
-
-	_wsplitpath_s((const wchar_t *)infileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
-	CString extent = ext;
+	CString drive, dir, fileName, extent;
+	FileUtil::SplitPath(infileName, drive, dir, fileName, extent);
 	extent.MakeLower();
 
 	CString caption;
 	int TextLevelCharNum = 0;
 	if (extent == _T(".txt")) {
 		ImportTextDlg dlg;
-		dlg.m_fileName = CString(fileName) + CString(ext);
+		dlg.m_fileName = CString(fileName) + extent;
 		dlg.m_charSelection = TextLevelCharNum;
 		if (dlg.DoModal() != IDOK) {
 			return;
