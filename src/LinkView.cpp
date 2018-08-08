@@ -401,31 +401,16 @@ void LinkView::GoForward()
 	int type = items_[index].linkType;
 	if (type == LinkProps::FileName || type == LinkProps::linkFolder || type == LinkProps::iedFile) {
 		CString path = items_[index].path;
-		WCHAR drive[_MAX_DRIVE];
-		WCHAR dir[_MAX_DIR];
-		WCHAR fileName[_MAX_FNAME];
-		WCHAR ext[_MAX_EXT];
-		ZeroMemory(drive, _MAX_DRIVE);
-		ZeroMemory(dir, _MAX_DIR);
-		ZeroMemory(fileName, _MAX_FNAME);
-		ZeroMemory(ext, _MAX_EXT);
-		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+		CString drive, dir, fileName, ext;
+		FileUtil::SplitPath(path, drive, dir, fileName, ext);
 		CString workdir; workdir.Format(_T("%s%s"), drive, dir);
 
 		CString sdrive(drive);
 		if (sdrive == _T("")) {
-			// ドライブレターが無い場合、編集中のieditファイルとの
-			// 相対位置と見なして、ファイルオープンを試みる
+			// ドライブレターが無い場合、編集中のieditファイルとの相対位置と見なして、ファイルオープンを試みる
 			CString ieditFilePath = GetDocument()->GetPathName();
-			WCHAR drive2[_MAX_DRIVE];
-			WCHAR dir2[_MAX_DIR];
-			WCHAR fileName2[_MAX_FNAME];
-			WCHAR ext2[_MAX_EXT];
-			ZeroMemory(drive2, _MAX_DRIVE);
-			ZeroMemory(dir2, _MAX_DIR);
-			ZeroMemory(fileName2, _MAX_FNAME);
-			ZeroMemory(ext2, _MAX_EXT);
-			_wsplitpath_s((const wchar_t *)ieditFilePath, drive2, _MAX_DRIVE, dir2, _MAX_DIR, fileName2, _MAX_FNAME, ext2, _MAX_EXT);
+			CString drive2, dir2, fileName2, ext2;
+			FileUtil::SplitPath(ieditFilePath, drive2, dir2, fileName2, ext2);
 			CString combPath; combPath.Format(_T("%s%s%s%s%s"), drive2, dir2, dir, fileName, ext);
 			workdir.Format(_T("%s%s"), drive2, dir2);
 			path = combPath;
