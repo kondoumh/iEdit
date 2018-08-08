@@ -704,18 +704,10 @@ BOOL LinkView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint
 		GetDocument()->DisableUndo();
 	}
 
-	WCHAR drive[_MAX_DRIVE];
-	WCHAR dir[_MAX_DIR];
-	WCHAR fname[_MAX_FNAME];
-	WCHAR ext[_MAX_EXT];
-
+	CString drive, dir, fname, ext;
 	for (int i = 0; i < n; i++) {
 		::DragQueryFile(hdrop, i, path, sizeof(path));
-		memset(drive, '\0', _MAX_DRIVE);
-		memset(dir, '\0', _MAX_DIR);
-		memset(fname, '\0', _MAX_FNAME);
-		memset(ext, '\0', _MAX_EXT);
-		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
+		FileUtil::SplitPath(path, drive, dir, fname, ext);
 		CString extention(ext);
 		extention.MakeLower();
 		if (extention == _T(".url")) {
