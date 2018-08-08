@@ -16,6 +16,7 @@
 #include "RectTrackerPlus.h"
 #include "NodeMarginSettingsDlg.h"
 #include "SystemConfiguration.h"
+#include "FileUtil.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -3375,18 +3376,9 @@ void NetView::OnExportSvg()
 		outfile = GetDocument()->GetTitle();
 	}
 	else {
-		WCHAR drive[_MAX_DRIVE];
-		WCHAR dir[_MAX_DIR];
-		WCHAR fileName[_MAX_FNAME];
-		WCHAR ext[_MAX_EXT];
-		ZeroMemory(drive, _MAX_DRIVE);
-		ZeroMemory(dir, _MAX_DIR);
-		ZeroMemory(fileName, _MAX_FNAME);
-		ZeroMemory(ext, _MAX_EXT);
-
-		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
-		CString title(fileName);
-		outfile = title;
+		CString drive, dir, fileName, ext;
+		FileUtil::SplitPath(path, drive, dir, fileName, ext);
+		outfile = fileName;
 	}
 
 	WCHAR szFilters[] = _T("SVGファイル (*.svg)|*.svg");
@@ -4229,18 +4221,9 @@ void NetView::OnExportEmf()
 		outfile = GetDocument()->GetTitle();
 	}
 	else {
-		WCHAR drive[_MAX_DRIVE];
-		WCHAR dir[_MAX_DIR];
-		WCHAR fileName[_MAX_FNAME];
-		WCHAR ext[_MAX_EXT];
-		ZeroMemory(drive, _MAX_DRIVE);
-		ZeroMemory(dir, _MAX_DIR);
-		ZeroMemory(fileName, _MAX_FNAME);
-		ZeroMemory(ext, _MAX_EXT);
-
-		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
-		CString title(fileName);
-		outfile = title;
+		CString drive, dir, fileName, ext;
+		FileUtil::SplitPath(path, drive, dir, fileName, ext);
+		outfile = fileName;
 	}
 
 	WCHAR szFilters[] = _T("EMFファイル (*.emf)|*.emf");
@@ -4276,18 +4259,9 @@ void NetView::OnExportPng()
 		outfile = GetDocument()->GetTitle();
 	}
 	else {
-		WCHAR drive[_MAX_DRIVE];
-		WCHAR dir[_MAX_DIR];
-		WCHAR fileName[_MAX_FNAME];
-		WCHAR ext[_MAX_EXT];
-		ZeroMemory(drive, _MAX_DRIVE);
-		ZeroMemory(dir, _MAX_DIR);
-		ZeroMemory(fileName, _MAX_FNAME);
-		ZeroMemory(ext, _MAX_EXT);
-
-		_wsplitpath_s((const wchar_t *)path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
-		CString title(fileName);
-		outfile = title;
+		CString drive, dir, fileName, ext;
+		FileUtil::SplitPath(path, drive, dir, fileName, ext);
+		outfile = fileName;
 	}
 
 	WCHAR szFilters[] = _T("PNGファイル (*.png)|*.png");
