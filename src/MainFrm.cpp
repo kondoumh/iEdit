@@ -12,6 +12,7 @@
 #include "WndTransparencySettingsDlg.h"
 #include "SystemConfiguration.h"
 #include "ChildFrm.h"
+#include "FileUtil.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -250,18 +251,8 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 	WCHAR fileName[MAX_PATH];
 	DragQueryFile(hDropInfo, 0, fileName, MAX_PATH);
 
-	WCHAR drive[_MAX_DRIVE];
-	WCHAR dir[_MAX_DIR];
-	WCHAR fname[_MAX_FNAME];
-	WCHAR ext[_MAX_EXT];
-	ZeroMemory(drive, _MAX_DRIVE);
-	ZeroMemory(dir, _MAX_DIR);
-	ZeroMemory(fname, _MAX_FNAME);
-	ZeroMemory(ext, _MAX_EXT);
-
-	_wsplitpath_s((const wchar_t *)fileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
-
-	CString extent = ext;
+	CString drive, dir, fname, extent;
+	FileUtil::SplitPath(fileName, drive, dir, fname, extent);
 	extent.MakeLower();
 	if (extent != _T(".iedx") && extent != _T(".ied") && extent != _T(".xml")) {
 		AfxMessageBox(_T("iEditファイルではありません"));
