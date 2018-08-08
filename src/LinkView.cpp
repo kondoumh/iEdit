@@ -10,6 +10,7 @@
 #include "FileDropActionDlg.h"
 #include "SystemConfiguration.h"
 #include "StringUtil.h"
+#include "FileUtil.h"
 #include <algorithm>
 
 #ifdef _DEBUG
@@ -371,16 +372,8 @@ void LinkView::AddLinkInfo()
 		i.comment = dlg.strComment;
 		i.path = dlg.strPath;
 		if (i.comment == "" && i.path != "") {
-			WCHAR drive[_MAX_DRIVE];
-			WCHAR dir[_MAX_DIR];
-			WCHAR fileName[_MAX_FNAME];
-			WCHAR ext[_MAX_EXT];
-			ZeroMemory(drive, _MAX_DRIVE);
-			ZeroMemory(dir, _MAX_DIR);
-			ZeroMemory(fileName, _MAX_FNAME);
-			ZeroMemory(ext, _MAX_EXT);
-
-			_wsplitpath_s((const wchar_t *)i.path, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+			CString drive, dir, fileName, ext;
+			FileUtil::SplitPath(i.path, drive, dir, fileName, ext);
 			i.comment.Format(_T("%s%s"), fileName, ext);
 		}
 		GetDocument()->SetSpecifiedLinkProps(items_[index], i);

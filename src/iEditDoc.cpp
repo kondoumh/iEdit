@@ -495,16 +495,8 @@ void iEditDoc::InitDocument()
 
 CString iEditDoc::GetFileNameFromOpenPath()
 {
-	WCHAR drive[_MAX_DRIVE];
-	WCHAR dir[_MAX_DIR];
-	WCHAR fileName[_MAX_FNAME];
-	WCHAR ext[_MAX_EXT];
-	ZeroMemory(drive, _MAX_DRIVE);
-	ZeroMemory(dir, _MAX_DIR);
-	ZeroMemory(fileName, _MAX_FNAME);
-	ZeroMemory(ext, _MAX_EXT);
-	_wsplitpath_s((const wchar_t *)m_openFilePath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
-	CString extent = ext;
+	CString drive, dir, fileName, extent;
+	FileUtil::SplitPath(m_openFilePath, drive, dir, fileName, extent);
 	extent.MakeLower();
 	if (extent == _T(".iedx") || extent == _T(".ied") || extent == _T(".xml")) {
 		return fileName;
@@ -2060,16 +2052,8 @@ void iEditDoc::WriteKeyNodeToHtml(DWORD key, CStdioFile& f, bool textIsolated, c
 			CString url = (*li).GetPath();
 			if (url.Find(_T("http://")) == -1 && url.Find(_T("https://")) == -1 && url.Find(_T("ftp://")) == -1) {
 				if (!((CiEditApp*)AfxGetApp())->m_rgsOther.bOutputFileLinksOnExport) continue;
-				WCHAR drive[_MAX_DRIVE];
-				WCHAR dir[_MAX_DIR];
-				WCHAR fileName[_MAX_FNAME];
-				WCHAR ext[_MAX_EXT];
-				ZeroMemory(drive, _MAX_DRIVE);
-				ZeroMemory(dir, _MAX_DIR);
-				ZeroMemory(fileName, _MAX_FNAME);
-				ZeroMemory(ext, _MAX_EXT);
-				_wsplitpath_s((const wchar_t *)url, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
-				CString sDrive(drive);
+				CString sDrive, dir, file, ext;
+				FileUtil::SplitPath(url, sDrive, dir, file, ext);
 				if (sDrive != "") { // フルパスの時だけ"file:///" つけとけばいいらしい
 					url = _T("file:///") + url;
 				}
@@ -2430,27 +2414,13 @@ bool iEditDoc::CurKeyInBranch() const
 
 void iEditDoc::OnFileSaveAs()
 {
-	// TODO: この位置にコマンド ハンドラ用のコードを追加してください
 	CString fullPath = GetPathName();
-	CString fileName;
-
-	WCHAR drive[_MAX_DRIVE];
-	WCHAR dir[_MAX_DIR];
-	WCHAR fname[_MAX_FNAME];
-	WCHAR ext[_MAX_EXT];
-	ZeroMemory(drive, _MAX_DRIVE);
-	ZeroMemory(dir, _MAX_DIR);
-	ZeroMemory(fname, _MAX_FNAME);
-	ZeroMemory(ext, _MAX_EXT);
-	_wsplitpath_s((const wchar_t *)fullPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
-
-	fileName = fname;
-	CString driveName = drive;
+	CString driveName, dir, fileName, ext;
+	FileUtil::SplitPath(fullPath, driveName, dir, fileName, ext);
 	if (driveName == _T("")) {
 		node_c_iter it = nodes_.find(0);
 		CString rootLabel = (*it).second.GetName();
 		if (rootLabel != _T("主題")) {
-			// TODO:ファイル名として不正な文字の除去
 			CString safeFileName = StringUtil::GetSafeFileName(rootLabel);
 			if (safeFileName == "") {
 				fileName = GetTitle();
@@ -2508,39 +2478,19 @@ void iEditDoc::OnFileSaveAs()
 
 void iEditDoc::OnFileSave()
 {
-	// TODO: ここにコマンド ハンドラ コードを追加します。
-	CString fullPath = GetPathName();
-	CString driveName;
-	CString dirName;
-	CString fileName = GetTitle();
-	CString extName;
+	CString drive, dir, fname, ext;
+	FileUtil::SplitPath(GetPathName(), drive, dir, fname, ext);
 
-	WCHAR drive[_MAX_DRIVE];
-	WCHAR dir[_MAX_DIR];
-	WCHAR fname[_MAX_FNAME];
-	WCHAR ext[_MAX_EXT];
-	ZeroMemory(drive, _MAX_DRIVE);
-	ZeroMemory(dir, _MAX_DIR);
-	ZeroMemory(fname, _MAX_FNAME);
-	ZeroMemory(ext, _MAX_EXT);
-	_wsplitpath_s((const wchar_t *)fullPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
-
-	driveName = drive;
-	dirName = dir;
-	fileName = fname;
-	extName = ext;
-
-	if (driveName == _T("")) {
+	if (drive == _T("")) {
 		OnFileSaveAs();
 	}
 	else {
-		OnSaveDocument(fullPath);
+		OnSaveDocument(GetPathName());
 	}
 }
 
 void iEditDoc::OnUpdateFileSave(CCmdUI *pCmdUI)
 {
-	// TODO: ここにコマンド更新 UI ハンドラ コードを追加します。
 }
 
 CRect iEditDoc::RestoreDeleteBound() const
@@ -3390,15 +3340,8 @@ void iEditDoc::SetSelectedNodeMargin(int l, int r, int t, int b)
 CString iEditDoc::GetFileNameFromPath() const
 {
 	CString fullPath = GetPathName();
-	WCHAR drive[_MAX_DRIVE];
-	WCHAR dir[_MAX_DIR];
-	WCHAR fileName[_MAX_FNAME];
-	WCHAR ext[_MAX_EXT];
-	ZeroMemory(drive, _MAX_DRIVE);
-	ZeroMemory(dir, _MAX_DIR);
-	ZeroMemory(fileName, _MAX_FNAME);
-	ZeroMemory(ext, _MAX_EXT);
-	_wsplitpath_s((const wchar_t *)fullPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fileName, _MAX_FNAME, ext, _MAX_EXT);
+	CString drive, dir, fileName, ext;
+	FileUtil::SplitPath(fullPath, drive, dir, fileName, ext);
 	return CString(fileName);
 }
 
