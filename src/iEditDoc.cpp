@@ -2483,7 +2483,12 @@ void iEditDoc::OnFileSaveAs()
 			extension = _T(".iedx");
 			break;
 		case 2: // ied
-			extension = _T(".ied");
+			if (((CiEditApp*)AfxGetApp())->m_rgsOptions.registOldFiletype) {
+				extension = _T(".ied");
+			}
+			else {
+				extension = _T(".xml");
+			}
 			break;
 		case 3: // xml
 			extension = _T(".xml");
