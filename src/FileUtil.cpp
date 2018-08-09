@@ -42,7 +42,7 @@ bool FileUtil::SelectFolder(CString& path, const HWND& hWnd)
 
 	bi.pidlRoot = NULL;
 	bi.pszDisplayName = szBuff;
-	bi.lpszTitle = _T("HTML出力先フォルダー選択");
+	bi.lpszTitle = _T("出力先フォルダー選択");
 
 	bi.ulFlags = BIF_RETURNONLYFSDIRS;
 	bi.lpfn = (BFFCALLBACK)BrowseCallback;

@@ -1899,31 +1899,7 @@ bool OutlineView::InputExportOptions() {
 
 bool OutlineView::InputHtmlExportFolder()
 {
-	TCHAR szBuff[MAX_PATH];
-	BROWSEINFO bi;
-	bi.hwndOwner = m_hWnd;
-
-	bi.pidlRoot = NULL;
-	bi.pszDisplayName = szBuff;
-	bi.lpszTitle = _T("HTML出力先フォルダー選択");
-
-	bi.ulFlags = BIF_RETURNONLYFSDIRS;
-	bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
-	bi.lParam = (LPARAM)m_exportOption.htmlOutDir.GetBuffer();
-	bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
-	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
-	bi.iImage = 0;
-	CString folder = AfxGetApp()->GetProfileString(_T("Settings"), _T("HTML OutputDir"), _T(""));
-	bi.lParam = (LPARAM)folder.GetBuffer(folder.GetLength());
-
-	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
-	if (pList == NULL) return false;
-	if (::SHGetPathFromIDList(pList, szBuff)) {
-		//szBuffに選択したフォルダ名が入る
-		m_exportOption.htmlOutDir = CString(szBuff);
-	}
-	else {
-		MessageBox(_T("出力先フォルダーを指定して下さい"));
+	if (!FileUtil::SelectFolder(m_exportOption.htmlOutDir, m_hWnd)) {
 		return false;
 	}
 
@@ -2991,32 +2967,8 @@ void OutlineView::OnExportToText()
 		}
 	}
 	else {
-		TCHAR szBuff[MAX_PATH];
-		BROWSEINFO bi;
-		bi.hwndOwner = m_hWnd;
+		if (!FileUtil::SelectFolder(m_textExportOption.outDir, m_hWnd)) return;
 
-		bi.pidlRoot = NULL;
-		bi.pszDisplayName = szBuff;
-		bi.lpszTitle = _T("テキスト出力先フォルダー選択");
-
-		bi.ulFlags = BIF_RETURNONLYFSDIRS;
-		bi.lpfn = (BFFCALLBACK)FolderDlgCallBackProc;
-		bi.lParam = (LPARAM)m_exportOption.htmlOutDir.GetBuffer();
-		bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
-		bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
-		bi.iImage = 0;
-		CString folder = AfxGetApp()->GetProfileString(_T("Settings"), _T("HTML OutputDir"), _T(""));
-		bi.lParam = (LPARAM)folder.GetBuffer(folder.GetLength());
-
-		LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
-		if (pList == NULL) return;
-		if (::SHGetPathFromIDList(pList, szBuff)) {
-			m_textExportOption.outDir = CString(szBuff);
-		}
-		else {
-			MessageBox(_T("出力先フォルダーを指定して下さい"));
-			return;
-		}
 		if (dlg.m_rdTreeOption == 0) {
 			OutputOutlineTextByNode(Tree().GetRootItem());
 		}
