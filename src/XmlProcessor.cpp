@@ -2,6 +2,7 @@
 #include "XmlProcessor.h"
 #include "StringUtil.h"
 #include "iEdit.h"
+#include "FileUtil.h"
 #include <locale>
 
 XmlProcessor::XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec) : 
@@ -731,10 +732,7 @@ DWORD XmlProcessor::FindPairKey(const DWORD first)
 bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, iLinks& links, NodePropsVec& ls)
 {
 	FILE* fp;
-	if (_tfopen_s(&fp, outPath, _T("w, ccs=UTF-8")) != 0) {
-		AfxMessageBox(_T("coud not open file. ") + outPath);
-		return false;
-	}
+	if ((fp = FileUtil::CreateStdioFile(outPath)) == NULL) return false;
 	CStdioFile f(fp);
 
 	_wsetlocale(LC_ALL, _T("jpn"));

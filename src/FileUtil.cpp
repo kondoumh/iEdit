@@ -26,8 +26,20 @@ FileUtil::~FileUtil()
 
 FILE* FileUtil::CreateStdioFile(const CString& path) {
 	FILE* fp;
+
 	if (_tfopen_s(&fp, path, _T("w, ccs=UTF-8")) != 0) {
-		AfxMessageBox(_T("coud not open file. ") + path);
+		AfxMessageBox(_T("ファイルを作成できませんでした。") + path);
+		return NULL;
+	}
+
+	return fp;
+}
+
+FILE* FileUtil::OpenStdioFile(const CString& path) {
+	FILE* fp;
+
+	if (_tfopen_s(&fp, path, _T("r, ccs=UTF-8")) != 0) {
+		AfxMessageBox(_T("ファイルを開けませんでした") + path);
 		return NULL;
 	}
 

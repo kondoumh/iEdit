@@ -1747,7 +1747,7 @@ void OutlineView::OutputHtml()
 	/////////////////// create frame
 	CString indexFilePath = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathIndex;
 	FILE* pFp;
-	if ((pFp = CreateStdioFile(indexFilePath)) == NULL) return;
+	if ((pFp = FileUtil::CreateStdioFile(indexFilePath)) == NULL) return;
 	CStdioFile f(pFp);
 	HtmlWriter::WriteHtmlHeader(f);
 	CString title = GetDocument()->GetFileNameFromPath();
@@ -1759,14 +1759,14 @@ void OutlineView::OutputHtml()
 
 	CString olName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathOutline;
 	FILE* pOf;
-	if ((pOf = CreateStdioFile(olName)) == NULL) return;
+	if ((pOf = FileUtil::CreateStdioFile(olName)) == NULL) return;
 	CStdioFile olf(pOf);
 	HtmlWriter::WriteOutlineStart(olf, keystr, GetDocument()->GetKeyNodeLabel(Tree().GetItemData(root)), m_exportOption);
 
 	/////////////////// output text
 	CString arName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathTextSingle;
 	FILE* pf;
-	if ((pf = CreateStdioFile(arName)) == NULL) return;
+	if ((pf = FileUtil::CreateStdioFile(arName)) == NULL) return;
 	CStdioFile tf(pf);
 	if (m_exportOption.textOption == 0) {
 		HtmlWriter::WriteHtmlHeader(tf);
@@ -1777,7 +1777,7 @@ void OutlineView::OutputHtml()
 	else {
 		CString arName = m_exportOption.htmlOutDir + _T("\\text\\") + m_exportOption.prfTextEverynode + keystr + _T(".html");
 		FILE* pRf;
-		if ((pRf = CreateStdioFile(arName)) == NULL) return;
+		if ((pRf = FileUtil::CreateStdioFile(arName)) == NULL) return;
 		CStdioFile rootTf(pRf);
 		HtmlWriter::WriteHtmlHeader(rootTf);
 		HtmlWriter::WriteTextStyle(rootTf, false);
@@ -1808,7 +1808,7 @@ void OutlineView::OutputHtml()
 	if (m_exportOption.navOption > 0) {
 		CString nName = m_exportOption.htmlOutDir + _T("\\") + m_exportOption.pathNetwork;
 		FILE* pNf;
-		if ((pNf = CreateStdioFile(nName)) == NULL) return;
+		if ((pNf = FileUtil::CreateStdioFile(nName)) == NULL) return;
 		CStdioFile nf(pNf);
 		HtmlWriter::WriteHtmlHeader(nf);
 		HtmlWriter::WriteBodyStart(nf);
@@ -1930,16 +1930,6 @@ bool OutlineView::InputHtmlExportFolder()
 	return true;
 }
 
-FILE* OutlineView::CreateStdioFile(const CString& path) {
-	FILE* fp;
-	if (_tfopen_s(&fp, path, _T("w, ccs=UTF-8")) != 0) {
-		AfxMessageBox(_T("coud not open file. ") + path);
-		return NULL;
-	}
-
-	return fp;
-}
-
 void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile& foutline, CStdioFile& ftext)
 {
 	CString keystr;
@@ -1956,7 +1946,7 @@ void OutlineView::OutputOutlineHtml(HTREEITEM hRoot, HTREEITEM hItem, CStdioFile
 		CString fName = m_exportOption.htmlOutDir + _T("\\text\\")
 			+ m_exportOption.prfTextEverynode + keystr + _T(".html");
 		FILE* pRf;
-		if ((pRf = CreateStdioFile(fName)) == NULL) return;
+		if ((pRf = FileUtil::CreateStdioFile(fName)) == NULL) return;
 		CStdioFile tf(pRf);
 		HtmlWriter::WriteHtmlHeader(tf);
 		HtmlWriter::WriteTextStyle(tf, false);
@@ -2071,10 +2061,7 @@ bool OutlineView::ImportText(const CString &inPath, node_vec &addNodes, const ch
 	_wsetlocale(LC_ALL, _T("jpn"));
 
 	FILE* fp;
-	if (_tfopen_s(&fp, inPath, _T("r, ccs=UTF-8")) != 0) {
-		AfxMessageBox(_T("coud not open file. ") + inPath);
-		return false;
-	}
+	if ((fp = FileUtil::OpenStdioFile(inPath)) == NULL) return false;
 	CStdioFile f(fp);
 
 	CString line;
@@ -2937,10 +2924,7 @@ void OutlineView::OnExportToText()
 		CString outfileName = fdlg.GetPathName();
 
 		FILE* fp;
-		if (_tfopen_s(&fp, outfileName, _T("w, ccs=UTF-8")) != 0) {
-			AfxMessageBox(_T("coud not open file. ") + outfileName);
-			return;
-		}
+		if ((fp = FileUtil::CreateStdioFile(outfileName)) == NULL) return;
 		CStdioFile f(fp);
 		_wsetlocale(LC_ALL, _T("jpn"));
 		if (dlg.m_rdTreeOption == 0) {
@@ -3025,10 +3009,7 @@ void OutlineView::CreateNodeTextFile(const CString& title, const CString& text) 
 
 	CString path = m_textExportOption.outDir + _T("\\") + title + _T(".txt");
 	FILE* fp;
-	if (_tfopen_s(&fp, path, _T("w, ccs=UTF-8")) != 0) {
-		AfxMessageBox(_T("coud not open file. ") + path);
-		return;
-	}
+	if ((fp = FileUtil::CreateStdioFile(path)) == NULL) return;
 	CStdioFile f(fp);
 	_wsetlocale(LC_ALL, _T("jpn"));
 	if (!m_textExportOption.excludeLabelFromContent) {

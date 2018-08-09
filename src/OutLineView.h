@@ -191,7 +191,6 @@ private:
 	void OutputHtml();
 	bool InputExportOptions();
 	bool InputHtmlExportFolder();
-	FILE* CreateStdioFile(const CString& path);
 	void SetViewFont();
 	void CloneTree(const HTREEITEM& curItem, HTREEITEM targetParent, NodeKeyMap& idm);
 	void ResetBranchMode();
