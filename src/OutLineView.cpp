@@ -1899,7 +1899,9 @@ bool OutlineView::InputExportOptions() {
 
 bool OutlineView::InputHtmlExportFolder()
 {
-	if (!FileUtil::SelectFolder(m_exportOption.htmlOutDir, m_hWnd)) {
+	CString defaultPath = AfxGetApp()->GetProfileString(_T("Settings"), _T("HTML OutputDir"), _T(""));
+
+	if (!FileUtil::SelectFolder(m_exportOption.htmlOutDir, defaultPath, m_hWnd)) {
 		return false;
 	}
 
@@ -2967,7 +2969,8 @@ void OutlineView::OnExportToText()
 		}
 	}
 	else {
-		if (!FileUtil::SelectFolder(m_textExportOption.outDir, m_hWnd)) return;
+		CString defaultPath = AfxGetApp()->GetProfileString(_T("Settings"), _T("Text OutputDir"), _T(""));
+		if (!FileUtil::SelectFolder(m_textExportOption.outDir, defaultPath, m_hWnd)) return;
 
 		if (dlg.m_rdTreeOption == 0) {
 			OutputOutlineTextByNode(Tree().GetRootItem());
@@ -2975,6 +2978,8 @@ void OutlineView::OnExportToText()
 		else {
 			OutputOutlineTextByNode(Tree().GetSelectedItem());
 		}
+		AfxGetApp()->WriteProfileString(_T("Settings"), _T("Text OutputDir"), m_textExportOption.outDir);
+
 		MessageBox(m_textExportOption.outDir + _T("に出力しました。"));
 	}
 }

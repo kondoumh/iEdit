@@ -34,7 +34,7 @@ FILE* FileUtil::CreateStdioFile(const CString& path) {
 	return fp;
 }
 
-bool FileUtil::SelectFolder(CString& path, const HWND& hWnd)
+bool FileUtil::SelectFolder(CString& path, const CString& defaultPath, const HWND& hWnd)
 {
 	TCHAR szBuff[MAX_PATH];
 	BROWSEINFO bi;
@@ -50,7 +50,7 @@ bool FileUtil::SelectFolder(CString& path, const HWND& hWnd)
 	bi.ulFlags &= BIF_DONTGOBELOWDOMAIN;
 	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_RETURNONLYFSDIRS | BIF_EDITBOX;
 	bi.iImage = 0;
-	CString folder = AfxGetApp()->GetProfileString(_T("Settings"), _T("HTML OutputDir"), _T(""));
+	CString folder = defaultPath;
 	bi.lParam = (LPARAM)folder.GetBuffer(folder.GetLength());
 
 	LPITEMIDLIST pList = ::SHBrowseForFolder(&bi);
