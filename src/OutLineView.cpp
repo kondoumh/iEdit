@@ -24,6 +24,7 @@
 #include "FileUtil.h"
 #include <shlobj.h>
 #include <locale>
+#include <cpprest/json.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -2882,7 +2883,7 @@ void OutlineView::OnUpdateExportToHtml(CCmdUI *pCmdUI)
 }
 
 void OutlineView::OnExportToText()
-{
+{	
 	ExportTextDlg dlg;
 	dlg.m_rdTreeOption = m_textExportOption.treeOption;
 	dlg.m_rdFormatOption = m_textExportOption.formatOption;
