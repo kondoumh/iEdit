@@ -148,6 +148,8 @@ protected:
 	afx_msg void OnUpdateExportToText(CCmdUI *pCmdUI);
 	afx_msg void OnExportToXml();
 	afx_msg void OnUpdateExportToXml(CCmdUI *pCmdUI);
+	afx_msg void OnExportToJson();
+	afx_msg void OnUpdateExportToJson(CCmdUI *pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 

@@ -263,6 +263,8 @@ BEGIN_MESSAGE_MAP(OutlineView, CTreeView)
 	ON_UPDATE_COMMAND_UI(ID_EXPORT_TO_TEXT, &OutlineView::OnUpdateExportToText)
 	ON_COMMAND(ID_EXPORT_TO_XML, &OutlineView::OnExportToXml)
 	ON_UPDATE_COMMAND_UI(ID_EXPORT_TO_XML, &OutlineView::OnUpdateExportToXml)
+	ON_COMMAND(ID_EXPORT_TO_JSON, &OutlineView::OnExportToJson)
+	ON_UPDATE_COMMAND_UI(ID_EXPORT_TO_JSON, &OutlineView::OnUpdateExportToJson)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1641,7 +1643,7 @@ BOOL OutlineView::IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedPa
 void OutlineView::OnImportData()
 {
 	CString txtpath;
-	WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt|xmlファイル (*.xml)|*.xml||");
+	WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt|XML ファイル (*.xml)|*.xml|JSON ファイル (*.json)|*.json||");
 	CFileDialog dlg(TRUE, _T("txt"), txtpath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
@@ -1661,7 +1663,14 @@ void OutlineView::OnImportData()
 		TextLevelCharNum = dlg.m_charSelection;
 	}
 	else if (extent == _T(".xml")) {
-		caption = _T("XMLファイルのインポート");
+		caption = _T("XML ファイルのインポート");
+		CString mes = infileName + _T(" をインポートしますか");
+		if (MessageBox(mes, caption, MB_YESNO) != IDYES) {
+			return;
+		}
+	}
+	else if (extent == _T(".json")) {
+		caption = _T("JSON ファイルのインポート");
 		CString mes = infileName + _T(" をインポートしますか");
 		if (MessageBox(mes, caption, MB_YESNO) != IDYES) {
 			return;
@@ -1695,6 +1704,9 @@ void OutlineView::OnImportData()
 		if (ret) {
 			AddBranch(Tree().GetItemData(Selected()));
 		}
+	}
+	else if (extent == _T(".json")) {
+		return;
 	}
 
 	if (mode == 1) {
@@ -3103,18 +3115,44 @@ void OutlineView::OnExportToXml()
 			outfile = label;
 		}
 	}
-	WCHAR szFilters[] = _T("XMLファイル (*.xml)|*.xml");
+	WCHAR szFilters[] = _T("XML ファイル (*.xml)|*.xml");
 	CFileDialog fdlg(FALSE, _T("xml"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (fdlg.DoModal() != IDOK) return;
 	CString outfileName = fdlg.GetPathName();
 	_wsetlocale(LC_ALL, _T("jpn"));
 
 	if (GetDocument()->SaveXml(outfileName)) {
-		MessageBox(_T("終了しました"), _T("XMLへのエクスポート"), MB_OK);
+		MessageBox(_T("終了しました"), _T("XML へのエクスポート"), MB_OK);
 	}
 	_wsetlocale(LC_ALL, _T(""));
 }
 
 void OutlineView::OnUpdateExportToXml(CCmdUI *pCmdUI)
+{
+}
+
+
+void OutlineView::OnExportToJson()
+{
+	ExportXmlDlg dlg;
+	dlg.m_nTreeOp = m_exportOption.treeOption;
+	if (dlg.DoModal() != IDOK) return;
+	m_opTreeOut = dlg.m_nTreeOp;
+	m_exportOption.treeOption = dlg.m_nTreeOp;
+
+	CString outfile = GetDocument()->GetFileNameFromPath();
+	if (dlg.m_nTreeOp != 0) {
+		CString label = StringUtil::GetSafeFileName(Tree().GetItemText(Tree().GetSelectedItem()));
+		if (label != _T("")) {
+			outfile = label;
+		}
+	}
+	WCHAR szFilters[] = _T("JSON ファイル (*.json)|*.json");
+	CFileDialog fdlg(FALSE, _T("json"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
+	if (fdlg.DoModal() != IDOK) return;
+}
+
+
+void OutlineView::OnUpdateExportToJson(CCmdUI *pCmdUI)
 {
 }
