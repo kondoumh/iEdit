@@ -1642,7 +1642,7 @@ BOOL OutlineView::IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedPa
 void OutlineView::OnImportData()
 {
 	CString txtpath;
-	WCHAR szFilters[] = _T("テキストファイル (*.txt)|*.txt|XML ファイル (*.xml)|*.xml|JSON ファイル (*.json)|*.json||");
+	WCHAR szFilters[] = _T("XML ファイル (*.xml)|*.xml|JSON ファイル (*.json)|*.json|テキストファイル (*.txt)|*.txt||");
 	CFileDialog dlg(TRUE, _T("txt"), txtpath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
@@ -1699,7 +1699,7 @@ void OutlineView::OnImportData()
 		}
 	}
 	else if (extent == _T(".xml")) {
-		ret = ImportXML(infileName);
+		ret = ImportXml(infileName);
 		if (ret) {
 			AddBranch(Tree().GetItemData(Selected()));
 		}
@@ -2165,12 +2165,12 @@ int OutlineView::GetIndentCount(const CString& line, const char levelChar) const
 	return i;
 }
 
-bool OutlineView::ImportXML(const CString &inPath)
+bool OutlineView::ImportXml(const CString &inPath)
 {
-	CWaitCursor wc;
 	ImportXmlDlg dlg;
 	dlg.m_importMode = 0;
-	if (dlg.DoModal() != IDOK) return true;
+	if (dlg.DoModal() != IDOK) return true; // end with success
+	CWaitCursor wc;
 	bool rep = (dlg.m_importMode == 0);
 	return GetDocument()->ImportXml(inPath, rep);
 }
@@ -3158,7 +3158,11 @@ void OutlineView::OnExportToJson()
 	_wsetlocale(LC_ALL, _T(""));
 }
 
-
 void OutlineView::OnUpdateExportToJson(CCmdUI *pCmdUI)
 {
+}
+
+bool OutlineView::ImportJson(const CString& inPath)
+{
+	return true;
 }
