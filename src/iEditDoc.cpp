@@ -3456,3 +3456,22 @@ bool iEditDoc::SaveJson(const CString& outPath)
 
 	return true;
 }
+
+bool iEditDoc::ImportJson(const CString &filename, bool replace)
+{
+	prepareImport();
+	CWaitCursor wc;
+	FILE* fp;
+	if ((fp = FileUtil::OpenStdioFile(filename)) == NULL) return false;
+	CStdioFile f(fp);
+	_wsetlocale(LC_ALL, _T("jpn"));
+	CString target, in;
+	while (f.ReadString(in)) {
+		target += in;
+	}
+	f.Close();
+	_wsetlocale(LC_ALL, _T(""));
+	web::json::value json = web::json::value::parse(target.GetBuffer());
+	CString hoge(json[L"node-1"][L"name"].as_string().c_str());
+	return true;
+}

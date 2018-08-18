@@ -148,6 +148,7 @@ public:
 	bool SaveXml(const CString& outPath, bool bSerialize = false);
 	bool ImportXml(const CString& filename, bool replace = false);
 	bool SaveJson(const CString& outPath);
+	bool ImportJson(const CString& filename, bool replace = false);
 	void AddNodeRoundedRect(const CString& name, const CPoint& pt);
 	BOOL IsSelectedNodeFixed() const;
 	void SetSelectedNodeFixed(BOOL f = TRUE);

@@ -1705,6 +1705,8 @@ void OutlineView::OnImportData()
 		}
 	}
 	else if (extent == _T(".json")) {
+		ret = ImportJson(infileName);
+		// TODO AddBranch;
 		return;
 	}
 
@@ -3164,5 +3166,10 @@ void OutlineView::OnUpdateExportToJson(CCmdUI *pCmdUI)
 
 bool OutlineView::ImportJson(const CString& inPath)
 {
-	return true;
+	ImportXmlDlg dlg; // TODO specific dialog
+	dlg.m_importMode = 0;
+	if (dlg.DoModal() != IDOK) return true; // end with success
+	CWaitCursor wc;
+	bool rep = (dlg.m_importMode == 0);
+	return GetDocument()->ImportJson(inPath, rep);
 }
