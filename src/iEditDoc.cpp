@@ -18,6 +18,8 @@
 #include "XmlProcessor.h"
 #include "HtmlWriter.h"
 #include "FileUtil.h"
+#include <cpprest/json.h>
+#include <locale>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -3417,4 +3419,40 @@ void iEditDoc::DivideTargetLink(DWORD key)
 void iEditDoc::SetSelectedNodeDragging(bool dragging)
 {
 	nodes_.DragSelected(dragging);
+}
+
+bool iEditDoc::SaveJson(const CString& outPath)
+{
+	OutlineView* pView = GetOutlineView();
+
+	NodePropsVec ls;
+	pView->SerializeTree(ls);
+
+	web::json::value v;
+	for (unsigned int i = 0; i < ls.size(); i++) {
+		node_c_iter it = nodes_.FindRead(ls[i].key);
+
+		CString ids;
+		DWORD key, parent;
+		key = (*it).second.GetKey(); parent = (*it).second.GetParentKey();
+		if (i == 0 && key != parent) {
+			parent = key;
+		}
+		CString keyStr; keyStr.Format(_T("%d"), key);
+		LPWSTR nodeKey = (_T("node-") + keyStr).GetBuffer();
+		v[nodeKey][L"key"] = web::json::value::string(keyStr.GetBuffer());
+		v[nodeKey][L"name"] = web::json::value::string(ls[i].name.GetBuffer());
+	}
+	CString result(v.serialize().c_str());
+
+	FILE* fp;
+	if ((fp = FileUtil::CreateStdioFile(outPath)) == NULL) return false;
+	CStdioFile f(fp);
+	_wsetlocale(LC_ALL, _T("jpn"));
+	f.WriteString(result);
+	f.Flush();
+	f.Close();
+	_wsetlocale(LC_ALL, _T(""));
+
+	return true;
 }

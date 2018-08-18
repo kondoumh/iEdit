@@ -24,7 +24,6 @@
 #include "FileUtil.h"
 #include <shlobj.h>
 #include <locale>
-#include <cpprest/json.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -3150,6 +3149,13 @@ void OutlineView::OnExportToJson()
 	WCHAR szFilters[] = _T("JSON ファイル (*.json)|*.json");
 	CFileDialog fdlg(FALSE, _T("json"), outfile, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY, szFilters, this);
 	if (fdlg.DoModal() != IDOK) return;
+	CString outfileName = fdlg.GetPathName();
+	_wsetlocale(LC_ALL, _T("jpn"));
+
+	if (GetDocument()->SaveJson(outfileName)) {
+		MessageBox(_T("終了しました"), _T("JSON へのエクスポート"), MB_OK);
+	}
+	_wsetlocale(LC_ALL, _T(""));
 }
 
 
