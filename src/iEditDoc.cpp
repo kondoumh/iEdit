@@ -3428,7 +3428,8 @@ bool iEditDoc::SaveJson(const CString& outPath)
 	NodePropsVec ls;
 	pView->SerializeTree(ls);
 
-	web::json::value v;
+	std::vector<web::json::value> nodes;
+
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		node_c_iter it = nodes_.FindRead(ls[i].key);
 
@@ -3439,11 +3440,17 @@ bool iEditDoc::SaveJson(const CString& outPath)
 			parent = key;
 		}
 		CString keyStr; keyStr.Format(_T("%d"), key);
-		LPWSTR nodeKey = (_T("node-") + keyStr).GetBuffer();
-		v[nodeKey][L"key"] = web::json::value::string(keyStr.GetBuffer());
-		v[nodeKey][L"name"] = web::json::value::string(ls[i].name.GetBuffer());
+		CString parentStr; parentStr.Format(_T("%d"), parent);
+		web::json::value v;
+		v[L"key"] = web::json::value::string(keyStr.GetBuffer());
+		v[L"parent"] = web::json::value::string(parentStr.GetBuffer());
+		v[L"name"] = web::json::value::string(ls[i].name.GetBuffer());
+		nodes.push_back(v);
 	}
-	CString result(v.serialize().c_str());
+	web::json::value root;
+	root[L"nodes"] = web::json::value::array(nodes);
+	root[L"links"] = web::json::value::array();
+	CString result(root.serialize().c_str());
 
 	FILE* fp;
 	if ((fp = FileUtil::CreateStdioFile(outPath)) == NULL) return false;
@@ -3472,6 +3479,13 @@ bool iEditDoc::ImportJson(const CString &filename, bool replace)
 	f.Close();
 	_wsetlocale(LC_ALL, _T(""));
 	web::json::value json = web::json::value::parse(target.GetBuffer());
-	CString hoge(json[L"node-1"][L"name"].as_string().c_str());
+	web::json::array nodes = json[L"nodes"].as_array();
+	web::json::array::const_iterator it = nodes.cbegin();
+	for (; it != nodes.cend(); it++) {
+		web::json::value node = *it;
+		CString key(node[L"key"].as_string().c_str());
+		CString parent(node[L"parent"].as_string().c_str());
+		CString name(node[L"name"].as_string().c_str());
+	}
 	return true;
 }
