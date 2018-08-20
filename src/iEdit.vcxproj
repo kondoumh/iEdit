@@ -167,6 +167,7 @@
     <ClCompile Include="ImportTextDlg.cpp" />
     <ClCompile Include="ImportXmlDlg.cpp" />
     <ClCompile Include="iNode.cpp" />
+    <ClCompile Include="JsonProcessor.cpp" />
     <ClCompile Include="LinkForPathDlg.cpp" />
     <ClCompile Include="LinkPropertiesDlg.cpp" />
     <ClCompile Include="LinkView.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="ImportTextDlg.h" />
     <ClInclude Include="ImportXmlDlg.h" />
     <ClInclude Include="iNode.h" />
+    <ClInclude Include="JsonProcessor.h" />
     <ClInclude Include="LinkForPathDlg.h" />
     <ClInclude Include="LinkPropertiesDlg.h" />
     <ClInclude Include="LinkView.h" />
