@@ -14,7 +14,7 @@ XmlProcessor::~XmlProcessor()
 {
 }
 
-bool XmlProcessor::ImportXml(const CString &fileName)
+bool XmlProcessor::Import(const CString &fileName)
 {
 	HRESULT hr;
 	hr = CoInitialize(NULL);

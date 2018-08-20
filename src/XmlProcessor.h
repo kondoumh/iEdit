@@ -32,7 +32,7 @@ public:
 	XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
 	~XmlProcessor();
 
-	bool ImportXml(const CString& fileName);
+	bool Import(const CString& fileName);
 	bool SerializeFromXml(const CString& filename);
 	static bool Save(const CString &outPath, bool bSerialize, iNodes& nodes, iLinks & links, NodePropsVec& ls);
 };

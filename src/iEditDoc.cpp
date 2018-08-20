@@ -1834,7 +1834,7 @@ bool iEditDoc::ImportXml(const CString &filename, bool replace)
 	prepareImport();
 	CWaitCursor wc;
 	XmlProcessor processor(nodesImport, linksImport, lastKey, idcVec);
-	if (processor.ImportXml(filename)) {
+	if (processor.Import(filename)) {
 		AddImportedData(replace);
 		return true;
 	}
