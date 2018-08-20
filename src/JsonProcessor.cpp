@@ -25,8 +25,19 @@ bool JsonProcessor::Import(const CString &fileName)
 	}
 	f.Close();
 	_wsetlocale(LC_ALL, _T(""));
-	web::json::value json = web::json::value::parse(target.GetBuffer());
-	web::json::array nodes = json[L"nodes"].as_array();
+	std::error_code error;
+	web::json::value json = web::json::value::parse(target.GetBuffer(), error);
+	if (error.value() > 0) {
+		AfxMessageBox(_T("JSON の解析に失敗しました。"));
+		return false;
+	}
+
+	if (json[L"ieditDoc"].is_null()) {
+		AfxMessageBox(_T("iEdit で利用可能な JSON 形式ではありません。"));
+		return false;
+	}
+
+	web::json::array nodes = json[L"ieditDoc"][L"nodes"].as_array();
 	web::json::array::const_iterator it = nodes.cbegin();
 	for (; it != nodes.cend(); it++) {
 		web::json::value node = *it;
@@ -59,8 +70,8 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		values.push_back(v);
 	}
 	web::json::value root;
-	root[L"nodes"] = web::json::value::array(values);
-	root[L"links"] = web::json::value::array();
+	root[L"ieditDoc"][L"nodes"] = web::json::value::array(values);
+	root[L"ieditDoc"][L"links"] = web::json::value::array();
 	CString result(root.serialize().c_str());
 
 	FILE* fp;
