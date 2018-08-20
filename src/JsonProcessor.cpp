@@ -55,7 +55,6 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		node_c_iter it = nodes.FindRead(ls[i].key);
 
-		CString ids;
 		DWORD key, parent;
 		key = (*it).second.GetKey(); parent = (*it).second.GetParentKey();
 		if (i == 0 && key != parent) {
