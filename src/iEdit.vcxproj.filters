@@ -354,7 +354,6 @@
     <None Include="res\rect.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\bitmap1.bmp">
