@@ -41,9 +41,10 @@ bool JsonProcessor::Import(const CString &fileName)
 	web::json::array::const_iterator it = nodes.cbegin();
 	for (; it != nodes.cend(); it++) {
 		web::json::value node = *it;
-		CString key(node[L"key"].as_string().c_str());
-		CString parent(node[L"parent"].as_string().c_str());
+		DWORD key = node[L"key"].as_integer();
+		DWORD parent = node[L"parent"].as_integer();
 		CString name(node[L"name"].as_string().c_str());
+		int level = node[L"level"].as_integer();
 	}
 	return true;
 }
@@ -60,12 +61,11 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		if (i == 0 && key != parent) {
 			parent = key;
 		}
-		CString keyStr; keyStr.Format(_T("%d"), key);
-		CString parentStr; parentStr.Format(_T("%d"), parent);
 		web::json::value v;
-		v[L"key"] = web::json::value::string(keyStr.GetBuffer());
-		v[L"parent"] = web::json::value::string(parentStr.GetBuffer());
+		v[L"key"] = web::json::value::number((uint64_t)key);
+		v[L"parent"] = web::json::value::number((uint64_t)parent);
 		v[L"name"] = web::json::value::string(ls[i].name.GetBuffer());
+		v[L"level"] = web::json::value::number((*it).second.GetLevel());
 		values.push_back(v);
 	}
 	web::json::value root;
