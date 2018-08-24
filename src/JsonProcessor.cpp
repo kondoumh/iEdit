@@ -4,6 +4,8 @@
 #include <locale>
 #include "FileUtil.h"
 
+using namespace web;
+
 JsonProcessor::JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec) :
 	nodesImport(nodesImport), linksImport(linksImport), assignKey(assignKey), idcVec(idcVec)
 {
@@ -26,7 +28,7 @@ bool JsonProcessor::Import(const CString &fileName)
 	f.Close();
 	_wsetlocale(LC_ALL, _T(""));
 	std::error_code error;
-	web::json::value json = web::json::value::parse(target.GetBuffer(), error);
+	json::value json = json::value::parse(target.GetBuffer(), error);
 	if (error.value() > 0) {
 		AfxMessageBox(_T("JSON ÇÃâêÕÇ…é∏îsÇµÇ‹ÇµÇΩÅB"));
 		return false;
@@ -37,21 +39,23 @@ bool JsonProcessor::Import(const CString &fileName)
 		return false;
 	}
 
-	web::json::array nodes = json[L"ieditDoc"][L"nodes"].as_array();
-	web::json::array::const_iterator it = nodes.cbegin();
-	for (; it != nodes.cend(); it++) {
-		web::json::value node = *it;
-		DWORD key = node[L"key"].as_integer();
-		DWORD parent = node[L"parent"].as_integer();
-		CString name(node[L"name"].as_string().c_str());
-		int level = node[L"level"].as_integer();
+	json::array values = json[L"ieditDoc"][L"nodes"].as_array();
+	json::array::const_iterator it = values.cbegin();
+	for (; it != values.cend(); it++) {
+		json::value v = *it;
+		DWORD key = v[L"key"].as_integer();
+		DWORD parent = v[L"parent"].as_integer();
+		CString name(v[L"name"].as_string().c_str());
+		int level = v[L"level"].as_integer();
+		CString s; s.Format(_T("%d %d %s %d\n"), key, parent, name, level);
+		OutputDebugString(s);
 	}
 	return true;
 }
 
 bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, iLinks & links, NodePropsVec& ls)
 {
-	std::vector<web::json::value> values;
+	std::vector<json::value> values;
 
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		node_c_iter it = nodes.FindRead(ls[i].key);
@@ -61,16 +65,16 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		if (i == 0 && key != parent) {
 			parent = key;
 		}
-		web::json::value v;
-		v[L"key"] = web::json::value::number((uint64_t)key);
-		v[L"parent"] = web::json::value::number((uint64_t)parent);
-		v[L"name"] = web::json::value::string(ls[i].name.GetBuffer());
-		v[L"level"] = web::json::value::number((*it).second.GetLevel());
+		json::value v;
+		v[L"key"] = json::value::number((uint64_t)key);
+		v[L"parent"] = json::value::number((uint64_t)parent);
+		v[L"name"] = json::value::string(ls[i].name.GetBuffer());
+		v[L"level"] = json::value::number((*it).second.GetLevel());
 		values.push_back(v);
 	}
-	web::json::value root;
-	root[L"ieditDoc"][L"nodes"] = web::json::value::array(values);
-	root[L"ieditDoc"][L"links"] = web::json::value::array();
+	json::value root;
+	root[L"ieditDoc"][L"nodes"] = json::value::array(values);
+	root[L"ieditDoc"][L"links"] = json::value::array();
 	CString result(root.serialize().c_str());
 
 	FILE* fp;
