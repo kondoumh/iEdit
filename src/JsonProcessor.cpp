@@ -50,8 +50,16 @@ bool JsonProcessor::Import(const CString &fileName)
 		CString text(v[L"text"].as_string().c_str());
 		int align = FromLabelAlignString(v[L"labelAlign"].as_string().c_str());
 		int shape = FromShapeString(v[L"shape"].as_string().c_str());
-		//CString s; s.Format(L"%d %d %s %d %d %d\n", key, parent, name, level, align, shape);
-		//OutputDebugString(s);
+		CRect bound;
+		json::array arr = v[L"bound"].as_array();
+		bound.left = arr[0].as_integer();
+		bound.top = arr[1].as_integer();
+		bound.right = arr[2].as_integer();
+		bound.bottom = arr[3].as_integer();
+		CString s;
+		//s.Format(L"%d %d %s %d %d %d\n", key, parent, name, level, align, shape);
+		s.Format(L"%d %d %d %d\n", bound.left, bound.top, bound.right, bound.bottom);
+		OutputDebugString(s);
 	}
 	return true;
 }
@@ -78,6 +86,12 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[L"labelAlign"] = json::value::string(ToLabelAlignString((*it).second.GetTextStyle()).GetBuffer());
 		v[L"shape"] = json::value::string(ToShapeString((*it).second.GetShape()).GetBuffer());
 		CRect r = (*it).second.GetBound();
+		std::vector<json::value> vec;
+		vec.push_back(r.left);
+		vec.push_back(r.top);
+		vec.push_back(r.right);
+		vec.push_back(r.bottom);
+		v[L"bound"] = json::value::array(vec);
 		values.push_back(v);
 	}
 	json::value root;
