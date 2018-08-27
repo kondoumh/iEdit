@@ -49,8 +49,9 @@ bool JsonProcessor::Import(const CString &fileName)
 		int level = v[L"level"].as_integer();
 		CString text(v[L"text"].as_string().c_str());
 		int align = FromLabelAlignString(v[L"labelAlign"].as_string().c_str());
-		CString s; s.Format(L"%d %d %s %d %d\n", key, parent, name, level, align);
-		OutputDebugString(s);
+		int shape = FromShapeString(v[L"shape"].as_string().c_str());
+		//CString s; s.Format(L"%d %d %s %d %d %d\n", key, parent, name, level, align, shape);
+		//OutputDebugString(s);
 	}
 	return true;
 }
@@ -74,8 +75,8 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[L"level"] = json::value::number((*it).second.GetLevel());
 		CString text = (*it).second.GetText();
 		v[L"text"] = json::value::string(text.GetBuffer());
-		CString sAlign = ToLabelAlignString((*it).second.GetTextStyle());
-		v[L"labelAlign"] = json::value::string(sAlign.GetBuffer());
+		v[L"labelAlign"] = json::value::string(ToLabelAlignString((*it).second.GetTextStyle()).GetBuffer());
+		v[L"shape"] = json::value::string(ToShapeString((*it).second.GetShape()).GetBuffer());
 		values.push_back(v);
 	}
 	json::value root;
@@ -95,7 +96,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 	return true;
 }
 
-const CString JsonProcessor::ToLabelAlignString(int align)
+CString JsonProcessor::ToLabelAlignString(int align)
 {
 	CString result;
 	switch (align) {
@@ -158,4 +159,36 @@ int JsonProcessor::FromLabelAlignString(const CString sAlign)
 		return iNode::notext;
 	}
 	return iNode::s_cc;
+}
+
+CString JsonProcessor::ToShapeString(int shape)
+{
+	switch (shape) {
+	case iNode::rectangle : return L"rectangle";
+	case iNode::roundRect: return L"rounded-rectangle";
+	case iNode::arc: return L"elipse";
+	case iNode::MetaFile: return L"metafile";
+	case iNode::MindMapNode: return L"mindmap-node";
+	}
+	return L"rectangle";
+}
+
+int JsonProcessor::FromShapeString(const CString sShape)
+{
+	if (sShape == L"rectangle") {
+		return iNode::rectangle;
+	}
+	else if (sShape == L"rounded-rectangle") {
+		return iNode::roundRect;
+	}
+	else if (sShape == L"elipse") {
+		return iNode::arc;
+	}
+	else if (sShape == L"metafile") {
+		return iNode::MetaFile;
+	}
+	else if (sShape == L"mindmap-node") {
+		return iNode::MindMapNode;
+	}
+	return iNode::rectangle;
 }
