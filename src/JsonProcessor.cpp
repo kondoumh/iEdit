@@ -20,22 +20,22 @@ bool JsonProcessor::Import(const CString &fileName)
 	FILE* fp;
 	if ((fp = FileUtil::OpenStdioFile(fileName)) == NULL) return false;
 	CStdioFile f(fp);
-	_wsetlocale(LC_ALL, _T("jpn"));
+	_wsetlocale(LC_ALL, L"jpn");
 	CString target, in;
 	while (f.ReadString(in)) {
 		target += in;
 	}
 	f.Close();
-	_wsetlocale(LC_ALL, _T(""));
+	_wsetlocale(LC_ALL, L"");
 	std::error_code error;
 	json::value json = json::value::parse(target.GetBuffer(), error);
 	if (error.value() > 0) {
-		AfxMessageBox(_T("JSON の解析に失敗しました。"));
+		AfxMessageBox(L"JSON の解析に失敗しました。");
 		return false;
 	}
 
 	if (json[L"ieditDoc"].is_null()) {
-		AfxMessageBox(_T("iEdit で利用可能な JSON 形式ではありません。"));
+		AfxMessageBox(L"iEdit で利用可能な JSON 形式ではありません。");
 		return false;
 	}
 
@@ -49,7 +49,7 @@ bool JsonProcessor::Import(const CString &fileName)
 		int level = v[L"level"].as_integer();
 		CString text(v[L"text"].as_string().c_str());
 		int align = FromLabelAlignString(v[L"labelAlign"].as_string().c_str());
-		CString s; s.Format(_T("%d %d %s %d\n"), key, parent, name, level);
+		CString s; s.Format(L"%d %d %s %d %d\n", key, parent, name, level, align);
 		OutputDebugString(s);
 	}
 	return true;
@@ -86,11 +86,11 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 	FILE* fp;
 	if ((fp = FileUtil::CreateStdioFile(outPath)) == NULL) return false;
 	CStdioFile f(fp);
-	_wsetlocale(LC_ALL, _T("jpn"));
+	_wsetlocale(LC_ALL, L"jpn");
 	f.WriteString(result);
 	f.Flush();
 	f.Close();
-	_wsetlocale(LC_ALL, _T(""));
+	_wsetlocale(LC_ALL, L"");
 
 	return true;
 }
@@ -99,24 +99,24 @@ const CString JsonProcessor::ToLabelAlignString(int align)
 {
 	CString result;
 	switch (align) {
-	case iNode::s_cc: result = _T("single-middle-center"); break;
-	case iNode::s_cl: result = _T("single-middle-left"); break;
-	case iNode::s_cr: result = _T("single-midele-right"); break;
-	case iNode::s_tc: result = _T("single-top-center"); break;
-	case iNode::s_tl: result = _T("single-top-left"); break;
-	case iNode::s_tr: result = _T("single-top-right"); break;
-	case iNode::s_bc: result = _T("single-bottom-center"); break;
-	case iNode::s_bl: result = _T("single-bottom-left"); break;
-	case iNode::s_br: result = _T("single-bottom-right"); break;
-	case iNode::m_c: result = _T("multi-center"); break;
-	case iNode::m_l: result = _T("multi-left"); break;
-	case iNode::m_r: result = _T("multi-right"); break;
-	case iNode::notext: result = _T("hidden"); break;
+	case iNode::s_cc: result = L"single-middle-center"; break;
+	case iNode::s_cl: result = L"single-middle-left"; break;
+	case iNode::s_cr: result = L"single-midele-right"; break;
+	case iNode::s_tc: result = L"single-top-center"; break;
+	case iNode::s_tl: result = L"single-top-left"; break;
+	case iNode::s_tr: result = L"single-top-right"; break;
+	case iNode::s_bc: result = L"single-bottom-center"; break;
+	case iNode::s_bl: result = L"single-bottom-left"; break;
+	case iNode::s_br: result = L"single-bottom-right"; break;
+	case iNode::m_c: result = L"multi-center"; break;
+	case iNode::m_l: result = L"multi-left"; break;
+	case iNode::m_r: result = L"multi-right"; break;
+	case iNode::notext: result = L"hidden"; break;
 	}
 	return result;
 }
 
-int JsonProcessor::FromLabelAlignString(const CString& sAlign)
+int JsonProcessor::FromLabelAlignString(const CString sAlign)
 {
 	if (sAlign == L"single-middle-center") {
 		return iNode::s_cc;

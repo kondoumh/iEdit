@@ -9,7 +9,7 @@ class JsonProcessor
 	DWORD& assignKey;
 	NodeKeyPairs& idcVec;
 	static const CString ToLabelAlignString(int align);
-	static int FromLabelAlignString(const CString& sAlign);
+	static int FromLabelAlignString(const CString sAlign);
 
 public:
 	JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
