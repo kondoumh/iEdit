@@ -47,6 +47,7 @@ bool JsonProcessor::Import(const CString &fileName)
 		DWORD parent = v[L"parent"].as_integer();
 		CString name(v[L"name"].as_string().c_str());
 		int level = v[L"level"].as_integer();
+		CString text(v[L"text"].as_string().c_str());
 		CString s; s.Format(_T("%d %d %s %d\n"), key, parent, name, level);
 		OutputDebugString(s);
 	}
@@ -70,6 +71,8 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[L"parent"] = json::value::number((uint64_t)parent);
 		v[L"name"] = json::value::string(ls[i].name.GetBuffer());
 		v[L"level"] = json::value::number((*it).second.GetLevel());
+		CString text = (*it).second.GetText();
+		v[L"text"] = json::value::string(text.GetBuffer());
 		values.push_back(v);
 	}
 	json::value root;
