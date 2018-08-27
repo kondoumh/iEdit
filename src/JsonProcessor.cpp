@@ -48,6 +48,7 @@ bool JsonProcessor::Import(const CString &fileName)
 		CString name(v[L"name"].as_string().c_str());
 		int level = v[L"level"].as_integer();
 		CString text(v[L"text"].as_string().c_str());
+		int align = FromLabelAlignString(v[L"labelAlign"].as_string().c_str());
 		CString s; s.Format(_T("%d %d %s %d\n"), key, parent, name, level);
 		OutputDebugString(s);
 	}
@@ -73,6 +74,8 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[L"level"] = json::value::number((*it).second.GetLevel());
 		CString text = (*it).second.GetText();
 		v[L"text"] = json::value::string(text.GetBuffer());
+		CString sAlign = ToLabelAlignString((*it).second.GetTextStyle());
+		v[L"labelAlign"] = json::value::string(sAlign.GetBuffer());
 		values.push_back(v);
 	}
 	json::value root;
@@ -90,4 +93,69 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 	_wsetlocale(LC_ALL, _T(""));
 
 	return true;
+}
+
+const CString JsonProcessor::ToLabelAlignString(int align)
+{
+	CString result;
+	switch (align) {
+	case iNode::s_cc: result = _T("single-middle-center"); break;
+	case iNode::s_cl: result = _T("single-middle-left"); break;
+	case iNode::s_cr: result = _T("single-midele-right"); break;
+	case iNode::s_tc: result = _T("single-top-center"); break;
+	case iNode::s_tl: result = _T("single-top-left"); break;
+	case iNode::s_tr: result = _T("single-top-right"); break;
+	case iNode::s_bc: result = _T("single-bottom-center"); break;
+	case iNode::s_bl: result = _T("single-bottom-left"); break;
+	case iNode::s_br: result = _T("single-bottom-right"); break;
+	case iNode::m_c: result = _T("multi-center"); break;
+	case iNode::m_l: result = _T("multi-left"); break;
+	case iNode::m_r: result = _T("multi-right"); break;
+	case iNode::notext: result = _T("hidden"); break;
+	}
+	return result;
+}
+
+int JsonProcessor::FromLabelAlignString(const CString& sAlign)
+{
+	if (sAlign == L"single-middle-center") {
+		return iNode::s_cc;
+	}
+	else if (sAlign == L"single-middle-left") {
+		return iNode::s_cl;
+	}
+	else if (sAlign == L"single-midele-right") {
+		return iNode::s_cr;
+	}
+	else if (sAlign == L"single-top-center") {
+		return iNode::s_tc;
+	}
+	else if (sAlign == L"single-top-left") {
+		return iNode::s_tl;
+	}
+	else if (sAlign == L"single-top-right") {
+		return iNode::s_tr;
+	}
+	else if (sAlign == L"single-bottom-center") {
+		return iNode::s_bc;
+	}
+	else if (sAlign == L"single-bottom-left") {
+		return iNode::s_bl;
+	}
+	else if (sAlign == L"single-bottom-right") {
+		return iNode::s_br;
+	}
+	else if (sAlign == L"multi-center") {
+		return iNode::m_c;
+	}
+	else if (sAlign == L"multi-left") {
+		return iNode::m_l;
+	}
+	else if (sAlign == L"multi-right") {
+		return iNode::m_r;
+	}
+	else if (sAlign == L"hidden") {
+		return iNode::notext;
+	}
+	return iNode::s_cc;
 }
