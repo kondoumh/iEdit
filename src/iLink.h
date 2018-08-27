@@ -48,7 +48,7 @@ public:
 	void SetLineStyle(int style);
 	int SetLineWidth() const;
 	void SetLineWidth(int width);
-	const CRect& GetBound() const;
+	const CRect& GetSelfRect() const;
 	const CPoint& GetPtPath() const;
 	const CPoint& GetPtFrom() const;
 	const CPoint& GetPtTo() const;
@@ -267,7 +267,7 @@ inline const CRect& iLink::GetToNodeRect() const
 	return rcTo;
 }
 
-inline const CRect& iLink::GetBound() const
+inline const CRect& iLink::GetSelfRect() const
 {
 	return selfRect;
 }

@@ -1059,7 +1059,7 @@ void iLinks::SelectInBound(const CRect &r)
 			}
 		}
 		else if ((*it).GetFromNodeKey() == (*it).GetToNodeKey() && (*it).GetArrowStyle() != iLink::other) {
-			if (r.PtInRect((*it).GetBound().TopLeft()) && r.PtInRect((*it).GetBound().BottomRight())) {
+			if (r.PtInRect((*it).GetSelfRect().TopLeft()) && r.PtInRect((*it).GetSelfRect().BottomRight())) {
 				(*it).Select();
 			}
 			else {

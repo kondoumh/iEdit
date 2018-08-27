@@ -569,7 +569,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkArrowElement(const iLink &link, M
 	CPoint ptTo = link.GetPtTo();
 	CPoint ptFrom = link.GetPtFrom();
 	CPoint ptPath = link.GetPtPath();
-	CRect selfRect = link.GetBound();
+	CRect selfRect = link.GetSelfRect();
 	int width = link.SetLineWidth();
 	if (width == 0) width = 1;
 
@@ -654,7 +654,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkSquareElement(const iLink &link, 
 	CPoint ptTo = link.GetPtTo();
 	CPoint ptFrom = link.GetPtFrom();
 	CPoint ptPath = link.GetPtPath();
-	CRect selfRect = link.GetBound();
+	CRect selfRect = link.GetSelfRect();
 	int width = link.SetLineWidth();
 	if (width == 0) width = 1;
 
@@ -735,7 +735,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkArrow2Element(const iLink &link, 
 	CPoint ptTo = link.GetPtTo();
 	CPoint ptFrom = link.GetPtFrom();
 	CPoint ptPath = link.GetPtPath();
-	CRect selfRect = link.GetBound();
+	CRect selfRect = link.GetSelfRect();
 	int width = link.SetLineWidth();
 	if (width == 0) width = 1;
 
