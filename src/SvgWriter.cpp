@@ -124,7 +124,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateNodeElement(const iNode &node, MSXML2
 	MSXML2::IXMLDOMElementPtr pNode = NULL;
 
 	int shape = node.GetShape();
-	CRect bound = node.getBound();
+	CRect bound = node.GetBound();
 	CString sCx; sCx.Format(_T("%d"), bound.left);
 	CString sCy; sCy.Format(_T("%d"), bound.top);
 	CString sWidth; sWidth.Format(_T("%d"), bound.Width());
@@ -184,26 +184,26 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateNodeTextElement(const iNode &node, MS
 	CSize textSize = GetNodeTextSize(node);
 
 	// text alignment
-	CString sTop; sTop.Format(_T("%d"), node.getBound().top + textSize.cy / 2 + 1 + node.GetMarginTop());
-	CString sBottom; sBottom.Format(_T("%d"), node.getBound().bottom - 1 - node.GetMarginBottom());
+	CString sTop; sTop.Format(_T("%d"), node.GetBound().top + textSize.cy / 2 + 1 + node.GetMarginTop());
+	CString sBottom; sBottom.Format(_T("%d"), node.GetBound().bottom - 1 - node.GetMarginBottom());
 
-	CRect bound = node.getBound();
+	CRect bound = node.GetBound();
 	int r = (bound.Width() < bound.Height()) ? bound.Width() : bound.Height();
-	int left = node.getBound().left + 1 + node.GetMarginLeft();
+	int left = node.GetBound().left + 1 + node.GetMarginLeft();
 	if (node.GetShape() == iNode::roundRect) {
 		left += r / 8;
 	}
 	CString sLeft; sLeft.Format(_T("%d"), left);
 
-	int right = node.getBound().right - 1 - node.GetMarginRight();
+	int right = node.GetBound().right - 1 - node.GetMarginRight();
 	if (node.GetShape() == iNode::roundRect) {
 		right -= r / 8;
 	}
 	CString sRight; sRight.Format(_T("%d"), right);
 
-	CString sHCenter; sHCenter.Format(_T("%d"), node.getBound().left + node.getBound().Width() / 2);
+	CString sHCenter; sHCenter.Format(_T("%d"), node.GetBound().left + node.GetBound().Width() / 2);
 	CString sVCenter; sVCenter.Format(_T("%d"),
-		node.getBound().top + node.getBound().Height() / 2 + textSize.cy / 3);
+		node.GetBound().top + node.GetBound().Height() / 2 + textSize.cy / 3);
 
 	switch (node.GetTextStyle())
 	{
@@ -280,7 +280,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateNodeTextElement(const iNode &node, MS
 		CString sDx; sDx.Format(_T("%d"), textSize.cy);
 		vector<CString> lines = SplitTSpan(node.GetName(),
 			textSize.cx,
-			node.getBound().Width() - node.GetMarginLeft() - node.GetMarginRight());
+			node.GetBound().Width() - node.GetMarginLeft() - node.GetMarginRight());
 		for (unsigned int i = 0; i < lines.size(); i++) {
 			MSXML2::IXMLDOMElementPtr pNtspan = pDoc->createElement(_T("tspan"));
 			if (i > 0) {

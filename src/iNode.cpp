@@ -436,7 +436,7 @@ void iNodeDrawer::DrawTracker(const iNode& node, CDC* pDC)
 	penLine.CreatePen(PS_SOLID, 10, RGB(127, 127, 255)); // ペン作成
 	CPen * 	pOldPen = pDC->SelectObject(&penLine); // DCのペン変更
 
-	CRect bound = node.getBound();
+	CRect bound = node.GetBound();
 	pDC->MoveTo(bound.TopLeft());
 	pDC->LineTo(bound.right, bound.top);
 	pDC->LineTo(bound.BottomRight());
@@ -449,7 +449,7 @@ void iNodeDrawer::DrawTracker(const iNode& node, CDC* pDC)
 
 void iNodeDrawer::AdjustTextArea(const iNode &node)
 {
-	m_textRect = node.getBound();
+	m_textRect = node.GetBound();
 	m_textRect.left += node.GetLineWidth() + 1;
 	m_textRect.right -= node.GetLineWidth() + 1;
 	m_textRect.top += node.GetLineWidth() + 1;
@@ -504,7 +504,7 @@ void iNodeDrawer::DrawLabel(const iNode &node, CDC *pDC, BOOL bDrawOrderInfo)
 		pOldFont = pDC->SelectObject(&font);
 		preColor = pDC->SetTextColor(RGB(90, 90, 90));
 		CString test; test.Format(_T("%d"), node.GetDrawOrder());
-		pDC->TextOut(node.getBound().left + 2, node.getBound().top + 2, test);
+		pDC->TextOut(node.GetBound().left + 2, node.GetBound().top + 2, test);
 		pDC->SelectObject(pOldFont);
 		pDC->SetTextColor(preColor);
 		font.DeleteObject();
@@ -621,13 +621,13 @@ void iNodeDrawer::FillBoundSpecific(const iNode &node, CDC *pDC, CBrush* brush)
 void iNodeRectDrawer::FillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
 {
 	if (node.Filled()) {
-		pDC->FillRect(node.getBound(), brush);
+		pDC->FillRect(node.GetBound(), brush);
 	}
 }
 
 void iNodeRectDrawer::DrawShapeSpecific(const iNode &node, CDC *pDC, const CPen *pen)
 {
-	CRect bound = node.getBound();
+	CRect bound = node.GetBound();
 	pDC->MoveTo(bound.TopLeft());
 	pDC->LineTo(bound.right, bound.top);
 	pDC->LineTo(bound.BottomRight());
@@ -654,7 +654,7 @@ void iNodeRoundRectDrawer::DrawShape(const iNode &node, CDC *pDC)
 	else {
 		hGdiObj = SelectObject(pDC->m_hDC, GetStockObject(NULL_BRUSH));
 	}
-	CRect bound = node.getBound();
+	CRect bound = node.GetBound();
 	m_r = (bound.Width() < bound.Height()) ? bound.Width() : bound.Height();
 	pDC->RoundRect(bound, CPoint(m_r / 4, m_r / 4));
 
@@ -700,40 +700,40 @@ void iNodeArcDrawer::FillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brus
 	CPen penArc;
 	penArc.CreatePen(node.GetLineStyle(), node.GetLineWidth(), node.GetFillColor());
 	CPen* pOldPen = pDC->SelectObject(&penArc);
-	pDC->Ellipse(node.getBound());
+	pDC->Ellipse(node.GetBound());
 	pDC->SelectObject(pOldPen);
 	penArc.DeleteObject();
 }
 
 void iNodeArcDrawer::DrawShapeSpecific(const iNode &node, CDC *pDC, const CPen *pen)
 {
-	CRect bound = node.getBound();
+	CRect bound = node.GetBound();
 	pDC->Arc(&bound, bound.TopLeft(), bound.TopLeft());
 }
 
 void iNodeArcDrawer::AdjustTextArea(const iNode &node)
 {
-	m_textRect = node.getBound();
-	m_textRect.left += node.getBound().Width() / 16;
-	m_textRect.right -= node.getBound().Width() / 16;
-	m_textRect.top += node.getBound().Height() / 16;
-	m_textRect.bottom -= node.getBound().Height() / 16;
+	m_textRect = node.GetBound();
+	m_textRect.left += node.GetBound().Width() / 16;
+	m_textRect.right -= node.GetBound().Width() / 16;
+	m_textRect.top += node.GetBound().Height() / 16;
+	m_textRect.bottom -= node.GetBound().Height() / 16;
 
 	switch (node.GetTextStyle()) {
 	case iNode::s_tl:
-		m_textRect.top += node.getBound().Height() * 3 / 16;
+		m_textRect.top += node.GetBound().Height() * 3 / 16;
 		break;
 
 	case iNode::s_tr:
-		m_textRect.top += node.getBound().Height() * 3 / 16;
+		m_textRect.top += node.GetBound().Height() * 3 / 16;
 		break;
 
 	case iNode::s_bl:
-		m_textRect.bottom -= node.getBound().Height() * 3 / 16;
+		m_textRect.bottom -= node.GetBound().Height() * 3 / 16;
 		break;
 
 	case iNode::s_br:
-		m_textRect.bottom -= node.getBound().Height() * 3 / 16;
+		m_textRect.bottom -= node.GetBound().Height() * 3 / 16;
 		break;
 	}
 }
@@ -743,7 +743,7 @@ void iNodeArcDrawer::AdjustTextArea(const iNode &node)
 //////////////////////////////////////////////////////////////////////
 void iNodeMetafileDrawer::DrawShape(const iNode &node, CDC *pDC)
 {
-	pDC->PlayMetaFile(node.GetMetaFile(), node.getBound());
+	pDC->PlayMetaFile(node.GetMetaFile(), node.GetBound());
 }
 
 void iNodeMetafileDrawer::FillBoundSpecific(const iNode &node, CDC *pDC, CBrush *brush)
@@ -755,8 +755,8 @@ void iNodeMetafileDrawer::FillBoundSpecific(const iNode &node, CDC *pDC, CBrush 
 // iNodeMMNodeDrawer クラスのインプリメンテーション
 void iNodeMMNodeDrawer::DrawShapeSpecific(const iNode &node, CDC* pDC, const CPen *pen)
 {
-	pDC->MoveTo(node.getBound().left, node.getBound().bottom);
-	pDC->LineTo(node.getBound().right, node.getBound().bottom);
+	pDC->MoveTo(node.GetBound().left, node.GetBound().bottom);
+	pDC->LineTo(node.GetBound().right, node.GetBound().bottom);
 }
 
 // iNodes クラスのインプリメンテーション
@@ -827,7 +827,7 @@ iNode* iNodes::HitTest(const CPoint &pt)
 	CRect preRc(0, 0, 0, 0);
 	vector<iNode*>::reverse_iterator vit_inner = nodesDraw_.rend();
 	for (; vit != nodesDraw_.rend(); vit++) {
-		CRect rc = (*vit)->getBound();
+		CRect rc = (*vit)->GetBound();
 		rc.left -= 1;
 		rc.right += 1;
 		rc.top -= 1;
@@ -861,7 +861,7 @@ iNode* iNodes::HitTestSilently(const CPoint &pt) const
 	CRect preRc(0, 0, 0, 0);
 	vector<iNode*>::const_reverse_iterator vit_inner = nodesDraw_.rend();
 	for (; vit != nodesDraw_.rend(); vit++) {
-		CRect rc = (*vit)->getBound();
+		CRect rc = (*vit)->GetBound();
 		rc.left -= 1;
 		rc.right += 1;
 		rc.top -= 1;
@@ -1066,11 +1066,11 @@ int iNodes::SelectInBound(const CRect &bound, CRect &selRect)
 	node_iter it = begin();
 	int cnt = 0;
 	for (; it != end(); it++) {
-		CRect r = (*it).second.getBound();
+		CRect r = (*it).second.GetBound();
 		if (!(*it).second.Visible()) continue;
 		if ((r | bound) == bound) {
 			(*it).second.Select();
-			selRect = (*it).second.getBound();
+			selRect = (*it).second.GetBound();
 			cnt++;
 		}
 		else {
@@ -1081,10 +1081,10 @@ int iNodes::SelectInBound(const CRect &bound, CRect &selRect)
 	it = begin();
 	for (; it != end(); it++) {
 		if ((*it).second.Selected()) {
-			if ((*it).second.getBound().left < selRect.left) selRect.left = (*it).second.getBound().left;
-			if ((*it).second.getBound().right > selRect.right) selRect.right = (*it).second.getBound().right;
-			if ((*it).second.getBound().top < selRect.top) selRect.top = (*it).second.getBound().top;
-			if ((*it).second.getBound().bottom > selRect.bottom) selRect.bottom = (*it).second.getBound().bottom;
+			if ((*it).second.GetBound().left < selRect.left) selRect.left = (*it).second.GetBound().left;
+			if ((*it).second.GetBound().right > selRect.right) selRect.right = (*it).second.GetBound().right;
+			if ((*it).second.GetBound().top < selRect.top) selRect.top = (*it).second.GetBound().top;
+			if ((*it).second.GetBound().bottom > selRect.bottom) selRect.bottom = (*it).second.GetBound().bottom;
 		}
 	}
 	return cnt;
@@ -1102,8 +1102,8 @@ CString iNodes::CreateClickableMapString(const CString& fileName, bool singleTex
 	for (; it != nodesDraw_.rend(); it++) {
 		iNodeDrawer* pDrawer = getNodeDrawer(*(*it));
 		CString coordsValue;
-		CPoint ptl = (*it)->getBound().TopLeft();
-		CPoint pbr = (*it)->getBound().BottomRight();
+		CPoint ptl = (*it)->GetBound().TopLeft();
+		CPoint pbr = (*it)->GetBound().BottomRight();
 		coordsValue.Format(_T("%d,%d,%d,%d"), ptl.x, ptl.y, pbr.x, pbr.y);
 		CString href;
 		if (singleText) {
@@ -1257,7 +1257,7 @@ CSize iNodes::GetNodeSizeMax(bool selection) const
 				continue;
 			}
 		}
-		CRect rc = (*it).second.getBound();
+		CRect rc = (*it).second.GetBound();
 		if (sz.cx < rc.Width()) {
 			sz.cx = rc.Width();
 		}

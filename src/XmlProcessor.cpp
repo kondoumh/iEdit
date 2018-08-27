@@ -132,7 +132,7 @@ void XmlProcessor::ComvertToImportData(MSXML2::IXMLDOMElement *node)
 					nodesImport[nodesImport.size() - 1].SetShape(Dom2Shape(shape));
 				}
 				else if (ename2 == _T("bound")) {
-					CRect rc = nodesImport[nodesImport.size() - 1].getBound();
+					CRect rc = nodesImport[nodesImport.size() - 1].GetBound();
 					Dom2Bound(childnode2, rc);
 					rc.NormalizeRect();
 					nodesImport[nodesImport.size() - 1].SetBound(rc);
@@ -348,7 +348,7 @@ bool XmlProcessor::ConvertToSerializeData(MSXML2::IXMLDOMElement *node)
 					nodesImport[nodesImport.size() - 1].SetShape(Dom2Shape(shape));
 				}
 				else if (ename2 == _T("bound")) {
-					CRect rc = nodesImport[nodesImport.size() - 1].getBound();
+					CRect rc = nodesImport[nodesImport.size() - 1].GetBound();
 					Dom2Bound(childnode2, rc);
 					rc.NormalizeRect();
 					nodesImport[nodesImport.size() - 1].SetBound(rc);
@@ -821,7 +821,7 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 
 		// ˆÊ’u
 		CString spt;
-		CRect bound = (*it).second.getBound();
+		CRect bound = (*it).second.GetBound();
 
 		f.WriteString(_T("\t\t<bound>\n"));
 		f.WriteString(_T("\t\t\t<left>"));

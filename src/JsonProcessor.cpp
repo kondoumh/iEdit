@@ -77,6 +77,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[L"text"] = json::value::string(text.GetBuffer());
 		v[L"labelAlign"] = json::value::string(ToLabelAlignString((*it).second.GetTextStyle()).GetBuffer());
 		v[L"shape"] = json::value::string(ToShapeString((*it).second.GetShape()).GetBuffer());
+		CRect r = (*it).second.GetBound();
 		values.push_back(v);
 	}
 	json::value root;

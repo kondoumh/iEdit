@@ -79,7 +79,7 @@ public:
 	iNode(const iNode& n);
 	virtual void Serialize(CArchive& ar);
 	void SerializeEx(CArchive& ar, int version);
-	const CRect& getBound() const;
+	const CRect& GetBound() const;
 	void SetParentKey(const DWORD& parent);
 	const DWORD& GetParentKey() const;
 	void SetKey(const DWORD& key);
@@ -302,7 +302,7 @@ inline void iNode::SetParentKey(const DWORD& parent)
 	parent_ = parent;
 }
 
-inline const CRect& iNode::getBound() const
+inline const CRect& iNode::GetBound() const
 {
 	return bound_;
 }
