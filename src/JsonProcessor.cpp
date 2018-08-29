@@ -43,23 +43,42 @@ bool JsonProcessor::Import(const CString &fileName)
 	json::array::const_iterator it = values.cbegin();
 	for (; it != values.cend(); it++) {
 		json::value v = *it;
-		DWORD key = v[L"key"].as_integer();
-		DWORD parent = v[L"parent"].as_integer();
 		CString name(v[L"name"].as_string().c_str());
+		iNode node(name);node.SetKey(++assignKey);
+
+		DWORD key = v[L"key"].as_integer();
+		NodeKeyPair keyPair;
+		keyPair.first = key;
+		keyPair.second = node.GetKey();
+		idcVec.push_back(keyPair);
+
+		DWORD parent = v[L"parent"].as_integer();
+		node.SetParentKey(parent);
+
 		int level = v[L"level"].as_integer();
 		CString text(v[L"text"].as_string().c_str());
+		node.SetText(text);
+
 		int align = FromLabelAlignString(v[L"labelAlign"].as_string().c_str());
+		node.SetTextStyle(align);
+
 		int shape = FromShapeString(v[L"shape"].as_string().c_str());
+		node.SetShape(shape);
+
 		CRect bound;
 		json::array arr = v[L"bound"].as_array();
 		bound.left = arr[0].as_integer();
 		bound.top = arr[1].as_integer();
 		bound.right = arr[2].as_integer();
 		bound.bottom = arr[3].as_integer();
+		node.SetBound(bound);
+
 		CString s;
 		//s.Format(L"%d %d %s %d %d %d\n", key, parent, name, level, align, shape);
 		s.Format(L"%d %d %d %d\n", bound.left, bound.top, bound.right, bound.bottom);
 		OutputDebugString(s);
+
+		nodesImport.push_back(node);
 	}
 	return true;
 }

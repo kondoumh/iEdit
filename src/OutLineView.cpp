@@ -1706,7 +1706,9 @@ void OutlineView::OnImportData()
 	}
 	else if (extent == _T(".json")) {
 		ret = ImportJson(infileName);
-		// TODO AddBranch;
+		if (ret) {
+			AddBranch(Tree().GetItemData(Selected()));
+		}
 		return;
 	}
 
