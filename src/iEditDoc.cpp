@@ -3435,7 +3435,7 @@ bool iEditDoc::ImportJson(const CString &filename, bool replace)
 	CWaitCursor wc;
 	JsonProcessor processor(nodesImport, linksImport, lastKey, idcVec);
 	if (processor.Import(filename)) {
-		// AddImportedData(replace);
+		AddImportedData(replace);
 		return true;
 	}
 	return false;
