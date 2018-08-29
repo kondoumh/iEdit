@@ -115,6 +115,13 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 	}
 	json::value root;
 	root[L"ieditDoc"][L"nodes"] = json::value::array(values);
+
+	link_c_iter li = links.cbegin();
+	for (; li != links.cend(); li++) {
+		if (!NodePropsContainsKey(nodes, ls, (*li).GetFromNodeKey(), (*li).GetToNodeKey())) continue;
+
+	}
+
 	root[L"ieditDoc"][L"links"] = json::value::array();
 	CString result(root.serialize().c_str());
 
@@ -225,4 +232,9 @@ int JsonProcessor::FromShapeString(const CString sShape)
 		return iNode::MindMapNode;
 	}
 	return iNode::rectangle;
+}
+
+bool JsonProcessor::NodePropsContainsKey(const iNodes& nodes, const NodePropsVec& props, DWORD key1, DWORD key2) {
+	return std::find(props.begin(), props.end(), key1) != props.end() ||
+		std::find(props.begin(), props.end(), key2) != props.end();
 }
