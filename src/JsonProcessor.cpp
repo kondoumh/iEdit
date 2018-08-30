@@ -76,8 +76,24 @@ bool JsonProcessor::Import(const CString &fileName)
 	}
 
 	json::array linkValues = json[L"ieditDoc"][L"links"].as_array();
-	json::array::const_iterator li = values.cbegin();
+	json::array::const_iterator li = linkValues.cbegin();
 	for (; li != linkValues.cend(); li++) {
+		json::value v = *li;
+		iLink l;
+		l.SetKeyFrom(v[L"from"].as_integer());
+		if (!v[L"to"].is_null()) {
+			l.SetKeyTo(v[L"to"].as_integer());
+		}
+		CString caption(v[L"caption"].as_string().c_str());
+		l.SetName(caption);
+		int style = FromLinkStyleString(v[L"style"].as_string().c_str());
+		l.SetArrowStyle(style);
+		if (!v[L"viaPoint"].is_null()) {
+			CPoint pt;
+			pt.x = v[L"viaPoint"][L"x"].as_integer();
+			pt.y = v[L"viaPoint"][L"y"].as_integer();
+		}
+		linksImport.push_back(l);
 	}
 
 	return true;
@@ -121,15 +137,24 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 	for (; li != links.cend(); li++) {
 		if (!NodePropsContainsKey(nodes, ls, (*li).GetFromNodeKey(), (*li).GetToNodeKey())) continue;
 		json::value v;
-		v[L"from"] = json::value::number((uint64_t)(*li).GetFromNodeKey());
-		v[L"to"] = json::value::number((uint64_t)(*li).GetToNodeKey());
-		CString caption = (*li).GetName();
-		v[L"caption"] = json::value::string(caption.GetBuffer());
 		int style = (*li).GetArrowStyle();
 		v[L"style"] = json::value::string(ToLinkStyleString(style).GetBuffer());
+		v[L"from"] = json::value::number((uint64_t)(*li).GetFromNodeKey());
+		if (style != iLink::other) {
+			v[L"to"] = json::value::number((uint64_t)(*li).GetToNodeKey());
+		}
+		CString caption = (*li).GetName();
+		v[L"caption"] = json::value::string(caption.GetBuffer());
 		if (style == iLink::other && (*li).GetPath() != L"") {
 			CString path = (*li).GetPath();
-			v[L"location"] == json::value::string(path.GetBuffer());
+			v[L"path"] == json::value::string(path.GetBuffer());
+		}
+		else {
+			if ((*li).IsCurved()) {
+				CPoint pt = (*li).GetPtPath();
+				v[L"viaPoint"][L"x"] = json::value::number(pt.x);
+				v[L"viaPoint"][L"y"] = json::value::number(pt.y);
+			}
 		}
 		linkValues.push_back(v);
 	}
@@ -273,5 +298,36 @@ CString JsonProcessor::ToLinkStyleString(int linkStyle)
 
 int JsonProcessor::FromLinkStyleString(const CString slinkStyle)
 {
-	return 0;
+	if (slinkStyle == L"no-directional") {
+		return iLink::line;
+	}
+	else if (slinkStyle == L"uni-directional") {
+		return iLink::arrow;
+	}
+	else if (slinkStyle == L"bi-directional") {
+		return iLink::arrow2;
+	}
+	else if (slinkStyle == L"dependency") {
+		return iLink::depend;
+	}
+	else if (slinkStyle == L"inter-dependency") {
+		return iLink::depend2;
+	}
+	else if (slinkStyle == L"inheritance") {
+		return iLink::inherit;
+	}
+	else if (slinkStyle == L"aggregation") {
+		return iLink::aggregat;
+	}
+	else if (slinkStyle == L"aggregation") {
+		return iLink::aggregat;
+	}
+	else if (slinkStyle == L"composition") {
+		return iLink::composit;
+	}
+	else if (slinkStyle == L"no-graphical") {
+		return iLink::other;
+	}
+
+	return iLink::line;
 }
