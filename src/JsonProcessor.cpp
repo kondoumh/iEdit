@@ -235,6 +235,10 @@ int JsonProcessor::FromShapeString(const CString sShape)
 }
 
 bool JsonProcessor::NodePropsContainsKey(const iNodes& nodes, const NodePropsVec& props, DWORD key1, DWORD key2) {
-	return std::find(props.begin(), props.end(), key1) != props.end() ||
-		std::find(props.begin(), props.end(), key2) != props.end();
+	for (unsigned int i = 0; i < props.size(); i++) {
+		if (props[i].key == key1 || props[i].key == key2) {
+			return true;
+		}
+	}
+	return false;
 }
