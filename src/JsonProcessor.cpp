@@ -72,20 +72,20 @@ bool JsonProcessor::Import(const CString &fileName)
 		bound.right = arr[2].as_integer();
 		bound.bottom = arr[3].as_integer();
 		node.SetBound(bound);
-
-		CString s;
-		//s.Format(L"%d %d %s %d %d %d\n", key, parent, name, level, align, shape);
-		s.Format(L"%d %d %d %d\n", bound.left, bound.top, bound.right, bound.bottom);
-		OutputDebugString(s);
-
 		nodesImport.push_back(node);
 	}
+
+	json::array linkValues = json[L"ieditDoc"][L"links"].as_array();
+	json::array::const_iterator li = values.cbegin();
+	for (; li != linkValues.cend(); li++) {
+	}
+
 	return true;
 }
 
 bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, iLinks & links, NodePropsVec& ls)
 {
-	std::vector<json::value> values;
+	std::vector<json::value> nodeValues;
 
 	for (unsigned int i = 0; i < ls.size(); i++) {
 		node_c_iter it = nodes.FindRead(ls[i].key);
@@ -111,18 +111,30 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		vec.push_back(r.right);
 		vec.push_back(r.bottom);
 		v[L"bound"] = json::value::array(vec);
-		values.push_back(v);
+		nodeValues.push_back(v);
 	}
 	json::value root;
-	root[L"ieditDoc"][L"nodes"] = json::value::array(values);
+	root[L"ieditDoc"][L"nodes"] = json::value::array(nodeValues);
 
+	std::vector<json::value> linkValues;
 	link_c_iter li = links.cbegin();
 	for (; li != links.cend(); li++) {
 		if (!NodePropsContainsKey(nodes, ls, (*li).GetFromNodeKey(), (*li).GetToNodeKey())) continue;
-
+		json::value v;
+		v[L"from"] = json::value::number((uint64_t)(*li).GetFromNodeKey());
+		v[L"to"] = json::value::number((uint64_t)(*li).GetToNodeKey());
+		CString caption = (*li).GetName();
+		v[L"caption"] = json::value::string(caption.GetBuffer());
+		int style = (*li).GetArrowStyle();
+		v[L"style"] = json::value::string(ToLinkStyleString(style).GetBuffer());
+		if (style == iLink::other && (*li).GetPath() != L"") {
+			CString path = (*li).GetPath();
+			v[L"location"] == json::value::string(path.GetBuffer());
+		}
+		linkValues.push_back(v);
 	}
 
-	root[L"ieditDoc"][L"links"] = json::value::array();
+	root[L"ieditDoc"][L"links"] = json::value::array(linkValues);
 	CString result(root.serialize().c_str());
 
 	FILE* fp;
@@ -205,7 +217,7 @@ int JsonProcessor::FromLabelAlignString(const CString sAlign)
 CString JsonProcessor::ToShapeString(int shape)
 {
 	switch (shape) {
-	case iNode::rectangle : return L"rectangle";
+	case iNode::rectangle: return L"rectangle";
 	case iNode::roundRect: return L"rounded-rectangle";
 	case iNode::arc: return L"elipse";
 	case iNode::MetaFile: return L"metafile";
@@ -241,4 +253,25 @@ bool JsonProcessor::NodePropsContainsKey(const iNodes& nodes, const NodePropsVec
 		}
 	}
 	return false;
+}
+
+CString JsonProcessor::ToLinkStyleString(int linkStyle)
+{
+	switch (linkStyle) {
+	case iLink::line: return L"no-directional";
+	case iLink::arrow: return L"uni-directional";
+	case iLink::arrow2: return L"bi-directional";
+	case iLink::depend: return L"dependency";
+	case iLink::depend2: return L"inter-dependency";
+	case iLink::inherit: return L"inheritance";
+	case iLink::aggregat: return L"aggregation";
+	case iLink::composit: return L"composition";
+	case iLink::other: return L"no-graphical";
+	}
+	return L"";
+}
+
+int JsonProcessor::FromLinkStyleString(const CString slinkStyle)
+{
+	return 0;
 }

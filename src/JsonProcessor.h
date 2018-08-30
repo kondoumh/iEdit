@@ -13,6 +13,8 @@ class JsonProcessor
 	static CString ToShapeString(int shape);
 	static int FromShapeString(const CString sShape);
 	static bool NodePropsContainsKey(const iNodes& nodes, const NodePropsVec& props, DWORD key1, DWORD key2);
+	static CString ToLinkStyleString(int linkStyle);
+	static int FromLinkStyleString(const CString slinkStyle);
 
 public:
 	JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
