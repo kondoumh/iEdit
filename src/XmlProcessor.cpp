@@ -24,7 +24,7 @@ bool XmlProcessor::Import(const CString &fileName)
 	}
 
 	MSXML2::IXMLDOMDocument		*pDoc = NULL;
-	hr = CoCreateInstance(MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
+	hr = CoCreateInstance(CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
 		MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if (!pDoc) {
 		AfxMessageBox(_T("XML ドキュメントをパースできません。"));
@@ -219,7 +219,7 @@ bool XmlProcessor::SerializeFromXml(const CString& filename)
 		return false;
 	}
 
-	hr = CoCreateInstance(MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
+	hr = CoCreateInstance(CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
 		MSXML2::IID_IXMLDOMDocument, (LPVOID *)&pDoc);
 	if (!pDoc) {
 		AfxMessageBox(_T("XML ドキュメントをパースできません。"));

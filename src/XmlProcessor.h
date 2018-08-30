@@ -2,6 +2,8 @@
 #include "iNode.h"
 #include "iLink.h"
 
+#import "msxml6.dll" named_guids
+
 class XmlProcessor
 {
 	node_vec& nodesImport;
