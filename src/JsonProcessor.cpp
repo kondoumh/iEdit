@@ -92,6 +92,7 @@ bool JsonProcessor::Import(const CString &fileName)
 			CPoint pt;
 			pt.x = v[L"viaPoint"][L"x"].as_integer();
 			pt.y = v[L"viaPoint"][L"y"].as_integer();
+			l.SetPathPt(pt);
 		}
 		linksImport.push_back(l);
 	}
