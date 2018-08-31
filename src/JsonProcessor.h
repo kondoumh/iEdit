@@ -15,6 +15,7 @@ class JsonProcessor
 	static bool NodePropsContainsKey(const iNodes& nodes, const NodePropsVec& props, DWORD key1, DWORD key2);
 	static CString ToLinkStyleString(int linkStyle);
 	static int FromLinkStyleString(const CString slinkStyle);
+	DWORD FindPairKey(const DWORD first);
 
 public:
 	JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);

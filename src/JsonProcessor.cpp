@@ -80,9 +80,9 @@ bool JsonProcessor::Import(const CString &fileName)
 	for (; li != linkValues.cend(); li++) {
 		json::value v = *li;
 		iLink l;
-		l.SetKeyFrom(v[L"from"].as_integer());
+		l.SetKeyFrom(FindPairKey(v[L"from"].as_integer()));
 		if (!v[L"to"].is_null()) {
-			l.SetKeyTo(v[L"to"].as_integer());
+			l.SetKeyTo(FindPairKey(v[L"to"].as_integer()));
 		}
 		CString caption(v[L"caption"].as_string().c_str());
 		l.SetName(caption);
@@ -98,6 +98,16 @@ bool JsonProcessor::Import(const CString &fileName)
 	}
 
 	return true;
+}
+
+DWORD JsonProcessor::FindPairKey(const DWORD first)
+{
+	for (unsigned int i = 0; i < idcVec.size(); i++) {
+		if (idcVec[i].first == first) {
+			return idcVec[i].second;
+		}
+	}
+	return -1;
 }
 
 bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, iLinks & links, NodePropsVec& ls)
