@@ -304,7 +304,7 @@ CString JsonProcessor::ToLinkStyleString(int linkStyle)
 	case iLink::composit: return L"composition";
 	case iLink::other: return L"no-graphical";
 	}
-	return L"";
+	return L"no-directional";
 }
 
 int JsonProcessor::FromLinkStyleString(const CString slinkStyle)
@@ -341,4 +341,19 @@ int JsonProcessor::FromLinkStyleString(const CString slinkStyle)
 	}
 
 	return iLink::line;
+}
+
+CString JsonProcessor::ToLineStyleString(int lineStyle)
+{
+	switch (lineStyle) {
+	case PS_NULL: return L"no-line";
+	case PS_SOLID: return L"solid-line";
+	case PS_DOT: return L"doted-line";
+	}
+	return L"solid-line";
+}
+
+int JsonProcessor::FromLineStyleString(const CString slineStyle)
+{
+	return PS_SOLID;
 }
