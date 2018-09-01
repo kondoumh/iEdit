@@ -173,7 +173,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		if (style == iLink::other) {
 			if ((*li).GetPath() != L"") {
 				CString path = (*li).GetPath();
-				v[L"path"] == json::value::string(path.GetBuffer());
+				v[L"path"] = json::value::string(path.GetBuffer());
 			}
 		}
 		else {
