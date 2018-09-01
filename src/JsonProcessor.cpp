@@ -75,6 +75,10 @@ bool JsonProcessor::Import(const CString &fileName)
 
 		int lineStyle = FromLineStyleString(v[L"lineStyle"].as_string().c_str());
 		node.SetLineStyle(lineStyle);
+
+		COLORREF fillColor = FromColoerHexString(v[L"fillColor"].as_string().c_str());
+		node.SetFillColor(fillColor);
+
 		nodesImport.push_back(node);
 	}
 
@@ -146,6 +150,8 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		vec.push_back(r.bottom);
 		v[L"bound"] = json::value::array(vec);
 		v[L"lineStyle"] = json::value::string(ToLineStyleString((*it).second.GetLineStyle()).GetBuffer());
+		CString fillColor = ToColorHexString((*it).second.GetFillColor());
+		v[L"fillColor"] = json::value::string(fillColor.GetBuffer());
 		nodeValues.push_back(v);
 	}
 	json::value root;
@@ -376,4 +382,22 @@ int JsonProcessor::FromLineStyleString(const CString slineStyle)
 		return PS_NULL;
 	}
 	return PS_SOLID;
+}
+
+CString JsonProcessor::ToColorHexString(COLORREF ref)
+{
+	DWORD r = GetRValue(ref);
+	DWORD g = GetGValue(ref);
+	DWORD b = GetBValue(ref);
+	CString result;
+	result.Format(L"#%02X%02X%02X", r, g, b);
+	return result;
+}
+
+COLORREF JsonProcessor::FromColoerHexString(const CString sHex)
+{
+	CString buf(sHex);
+	DWORD r, g, b;
+	swscanf_s(buf.GetBuffer(), L"#%02X%02X%02X", &r, &g, &b);
+	return RGB(r, g, b);
 }
