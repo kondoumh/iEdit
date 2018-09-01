@@ -72,6 +72,9 @@ bool JsonProcessor::Import(const CString &fileName)
 		bound.right = arr[2].as_integer();
 		bound.bottom = arr[3].as_integer();
 		node.SetBound(bound);
+
+		int lineStyle = FromLineStyleString(v[L"lineStyle"].as_string().c_str());
+		node.SetLineStyle(lineStyle);
 		nodesImport.push_back(node);
 	}
 
@@ -93,6 +96,10 @@ bool JsonProcessor::Import(const CString &fileName)
 			pt.x = v[L"viaPoint"][L"x"].as_integer();
 			pt.y = v[L"viaPoint"][L"y"].as_integer();
 			l.SetPathPt(pt);
+		}
+		if (l.GetArrowStyle() != iLink::other) {
+			int lineStyle = FromLineStyleString(v[L"lineStyle"].as_string().c_str());
+			l.SetLineStyle(lineStyle);
 		}
 		linksImport.push_back(l);
 	}
@@ -138,6 +145,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		vec.push_back(r.right);
 		vec.push_back(r.bottom);
 		v[L"bound"] = json::value::array(vec);
+		v[L"lineStyle"] = json::value::string(ToLineStyleString((*it).second.GetLineStyle()).GetBuffer());
 		nodeValues.push_back(v);
 	}
 	json::value root;
@@ -156,9 +164,11 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		}
 		CString caption = (*li).GetName();
 		v[L"caption"] = json::value::string(caption.GetBuffer());
-		if (style == iLink::other && (*li).GetPath() != L"") {
-			CString path = (*li).GetPath();
-			v[L"path"] == json::value::string(path.GetBuffer());
+		if (style == iLink::other) {
+			if ((*li).GetPath() != L"") {
+				CString path = (*li).GetPath();
+				v[L"path"] == json::value::string(path.GetBuffer());
+			}
 		}
 		else {
 			if ((*li).IsCurved()) {
@@ -166,6 +176,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 				v[L"viaPoint"][L"x"] = json::value::number(pt.x);
 				v[L"viaPoint"][L"y"] = json::value::number(pt.y);
 			}
+			v[L"lineStyle"] = json::value::string(ToLineStyleString((*li).GetLineStyle()).GetBuffer());
 		}
 		linkValues.push_back(v);
 	}
@@ -346,14 +357,23 @@ int JsonProcessor::FromLinkStyleString(const CString slinkStyle)
 CString JsonProcessor::ToLineStyleString(int lineStyle)
 {
 	switch (lineStyle) {
-	case PS_NULL: return L"no-line";
 	case PS_SOLID: return L"solid-line";
 	case PS_DOT: return L"doted-line";
+	case PS_NULL: return L"no-line";
 	}
 	return L"solid-line";
 }
 
 int JsonProcessor::FromLineStyleString(const CString slineStyle)
 {
+	if (slineStyle == L"solid-line") {
+		return PS_SOLID;
+	}
+	else if (slineStyle == L"doted-line") {
+		return PS_DOT;
+	}
+	else if (slineStyle == L"no-line") {
+		return PS_NULL;
+	}
 	return PS_SOLID;
 }
