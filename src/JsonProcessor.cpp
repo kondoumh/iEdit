@@ -83,6 +83,8 @@ bool JsonProcessor::Import(const CString &fileName)
 		node.ToggleFill(v[L"fill"].as_bool());
 		int lineWidth = FromLineWidthString(v[L"lineWidth"].as_string().c_str());
 		node.SetLineWidth(lineWidth);
+		COLORREF fontColor = FromColoerHexString(v[L"fontColor"].as_string().c_str());
+		node.SetFontColor(fontColor);
 
 		nodesImport.push_back(node);
 	}
@@ -168,6 +170,10 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[L"fill"] = json::value::boolean((*it).second.Filled());
 		v[L"lineColor"] = json::value::string(lineColor.GetBuffer());
 		v[L"lineWidth"] = json::value::string(ToLineWidthString((*it).second.GetLineWidth()).GetBuffer());
+		CString fontColor = ToColorHexString((*it).second.GetFontColor());
+		v[L"fontColor"] = json::value::string(fontColor.GetBuffer());
+		LOGFONT lf = (*it).second.GetFontInfo();
+
 		nodeValues.push_back(v);
 	}
 	json::value root;
