@@ -1,6 +1,9 @@
 #pragma once
 #include "iNode.h"
 #include "iLink.h"
+#include <cpprest/json.h>
+
+using namespace web;
 
 class JsonProcessor
 {
@@ -22,6 +25,8 @@ class JsonProcessor
 	static COLORREF FromColoerHexString(const CString sHex);
 	static CString ToLineWidthString(int width);
 	static int FromLineWidthString(const CString sWidth);
+	static void FontToJson(const LOGFONT& lf, json::value& v);
+	static LOGFONT JsonToFont(json::value v);
 
 public:
 	JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);

@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "JsonProcessor.h"
-#include <cpprest/json.h>
 #include <locale>
 #include "FileUtil.h"
-
-using namespace web;
 
 JsonProcessor::JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec) :
 	nodesImport(nodesImport), linksImport(linksImport), assignKey(assignKey), idcVec(idcVec)
@@ -85,15 +82,7 @@ bool JsonProcessor::Import(const CString &fileName)
 		node.SetLineWidth(lineWidth);
 		COLORREF fontColor = FromColoerHexString(v[L"fontColor"].as_string().c_str());
 		node.SetFontColor(fontColor);
-		LOGFONT lf;
-		lstrcpy(lf.lfFaceName, v[L"font"][L"name"].as_string().c_str());
-		int point = v[L"font"][L"point"].as_integer();
-		lf.lfHeight = -MulDiv(point, 96, 72);
-		bool bold = v[L"font"][L"bold"].as_bool();
-		lf.lfWeight = bold ? 700 : 400;
-		lf.lfUnderline = v[L"font"][L"underLine"].as_bool();
-		lf.lfStrikeOut = v[L"font"][L"strikeOut"].as_bool();
-		lf.lfItalic = v[L"font"][L"italic"].as_bool();
+		LOGFONT lf = JsonToFont(v);
 		node.SetFontInfo(lf, false);
 
 		nodesImport.push_back(node);
@@ -128,6 +117,8 @@ bool JsonProcessor::Import(const CString &fileName)
 
 			int lineWidth = FromLineWidthString(v[L"lineWidth"].as_string().c_str());
 			l.SetLineWidth(lineWidth);
+
+			LOGFONT lf = JsonToFont(v);
 		}
 		linksImport.push_back(l);
 	}
@@ -182,13 +173,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[L"lineWidth"] = json::value::string(ToLineWidthString((*it).second.GetLineWidth()).GetBuffer());
 		CString fontColor = ToColorHexString((*it).second.GetFontColor());
 		v[L"fontColor"] = json::value::string(fontColor.GetBuffer());
-		LOGFONT lf = (*it).second.GetFontInfo();
-		v[L"font"][L"name"] = json::value::string(lf.lfFaceName);
-		v[L"font"][L"point"] = json::value::number(MulDiv(-lf.lfHeight, 72, 96));
-		v[L"font"][L"bold"] = json::value::boolean(lf.lfWeight >= 600);
-		v[L"font"][L"underLine"] = json::value::boolean(lf.lfUnderline);
-		v[L"font"][L"strikeOut"] = json::value::boolean(lf.lfStrikeOut);
-		v[L"font"][L"italic"] = json::value::boolean(lf.lfItalic);
+		FontToJson((*it).second.GetFontInfo(), v);
 		nodeValues.push_back(v);
 	}
 	json::value root;
@@ -223,6 +208,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 			CString lineColor = ToColorHexString((*li).GetLinkColor());
 			v[L"lineColor"] = json::value::string(lineColor.GetBuffer());
 			v[L"lineWidth"] = json::value::string(ToLineWidthString((*li).GetLineWidth()).GetBuffer());
+			FontToJson((*li).GetFontInfo(), v);
 		}
 		linkValues.push_back(v);
 	}
@@ -472,4 +458,28 @@ int JsonProcessor::FromLineWidthString(const CString sWidth)
 		return 4;
 	}
 	return 0;
+}
+
+void JsonProcessor::FontToJson(const LOGFONT& lf, json::value& v)
+{
+	v[L"font"][L"name"] = json::value::string(lf.lfFaceName);
+	v[L"font"][L"point"] = json::value::number(MulDiv(-lf.lfHeight, 72, 96));
+	v[L"font"][L"bold"] = json::value::boolean(lf.lfWeight >= 600);
+	v[L"font"][L"underLine"] = json::value::boolean(lf.lfUnderline);
+	v[L"font"][L"strikeOut"] = json::value::boolean(lf.lfStrikeOut);
+	v[L"font"][L"italic"] = json::value::boolean(lf.lfItalic);
+}
+
+LOGFONT JsonProcessor::JsonToFont(json::value v)
+{
+	LOGFONT lf;
+	lstrcpy(lf.lfFaceName, v[L"font"][L"name"].as_string().c_str());
+	int point = v[L"font"][L"point"].as_integer();
+	lf.lfHeight = -MulDiv(point, 96, 72);
+	bool bold = v[L"font"][L"bold"].as_bool();
+	lf.lfWeight = bold ? 700 : 400;
+	lf.lfUnderline = v[L"font"][L"underLine"].as_bool();
+	lf.lfStrikeOut = v[L"font"][L"strikeOut"].as_bool();
+	lf.lfItalic = v[L"font"][L"italic"].as_bool();
+	return lf;
 }
