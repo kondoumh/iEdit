@@ -968,7 +968,7 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 			}
 			f.WriteString(_T("</linkLineStyle>\n"));
 
-			int width = (*li).SetLineWidth();
+			int width = (*li).GetLineWidth();
 			if (width == 0) {
 				width = 1;
 			}

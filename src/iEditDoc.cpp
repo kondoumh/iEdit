@@ -1337,7 +1337,7 @@ void iEditDoc::CollectLinkProps(LinkPropsVec &ls)
 		i._keyFrom = (*it).GetFromNodeKey();
 		i.selected = (*it).IsSelected();
 		i.linkColor_ = (*it).GetLinkColor();
-		i.linkWidth_ = (*it).SetLineWidth();
+		i.linkWidth_ = (*it).GetLineWidth();
 		i.styleLine_ = (*it).GetLineStyle();
 		i.lf_ = (*it).GetFontInfo();
 		::lstrcpy(i.lf_.lfFaceName, (*it).GetFontInfo().lfFaceName);
@@ -1426,7 +1426,7 @@ void iEditDoc::SetSpecifiedLinkProps(const LinkProps &iOld, const LinkProps &iNe
 			(*it).GetPath() == iOld.path &&
 			(*it).GetArrowStyle() == iOld._arrowStyle &&
 			(*it).GetLinkColor() == iOld.linkColor_ &&
-			(*it).SetLineWidth() == iOld.linkWidth_ &&
+			(*it).GetLineWidth() == iOld.linkWidth_ &&
 			(*it).GetLineStyle() == iOld.styleLine_) {
 			break;
 		}
@@ -2534,7 +2534,7 @@ void iEditDoc::CalcEdges()
 				sz.cy = ((*li).GetFromNodeRect().Height() + (*li).GetToNodeRect().Height()) / 2;
 				double rate;
 				if (pApp->m_rgsLink.bSetStrength) {
-					rate = LinkWidth2BondStrength((*li).SetLineWidth());
+					rate = LinkWidth2BondStrength((*li).GetLineWidth());
 					if ((*li).GetLineStyle() == PS_DOT) {
 						rate *= 1.5;
 					}
@@ -3248,7 +3248,7 @@ void iEditDoc::SaveSelectedLinkFormat()
 	link_c_iter l = links_.GetSelectedRead();
 	m_linkForFormat.SetArrowStyle((*l).GetArrowStyle());
 	m_linkForFormat.SetLineStyle((*l).GetLineStyle());
-	m_linkForFormat.SetLineWidth((*l).SetLineWidth());
+	m_linkForFormat.SetLineWidth((*l).GetLineWidth());
 	m_linkForFormat.SetLinkColor((*l).GetLinkColor());
 }
 
@@ -3258,7 +3258,7 @@ void iEditDoc::ApplyFormatToSelectedLink()
 	link_iter l = links_.GetSelectedWrite();
 	(*l).SetArrowStyle(m_linkForFormat.GetArrowStyle());
 	(*l).SetLineStyle(m_linkForFormat.GetLineStyle());
-	(*l).SetLineWidth(m_linkForFormat.SetLineWidth());
+	(*l).SetLineWidth(m_linkForFormat.GetLineWidth());
 	(*l).SetLinkColor(m_linkForFormat.GetLinkColor());
 }
 

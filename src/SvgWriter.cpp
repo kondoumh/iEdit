@@ -461,7 +461,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkElement(const iLink &link, MSXML2
 	BYTE lBlue GetBValue(lineColor);
 
 	int lineStyle = link.GetLineStyle();
-	int width = link.SetLineWidth();
+	int width = link.GetLineWidth();
 	if (width == 0) { width = 1; }
 
 	if (!link.IsCurved() /* && link.GetFromNodeKey() != link.GetToNodeKey()*/) {
@@ -570,7 +570,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkArrowElement(const iLink &link, M
 	CPoint ptFrom = link.GetPtFrom();
 	CPoint ptPath = link.GetPtPath();
 	CRect selfRect = link.GetSelfRect();
-	int width = link.SetLineWidth();
+	int width = link.GetLineWidth();
 	if (width == 0) width = 1;
 
 	int ArrowWidth = 5;
@@ -655,7 +655,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkSquareElement(const iLink &link, 
 	CPoint ptFrom = link.GetPtFrom();
 	CPoint ptPath = link.GetPtPath();
 	CRect selfRect = link.GetSelfRect();
-	int width = link.SetLineWidth();
+	int width = link.GetLineWidth();
 	if (width == 0) width = 1;
 
 	int ArrowWidth = 5;
@@ -736,7 +736,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateLinkArrow2Element(const iLink &link, 
 	CPoint ptFrom = link.GetPtFrom();
 	CPoint ptPath = link.GetPtPath();
 	CRect selfRect = link.GetSelfRect();
-	int width = link.SetLineWidth();
+	int width = link.GetLineWidth();
 	if (width == 0) width = 1;
 
 	int ArrowWidth = 5;

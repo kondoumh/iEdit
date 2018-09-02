@@ -1141,7 +1141,7 @@ int iLinks::GetSelectedWidth() const
 	int w = 0;
 	link_c_iter it = GetSelectedRead();
 	if (it != end()) {
-		w = (*it).SetLineWidth();
+		w = (*it).GetLineWidth();
 	}
 	return w;
 }

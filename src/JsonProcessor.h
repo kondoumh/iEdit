@@ -20,6 +20,8 @@ class JsonProcessor
 	DWORD FindPairKey(const DWORD first);
 	static CString ToColorHexString(COLORREF ref);
 	static COLORREF FromColoerHexString(const CString sHex);
+	static CString ToLineWidthString(int width);
+	static int FromLineWidthString(const CString sWidth);
 
 public:
 	JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);

@@ -46,7 +46,7 @@ public:
 	const LOGFONT& GetFontInfo() const;
 	int GetLineStyle() const;
 	void SetLineStyle(int style);
-	int SetLineWidth() const;
+	int GetLineWidth() const;
 	void SetLineWidth(int width);
 	const CRect& GetSelfRect() const;
 	const CPoint& GetPtPath() const;
@@ -321,7 +321,7 @@ inline void iLink::SetLineWidth(int width)
 	lineWidth = width;
 }
 
-inline int iLink::SetLineWidth() const
+inline int iLink::GetLineWidth() const
 {
 	return lineWidth;
 }

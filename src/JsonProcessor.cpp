@@ -81,6 +81,9 @@ bool JsonProcessor::Import(const CString &fileName)
 		COLORREF lineColor = FromColoerHexString(v[L"lineColor"].as_string().c_str());
 		node.SetLineColor(lineColor);
 
+		int lineWidth = FromLineWidthString(v[L"lineWidth"].as_string().c_str());
+		node.SetLineWidth(lineWidth);
+
 		nodesImport.push_back(node);
 	}
 
@@ -90,26 +93,30 @@ bool JsonProcessor::Import(const CString &fileName)
 		json::value v = *li;
 		iLink l;
 		l.SetKeyFrom(FindPairKey(v[L"from"].as_integer()));
-		if (!v[L"to"].is_null()) {
-			l.SetKeyTo(FindPairKey(v[L"to"].as_integer()));
-		}
 		CString caption(v[L"caption"].as_string().c_str());
 		l.SetName(caption);
 		int style = FromLinkStyleString(v[L"style"].as_string().c_str());
 		l.SetArrowStyle(style);
-		if (!v[L"viaPoint"].is_null()) {
-			CPoint pt;
-			pt.x = v[L"viaPoint"][L"x"].as_integer();
-			pt.y = v[L"viaPoint"][L"y"].as_integer();
-			l.SetPathPt(pt);
-		}
 		if (l.GetArrowStyle() != iLink::other) {
-			int lineStyle = FromLineStyleString(v[L"lineStyle"].as_string().c_str());
-			l.SetLineStyle(lineStyle);
-		}
-		COLORREF lineColor = FromColoerHexString(v[L"lineColor"].as_string().c_str());
-		l.SetLinkColor(lineColor);
+			if (!v[L"to"].is_null()) {
+				l.SetKeyTo(FindPairKey(v[L"to"].as_integer()));
+			}
+			if (!v[L"viaPoint"].is_null()) {
+				CPoint pt;
+				pt.x = v[L"viaPoint"][L"x"].as_integer();
+				pt.y = v[L"viaPoint"][L"y"].as_integer();
+				l.SetPathPt(pt);
+			}
+			if (l.GetArrowStyle() != iLink::other) {
+				int lineStyle = FromLineStyleString(v[L"lineStyle"].as_string().c_str());
+				l.SetLineStyle(lineStyle);
+			}
+			COLORREF lineColor = FromColoerHexString(v[L"lineColor"].as_string().c_str());
+			l.SetLinkColor(lineColor);
 
+			int lineWidth = FromLineWidthString(v[L"lineWidth"].as_string().c_str());
+			l.SetLineWidth(lineWidth);
+		}
 		linksImport.push_back(l);
 	}
 
@@ -159,6 +166,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[L"fillColor"] = json::value::string(fillColor.GetBuffer());
 		CString lineColor = ToColorHexString((*it).second.GetLineColor());
 		v[L"lineColor"] = json::value::string(lineColor.GetBuffer());
+		v[L"lineWidth"] = json::value::string(ToLineWidthString((*it).second.GetLineWidth()).GetBuffer());
 		nodeValues.push_back(v);
 	}
 	json::value root;
@@ -190,9 +198,10 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 				v[L"viaPoint"][L"y"] = json::value::number(pt.y);
 			}
 			v[L"lineStyle"] = json::value::string(ToLineStyleString((*li).GetLineStyle()).GetBuffer());
+			CString lineColor = ToColorHexString((*li).GetLinkColor());
+			v[L"lineColor"] = json::value::string(lineColor.GetBuffer());
+			v[L"lineWidth"] = json::value::string(ToLineWidthString((*li).GetLineWidth()).GetBuffer());
 		}
-		CString lineColor = ToColorHexString((*li).GetLinkColor());
-		v[L"lineColor"] = json::value::string(lineColor.GetBuffer());
 		linkValues.push_back(v);
 	}
 
@@ -409,4 +418,36 @@ COLORREF JsonProcessor::FromColoerHexString(const CString sHex)
 	DWORD r, g, b;
 	swscanf_s(buf.GetBuffer(), L"#%02X%02X%02X", &r, &g, &b);
 	return RGB(r, g, b);
+}
+
+CString JsonProcessor::ToLineWidthString(int width)
+{
+	switch (width) {
+	case 0: return L"thin";
+	case 1: return L"middle-thin";
+	case 2: return L"middle-thick";
+	case 3: return L"thick";
+	case 4: return L"very-thick";
+	}
+	return L"thin";
+}
+
+int JsonProcessor::FromLineWidthString(const CString sWidth)
+{
+	if (sWidth == L"thin") {
+		return 0;
+	}
+	else if (sWidth == L"middle-thin") {
+		return 1;
+	}
+	else if (sWidth == L"middle-thick") {
+		return 2;
+	}
+	else if (sWidth == L"thick") {
+		return 3;
+	}
+	else if (sWidth == L"very-thick") {
+		return 4;
+	}
+	return 0;
 }
