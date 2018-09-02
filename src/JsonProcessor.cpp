@@ -78,6 +78,8 @@ bool JsonProcessor::Import(const CString &fileName)
 
 		COLORREF fillColor = FromColoerHexString(v[L"fillColor"].as_string().c_str());
 		node.SetFillColor(fillColor);
+		COLORREF lineColor = FromColoerHexString(v[L"lineColor"].as_string().c_str());
+		node.SetLineColor(lineColor);
 
 		nodesImport.push_back(node);
 	}
@@ -105,6 +107,9 @@ bool JsonProcessor::Import(const CString &fileName)
 			int lineStyle = FromLineStyleString(v[L"lineStyle"].as_string().c_str());
 			l.SetLineStyle(lineStyle);
 		}
+		COLORREF lineColor = FromColoerHexString(v[L"lineColor"].as_string().c_str());
+		l.SetLinkColor(lineColor);
+
 		linksImport.push_back(l);
 	}
 
@@ -152,6 +157,8 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[L"lineStyle"] = json::value::string(ToLineStyleString((*it).second.GetLineStyle()).GetBuffer());
 		CString fillColor = ToColorHexString((*it).second.GetFillColor());
 		v[L"fillColor"] = json::value::string(fillColor.GetBuffer());
+		CString lineColor = ToColorHexString((*it).second.GetLineColor());
+		v[L"lineColor"] = json::value::string(lineColor.GetBuffer());
 		nodeValues.push_back(v);
 	}
 	json::value root;
@@ -184,6 +191,8 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 			}
 			v[L"lineStyle"] = json::value::string(ToLineStyleString((*li).GetLineStyle()).GetBuffer());
 		}
+		CString lineColor = ToColorHexString((*li).GetLinkColor());
+		v[L"lineColor"] = json::value::string(lineColor.GetBuffer());
 		linkValues.push_back(v);
 	}
 
