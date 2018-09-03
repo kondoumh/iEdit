@@ -131,6 +131,14 @@ void XmlProcessor::ComvertToImportData(MSXML2::IXMLDOMElement *node)
 					CString shape(s);
 					nodesImport[nodesImport.size() - 1].SetShape(Dom2Shape(shape));
 				}
+				else if (ename2 == _T("nodeFont")) {
+					LOGFONT lf = Dom2Font(childnode2);
+					nodesImport[nodesImport.size() - 1].SetFontInfo(lf);
+				}
+				else if (ename2 == _T("labelColor")) {
+					COLORREF lcr = Dom2LabelColor(childnode2);
+					nodesImport[nodesImport.size() - 1].SetFontColor(lcr);
+				}
 				else if (ename2 == _T("bound")) {
 					CRect rc = nodesImport[nodesImport.size() - 1].GetBound();
 					Dom2Bound(childnode2, rc);
@@ -545,6 +553,65 @@ COLORREF XmlProcessor::Dom2ForeColor(MSXML2::IXMLDOMNode *pNode)
 	return RGB(r, g, b);
 }
 
+COLORREF XmlProcessor::Dom2LabelColor(MSXML2::IXMLDOMNode *pNode)
+{
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	pNode->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i;
+	int r(255), g(255), b(255);
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		childnode->firstChild->get_text(&s);
+		if (ename == _T("lb_red")) {
+			CString red(s);
+			swscanf_s((const wchar_t*)red.GetBuffer(), _T("%d"), &r);
+		}
+		else if (ename == _T("lb_green")) {
+			CString green(s);
+			swscanf_s((const wchar_t*)green.GetBuffer(), _T("%d"), &g);
+		}
+		else if (ename == _T("lb_blue")) {
+			CString blue(s);
+			swscanf_s((const wchar_t*)blue.GetBuffer(), _T("%d"), &b);
+		}
+	}
+	return RGB(r, g, b);
+}
+
+LOGFONT XmlProcessor::Dom2Font(MSXML2::IXMLDOMNode* pNode)
+{
+	MSXML2::IXMLDOMNodeList	*childs = NULL;
+	MSXML2::IXMLDOMNode		*childnode = NULL;
+	pNode->get_childNodes(&childs);
+	BSTR s = NULL;
+	LONG i;
+	LOGFONT lf;
+	lf.lfWeight = 400;
+	lf.lfStrikeOut = false;
+	lf.lfUnderline = false;
+	lf.lfItalic = false;
+	for (i = 0; i < childs->Getlength(); i++) {
+		childs->get_item(i, &childnode);
+		BSTR name = childnode->nodeName;
+		CString ename(name);
+		childnode->firstChild->get_text(&s);
+		if (ename == _T("fontName")) {
+			lstrcpy(lf.lfFaceName, s);
+		}
+		else if (ename == _T("point")) {
+			CString sPoint(s);
+			int point;
+			swscanf_s((const wchar_t*)sPoint.GetBuffer(), _T("%d"), &point);
+			lf.lfHeight = -MulDiv(point, 96, 72);
+		}
+	}
+	return lf;
+}
+
 void XmlProcessor::Dom2NodeLine(MSXML2::IXMLDOMNode *pNode, int &style, int &width)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
@@ -922,6 +989,41 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 			f.WriteString(_T("</l_blue>\n"));
 			f.WriteString(_T("\t\t</nodeLineColor>\n"));
 		}
+
+		// フォント
+		LOGFONT lf = (*it).second.GetFontInfo();
+		f.WriteString(_T("\t\t<nodeFont>\n"));
+		CString sFn; sFn.Format(_T("\t\t\t<fontName>%s</fontName>\n"), lf.lfFaceName);
+		f.WriteString(sFn);
+		int point = MulDiv(-lf.lfHeight, 72, 96);
+		CString sPoint; sPoint.Format(_T("\t\t\t<point>%d</point>\n"), point);
+		f.WriteString(sPoint);
+		// TODO underline, strikeout, weight
+		f.WriteString(_T("\t\t</nodeFont>\n"));
+
+		// ラベルカラー
+		f.WriteString(_T("\t\t<labelColor>\n"));
+		COLORREF lc = (*it).second.GetFontColor();
+		BYTE lbred = GetRValue(lc);
+		BYTE lbgrn = GetGValue(lc);
+		BYTE lbblu = GetBValue(lc);
+
+		f.WriteString(_T("\t\t\t<lb_red>"));
+		CString slbc;
+		slbc.Format(_T("%d"), lbred);
+		f.WriteString(slbc);
+		f.WriteString(_T("</lb_red>\n"));
+
+		f.WriteString(_T("\t\t\t<lb_green>"));
+		slbc.Format(_T("%d"), lbgrn);
+		f.WriteString(slbc);
+		f.WriteString(_T("</lb_green>\n"));
+
+		f.WriteString(_T("\t\t\t<lb_blue>"));
+		slbc.Format(_T("%d"), lbblu);
+		f.WriteString(slbc);
+		f.WriteString(_T("</lb_blue>\n"));
+		f.WriteString(_T("\t\t</labelColor>\n"));
 
 		// end of inode tag
 		f.WriteString(_T("\t</inode>\n"));

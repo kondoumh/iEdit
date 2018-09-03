@@ -20,6 +20,8 @@ class XmlProcessor
 	COLORREF Dom2NodeLineColor(MSXML2::IXMLDOMNode* pNode);
 	void Dom2NodeLine(MSXML2::IXMLDOMNode* pNode, int& style, int& width);
 	COLORREF Dom2ForeColor(MSXML2::IXMLDOMNode* pNode);
+	COLORREF Dom2LabelColor(MSXML2::IXMLDOMNode* pNode);
+	LOGFONT Dom2Font(MSXML2::IXMLDOMNode* pNode);
 	void Dom2Bound(MSXML2::IXMLDOMNode* pNode, CRect& rc);
 	int Dom2Shape(const CString& tag);
 	int Dom2TextAlign(const CString& tag);
