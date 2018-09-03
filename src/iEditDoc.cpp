@@ -1951,6 +1951,12 @@ void iEditDoc::AddImportedData(bool brepRoot)
 		(*it).second.SetName(nodesImport[0].GetName());
 		(*it).second.SetText(nodesImport[0].GetText());
 		(*it).second.SetBound(nodesImport[0].GetBound());
+		(*it).second.SetLineColor(nodesImport[0].GetLineColor());
+		(*it).second.SetLineStyle(nodesImport[0].GetLineStyle());
+		(*it).second.SetFillColor(nodesImport[0].GetFillColor());
+		(*it).second.ToggleFill(nodesImport[0].Filled());
+		(*it).second.SetFontColor(nodesImport[0].GetFontColor());
+		(*it).second.SetFontInfo(nodesImport[0].GetFontInfo());
 	}
 
 	// nodeの格納
