@@ -120,6 +120,9 @@ bool JsonProcessor::Import(const CString &fileName)
 
 			LOGFONT lf = JsonToFont(v);
 		}
+		else {
+			l.SetKeyTo(l.GetFromNodeKey());
+		}
 		linksImport.push_back(l);
 	}
 
