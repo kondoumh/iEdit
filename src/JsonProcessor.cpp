@@ -122,6 +122,8 @@ bool JsonProcessor::Import(const CString &fileName)
 		}
 		else {
 			l.SetKeyTo(l.GetFromNodeKey());
+			CString path(v[L"path"].as_string().c_str());
+			l.SetPath(path);
 		}
 		linksImport.push_back(l);
 	}
