@@ -164,12 +164,12 @@ void XmlProcessor::ComvertToImportData(MSXML2::IXMLDOMElement *node)
 				if (ename2 == _T("from")) {
 					childnode2->firstChild->get_text(&s);
 					CString from(s); int idfrom; swscanf_s((const wchar_t*)from.GetBuffer(), _T("%d"), &idfrom);
-					linksImport[linksImport.size() - 1].SetKeyFrom(FindPairKey((DWORD)idfrom));
+					linksImport[linksImport.size() - 1].SetFromNodeKey(FindPairKey((DWORD)idfrom));
 				}
 				else if (ename2 == _T("to")) {
 					childnode2->firstChild->get_text(&s);
 					CString to(s); int idto; swscanf_s((const wchar_t*)to.GetBuffer(), _T("%d"), &idto);
-					linksImport[linksImport.size() - 1].SetKeyTo(FindPairKey((DWORD)idto));
+					linksImport[linksImport.size() - 1].SetToNodeKey(FindPairKey((DWORD)idto));
 				}
 				else if (ename2 == _T("caption")) {
 					childnode2->firstChild->get_text(&s);
@@ -380,12 +380,12 @@ bool XmlProcessor::ConvertToSerializeData(MSXML2::IXMLDOMElement *node)
 				if (ename2 == _T("from")) {
 					childnode2->firstChild->get_text(&s);
 					CString from(s); int idfrom; swscanf_s((const wchar_t*)from.GetBuffer(), _T("%d"), &idfrom);
-					linksImport[linksImport.size() - 1].SetKeyFrom(((DWORD)idfrom));
+					linksImport[linksImport.size() - 1].SetFromNodeKey(((DWORD)idfrom));
 				}
 				else if (ename2 == _T("to")) {
 					childnode2->firstChild->get_text(&s);
 					CString to(s); int idto; swscanf_s((const wchar_t*)to.GetBuffer(), _T("%d"), &idto);
-					linksImport[linksImport.size() - 1].SetKeyTo(((DWORD)idto));
+					linksImport[linksImport.size() - 1].SetToNodeKey(((DWORD)idto));
 				}
 				else if (ename2 == _T("caption")) {
 					childnode2->firstChild->get_text(&s);

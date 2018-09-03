@@ -28,8 +28,8 @@ public:
 	void SetKey(const DWORD key);
 	DWORD GetKey() const;
 	void MovePoints(const CSize& sz);
-	void SetKeyTo(const DWORD key);
-	void SetKeyFrom(const DWORD key);
+	void SetToNodeKey(const DWORD key);
+	void SetFromNodeKey(const DWORD key);
 	bool HitTestExcludePathPt(const CPoint& pt);
 	CRect getBound() const;
 	CRect getCommentRect() const;
@@ -166,12 +166,12 @@ inline void iLink::MovePoints(const CSize& sz)
 	}
 }
 
-inline void iLink::SetKeyFrom(const DWORD key)
+inline void iLink::SetFromNodeKey(const DWORD key)
 {
 	keyFrom = key;
 }
 
-inline void iLink::SetKeyTo(const DWORD key)
+inline void iLink::SetToNodeKey(const DWORD key)
 {
 	keyTo = key;
 }

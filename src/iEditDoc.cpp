@@ -1635,9 +1635,9 @@ void iEditDoc::CopyLinkForPaste()
 void iEditDoc::PasteCopiedLink()
 {
 	DWORD curKey = nodes_.GetSelectedKey();
-	m_cpLinkOrg.SetKeyFrom(curKey);
+	m_cpLinkOrg.SetFromNodeKey(curKey);
 	if (m_cpLinkOrg.GetArrowStyle() == iLink::other) {
-		m_cpLinkOrg.SetKeyTo(curKey);
+		m_cpLinkOrg.SetToNodeKey(curKey);
 	}
 
 	if (m_cpLinkOrg.GetFromNodeKey() != m_cpLinkOrg.GetToNodeKey()) {
@@ -1846,7 +1846,7 @@ void iEditDoc::prepareImport()
 	idcVec.clear(); idcVec.resize(0);
 	nodesImport.clear(); nodesImport.resize(0);
 	linksImport.clear(); linksImport.resize(0);
-	nodeImport.SetKey(-1); linkImport.SetKeyFrom(-1);
+	nodeImport.SetKey(-1); linkImport.SetFromNodeKey(-1);
 	nodeImport.SetBound(CRect(-1, -1, 0, 0));
 	nodeImport.SetName(_T(""));
 	nodeImport.SetText(_T(""));
@@ -1941,10 +1941,10 @@ void iEditDoc::AddImportedData(bool brepRoot)
 		}
 		for (i = 0; i < linksImport.size(); i++) {
 			if (linksImport[i].GetFromNodeKey() == start) {
-				linksImport[i].SetKeyFrom(sel);
+				linksImport[i].SetFromNodeKey(sel);
 			}
 			if (linksImport[i].GetToNodeKey() == start) {
-				linksImport[i].SetKeyTo(sel);
+				linksImport[i].SetToNodeKey(sel);
 			}
 		}
 		node_iter it = nodes_.GetSelectedIter();
@@ -3296,8 +3296,8 @@ void iEditDoc::DuplicateLinks(const NodeKeyMap& idm)
 				NodeKeyMap::const_iterator pr = idm.find((*li).GetToNodeKey());
 				if (pr != idm.end()) {
 					iLink l = (*li);
-					l.SetKeyFrom((*it).second);
-					l.SetKeyTo((*pr).second);
+					l.SetFromNodeKey((*it).second);
+					l.SetToNodeKey((*pr).second);
 					l.SetKey(lastLinkKey++);
 					links_.push_back(l);
 				}

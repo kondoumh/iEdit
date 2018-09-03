@@ -1208,7 +1208,7 @@ void iLinks::SetSelectedLinkNodeFrom(DWORD key, const CRect &bound)
 	link_iter it = GetSelectedWrite();
 	if (it != end()) {
 		if (key != (*it).GetFromNodeKey()) {
-			(*it).SetKeyFrom(key);
+			(*it).SetFromNodeKey(key);
 			(*it).SetFromNodeRect(bound);
 		}
 	}
@@ -1219,7 +1219,7 @@ void iLinks::SetSelectedLinkNodeTo(DWORD key, const CRect& bound)
 	link_iter it = GetSelectedWrite();
 	if (it != end()) {
 		if (key != (*it).GetToNodeKey()) {
-			(*it).SetKeyTo(key);
+			(*it).SetToNodeKey(key);
 			(*it).SetToNodeRect(bound);
 		}
 	}
@@ -1305,11 +1305,11 @@ void iLinks::DivideTargetLinks(DWORD dropNodeKey, DWORD newLinkKey)
 			(*li).Curve(false);
 			iLink l((*li));
 			DWORD orgKeyTo = (*li).GetToNodeKey();
-			(*li).SetKeyTo(dropNodeKey);
+			(*li).SetToNodeKey(dropNodeKey);
 			(*li).SetAsDropTarget(false);
 			l.SetKey(newLinkKey);
-			l.SetKeyTo(orgKeyTo);
-			l.SetKeyFrom(dropNodeKey);
+			l.SetToNodeKey(orgKeyTo);
+			l.SetFromNodeKey(dropNodeKey);
 			push_back(l);
 			dividedLinkKey_ = newLinkKey;
 			break;

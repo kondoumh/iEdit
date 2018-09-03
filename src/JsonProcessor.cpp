@@ -93,14 +93,14 @@ bool JsonProcessor::Import(const CString &fileName)
 	for (; li != linkValues.cend(); li++) {
 		json::value v = *li;
 		iLink l;
-		l.SetKeyFrom(FindPairKey(v[L"from"].as_integer()));
+		l.SetFromNodeKey(FindPairKey(v[L"from"].as_integer()));
 		CString caption(v[L"caption"].as_string().c_str());
 		l.SetName(caption);
 		int style = FromLinkStyleString(v[L"style"].as_string().c_str());
 		l.SetArrowStyle(style);
 		if (l.GetArrowStyle() != iLink::other) {
 			if (!v[L"to"].is_null()) {
-				l.SetKeyTo(FindPairKey(v[L"to"].as_integer()));
+				l.SetToNodeKey(FindPairKey(v[L"to"].as_integer()));
 			}
 			if (!v[L"viaPoint"].is_null()) {
 				CPoint pt;
@@ -121,7 +121,7 @@ bool JsonProcessor::Import(const CString &fileName)
 			LOGFONT lf = JsonToFont(v);
 		}
 		else {
-			l.SetKeyTo(l.GetFromNodeKey());
+			l.SetToNodeKey(l.GetFromNodeKey());
 			CString path(v[L"path"].as_string().c_str());
 			l.SetPath(path);
 		}
