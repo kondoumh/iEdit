@@ -31,6 +31,7 @@ class XmlProcessor
 	template <class T>
 	static void OutputStyleSheetLine(T &f);
 	static bool NodePropsContainsKey(const iNodes& nodes, const NodePropsVec& labels, DWORD key);
+	static void OutputFontInfo(const LOGFONT& lf, CStdioFile& f);
 
 public:
 	XmlProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);

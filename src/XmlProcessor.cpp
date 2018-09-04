@@ -194,6 +194,10 @@ void XmlProcessor::ComvertToImportData(MSXML2::IXMLDOMElement *node)
 					COLORREF rc = Dom2LinkColor(childnode2);
 					linksImport[linksImport.size() - 1].SetLinkColor(rc);
 				}
+				else if (ename2 == _T("linkFont")) {
+					LOGFONT lf = Dom2Font(childnode2);
+					linksImport[linksImport.size() - 1].SetFontInfo(lf);
+				}
 				else if (ename2 == _T("pathPt")) {
 					CPoint pt = Dom2LinkPathPt(childnode2);
 					linksImport[linksImport.size() - 1].SetPathPt(pt);
@@ -624,6 +628,40 @@ LOGFONT XmlProcessor::Dom2Font(MSXML2::IXMLDOMNode* pNode)
 	return lf;
 }
 
+void XmlProcessor::OutputFontInfo(const LOGFONT& lf, CStdioFile& f)
+{
+	CString sFn; sFn.Format(_T("\t\t\t<fontName>%s</fontName>\n"), lf.lfFaceName);
+	f.WriteString(sFn);
+	int point = MulDiv(-lf.lfHeight, 72, 96);
+	CString sPoint; sPoint.Format(_T("\t\t\t<point>%d</point>\n"), point);
+	f.WriteString(sPoint);
+
+	if (lf.lfUnderline) {
+		f.WriteString(_T("\t\t\t<underLine>yes</underLine>\n"));
+	}
+	else {
+		f.WriteString(_T("\t\t\t<underLine>no</underLine>\n"));
+	}
+	if (lf.lfItalic) {
+		f.WriteString(_T("\t\t\t<italic>yes</italic>\n"));
+	}
+	else {
+		f.WriteString(_T("\t\t\t<italic>no</italic>\n"));
+	}
+	if (lf.lfStrikeOut) {
+		f.WriteString(_T("\t\t\t<strikeOut>yes</strikeOut>\n"));
+	}
+	else {
+		f.WriteString(_T("\t\t\t<strikeOut>no</strikeOut>\n"));
+	}
+	if (lf.lfWeight >= 600) {
+		f.WriteString(_T("\t\t\t<bold>yes</bold>\n"));
+	}
+	else {
+		f.WriteString(_T("\t\t\t<bold>no</bold>\n"));
+	}
+}
+
 void XmlProcessor::Dom2NodeLine(MSXML2::IXMLDOMNode *pNode, int &style, int &width)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
@@ -1005,36 +1043,7 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 		// フォント
 		LOGFONT lf = (*it).second.GetFontInfo();
 		f.WriteString(_T("\t\t<nodeFont>\n"));
-		CString sFn; sFn.Format(_T("\t\t\t<fontName>%s</fontName>\n"), lf.lfFaceName);
-		f.WriteString(sFn);
-		int point = MulDiv(-lf.lfHeight, 72, 96);
-		CString sPoint; sPoint.Format(_T("\t\t\t<point>%d</point>\n"), point);
-		f.WriteString(sPoint);
-
-		if (lf.lfUnderline) {
-			f.WriteString(_T("\t\t\t<underLine>yes</underLine>\n"));
-		}
-		else {
-			f.WriteString(_T("\t\t\t<underLine>no</underLine>\n"));
-		}
-		if (lf.lfItalic) {
-			f.WriteString(_T("\t\t\t<italic>yes</italic>\n"));
-		}
-		else {
-			f.WriteString(_T("\t\t\t<italic>no</italic>\n"));
-		}
-		if (lf.lfStrikeOut) {
-			f.WriteString(_T("\t\t\t<strikeOut>yes</strikeOut>\n"));
-		}
-		else {
-			f.WriteString(_T("\t\t\t<strikeOut>no</strikeOut>\n"));
-		}
-		if (lf.lfWeight >= 600) {
-			f.WriteString(_T("\t\t\t<bold>yes</bold>\n"));
-		}
-		else {
-			f.WriteString(_T("\t\t\t<bold>no</bold>\n"));
-		}
+		OutputFontInfo(lf, f);
 		f.WriteString(_T("\t\t</nodeFont>\n"));
 
 		// ラベルカラー
@@ -1173,6 +1182,12 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 				f.WriteString(sp);
 				f.WriteString(_T("\t\t</pathPt>\n"));
 			}
+
+			// フォント
+			LOGFONT lf = (*li).GetFontInfo();
+			f.WriteString(_T("\t\t<linkFont>\n"));
+			OutputFontInfo(lf, f);
+			f.WriteString(_T("\t\t</linkFont>\n"));
 		}
 		f.WriteString(_T("\t</ilink>\n"));
 	}
