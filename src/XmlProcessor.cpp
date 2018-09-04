@@ -66,11 +66,11 @@ bool XmlProcessor::Import(const CString &fileName)
 		}
 	}
 
-	ComvertToImportData(element);
+	ConvertToImportData(element);
 	return true;
 }
 
-void XmlProcessor::ComvertToImportData(MSXML2::IXMLDOMElement *node)
+void XmlProcessor::ConvertToImportData(MSXML2::IXMLDOMElement *node)
 {
 	MSXML2::IXMLDOMNodeList	*childs = NULL;
 	MSXML2::IXMLDOMNodeList	*childs2 = NULL;

@@ -11,7 +11,7 @@ class XmlProcessor
 	DWORD& assignKey;
 	NodeKeyPairs& idcVec;
 
-	void ComvertToImportData(MSXML2::IXMLDOMElement* node);
+	void ConvertToImportData(MSXML2::IXMLDOMElement* node);
 	bool ConvertToSerializeData(MSXML2::IXMLDOMElement* node);
 
 	CPoint Dom2LinkPathPt(MSXML2::IXMLDOMNode* pNode);
