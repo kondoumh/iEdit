@@ -590,10 +590,6 @@ LOGFONT XmlProcessor::Dom2Font(MSXML2::IXMLDOMNode* pNode)
 	BSTR s = NULL;
 	LONG i;
 	LOGFONT lf;
-	lf.lfWeight = 400;
-	lf.lfStrikeOut = false;
-	lf.lfUnderline = false;
-	lf.lfItalic = false;
 	for (i = 0; i < childs->Getlength(); i++) {
 		childs->get_item(i, &childnode);
 		BSTR name = childnode->nodeName;
@@ -607,6 +603,22 @@ LOGFONT XmlProcessor::Dom2Font(MSXML2::IXMLDOMNode* pNode)
 			int point;
 			swscanf_s((const wchar_t*)sPoint.GetBuffer(), _T("%d"), &point);
 			lf.lfHeight = -MulDiv(point, 96, 72);
+		}
+		else if (ename == _T("strikeOut")) {
+			CString value(s);
+			lf.lfStrikeOut = value == _T("yes");
+		}
+		else if (ename == _T("underLine")) {
+			CString value(s);
+			lf.lfUnderline = value == _T("yes");
+		}
+		else if (ename == _T("italic")) {
+			CString value(s);
+			lf.lfItalic = value == _T("yes");
+		}
+		else if (ename == _T("bold")) {
+			CString value(s);
+			lf.lfWeight = value == _T("yes") ? 700 : 400;
 		}
 	}
 	return lf;
@@ -998,7 +1010,31 @@ bool XmlProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, 
 		int point = MulDiv(-lf.lfHeight, 72, 96);
 		CString sPoint; sPoint.Format(_T("\t\t\t<point>%d</point>\n"), point);
 		f.WriteString(sPoint);
-		// TODO underline, strikeout, weight
+
+		if (lf.lfUnderline) {
+			f.WriteString(_T("\t\t\t<underLine>yes</underLine>\n"));
+		}
+		else {
+			f.WriteString(_T("\t\t\t<underLine>no</underLine>\n"));
+		}
+		if (lf.lfItalic) {
+			f.WriteString(_T("\t\t\t<italic>yes</italic>\n"));
+		}
+		else {
+			f.WriteString(_T("\t\t\t<italic>no</italic>\n"));
+		}
+		if (lf.lfStrikeOut) {
+			f.WriteString(_T("\t\t\t<strikeOut>yes</strikeOut>\n"));
+		}
+		else {
+			f.WriteString(_T("\t\t\t<strikeOut>no</strikeOut>\n"));
+		}
+		if (lf.lfWeight >= 600) {
+			f.WriteString(_T("\t\t\t<bold>yes</bold>\n"));
+		}
+		else {
+			f.WriteString(_T("\t\t\t<bold>no</bold>\n"));
+		}
 		f.WriteString(_T("\t\t</nodeFont>\n"));
 
 		// ÉâÉxÉãÉJÉâÅ[
