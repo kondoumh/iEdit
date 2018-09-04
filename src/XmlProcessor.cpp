@@ -375,6 +375,14 @@ bool XmlProcessor::ConvertToSerializeData(MSXML2::IXMLDOMElement *node)
 					nodesImport[nodesImport.size() - 1].SetLineStyle(lineStyle);
 					nodesImport[nodesImport.size() - 1].SetLineWidth(lineWidth);
 				}
+				else if (ename2 == _T("nodeFont")) {
+					LOGFONT lf = Dom2Font(childnode2);
+					nodesImport[nodesImport.size() - 1].SetFontInfo(lf);
+				}
+				else if (ename2 == _T("labelColor")) {
+					COLORREF lcr = Dom2LabelColor(childnode2);
+					nodesImport[nodesImport.size() - 1].SetFontColor(lcr);
+				}
 				else if (ename2 == _T("nodeLineColor")) {
 					COLORREF cr = Dom2NodeLineColor(childnode2);
 					nodesImport[nodesImport.size() - 1].SetLineColor(cr);
@@ -413,6 +421,10 @@ bool XmlProcessor::ConvertToSerializeData(MSXML2::IXMLDOMElement *node)
 				else if (ename2 == _T("linkLineColor")) {
 					COLORREF rc = Dom2LinkColor(childnode2);
 					linksImport[linksImport.size() - 1].SetLinkColor(rc);
+				}
+				else if (ename2 == _T("linkFont")) {
+					LOGFONT lf = Dom2Font(childnode2);
+					linksImport[linksImport.size() - 1].SetFontInfo(lf);
 				}
 				else if (ename2 == _T("pathPt")) {
 					CPoint pt = Dom2LinkPathPt(childnode2);
