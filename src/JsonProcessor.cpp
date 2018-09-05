@@ -36,6 +36,10 @@ bool JsonProcessor::Import(const CString &fileName)
 		return false;
 	}
 
+	if (!HasValue(json, json::value::Array, L"ieditDoc", "nodes")) {
+		AfxMessageBox(L"—v‘f‚ª‚ ‚è‚Ü‚¹‚ñ");
+		return false;
+	}
 	json::array values = json[L"ieditDoc"][L"nodes"].as_array();
 	json::array::const_iterator it = values.cbegin();
 	for (; it != values.cend(); it++) {
@@ -152,16 +156,10 @@ bool JsonProcessor::HasValue(json::value v, json::value::value_type type, CStrin
 			return false;
 		}
 	}
-	if (type == json::value::String) {
-		if (target.as_string() != L"") return true;
-	}
-	else if (type == json::value::Number) {
-		try {
-			target.as_number();
-		} catch (json::json_exception) {
-			return false;
-		}
-		return true;
+	switch (type) {
+	case json::value::String: return target.is_string();
+	case json::value::Number: return target.is_number();
+	case json::value::Array: return target.is_array();
 	}
 	return false;
 }
