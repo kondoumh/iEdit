@@ -36,16 +36,18 @@ bool JsonProcessor::Import(const CString &fileName)
 		return false;
 	}
 
-	if (!HasValue(json, json::value::Array, L"ieditDoc", "nodes")) {
-		AfxMessageBox(L"óvëfÇ™Ç†ÇËÇ‹ÇπÇÒ");
+	if (!HasValue(json, json::value::Array, L"ieditDoc", L"nodes")) {
+		AfxMessageBox(L"óvëfÇ™Ç†ÇËÇ‹ÇπÇÒÅB");
 		return false;
 	}
 	json::array values = json[L"ieditDoc"][L"nodes"].as_array();
 	json::array::const_iterator it = values.cbegin();
 	for (; it != values.cend(); it++) {
 		json::value v = *it;
-		CString name(v[L"name"].as_string().c_str());
-		iNode node(name);node.SetKey(++assignKey);
+
+		CString name = HasValue(v, json::value::String, L"name") ? (v[L"name"].as_string().c_str()) : L"ñ¢ê›íË";
+		iNode node(name);
+		node.SetKey(++assignKey);
 
 		DWORD key = v[L"key"].as_integer();
 		NodeKeyPair keyPair;
