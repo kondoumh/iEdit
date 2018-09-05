@@ -3,6 +3,10 @@
 #include <locale>
 #include "FileUtil.h"
 
+const wchar_t* JsonProcessor::IEDITDOC(L"ieditDoc");
+const wchar_t* JsonProcessor::NODES(L"nodes");
+const wchar_t* JsonProcessor::LINKS(L"links");
+
 JsonProcessor::JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec) :
 	nodesImport(nodesImport), linksImport(linksImport), assignKey(assignKey), idcVec(idcVec)
 {
@@ -31,16 +35,16 @@ bool JsonProcessor::Import(const CString &fileName)
 		return false;
 	}
 
-	if (json[L"ieditDoc"].is_null()) {
+	if (json[IEDITDOC].is_null()) {
 		AfxMessageBox(L"iEdit で利用可能な JSON 形式ではありません。");
 		return false;
 	}
 
-	if (!HasValue(json, json::value::Array, L"ieditDoc", L"nodes")) {
+	if (!HasValue(json, json::value::Array, IEDITDOC, NODES)) {
 		AfxMessageBox(L"要素がありません。");
 		return false;
 	}
-	json::array values = json[L"ieditDoc"][L"nodes"].as_array();
+	json::array values = json[IEDITDOC][NODES].as_array();
 	json::array::const_iterator it = values.cbegin();
 	for (; it != values.cend(); it++) {
 		json::value v = *it;
@@ -94,7 +98,8 @@ bool JsonProcessor::Import(const CString &fileName)
 		nodesImport.push_back(node);
 	}
 
-	json::array linkValues = json[L"ieditDoc"][L"links"].as_array();
+	if (!HasValue(json, json::value::Array, IEDITDOC, LINKS)) return true;
+	json::array linkValues = json[IEDITDOC][LINKS].as_array();
 	json::array::const_iterator li = linkValues.cbegin();
 	for (; li != linkValues.cend(); li++) {
 		json::value v = *li;
@@ -207,7 +212,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		nodeValues.push_back(v);
 	}
 	json::value root;
-	root[L"ieditDoc"][L"nodes"] = json::value::array(nodeValues);
+	root[IEDITDOC][NODES] = json::value::array(nodeValues);
 
 	std::vector<json::value> linkValues;
 	link_c_iter li = links.cbegin();

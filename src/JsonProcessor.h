@@ -29,6 +29,10 @@ class JsonProcessor
 	static LOGFONT JsonToFont(json::value v);
 	bool HasValue(json::value v, json::value::value_type type, CString key1, CString key2 = L"");
 
+	static const wchar_t* IEDITDOC;
+	static const wchar_t* NODES;
+	static const wchar_t* LINKS;
+
 public:
 	JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
 	~JsonProcessor();
