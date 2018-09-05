@@ -141,6 +141,31 @@ DWORD JsonProcessor::FindPairKey(const DWORD first)
 	return -1;
 }
 
+bool JsonProcessor::HasValue(json::value v, json::value::value_type type, CString key1, CString key2)
+{
+	json::value target = v[key1.GetBuffer()];
+	if (target.is_null()) return false;
+
+	if (key2 != L"") {
+		target = v[key1.GetBuffer()][key2.GetBuffer()];
+		if (target.is_null()) {
+			return false;
+		}
+	}
+	if (type == json::value::String) {
+		if (target.as_string() != L"") return true;
+	}
+	else if (type == json::value::Number) {
+		try {
+			target.as_number();
+		} catch (json::json_exception) {
+			return false;
+		}
+		return true;
+	}
+	return false;
+}
+
 bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes, iLinks & links, NodePropsVec& ls)
 {
 	std::vector<json::value> nodeValues;

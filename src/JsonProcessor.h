@@ -27,6 +27,7 @@ class JsonProcessor
 	static int FromLineWidthString(const CString sWidth);
 	static void FontToJson(const LOGFONT& lf, json::value& v);
 	static LOGFONT JsonToFont(json::value v);
+	bool HasValue(json::value v, json::value::value_type type, CString key1, CString key2 = L"");
 
 public:
 	JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
