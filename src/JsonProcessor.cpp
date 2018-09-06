@@ -41,7 +41,7 @@ bool JsonProcessor::Import(const CString &fileName)
 	}
 
 	if (!HasValue(json, json::value::Array, IEDITDOC, NODES)) {
-		AfxMessageBox(L"要素がありません。");
+		AfxMessageBox(L"インポート対象の要素がありません。");
 		return false;
 	}
 	json::array values = json[IEDITDOC][NODES].as_array();
@@ -98,7 +98,7 @@ bool JsonProcessor::Import(const CString &fileName)
 		nodesImport.push_back(node);
 	}
 
-	if (!HasValue(json, json::value::Array, IEDITDOC, LINKS)) return true;
+	if (!HasValue(json, json::value::Array, IEDITDOC, LINKS)) return true; // リンクはなくても正常終了
 	json::array linkValues = json[IEDITDOC][LINKS].as_array();
 	json::array::const_iterator li = linkValues.cbegin();
 	for (; li != linkValues.cend(); li++) {
@@ -248,7 +248,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		linkValues.push_back(v);
 	}
 
-	root[L"ieditDoc"][L"links"] = json::value::array(linkValues);
+	root[IEDITDOC][LINKS] = json::value::array(linkValues);
 	CString result(root.serialize().c_str());
 
 	FILE* fp;
