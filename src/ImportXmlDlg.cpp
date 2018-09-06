@@ -48,3 +48,12 @@ void ImportXmlDlg::OnRdSub()
 {
 	m_importMode = 1;
 }
+
+BOOL ImportXmlDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+	if (m_titleMessage != L"") {
+		SetWindowText(m_titleMessage);
+	}
+	return TRUE;
+}

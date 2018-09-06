@@ -3168,8 +3168,9 @@ void OutlineView::OnUpdateExportToJson(CCmdUI *pCmdUI)
 
 bool OutlineView::ImportJson(const CString& inPath)
 {
-	ImportXmlDlg dlg; // TODO specific dialog
+	ImportXmlDlg dlg;
 	dlg.m_importMode = 0;
+	dlg.m_titleMessage = L"JSONデータのインポートオプション";
 	if (dlg.DoModal() != IDOK) return true; // end with success
 	CWaitCursor wc;
 	bool rep = (dlg.m_importMode == 0);

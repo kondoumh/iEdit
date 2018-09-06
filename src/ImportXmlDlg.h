@@ -18,12 +18,15 @@ public:
 	//{{AFX_DATA(ImportXmlDlg)
 	enum { IDD = IDD_SELIMPORT };
 	int		m_importMode;
+	CString m_titleMessage;
 	//}}AFX_DATA
 
 protected:
 	//{{AFX_VIRTUAL(ImportXmlDlg)
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//}}AFX_VIRTUAL
+
+	virtual BOOL OnInitDialog();
 
 	//{{AFX_MSG(ImportXmlDlg)
 	afx_msg void OnRdRep();
