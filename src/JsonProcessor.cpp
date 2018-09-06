@@ -6,6 +6,20 @@
 const wchar_t* JsonProcessor::IEDITDOC(L"ieditDoc");
 const wchar_t* JsonProcessor::NODES(L"nodes");
 const wchar_t* JsonProcessor::LINKS(L"links");
+const wchar_t* JsonProcessor::NAME(L"name");
+const wchar_t* JsonProcessor::KEY(L"key");
+const wchar_t* JsonProcessor::PARENT(L"parent");
+const wchar_t* JsonProcessor::LEVEL(L"level");
+const wchar_t* JsonProcessor::N_TEXT(L"text");
+const wchar_t* JsonProcessor::ALIGN(L"labelAlign");
+const wchar_t* JsonProcessor::SHAPE(L"shape");
+const wchar_t* JsonProcessor::BOUND(L"bound");
+const wchar_t* JsonProcessor::LINE_STYLE(L"lineStyle");
+const wchar_t* JsonProcessor::FILL_COLOR(L"fillColor");
+const wchar_t* JsonProcessor::FILL(L"fill");
+const wchar_t* JsonProcessor::LINE_COLOR(L"lineColor");
+const wchar_t* JsonProcessor::LINE_WIDTH(L"lineWidth");
+const wchar_t* JsonProcessor::FONT_COLOR(L"fontColor");
 
 JsonProcessor::JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec) :
 	nodesImport(nodesImport), linksImport(linksImport), assignKey(assignKey), idcVec(idcVec)
@@ -49,48 +63,48 @@ bool JsonProcessor::Import(const CString &fileName)
 	for (; it != values.cend(); it++) {
 		json::value v = *it;
 
-		CString name = HasValue(v, json::value::String, L"name") ? (v[L"name"].as_string().c_str()) : L"ñ¢ê›íË";
+		CString name = HasValue(v, json::value::String, NAME) ? (v[NAME].as_string().c_str()) : L"ñ¢ê›íË";
 		iNode node(name);
 		node.SetKey(++assignKey);
 
-		DWORD key = v[L"key"].as_integer();
+		DWORD key = v[KEY].as_integer();
 		NodeKeyPair keyPair;
 		keyPair.first = key;
 		keyPair.second = node.GetKey();
 		idcVec.push_back(keyPair);
 
-		DWORD parent = v[L"parent"].as_integer();
+		DWORD parent = v[PARENT].as_integer();
 		node.SetParentKey(parent);
 
-		int level = v[L"level"].as_integer();
-		CString text(v[L"text"].as_string().c_str());
+		int level = v[LEVEL].as_integer();
+		CString text(v[N_TEXT].as_string().c_str());
 		node.SetText(text);
 
-		int align = FromLabelAlignString(v[L"labelAlign"].as_string().c_str());
+		int align = FromLabelAlignString(v[ALIGN].as_string().c_str());
 		node.SetTextStyle(align);
 
-		int shape = FromShapeString(v[L"shape"].as_string().c_str());
+		int shape = FromShapeString(v[SHAPE].as_string().c_str());
 		node.SetShape(shape);
 
 		CRect bound;
-		json::array arr = v[L"bound"].as_array();
+		json::array arr = v[BOUND].as_array();
 		bound.left = arr[0].as_integer();
 		bound.top = arr[1].as_integer();
 		bound.right = arr[2].as_integer();
 		bound.bottom = arr[3].as_integer();
 		node.SetBound(bound);
 
-		int lineStyle = FromLineStyleString(v[L"lineStyle"].as_string().c_str());
+		int lineStyle = FromLineStyleString(v[LINE_STYLE].as_string().c_str());
 		node.SetLineStyle(lineStyle);
 
-		COLORREF fillColor = FromColoerHexString(v[L"fillColor"].as_string().c_str());
+		COLORREF fillColor = FromColoerHexString(v[FILL_COLOR].as_string().c_str());
 		node.SetFillColor(fillColor);
-		COLORREF lineColor = FromColoerHexString(v[L"lineColor"].as_string().c_str());
+		COLORREF lineColor = FromColoerHexString(v[LINE_COLOR].as_string().c_str());
 		node.SetLineColor(lineColor);
-		node.ToggleFill(v[L"fill"].as_bool());
-		int lineWidth = FromLineWidthString(v[L"lineWidth"].as_string().c_str());
+		node.ToggleFill(v[FILL].as_bool());
+		int lineWidth = FromLineWidthString(v[LINE_WIDTH].as_string().c_str());
 		node.SetLineWidth(lineWidth);
-		COLORREF fontColor = FromColoerHexString(v[L"fontColor"].as_string().c_str());
+		COLORREF fontColor = FromColoerHexString(v[FONT_COLOR].as_string().c_str());
 		node.SetFontColor(fontColor);
 		LOGFONT lf = JsonToFont(v);
 		node.SetFontInfo(lf, false);
@@ -120,13 +134,13 @@ bool JsonProcessor::Import(const CString &fileName)
 				l.SetPathPt(pt);
 			}
 			if (l.GetArrowStyle() != iLink::other) {
-				int lineStyle = FromLineStyleString(v[L"lineStyle"].as_string().c_str());
+				int lineStyle = FromLineStyleString(v[LINE_STYLE].as_string().c_str());
 				l.SetLineStyle(lineStyle);
 			}
-			COLORREF lineColor = FromColoerHexString(v[L"lineColor"].as_string().c_str());
+			COLORREF lineColor = FromColoerHexString(v[LINE_COLOR].as_string().c_str());
 			l.SetLinkColor(lineColor);
 
-			int lineWidth = FromLineWidthString(v[L"lineWidth"].as_string().c_str());
+			int lineWidth = FromLineWidthString(v[LINE_WIDTH].as_string().c_str());
 			l.SetLineWidth(lineWidth);
 
 			LOGFONT lf = JsonToFont(v);
@@ -184,30 +198,30 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 			parent = key;
 		}
 		json::value v;
-		v[L"key"] = json::value::number((uint64_t)key);
-		v[L"parent"] = json::value::number((uint64_t)parent);
-		v[L"name"] = json::value::string(ls[i].name.GetBuffer());
-		v[L"level"] = json::value::number((*it).second.GetLevel());
+		v[KEY] = json::value::number((uint64_t)key);
+		v[PARENT] = json::value::number((uint64_t)parent);
+		v[NAME] = json::value::string(ls[i].name.GetBuffer());
+		v[LEVEL] = json::value::number((*it).second.GetLevel());
 		CString text = (*it).second.GetText();
-		v[L"text"] = json::value::string(text.GetBuffer());
-		v[L"labelAlign"] = json::value::string(ToLabelAlignString((*it).second.GetTextStyle()).GetBuffer());
-		v[L"shape"] = json::value::string(ToShapeString((*it).second.GetShape()).GetBuffer());
+		v[N_TEXT] = json::value::string(text.GetBuffer());
+		v[ALIGN] = json::value::string(ToLabelAlignString((*it).second.GetTextStyle()).GetBuffer());
+		v[SHAPE] = json::value::string(ToShapeString((*it).second.GetShape()).GetBuffer());
 		CRect r = (*it).second.GetBound();
 		std::vector<json::value> vec;
 		vec.push_back(r.left);
 		vec.push_back(r.top);
 		vec.push_back(r.right);
 		vec.push_back(r.bottom);
-		v[L"bound"] = json::value::array(vec);
-		v[L"lineStyle"] = json::value::string(ToLineStyleString((*it).second.GetLineStyle()).GetBuffer());
+		v[BOUND] = json::value::array(vec);
+		v[LINE_STYLE] = json::value::string(ToLineStyleString((*it).second.GetLineStyle()).GetBuffer());
 		CString fillColor = ToColorHexString((*it).second.GetFillColor());
-		v[L"fillColor"] = json::value::string(fillColor.GetBuffer());
+		v[FILL_COLOR] = json::value::string(fillColor.GetBuffer());
 		CString lineColor = ToColorHexString((*it).second.GetLineColor());
-		v[L"fill"] = json::value::boolean((*it).second.Filled());
-		v[L"lineColor"] = json::value::string(lineColor.GetBuffer());
-		v[L"lineWidth"] = json::value::string(ToLineWidthString((*it).second.GetLineWidth()).GetBuffer());
+		v[FILL] = json::value::boolean((*it).second.Filled());
+		v[LINE_COLOR] = json::value::string(lineColor.GetBuffer());
+		v[LINE_WIDTH] = json::value::string(ToLineWidthString((*it).second.GetLineWidth()).GetBuffer());
 		CString fontColor = ToColorHexString((*it).second.GetFontColor());
-		v[L"fontColor"] = json::value::string(fontColor.GetBuffer());
+		v[FONT_COLOR] = json::value::string(fontColor.GetBuffer());
 		FontToJson((*it).second.GetFontInfo(), v);
 		nodeValues.push_back(v);
 	}
@@ -239,10 +253,10 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 				v[L"viaPoint"][L"x"] = json::value::number(pt.x);
 				v[L"viaPoint"][L"y"] = json::value::number(pt.y);
 			}
-			v[L"lineStyle"] = json::value::string(ToLineStyleString((*li).GetLineStyle()).GetBuffer());
+			v[LINE_STYLE] = json::value::string(ToLineStyleString((*li).GetLineStyle()).GetBuffer());
 			CString lineColor = ToColorHexString((*li).GetLinkColor());
-			v[L"lineColor"] = json::value::string(lineColor.GetBuffer());
-			v[L"lineWidth"] = json::value::string(ToLineWidthString((*li).GetLineWidth()).GetBuffer());
+			v[LINE_COLOR] = json::value::string(lineColor.GetBuffer());
+			v[LINE_WIDTH] = json::value::string(ToLineWidthString((*li).GetLineWidth()).GetBuffer());
 			FontToJson((*li).GetFontInfo(), v);
 		}
 		linkValues.push_back(v);

@@ -32,6 +32,20 @@ class JsonProcessor
 	static const wchar_t* IEDITDOC;
 	static const wchar_t* NODES;
 	static const wchar_t* LINKS;
+	static const wchar_t* NAME;
+	static const wchar_t* KEY;
+	static const wchar_t* PARENT;
+	static const wchar_t* LEVEL;
+	static const wchar_t* N_TEXT;
+	static const wchar_t* ALIGN;
+	static const wchar_t* SHAPE;
+	static const wchar_t* BOUND;
+	static const wchar_t* LINE_STYLE;
+	static const wchar_t* FILL_COLOR;
+	static const wchar_t* FILL;
+	static const wchar_t* LINE_COLOR;
+	static const wchar_t* LINE_WIDTH;
+	static const wchar_t* FONT_COLOR;
 
 public:
 	JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
