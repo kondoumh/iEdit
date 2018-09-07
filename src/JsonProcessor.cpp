@@ -20,6 +20,15 @@ const wchar_t* JsonProcessor::FILL(L"fill");
 const wchar_t* JsonProcessor::LINE_COLOR(L"lineColor");
 const wchar_t* JsonProcessor::LINE_WIDTH(L"lineWidth");
 const wchar_t* JsonProcessor::FONT_COLOR(L"fontColor");
+const wchar_t* JsonProcessor::LINK_STYLE(L"style");
+const wchar_t* JsonProcessor::KEY_FROM(L"from");
+const wchar_t* JsonProcessor::KEY_TO(L"to");
+const wchar_t* JsonProcessor::L_NAME(L"caption");
+const wchar_t* JsonProcessor::L_PATH(L"path");
+const wchar_t* JsonProcessor::L_VIA_PT(L"viaPoint");
+const wchar_t* JsonProcessor::PT_X(L"x");
+const wchar_t* JsonProcessor::PT_Y(L"y");
+
 
 JsonProcessor::JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec) :
 	nodesImport(nodesImport), linksImport(linksImport), assignKey(assignKey), idcVec(idcVec)
@@ -118,19 +127,19 @@ bool JsonProcessor::Import(const CString &fileName)
 	for (; li != linkValues.cend(); li++) {
 		json::value v = *li;
 		iLink l;
-		l.SetFromNodeKey(FindPairKey(v[L"from"].as_integer()));
-		CString caption(v[L"caption"].as_string().c_str());
+		l.SetFromNodeKey(FindPairKey(v[KEY_FROM].as_integer()));
+		CString caption(v[L_NAME].as_string().c_str());
 		l.SetName(caption);
-		int style = FromLinkStyleString(v[L"style"].as_string().c_str());
+		int style = FromLinkStyleString(v[LINK_STYLE].as_string().c_str());
 		l.SetArrowStyle(style);
 		if (l.GetArrowStyle() != iLink::other) {
-			if (!v[L"to"].is_null()) {
-				l.SetToNodeKey(FindPairKey(v[L"to"].as_integer()));
+			if (!v[KEY_TO].is_null()) {
+				l.SetToNodeKey(FindPairKey(v[KEY_TO].as_integer()));
 			}
-			if (!v[L"viaPoint"].is_null()) {
+			if (!v[L_VIA_PT].is_null()) {
 				CPoint pt;
-				pt.x = v[L"viaPoint"][L"x"].as_integer();
-				pt.y = v[L"viaPoint"][L"y"].as_integer();
+				pt.x = v[L_VIA_PT][PT_X].as_integer();
+				pt.y = v[L_VIA_PT][PT_Y].as_integer();
 				l.SetPathPt(pt);
 			}
 			if (l.GetArrowStyle() != iLink::other) {
@@ -147,7 +156,7 @@ bool JsonProcessor::Import(const CString &fileName)
 		}
 		else {
 			l.SetToNodeKey(l.GetFromNodeKey());
-			CString path(v[L"path"].as_string().c_str());
+			CString path(v[L_PATH].as_string().c_str());
 			l.SetPath(path);
 		}
 		linksImport.push_back(l);
@@ -234,24 +243,24 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		if (!NodePropsContainsKey(nodes, ls, (*li).GetFromNodeKey(), (*li).GetToNodeKey())) continue;
 		json::value v;
 		int style = (*li).GetArrowStyle();
-		v[L"style"] = json::value::string(ToLinkStyleString(style).GetBuffer());
-		v[L"from"] = json::value::number((uint64_t)(*li).GetFromNodeKey());
+		v[LINK_STYLE] = json::value::string(ToLinkStyleString(style).GetBuffer());
+		v[KEY_FROM] = json::value::number((uint64_t)(*li).GetFromNodeKey());
 		if (style != iLink::other) {
-			v[L"to"] = json::value::number((uint64_t)(*li).GetToNodeKey());
+			v[KEY_TO] = json::value::number((uint64_t)(*li).GetToNodeKey());
 		}
 		CString caption = (*li).GetName();
-		v[L"caption"] = json::value::string(caption.GetBuffer());
+		v[L_NAME] = json::value::string(caption.GetBuffer());
 		if (style == iLink::other) {
 			if ((*li).GetPath() != L"") {
 				CString path = (*li).GetPath();
-				v[L"path"] = json::value::string(path.GetBuffer());
+				v[L_PATH] = json::value::string(path.GetBuffer());
 			}
 		}
 		else {
 			if ((*li).IsCurved()) {
 				CPoint pt = (*li).GetPtPath();
-				v[L"viaPoint"][L"x"] = json::value::number(pt.x);
-				v[L"viaPoint"][L"y"] = json::value::number(pt.y);
+				v[L_VIA_PT][PT_X] = json::value::number(pt.x);
+				v[L_VIA_PT][PT_Y] = json::value::number(pt.y);
 			}
 			v[LINE_STYLE] = json::value::string(ToLineStyleString((*li).GetLineStyle()).GetBuffer());
 			CString lineColor = ToColorHexString((*li).GetLinkColor());

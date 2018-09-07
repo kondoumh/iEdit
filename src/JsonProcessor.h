@@ -46,6 +46,14 @@ class JsonProcessor
 	static const wchar_t* LINE_COLOR;
 	static const wchar_t* LINE_WIDTH;
 	static const wchar_t* FONT_COLOR;
+	static const wchar_t* LINK_STYLE;
+	static const wchar_t* KEY_FROM;
+	static const wchar_t* KEY_TO;
+	static const wchar_t* L_NAME;
+	static const wchar_t* L_PATH;
+	static const wchar_t* L_VIA_PT;
+	static const wchar_t* PT_X;
+	static const wchar_t* PT_Y;
 
 public:
 	JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec);
