@@ -28,7 +28,47 @@ const wchar_t* JsonProcessor::L_PATH(L"path");
 const wchar_t* JsonProcessor::L_VIA_PT(L"viaPoint");
 const wchar_t* JsonProcessor::PT_X(L"x");
 const wchar_t* JsonProcessor::PT_Y(L"y");
-
+const wchar_t* JsonProcessor::S_CC(L"single-middle-center");
+const wchar_t* JsonProcessor::S_CL(L"single-middle-left");
+const wchar_t* JsonProcessor::S_CR(L"single-midele-right");
+const wchar_t* JsonProcessor::S_TC(L"single-top-center");
+const wchar_t* JsonProcessor::S_TL(L"single-top-left");
+const wchar_t* JsonProcessor::S_TR(L"single-top-right");
+const wchar_t* JsonProcessor::S_BC(L"single-bottom-center");
+const wchar_t* JsonProcessor::S_BL(L"single-bottom-left");
+const wchar_t* JsonProcessor::S_BR(L"single-bottom-right");
+const wchar_t* JsonProcessor::M_C(L"multi-center");
+const wchar_t* JsonProcessor::M_L(L"multi-left");
+const wchar_t* JsonProcessor::M_R(L"multi-right");
+const wchar_t* JsonProcessor::HIDDEN(L"hidden");
+const wchar_t* JsonProcessor::SH_RECT(L"");
+const wchar_t* JsonProcessor::SH_R_RECT(L"");
+const wchar_t* JsonProcessor::SH_ELIPSE(L"");
+const wchar_t* JsonProcessor::SH_MM(L"");
+const wchar_t* JsonProcessor::LN_NO_DIR(L"");
+const wchar_t* JsonProcessor::LN_UNI_DIR(L"");
+const wchar_t* JsonProcessor::LN_BI_DIR(L"");
+const wchar_t* JsonProcessor::LN_DEPEND(L"");
+const wchar_t* JsonProcessor::LN_INT_DEPEND(L"");
+const wchar_t* JsonProcessor::LN_INHERIT(L"");
+const wchar_t* JsonProcessor::LN_AGGR(L"");
+const wchar_t* JsonProcessor::LN_COMP(L"");
+const wchar_t* JsonProcessor::LN_NO_G(L"");
+const wchar_t* JsonProcessor::LS_SOLID(L"");
+const wchar_t* JsonProcessor::LS_DOT(L"");
+const wchar_t* JsonProcessor::LS_NONE(L"");
+const wchar_t* JsonProcessor::LW_THIN(L"");
+const wchar_t* JsonProcessor::LW_MID_THIN(L"");
+const wchar_t* JsonProcessor::LW_MID_THCK(L"");
+const wchar_t* JsonProcessor::LW_THCK(L"");
+const wchar_t* JsonProcessor::LW_VRY_THCK(L"");
+const wchar_t* JsonProcessor::LFONT(L"");
+const wchar_t* JsonProcessor::LF_NAME(L"");
+const wchar_t* JsonProcessor::LF_POINT(L"");
+const wchar_t* JsonProcessor::LF_BOLD(L"");
+const wchar_t* JsonProcessor::LF_UL(L"");
+const wchar_t* JsonProcessor::LF_SO(L"");
+const wchar_t* JsonProcessor::LF_ITL(L"");
 
 JsonProcessor::JsonProcessor(node_vec& nodesImport, link_vec& linksImport, DWORD& assignKey, NodeKeyPairs& idcVec) :
 	nodesImport(nodesImport), linksImport(linksImport), assignKey(assignKey), idcVec(idcVec)
