@@ -331,62 +331,62 @@ CString JsonProcessor::ToLabelAlignString(int align)
 {
 	CString result;
 	switch (align) {
-	case iNode::s_cc: result = L"single-middle-center"; break;
-	case iNode::s_cl: result = L"single-middle-left"; break;
-	case iNode::s_cr: result = L"single-midele-right"; break;
-	case iNode::s_tc: result = L"single-top-center"; break;
-	case iNode::s_tl: result = L"single-top-left"; break;
-	case iNode::s_tr: result = L"single-top-right"; break;
-	case iNode::s_bc: result = L"single-bottom-center"; break;
-	case iNode::s_bl: result = L"single-bottom-left"; break;
-	case iNode::s_br: result = L"single-bottom-right"; break;
-	case iNode::m_c: result = L"multi-center"; break;
-	case iNode::m_l: result = L"multi-left"; break;
-	case iNode::m_r: result = L"multi-right"; break;
-	case iNode::notext: result = L"hidden"; break;
+	case iNode::s_cc: result = S_CC; break;
+	case iNode::s_cl: result = S_CL; break;
+	case iNode::s_cr: result = S_CR; break;
+	case iNode::s_tc: result = S_TC; break;
+	case iNode::s_tl: result = S_TL; break;
+	case iNode::s_tr: result = S_TR; break;
+	case iNode::s_bc: result = S_BC; break;
+	case iNode::s_bl: result = S_BL; break;
+	case iNode::s_br: result = S_BR; break;
+	case iNode::m_c: result = M_C; break;
+	case iNode::m_l: result = M_L; break;
+	case iNode::m_r: result = M_R; break;
+	case iNode::notext: result = HIDDEN; break;
 	}
 	return result;
 }
 
 int JsonProcessor::FromLabelAlignString(const CString sAlign)
 {
-	if (sAlign == L"single-middle-center") {
+	if (sAlign == S_CC) {
 		return iNode::s_cc;
 	}
-	else if (sAlign == L"single-middle-left") {
+	else if (sAlign == S_CL) {
 		return iNode::s_cl;
 	}
-	else if (sAlign == L"single-midele-right") {
+	else if (sAlign == S_CR) {
 		return iNode::s_cr;
 	}
-	else if (sAlign == L"single-top-center") {
+	else if (sAlign == S_TC) {
 		return iNode::s_tc;
 	}
-	else if (sAlign == L"single-top-left") {
+	else if (sAlign == S_TL) {
 		return iNode::s_tl;
 	}
-	else if (sAlign == L"single-top-right") {
+	else if (sAlign == S_TR) {
 		return iNode::s_tr;
 	}
-	else if (sAlign == L"single-bottom-center") {
+	else if (sAlign == S_BC) {
 		return iNode::s_bc;
 	}
-	else if (sAlign == L"single-bottom-left") {
+	else if (sAlign == S_BL) {
 		return iNode::s_bl;
 	}
-	else if (sAlign == L"single-bottom-right") {
+	else if (sAlign == S_BR) {
 		return iNode::s_br;
 	}
-	else if (sAlign == L"multi-center") {
+	else if (sAlign == M_C) {
 		return iNode::m_c;
 	}
-	else if (sAlign == L"multi-left") {
+	else if (sAlign == M_L) {
 		return iNode::m_l;
 	}
-	else if (sAlign == L"multi-right") {
+	else if (sAlign == M_R) {
 		return iNode::m_r;
 	}
-	else if (sAlign == L"hidden") {
+	else if (sAlign == HIDDEN) {
 		return iNode::notext;
 	}
 	return iNode::s_cc;
@@ -395,30 +395,30 @@ int JsonProcessor::FromLabelAlignString(const CString sAlign)
 CString JsonProcessor::ToShapeString(int shape)
 {
 	switch (shape) {
-	case iNode::rectangle: return L"rectangle";
-	case iNode::roundRect: return L"rounded-rectangle";
-	case iNode::arc: return L"elipse";
-	case iNode::MetaFile: return L"metafile";
-	case iNode::MindMapNode: return L"mindmap-node";
+	case iNode::rectangle: return SH_RECT;
+	case iNode::roundRect: return SH_R_RECT;
+	case iNode::arc: return SH_ELIPSE;
+	case iNode::MetaFile: return SH_META;
+	case iNode::MindMapNode: return SH_MM;
 	}
-	return L"rectangle";
+	return SH_RECT;
 }
 
 int JsonProcessor::FromShapeString(const CString sShape)
 {
-	if (sShape == L"rectangle") {
+	if (sShape == SH_RECT) {
 		return iNode::rectangle;
 	}
-	else if (sShape == L"rounded-rectangle") {
+	else if (sShape == SH_R_RECT) {
 		return iNode::roundRect;
 	}
-	else if (sShape == L"elipse") {
+	else if (sShape == SH_ELIPSE) {
 		return iNode::arc;
 	}
-	else if (sShape == L"metafile") {
+	else if (sShape == SH_META) {
 		return iNode::MetaFile;
 	}
-	else if (sShape == L"mindmap-node") {
+	else if (sShape == SH_MM) {
 		return iNode::MindMapNode;
 	}
 	return iNode::rectangle;
@@ -436,49 +436,46 @@ bool JsonProcessor::NodePropsContainsKey(const iNodes& nodes, const NodePropsVec
 CString JsonProcessor::ToLinkStyleString(int linkStyle)
 {
 	switch (linkStyle) {
-	case iLink::line: return L"no-directional";
-	case iLink::arrow: return L"uni-directional";
-	case iLink::arrow2: return L"bi-directional";
-	case iLink::depend: return L"dependency";
-	case iLink::depend2: return L"inter-dependency";
-	case iLink::inherit: return L"inheritance";
-	case iLink::aggregat: return L"aggregation";
-	case iLink::composit: return L"composition";
-	case iLink::other: return L"no-graphical";
+	case iLink::line: return LN_NO_DIR;
+	case iLink::arrow: return LN_UNI_DIR;
+	case iLink::arrow2: return LN_BI_DIR;
+	case iLink::depend: return LN_DEPEND;
+	case iLink::depend2: return LN_INT_DEPEND;
+	case iLink::inherit: return LN_INHERIT;
+	case iLink::aggregat: return LN_AGGR;
+	case iLink::composit: return LN_COMP;
+	case iLink::other: return LN_NO_G;
 	}
-	return L"no-directional";
+	return LN_NO_DIR;
 }
 
 int JsonProcessor::FromLinkStyleString(const CString slinkStyle)
 {
-	if (slinkStyle == L"no-directional") {
+	if (slinkStyle == LN_NO_DIR) {
 		return iLink::line;
 	}
-	else if (slinkStyle == L"uni-directional") {
+	else if (slinkStyle == LN_UNI_DIR) {
 		return iLink::arrow;
 	}
-	else if (slinkStyle == L"bi-directional") {
+	else if (slinkStyle == LN_BI_DIR) {
 		return iLink::arrow2;
 	}
-	else if (slinkStyle == L"dependency") {
+	else if (slinkStyle == LN_DEPEND) {
 		return iLink::depend;
 	}
-	else if (slinkStyle == L"inter-dependency") {
+	else if (slinkStyle == LN_INT_DEPEND) {
 		return iLink::depend2;
 	}
-	else if (slinkStyle == L"inheritance") {
+	else if (slinkStyle == LN_INHERIT) {
 		return iLink::inherit;
 	}
-	else if (slinkStyle == L"aggregation") {
+	else if (slinkStyle == LN_AGGR) {
 		return iLink::aggregat;
 	}
-	else if (slinkStyle == L"aggregation") {
-		return iLink::aggregat;
-	}
-	else if (slinkStyle == L"composition") {
+	else if (slinkStyle == LN_COMP) {
 		return iLink::composit;
 	}
-	else if (slinkStyle == L"no-graphical") {
+	else if (slinkStyle == LN_NO_G) {
 		return iLink::other;
 	}
 
@@ -488,22 +485,22 @@ int JsonProcessor::FromLinkStyleString(const CString slinkStyle)
 CString JsonProcessor::ToLineStyleString(int lineStyle)
 {
 	switch (lineStyle) {
-	case PS_SOLID: return L"solid-line";
-	case PS_DOT: return L"doted-line";
-	case PS_NULL: return L"no-line";
+	case PS_SOLID: return LS_SOLID;
+	case PS_DOT: return LS_DOT;
+	case PS_NULL: return LS_NONE;
 	}
-	return L"solid-line";
+	return LS_SOLID;
 }
 
 int JsonProcessor::FromLineStyleString(const CString slineStyle)
 {
-	if (slineStyle == L"solid-line") {
+	if (slineStyle == LS_SOLID) {
 		return PS_SOLID;
 	}
-	else if (slineStyle == L"doted-line") {
+	else if (slineStyle == LS_DOT) {
 		return PS_DOT;
 	}
-	else if (slineStyle == L"no-line") {
+	else if (slineStyle == LS_NONE) {
 		return PS_NULL;
 	}
 	return PS_SOLID;
@@ -530,30 +527,30 @@ COLORREF JsonProcessor::FromColoerHexString(const CString sHex)
 CString JsonProcessor::ToLineWidthString(int width)
 {
 	switch (width) {
-	case 0: return L"thin";
-	case 1: return L"middle-thin";
-	case 2: return L"middle-thick";
-	case 3: return L"thick";
-	case 4: return L"very-thick";
+	case 0: return LW_THIN;
+	case 1: return LW_MID_THIN;
+	case 2: return LW_MID_THCK;
+	case 3: return LW_THCK;
+	case 4: return LW_VRY_THCK;
 	}
-	return L"thin";
+	return LW_THIN;
 }
 
 int JsonProcessor::FromLineWidthString(const CString sWidth)
 {
-	if (sWidth == L"thin") {
+	if (sWidth == LW_THIN) {
 		return 0;
 	}
-	else if (sWidth == L"middle-thin") {
+	else if (sWidth == LW_MID_THIN) {
 		return 1;
 	}
-	else if (sWidth == L"middle-thick") {
+	else if (sWidth == LW_MID_THCK) {
 		return 2;
 	}
-	else if (sWidth == L"thick") {
+	else if (sWidth == LW_THCK) {
 		return 3;
 	}
-	else if (sWidth == L"very-thick") {
+	else if (sWidth == LW_VRY_THCK) {
 		return 4;
 	}
 	return 0;
@@ -561,24 +558,24 @@ int JsonProcessor::FromLineWidthString(const CString sWidth)
 
 void JsonProcessor::FontToJson(const LOGFONT& lf, json::value& v)
 {
-	v[L"font"][L"name"] = json::value::string(lf.lfFaceName);
-	v[L"font"][L"point"] = json::value::number(MulDiv(-lf.lfHeight, 72, 96));
-	v[L"font"][L"bold"] = json::value::boolean(lf.lfWeight >= 600);
-	v[L"font"][L"underLine"] = json::value::boolean(lf.lfUnderline);
-	v[L"font"][L"strikeOut"] = json::value::boolean(lf.lfStrikeOut);
-	v[L"font"][L"italic"] = json::value::boolean(lf.lfItalic);
+	v[LFONT][LF_NAME] = json::value::string(lf.lfFaceName);
+	v[LFONT][LF_POINT] = json::value::number(MulDiv(-lf.lfHeight, 72, 96));
+	v[LFONT][LF_BOLD] = json::value::boolean(lf.lfWeight >= 600);
+	v[LFONT][LF_UL] = json::value::boolean(lf.lfUnderline);
+	v[LFONT][LF_SO] = json::value::boolean(lf.lfStrikeOut);
+	v[LFONT][LF_ITL] = json::value::boolean(lf.lfItalic);
 }
 
 LOGFONT JsonProcessor::JsonToFont(json::value v)
 {
 	LOGFONT lf;
-	lstrcpy(lf.lfFaceName, v[L"font"][L"name"].as_string().c_str());
-	int point = v[L"font"][L"point"].as_integer();
+	lstrcpy(lf.lfFaceName, v[LFONT][LF_NAME].as_string().c_str());
+	int point = v[LFONT][LF_POINT].as_integer();
 	lf.lfHeight = -MulDiv(point, 96, 72);
-	bool bold = v[L"font"][L"bold"].as_bool();
+	bool bold = v[LFONT][LF_BOLD].as_bool();
 	lf.lfWeight = bold ? 700 : 400;
-	lf.lfUnderline = v[L"font"][L"underLine"].as_bool();
-	lf.lfStrikeOut = v[L"font"][L"strikeOut"].as_bool();
-	lf.lfItalic = v[L"font"][L"italic"].as_bool();
+	lf.lfUnderline = v[LFONT][LF_UL].as_bool();
+	lf.lfStrikeOut = v[LFONT][LF_SO].as_bool();
+	lf.lfItalic = v[LFONT][LF_ITL].as_bool();
 	return lf;
 }
