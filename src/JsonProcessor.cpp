@@ -147,18 +147,24 @@ bool JsonProcessor::Import(const CString &fileName)
 		bound.bottom = arr[3].as_integer();
 		node.SetBound(bound);
 
-		int lineStyle = FromLineStyleString(v[LINE_STYLE].as_string().c_str());
-		node.SetLineStyle(lineStyle);
+		CString sLineStyle = HasValue(v, json::value::String, LINE_STYLE) ? v[LINE_STYLE].as_string().c_str() : LS_SOLID;
+		node.SetLineStyle(FromLineStyleString(sLineStyle));
 
-		COLORREF fillColor = FromColoerHexString(v[FILL_COLOR].as_string().c_str());
-		node.SetFillColor(fillColor);
-		COLORREF lineColor = FromColoerHexString(v[LINE_COLOR].as_string().c_str());
-		node.SetLineColor(lineColor);
-		node.ToggleFill(v[FILL].as_bool());
-		int lineWidth = FromLineWidthString(v[LINE_WIDTH].as_string().c_str());
-		node.SetLineWidth(lineWidth);
-		COLORREF fontColor = FromColoerHexString(v[FONT_COLOR].as_string().c_str());
-		node.SetFontColor(fontColor);
+		CString sFillColor = HasValue(v, json::value::String, FILL_COLOR) ? v[FILL_COLOR].as_string().c_str() : L"#FFFFFF";
+		node.SetFillColor(FromColoerHexString(sFillColor));
+
+		CString sLineColor = HasValue(v, json::value::String, LINE_COLOR) ? v[LINE_COLOR].as_string().c_str() : L"#000000";
+		node.SetLineColor(FromColoerHexString(sLineColor));
+
+		bool bFill = HasValue(v, json::value::Boolean, FILL) ? v[FILL].as_bool() : true;
+		node.ToggleFill(bFill);
+
+		CString sLineWidth = HasValue(v, json::value::String, LINE_WIDTH) ? v[LINE_WIDTH].as_string().c_str() : LW_THIN;
+		node.SetLineWidth(FromLineWidthString(sLineWidth));
+
+		CString sFontColor = HasValue(v, json::value::String, FONT_COLOR) ? v[FONT_COLOR].as_string().c_str() : L"#000000";
+		node.SetFontColor(FromColoerHexString(sFontColor));
+
 		LOGFONT lf = JsonToFont(v);
 		node.SetFontInfo(lf, false);
 
@@ -234,6 +240,7 @@ bool JsonProcessor::HasValue(json::value v, json::value::value_type type, CStrin
 	case json::value::String: return target.is_string();
 	case json::value::Number: return target.is_number();
 	case json::value::Array: return target.is_array();
+	case json::value::Boolean: return target.is_boolean();
 	}
 	return false;
 }
