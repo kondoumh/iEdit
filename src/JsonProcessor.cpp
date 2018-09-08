@@ -113,7 +113,7 @@ bool JsonProcessor::Import(const CString &fileName)
 	for (; it != values.cend(); it++) {
 		json::value v = *it;
 
-		CString name = HasValue(v, json::value::String, NAME) ? (v[NAME].as_string().c_str()) : L"ñ¢ê›íË";
+		CString name = HasValue(v, json::value::String, NAME) ? v[NAME].as_string().c_str() : L"ñ¢ê›íË";
 		iNode node(name);
 		node.SetKey(++assignKey);
 
@@ -126,15 +126,18 @@ bool JsonProcessor::Import(const CString &fileName)
 		DWORD parent = v[PARENT].as_integer();
 		node.SetParentKey(parent);
 
-		int level = v[LEVEL].as_integer();
-		CString text(v[N_TEXT].as_string().c_str());
+		if (HasValue(v, json::value::Number, LEVEL)) {
+			//node.SetLevel(v[LEVEL].as_integer());
+		}
+
+		CString text = HasValue(v, json::value::String, N_TEXT) ? v[N_TEXT].as_string().c_str() : L"";
 		node.SetText(text);
 
-		int align = FromLabelAlignString(v[ALIGN].as_string().c_str());
-		node.SetTextStyle(align);
+		CString sAlign = HasValue(v, json::value::String, ALIGN) ? v[ALIGN].as_string().c_str() : S_CC;
+		node.SetTextStyle(FromLabelAlignString(sAlign));
 
-		int shape = FromShapeString(v[SHAPE].as_string().c_str());
-		node.SetShape(shape);
+		CString sShape = HasValue(v, json::value::String, SHAPE) ? v[SHAPE].as_string().c_str() : SH_RECT;
+		node.SetShape(FromShapeString(sShape));
 
 		CRect bound;
 		json::array arr = v[BOUND].as_array();
