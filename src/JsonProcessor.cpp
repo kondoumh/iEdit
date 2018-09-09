@@ -177,10 +177,13 @@ bool JsonProcessor::Import(const CString &fileName)
 		json::value v = *li;
 		iLink l;
 		l.SetFromNodeKey(FindPairKey(v[KEY_FROM].as_integer()));
-		CString caption(v[L_NAME].as_string().c_str());
+		
+		CString caption = HasValue(v, json::value::String, L_NAME) ? v[L_NAME].as_string().c_str() : L"";
 		l.SetName(caption);
-		int style = FromLinkStyleString(v[LINK_STYLE].as_string().c_str());
-		l.SetArrowStyle(style);
+
+		CString sStyle = HasValue(v, json::value::String, LINK_STYLE) ? v[LINK_STYLE].as_string().c_str() : LN_NO_DIR;
+		l.SetArrowStyle(FromLinkStyleString(sStyle));
+
 		if (l.GetArrowStyle() != iLink::other) {
 			if (!v[KEY_TO].is_null()) {
 				l.SetToNodeKey(FindPairKey(v[KEY_TO].as_integer()));
@@ -191,21 +194,22 @@ bool JsonProcessor::Import(const CString &fileName)
 				pt.y = v[L_VIA_PT][PT_Y].as_integer();
 				l.SetPathPt(pt);
 			}
-			if (l.GetArrowStyle() != iLink::other) {
-				int lineStyle = FromLineStyleString(v[LINE_STYLE].as_string().c_str());
-				l.SetLineStyle(lineStyle);
-			}
-			COLORREF lineColor = FromColoerHexString(v[LINE_COLOR].as_string().c_str());
-			l.SetLinkColor(lineColor);
 
-			int lineWidth = FromLineWidthString(v[LINE_WIDTH].as_string().c_str());
-			l.SetLineWidth(lineWidth);
+			CString sLineStyle = HasValue(v, json::value::String, LINE_STYLE) ? v[LINE_STYLE].as_string().c_str() : LS_SOLID;
+			l.SetLineStyle(FromLineStyleString(sLineStyle));
+
+			CString sLineColor = HasValue(v, json::value::String, LINE_COLOR) ? v[LINE_COLOR].as_string().c_str() : L"#000000";
+			l.SetLinkColor(FromColoerHexString(sLineColor));
+
+			CString sLineWidth = HasValue(v, json::value::String, LINE_WIDTH) ? v[LINE_WIDTH].as_string().c_str() : LW_THIN;
+			l.SetLineWidth(FromLineWidthString(sLineWidth));
 
 			l.SetFontInfo(JsonToFont(v));
 		}
 		else {
 			l.SetToNodeKey(l.GetFromNodeKey());
-			CString path(v[L_PATH].as_string().c_str());
+
+			CString path = HasValue(v, json::value::String, L_PATH) ? v[L_PATH].as_string().c_str() : L"";
 			l.SetPath(path);
 		}
 		linksImport.push_back(l);
