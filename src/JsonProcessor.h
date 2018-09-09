@@ -27,7 +27,7 @@ class JsonProcessor
 	static int FromLineWidthString(const CString sWidth);
 	static void FontToJson(const LOGFONT& lf, json::value& v);
 	static LOGFONT JsonToFont(json::value v);
-	bool HasValue(json::value v, json::value::value_type type, CString key1, CString key2 = L"");
+	static bool HasValue(json::value v, json::value::value_type type, CString key1, CString key2 = L"");
 
 	static const wchar_t* IEDITDOC;
 	static const wchar_t* NODES;

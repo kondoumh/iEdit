@@ -165,8 +165,7 @@ bool JsonProcessor::Import(const CString &fileName)
 		CString sFontColor = HasValue(v, json::value::String, FONT_COLOR) ? v[FONT_COLOR].as_string().c_str() : L"#000000";
 		node.SetFontColor(FromColoerHexString(sFontColor));
 
-		LOGFONT lf = JsonToFont(v);
-		node.SetFontInfo(lf, false);
+		node.SetFontInfo(JsonToFont(v), false);
 
 		nodesImport.push_back(node);
 	}
@@ -202,7 +201,7 @@ bool JsonProcessor::Import(const CString &fileName)
 			int lineWidth = FromLineWidthString(v[LINE_WIDTH].as_string().c_str());
 			l.SetLineWidth(lineWidth);
 
-			LOGFONT lf = JsonToFont(v);
+			l.SetFontInfo(JsonToFont(v));
 		}
 		else {
 			l.SetToNodeKey(l.GetFromNodeKey());
@@ -579,13 +578,35 @@ void JsonProcessor::FontToJson(const LOGFONT& lf, json::value& v)
 LOGFONT JsonProcessor::JsonToFont(json::value v)
 {
 	LOGFONT lf;
-	lstrcpy(lf.lfFaceName, v[LFONT][LF_NAME].as_string().c_str());
-	int point = v[LFONT][LF_POINT].as_integer();
-	lf.lfHeight = -MulDiv(point, 96, 72);
-	bool bold = v[LFONT][LF_BOLD].as_bool();
-	lf.lfWeight = bold ? 700 : 400;
-	lf.lfUnderline = v[LFONT][LF_UL].as_bool();
-	lf.lfStrikeOut = v[LFONT][LF_SO].as_bool();
-	lf.lfItalic = v[LFONT][LF_ITL].as_bool();
+	lstrcpy(lf.lfFaceName, L"ÉÅÉCÉäÉI");
+	lf.lfHeight = -11;
+	lf.lfWeight = 400;
+	lf.lfUnderline = false;
+	lf.lfStrikeOut = false;
+	lf.lfItalic = false;
+	lf.lfCharSet = SHIFTJIS_CHARSET;
+
+	if (v[LFONT].is_null()) return lf;
+
+	if (HasValue(v, json::value::String, LFONT, LF_NAME)) {
+		lstrcpy(lf.lfFaceName, v[LFONT][LF_NAME].as_string().c_str());
+	}
+	if (HasValue(v, json::value::Number, LFONT, LF_POINT)) {
+		int point = v[LFONT][LF_POINT].as_integer();
+		lf.lfHeight = -MulDiv(point, 96, 72);
+	}
+	if (HasValue(v, json::value::Boolean, LFONT, LF_BOLD)) {
+		bool bold = v[LFONT][LF_BOLD].as_bool();
+		lf.lfWeight = bold ? 700 : 400;
+	}
+	if (HasValue(v, json::value::Boolean, LFONT, LF_UL)) {
+		lf.lfUnderline = v[LFONT][LF_UL].as_bool();
+	}
+	if (HasValue(v, json::value::Boolean, LFONT, LF_SO)) {
+		lf.lfStrikeOut = v[LFONT][LF_SO].as_bool();
+	}
+	if (HasValue(v, json::value::Boolean, LFONT, LF_ITL)) {
+		lf.lfItalic = v[LFONT][LF_ITL].as_bool();
+	}
 	return lf;
 }
