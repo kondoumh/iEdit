@@ -144,8 +144,6 @@ bool JsonProcessor::Import(const CString &fileName)
 		CString sShape = HasValue(v, json::value::String, SHAPE) ? v[SHAPE].as_string().c_str() : SH_RECT;
 		node.SetShape(FromShapeString(sShape));
 
-		node.SetBound(JsonToRect(v));
-
 		CString sLineStyle = HasValue(v, json::value::String, LINE_STYLE) ? v[LINE_STYLE].as_string().c_str() : LS_SOLID;
 		node.SetLineStyle(FromLineStyleString(sLineStyle));
 
@@ -165,6 +163,12 @@ bool JsonProcessor::Import(const CString &fileName)
 		node.SetFontColor(FromColoerHexString(sFontColor));
 
 		node.SetFontInfo(JsonToFont(v), false);
+
+		CRect rc = JsonToRect(v);
+		node.SetBound(JsonToRect(v));
+		if (rc.Height() <= 10 && rc.Width() <= 10) {
+			node.SetName(node.GetName()); // AdjustFont ŒÄ‚Ño‚µ
+		}
 
 		nodesImport.push_back(node);
 	}
@@ -571,6 +575,11 @@ int JsonProcessor::FromLineWidthString(const CString sWidth)
 CRect JsonProcessor::JsonToRect(json::value v)
 {
 	CRect r(0, 0, 10, 10);
+	SYSTEMTIME st;
+	GetSystemTime(&st);
+	srand((unsigned)st.wMilliseconds);
+	r.MoveToXY(rand() % 800, rand() % 600);
+
 	if (v[BOUND].is_null()) return r;
 
 	if (!HasValue(v, json::value::Number, BOUND, B_LEFT) || !HasValue(v, json::value::Number, BOUND, B_TOP) ||
@@ -611,7 +620,7 @@ LOGFONT JsonProcessor::JsonToFont(json::value v)
 {
 	LOGFONT lf;
 	lstrcpy(lf.lfFaceName, L"ƒƒCƒŠƒI");
-	lf.lfHeight = -11;
+	lf.lfHeight = -15;
 	lf.lfWeight = 400;
 	lf.lfUnderline = false;
 	lf.lfStrikeOut = false;
