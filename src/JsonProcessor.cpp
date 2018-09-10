@@ -14,6 +14,10 @@ const wchar_t* JsonProcessor::N_TEXT(L"text");
 const wchar_t* JsonProcessor::ALIGN(L"labelAlign");
 const wchar_t* JsonProcessor::SHAPE(L"shape");
 const wchar_t* JsonProcessor::BOUND(L"bound");
+const wchar_t* JsonProcessor::B_LEFT(L"left");
+const wchar_t* JsonProcessor::B_TOP(L"top");
+const wchar_t* JsonProcessor::B_RIGHT(L"right");
+const wchar_t* JsonProcessor::B_BOTTOM(L"bottom");
 const wchar_t* JsonProcessor::LINE_STYLE(L"lineStyle");
 const wchar_t* JsonProcessor::FILL_COLOR(L"fillColor");
 const wchar_t* JsonProcessor::FILL(L"fill");
@@ -139,13 +143,7 @@ bool JsonProcessor::Import(const CString &fileName)
 		CString sShape = HasValue(v, json::value::String, SHAPE) ? v[SHAPE].as_string().c_str() : SH_RECT;
 		node.SetShape(FromShapeString(sShape));
 
-		CRect bound;
-		json::array arr = v[BOUND].as_array();
-		bound.left = arr[0].as_integer();
-		bound.top = arr[1].as_integer();
-		bound.right = arr[2].as_integer();
-		bound.bottom = arr[3].as_integer();
-		node.SetBound(bound);
+		node.SetBound(JsonToRect(v));
 
 		CString sLineStyle = HasValue(v, json::value::String, LINE_STYLE) ? v[LINE_STYLE].as_string().c_str() : LS_SOLID;
 		node.SetLineStyle(FromLineStyleString(sLineStyle));
@@ -270,12 +268,10 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		v[ALIGN] = json::value::string(ToLabelAlignString((*it).second.GetTextStyle()).GetBuffer());
 		v[SHAPE] = json::value::string(ToShapeString((*it).second.GetShape()).GetBuffer());
 		CRect r = (*it).second.GetBound();
-		std::vector<json::value> vec;
-		vec.push_back(r.left);
-		vec.push_back(r.top);
-		vec.push_back(r.right);
-		vec.push_back(r.bottom);
-		v[BOUND] = json::value::array(vec);
+		v[BOUND][B_LEFT] = json::value::number(r.left);
+		v[BOUND][B_TOP] = json::value::number(r.top);
+		v[BOUND][B_RIGHT] = json::value::number(r.right);
+		v[BOUND][B_BOTTOM] = json::value::number(r.bottom);
 		v[LINE_STYLE] = json::value::string(ToLineStyleString((*it).second.GetLineStyle()).GetBuffer());
 		CString fillColor = ToColorHexString((*it).second.GetFillColor());
 		v[FILL_COLOR] = json::value::string(fillColor.GetBuffer());
@@ -567,6 +563,24 @@ int JsonProcessor::FromLineWidthString(const CString sWidth)
 		return 4;
 	}
 	return 0;
+}
+
+CRect JsonProcessor::JsonToRect(json::value v)
+{
+	CRect r(0, 0, 10, 10);
+	if (v[BOUND].is_null()) return r;
+
+	if (!HasValue(v, json::value::Number, BOUND, B_LEFT) || !HasValue(v, json::value::Number, BOUND, B_TOP) ||
+		!HasValue(v, json::value::Number, BOUND, B_RIGHT) || !HasValue(v, json::value::Number, BOUND, B_BOTTOM)) {
+		return r;
+	}
+
+	r.left = v[BOUND][B_LEFT].as_integer();
+	r.top = v[BOUND][B_TOP].as_integer();
+	r.right = v[BOUND][B_RIGHT].as_integer();
+	r.bottom = v[BOUND][B_BOTTOM].as_integer();
+
+	return r;
 }
 
 void JsonProcessor::FontToJson(const LOGFONT& lf, json::value& v)

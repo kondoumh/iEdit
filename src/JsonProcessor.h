@@ -25,6 +25,7 @@ class JsonProcessor
 	static COLORREF FromColoerHexString(const CString sHex);
 	static CString ToLineWidthString(int width);
 	static int FromLineWidthString(const CString sWidth);
+	static CRect JsonToRect(json::value v);
 	static void FontToJson(const LOGFONT& lf, json::value& v);
 	static LOGFONT JsonToFont(json::value v);
 	static bool HasValue(json::value v, json::value::value_type type, CString key1, CString key2 = L"");
@@ -40,6 +41,10 @@ class JsonProcessor
 	static const wchar_t* ALIGN;
 	static const wchar_t* SHAPE;
 	static const wchar_t* BOUND;
+	static const wchar_t* B_LEFT;
+	static const wchar_t* B_TOP;
+	static const wchar_t* B_RIGHT;
+	static const wchar_t* B_BOTTOM;
 	static const wchar_t* LINE_STYLE;
 	static const wchar_t* FILL_COLOR;
 	static const wchar_t* FILL;
