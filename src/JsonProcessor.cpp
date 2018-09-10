@@ -114,6 +114,7 @@ bool JsonProcessor::Import(const CString &fileName)
 	}
 	json::array values = json[IEDITDOC][NODES].as_array();
 	json::array::const_iterator it = values.cbegin();
+	DWORD keyDefault = 0;
 	for (; it != values.cend(); it++) {
 		json::value v = *it;
 
@@ -121,7 +122,7 @@ bool JsonProcessor::Import(const CString &fileName)
 		iNode node(name);
 		node.SetKey(++assignKey);
 
-		DWORD key = v[KEY].as_integer();
+		DWORD key = HasValue(v, json::value::Number, KEY) ? v[KEY].as_integer() : ++keyDefault;
 		NodeKeyPair keyPair;
 		keyPair.first = key;
 		keyPair.second = node.GetKey();
@@ -173,8 +174,12 @@ bool JsonProcessor::Import(const CString &fileName)
 	json::array::const_iterator li = linkValues.cbegin();
 	for (; li != linkValues.cend(); li++) {
 		json::value v = *li;
+		if (!HasValue(v, json::value::Number, KEY_FROM)) continue;
+
 		iLink l;
-		l.SetFromNodeKey(FindPairKey(v[KEY_FROM].as_integer()));
+		DWORD keyFrom = FindPairKey(v[KEY_FROM].as_integer());
+		if (keyFrom == -1) continue;
+		l.SetFromNodeKey(keyFrom);
 		
 		CString caption = HasValue(v, json::value::String, L_NAME) ? v[L_NAME].as_string().c_str() : L"";
 		l.SetName(caption);
@@ -183,9 +188,8 @@ bool JsonProcessor::Import(const CString &fileName)
 		l.SetArrowStyle(FromLinkStyleString(sStyle));
 
 		if (l.GetArrowStyle() != iLink::other) {
-			if (!v[KEY_TO].is_null()) {
-				l.SetToNodeKey(FindPairKey(v[KEY_TO].as_integer()));
-			}
+			if (!HasValue(v, json::value::Number, KEY_TO)) continue;
+			l.SetToNodeKey(FindPairKey(v[KEY_TO].as_integer()));
 
 			CPoint viaPt = JsonToViaPt(v);
 			if (viaPt.x != -1 && viaPt.y != -1) {
