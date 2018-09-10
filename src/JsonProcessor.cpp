@@ -186,11 +186,10 @@ bool JsonProcessor::Import(const CString &fileName)
 			if (!v[KEY_TO].is_null()) {
 				l.SetToNodeKey(FindPairKey(v[KEY_TO].as_integer()));
 			}
-			if (!v[L_VIA_PT].is_null()) {
-				CPoint pt;
-				pt.x = v[L_VIA_PT][PT_X].as_integer();
-				pt.y = v[L_VIA_PT][PT_Y].as_integer();
-				l.SetPathPt(pt);
+
+			CPoint viaPt = JsonToViaPt(v);
+			if (viaPt.x != -1 && viaPt.y != -1) {
+				l.SetPathPt(viaPt);
 			}
 
 			CString sLineStyle = HasValue(v, json::value::String, LINE_STYLE) ? v[LINE_STYLE].as_string().c_str() : LS_SOLID;
@@ -581,6 +580,17 @@ CRect JsonProcessor::JsonToRect(json::value v)
 	r.bottom = v[BOUND][B_BOTTOM].as_integer();
 
 	return r;
+}
+
+CPoint JsonProcessor::JsonToViaPt(json::value v)
+{
+	CPoint pt(-1, -1);
+	if (!HasValue(v, json::value::Number, L_VIA_PT, PT_X) || !HasValue(v, json::value::Number, L_VIA_PT, PT_Y)) {
+		return pt;
+	}
+	pt.x = v[L_VIA_PT][PT_X].as_integer();
+	pt.y = v[L_VIA_PT][PT_Y].as_integer();
+	return pt;
 }
 
 void JsonProcessor::FontToJson(const LOGFONT& lf, json::value& v)

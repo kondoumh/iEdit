@@ -26,6 +26,7 @@ class JsonProcessor
 	static CString ToLineWidthString(int width);
 	static int FromLineWidthString(const CString sWidth);
 	static CRect JsonToRect(json::value v);
+	static CPoint JsonToViaPt(json::value v);
 	static void FontToJson(const LOGFONT& lf, json::value& v);
 	static LOGFONT JsonToFont(json::value v);
 	static bool HasValue(json::value v, json::value::value_type type, CString key1, CString key2 = L"");
