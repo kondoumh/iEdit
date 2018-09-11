@@ -378,9 +378,9 @@ BEGIN
         POPUP "エクスポート(&E)"
         BEGIN
             MENUITEM "HTMLにエクスポート(&H)",             ID_EXPORT_TO_HTML
+            MENUITEM "JSONにエクスポート(&J)",             ID_EXPORT_TO_JSON
             MENUITEM "テキストにエクスポート(&T)",             ID_EXPORT_TO_TEXT
             MENUITEM "XMLにエクスポート(&X)",              ID_EXPORT_TO_XML
-            MENUITEM "JSONにエクスポート(&J)",             ID_EXPORT_TO_JSON
         END
         MENUITEM SEPARATOR
         MENUITEM "クリップボードのテキストからノードを作成(&L)",    ID_ADD_NODES_FROM_CF_TEXT

@@ -1642,7 +1642,7 @@ BOOL OutlineView::IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedPa
 void OutlineView::OnImportData()
 {
 	CString txtpath;
-	WCHAR szFilters[] = _T("XML ファイル (*.xml)|*.xml|JSON ファイル (*.json)|*.json|テキストファイル (*.txt)|*.txt||");
+	WCHAR szFilters[] = _T("JSON ファイル (*.json)|*.json|XML ファイル (*.xml)|*.xml|テキストファイル (*.txt)|*.txt||");
 	CFileDialog dlg(TRUE, _T("txt"), txtpath, OFN_HIDEREADONLY, szFilters, this);
 	if (dlg.DoModal() != IDOK) return;
 	CString infileName = dlg.GetPathName();
