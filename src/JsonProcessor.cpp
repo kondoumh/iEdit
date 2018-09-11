@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "iEdit.h"
 #include "JsonProcessor.h"
 #include <locale>
 #include "FileUtil.h"
@@ -166,8 +167,11 @@ bool JsonProcessor::Import(const CString &fileName)
 
 		CRect rc = JsonToRect(v);
 		node.SetBound(JsonToRect(v));
-		if (rc.Height() <= 10 && rc.Width() <= 10) {
+		if (rc.Height() <= 10 && rc.Width() <= 10) { // Bound ‚ª‚È‚¢ê‡‚Ì•â³
+			bool resizeDisabled = ((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize;
+			((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize = false;
 			node.SetName(node.GetName()); // AdjustFont ŒÄ‚Ño‚µ
+			((CiEditApp*)AfxGetApp())->m_rgsNode.bDisableNodeResize = resizeDisabled;
 		}
 
 		nodesImport.push_back(node);
