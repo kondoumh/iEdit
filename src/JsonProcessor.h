@@ -34,7 +34,7 @@ class JsonProcessor
 	static const wchar_t* IEDITDOC;
 	static const wchar_t* NODES;
 	static const wchar_t* LINKS;
-	static const wchar_t* NAME;
+	static const wchar_t* LABEL;
 	static const wchar_t* KEY;
 	static const wchar_t* PARENT;
 	static const wchar_t* LEVEL;

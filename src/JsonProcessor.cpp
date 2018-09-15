@@ -7,7 +7,7 @@
 const wchar_t* JsonProcessor::IEDITDOC(L"ieditDoc");
 const wchar_t* JsonProcessor::NODES(L"nodes");
 const wchar_t* JsonProcessor::LINKS(L"links");
-const wchar_t* JsonProcessor::NAME(L"name");
+const wchar_t* JsonProcessor::LABEL(L"label");
 const wchar_t* JsonProcessor::KEY(L"key");
 const wchar_t* JsonProcessor::PARENT(L"parent");
 const wchar_t* JsonProcessor::LEVEL(L"level");
@@ -53,7 +53,7 @@ const wchar_t* JsonProcessor::SH_META(L"metafile");
 const wchar_t* JsonProcessor::SH_MM(L"mindmap-node");
 const wchar_t* JsonProcessor::LN_NO_DIR(L"no-directional");
 const wchar_t* JsonProcessor::LN_UNI_DIR(L"uni-directional");
-const wchar_t* JsonProcessor::LN_BI_DIR(L"-directional");
+const wchar_t* JsonProcessor::LN_BI_DIR(L"bi-directional");
 const wchar_t* JsonProcessor::LN_DEPEND(L"dependency");
 const wchar_t* JsonProcessor::LN_INT_DEPEND(L"inter-dependency");
 const wchar_t* JsonProcessor::LN_INHERIT(L"inheritance");
@@ -119,8 +119,8 @@ bool JsonProcessor::Import(const CString &fileName)
 	for (; it != values.cend(); it++) {
 		json::value v = *it;
 
-		CString name = HasValue(v, json::value::String, NAME) ? v[NAME].as_string().c_str() : L"ñ¢ê›íË";
-		iNode node(name);
+		CString label = HasValue(v, json::value::String, LABEL) ? v[LABEL].as_string().c_str() : L"ñ¢ê›íË";
+		iNode node(label);
 		node.SetKey(++assignKey);
 
 		DWORD key = HasValue(v, json::value::Number, KEY) ? v[KEY].as_integer() : ++keyDefault;
@@ -272,7 +272,7 @@ bool JsonProcessor::Save(const CString &outPath, bool bSerialize, iNodes& nodes,
 		json::value v;
 		v[KEY] = json::value::number((uint64_t)key);
 		v[PARENT] = json::value::number((uint64_t)parent);
-		v[NAME] = json::value::string(ls[i].name.GetBuffer());
+		v[LABEL] = json::value::string(ls[i].name.GetBuffer());
 		v[LEVEL] = json::value::number((*it).second.GetLevel());
 		CString text = (*it).second.GetText();
 		v[N_TEXT] = json::value::string(text.GetBuffer());
