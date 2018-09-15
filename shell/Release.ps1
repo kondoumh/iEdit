@@ -16,7 +16,7 @@ Compress-Archive -Path "$DocDir\iEditDoc.iedx" -DestinationPath $archiveFile -Up
 Compress-Archive -Path "$DocDir\albatross.ies" -DestinationPath $archiveFile -Update
 Compress-Archive -Path "$DocDir\ui\" -DestinationPath $archiveFile -Update
 
-$conf = Get-Content "$ReleaseDir\upload.conf" -Raw | ConvertFrom-StringData
+$conf = Get-Content "..\..\upload.conf" -Raw | ConvertFrom-StringData
 $client = New-Object System.Net.WebClient
 $client.Credentials = New-Object System.Net.NetworkCredential($conf.Item("user"), $conf.Item("pass"))
 $remotePath = $conf.Item("remotedir") + "iedit$releaseVersion.zip"
