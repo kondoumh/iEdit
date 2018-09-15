@@ -444,7 +444,7 @@ BOOL CAboutDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 void CAboutDlg::OnStnClickedWebsite()
 {
-	ShellExecute(m_hWnd, _T("open"), _T("http://kondoumh.com/software/iedit.html"), NULL, _T(""), SW_SHOW);
+	ShellExecute(m_hWnd, _T("open"), _T("https://kondoumh.com/software/iedit/"), NULL, _T(""), SW_SHOW);
 	EndDialog(MB_OK);
 }
 

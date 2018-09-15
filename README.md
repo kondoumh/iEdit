@@ -9,7 +9,7 @@ iEditでは、ラベルとテキストからなる「ノード」をアイデア
 テキスト、HTML、XMLへのデータエクスポート、XML形式のデータインポートが可能です。
 
 ## 動作環境
-- Windows 7/8/8.1/10
+- Windows 10
 
 ## 特徴
 - ツリーによる階層管理と、ネットワーク図による関係の視覚化
@@ -50,21 +50,21 @@ iEditでは、ラベルとテキストからなる「ノード」をアイデア
 
 ## 使用方法
 - iEditDoc.iedxをご覧ください。
-- ユーザーズマニュアル http://kondoumh.com/software/ieditman/index.html
-- iEditのページ http://kondoumh.com/software/iedit.html
+- ユーザーガイド https://iedit.kondoumh.com
+- iEditのページ https://kondoumh.com/software/iedit/
 
 ## iEditの入手先
-- kondoumh サイト http://kondoumh.com
-- Vector http://www.vector.co.jp/vpack/filearea/win/writing/wp/index.html
+- kondoumh サイト https://kondoumh.com
+- Vector https://www.vector.co.jp/vpack/filearea/win/writing/wp/index.html
 
 ## iEdit 関連ツール
-- http://kondoumh.com/software/iedittools.html
+- https://kondoumh.com/software/iedit/tools/
 
 ## リリースノート
-http://iedit.kondoumh.com/releasenotes
+https://iedit.kondoumh.com/releasenotes/
 
 ## 著作権・免責事項
 iEditは、フリーソフトウェアです。著作権は近藤正裕(kondoumh)にあります。本プログラムを使用して発生したいかなる損害も作者は一切の責任を負いません。また、プログラムの仕様改良に関する義務も負いません。配布、転載等は内容を変更しない限り自由に行ってかまいません。
 
 ## コンタクト
-本プログラムに対するご意見、ご要望、バグ報告などは、作者のブログ http://kondoumh.hatenablog.com までお願いいたします。リリース告知のエントリーにコメントいただければチェックします。Twitter でつぶやいていただいても時々拾います。
+本プログラムに対するご意見、ご要望、バグ報告などは、作者のブログ http://blog.kondoumh.com までお願いいたします。リリース告知のエントリーにコメントいただければチェックします。Twitter でつぶやいていただいても時々拾います。
