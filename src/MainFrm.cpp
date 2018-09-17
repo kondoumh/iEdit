@@ -716,5 +716,5 @@ void CMainFrame::OnSelectFontColor()
 
 void CMainFrame::OnAppHelp()
 {
-	ShellExecute(m_hWnd, _T("open"), _T("http://kondoumh.com/software/ieditman/index.html"), NULL, _T(""), SW_SHOW);
+	ShellExecute(m_hWnd, _T("open"), _T("https://iedit.kondoumh.com"), NULL, _T(""), SW_SHOW);
 }
