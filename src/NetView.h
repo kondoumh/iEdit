@@ -1,14 +1,8 @@
-﻿#if !defined(AFX_NETVIEW_H__96DFF9CA_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
-#define AFX_NETVIEW_H__96DFF9CA_1881_11D3_808A_00A0C9B72FDD__INCLUDED_
-
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-// NetView.h : ヘッダー ファイル
-//
-
-/////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // NetView ビュー
+
+#pragma once
+
 class iEditDoc;
 class ShapesManagementDlg;
 
@@ -29,7 +23,6 @@ public:
 	enum { none, single, multi, link, linkTermFrom, linkTermTo };
 	enum { normal, rect, rRect, arc, link0, link1, link2, label };
 
-	//{{AFX_VIRTUAL(NetView)
 public:
 	virtual void OnPrepareDC(CDC* pDC, CPrintInfo* pInfo = NULL);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
@@ -41,14 +34,12 @@ protected:
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
 	virtual void SetZoomLevel(double fNewScale);
 	virtual ~NetView();
-	//}}AFX_VIRTUAL
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	//{{AFX_MSG(NetView)
 	afx_msg LRESULT OnRegNodeMetaFile(UINT wParam, LONG lParam);
 	afx_msg LRESULT OnAddMetaFileID(UINT wParam, LONG lParam);
 	afx_msg LRESULT OnHideShapesDlg(UINT wParam, LONG lParam);
@@ -252,7 +243,6 @@ protected:
 	afx_msg void OnUpdateResizeTofit(CCmdUI *pCmdUI);
 	afx_msg void OnReplaceMetafile();
 	afx_msg void OnUpdateReplaceMetafile(CCmdUI *pCmdUI);
-	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -363,9 +353,3 @@ private:
 	void ApplyFormat(CPoint& pt);
 	void RenameNewlyLinkedNode(const CRect& nodeBound);
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_NETVIEW_H__96DFF9CA_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

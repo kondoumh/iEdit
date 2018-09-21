@@ -1,6 +1,6 @@
-﻿#pragma once
+﻿// CRectTrackerPlus
 
-// CRectTrackerPlus
+#pragma once
 
 class CRectTrackerPlus : public CRectTracker
 {

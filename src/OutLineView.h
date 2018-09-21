@@ -1,13 +1,7 @@
-﻿// OutLineView.h : OutlineView クラスの宣言およびインターフェイスの定義をします。
+﻿// OutLineView.h : OutlineView インターフェイス
 //
 /////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_OUTLINEVIEW_H__96DFF9C1_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
-#define AFX_OUTLINEVIEW_H__96DFF9C1_1881_11D3_808A_00A0C9B72FDD__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class NodeSearchDlg;
 
@@ -21,14 +15,14 @@ public:
 	iEditDoc * GetDocument();
 	enum { blue, blueRoot1, blueRoot2, red, yellow, check, cancel, question, warning, face, idea };
 
-	//{{AFX_VIRTUAL(OutlineView)
-public:
 	virtual void OnDraw(CDC* pDC);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
+
 protected:
 	virtual void OnInitialUpdate();
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
@@ -36,7 +30,6 @@ protected:
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
-	//}}AFX_VIRTUAL
 
 public:
 	int GetBranchMode() const;
@@ -48,7 +41,6 @@ public:
 
 protected:
 
-	//{{AFX_MSG(OutlineView)
 	afx_msg LRESULT OnListUpNodes(UINT wParam, LONG lParam);
 	afx_msg LRESULT OnHideSrchDlg(UINT wParam, LONG lParam);
 	afx_msg LRESULT OnSearchNode(UINT wParam, LONG lParam);
@@ -150,7 +142,6 @@ protected:
 	afx_msg void OnUpdateExportToXml(CCmdUI *pCmdUI);
 	afx_msg void OnExportToJson();
 	afx_msg void OnUpdateExportToJson(CCmdUI *pCmdUI);
-	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -245,9 +236,3 @@ inline iEditDoc* OutlineView::GetDocument()
 	return (iEditDoc*)m_pDocument;
 }
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_OUTLINEVIEW_H__96DFF9C1_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

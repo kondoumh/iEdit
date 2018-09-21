@@ -1,7 +1,6 @@
-﻿#pragma once
+﻿// ImportTextDlg ダイアログ
 
-
-// ImportTextDlg ダイアログ
+#pragma once
 
 class ImportTextDlg : public CDialog
 {
@@ -11,7 +10,6 @@ public:
 	ImportTextDlg(CWnd* pParent = NULL);
 	virtual ~ImportTextDlg();
 
-	// ダイアログ データ
 	enum { IDD = IDD_IMPORT_TEXT };
 	int m_charSelection;
 	CString m_fileName;

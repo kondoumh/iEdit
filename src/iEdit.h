@@ -1,16 +1,4 @@
-﻿// iEdit.h : IEDIT アプリケーションのメイン ヘッダー ファイル
-//
-
-#if !defined(AFX_IEDIT_H__96DFF9B7_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
-#define AFX_IEDIT_H__96DFF9B7_1881_11D3_808A_00A0C9B72FDD__INCLUDED_
-
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
-#ifndef __AFXWIN_H__
-#error include 'stdafx.h' before including this file for PCH
-#endif
+﻿#pragma once
 
 #include "resource.h"       // メイン シンボル
 
@@ -122,10 +110,8 @@ public:
 
 protected:
 
-	//{{AFX_VIRTUAL(CiEditApp)
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
-	//}}AFX_VIRTUAL
 
 	afx_msg void OnAppAbout();
 	afx_msg void OnFileOpen();
@@ -138,10 +124,3 @@ private:
 	CMultiDocTemplate* m_pDocTemplate;
 	CMultiDocTemplate* m_pDocTemplate2;
 };
-
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_IEDIT_H__96DFF9B7_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

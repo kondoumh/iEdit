@@ -1,6 +1,4 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ で生成されたインクルード ファイル。
-// iEdit.rc で使用
 //
 #define IDD_ABOUTBOX                    100
 #define IDD_INPCN                       102

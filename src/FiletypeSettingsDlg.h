@@ -1,6 +1,5 @@
-﻿#pragma once
-
-// FiletypeSettingsDlg ダイアログ
+﻿// FiletypeSettingsDlg ダイアログ
+#pragma once
 
 class FiletypeSettingsDlg : public CDialog
 {

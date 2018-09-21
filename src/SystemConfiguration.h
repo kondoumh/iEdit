@@ -1,9 +1,4 @@
 ﻿#pragma once
-#include <map>
-
-using namespace std;
-
-typedef map<int, CString> Dictionary;
 
 class SystemConfiguration
 {

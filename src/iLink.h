@@ -2,12 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_ILINK_H__FCFD79F4_18EB_11D3_A0D2_000000000000__INCLUDED_)
-#define AFX_ILINK_H__FCFD79F4_18EB_11D3_A0D2_000000000000__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class iLink : public CObject
 {
@@ -451,5 +446,3 @@ public:
 private:
 	DWORD dividedLinkKey_;
 };
-
-#endif // !defined(AFX_ILINK_H__FCFD79F4_18EB_11D3_A0D2_000000000000__INCLUDED_)

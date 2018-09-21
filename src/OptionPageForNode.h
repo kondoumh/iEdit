@@ -1,15 +1,7 @@
-﻿#include "afxwin.h"
-#if !defined(AFX_PAGENODE_H__79C43544_7FE6_11D3_9860_006097789FE5__INCLUDED_)
-#define AFX_PAGENODE_H__79C43544_7FE6_11D3_9860_006097789FE5__INCLUDED_
-
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-// OptionPageForNode.h : ヘッダー ファイル
-//
-
-/////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // OptionPageForNode ダイアログ
+
+#pragma once
 
 class OptionPageForNode : public CDialog
 {
@@ -30,7 +22,6 @@ public:
 	LOGFONT lf;
 	OptionPageForNode(CWnd* pParent = NULL);
 
-	//{{AFX_DATA(OptionPageForNode)
 	enum { IDD = IDD_PG_NODE };
 	CComboBox	m_cmbVert;
 	CComboBox	m_cmbHoriz;
@@ -55,13 +46,10 @@ public:
 
 protected:
 
-	//{{AFX_VIRTUAL(OptionPageForNode)
 	virtual void DoDataExchange(CDataExchange* pDX);
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
-	//}}AFX_VIRTUAL
 
-	//{{AFX_MSG(OptionPageForNode)
 	afx_msg void OnBtnLineColor();
 	afx_msg void OnBtnBrs();
 	afx_msg void OnBtnFont();
@@ -82,11 +70,6 @@ protected:
 	afx_msg void OnBnClickedDisableNodeResize();
 	afx_msg void OnBnClickedBtnSetMargin();
 	afx_msg void OnBnClickedPriorSelectionDragging();
-	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
 };
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_PAGENODE_H__79C43544_7FE6_11D3_9860_006097789FE5__INCLUDED_)

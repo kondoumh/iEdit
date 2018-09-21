@@ -2081,7 +2081,7 @@ bool OutlineView::ImportText(const CString &inPath, node_vec &addNodes, const ch
 	CStdioFile f(fp);
 
 	CString line;
-	vector<CString> lines;
+	std::vector<CString> lines;
 	while (f.ReadString(line) != NULL) {
 		lines.push_back(line);
 	}
@@ -2090,7 +2090,7 @@ bool OutlineView::ImportText(const CString &inPath, node_vec &addNodes, const ch
 	return AddTreeAcordingToLevel(lines, addNodes, levelChar);
 }
 
-bool OutlineView::AddTreeAcordingToLevel(const vector<CString> &lines, node_vec &addNodes, const char levelChar)
+bool OutlineView::AddTreeAcordingToLevel(const std::vector<CString> &lines, node_vec &addNodes, const char levelChar)
 {
 	ProceedingDlg prcdlg;
 	prcdlg.Create(IDD_ONPROC);
@@ -2851,7 +2851,7 @@ void OutlineView::OnPasteTreeFromClipboard()
 
 	ClipText += _T("\n");
 	int pos = 0;
-	vector<CString> lines;
+	std::vector<CString> lines;
 	for (CString token = ClipText.Tokenize(_T("\n"), pos); !token.IsEmpty(); ) {
 		lines.push_back(token);
 		token = ClipText.Tokenize(_T("\n"), pos);
@@ -3042,7 +3042,7 @@ void OutlineView::AssignChapterNumbers() {
 	if (m_textExportOption.chapterNumberOption == 2) {
 		separator = '.';
 	}
-	vector<int> numbers;
+	std::vector<int> numbers;
 	HTREEITEM hItem = Tree().GetRootItem();
 	if (m_textExportOption.treeOption != 0) {
 		hItem = Tree().GetSelectedItem();
@@ -3050,7 +3050,7 @@ void OutlineView::AssignChapterNumbers() {
 	AssignChapterNumber(numbers, separator, hItem);
 }
 
-void OutlineView::AssignChapterNumber(vector<int>& numbers, const char separator, HTREEITEM hItem) {
+void OutlineView::AssignChapterNumber(std::vector<int>& numbers, const char separator, HTREEITEM hItem) {
 
 	if (Tree().GetPrevSiblingItem(hItem) == Tree().GetSelectedItem() && m_textExportOption.treeOption != 0) {
 		return;
@@ -3060,7 +3060,7 @@ void OutlineView::AssignChapterNumber(vector<int>& numbers, const char separator
 		numbers.back()++;
 	}
 	CString chapNum;
-	vector<int>::iterator it = numbers.begin();
+	std::vector<int>::iterator it = numbers.begin();
 	for (; it != numbers.end(); it++)
 	{
 		CString s;

@@ -1,13 +1,7 @@
-﻿// MainFrm.h : CMainFrame クラスの宣言およびインターフェイスの定義をします。
+﻿// MainFrm.h : CMainFrame クラスのインターフェイス
 //
-/////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_MAINFRM_H__96DFF9BB_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
-#define AFX_MAINFRM_H__96DFF9BB_1881_11D3_808A_00A0C9B72FDD__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class WndTransparencySettingsDlg;
 typedef DWORD(WINAPI *FWINLAYER)(HWND hwnd, DWORD crKey, BYTE bAlpha, DWORD dwFlags);
@@ -27,12 +21,9 @@ public:
 
 protected:
 
-	//{{AFX_VIRTUAL(CMainFrame)
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-	//}}AFX_VIRTUAL
 
-	//{{AFX_MSG(CMainFrame)
 	afx_msg LRESULT OnSlideAlpha(UINT wParam, LONG lParam);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSetProperties();
@@ -78,7 +69,6 @@ protected:
 	afx_msg void OnSelectLineColor();
 	afx_msg void OnSelectFontColor();
 	afx_msg void OnAppHelp();
-	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -98,9 +88,3 @@ private:
 	void JointCBLine(CFrameWnd *pFrameWnd, CControlBar *pBar, CControlBar *pCB);
 	void addComboZoom();
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_MAINFRM_H__96DFF9BB_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

@@ -1,5 +1,6 @@
-﻿#pragma once
-// ExportHtmlDlg ダイアログ
+﻿// ExportHtmlDlg ダイアログ
+
+#pragma once
 
 class ExportHtmlDlg : public CDialog
 {

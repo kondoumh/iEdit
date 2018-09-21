@@ -1,14 +1,8 @@
-﻿#if !defined(AFX_EDITORVIEW_H__96DFF9CB_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
-#define AFX_EDITORVIEW_H__96DFF9CB_1881_11D3_808A_00A0C9B72FDD__INCLUDED_
-
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-// EditorView.h : ヘッダー ファイル
+﻿// EditorView.h : ヘッダー ファイル
 //
 
-/////////////////////////////////////////////////////////////////////////////
-// EditorView ビュー
+#pragma once
+
 class iEditDoc;
 
 class EditorView : public CEditView
@@ -21,7 +15,6 @@ public:
 	iEditDoc* GetDocument();
 
 protected:
-	//{{AFX_VIRTUAL(EditorView)
 	virtual void OnReplaceAll(LPCTSTR lpszFind, LPCTSTR lpszReplace, BOOL bCase);
 	virtual void OnReplaceSel(LPCTSTR lpszFind, BOOL bNext, BOOL bCase, LPCTSTR lpszReplace);
 	virtual void OnFindNext(LPCTSTR lpszFind, BOOL bNext, BOOL bCase);
@@ -29,7 +22,6 @@ protected:
 	virtual void OnDraw(CDC* pDC);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-	//}}AFX_VIRTUAL
 
 	virtual ~EditorView();
 #ifdef _DEBUG
@@ -37,7 +29,6 @@ protected:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	//{{AFX_MSG(EditorView)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnDelete();
@@ -64,7 +55,6 @@ protected:
 	afx_msg HBRUSH CtlColor(CDC* pDC, UINT nCtlColor);
 	afx_msg void OnChange();
 	afx_msg void OnEnVscroll();
-	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -87,9 +77,3 @@ private:
 	void SetTabStop();
 	void DrawCaretLine(BOOL bInPaint = FALSE);
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_EDITORVIEW_H__96DFF9CB_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

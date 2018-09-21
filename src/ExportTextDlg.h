@@ -1,7 +1,6 @@
-﻿#pragma once
-#include "afxwin.h"
+﻿// ExportTextDlg ダイアログ
 
-// ExportTextDlg ダイアログ
+#pragma once
 
 class ExportTextDlg : public CDialogEx
 {

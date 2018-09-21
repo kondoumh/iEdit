@@ -1,14 +1,7 @@
-﻿#if !defined(AFX_LINKVIEW_H__96DFF9CC_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
-#define AFX_LINKVIEW_H__96DFF9CC_1881_11D3_808A_00A0C9B72FDD__INCLUDED_
-
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-// LinkView.h : ヘッダー ファイル
-//
-
-/////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // LinkView ビュー
+#pragma once
+
 class iEditDoc;
 
 typedef std::stack<DWORD> keyStack;
@@ -22,7 +15,6 @@ protected:
 public:
 	iEditDoc* GetDocument();
 
-	//{{AFX_VIRTUAL(LinkView)
 	virtual void OnInitialUpdate();
 	virtual DROPEFFECT OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
 	virtual void OnDragLeave();
@@ -38,9 +30,7 @@ protected:
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
-	//}}AFX_VIRTUAL
 
-	//{{AFX_MSG(LinkView)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult);
@@ -74,7 +64,6 @@ protected:
 	afx_msg void OnUpdateLinkMoveUp(CCmdUI *pCmdUI);
 	afx_msg void OnLinkMoveDown();
 	afx_msg void OnUpdateLinkMoveDown(CCmdUI *pCmdUI);
-	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -98,9 +87,3 @@ private:
 	void GoForward();
 	void Reflesh();
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_LINKVIEW_H__96DFF9CC_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

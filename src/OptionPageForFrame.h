@@ -1,14 +1,7 @@
-﻿#if !defined(AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_)
-#define AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_
-
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-// OptionPageForFrame.h : ヘッダー ファイル
-//
-
-/////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // OptionPageForFrame ダイアログ
+
+#pragma once
 
 class OptionPageForFrame : public CDialog
 {
@@ -29,22 +22,17 @@ public:
 	LOGFONT lfOutline;
 	OptionPageForFrame(CWnd* pParent = NULL);
 
-	//{{AFX_DATA(OptionPageForFrame)
 	enum { IDD = IDD_PG_FRAME };
 	CButton	m_ChkSaveBarState;
 	CButton	m_chkSaveFrame;
 	BOOL	m_bSaveFrame;
 	BOOL	m_bSaveBarState;
-	//}}AFX_DATA
 
 protected:
 
-	//{{AFX_VIRTUAL(OptionPageForFrame)
 	virtual void DoDataExchange(CDataExchange* pDX);
 	virtual void OnCancel();
-	//}}AFX_VIRTUAL
 
-	//{{AFX_MSG(OptionPageForFrame)
 	afx_msg void OnBtnLink();
 	afx_msg void OnBtnOutline();
 	afx_msg void OnBtnText();
@@ -59,7 +47,6 @@ protected:
 	afx_msg void OnBtnFclrTx();
 	afx_msg void OnBtnBclrTx();
 	afx_msg void OnBtnInsertmark();
-	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -70,7 +57,3 @@ private:
 	void UpdateFont(LOGFONT* plf, CFont& font);
 	void PreviewFont(CDC *pDC, CRect& rc, CFont& font, COLORREF bgColor, COLORREF fontColor);
 };
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_PAGEFRAME_H__79C43546_7FE6_11D3_9860_006097789FE5__INCLUDED_)

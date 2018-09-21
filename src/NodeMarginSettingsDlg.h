@@ -1,8 +1,8 @@
-﻿#pragma once
+﻿// NodeMarginSettingsDlg ダイアログ
+#pragma once
+
 #include "afxcmn.h"
 #include "afxwin.h"
-
-// NodeMarginSettingsDlg ダイアログ
 
 class NodeMarginSettingsDlg : public CDialog
 {

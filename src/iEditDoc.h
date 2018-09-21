@@ -1,13 +1,8 @@
-﻿// iEditDoc.h : iEditDoc クラスの宣言およびインターフェイスの定義をします。
+﻿// iEditDoc.h : iEditDoc インターフェイスの定義
 //
 /////////////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_IEDITDOC_H__96DFF9BF_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)
-#define AFX_IEDITDOC_H__96DFF9BF_1881_11D3_808A_00A0C9B72FDD__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "iNode.h"
 #include "iLink.h"
@@ -75,12 +70,10 @@ public:
 	int GetAppLinkWidth() const;
 	int GetAppLinkArrow() const;
 
-	//{{AFX_VIRTUAL(iEditDoc)
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
 	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
-	//}}AFX_VIRTUAL
 
 	void SetSelectedNodeDragging(bool dragging = true);
 	void DivideTargetLink(DWORD key);
@@ -250,11 +243,9 @@ public:
 
 protected:
 
-	//{{AFX_MSG(iEditDoc)
 	afx_msg void OnFileSaveAs();
 	afx_msg void OnFileSave();
 	afx_msg void OnUpdateFileSave(CCmdUI *pCmdUI);
-	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -312,9 +303,3 @@ private:
 	void AddNodeInternal(const CString& name, const CPoint& pt, int nodeType, bool bEnableMultiLineProcess, bool bNoBound = false);
 	CString GetFileNameFromOpenPath();
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_IEDITDOC_H__96DFF9BF_1881_11D3_808A_00A0C9B72FDD__INCLUDED_)

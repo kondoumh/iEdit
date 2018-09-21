@@ -2,12 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_SVGWRITER_H__4589807F_F92A_4D52_B27B_2B685172227C__INCLUDED_)
-#define AFX_SVGWRITER_H__4589807F_F92A_4D52_B27B_2B685172227C__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "iNode.h"
 #include "iLink.h"
@@ -47,5 +42,3 @@ private:
 	CPoint CalcLinkLabelOrg(const iLink& link);
 	CString CreateTextStyle(const LOGFONT& lf, COLORREF fontColor);
 };
-
-#endif // !defined(AFX_SVGWRITER_H__4589807F_F92A_4D52_B27B_2B685172227C__INCLUDED_)
