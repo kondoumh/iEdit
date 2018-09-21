@@ -24,7 +24,7 @@ CString MarkdownParser::Parse(const CString &text)
 	const std::wregex l3(_T("^  - ([^-].+)"));
 	const std::wregex bq(_T("^```$"));
 	std::match_results<std::wstring::const_iterator> result;
-	vector<CString> lines = StringUtil::GetLines(text);
+	std::vector<CString> lines = StringUtil::GetLines(text);
 	int level = 0;
 	int prevLevel = 0;
 	CString rtnStr;

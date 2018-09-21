@@ -809,7 +809,7 @@ void iNodes::InitSelection()
 
 void iNodes::Draw(CDC *pDC)
 {
-	vector<iNode*>::iterator it = nodesDraw_.begin();
+	std::vector<iNode*>::iterator it = nodesDraw_.begin();
 	for (; it != nodesDraw_.end(); it++) {
 		iNodeDrawer* pDrawer = getNodeDrawer(*(*it));
 		pDrawer->Draw(*(*it), pDC, m_bDrawOrderInfo);
@@ -823,9 +823,9 @@ iNode* iNodes::HitTest(const CPoint &pt)
 		(*it).second.Select(false);
 	}
 
-	vector<iNode*>::reverse_iterator vit = nodesDraw_.rbegin();
+	std::vector<iNode*>::reverse_iterator vit = nodesDraw_.rbegin();
 	CRect preRc(0, 0, 0, 0);
-	vector<iNode*>::reverse_iterator vit_inner = nodesDraw_.rend();
+	std::vector<iNode*>::reverse_iterator vit_inner = nodesDraw_.rend();
 	for (; vit != nodesDraw_.rend(); vit++) {
 		CRect rc = (*vit)->GetBound();
 		rc.left -= 1;
@@ -857,9 +857,9 @@ iNode* iNodes::HitTest(const CPoint &pt)
 
 iNode* iNodes::HitTestSilently(const CPoint &pt) const
 {
-	vector<iNode*>::const_reverse_iterator vit = nodesDraw_.rbegin();
+	std::vector<iNode*>::const_reverse_iterator vit = nodesDraw_.rbegin();
 	CRect preRc(0, 0, 0, 0);
-	vector<iNode*>::const_reverse_iterator vit_inner = nodesDraw_.rend();
+	std::vector<iNode*>::const_reverse_iterator vit_inner = nodesDraw_.rend();
 	for (; vit != nodesDraw_.rend(); vit++) {
 		CRect rc = (*vit)->GetBound();
 		rc.left -= 1;
@@ -1098,7 +1098,7 @@ bool orderComp(const iNode* n1, const iNode* n2)
 CString iNodes::CreateClickableMapString(const CString& fileName, bool singleText)
 {
 	CString mapString;
-	vector<iNode*>::reverse_iterator it = nodesDraw_.rbegin();
+	std::vector<iNode*>::reverse_iterator it = nodesDraw_.rbegin();
 	for (; it != nodesDraw_.rend(); it++) {
 		iNodeDrawer* pDrawer = getNodeDrawer(*(*it));
 		CString coordsValue;
@@ -1131,7 +1131,7 @@ void iNodes::PrepareVisibles(DWORD key)
 		else {
 			(*it).second.SetVisible();
 			unsigned int order = 0;
-			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*it).second.GetKey());
+			std::vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*it).second.GetKey());
 			if (ik != svec_.end()) {
 				order = std::distance(svec_.begin(), ik);
 			}
@@ -1144,7 +1144,7 @@ void iNodes::PrepareVisibles(DWORD key)
 	}
 }
 
-vector<iNode*> iNodes::GetVisibles() const
+std::vector<iNode*> iNodes::GetVisibles() const
 {
 	return nodesDraw_;
 }
@@ -1159,14 +1159,14 @@ void iNodes::PrepareVisibles(NodeKeySet& keySet)
 		(*it).second.SetVisible(false);
 	}
 
-	set<DWORD>::iterator itks = keySet.begin();
+	std::set<DWORD>::iterator itks = keySet.begin();
 	node_iter nit;
 	for (; itks != keySet.end(); itks++) {
 		nit = FindWrite(*itks);
 		if (nit != end()) {
 			(*nit).second.SetVisible(true);
 			unsigned int order = 0;
-			vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*nit).second.GetKey());
+			std::vector<DWORD>::iterator ik = std::find(svec_.begin(), svec_.end(), (*nit).second.GetKey());
 			if (ik != svec_.end()) {
 				order = std::distance(svec_.begin(), ik);
 			}
@@ -1310,7 +1310,7 @@ iNodeDrawer* iNodes::getNodeDrawer(const iNode &node)
 
 void iNodes::DrawSelected(CDC *pDC)
 {
-	vector<iNode*>::iterator it = nodesDraw_.begin();
+	std::vector<iNode*>::iterator it = nodesDraw_.begin();
 	for (; it != nodesDraw_.end(); it++) {
 		if ((*(*it)).Selected()) {
 			iNodeDrawer* pDrawer = getNodeDrawer(*(*it));

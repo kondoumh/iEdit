@@ -203,7 +203,7 @@ private:
 	bool ImportXml(const CString& inPath);
 	bool ImportText(const CString& inPath, node_vec& addNodes, const char LevelChar);
 	bool ImportJson(const CString& inPath);
-	bool AddTreeAcordingToLevel(const vector<CString>& lines, node_vec& addNodes, const char levelChar = '.');
+	bool AddTreeAcordingToLevel(const std::vector<CString>& lines, node_vec& addNodes, const char levelChar = '.');
 	int GetIndentCount(const CString& line, const char levelChar) const;
 	void OutputOutlineText(HTREEITEM hItem, CStdioFile* f, int tab);
 	void OutputOutlineTextByNode(HTREEITEM hItem);
@@ -214,7 +214,7 @@ private:
 	void DeleteKeyNode(DWORD key, DWORD parentKey);
 	void CopySubNodes(HTREEITEM hOrg, HTREEITEM hNewParent);
 	void AssignChapterNumbers();
-	void AssignChapterNumber(vector<int>& numbers, const char separator, HTREEITEM hItem);
+	void AssignChapterNumber(std::vector<int>& numbers, const char separator, HTREEITEM hItem);
 	HTREEITEM FindKeyItem(DWORD key, HTREEITEM item);
 	CTreeCtrl& Tree() const;
 	HTREEITEM Selected() const;

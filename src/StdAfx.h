@@ -50,7 +50,6 @@
 #include <functional>
 #include <set>
 #include <stack>
-using namespace std;
 
 /////////////////////////////////// Data Structure /////////////////////////////////////
 
@@ -104,8 +103,8 @@ struct ExportOptions {
 	CString htmlOutDir;
 };
 
-typedef vector<NodeProps> NodePropsVec;
-typedef vector<LinkProps> LinkPropsVec;
-typedef set<DWORD> NodeKeySet;
-typedef vector<DWORD> NodeKeyVec;
-typedef map<DWORD, DWORD> NodeKeyMap;
+typedef std::vector<NodeProps> NodePropsVec;
+typedef std::vector<LinkProps> LinkPropsVec;
+typedef std::set<DWORD> NodeKeySet;
+typedef std::vector<DWORD> NodeKeyVec;
+typedef std::map<DWORD, DWORD> NodeKeyMap;

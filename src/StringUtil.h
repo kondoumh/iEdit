@@ -7,7 +7,7 @@ public:
 	~StringUtil(void);
 	static CString GetSafeFileName(const CString& target);
 	static CString RemoveCr(const CString &target);
-	static vector<CString> GetLines(const CString& text);
+	static std::vector<CString> GetLines(const CString& text);
 	static bool IsMachineDependentChar(int nByte);
 	static CString RemoveMachineDependentChar(LPCTSTR target);
 	static CString ReplaceLfToCrlf(const CString& target);

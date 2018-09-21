@@ -406,10 +406,10 @@ inline void iLink::SetAsDropTarget(bool dropTarget)
 // iLinks : iLink のコレクション
 // 
 /////////////////////////////////////////////////////////////////////
-typedef list<iLink> link_list;
-typedef list<iLink>::const_iterator link_c_iter;
-typedef list<iLink>::iterator link_iter;
-typedef vector<iLink> link_vec;
+typedef std::list<iLink> link_list;
+typedef std::list<iLink>::const_iterator link_c_iter;
+typedef std::list<iLink>::iterator link_iter;
+typedef std::vector<iLink> link_vec;
 
 class iLinks : public link_list {
 public:

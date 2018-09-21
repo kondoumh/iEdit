@@ -550,12 +550,12 @@ class iNodeMMNodeDrawer : public iNodeDrawer {
 	void DrawShapeSpecific(const iNode & node, CDC* pDC, const CPen* pen);
 };
 
-typedef map<DWORD, iNode> node_map;
+typedef std::map<DWORD, iNode> node_map;
 typedef node_map::const_iterator node_c_iter;
 typedef node_map::iterator node_iter;
-typedef vector<iNode> node_vec;
-typedef pair<DWORD, DWORD> NodeKeyPair;
-typedef vector<NodeKeyPair> NodeKeyPairs;
+typedef std::vector<iNode> node_vec;
+typedef std::pair<DWORD, DWORD> NodeKeyPair;
+typedef std::vector<NodeKeyPair> NodeKeyPairs;
 
 class iNodes : public node_map {
 public:
@@ -584,7 +584,7 @@ public:
 	BOOL SelectedFilled() const;
 	void SetSelectedFillColor(const COLORREF& c);
 	void PrepareVisibles(DWORD key);
-	vector<iNode*> GetVisibles() const;
+	std::vector<iNode*> GetVisibles() const;
 	void PrepareVisibles(NodeKeySet& keySet);
 	int SelectInBound(const CRect& bound, CRect& selRect);
 	int GetSelectedTextStyle() const;
@@ -613,7 +613,7 @@ public:
 	void ResizeSelectedFont(bool bEnlarge);
 
 private:
-	vector<iNode*> nodesDraw_; // 描画用ノード配列
+	std::vector<iNode*> nodesDraw_; // 描画用ノード配列
 	NodeKeyVec svec_; // 描画順序情報
 	iNodeDrawer* getNodeDrawer(const iNode& node);
 	DWORD curParent_;

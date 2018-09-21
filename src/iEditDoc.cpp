@@ -30,7 +30,7 @@ static char THIS_FILE[] = __FILE__;
 #define SAFERELEASE(p) {if (p) {(p)->Release(); p = NULL;}}
 
 /// iNode のPredicate(キーと等しいかどうか)
-class iNode_eq : public unary_function<iNode, bool>
+class iNode_eq : public std::unary_function<iNode, bool>
 {
 	DWORD key_;
 public:
@@ -40,7 +40,7 @@ public:
 
 
 /// iLink のPredicate リンクの道連れ削除判定
-class iLink_eq : public unary_function<iLink, bool>
+class iLink_eq : public std::unary_function<iLink, bool>
 {
 	DWORD key_;  // 削除されるnodeのキー
 public:
@@ -51,7 +51,7 @@ public:
 };
 
 /// iLink のキーが同一かを判定
-class iLink_eqkey : public unary_function<iLink, bool>
+class iLink_eqkey : public std::unary_function<iLink, bool>
 {
 	DWORD key_;  // 削除されるnodeのキー
 public:
@@ -62,7 +62,7 @@ public:
 };
 
 /// iLink のPredicate リンクが矩形内にあるかどうかを判定
-class iLink_inBound : public unary_function<iLink, CRect>
+class iLink_inBound : public std::unary_function<iLink, CRect>
 {
 	CRect bound_;
 public:
@@ -1232,7 +1232,7 @@ void iEditDoc::DeleteSelectedNodes()
 		parentKey = m_dwBranchRootKey;
 	}
 	NodeKeyVec v = nodes_.GetSelectedKeys();
-	vector<DWORD>::iterator it = v.begin();
+	std::vector<DWORD>::iterator it = v.begin();
 	for (; it != v.end(); it++) {
 		DWORD delKey = (*it);
 		iHint hint; hint.event = iHint::nodeDeleteMulti;
@@ -2412,7 +2412,7 @@ bool iEditDoc::IsOldBinary() const
 bool iEditDoc::CurKeyInBranch() const
 {
 	DWORD key = GetSelectedNodeKey();
-	set<DWORD>::const_iterator it = m_visibleKeys.find(key);
+	std::set<DWORD>::const_iterator it = m_visibleKeys.find(key);
 	if (it == m_visibleKeys.end()) {
 		return false;
 	}

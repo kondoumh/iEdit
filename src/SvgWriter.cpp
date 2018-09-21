@@ -60,7 +60,7 @@ void SvgWriter::Write(const CString& path, const CPoint& maxPt, bool bEmbed)
 
 
 	// ノードの列挙
-	vector<DWORD>::iterator svIt = m_drawOrder.begin();
+	std::vector<DWORD>::iterator svIt = m_drawOrder.begin();
 	for (; svIt != m_drawOrder.end(); svIt++) {
 		node_c_iter it = m_nodes.FindRead(*svIt);
 		if (!(*it).second.Visible()) continue;
@@ -278,7 +278,7 @@ MSXML2::IXMLDOMElementPtr SvgWriter::CreateNodeTextElement(const iNode &node, MS
 	int style = node.GetTextStyle();
 	if (style == iNode::m_c || style == iNode::m_l || style == iNode::m_r) {
 		CString sDx; sDx.Format(_T("%d"), textSize.cy);
-		vector<CString> lines = SplitTSpan(node.GetName(),
+		std::vector<CString> lines = SplitTSpan(node.GetName(),
 			textSize.cx,
 			node.GetBound().Width() - node.GetMarginLeft() - node.GetMarginRight());
 		for (unsigned int i = 0; i < lines.size(); i++) {
@@ -355,16 +355,16 @@ CString SvgWriter::FindFirstUrl(const CString& text)
 	return _T("");
 }
 
-vector<CString> SvgWriter::SplitTSpan(const CString& label, const int labelWidth, const int boundWidth)
+std::vector<CString> SvgWriter::SplitTSpan(const CString& label, const int labelWidth, const int boundWidth)
 {
-	vector<CString> v;
+	std::vector<CString> v;
 	int bytePerLine = (boundWidth / (labelWidth / label.GetLength())) - 1;
 
 	int pos = 0;
 	CString token = _T(" ");
 	while (token != _T("")) {
 		token = label.Tokenize(_T("\n"), pos);
-		vector<CString> lines = SplitByWidth(token, bytePerLine);
+		std::vector<CString> lines = SplitByWidth(token, bytePerLine);
 		for (unsigned int i = 0; i < lines.size(); i++) {
 			v.push_back(lines[i]);
 		}
@@ -372,9 +372,9 @@ vector<CString> SvgWriter::SplitTSpan(const CString& label, const int labelWidth
 	return v;
 }
 
-vector<CString> SvgWriter::SplitByWidth(const CString& line, const int byte)
+std::vector<CString> SvgWriter::SplitByWidth(const CString& line, const int byte)
 {
-	vector<CString> v;
+	std::vector<CString> v;
 	int j = 0;
 	CString split;
 	for (int i = 0; i < line.GetLength(); i++) {

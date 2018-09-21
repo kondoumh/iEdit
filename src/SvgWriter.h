@@ -31,8 +31,8 @@ private:
 	CString m_TextHtmlFilePrefix;
 
 	CString FindFirstUrl(const CString& text);
-	vector<CString> SplitTSpan(const CString& label, const int labelWidth, const int boundWidth);
-	vector<CString> SplitByWidth(const CString& line, const int byte);
+	std::vector<CString> SplitTSpan(const CString& label, const int labelWidth, const int boundWidth);
+	std::vector<CString> SplitByWidth(const CString& line, const int byte);
 	CSize GetNodeTextSize(const iNode& node);
 	MSXML2::IXMLDOMElementPtr CreateLinkSquareElement(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);
 	MSXML2::IXMLDOMElementPtr CreateLinkArrow2Element(const iLink& link, MSXML2::IXMLDOMDocumentPtr pDoc);

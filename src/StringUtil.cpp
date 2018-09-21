@@ -46,9 +46,9 @@ CString StringUtil::RemoveCr(const CString &target)
 	return toStr;
 }
 
-vector<CString> StringUtil::GetLines(const CString &target)
+std::vector<CString> StringUtil::GetLines(const CString &target)
 {
-	vector<CString> lines;
+	std::vector<CString> lines;
 	CString line;
 	for (int i = 0; i < target.GetLength(); i++) {
 		if (target[i] != '\r' && target[i] != '\n') {

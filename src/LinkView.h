@@ -11,7 +11,7 @@
 // LinkView ビュー
 class iEditDoc;
 
-typedef stack<DWORD> keyStack;
+typedef std::stack<DWORD> keyStack;
 
 class LinkView : public CListView
 {

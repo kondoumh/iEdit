@@ -59,7 +59,7 @@ struct RegValueFileType {
 	BOOL registOldFiletype;
 };
 
-typedef map<int, HENHMETAFILE> HMetaFiles;
+typedef std::map<int, HENHMETAFILE> HMetaFiles;
 
 void showLastErrorMessage();
 
